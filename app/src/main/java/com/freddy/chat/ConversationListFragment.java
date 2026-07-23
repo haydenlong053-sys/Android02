@@ -26,6 +26,7 @@ import com.freddy.chat.event.Events;
 import com.freddy.chat.event.I_CEventListener;
 import com.freddy.chat.group.GroupListActivity;
 import com.freddy.im.db.ImLocalStore;
+import com.freddy.im.http.ImConversationHttpExample;
 import com.freddy.im.http.ImMessageHttpExample;
 import com.freddy.im.http.model.im.ConversationListContent;
 import com.freddy.im.http.model.im.SessionItem;
@@ -86,7 +87,7 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
 
         });
         adapter.setOnSessionLongClickListener(sessionItem -> {
-            confirmRemoveConversation(sessionItem);
+            showSessionActions(sessionItem);
             return true;
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -164,6 +165,43 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
         if (!empty) {
             adapter.mergeSessions(list);
         }
+    }
+
+    private void showSessionActions(@NonNull SessionItem sessionItem) {
+        String sessionId = sessionItem.getSessionId();
+        if (TextUtils.isEmpty(sessionId)) {
+            return;
+        }
+        boolean pinned = sessionItem.getTopNum() > 0;
+        String pinLabel = getString(pinned ? R.string.cancel_zhiding : R.string.zhiding);
+        CharSequence[] items = new CharSequence[]{pinLabel, getString(R.string.action_remove)};
+        new AlertDialog.Builder(requireContext())
+                .setItems(items, (d, which) -> {
+                    if (which == 0) {
+                        setSessionTop(sessionItem, !pinned);
+                    } else if (which == 1) {
+                        confirmRemoveConversation(sessionItem);
+                    }
+                })
+                .show();
+    }
+
+    private void setSessionTop(@NonNull SessionItem sessionItem, boolean top) {
+        String sessionId = sessionItem.getSessionId();
+        if (TextUtils.isEmpty(sessionId)) {
+            return;
+        }
+        progressBar.setVisibility(View.VISIBLE);
+        ImConversationHttpExample.requestSessionTop(sessionId, top, result -> runOnUiThreadSafe(() -> {
+            ImLocalStore.updateSessionTopMute(sessionId, top, sessionItem.isMuteNotify());
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(requireContext(),
+                    top ? R.string.session_top_success : R.string.session_untop_success,
+                    Toast.LENGTH_SHORT).show();
+        }), () -> runOnUiThreadSafe(() -> {
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(requireContext(), R.string.session_top_failed, Toast.LENGTH_SHORT).show();
+        }));
     }
 
     private void confirmRemoveConversation(@NonNull SessionItem sessionItem) {

@@ -2,18 +2,19 @@ package com.cboda.intelligent.activity
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
+import com.cboda.baselibrary.bean.UserInfoBean
 import com.cboda.baselibrary.toast.ToastBroadUtils
-import com.cboda.baselibrary.utils.getUuIdMd5
+import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getSqlStrData
+import com.cboda.baselibrary.utils.fromJson2
 import com.cboda.intelligent.R
 import com.cboda.intelligent.adapter.QunMemberBroadAdapter
 import com.cboda.intelligent.adapter.YiXuanQunMemberBroadAdapter
@@ -25,8 +26,6 @@ import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
 import com.cboda.susindexbar.IndexBar.widget.IndexBar2
 import com.freddy.im.http.ImMessageHttpExample
-import com.freddy.im.http.model.im.GroupVo
-import com.freddy.im.listener.OnHttpImListener
 import com.freddy.im.signal.ImSignalProtos
 import com.freddy.im.util.groupToSession
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -172,8 +171,9 @@ class CreateQunBroadActivity : BaseSimpleBroadActivity() {
                     str.append("|")
                 }
             }
+            val userInfoBean = fromJson2(getSqlStrData(MMKVBroadUtils.LOGIN_USER_DATA, ""), UserInfoBean::class.java)
             ImMessageHttpExample.requestCreateGroup(
-                "测试群" + getUuIdMd5(),
+                userInfoBean.name + "的群聊",
                 members,
                 ImSignalProtos.ConversationType.MULTI_VALUE,
                 { //                        AppBroadUtils.goChat(this@CreateQunBroadActivity, group.type2, "1")

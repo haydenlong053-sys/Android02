@@ -18,6 +18,7 @@ import com.cboda.intelligent.viewmodel.ConversationParentViewModel
 import com.freddy.chat.im.IMSClientBootstrap
 import com.freddy.chat.utils.SessionDisplayEnricher
 import com.freddy.im.db.ImLocalStore
+import com.freddy.im.http.ImConversationHttpExample
 import com.freddy.im.http.ImMessageHttpExample
 import com.freddy.im.http.model.im.SessionItem
 
@@ -48,7 +49,7 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
                 JumpBroadUtils.startChatMsgActivity(session, requireContext())
             }
             setOnSessionLongClickListener { session ->
-                confirmRemoveConversation(session)
+                showSessionActions(session)
                 true
             }
         }
@@ -122,6 +123,58 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         } else if (parentViewModel.loading.value != true) {
             showContent()
         }
+    }
+
+    private fun showSessionActions(session: SessionItem) {
+        val sessionId = session.sessionId
+        if (TextUtils.isEmpty(sessionId)) {
+            return
+        }
+        val pinned = session.topNum > 0
+        val pinLabel = if (pinned) {
+            getString(R.string.cancel_zhiding)
+        } else {
+            getString(R.string.zhiding)
+        }
+        val items = arrayOf(pinLabel, getString(R.string.action_remove))
+        AlertDialog.Builder(requireContext())
+            .setItems(items) { _, which ->
+                when (which) {
+                    0 -> setSessionTop(session, !pinned)
+                    1 -> confirmRemoveConversation(session)
+                }
+            }
+            .show()
+    }
+
+    private fun setSessionTop(session: SessionItem, top: Boolean) {
+        val sessionId = session.sessionId ?: return
+        progressBar.visibility = View.VISIBLE
+        ImConversationHttpExample.requestSessionTop(
+            sessionId,
+            top,
+            {
+                ImLocalStore.updateSessionTopMute(sessionId, top, session.isMuteNotify)
+                if (isAdded) {
+                    requireActivity().runOnUiThread {
+                        progressBar.visibility = View.GONE
+                        Toast.makeText(
+                            requireContext(),
+                            if (top) R.string.session_top_success else R.string.session_untop_success,
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                    }
+                }
+            },
+            {
+                if (isAdded) {
+                    requireActivity().runOnUiThread {
+                        progressBar.visibility = View.GONE
+                        Toast.makeText(requireContext(), R.string.session_top_failed, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            },
+        )
     }
 
     private fun confirmRemoveConversation(session: SessionItem) {
