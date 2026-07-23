@@ -137,12 +137,15 @@ object ImGroupMemberUiMapper {
     fun buildGridItems(
         members: List<GroupUserVo>?,
         myRole: Int,
+        isOpenGroupInviteFunc: Boolean =false,
         previewLimit: Int = 10
     ): List<CommonDataListBroadBean.CommonBean> {
         val list = ArrayList<CommonDataListBroadBean.CommonBean>()
         if (GroupRole.isOwnerOrAdmin(myRole)) {
             list.add(CommonDataListBroadBean.CommonBean().apply { type = "add" })
             list.add(CommonDataListBroadBean.CommonBean().apply { type = "remove" })
+        }else if (isOpenGroupInviteFunc){
+            list.add(CommonDataListBroadBean.CommonBean().apply { type = "add" })
         }
         val memberBeans = toCommonBeans(members)
         val remain = (previewLimit - list.size).coerceAtLeast(0)

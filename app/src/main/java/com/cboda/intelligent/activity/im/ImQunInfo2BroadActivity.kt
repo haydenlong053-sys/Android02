@@ -334,8 +334,11 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             mTvNoticeDes.isVisible = true
             mTvNoticeDes.text = state.noticeContent
         }
-
-        mAdapter?.setList(ImGroupMemberUiMapper.buildGridItems(state.members, myRole))
+        // 群管理开关（对齐野火）
+        val busi = vo.busiExt
+        val isOpenGroupInviteFunc = busi?.openQyyq == "1" ||
+                (busi?.openQyyq.isNullOrEmpty() && vo.allowMemberInvite == "1")
+        mAdapter?.setList(ImGroupMemberUiMapper.buildGridItems(state.members, myRole,isOpenGroupInviteFunc))
 
         mScAbsentKick.isChecked = vo.busiExt?.openAbsentKick == "1"
         val limit = vo.busiExt?.absentKickLimit?.toString()?.takeIf { it.isNotBlank() } ?: "5"
@@ -347,10 +350,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         commercialFunctionLayout.isGone = TextUtils.isEmpty(vo.busiExt?.isshop)
         commercialFunctionSwitch.isChecked = anyToInt(vo.busiExt?.isshop) == 1
 
-        // 群管理开关（对齐野火）
-        val busi = vo.busiExt
-        yaoqinghaioyu.isChecked = busi?.openQyyq == "1" ||
-            (busi?.openQyyq.isNullOrEmpty() && vo.allowMemberInvite == "1")
+        yaoqinghaioyu.isChecked = isOpenGroupInviteFunc
         jinqunjiaoyan.isChecked = busi?.openQyyz == "1" ||
             (busi?.openQyyz.isNullOrEmpty() && vo.joinNeedVerify == "1")
         qunzhumingpian.isChecked = busi?.openQzts == "1"
