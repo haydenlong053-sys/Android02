@@ -63,7 +63,7 @@ public final class OthBusiSignalSender {
         // 与接收端约定：giftType 1=鲜花 2=鼓掌（兼容旧字段 type）
         data.addProperty("giftType", giftType);
         data.addProperty("type", giftType);
-        data.addProperty("toUserId", toUserId == null ? "" : toUserId);
+        data.addProperty("toUserId", groupId);
         data.addProperty("timestamp", timestamp > 0L ? timestamp : System.currentTimeMillis());
         return send(OthBusiSigCodes.MEETING_GIFT, data.toString());
     }

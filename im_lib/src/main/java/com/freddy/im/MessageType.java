@@ -5,7 +5,7 @@ import com.freddy.im.signal.ImSignalProtos;
 /**
  * IM 消息类型定义（会话 {@link #msgType}、内容 {@link MessageContentType}），全局统一使用。
  * <p>
- * 内容类型编号对齐 IM 文档 §10：100 文本、101 转发、102 合并转发、200 图片、300 文件、400 语音、500 视频、600 地图、700 个人名片、710 系统公告、900 开始会议、901 结束会议。
+ * 内容类型编号对齐 IM 文档 §10：100 文本、101 转发、102 合并转发、200 图片、201 会议弹幕图片、300 文件、400 语音、500 视频、600 地图、700 个人名片、710 系统公告、900 开始会议、901 结束会议。
  */
 public enum MessageType {
 
@@ -45,6 +45,8 @@ public enum MessageType {
         MERGE_TRANSPOND(102),
         /** 图片 img/ */
         IMAGE(200),
+        /** 会议弹幕图片（对齐野火 isMeetingImage） */
+        MEETING_IMAGE(201),
         /** 文件 file/* */
         FILE(300),
         /** 语音 audio/* */
@@ -77,7 +79,11 @@ public enum MessageType {
         }
 
         public static boolean isImage(int type) {
-            return type == IMAGE.msgContentType;
+            return type == IMAGE.msgContentType || type == MEETING_IMAGE.msgContentType;
+        }
+
+        public static boolean isMeetingImage(int type) {
+            return type == MEETING_IMAGE.msgContentType;
         }
 
         public static boolean isVoice(int type) {

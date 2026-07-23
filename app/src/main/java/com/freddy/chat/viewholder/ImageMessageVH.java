@@ -3,6 +3,7 @@ package com.freddy.chat.viewholder;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,13 +11,17 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cboda.baselibrary.utils.ELogUtilKt;
+import com.cboda.baselibrary.utils.GlideUtilsKt;
 import com.cboda.baselibrary.view.AppRoundBroadImage;
 import com.cboda.intelligent.R;
 import com.freddy.chat.media.MessageMediaPreviewHelper;
 import com.freddy.chat.utils.MediaMessageContentUtil;
+import com.freddy.im.MessageType;
 import com.freddy.im.bean.AppMessage;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import kotlin.Unit;
 
 public final class ImageMessageVH extends BaseMessageVH {
     public final AppRoundBroadImage ivMessageImage;
@@ -29,23 +34,57 @@ public final class ImageMessageVH extends BaseMessageVH {
     public void bind(@NonNull AppMessage message, int position, @NonNull MessageViewHolderContext context) {
         ELogUtilKt.eLogD("zhanglong", "图片消息getContent--->" + message.getContent());
         bindCommon(message, position, context);
-        applyImageBubbleSize(message);
+        boolean meetingImage = MessageType.MessageContentType.isMeetingImage(message.getMsgContentType());
+        if (meetingImage) {
+            // 对齐野火会议弹幕图：不展示群昵称
+            nameLayout.setVisibility(View.GONE);
+        }
+        applyImageBubbleSize(message, meetingImage);
         boolean sentByMe = message.isSender(context.currentUserId);
         String imgUrl = MediaMessageContentUtil.resolveDisplayUrl(message.getContent(), sentByMe);
         String thumbnailsImg = MediaMessageContentUtil.resolveDisplayThumbUrl(message.getContent(), sentByMe);
 
-        Glide.with(ivMessageImage.getContext())
-                .load(imgUrl)
-                .placeholder(R.drawable.bg_bubble_received)
-                .thumbnail(Glide.with(ivMessageImage.getContext()).load(thumbnailsImg).placeholder(R.drawable.bg_bubble_received) )
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(ivMessageImage);
+        if (meetingImage) {
+            // 对齐野火：宽 = 屏宽 - 40dp，高按位图比例自适应（mHeight=0）
+            int targetW = itemView.getResources().getDisplayMetrics().widthPixels
+                    - itemView.getResources().getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_40);
+            GlideUtilsKt.loadDiyImg(ivMessageImage, imgUrl, targetW, 0, () -> Unit.INSTANCE);
+        } else {
+            Glide.with(ivMessageImage.getContext())
+                    .load(imgUrl)
+                    .placeholder(R.drawable.bg_bubble_received)
+                    .thumbnail(Glide.with(ivMessageImage.getContext()).load(thumbnailsImg)
+                            .placeholder(R.drawable.bg_bubble_received))
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(ivMessageImage);
+        }
 
         ivMessageImage.setOnClickListener(v -> MessageMediaPreviewHelper.previewImages(
                 v.getContext(), context.items, message, context.currentUserId));
     }
 
-    private void applyImageBubbleSize(@NonNull AppMessage message) {
+    /**
+     * 普通图：约 140dp 气泡；会议弹幕图(201)：先占位宽 = 屏宽 - 40dp（最终尺寸由 loadDiyImg 按比例校正）。
+     */
+    private void applyImageBubbleSize(@NonNull AppMessage message, boolean meetingImage) {
+        ViewGroup.LayoutParams lp = ivMessageImage.getLayoutParams();
+        if (meetingImage) {
+            int targetW = itemView.getResources().getDisplayMetrics().widthPixels
+                    - itemView.getResources().getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_40);
+            int dw = extractImageDimension(message, "dw");
+            int dh = extractImageDimension(message, "dh");
+            lp.width = Math.max(1, targetW);
+            if (dw > 0 && dh > 0) {
+                lp.height = Math.max(1, Math.round(targetW * (dh * 1f / dw)));
+            } else {
+                lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            }
+            ivMessageImage.setLayoutParams(lp);
+            ivMessageImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            ivMessageImage.setAdjustViewBounds(true);
+            return;
+        }
+
         int size = itemView.getResources().getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_140);
         int min = itemView.getResources().getDimensionPixelSize(R.dimen.wechat_image_bubble_min);
         int max = itemView.getResources().getDimensionPixelSize(R.dimen.wechat_image_bubble_max);
@@ -63,10 +102,11 @@ public final class ImageMessageVH extends BaseMessageVH {
                 targetW = Math.max(min, Math.round(max * ratio));
             }
         }
-        ViewGroup.LayoutParams lp = ivMessageImage.getLayoutParams();
         lp.width = targetW;
         lp.height = targetH;
         ivMessageImage.setLayoutParams(lp);
+        ivMessageImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        ivMessageImage.setAdjustViewBounds(false);
     }
 
     private static int extractImageDimension(@Nullable AppMessage message, @NonNull String key) {
