@@ -8,6 +8,7 @@ import static com.cboda.baselibrary.utils.ViewExpandUtilKt.showMeetLeaveTip;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -131,6 +132,15 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         initGroupMeetIfNeeded();
     }
 
+
+    @Override
+    public boolean isShouldHideInput(@Nullable View v, @NonNull MotionEvent event) {
+        // 点发送/表情/更多等输入栏控件时不要先收键盘，否则布局抖动会导致第一次点击无效
+        if (messageListFragment != null && messageListFragment.isTouchInsideInputChrome(event)) {
+            return false;
+        }
+        return super.isShouldHideInput(v, event);
+    }
 
     @Override
     protected int getLayoutId() {

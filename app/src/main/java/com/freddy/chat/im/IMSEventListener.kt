@@ -42,7 +42,7 @@ import kotlin.concurrent.Volatile
  * SeekWeb4 + imsignal 回调到应用层 [MessageProcessor]。
  */
 class IMSEventListener(private val userId: String?, private val token: String?) : OnEventListener {
-    private val tAG = "IMSEventListener"
+    private val tAG = "IMSEventListenerClass"
 
     private val RSA_PUBLIC_ASSET = "public_key.pem"
 //    private val mainHandler = Handler(Looper.getMainLooper())

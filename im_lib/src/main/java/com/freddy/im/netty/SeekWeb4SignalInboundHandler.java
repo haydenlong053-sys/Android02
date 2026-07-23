@@ -49,9 +49,10 @@ public class SeekWeb4SignalInboundHandler extends SimpleChannelInboundHandler<Se
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, SeekWeb4Packet p) throws Exception {
         short cmd = p.getCmd();
+        eLogD(TAG, "cmd: " + p.getCmd(), "body长度：" + p.getBody().length, "lcId:" + p.getLcId(), "seqId:" + p.getSeqId(), "code=" + p.getCode());
         if (cmd != 0x00) {
             if (cmd != 0x03 || ImUtils.isPrintHeartLog) {
-                eLogD(TAG, "收到服务端的信令响应cmd: " + p.getCmd() + "=====body长度：" + p.getBody().length + "----" + "lcId:" + p.getLcId() + "----" + "seqId:" + p.getSeqId() + "---code=" + p.getCode());
+                System.out.println("收到服务端的信令响应cmd: " + p.getCmd() + "=====body长度：" + p.getBody().length + "----" + "lcId:" + p.getLcId() + "----" + "seqId:" + p.getSeqId() + "---code=" + p.getCode());
             }
         }
 
