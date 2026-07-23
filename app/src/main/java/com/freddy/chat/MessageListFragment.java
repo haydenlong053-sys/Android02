@@ -618,6 +618,33 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         }
     }
 
+    /**
+     * 触摸点是否落在输入栏 / 表情更多面板 / 多选操作栏上。
+     * 供宿主 Activity 判断：这些区域的点击不应先收起键盘，否则 adjustResize
+     * 会在 DOWN→UP 之间位移导致发送按钮第一次点击失效。
+     */
+    public boolean isTouchInsideInputChrome(@Nullable MotionEvent event) {
+        if (event == null || getView() == null) {
+            return false;
+        }
+        View root = getView();
+        return isMotionInsideView(root.findViewById(R.id.input_panel), event)
+                || isMotionInsideView(root.findViewById(R.id.panel_container), event)
+                || isMotionInsideView(root.findViewById(R.id.multi_message_action_container), event);
+    }
+
+    private static boolean isMotionInsideView(@Nullable View view, @NonNull MotionEvent event) {
+        if (view == null || view.getVisibility() != View.VISIBLE) {
+            return false;
+        }
+        int[] loc = new int[2];
+        view.getLocationInWindow(loc);
+        float x = event.getX();
+        float y = event.getY();
+        return x >= loc[0] && x < loc[0] + view.getWidth()
+                && y >= loc[1] && y < loc[1] + view.getHeight();
+    }
+
     private void openFilePicker() {
         hideInputPanelIfShowing();
         if (filePickerLauncher == null) {
