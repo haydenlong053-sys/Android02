@@ -317,6 +317,11 @@ public class MessageListActivity extends BaseSimple2BroadActivity
                     addBarrageData(name, popAction.getCode(), true);
                     return Unit.INSTANCE;
                 });
+            } else if (popAction == EnumerationBean.DanMaPopAction.PIC) {
+                // 对齐野火：选图后发会议弹幕图 contentType=201
+                if (messageListFragment != null) {
+                    messageListFragment.openMeetingPictureAlbum();
+                }
             } else if (popAction == EnumerationBean.DanMaPopAction.GAG
                     || popAction == EnumerationBean.DanMaPopAction.REMOVE_GAG) {
                 boolean targetMute = popAction == EnumerationBean.DanMaPopAction.GAG;

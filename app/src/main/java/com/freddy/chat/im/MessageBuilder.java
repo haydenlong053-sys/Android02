@@ -97,13 +97,33 @@ public class MessageBuilder {
                                                @NonNull String remoteUrl,
                                                @Nullable String thumbImage,
                                                @Nullable String largeImage) {
+        return buildImageMessage(sessionId, conversationType, toId, localImagePath, remoteUrl,
+                thumbImage, largeImage, MessageType.MessageContentType.IMAGE.getMsgContentType());
+    }
+
+    /**
+     * @param contentType {@link MessageType.MessageContentType#IMAGE}(200)
+     *                    或 {@link MessageType.MessageContentType#MEETING_IMAGE}(201)
+     */
+    @NonNull
+    public static AppMessage buildImageMessage(String sessionId,
+                                               int conversationType,
+                                               @NonNull String toId,
+                                               @NonNull String localImagePath,
+                                               @NonNull String remoteUrl,
+                                               @Nullable String thumbImage,
+                                               @Nullable String largeImage,
+                                               int contentType) {
         String userId = IMSClientBootstrap.getInstance().getCurrentUserId();
         AppMessage message = new AppMessage();
         if (!TextUtils.isEmpty(sessionId)) {
             message.setConversationId(sessionId);
         }
         message.setClientMsgId(UUID.randomUUID().toString());
-        message.setMsgContentType(MessageType.MessageContentType.IMAGE.getMsgContentType());
+        int type = MessageType.MessageContentType.isImage(contentType)
+                ? contentType
+                : MessageType.MessageContentType.IMAGE.getMsgContentType();
+        message.setMsgContentType(type);
         message.setFromId(userId);
         message.setToId(toId);
         message.setTimestamp(System.currentTimeMillis());

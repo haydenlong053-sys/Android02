@@ -147,6 +147,9 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     @Nullable
     private FrameLayout multiMessageActionContainer;
 
+    /** 弹幕「图片」入口：选图后按 contentType=201（会议弹幕图）发送 */
+    private boolean pendingMeetingImageSend;
+
     private boolean isGroupChat;
     private int myGroupRole = GroupRole.MEMBER;
     private ActivityResultLauncher<String[]> filePickerLauncher;
@@ -683,6 +686,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     }
 
     private void openPictureAlbum() {
+        pendingMeetingImageSend = false;
         hideInputPanelIfShowing();
         PictureSelector.create(requireActivity())
                 .openGallery(SelectMimeType.ofAll())
@@ -696,7 +700,27 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 .forResult(pictureResultCallback());
     }
 
+    /**
+     * 会议弹幕「图片」：走自研选图，发送 contentType={@link com.freddy.im.MessageType.MessageContentType#MEETING_IMAGE}(201)。
+     */
+    public void openMeetingPictureAlbum() {
+        if (!isAdded()) {
+            return;
+        }
+        pendingMeetingImageSend = true;
+        hideInputPanelIfShowing();
+        PictureSelector.create(requireActivity())
+                .openGallery(SelectMimeType.ofImage())
+                .setImageEngine(PictureSelectorGlideEngine.createGlideEngine())
+                .setSandboxFileEngine(PictureSelectorSandboxEngine.get())
+                .setCompressEngine(PictureSelectorCompressEngine.get())
+                .setMaxSelectNum(1)
+                .isDisplayCamera(false)
+                .forResult(pictureResultCallback());
+    }
+
     private void openPictureCamera() {
+        pendingMeetingImageSend = false;
         hideInputPanelIfShowing();
         PictureSelector.create(requireActivity())
                 .openCamera(SelectMimeType.ofImage())
@@ -710,16 +734,23 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         return new OnResultCallbackListener<LocalMedia>() {
             @Override
             public void onResult(ArrayList<LocalMedia> result) {
-                handlePictureSelectResult(result);
+                boolean meetingImage = pendingMeetingImageSend;
+                pendingMeetingImageSend = false;
+                handlePictureSelectResult(result, meetingImage);
             }
 
             @Override
             public void onCancel() {
+                pendingMeetingImageSend = false;
             }
         };
     }
 
     private void handlePictureSelectResult(@Nullable ArrayList<LocalMedia> result) {
+        handlePictureSelectResult(result, false);
+    }
+
+    private void handlePictureSelectResult(@Nullable ArrayList<LocalMedia> result, boolean meetingImage) {
         if (result == null || result.isEmpty()) {
             return;
         }
@@ -737,11 +768,11 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             if (file == null) {
                 continue;
             }
-            if (isVideoMedia(media)) {
+            if (!meetingImage && isVideoMedia(media)) {
                 int durationSec = resolveVideoDurationSec(media);
                 sendVideoMessage(file, durationSec);
             } else {
-                sendImageMessage(file);
+                sendImageMessage(file, meetingImage);
             }
             sentAny = true;
         }
@@ -787,11 +818,18 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     }
 
     private void sendImageMessage(@NonNull File file) {
+        sendImageMessage(file, false);
+    }
+
+    private void sendImageMessage(@NonNull File file, boolean meetingImage) {
         if (!file.isFile()) {
             Toast.makeText(requireContext(), R.string.picture_path_invalid, Toast.LENGTH_SHORT).show();
             return;
         }
         final String localPath = file.getAbsolutePath();
+        int contentType = meetingImage
+                ? MessageType.MessageContentType.MEETING_IMAGE.getMsgContentType()
+                : MessageType.MessageContentType.IMAGE.getMsgContentType();
         AppMessage message = MessageBuilder.buildImageMessage(
                 sessionId,
                 sessionItem.getConversation(),
@@ -799,7 +837,8 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 localPath,
                 localPath,
                 null,
-                null);
+                null,
+                contentType);
         sendMediaMessage(message, file, (msg, upload) ->
                 MessageBuilder.applyImageUpload(msg, localPath, upload), R.string.picture_upload_failed);
     }

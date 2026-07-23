@@ -62,6 +62,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         if (sessionList != null) {
             items.addAll(sessionList);
         }
+        sortSessions();
         notifyDataSetChanged();
     }
 
@@ -83,7 +84,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         return false;
     }
 
-    /** 合并/更新部分会话（群变更、拉取列表等），按 sessionId 匹配后按最近消息时间排序。 */
+    /** 合并/更新部分会话（群变更、拉取列表等），按置顶与最近消息时间排序。 */
     public void mergeSessions(@Nullable List<SessionItem> updates) {
         if (updates == null || updates.isEmpty()) {
             return;
@@ -105,8 +106,18 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
                 items.add(0, update);
             }
         }
-        items.sort((a, b) -> Long.compare(b.getLastMessageTime(), a.getLastMessageTime()));
+        sortSessions();
         notifyDataSetChanged();
+    }
+
+    private void sortSessions() {
+        items.sort((a, b) -> {
+            int topCmp = Long.compare(b.getTopNum(), a.getTopNum());
+            if (topCmp != 0) {
+                return topCmp;
+            }
+            return Long.compare(b.getLastMessageTime(), a.getLastMessageTime());
+        });
     }
 
     @NonNull
@@ -145,6 +156,9 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         } else {
             holder.tvUnread.setVisibility(View.GONE);
         }
+
+        holder.itemView.setBackgroundResource(
+                s.getTopNum() > 0 ? R.drawable.bg_item_pinned : R.drawable.bg_item_white);
 
         holder.itemView.setOnClickListener(v -> {
             if (onSessionClickListener != null) {

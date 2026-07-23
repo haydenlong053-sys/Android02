@@ -96,7 +96,10 @@ class ConversationParentViewModel : BaseViewBroadModel() {
     private fun publishSessions(sessions: List<SessionItem>?) {
         val sorted = sessions
             ?.filter { !it.sessionId.isNullOrEmpty() }
-            ?.sortedByDescending { it.lastMessageTime }
+            ?.sortedWith(
+                compareByDescending<SessionItem> { it.topNum }
+                    .thenByDescending { it.lastMessageTime },
+            )
             ?: emptyList()
         _allSessions.postValue(sorted)
     }

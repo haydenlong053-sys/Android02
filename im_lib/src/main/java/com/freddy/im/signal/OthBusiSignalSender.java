@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
+import com.cboda.baselibrary.utils.TimeBroadBroadUtils;
 import com.freddy.im.IMSClientFactory;
 import com.freddy.im.interf.IMSClientInterface;
 import com.google.gson.JsonObject;
@@ -60,11 +61,12 @@ public final class OthBusiSignalSender {
         data.addProperty("groupId", gid);
         data.addProperty("groupIdNo", gid);
         data.addProperty("fromUserId", fromUserId == null ? "" : fromUserId);
+        data.addProperty("fromUserName", fromUserId == null ? "" : fromUserId);
         // 与接收端约定：giftType 1=鲜花 2=鼓掌（兼容旧字段 type）
         data.addProperty("giftType", giftType);
         data.addProperty("type", giftType);
-        data.addProperty("toUserId", toUserId == null ? "" : toUserId);
-        data.addProperty("timestamp", timestamp > 0L ? timestamp : System.currentTimeMillis());
+        data.addProperty("toUserId",toUserId == null ? "" : toUserId);
+        data.addProperty("timestamp", timestamp > 0L ? timestamp : TimeBroadBroadUtils.INSTANCE.getNowTime());
         return send(OthBusiSigCodes.MEETING_GIFT, data.toString());
     }
 
