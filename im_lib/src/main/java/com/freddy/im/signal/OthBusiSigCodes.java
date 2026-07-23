@@ -24,6 +24,12 @@ public final class OthBusiSigCodes {
      */
     public static final int MEETING_GIFT = 2001;
 
+    /**
+     * 信用分变更，data 为 JSON 数组
+     * {@code [{"u":"userId","s":"100.58"}, ...]}（{@code u}=userId，{@code s}=信用分）。
+     */
+    public static final int CREDIT_SCORE = 3001;
+
     // ---------- 会议室（与野火 MessageContentBroadType 4010~4040 对齐，勿跨模块引用 chat-client） ----------
 
     /** 会议开始，data 为 {@code {"groupIdNo":"..."}}。 */

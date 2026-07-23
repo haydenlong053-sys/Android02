@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import io.realm.Realm;
 
@@ -131,6 +132,51 @@ public final class ImGroupMemberRepository {
                 });
                 if (afterCommit != null) {
                     afterCommit.run();
+                }
+            } finally {
+                realm.close();
+            }
+        });
+    }
+
+    /**
+     * 按 userId 更新所有未删除群成员记录的信用分（grade）；
+     * 完成后回调受影响的 groupId 列表（已去重）。
+     */
+    public void updateGradeByUserIdThen(@NonNull String userId,
+                                        @Nullable String grade,
+                                        @Nullable Consumer<List<String>> afterCommit) {
+        if (TextUtils.isEmpty(userId) || !ImRealm.isUserBound()) {
+            if (afterCommit != null) {
+                afterCommit.accept(Collections.emptyList());
+            }
+            return;
+        }
+        final String uid = userId.trim();
+        final String score = grade != null ? grade : "";
+        ImDbExecutor.runWrite(() -> {
+            Realm realm = ImRealm.getRealm();
+            List<String> affectedGroupIds = new ArrayList<>();
+            try {
+                realm.executeTransaction(r -> {
+                    List<GroupMemberEntity> results = r.where(GroupMemberEntity.class)
+                            .equalTo("userId", uid)
+                            .equalTo("deleted", false)
+                            .findAll();
+                    Set<String> groupIdSet = new HashSet<>();
+                    for (GroupMemberEntity entity : results) {
+                        if (entity == null) {
+                            continue;
+                        }
+                        entity.setGrade(score);
+                        if (!TextUtils.isEmpty(entity.getGroupId())) {
+                            groupIdSet.add(entity.getGroupId());
+                        }
+                    }
+                    affectedGroupIds.addAll(groupIdSet);
+                });
+                if (afterCommit != null) {
+                    afterCommit.accept(affectedGroupIds);
                 }
             } finally {
                 realm.close();
