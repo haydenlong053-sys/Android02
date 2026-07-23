@@ -1,6 +1,8 @@
 package com.freddy.chat;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.fromJson2;
+import static com.cboda.baselibrary.utils.MMKVBroadUtils.LOGIN_USER_DATA;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.click;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.formatWithBigDecimal;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.showMeetLeaveTip;
@@ -44,11 +46,11 @@ import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean;
 import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean;
 import com.cboda.chatui.quickmeet.dialog.MeetSeatApplyPop;
 import com.cboda.chatui.quickmeet.plugin.impl.MeetPlugin;
+import com.freddy.im.http.ImNotifyHttpExample;
 import com.freddy.im.group.GroupRole;
 import com.cboda.intelligent.base.BaseSimple2BroadActivity;
 import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.freddy.chat.im.IMSClientBootstrap;
-import com.freddy.im.signal.OthBusiSignalSender;
 import com.freddy.im.http.ImGroupHttpExample;
 import com.freddy.im.group.GroupMuteEvaluator;
 import com.freddy.im.http.model.im.GroupVo;
@@ -69,6 +71,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
@@ -270,10 +273,14 @@ public class MessageListActivity extends BaseSimple2BroadActivity
                 // 本端发送时已立即展示，避免重复
                 return;
             }
-            resolveUserDisplayName(barrageBean.getSender(), name -> {
-                addBarrageData(name, barrageBean.getGiftType(), false);
-                return Unit.INSTANCE;
-            });
+            if (!TextUtils.isEmpty(barrageBean.getSendName())) {
+                addBarrageData(barrageBean.getSendName(), barrageBean.getGiftType(), false);
+            } else {
+                resolveUserDisplayName(barrageBean.getSender(), name -> {
+                    addBarrageData(name, barrageBean.getGiftType(), false);
+                    return Unit.INSTANCE;
+                });
+            }
         });
 
         if (danmakuIv != null) {
@@ -310,13 +317,10 @@ public class MessageListActivity extends BaseSimple2BroadActivity
             EnumerationBean.DanMaPopAction popAction = action;
             if (popAction == EnumerationBean.DanMaPopAction.FLOWER
                     || popAction == EnumerationBean.DanMaPopAction.ACCLAMATION) {
-                // OTHER_BUSI(0x0501) code=2001，giftType：1=鲜花 2=鼓掌（对齐 CallSignalSender 发送方式）
-                OthBusiSignalSender.sendMeetingGift(popAction.getCode(), groupId, null);
-                String sender = MMKVBroadUtils.Companion.getRealUserId();
-                resolveUserDisplayName(sender, name -> {
-                    addBarrageData(name, popAction.getCode(), true);
-                    return Unit.INSTANCE;
-                });
+                // api/im/notify/busiPush，code=2001，giftType：1=鲜花 2=鼓掌
+                UserInfoBean userInfoBean = fromJson2(MMKVBroadUtils.Companion.getSqlStrData(LOGIN_USER_DATA, ""), UserInfoBean.class);
+                ImNotifyHttpExample.requestMeetingGift(popAction.getCode(), groupId, userInfoBean.getName(), null, null);
+                addBarrageData(userInfoBean.getName(), popAction.getCode(), true);
             } else if (popAction == EnumerationBean.DanMaPopAction.PIC) {
                 // 对齐野火：选图后发会议弹幕图 contentType=201
                 if (messageListFragment != null) {
@@ -449,14 +453,18 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         setMeetingDanmakuVisible(false);
     }
 
-    /** 同步本地群成员角色到 MeetPlugin，加入会议时写入 CallData。 */
+    /**
+     * 同步本地群成员角色到 MeetPlugin，加入会议时写入 CallData。
+     */
     public void updateMeetPluginGroupRole(int groupMemberRole) {
         if (meetPlugin != null) {
             meetPlugin.setGroupMemberRole(groupMemberRole);
         }
     }
 
-    /** 关闭页面前检查会议中离开提示（返回键 / Fragment 关闭宿主）。 */
+    /**
+     * 关闭页面前检查会议中离开提示（返回键 / Fragment 关闭宿主）。
+     */
     public void requestCloseHost() {
         checkMeeting();
     }
@@ -465,7 +473,9 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         refreshPageTitle();
     }
 
-    /** 0x0101 群变更信令入库后刷新标题（{Events#SESSION_LIST_UPDATED}）。 */
+    /**
+     * 0x0101 群变更信令入库后刷新标题（{Events#SESSION_LIST_UPDATED}）。
+     */
     public void applySessionItemUpdated(@NonNull SessionItem update) {
         if (sessionItem == null || !update.getSessionId().equals(sessionItem.getSessionId())) {
             return;
@@ -530,7 +540,8 @@ public class MessageListActivity extends BaseSimple2BroadActivity
                     updateGroupNoticeUi(content, true);
                 });
             }
-        }, () -> { });
+        }, () -> {
+        });
     }
 
     @Override
@@ -639,13 +650,17 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         }
     }
 
-    /** 管理页变更禁言后刷新（可重复拉取）。 */
+    /**
+     * 管理页变更禁言后刷新（可重复拉取）。
+     */
     public void refreshGroupMuteFromServer() {
         groupMuteFetched = false;
         fetchGroupMuteFromServer();
     }
 
-    /** 0x0501 code=1002：信令已携带全员禁言态，直接刷新底栏。 */
+    /**
+     * 0x0501 code=1002：信令已携带全员禁言态，直接刷新底栏。
+     */
     public void applyGroupAllMute(boolean allMute) {
         groupAllMute = allMute;
         if (messageListFragment != null) {
@@ -653,7 +668,9 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         }
     }
 
-    /** 0x0501 code=1003：信令已携带当前用户成员禁言态，直接刷新底栏。 */
+    /**
+     * 0x0501 code=1003：信令已携带当前用户成员禁言态，直接刷新底栏。
+     */
     public void applySelfMemberMute(boolean muted) {
         if (sessionItem == null || TextUtils.isEmpty(sessionItem.getSessionId())) {
             return;

@@ -31,6 +31,7 @@ class DanmakuItem {
 
     // 基础速度调低一点，避免单帧位移过大带来的抖动感
     var speed: Float = 600f  // 像素/秒
+
     // priority 已不再使用，统一改用 isMeSend + 队列规则控制顺序
     var createdAt = 0L
 
@@ -62,4 +63,5 @@ class BarrageBean {
     var conversationType = -1
     var conversationId = ""
     var giftType = 0
+    var sendName = ""
 }
