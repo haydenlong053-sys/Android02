@@ -60,6 +60,7 @@ public final class OthBusiSignalSender {
         String gid = groupId == null ? "" : groupId;
         data.addProperty("groupId", gid);
         data.addProperty("groupIdNo", gid);
+        data.addProperty("groupId", gid);
         data.addProperty("fromUserId", fromUserId == null ? "" : fromUserId);
         data.addProperty("fromUserName", fromUserId == null ? "" : fromUserId);
         // 与接收端约定：giftType 1=鲜花 2=鼓掌（兼容旧字段 type）

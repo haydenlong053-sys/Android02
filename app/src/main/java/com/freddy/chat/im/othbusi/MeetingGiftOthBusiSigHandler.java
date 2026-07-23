@@ -37,6 +37,7 @@ public final class MeetingGiftOthBusiSigHandler implements OthBusiSigHandler {
             groupId = OthBusiSigJson.readGroupId(data);
         }
         String fromUserId = OthBusiSigJson.readString(data, "fromUserId");
+        String fromUserName = OthBusiSigJson.readString(data, "fromUserName");
         if (TextUtils.isEmpty(fromUserId)) {
             fromUserId = OthBusiSigJson.readString(data, "operator");
         }
@@ -70,6 +71,7 @@ public final class MeetingGiftOthBusiSigHandler implements OthBusiSigHandler {
         barrageBean.setConversationId(groupId);
         barrageBean.setConversationType(ImSignalProtos.ConversationType.MULTI_VALUE);
         barrageBean.setGiftType(giftType);
+        barrageBean.setSendName(fromUserName);
         ELogUtilKt.eLogD(TAG, "groupId=" + groupId + ", from=" + fromUserId + ", giftType=" + giftType);
         BaseLiveDataEventKt.getUpdateBarrageDataLiveData().postValue(barrageBean);
         return true;
