@@ -351,10 +351,10 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         val busi = vo.busiExt
         yaoqinghaioyu.isChecked = busi?.openQyyq == "1" ||
             (busi?.openQyyq.isNullOrEmpty() && vo.allowMemberInvite == "1")
-        jinqunjiaoyan.isChecked = busi?.openQyyz == "1" ||
-            (busi?.openQyyz.isNullOrEmpty() && vo.joinNeedVerify == "1")
+        jinqunjiaoyan.isChecked = busi?.openQyyz == "1"
         qunzhumingpian.isChecked = busi?.openQzts == "1"
-        ruqunyanz.isChecked = busi?.openQygl == "1"
+        ruqunyanz.isChecked = busi?.openQygl == "1" ||
+            (busi?.openQygl.isNullOrEmpty() && vo.joinNeedVerify == "1")
         wufajiahaoyou.isChecked = busi?.openQysl == "1"
         kejianguanli.isChecked = busi?.openQykj == "1"
         jiangetime = (busi?.jiange ?: 0).coerceAtLeast(0)
@@ -507,10 +507,32 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
             toggleGroupManageSwitch("openQzts", qunzhumingpian)
         }
-        // 群员入群邀请管理验证 / 群内无法私加好友 / 普通成员仅可见群主及管理员
+        // 群员入群邀请管理验证：api/im/group/modify（joinNeedVerify 1=允许 / 0=不允许）
         ruqunyanzView.setOnClickListener {
             if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
-            toggleGroupManageSwitch("openQygl", ruqunyanz)
+            val targetVerify = if (ruqunyanz.isChecked) 0 else 1
+            ImGroupHttpExample.requestModifyGroup(
+                qunId,
+                null,
+                null,
+                null,
+                targetVerify,
+                object : OnHttpImListener<GroupVo> {
+                    override fun onHttpImSuccess(result: GroupVo) {
+                        runOnUiThread {
+                            ruqunyanz.isChecked = targetVerify == 1
+                            val flag = if (targetVerify == 1) "1" else "0"
+                            groupVo?.joinNeedVerify = flag
+                            groupVo?.ensureBusiExt()?.openQygl = flag
+                        }
+                    }
+                },
+                {
+                    runOnUiThread {
+                        ToastBroadUtils.show(getString(R.string.group_apply_action_failed))
+                    }
+                },
+            )
         }
         wufajiahaoyouView.setOnClickListener {
             if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener

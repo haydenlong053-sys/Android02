@@ -183,11 +183,11 @@ public final class ImGroupHttpExample {
                                           @Nullable String icon,
                                           @NonNull OnHttpImListener<GroupVo> callback,
                                           @Nullable Runnable onFail) {
-        requestModifyGroup(groupId, name, icon, null, callback, onFail);
+        requestModifyGroup(groupId, name, icon, null, null, callback, onFail);
     }
 
     /**
-     * 修改群资料。
+     * 修改群资料（仅改 allowMemberInvite 时用）。
      *
      * @param allowMemberInvite 1=允许群员邀请好友进群，0=不允许；null 表示不修改该字段
      */
@@ -195,6 +195,22 @@ public final class ImGroupHttpExample {
                                           @Nullable String name,
                                           @Nullable String icon,
                                           @Nullable Integer allowMemberInvite,
+                                          @NonNull OnHttpImListener<GroupVo> callback,
+                                          @Nullable Runnable onFail) {
+        requestModifyGroup(groupId, name, icon, allowMemberInvite, null, callback, onFail);
+    }
+
+    /**
+     * 修改群资料。
+     *
+     * @param allowMemberInvite 1=允许群员邀请好友进群，0=不允许；null 表示不修改该字段
+     * @param joinNeedVerify    1=需要入群验证，0=不需要；null 表示不修改该字段
+     */
+    public static void requestModifyGroup(@NonNull String groupId,
+                                          @Nullable String name,
+                                          @Nullable String icon,
+                                          @Nullable Integer allowMemberInvite,
+                                          @Nullable Integer joinNeedVerify,
                                           @NonNull OnHttpImListener<GroupVo> callback,
                                           @Nullable Runnable onFail) {
         if (TextUtils.isEmpty(groupId)) {
@@ -212,6 +228,9 @@ public final class ImGroupHttpExample {
         }
         if (allowMemberInvite != null) {
             api.setAllowMemberInvite(allowMemberInvite);
+        }
+        if (joinNeedVerify != null) {
+            api.setJoinNeedVerify(joinNeedVerify);
         }
         EasyHttp.post(ImUtilKt.getResumeActivity() != null ? ImUtilKt.getResumeActivity() : ApplicationLifecycle.getInstance())
                 .api(api)
