@@ -137,7 +137,7 @@
     <string name="credit_score_label_system_add">系统添加</string>
     <string name="credit_score_label_system_deduct">系统扣减</string>
     <string name="credit_score_label_invite_friend">邀请好友</string>
-    <string name="credit_score_label_hold">持有ODIC</string>
+    <string name="credit_score_label_hold">持有DUALX</string>
     <string name="credit_score_label_guaranteed_transaction">担保交易</string>
     <string name="credit_score_label_endorsement_gained">获得背书</string>
 

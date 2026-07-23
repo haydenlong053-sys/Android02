@@ -203,7 +203,7 @@
             android:layout_marginStart="@dimen/dp_4"
             android:textColor="@color/color_3B47DD"
             android:textSize="@dimen/dp_12"
-            tools:text="已质押 2 ODIC" />
+            tools:text="已质押 2 DUALX" />
     </com.hjq.shape.layout.ShapeLinearLayout>
 
     <LinearLayout

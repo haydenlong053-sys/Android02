@@ -60,7 +60,7 @@ fun showMeetPreEndTip(time: String?, amount: String?, block: () -> Unit = {}) {
             val commonTipPop = CommonTipBroadPop(
                 mContext,
                 mContext.getString(R.string.wenxintishi),
-                mContext.getString(R.string.chat_meet_pre_end_tip) + "\n" + "${time}分钟(${amount} ODIC)"
+                mContext.getString(R.string.chat_meet_pre_end_tip) + "\n" + "${time}分钟(${amount} DUALX)"
             )
             commonTipPop.setCancelBtn(mContext.getString(R.string.chat_meet_time_tip_cancel))
             commonTipPop.setSureBtn(mContext.getString(R.string.chat_meet_time_tip_ok))

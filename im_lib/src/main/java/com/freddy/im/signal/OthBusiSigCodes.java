@@ -44,7 +44,7 @@ public final class OthBusiSigCodes {
     /** 麦位变更，data 为 {@code {"refreshType":"micSeat","groupIdNo":"..."}}。 */
     public static final int MEET_SEAT_CHANGE = 4040;
 
-    /** 会议倒计时提醒（推送给房主），data 为 {@code {"time":"分钟","amount":"ODIC价格"}}，对齐野火 6011。 */
+    /** 会议倒计时提醒（推送给房主），data 为 {@code {"time":"分钟","amount":"DUALX价格"}}，对齐野火 6011。 */
     public static final int MEET_PRE_END_TIP = 6011;
 
     private OthBusiSigCodes() {

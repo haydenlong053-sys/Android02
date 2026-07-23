@@ -12,7 +12,7 @@ import com.freddy.im.signal.othbusi.OthBusiSigJson;
 
 /**
  * 会议倒计时提醒：code=6011，
- * data={"time":"可加时分钟","amount":"加时价格ODIC"}（对齐野火 MeetingPreEndTipMessageContent）。
+ * data={"time":"可加时分钟","amount":"加时价格DUALX"}（对齐野火 MeetingPreEndTipMessageContent）。
  * 透传原始 data，由 UI 层解析并弹加时提醒。
  */
 public final class MeetPreEndTipOthBusiSigHandler implements OthBusiSigHandler {

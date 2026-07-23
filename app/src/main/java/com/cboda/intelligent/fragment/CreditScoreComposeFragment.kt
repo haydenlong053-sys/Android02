@@ -188,7 +188,7 @@ class CreditScoreComposeFragment : BaseBroadFragment<FragmentCreditScoreComposeB
                             getView<TextView>(R.id.itemContent).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_p), bean.baseScore)
                         }
 
-                        CreditScoreTypeEnum.HOLD_ODIC.code -> {
+                        CreditScoreTypeEnum.HOLD_DUALX.code -> {
                             getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score7)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_hold)
                             getView<TextView>(R.id.itemContent).text =
@@ -286,7 +286,7 @@ class CreditScoreComposeFragment : BaseBroadFragment<FragmentCreditScoreComposeB
                             getView<RoundedProgressBar>(R.id.itemPro).setProgress(bean.currentScore, bean.maxLimit, com.cboda.baselibrary.R.color.black_12, com.cboda.baselibrary.R.color.color_EE56D4)
                         }
 
-                        CreditScoreTypeEnum.HOLD_ODIC.code -> {
+                        CreditScoreTypeEnum.HOLD_DUALX.code -> {
                             getView<ImageView>(R.id.itemImg).setImageResource(R.mipmap.credit_score7)
                             getView<TextView>(R.id.itemTitle).text = this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_label_hold)
                             getView<TextView>(R.id.itemContent).text = String.format(this.itemView.resources.getString(com.cboda.baselibrary.R.string.credit_score_fmt_breakdown_base_mei), bean.baseScore)

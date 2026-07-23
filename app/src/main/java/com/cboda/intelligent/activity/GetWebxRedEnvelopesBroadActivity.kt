@@ -119,7 +119,7 @@ class GetWebxRedEnvelopesBroadActivity : BaseSimple2BroadActivity() {
 //            redTitle.text = "人人皆股东 好运连连"
 //            createTime.text = "转账时间：2024年08月30日 14:34:30"
 //            moneyNum.text = "899"
-//            getTheTitle.text = "已领取 2/10个，共1000ODIC"
+//            getTheTitle.text = "已领取 2/10个，共1000DUALX"
             viewModel.lingquListLiveData.observe(this@GetWebxRedEnvelopesBroadActivity) {
                 it.data?.also { it1 ->
                     redTitle.text = it1.info

@@ -46,7 +46,7 @@
     <string name="zhuanzhangjine">Montant du transfert</string>
     <string name="bianjixiaoxineirong">Modifier le contenu du message</string>
     <string name="mourendehongbao">Enveloppe rouge de %1$s</string>
-    <string name="yuanqian">ODIC</string>
+    <string name="yuanqian">DUALX</string>
     <string name="yilingquhongbao">%1$s reçu, pour un total de %2$s yuans</string>
     <string name="daishoulkuan">En attente de réception</string>
     <string name="zhuanzhuangshijian">Heure du transfert</string>
@@ -246,7 +246,7 @@
     <string name="确定">Confirmer</string>
     <string name="点击保存图片">Cliquez pour enregistrer l\'image</string>
     <string name="设置签名">Définir une signature</string>
-    <string name="人民币">ODIC</string>
+    <string name="人民币">DUALX</string>
     <string name="当前余额">Solde actuel</string>
     <string name="充值">Recharger</string>
     <string name="提现">Retirer</string>

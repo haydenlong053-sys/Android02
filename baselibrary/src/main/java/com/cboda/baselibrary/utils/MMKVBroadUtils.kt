@@ -46,7 +46,7 @@ class MMKVBroadUtils {
         const val USER_LOGIN_DATA = "userLoginData"
         const val USER_SEND_LINK = "userSendLink"
 
-        const val PRICE_ODIC = "priceOdic"
+        const val PRICE_DUALX = "priceOdic"
         const val USER_CREDIT_SCORE_NEW_USER_DAYS = "userCreditScoreNewUserDays"
 
         const val USER_REGISTRATION_DAY_SCORE = "userRegistrationDayScore"

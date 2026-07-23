@@ -12,7 +12,7 @@ import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.utils.MMKVBroadUtils
-import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.PRICE_ODIC
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.PRICE_DUALX
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
 import com.cboda.intelligent.model.CreateMeetingRequest
@@ -293,7 +293,7 @@ class QuickMeetingCreateViewModel(
                         val bigDecimalStr = bigDecimal.toString()
                         eLogD("getActivatePriceData_bigDecimal", bigDecimal)
                         eLogD("getActivatePriceData_bigDecimalStr", bigDecimalStr)
-                        MMKVBroadUtils.saveSqlStrData(PRICE_ODIC, bigDecimalStr)
+                        MMKVBroadUtils.saveSqlStrData(PRICE_DUALX, bigDecimalStr)
                         liveData.postValue(bigDecimalStr)
                     }.onFailure { _, _ ->
                         if (closeLoading) {

@@ -81,8 +81,8 @@
     <string name="zhuanzhangjine">Transfer amount</string>
     <string name="bianjixiaoxineirong">Edit message content</string>
     <string name="mourendehongbao">%1$s red packet</string>
-    <string name="yuanqian">ODIC</string>
-    <string name="yilingquhongbao">%1$s claimed, total %2$s ODIC</string>
+    <string name="yuanqian">DUALX</string>
+    <string name="yilingquhongbao">%1$s claimed, total %2$s DUALX</string>
     <string name="daishoulkuan">Pending payment</string>
     <string name="zhuanzhuangshijian">Transfer time</string>
     <string name="shoukuan">Receive payment</string>
@@ -263,7 +263,7 @@
     <string name="webx_transfer_time_pattern">yyyy-MM-dd HH:mm:ss</string>
     <string name="webx_transfer_time_format">Transfer time: %1$s</string>
     <string name="webx_red_envelope_from_user">Red envelope from %1$s</string>
-    <string name="webx_group_received_summary">Received %1$d/%2$d, total %3$s ODIC</string>
+    <string name="webx_group_received_summary">Received %1$d/%2$d, total %3$s DUALX</string>
     <string name="我的钱包">Private Assets</string>
     <string name="账户ID1">Account ID:</string>
     <string name="点击查看">Click to View</string>
@@ -289,7 +289,7 @@
     <string name="确定">Confirm</string>
     <string name="点击保存图片">Click to Save Image</string>
     <string name="设置签名">Set Signature</string>
-    <string name="人民币">ODIC</string>
+    <string name="人民币">DUALX</string>
     <string name="当前余额">Current Balance</string>
     <string name="充值">Recharge</string>
     <string name="提现">Withdraw</string>
@@ -419,7 +419,7 @@
     <string name="请输入内容">Please enter content</string>
     <string name="回复">Reply:</string>
     <string name="已连续签到">Signed in for %s consecutive days</string>
-    <string name="签到领取红包">Sign in to Claim ODIC</string>
+    <string name="签到领取红包">Sign in to Claim DUALX</string>
     <string name="已签到">Signed In</string>
     <string name="签到">Sign In</string>
     <string name="user_id_prefix">ID:</string>
@@ -659,7 +659,7 @@
     <string name="credit_item2_title">eycorsican/go-tun2socks</string>
     <string name="credit_item3_title">bingoogolapple/BGAQRCode-Android</string>
     <string name="action_about">About</string>
-    <string name="webX_name">ODIC</string>
+    <string name="webX_name">DUALX</string>
     <string name="mine_sys_currency">Platform Token (%1$s)</string>
     <string name="mine_sys_point">Platform Points (WX)</string>
     <string name="mine_safe_center">Security Center</string>
@@ -1100,7 +1100,7 @@
     <string name="credit_score_title">Credit Score</string>
     <string name="credit_score_tab_compose">Credit Composition</string>
     <string name="credit_score_tab_record">Change History</string>
-    <string name="square_publish_tip">Posting to Square requires staking %1$s ODIC to ensure information quality</string>
+    <string name="square_publish_tip">Posting to Square requires staking %1$s DUALX to ensure information quality</string>
     <string name="square_publish_input_hint">Please enter</string>
     <string name="square_publish_who_can_comment">Who can comment</string>
     <string name="square_publish_everyone">Everyone</string>
@@ -1126,7 +1126,7 @@
     <string name="square_comment_gate_credit_score_unit">pts</string>
     <string name="square_comment_gate_credit_value">Credit score %1$d+</string>
     <string name="square_comment_gate_save">Save</string>
-    <string name="square_staked_format">Staked %1$s ODIC</string>
+    <string name="square_staked_format">Staked %1$s DUALX</string>
     <string name="square_score_format">%1$s pts</string>
     <string name="square_user_like_count">获赞</string>
     <string name="square_user_following_count">关注</string>
@@ -1145,7 +1145,7 @@
     <string name="square_notice_title">Message Center</string>
     <string name="square_notice_clear_red_dot">Clear all badges</string>
     <string name="square_notice_rule_title">Square posting rules</string>
-    <string name="square_notice_rule_subtitle">Learn about ODIC staking and content standards</string>
+    <string name="square_notice_rule_subtitle">Learn about DUALX staking and content standards</string>
     <string name="square_notice_comment_deleted">This comment has been deleted</string>
     <string name="square_notice_empty">No messages yet</string>
     <string name="square_notice_delete">Clear</string>

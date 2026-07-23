@@ -18,7 +18,7 @@ import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.network.repository.NetworkListBroadResult
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
-import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.PRICE_ODIC
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.PRICE_DUALX
 import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.eLogD
@@ -117,7 +117,7 @@ open class NewMirrorViewBroadModel : BaseViewBroadModel() {
                         val bigDecimalStr = bigDecimal.toString()
                         eLogD("getActivatePriceData_bigDecimal", bigDecimal)
                         eLogD("getActivatePriceData_bigDecimalStr", bigDecimalStr)
-                        MMKVBroadUtils.saveSqlStrData(PRICE_ODIC, bigDecimalStr)
+                        MMKVBroadUtils.saveSqlStrData(PRICE_DUALX, bigDecimalStr)
                         liveData.postValue(bigDecimalStr)
                     }.onFailure { _, _ ->
                         if (closeLoading) {
@@ -153,7 +153,7 @@ open class NewMirrorViewBroadModel : BaseViewBroadModel() {
         val h5Url = "https://pay.web4x.io/pay?amountDisplay=$priceOdic" +
                 "&chainId=$chainId" +
                 "&orderId=${data.orderId}" +
-                "&tokenSymbol=ODIC&paymentType=${data.paymentType}"
+                "&tokenSymbol=DUALX&paymentType=${data.paymentType}"
         eLogD("openWalletPay_h5Url", h5Url)
         when (paymentMethod.id) {
             IM_TOKEN -> openH5InImToken(h5Url, context)
