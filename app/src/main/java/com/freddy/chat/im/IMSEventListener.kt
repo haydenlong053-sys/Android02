@@ -125,7 +125,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
         }
 
 
-        // 群成员变更：0x0102 MemberChangeSig → 拉成员 / 软删除 → 入库 → 通知消息列表 UI
+        // 群成员变更：0x0102 / cmd=258 MemberChangeSig → 拉成员 / 软删除 → 更新群会话列表
         else if (push.header.cmd == ImSignalProtos.Cmd.GROUP_MEMBER_CHANGE_VALUE && push.hasBody()) {
             try {
                 val sig = MemberChangeSig.parseFrom(
@@ -144,6 +144,26 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     sig.leavesList,
                     sig.kickoutsList
                 )
+                if (TextUtils.isEmpty(groupId)) {
+                    return
+                }
+                val myId = MMKVBroadUtils.getRealUserId()
+                val selfRemoved = !myId.isNullOrEmpty() && (
+                    sig.leavesList.any { it == myId } || sig.kickoutsList.any { it == myId }
+                )
+                if (selfRemoved) {
+                    // 自己退群/被踢：移除本地会话并刷新列表
+                    ImLocalStore.removeSessionCompletely(groupId) {
+                        MessageProcessor.getInstance().notifySessionRemoved(groupId)
+                    }
+                } else {
+                    // 同步该群会话到会话列表（对齐 0x0101 GROUP_CHANGE）
+                    ImGroupChangeManager.getInstance().handleGroupChange(
+                        listOf(groupId)
+                    ) { sessions: MutableList<SessionItem?>? ->
+                        MessageProcessor.getInstance().notifySessionsUpdated(sessions)
+                    }
+                }
             } catch (e: Exception) {
                 eLogD(tAG, "解析 MemberChangeSig 失败", e)
             }
