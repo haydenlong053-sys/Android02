@@ -11,8 +11,10 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.baselibrary.utils.toLog
+import com.cboda.chatui.quickmeet.MeetCallManager
 import com.freddy.chat.im.othbusi.OthBusiSigHandlers
 import com.freddy.im.bean.AppMessage
+import com.freddy.im.call.CallSignalSender
 import com.freddy.im.crypto.ImCryptoKeys
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.db.repository.ImMessageRepository.OnMessageUpdatedCallback
@@ -289,6 +291,18 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     return
                 }
                 val video = TextUtils.equals("video", sign.mediaType)
+                val callId = if (!TextUtils.isEmpty(sign.callId)) sign.callId else roomName
+                val sameCall = CallActivity.isSameCall(callId) || CallActivity.isSameCall(roomName)
+                // 语音/视频通话中，或会议中：回 CALL_SIGNAL(0x0502) / CALL_BUSY=5，不弹来电页
+                val busyNow = (CallActivity.isInCall() && !sameCall)
+                        || MeetCallManager.getInstance().isCallingState()
+                if (busyNow) {
+                    eLogD(tAG, "通话/会议中收到新 INVITE，回忙线 CALL_BUSY callId=$callId from=${sign.fromUserId}")
+                    CallSignalSender.busy(callId, sign.fromUserId, roomName, video)
+                    return
+                }
+                // 被叫已收到：回执 CALL_SIGNAL(0x0502) / CALL_RINGING=1
+                CallSignalSender.ringing(callId, sign.fromUserId, roomName, video)
                 ThreadUtils.getMainHandler().post {
                     CallActivity.startIncoming(
                         getAppContext(),
@@ -299,9 +313,40 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     )
                 }
             }
+            ImSignalProtos.CallSignalType.CALL_BUSY_VALUE -> {
+                val matchId = when {
+                    !TextUtils.isEmpty(sign.callId) -> sign.callId
+                    sign.hasRoomName() && !TextUtils.isEmpty(sign.roomName) -> sign.roomName
+                    else -> ""
+                }
+                eLogD(tAG, "对方忙线 CALL_BUSY matchId=$matchId")
+                ThreadUtils.getMainHandler().post {
+                    CallActivity.finishIfRemoteBusy(matchId)
+                }
+            }
+            ImSignalProtos.CallSignalType.CALL_CANCEL_VALUE -> {
+                val matchId = when {
+                    !TextUtils.isEmpty(sign.callId) -> sign.callId
+                    sign.hasRoomName() && !TextUtils.isEmpty(sign.roomName) -> sign.roomName
+                    else -> ""
+                }
+                eLogD(tAG, "主叫取消 CALL_CANCEL matchId=$matchId")
+                ThreadUtils.getMainHandler().post {
+                    CallActivity.finishIfRemoteCancelled(matchId)
+                }
+            }
+            ImSignalProtos.CallSignalType.CALL_HANGUP_VALUE -> {
+                val matchId = when {
+                    !TextUtils.isEmpty(sign.callId) -> sign.callId
+                    sign.hasRoomName() && !TextUtils.isEmpty(sign.roomName) -> sign.roomName
+                    else -> ""
+                }
+                eLogD(tAG, "对方挂断 CALL_HANGUP matchId=$matchId")
+                ThreadUtils.getMainHandler().post {
+                    CallActivity.finishIfRemoteEnded(matchId)
+                }
+            }
             ImSignalProtos.CallSignalType.CALL_REJECT_VALUE,
-            ImSignalProtos.CallSignalType.CALL_CANCEL_VALUE,
-            ImSignalProtos.CallSignalType.CALL_BUSY_VALUE,
             ImSignalProtos.CallSignalType.CALL_END_VALUE -> {
                 val matchId = when {
                     !TextUtils.isEmpty(sign.callId) -> sign.callId

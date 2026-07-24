@@ -227,4 +227,6 @@
     <string name="call_accept">接听</string>
     <string name="call_failed">通话连接失败</string>
     <string name="call_ended">通话已结束</string>
+    <string name="call_remote_busy">对方忙线</string>
+    <string name="call_remote_cancelled">对方已取消</string>
 </resources>

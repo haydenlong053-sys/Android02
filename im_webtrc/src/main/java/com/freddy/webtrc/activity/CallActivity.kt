@@ -551,12 +551,36 @@ class CallActivity : AppCompatActivity() {
         hangup()
     }
 
-    private fun hangup() {
+    private fun hangup(sendSignal: Boolean = true) {
+        if (!finishing && sendSignal) {
+            sendLeaveCallSignal()
+        }
         finishing = true
         durationHandler.removeCallbacks(durationTicker)
         CallUtil.leaveRoom(this)
         restoreAudio()
         finishFade()
+    }
+
+    /**
+     * 接通前：主叫取消发 CALL_CANCEL=4；
+     * 接通后：任一方挂断发 CALL_HANGUP=6。
+     * 来电拒绝由 [rejectIncoming] 单独发 CALL_REJECT。
+     */
+    private fun sendLeaveCallSignal() {
+        val id = if (!TextUtils.isEmpty(callId)) callId else roomName
+        if (TextUtils.isEmpty(id) || TextUtils.isEmpty(targetId)) {
+            return
+        }
+        if (callConnected) {
+            eLogD(tAG, "挂断通话 CALL_HANGUP callId=$id toUserId=$targetId")
+            CallSignalSender.hangup(id, targetId, roomName, video)
+            return
+        }
+        if (outgoing) {
+            eLogD(tAG, "主叫取消通话 CALL_CANCEL callId=$id toUserId=$targetId")
+            CallSignalSender.cancel(id, targetId, roomName, video)
+        }
     }
 
     private fun finishFade() {
@@ -615,17 +639,50 @@ class CallActivity : AppCompatActivity() {
         @Volatile
         private var currentRef: WeakReference<CallActivity>? = null
 
-        /** 对端拒绝/取消时关闭当前通话页（按 callId 或 roomName 匹配）。 */
+        /** 当前是否已在通话页（用于忙线判断）。 */
+        @JvmStatic
+        fun isInCall(): Boolean {
+            val activity = currentRef?.get() ?: return false
+            return !activity.isFinishing && !activity.finishing
+        }
+
+        /** 是否为当前这通通话（按 callId / roomName 匹配）。 */
+        @JvmStatic
+        fun isSameCall(matchId: String?): Boolean {
+            if (matchId.isNullOrBlank()) return false
+            val activity = currentRef?.get() ?: return false
+            return TextUtils.equals(matchId, activity.callId)
+                    || TextUtils.equals(matchId, activity.roomName)
+        }
+
+        /** 对端拒绝/结束时关闭当前通话页（按 callId 或 roomName 匹配）。 */
         @JvmStatic
         fun finishIfRemoteEnded(matchId: String?) {
+            finishIfRemoteSignal(matchId, com.cboda.baselibrary.R.string.call_ended)
+        }
+
+        /** 对端忙线：提示「对方忙线」并结束本通（主叫侧）。 */
+        @JvmStatic
+        fun finishIfRemoteBusy(matchId: String?) {
+            finishIfRemoteSignal(matchId, com.cboda.baselibrary.R.string.call_remote_busy)
+        }
+
+        /** 主叫接通前取消：被叫提示「对方已取消」并关闭来电页。 */
+        @JvmStatic
+        fun finishIfRemoteCancelled(matchId: String?) {
+            finishIfRemoteSignal(matchId, com.cboda.baselibrary.R.string.call_remote_cancelled)
+        }
+
+        private fun finishIfRemoteSignal(matchId: String?, toastRes: Int) {
             if (matchId.isNullOrBlank()) return
             val activity = currentRef?.get() ?: return
             val same = TextUtils.equals(matchId, activity.callId)
                     || TextUtils.equals(matchId, activity.roomName)
             if (!same || activity.isFinishing || activity.finishing) return
             activity.runOnUiThread {
-                ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
-                activity.hangup()
+                ToastBroadUtils.show(toastRes)
+                // 对端已挂断，本端只收尾，不再回发挂断信令
+                activity.hangup(sendSignal = false)
             }
         }
 

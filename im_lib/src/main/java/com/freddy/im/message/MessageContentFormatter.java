@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -111,7 +112,11 @@ public final class MessageContentFormatter {
                     currentUserId, userIdToDisplayName);
         }
         if (isCallMessageContent(message.getContent())) {
-            return formatCallDisplayText(message.getContent(), false);
+            boolean sentByMe = !TextUtils.isEmpty(currentUserId)
+                    && TextUtils.equals(currentUserId, message.getFromId());
+            boolean groupCall = MessageType.isGroupChat(message.getMsgType())
+                    || isGroupCallContent(message.getContent());
+            return formatCallDisplayText(message.getContent(), sentByMe, currentUserId, groupCall);
         }
         int type = message.getMsgContentType();
         if (isVoiceMessage(type)) {
@@ -156,7 +161,7 @@ public final class MessageContentFormatter {
                                               @Nullable String lastCustomInfo,
                                               @Nullable String currentUserId) {
         return formatSessionPreview(content, contentType, lastMessageContent, lastCustomInfo,
-                currentUserId, null, 0, MessageRepealHelper.STATUS_NORMAL);
+                currentUserId, null, 0, MessageRepealHelper.STATUS_NORMAL,false);
     }
 
     @NonNull
@@ -179,7 +184,7 @@ public final class MessageContentFormatter {
                                               @Nullable Map<String, String> userIdToDisplayName,
                                               int lastMsgType) {
         return formatSessionPreview(content, contentType, lastMessageContent, lastCustomInfo,
-                currentUserId, userIdToDisplayName, lastMsgType, MessageRepealHelper.STATUS_NORMAL);
+                currentUserId, userIdToDisplayName, lastMsgType, MessageRepealHelper.STATUS_NORMAL,false);
     }
 
     @NonNull
@@ -190,7 +195,8 @@ public final class MessageContentFormatter {
                                               @Nullable String currentUserId,
                                               @Nullable Map<String, String> userIdToDisplayName,
                                               int lastMsgType,
-                                              int lastMessageStatus) {
+                                              int lastMessageStatus,
+                                              boolean groupChat) {
         // 撤回优先：不依赖 contentType，避免图片/语音等快捷分支盖过撤回文案
         if (MessageRepealHelper.isRecalled(lastMessageStatus)) {
             String raw = !TextUtils.isEmpty(lastMessageContent) ? lastMessageContent : content;
@@ -212,7 +218,11 @@ public final class MessageContentFormatter {
         }
         if (isCallMessageContent(content) || isCallMessageContent(lastMessageContent)) {
             String callRaw = isCallMessageContent(content) ? content : lastMessageContent;
-            return formatCallDisplayText(callRaw, false);
+            return formatCallDisplayText(callRaw, false, currentUserId, groupChat);
+        }
+        if (groupChat && isPlainCallDescPreview(content, lastMessageContent)) {
+            String previewRaw = !TextUtils.isEmpty(content) ? content : lastMessageContent;
+            return previewRaw != null && previewRaw.contains("视频") ? "视频通话" : "语音通话";
         }
         if (isVoiceMessage(type)) {
             return "[语音]";
@@ -402,51 +412,425 @@ public final class MessageContentFormatter {
         }
     }
 
+    /** 会话列表里可能只有服务端 desc（如 [语音通话]xxx），非 JSON。 */
+    private static boolean isPlainCallDescPreview(@Nullable String content,
+                                                  @Nullable String lastMessageContent) {
+        return isPlainCallDesc(content) || isPlainCallDesc(lastMessageContent);
+    }
+
+    private static boolean isPlainCallDesc(@Nullable String raw) {
+        if (TextUtils.isEmpty(raw)) {
+            return false;
+        }
+        String text = raw.trim();
+        return text.startsWith("[语音通话]") || text.startsWith("[视频通话]")
+                || text.equals("语音通话") || text.equals("视频通话");
+    }
+
     /**
-     * @param sentByMe 是否为当前用户发出的通话记录（影响「已取消」/「对方已取消」文案）
+     * 1v1 通话记录展示文案（区分自己 / 对方）；群通话对齐微信，仅展示「语音通话 / 视频通话」。
+     * <p>
+     * 忙线优先顺序：显式 status（remote_busy / local_busy）→ content 角色字段 →
+     * desc「忙线未接听」→ {@code sentByMe}（共享一条时 fromId 通常为主叫）。
+     * <ul>
+     *   <li>ended + duration&gt;0 → 通话时长 mm:ss</li>
+     *   <li>ended + duration=0 → 通话结束</li>
+     *   <li>cancelled → 已取消 / 对方已取消</li>
+     *   <li>rejected → 对方已拒绝 / 已拒绝</li>
+     *   <li>busy → 对方正忙 / 忙线未接听</li>
+     *   <li>missed → 未接听 / 未接来电</li>
+     * </ul>
+     *
+     * @param sentByMe 是否为当前用户发出的通话记录（通常主叫为 true）
      */
     @NonNull
     public static String formatCallDisplayText(@Nullable String raw, boolean sentByMe) {
+        return formatCallDisplayText(raw, sentByMe, null, isGroupCallContent(raw));
+    }
+
+    @NonNull
+    public static String formatCallDisplayText(@Nullable String raw,
+                                              boolean sentByMe,
+                                              @Nullable String currentUserId) {
+        return formatCallDisplayText(raw, sentByMe, currentUserId, isGroupCallContent(raw));
+    }
+
+    @NonNull
+    public static String formatCallDisplayText(@Nullable String raw,
+                                              boolean sentByMe,
+                                              @Nullable String currentUserId,
+                                              boolean groupCall) {
+        if (groupCall || isGroupCallContent(raw)) {
+            return formatGroupCallDisplayText(raw);
+        }
         JsonObject obj = parseJsonObject(raw);
         if (obj == null) {
             return "[通话]";
         }
-        String status = "";
-        if (obj.has("status") && obj.get("status").isJsonPrimitive()) {
-            status = obj.get("status").getAsString();
-        }
-        String desc = "";
-        if (obj.has("desc") && obj.get("desc").isJsonPrimitive()) {
-            desc = obj.get("desc").getAsString();
-        }
-        String cleanedDesc = stripCallDescPrefix(desc);
+        String status = readCallStatus(obj);
+        int durationSec = readCallDurationSec(obj);
+        String cleanedDesc = stripCallDescPrefix(readCallDesc(obj));
+        // 服务端若已按收件人视角写好文案，优先采用（双方消息都可能是自己发出）
+        String personalized = matchPersonalizedCallDesc(cleanedDesc);
 
-        if ("cancelled".equalsIgnoreCase(status) || "canceled".equalsIgnoreCase(status)) {
-            return sentByMe ? "对方已取消" : "已取消";
+        if (isCallStatus(status, "cancelled", "canceled", "cancel")) {
+            if (isPersonalizedCancel(personalized)) {
+                return personalized;
+            }
+            return sentByMe ? "已取消" : "对方已取消";
         }
-        if ("missed".equalsIgnoreCase(status) || "timeout".equalsIgnoreCase(status)) {
-            if (!TextUtils.isEmpty(cleanedDesc)) {
-                return cleanedDesc;
+        if (isCallStatus(status, "rejected", "reject", "refused", "refuse")) {
+            if (isPersonalizedReject(personalized)) {
+                return personalized;
             }
-            return sentByMe ? "对方无应答" : "无人应答";
+            return sentByMe ? "对方已拒绝" : "已拒绝";
         }
-        if ("ended".equalsIgnoreCase(status) || "connected".equalsIgnoreCase(status)) {
-            if (!TextUtils.isEmpty(cleanedDesc) && cleanedDesc.contains("通话时长")) {
-                return cleanedDesc;
+        if (isCallStatus(status, "remote_busy")) {
+            return "对方正忙";
+        }
+        if (isCallStatus(status, "local_busy", "busy_missed", "line_busy")) {
+            return "忙线未接听";
+        }
+        if (isCallStatus(status, "busy")) {
+            return resolveBusyDisplay(obj, cleanedDesc, sentByMe, currentUserId);
+        }
+        if (isCallStatus(status, "missed", "timeout", "noanswer", "no_answer", "no-answer")) {
+            if (isPersonalizedMissed(personalized)) {
+                return personalized;
             }
-            int durationSec = 0;
-            if (obj.has("duration")) {
-                try {
-                    durationSec = Math.max(0, obj.get("duration").getAsInt());
-                } catch (Exception ignored) {
-                }
+            return sentByMe ? "未接听" : "未接来电";
+        }
+        if (isCallStatus(status, "ended", "connected", "hangup", "finished", "complete", "completed")) {
+            if (durationSec > 0) {
+                return "通话时长 " + formatCallDuration(durationSec);
             }
+            return "通话结束";
+        }
+
+        // 兼容仅带 desc、或 status 未知：从 desc 推断
+        if (!TextUtils.isEmpty(cleanedDesc)) {
+            if (personalized != null) {
+                return personalized;
+            }
+            return mapCallDescFallback(cleanedDesc, resolveIAmCaller(obj, sentByMe, currentUserId),
+                    durationSec);
+        }
+        if (durationSec > 0) {
             return "通话时长 " + formatCallDuration(durationSec);
         }
-        if (!TextUtils.isEmpty(cleanedDesc)) {
-            return cleanedDesc;
-        }
         return "[通话]";
+    }
+
+    /**
+     * 群通话记录文案（对齐微信）：不区分取消/忙线/未接等，仅展示「语音通话 / 视频通话」。
+     */
+    @NonNull
+    public static String formatGroupCallDisplayText(@Nullable String raw) {
+        return isCallVideoMedia(raw) ? "视频通话" : "语音通话";
+    }
+
+    /** content 内可识别为群/多人通话（如 groupId、多人 targetIds）。 */
+    public static boolean isGroupCallContent(@Nullable String raw) {
+        JsonObject obj = parseJsonObject(raw);
+        if (obj == null) {
+            return false;
+        }
+        try {
+            String groupId = firstCallString(obj, "groupId", "group_id");
+            if (!TextUtils.isEmpty(groupId)) {
+                return true;
+            }
+            String scope = firstCallString(obj, "scope", "callType", "scene");
+            if (isCallStatus(scope, "group", "multi", "multiparty", "conference")) {
+                return true;
+            }
+            if (jsonArraySize(obj, "targetIds") > 1
+                    || jsonArraySize(obj, "toUserIds") > 1
+                    || jsonArraySize(obj, "participants") > 1) {
+                return true;
+            }
+        } catch (Exception ignored) {
+            return false;
+        }
+        return false;
+    }
+
+    private static int jsonArraySize(@NonNull JsonObject obj, @NonNull String key) {
+        if (!obj.has(key) || !obj.get(key).isJsonArray()) {
+            return 0;
+        }
+        try {
+            return obj.getAsJsonArray(key).size();
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    @NonNull
+    private static String readCallStatus(@NonNull JsonObject obj) {
+        if (!obj.has("status")) {
+            return "";
+        }
+        try {
+            JsonElement el = obj.get("status");
+            if (el != null && el.isJsonPrimitive() && el.getAsJsonPrimitive().isNumber()) {
+                return normalizeNumericCallStatus(el.getAsInt());
+            }
+            return normalizeCallStatusAlias(el != null ? el.getAsString().trim() : "");
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    /** 兼容 status 为字符串数字（\"5\"）或中文别名。 */
+    @NonNull
+    private static String normalizeCallStatusAlias(@Nullable String raw) {
+        if (TextUtils.isEmpty(raw)) {
+            return "";
+        }
+        String s = raw.trim();
+        if (s.matches("^-?\\d+$")) {
+            try {
+                return normalizeNumericCallStatus(Integer.parseInt(s));
+            } catch (NumberFormatException ignored) {
+                return s;
+            }
+        }
+        if (s.contains("忙线未接听")) {
+            return "local_busy";
+        }
+        if (s.contains("对方正忙") || s.contains("对方忙线") || s.contains("对方忙")) {
+            return "remote_busy";
+        }
+        if (s.contains("正忙") || s.contains("忙线") || "busy".equalsIgnoreCase(s)) {
+            return "busy";
+        }
+        return s;
+    }
+
+    /**
+     * 忙线文案：
+     * <ul>
+     *   <li>content 带 callerId / direction / busyUserId → 按角色</li>
+     *   <li>desc 已是「忙线未接听」→ 信任（双方各自发记录时 sentByMe 恒为 true）</li>
+     *   <li>否则按 sentByMe（共享一条、fromId=主叫）</li>
+     * </ul>
+     */
+    @NonNull
+    private static String resolveBusyDisplay(@NonNull JsonObject obj,
+                                             @Nullable String cleanedDesc,
+                                             boolean sentByMe,
+                                             @Nullable String currentUserId) {
+        Boolean iAmCaller = resolveIAmCallerOrNull(obj, currentUserId);
+        if (iAmCaller != null) {
+            return iAmCaller ? "对方正忙" : "忙线未接听";
+        }
+        if (!TextUtils.isEmpty(cleanedDesc) && cleanedDesc.contains("忙线未接听")) {
+            return "忙线未接听";
+        }
+        return sentByMe ? "对方正忙" : "忙线未接听";
+    }
+
+    /**
+     * 仅当 content 内有明确角色字段时返回；否则 null，交由 sentByMe / desc 处理。
+     */
+    @Nullable
+    private static Boolean resolveIAmCallerOrNull(@NonNull JsonObject obj,
+                                                  @Nullable String currentUserId) {
+        String direction = firstCallString(obj, "direction", "callDirection", "dir");
+        if (!TextUtils.isEmpty(direction)) {
+            if (isCallStatus(direction, "out", "outgoing", "caller", "mo", "send")) {
+                return true;
+            }
+            if (isCallStatus(direction, "in", "incoming", "callee", "mt", "receive", "recv")) {
+                return false;
+            }
+        }
+        String role = firstCallString(obj, "role", "callRole", "selfRole");
+        if (!TextUtils.isEmpty(role)) {
+            if (isCallStatus(role, "caller", "out", "outgoing")) {
+                return true;
+            }
+            if (isCallStatus(role, "callee", "called", "in", "incoming")) {
+                return false;
+            }
+        }
+        if (!TextUtils.isEmpty(currentUserId)) {
+            String busyUserId = firstCallString(obj, "busyUserId", "busyId", "busyUser");
+            if (!TextUtils.isEmpty(busyUserId)) {
+                return !TextUtils.equals(busyUserId, currentUserId);
+            }
+            String callerId = firstCallString(obj,
+                    "callerId", "caller", "initiator", "inviterId");
+            if (!TextUtils.isEmpty(callerId)) {
+                return TextUtils.equals(callerId, currentUserId);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 当前用户是否为主叫。用于忙线等需要区分视角、但双方消息 fromId 都是自己的场景。
+     */
+    private static boolean resolveIAmCaller(@NonNull JsonObject obj,
+                                            boolean sentByMe,
+                                            @Nullable String currentUserId) {
+        Boolean resolved = resolveIAmCallerOrNull(obj, currentUserId);
+        return resolved != null ? resolved : sentByMe;
+    }
+
+    @Nullable
+    private static String firstCallString(@NonNull JsonObject obj, @NonNull String... keys) {
+        for (String key : keys) {
+            if (!obj.has(key) || !obj.get(key).isJsonPrimitive()) {
+                continue;
+            }
+            try {
+                String v = obj.get(key).getAsString();
+                if (!TextUtils.isEmpty(v)) {
+                    return v.trim();
+                }
+            } catch (Exception ignored) {
+                // continue
+            }
+        }
+        return null;
+    }
+
+    /** 从 desc 识别服务端已按视角写好的文案。 */
+    @Nullable
+    private static String matchPersonalizedCallDesc(@Nullable String cleanedDesc) {
+        if (TextUtils.isEmpty(cleanedDesc)) {
+            return null;
+        }
+        String d = cleanedDesc.trim();
+        if (d.contains("忙线未接听")) {
+            return "忙线未接听";
+        }
+        if (d.contains("对方正忙") || d.contains("对方忙线")) {
+            return "对方正忙";
+        }
+        if (d.contains("未接来电")) {
+            return "未接来电";
+        }
+        if (d.contains("对方已拒绝")) {
+            return "对方已拒绝";
+        }
+        if (d.contains("对方已取消")) {
+            return "对方已取消";
+        }
+        if ("已拒绝".equals(d) || d.startsWith("已拒绝")) {
+            return "已拒绝";
+        }
+        if ("已取消".equals(d) || d.startsWith("已取消")) {
+            return "已取消";
+        }
+        if ("未接听".equals(d) || d.startsWith("未接听")) {
+            return "未接听";
+        }
+        return null;
+    }
+
+    private static boolean isPersonalizedCancel(@Nullable String text) {
+        return "已取消".equals(text) || "对方已取消".equals(text);
+    }
+
+    private static boolean isPersonalizedReject(@Nullable String text) {
+        return "已拒绝".equals(text) || "对方已拒绝".equals(text);
+    }
+
+    private static boolean isPersonalizedMissed(@Nullable String text) {
+        return "未接听".equals(text) || "未接来电".equals(text);
+    }
+
+    @NonNull
+    private static String normalizeNumericCallStatus(int code) {
+        // 对齐 CallSignalType：3 reject / 4 cancel / 5 busy / 6 hangup / 9 end
+        switch (code) {
+            case 3:
+                return "rejected";
+            case 4:
+                return "cancelled";
+            case 5:
+                return "busy";
+            case 6:
+            case 9:
+                return "ended";
+            default:
+                return String.valueOf(code);
+        }
+    }
+
+    private static int readCallDurationSec(@NonNull JsonObject obj) {
+        if (!obj.has("duration")) {
+            return 0;
+        }
+        try {
+            return Math.max(0, obj.get("duration").getAsInt());
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    @NonNull
+    private static String readCallDesc(@NonNull JsonObject obj) {
+        if (!obj.has("desc") || !obj.get("desc").isJsonPrimitive()) {
+            return "";
+        }
+        try {
+            return obj.get("desc").getAsString();
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    private static boolean isCallStatus(@Nullable String status, @NonNull String... candidates) {
+        if (TextUtils.isEmpty(status)) {
+            return false;
+        }
+        for (String c : candidates) {
+            if (c.equalsIgnoreCase(status)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @NonNull
+    private static String mapCallDescFallback(@NonNull String desc, boolean sentByMe, int durationSec) {
+        String d = desc.trim();
+        if (d.contains("通话时长")) {
+            if (durationSec > 0 && !d.matches(".*\\d.*")) {
+                return "通话时长 " + formatCallDuration(durationSec);
+            }
+            return d.startsWith("通话时长") ? d : ("通话时长 " + formatCallDuration(durationSec));
+        }
+        if (d.contains("通话结束")) {
+            return "通话结束";
+        }
+        if (d.contains("已取消") || d.contains("取消")) {
+            if (d.contains("对方")) {
+                return "对方已取消";
+            }
+            return sentByMe ? "已取消" : "对方已取消";
+        }
+        if (d.contains("已拒绝") || d.contains("拒绝")) {
+            if (d.contains("对方")) {
+                return "对方已拒绝";
+            }
+            return sentByMe ? "对方已拒绝" : "已拒绝";
+        }
+        if (d.contains("正忙") || d.contains("忙线") || d.contains("忙")) {
+            // 不因 desc 含「对方」就两端都显示「对方正忙」；统一按主叫/被叫视角
+            return sentByMe ? "对方正忙" : "忙线未接听";
+        }
+        if (d.contains("未接来电")) {
+            return "未接来电";
+        }
+        if (d.contains("未接听") || d.contains("无应答") || d.contains("未应答")) {
+            return sentByMe ? "未接听" : "未接来电";
+        }
+        return d;
     }
 
     @NonNull
@@ -471,9 +855,9 @@ public final class MessageContentFormatter {
         int minutes = (s % 3600) / 60;
         int seconds = s % 60;
         if (hours > 0) {
-            return String.format("%d:%02d:%02d", hours, minutes, seconds);
+            return String.format(Locale.US, "%d:%02d:%02d", hours, minutes, seconds);
         }
-        return String.format("%02d:%02d", minutes, seconds);
+        return String.format(Locale.US, "%02d:%02d", minutes, seconds);
     }
 
     @NonNull

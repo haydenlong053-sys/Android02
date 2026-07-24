@@ -154,6 +154,7 @@
             tools:visibility="visible" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:visibility="gone"
             android:id="@+id/jiqiren"
             android:layout_width="match_parent"
             android:layout_height="54dp"
@@ -179,11 +180,13 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <View
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="#1E000000" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:visibility="gone"
             android:id="@+id/huanyingchengyuan"
             android:layout_width="match_parent"
             android:layout_height="54dp"
@@ -257,12 +260,14 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="#1E000000" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:gravity="center_vertical">

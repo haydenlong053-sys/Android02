@@ -227,7 +227,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         zidongfanyiView.isGone = true
         zidongfanyi.isGone = true
         findViewById<View>(R.id.shengjiqun)?.isGone = HttpsBroadConfig.isReviewEnv
-        findViewById<View>(R.id.shengjiqunView)?.isGone = HttpsBroadConfig.isReviewEnv
+//        findViewById<View>(R.id.shengjiqunView)?.isGone = HttpsBroadConfig.isReviewEnv
         hideSwitchRow(R.id.kefahongboaView)
     }
 
