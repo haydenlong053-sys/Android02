@@ -10,7 +10,6 @@ import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.api.CreateGroupApi;
 import com.freddy.im.http.api.FileUploadApi;
-import com.freddy.im.http.api.GetConversationLastMsgApi;
 import com.freddy.im.http.api.GetConversationListApi;
 import com.freddy.im.http.api.GetGroupDetailApi;
 import com.freddy.im.http.api.GetGroupMemberListApi;
@@ -23,7 +22,6 @@ import com.freddy.im.http.api.ReportMessageReadApi;
 import com.freddy.im.http.api.TranspondMessageApi;
 import com.freddy.im.http.model.im.BaseMsgResponse;
 import com.freddy.im.http.model.im.FileUploadParam;
-import com.freddy.im.http.model.im.ConversationLastMsgMap;
 import com.freddy.im.http.model.im.ConversationListContent;
 import com.freddy.im.http.model.im.GroupMemberListContent;
 import com.freddy.im.http.model.im.GroupUserVo;
@@ -69,7 +67,6 @@ import okhttp3.Response;
  * <ul>
  *   <li>POST {@code im/message/getList}</li>
  *   <li>POST {@code im/conversation/getList}（{@code startTime}、{@code anchor}；头由 {@link ImHttpConfig} 注入）</li>
- *   <li>POST {@code im/conversation/getLastMsg}（body 为 sessionId JSON 数组）</li>
  *   <li>GET {@code im/message/reportRead/{messageId}}</li>
  *   <li>GET {@code im/conversation/remove/{sessionId}}</li>
  *   <li>POST {@code im/group/create}</li>
@@ -172,19 +169,12 @@ public final class ImMessageHttpExample {
     }
 
     /**
-     * 会话列表成功后：批量 {@code getLastMsg} 合并最近消息字段，再回调并落库、同步未读消息。
+     * 会话列表成功后：用本地已有最近消息摘要回填（不再串 {@code getLastMsg}），再回调并落库、同步未读。
      */
     private static void finishConversationList(@NonNull ConversationListContent content,
                                                @NonNull OnHttpImListener<ConversationListContent> callback) {
-        List<String> sessionIds = SessionLastMsgMerge.collectSessionIds(content.getSessionList());
-        if (sessionIds.isEmpty()) {
-            dispatchConversationListReady(content, callback);
-            return;
-        }
-        requestGetConversationLastMsg(sessionIds, lastMsgMap -> {
-            SessionLastMsgMerge.apply(content.getSessionList(), lastMsgMap);
-            dispatchConversationListReady(content, callback);
-        }, () -> dispatchConversationListReady(content, callback));
+        SessionLastMsgMerge.applyFromLocal(content.getSessionList());
+        dispatchConversationListReady(content, callback);
     }
 
     private static void dispatchConversationListReady(@NonNull ConversationListContent content,
@@ -195,56 +185,6 @@ public final class ImMessageHttpExample {
             ImLocalStore.saveSessions(sessionList);
             ImMessageManager.getInstance().syncUnreadMessagesForSessions(sessionList);
         }
-    }
-
-    /**
-     * POST {@code im/conversation/getLastMsg}：批量获取各会话最后一条消息。
-     *
-     * @param onFail 请求失败或业务失败时回调（可为 null）；成功时仅调用 {@code onSuccess}
-     */
-    public static void requestGetConversationLastMsg(@NonNull List<String> sessionIds,
-                                                     @NonNull OnHttpImListener<ConversationLastMsgMap> onSuccess,
-                                                     @Nullable Runnable onFail) {
-        if (sessionIds.isEmpty()) {
-            if (onFail != null) {
-                onFail.run();
-            }
-            return;
-        }
-        EasyHttp.post(ApplicationLifecycle.getInstance())
-                .api(new GetConversationLastMsgApi())
-                .json(sessionIds)
-                .request(new OnHttpListener<BaseMsgResponse<ConversationLastMsgMap>>() {
-
-                    @Override
-                    public void onHttpSuccess(@NonNull BaseMsgResponse<ConversationLastMsgMap> result) {
-                        if (!result.isSuccess()) {
-                            Log.e(MY_TAG, "getLastMsg 业务错误: errorCode=" + result.getErrorCode()
-                                    + " msg=" + result.getErrorMsg());
-                            if (onFail != null) {
-                                onFail.run();
-                            }
-                            return;
-                        }
-                        ConversationLastMsgMap map = result.getContent();
-                        if (map == null || map.isEmpty()) {
-                            Log.w(MY_TAG, "getLastMsg content 为空");
-                            if (onFail != null) {
-                                onFail.run();
-                            }
-                            return;
-                        }
-                        onSuccess.onHttpImSuccess(map);
-                    }
-
-                    @Override
-                    public void onHttpFail(@NonNull Throwable throwable) {
-                        Log.e(MY_TAG, "getLastMsg 请求失败: " + throwable.getMessage());
-                        if (onFail != null) {
-                            onFail.run();
-                        }
-                    }
-                });
     }
 
     /**

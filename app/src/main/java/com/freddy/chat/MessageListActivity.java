@@ -1,5 +1,6 @@
 package com.freddy.chat;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.APP_IM_TAG;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.GsonUtilsKt.fromJson2;
 import static com.cboda.baselibrary.utils.MMKVBroadUtils.LOGIN_USER_DATA;
@@ -782,6 +783,7 @@ public class MessageListActivity extends BaseSimple2BroadActivity
             mIvBack2.setVisibility(View.GONE);
             rightView.setVisibility(View.VISIBLE);
         } else {
+            eLogD(APP_IM_TAG,"duiinfo===="+sessionItem.getOppositeUserId());
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(MessageListActivity.this, BridgeImEnum.GET_USER_DATA.getValue(), sessionItem.getOppositeUserId(), "", null);
             RealmUtil.INSTANCE.findUserData(sessionItem.getOppositeUserId(), new Function1<FriendBean, Unit>() {
                 @Override

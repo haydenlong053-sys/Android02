@@ -36,7 +36,7 @@ public final class GroupVoSessionMapper {
         item.setIcon(group.getIcon());
         item.setMemCount(group.getMemCount());
         item.setMemChgTime(group.getMemChgTime());
-        item.setOppositeUserId(groupId);
+        item.setOppositeUserId(group.getOppositeUserId());
         item.setOwerId(group.getOwerId());
 
         if (existing != null) {

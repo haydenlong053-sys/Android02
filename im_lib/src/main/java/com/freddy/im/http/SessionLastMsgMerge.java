@@ -2,71 +2,56 @@ package com.freddy.im.http;
 
 import android.text.TextUtils;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.freddy.im.http.model.im.ConversationLastMsgMap;
-import com.freddy.im.http.model.im.ImMessageItem;
+import com.freddy.im.db.repository.ImSessionRepository;
 import com.freddy.im.http.model.im.SessionItem;
-import com.freddy.im.message.MessageRepealHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 将 {@code getLastMsg} 结果合并进 {@link SessionItem}。
+ * 会话列表最近消息字段合并：从本地库回填（不再依赖 {@code getLastMsg}）。
  */
 public final class SessionLastMsgMerge {
 
     private SessionLastMsgMerge() {
     }
 
-    public static void apply(@Nullable List<SessionItem> sessions,
-                             @Nullable ConversationLastMsgMap lastMsgMap) {
-        if (sessions == null || sessions.isEmpty() || lastMsgMap == null || lastMsgMap.isEmpty()) {
+    /**
+     * {@code getList} 通常不带 last*：用本地会话摘要回填，保证列表首屏有预览。
+     */
+    public static void applyFromLocal(@Nullable List<SessionItem> sessions) {
+        if (sessions == null || sessions.isEmpty()) {
             return;
         }
         for (SessionItem item : sessions) {
             if (item == null || TextUtils.isEmpty(item.getSessionId())) {
                 continue;
             }
-            ImMessageItem last = lastMsgMap.get(item.getSessionId());
-            if (last == null) {
+            if (!TextUtils.isEmpty(item.getLastMessageId())) {
                 continue;
             }
-            if (!TextUtils.isEmpty(last.getMessageId())) {
-                item.setLastMessageId(last.getMessageId());
+            SessionItem local = ImSessionRepository.getInstance().queryBySessionId(item.getSessionId());
+            if (local == null) {
+                continue;
             }
-            if (!TextUtils.isEmpty(last.getCustomInfo())) {
-                item.setLastCustomInfo(last.getCustomInfo());
+            if (!TextUtils.isEmpty(local.getLastMessageId())) {
+                item.setLastMessageId(local.getLastMessageId());
             }
-            item.setLastMsgType(last.getMsgType());
-            int status = MessageRepealHelper.parseStatus(last.getStatus());
-            item.setLastMessageStatus(status);
-            if (MessageRepealHelper.isRecalled(status)) {
-                item.setLastMessageContent(MessageRepealHelper.buildRecallContent(last.getSender()));
-            } else if (!TextUtils.isEmpty(last.getDesc())) {
-                item.setLastMessageContent(last.getDesc());
+            if (!TextUtils.isEmpty(local.getLastMessageContent())) {
+                item.setLastMessageContent(local.getLastMessageContent());
             }
-            if (!TextUtils.isEmpty(last.getContentType())) {
-                item.setLastContentType(last.getContentType());
+            if (!TextUtils.isEmpty(local.getLastContentType())) {
+                item.setLastContentType(local.getLastContentType());
             }
-
-        }
-    }
-
-
-    @NonNull
-    public static List<String> collectSessionIds(@Nullable List<SessionItem> sessions) {
-        List<String> ids = new ArrayList<>();
-        if (sessions == null) {
-            return ids;
-        }
-        for (SessionItem item : sessions) {
-            if (item != null && !TextUtils.isEmpty(item.getSessionId())) {
-                ids.add(item.getSessionId());
+            if (!TextUtils.isEmpty(local.getLastCustomInfo())) {
+                item.setLastCustomInfo(local.getLastCustomInfo());
+            }
+            item.setLastMsgType(local.getLastMsgType());
+            item.setLastMessageStatus(local.getLastMessageStatus());
+            if (local.getLastMessageTime() > 0) {
+                item.setLastMessageTime(local.getLastMessageTime());
             }
         }
-        return ids;
     }
 }

@@ -80,6 +80,26 @@ public final class SessionRealmMapper {
             if (TextUtils.isEmpty(item.getOppositeUserId()) && !TextUtils.isEmpty(existing.getOppositeUserId())) {
                 entity.setOppositeUserId(existing.getOppositeUserId());
             }
+            // getList 通常不带 last*；空则保留本地摘要，避免刷新冲掉会话预览
+            if (TextUtils.isEmpty(item.getLastMessageId())) {
+                if (!TextUtils.isEmpty(existing.getLastMessageId())) {
+                    entity.setLastMessageId(existing.getLastMessageId());
+                }
+                if (!TextUtils.isEmpty(existing.getLastMessageContent())) {
+                    entity.setLastMessageContent(existing.getLastMessageContent());
+                }
+                if (!TextUtils.isEmpty(existing.getLastContentType())) {
+                    entity.setLastContentType(existing.getLastContentType());
+                }
+                if (!TextUtils.isEmpty(existing.getLastCustomInfo())) {
+                    entity.setLastCustomInfo(existing.getLastCustomInfo());
+                }
+                entity.setLastMsgType(existing.getLastMsgType());
+                entity.setLastMessageStatus(existing.getLastMessageStatus());
+                if (existing.getLastMessageTime() > 0) {
+                    entity.setLastMessageTime(existing.getLastMessageTime());
+                }
+            }
         }
         return entity;
     }

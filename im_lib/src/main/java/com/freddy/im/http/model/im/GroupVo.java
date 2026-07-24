@@ -20,6 +20,7 @@ public class GroupVo implements java.io.Serializable {
     private long memChgTime;
     /** 接口字段名为 {@code owerId}（群主） */
     private String owerId;
+    private String oppositeUserId;
     /** 全员禁言：0 未开启，1 开启（群详情接口返回） */
     private int allMute;
     private List<String> managerIds;
@@ -131,6 +132,14 @@ public class GroupVo implements java.io.Serializable {
 
     public GroupBusiExt getBusiExt() {
         return busiExt;
+    }
+
+    public String getOppositeUserId() {
+        return oppositeUserId;
+    }
+
+    public void setOppositeUserId(String oppositeUserId) {
+        this.oppositeUserId = oppositeUserId;
     }
 
     public void setBusiExt(GroupBusiExt busiExt) {

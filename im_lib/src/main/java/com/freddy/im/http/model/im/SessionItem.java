@@ -34,7 +34,7 @@ public class SessionItem implements Serializable {
     private String extAttrs;
     private String userExtAttrs;
 
-    /** 最近一条消息 ID（来自 {@code getLastMsg}） */
+    /** 最近一条消息 ID（本地同步 / 可选服务端字段） */
     private String lastMessageId;
     /** 最近一条消息内容 */
     private String lastMessageContent;
@@ -42,7 +42,7 @@ public class SessionItem implements Serializable {
     private String lastContentType;
     /** 最近一条消息 customInfo（来自 {@code ImMessageItem#getCustomInfo()}） */
     private String lastCustomInfo;
-    /** 最近一条消息类型（来自 {@code getLastMsg} 的 {@code msgType} / {@code contentType}） */
+    /** 最近一条消息类型（{@code msgType} / {@code contentType}） */
     private int lastMsgType;
     /** 最近一条消息业务状态：0 正常，1 撤回 */
     private int lastMessageStatus;
