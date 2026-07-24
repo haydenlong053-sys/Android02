@@ -3,9 +3,12 @@ package com.freddy.chat;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.GsonUtilsKt.fromJson2;
 import static com.cboda.baselibrary.utils.MMKVBroadUtils.LOGIN_USER_DATA;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.click;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.formatWithBigDecimal;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.showMeetLeaveTip;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.startOutH5Activity;
+import static com.freddy.im.util.BaseLiveDataEventKt.groupDataLiveData2;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -53,6 +56,7 @@ import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.im.http.ImGroupHttpExample;
 import com.freddy.im.group.GroupMuteEvaluator;
+import com.freddy.im.http.model.im.GroupBusiExt;
 import com.freddy.im.http.model.im.GroupVo;
 import com.freddy.im.http.model.im.GroupNoticeRes;
 import com.freddy.im.http.model.im.GroupUserVo;
@@ -60,7 +64,6 @@ import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.listener.OnHttpImListener;
 import com.cboda.intelligent.R;
 import com.freddy.im.signal.ImSignalProtos;
-import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -101,6 +104,9 @@ public class MessageListActivity extends BaseSimple2BroadActivity
     private ImageView danmakuIv;
     private View danmakuView;
     private CountPillView countPillView;
+    private ImageView shopIv;
+    @Nullable
+    private String shopUrl;
     private GroupViewBroadModel groupViewBroadModel;
 
     @Override
@@ -186,6 +192,12 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         danmakuIv = findViewById(R.id.danmakuIv);
         danmakuView = findViewById(R.id.danmakuView);
         countPillView = findViewById(R.id.countPillView);
+        shopIv = findViewById(R.id.shopIv);
+        click(shopIv, () -> {
+            startOutH5Activity(shopUrl, MessageListActivity.this);
+            return Unit.INSTANCE;
+        });
+        groupDataLiveData2.observe(this, this::applyShopEntryFromBusiExt);
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -607,7 +619,25 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         }
         groupMuteFetched = true;
         groupAllMute = group.isAllMute();
+        applyShopEntryFromBusiExt(group.getBusiExt());
         fetchMutedMembersOnly(sessionItem.getSessionId());
+    }
+
+    /** 会话内商城入口：对齐野火 shopIv，由 {@link GroupBusiExt#getIsshop()} 控制显隐。 */
+    private void applyShopEntryFromBusiExt(@Nullable GroupBusiExt busiExt) {
+        if (shopIv == null) {
+            return;
+        }
+        if (sessionItem == null
+                || sessionItem.getConversation() != ImSignalProtos.ConversationType.MULTI_VALUE) {
+            shopIv.setVisibility(View.GONE);
+            return;
+        }
+        if (busiExt != null && !TextUtils.isEmpty(busiExt.getShopLink())) {
+            shopUrl = busiExt.getShopLink();
+        }
+        boolean visible = busiExt != null && anyToInt(busiExt.getIsshop()) == 1;
+        shopIv.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     private void fetchMutedMembersOnly(@NonNull String groupId) {

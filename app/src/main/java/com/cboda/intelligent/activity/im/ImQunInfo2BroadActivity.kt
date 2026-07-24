@@ -53,6 +53,7 @@ import com.freddy.im.db.ImLocalStore
 import com.freddy.im.group.GroupRole
 import com.freddy.im.http.ImGroupHttpExample
 import com.freddy.im.http.model.im.BaseMsgResponse
+import com.freddy.im.http.model.im.GroupBusiExt
 import com.freddy.im.http.model.im.GroupUserVo
 import com.freddy.im.http.model.im.GroupVo
 import com.freddy.im.http.model.im.SessionItem
@@ -282,6 +283,17 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         }
 
         bindClicks()
+        // 会话页 shopIv / 本页开关：监听商业功能变更
+        groupDataLiveData2.observe(this) { busi ->
+            applyCommercialFunctionEntry(busi)
+            busi?.let { ext ->
+                groupVo?.ensureBusiExt()?.apply {
+                    isshop = ext.isshop
+                    showShop = ext.showShop
+                    shopLink = ext.shopLink
+                }
+            }
+        }
         viewModel?.load(qunId, currentUserId)
         CEventCenter.registerEventListener(this, GROUP_CHANGE_EVENTS)
     }
@@ -349,8 +361,9 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         refreshMyGroupNickname()
 
         // 商业功能：群详情 busiExt.isshop 非空才展示入口（对齐野火 QunInfo2BroadActivity）
-        commercialFunctionLayout.isGone = TextUtils.isEmpty(vo.busiExt?.isshop)
-        commercialFunctionSwitch.isChecked = anyToInt(vo.busiExt?.isshop) == 1
+        applyCommercialFunctionEntry(vo.busiExt)
+        // 同步到会话页 shopIv（MessageListActivity 监听 groupDataLiveData2）
+        vo.busiExt?.let { groupDataLiveData2.postValue(it) }
 
         // 群管理开关（对齐野火）
         val busi = vo.busiExt
@@ -364,6 +377,12 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         kejianguanli.isChecked = busi?.openQykj == "1"
         jiangetime = (busi?.jiange ?: 0).coerceAtLeast(0)
         tvjiangeshi.setText(jiangetime.toString())
+    }
+
+    /** 商业功能开关入口：isshop 为空不展示；有值则展示，1=开 / 0=关。 */
+    private fun applyCommercialFunctionEntry(busiExt: GroupBusiExt?) {
+        commercialFunctionLayout.isGone = TextUtils.isEmpty(busiExt?.isshop)
+        commercialFunctionSwitch.isChecked = anyToInt(busiExt?.isshop) == 1
     }
 
     private fun bindClicks() {
