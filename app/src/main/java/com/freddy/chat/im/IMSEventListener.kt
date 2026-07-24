@@ -13,6 +13,7 @@ import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.baselibrary.utils.toLog
 import com.freddy.chat.im.othbusi.OthBusiSigHandlers
 import com.freddy.im.bean.AppMessage
+import com.freddy.im.call.CallSignalSender
 import com.freddy.im.crypto.ImCryptoKeys
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.db.repository.ImMessageRepository.OnMessageUpdatedCallback
@@ -289,6 +290,9 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     return
                 }
                 val video = TextUtils.equals("video", sign.mediaType)
+                val callId = if (!TextUtils.isEmpty(sign.callId)) sign.callId else roomName
+                // 被叫已收到：回执 CALL_SIGNAL(0x0502) / CALL_RINGING=1
+                CallSignalSender.ringing(callId, sign.fromUserId, roomName, video)
                 ThreadUtils.getMainHandler().post {
                     CallActivity.startIncoming(
                         getAppContext(),

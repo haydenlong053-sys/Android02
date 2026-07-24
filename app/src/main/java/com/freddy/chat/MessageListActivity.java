@@ -636,7 +636,7 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         if (busiExt != null && !TextUtils.isEmpty(busiExt.getShopLink())) {
             shopUrl = busiExt.getShopLink();
         }
-        boolean visible = busiExt != null && anyToInt(busiExt.getIsshop()) == 1;
+        boolean visible = busiExt != null && anyToInt(busiExt.getShowShop()) == 1;
         shopIv.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
