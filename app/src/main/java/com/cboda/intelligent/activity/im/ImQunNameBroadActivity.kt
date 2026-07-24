@@ -58,9 +58,9 @@ class ImQunNameBroadActivity : BaseSimple2BroadActivity() {
 //                    }
                 }
             }, {
-                runOnUiThread {
-                    ToastBroadUtils.show(getString(R.string.group_rename_failed))
-                }
+//                runOnUiThread {
+//                    ToastBroadUtils.show(getString(R.string.group_rename_failed))
+//                }
             })
         }
     }

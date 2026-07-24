@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.freddy.im.http.api.AddGroupMembersApi;
 import com.freddy.im.http.api.ApplyInGroupApi;
 import com.freddy.im.http.api.ApproveInGroupApi;
@@ -614,6 +615,7 @@ public final class ImGroupHttpExample {
             public void onHttpSuccess(@NonNull BaseMsgResponse<T> result) {
                 if (!result.isSuccess()) {
                     logBizError(tag, result);
+                    ToastBroadUtils.show(result.getErrorMsg());
                     if (onFail != null) {
                         onFail.run();
                     }

@@ -23,6 +23,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ActivityUtils
+import com.cboda.baselibrary.common.MyEventCodeEnum
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
 import com.cboda.baselibrary.utils.HttpsBroadConfig
@@ -31,6 +32,7 @@ import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.groupDataLiveData
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.showAbsentKickTip
+import com.cboda.chatui.bridge.MyBroadEvent
 import com.cboda.intelligent.R
 import com.cboda.intelligent.adapter.QunUserBroadAdapter2
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
@@ -61,6 +63,9 @@ import com.freddy.im.listener.OnHttpImListener
 import com.freddy.im.util.groupDataLiveData2
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.io.File
 
 /**
@@ -296,6 +301,9 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         }
         viewModel?.load(qunId, currentUserId)
         CEventCenter.registerEventListener(this, GROUP_CHANGE_EVENTS)
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this)
+        }
     }
 
     private fun showComplaintMenu() {
@@ -811,7 +819,17 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         runOnUiThread { applyGroupSessionUpdate(update) }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onAnnouncementUpdated(event: MyBroadEvent) {
+        if (event.type != MyEventCodeEnum.UPDATE_ANNOUNCEMENT.value) return
+        if (event.params2 != qunId) return
+        viewModel?.updateNoticeContent(event.params1)
+    }
+
     override fun onDestroy() {
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this)
+        }
         CEventCenter.unregisterEventListener(this, GROUP_CHANGE_EVENTS)
         super.onDestroy()
     }

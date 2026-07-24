@@ -110,6 +110,13 @@ class ImQunInfoViewModel : BaseViewModel() {
 
     }
 
+    /** 本地修改群公告成功后回写 UI（EventBus），避免详情页仍显示旧文案。 */
+    fun updateNoticeContent(content: String?) {
+        val cur = _state.value ?: return
+        if (cur.loading) return
+        _state.postValue(cur.copy(noticeContent = content?.takeIf { it.isNotBlank() }))
+    }
+
     fun refreshMembers(groupId: String, currentUserId: String?) {
         ImGroupHttpExample.requestGetGroupMemberList(
             groupId, 0, 13,
