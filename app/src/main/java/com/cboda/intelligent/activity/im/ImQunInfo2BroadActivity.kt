@@ -28,6 +28,7 @@ import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.click
+import com.cboda.baselibrary.utils.groupDataLiveData
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.showAbsentKickTip
 import com.cboda.intelligent.R
@@ -56,6 +57,7 @@ import com.freddy.im.http.model.im.GroupUserVo
 import com.freddy.im.http.model.im.GroupVo
 import com.freddy.im.http.model.im.SessionItem
 import com.freddy.im.listener.OnHttpImListener
+import com.freddy.im.util.groupDataLiveData2
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.io.File
@@ -79,6 +81,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private var allMembers: List<GroupUserVo> = emptyList()
     private var myRole: Int = GroupRole.MEMBER
     private var groupVo: GroupVo? = null
+
     /** 首次 onResume 跳过成员刷新，避免与 onCreate 中 load() 重复请求 getAllMembers。 */
     private var skipMembersRefreshOnResume = true
 
@@ -267,9 +270,11 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                 "add" -> JumpBroadUtils.startImQunMemberListActivity(
                     this, qunId, "add", ImGroupMemberUiMapper.wildfireUserTypeForRole(myRole)
                 )
+
                 "remove" -> JumpBroadUtils.startImQunMemberListActivity(
                     this, qunId, "remove", ImGroupMemberUiMapper.wildfireUserTypeForRole(myRole)
                 )
+
                 else -> JumpBroadUtils.startImQunGerenPageActivity(
                     this, qunId, items[position].userId ?: ""
                 )
@@ -350,11 +355,11 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         // 群管理开关（对齐野火）
         val busi = vo.busiExt
         yaoqinghaioyu.isChecked = busi?.openQyyq == "1" ||
-            (busi?.openQyyq.isNullOrEmpty() && vo.allowMemberInvite == "1")
+                (busi?.openQyyq.isNullOrEmpty() && vo.allowMemberInvite == "1")
         jinqunjiaoyan.isChecked = busi?.openQyyz == "1"
         qunzhumingpian.isChecked = busi?.openQzts == "1"
         ruqunyanz.isChecked = busi?.openQygl == "1" ||
-            (busi?.openQygl.isNullOrEmpty() && vo.joinNeedVerify == "1")
+                (busi?.openQygl.isNullOrEmpty() && vo.joinNeedVerify == "1")
         wufajiahaoyou.isChecked = busi?.openQysl == "1"
         kejianguanli.isChecked = busi?.openQykj == "1"
         jiangetime = (busi?.jiange ?: 0).coerceAtLeast(0)
@@ -466,9 +471,10 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                     ?.observe(this@ImQunInfo2BroadActivity) { enabled ->
                         commercialFunctionSwitch.isChecked = enabled
                         val flag = if (enabled) "1" else "0"
-                        groupVo?.ensureBusiExt()?.apply {
-                            isshop = flag
-                            showShop = flag
+                        groupVo?.ensureBusiExt()?.let {
+                            it.isshop = flag
+                            it.showShop = flag
+                            groupDataLiveData2.postValue(it)
                         }
                     }
             }
@@ -660,6 +666,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                     }
                 }
             }
+
             override fun onCancel() {}
         }
         holder.show()
