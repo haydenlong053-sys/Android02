@@ -28,6 +28,7 @@ import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.click
+import com.cboda.baselibrary.utils.groupDataLiveData
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.showAbsentKickTip
 import com.cboda.intelligent.R
@@ -52,10 +53,12 @@ import com.freddy.im.db.ImLocalStore
 import com.freddy.im.group.GroupRole
 import com.freddy.im.http.ImGroupHttpExample
 import com.freddy.im.http.model.im.BaseMsgResponse
+import com.freddy.im.http.model.im.GroupBusiExt
 import com.freddy.im.http.model.im.GroupUserVo
 import com.freddy.im.http.model.im.GroupVo
 import com.freddy.im.http.model.im.SessionItem
 import com.freddy.im.listener.OnHttpImListener
+import com.freddy.im.util.groupDataLiveData2
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.io.File
@@ -79,6 +82,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private var allMembers: List<GroupUserVo> = emptyList()
     private var myRole: Int = GroupRole.MEMBER
     private var groupVo: GroupVo? = null
+
     /** 首次 onResume 跳过成员刷新，避免与 onCreate 中 load() 重复请求 getAllMembers。 */
     private var skipMembersRefreshOnResume = true
 
@@ -267,9 +271,11 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                 "add" -> JumpBroadUtils.startImQunMemberListActivity(
                     this, qunId, "add", ImGroupMemberUiMapper.wildfireUserTypeForRole(myRole)
                 )
+
                 "remove" -> JumpBroadUtils.startImQunMemberListActivity(
                     this, qunId, "remove", ImGroupMemberUiMapper.wildfireUserTypeForRole(myRole)
                 )
+
                 else -> JumpBroadUtils.startImQunGerenPageActivity(
                     this, qunId, items[position].userId ?: ""
                 )
@@ -277,6 +283,17 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         }
 
         bindClicks()
+        // 会话页 shopIv / 本页开关：监听商业功能变更
+        groupDataLiveData2.observe(this) { busi ->
+            applyCommercialFunctionEntry(busi)
+            busi?.let { ext ->
+                groupVo?.ensureBusiExt()?.apply {
+                    isshop = ext.isshop
+                    showShop = ext.showShop
+                    shopLink = ext.shopLink
+                }
+            }
+        }
         viewModel?.load(qunId, currentUserId)
         CEventCenter.registerEventListener(this, GROUP_CHANGE_EVENTS)
     }
@@ -334,32 +351,35 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             mTvNoticeDes.isVisible = true
             mTvNoticeDes.text = state.noticeContent
         }
-        // 群管理开关（对齐野火）
-        val busi = vo.busiExt
-        val isOpenGroupInviteFunc = busi?.openQyyq == "1" ||
-                (busi?.openQyyq.isNullOrEmpty() && vo.allowMemberInvite == "1")
-        mAdapter?.setList(ImGroupMemberUiMapper.buildGridItems(state.members, myRole,isOpenGroupInviteFunc))
+
+        mAdapter?.setList(ImGroupMemberUiMapper.buildGridItems(state.members, myRole))
 
         mScAbsentKick.isChecked = vo.busiExt?.openAbsentKick == "1"
         val limit = vo.busiExt?.absentKickLimit?.toString()?.takeIf { it.isNotBlank() } ?: "5"
         mTvRuleDes.text = getString(R.string.absentkick_tip, limit)
 
         refreshMyGroupNickname()
-
         // 商业功能：群详情 busiExt.isshop 非空才展示入口（对齐野火 QunInfo2BroadActivity）
-        commercialFunctionLayout.isGone = TextUtils.isEmpty(vo.busiExt?.isshop)
-        commercialFunctionSwitch.isChecked = anyToInt(vo.busiExt?.isshop) == 1
+        applyCommercialFunctionEntry(vo.busiExt)
+        // 同步到会话页 shopIv（MessageListActivity 监听 groupDataLiveData2）
+        vo.busiExt?.let { groupDataLiveData2.postValue(it) }
 
         yaoqinghaioyu.isChecked = isOpenGroupInviteFunc
         jinqunjiaoyan.isChecked = busi?.openQyyz == "1" ||
-            (busi?.openQyyz.isNullOrEmpty() && vo.joinNeedVerify == "1")
+                (busi?.openQyyz.isNullOrEmpty() && vo.joinNeedVerify == "1")
         qunzhumingpian.isChecked = busi?.openQzts == "1"
         ruqunyanz.isChecked = busi?.openQygl == "1" ||
-            (busi?.openQygl.isNullOrEmpty() && vo.joinNeedVerify == "1")
+                (busi?.openQygl.isNullOrEmpty() && vo.joinNeedVerify == "1")
         wufajiahaoyou.isChecked = busi?.openQysl == "1"
         kejianguanli.isChecked = busi?.openQykj == "1"
         jiangetime = (busi?.jiange ?: 0).coerceAtLeast(0)
         tvjiangeshi.setText(jiangetime.toString())
+    }
+
+    /** 商业功能开关入口：isshop 为空不展示；有值则展示，1=开 / 0=关。 */
+    private fun applyCommercialFunctionEntry(busiExt: GroupBusiExt?) {
+        commercialFunctionLayout.isGone = TextUtils.isEmpty(busiExt?.isshop)
+        commercialFunctionSwitch.isChecked = anyToInt(busiExt?.isshop) == 1
     }
 
     private fun bindClicks() {
@@ -467,9 +487,10 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                     ?.observe(this@ImQunInfo2BroadActivity) { enabled ->
                         commercialFunctionSwitch.isChecked = enabled
                         val flag = if (enabled) "1" else "0"
-                        groupVo?.ensureBusiExt()?.apply {
-                            isshop = flag
-                            showShop = flag
+                        groupVo?.ensureBusiExt()?.let {
+                            it.isshop = flag
+                            it.showShop = flag
+                            groupDataLiveData2.postValue(it)
                         }
                     }
             }
@@ -661,6 +682,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                     }
                 }
             }
+
             override fun onCancel() {}
         }
         holder.show()

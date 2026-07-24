@@ -221,6 +221,18 @@
                 app:suffixTextColor="#ffd957"
                 app:suffixTextSize="10sp"
                 tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/shopIv"
+                android:layout_width="@dimen/dp_66"
+                android:layout_height="@dimen/dp_74"
+                android:paddingTop="@dimen/dp_8"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/icon_shop"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/danmakuIv"
+                tools:visibility="visible" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 
