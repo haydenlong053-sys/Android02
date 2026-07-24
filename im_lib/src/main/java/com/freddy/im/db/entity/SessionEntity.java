@@ -42,6 +42,8 @@ public class SessionEntity extends RealmObject {
     /** 最近一条消息的 customInfo（与 {@link com.freddy.im.http.model.im.ImMessageItem#getCustomInfo()} 一致） */
     private String lastCustomInfo;
     private int lastMsgType;
+    /** 最近一条消息业务状态：0 正常，1 撤回 */
+    private int lastMessageStatus;
     /** 单聊：对方已读游标（messageId 末尾序列，该序列及之前己方消息视为已读） */
     private long peerReadUpToSeq;
     /** 已从服务端同步到的最大 messageId（本地删除不回退） */
@@ -279,6 +281,14 @@ public class SessionEntity extends RealmObject {
 
     public void setLastMsgType(int lastMsgType) {
         this.lastMsgType = lastMsgType;
+    }
+
+    public int getLastMessageStatus() {
+        return lastMessageStatus;
+    }
+
+    public void setLastMessageStatus(int lastMessageStatus) {
+        this.lastMessageStatus = lastMessageStatus;
     }
 
     public long getPeerReadUpToSeq() {

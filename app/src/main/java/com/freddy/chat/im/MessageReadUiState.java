@@ -74,7 +74,7 @@ public final class MessageReadUiState {
 
     /** 是否展示已读回执（对齐野火 Persist_And_Count 类消息）。 */
     public static boolean supportsReadReceipt(@NonNull AppMessage message) {
-        if (WeChatUiHelper.isSystemMessage(message)) {
+        if (WeChatUiHelper.isSystemMessage(message) || WeChatUiHelper.isRecalledMessage(message)) {
             return false;
         }
         int type = message.getMsgContentType();

@@ -12,6 +12,7 @@ import com.freddy.im.http.model.im.GroupMemberItem;
 import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.http.model.im.UserInfoItem;
 import com.freddy.im.message.MessageContentFormatter;
+import com.freddy.im.message.MessageRepealHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -130,6 +131,27 @@ public final class WeChatUiHelper {
         return MessageContentFormatter.isSystemMessage(message);
     }
 
+    public static boolean isRecalledMessage(@Nullable AppMessage message) {
+        return MessageRepealHelper.isRecalled(message);
+    }
+
+    /** 撤回消息展示文案（含 ${uid} 占位，由 nameMap / currentUserId 替换）。 */
+    @NonNull
+    public static String formatRecallDisplay(@NonNull AppMessage message,
+                                             @Nullable String currentUserId,
+                                             @Nullable Map<String, String> userIdToDisplayName) {
+        String raw = MessageRepealHelper.buildRecallContent(message.getFromId());
+        return MessageContentFormatter.formatSessionPreview(
+                raw,
+                null,
+                raw,
+                null,
+                currentUserId,
+                userIdToDisplayName,
+                0,
+                MessageRepealHelper.STATUS_RECALLED);
+    }
+
     public static boolean isVoiceMessage(int msgContentType) {
         return MessageContentFormatter.isVoiceMessage(msgContentType);
     }
@@ -231,7 +253,8 @@ public final class WeChatUiHelper {
                 session.getLastCustomInfo(),
                 currentUserId,
                 nameMap,
-                session.getLastMsgType());
+                session.getLastMsgType(),
+                session.getLastMessageStatus());
     }
 
     @NonNull

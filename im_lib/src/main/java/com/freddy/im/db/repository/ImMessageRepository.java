@@ -397,11 +397,12 @@ public final class ImMessageRepository {
         target.setSequenceId(source.getSequenceId());
         target.setSendStatus(source.getSendStatus());
         target.setReadPersonCount(source.getReadPersonCount());
+        target.setStatus(source.getStatus());
         return target;
     }
 
     /**
-     * 按服务端 {@code msgId} 将消息替换为撤回系统提示；未找到时回调 {@code null}。
+     * 按服务端 {@code msgId} 将消息标记为撤回（status=1）；未找到时回调 {@code null}。
      */
     public void applyRecallByMsgId(@NonNull String msgId,
                                    @Nullable OnMessageUpdatedCallback onUpdated) {
@@ -426,10 +427,8 @@ public final class ImMessageRepository {
                         return;
                     }
                     AppMessage original = MessageRealmMapper.toAppMessage(entity);
-                    AppMessage recalled = MessageRepealHelper.toRecallNotification(original);
-                    entity.setMsgType(recalled.getMsgType());
-                    entity.setMsgContentType(recalled.getMsgContentType());
-                    entity.setContent(recalled.getContent());
+                    AppMessage recalled = MessageRepealHelper.toRecalledMessage(original);
+                    entity.setStatus(recalled.getStatus());
                     entity.setSendStatus(recalled.getSendStatus());
                     entity.setReadPersonCount(recalled.getReadPersonCount());
                     sessionHolder[0] = SessionLastMessageSync.applyRecallPreviewInTransaction(r, id, recalled);
@@ -675,6 +674,7 @@ public final class ImMessageRepository {
             RealmResults<MessageEntity> results = realm.where(MessageEntity.class)
                     .equalTo("msgContentType", MessageType.MessageContentType.TEXT.getMsgContentType())
                     .notEqualTo("msgType", MessageContentFormatter.API_MSG_TYPE_SYSTEM)
+                    .notEqualTo("status", MessageRepealHelper.STATUS_RECALLED)
                     .contains("content", trimmed, Case.INSENSITIVE)
                     .sort("sequenceId", Sort.DESCENDING)
                     .limit(SEARCH_MESSAGE_MAX_MATCHES)

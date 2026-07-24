@@ -39,6 +39,9 @@ public class AppMessage implements Parcelable {
     /** 群聊：已读人数（HTTP 列表或 0x0210 信令） */
     private int readPersonCount;
 
+    /** 消息状态：0 正常，1 撤回（见 {@link com.freddy.im.message.MessageRepealHelper}） */
+    private int status;
+
     public AppMessage() {
     }
 
@@ -195,6 +198,14 @@ public class AppMessage implements Parcelable {
         this.readPersonCount = readPersonCount;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     /**
      * 自己是否为发送方：{@code userId} 与 {@link #fromId} 相同则视为发送者。
      */
@@ -223,6 +234,7 @@ public class AppMessage implements Parcelable {
         content = in.readString();
         sendStatus = in.readInt();
         readPersonCount = in.readInt();
+        status = in.readInt();
     }
 
     @Override
@@ -245,6 +257,7 @@ public class AppMessage implements Parcelable {
         dest.writeString(content);
         dest.writeInt(sendStatus);
         dest.writeInt(readPersonCount);
+        dest.writeInt(status);
     }
 
     @Override

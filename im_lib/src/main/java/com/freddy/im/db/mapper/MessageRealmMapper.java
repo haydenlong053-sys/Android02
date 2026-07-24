@@ -55,6 +55,7 @@ public final class MessageRealmMapper {
         entity.setSendStatus(message.getSendStatus());
         entity.setSequenceId(message.getSequenceId());
         entity.setReadPersonCount(message.getReadPersonCount());
+        entity.setStatus(message.getStatus());
         return entity;
     }
 
@@ -79,6 +80,7 @@ public final class MessageRealmMapper {
         message.setSequenceId(entity.getSequenceId());
         message.setSendStatus(entity.getSendStatus());
         message.setReadPersonCount(entity.getReadPersonCount());
+        message.setStatus(entity.getStatus());
         return message;
     }
 

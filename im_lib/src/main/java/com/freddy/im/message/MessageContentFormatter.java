@@ -156,7 +156,7 @@ public final class MessageContentFormatter {
                                               @Nullable String lastCustomInfo,
                                               @Nullable String currentUserId) {
         return formatSessionPreview(content, contentType, lastMessageContent, lastCustomInfo,
-                currentUserId, null, 0);
+                currentUserId, null, 0, MessageRepealHelper.STATUS_NORMAL);
     }
 
     @NonNull
@@ -167,7 +167,7 @@ public final class MessageContentFormatter {
                                               @Nullable String currentUserId,
                                               int lastMsgType) {
         return formatSessionPreview(content, contentType, lastMessageContent, lastCustomInfo,
-                currentUserId, null, lastMsgType);
+                currentUserId, null, lastMsgType, MessageRepealHelper.STATUS_NORMAL);
     }
 
     @NonNull
@@ -178,6 +178,24 @@ public final class MessageContentFormatter {
                                               @Nullable String currentUserId,
                                               @Nullable Map<String, String> userIdToDisplayName,
                                               int lastMsgType) {
+        return formatSessionPreview(content, contentType, lastMessageContent, lastCustomInfo,
+                currentUserId, userIdToDisplayName, lastMsgType, MessageRepealHelper.STATUS_NORMAL);
+    }
+
+    @NonNull
+    public static String formatSessionPreview(@Nullable String content,
+                                              @Nullable String contentType,
+                                              @Nullable String lastMessageContent,
+                                              @Nullable String lastCustomInfo,
+                                              @Nullable String currentUserId,
+                                              @Nullable Map<String, String> userIdToDisplayName,
+                                              int lastMsgType,
+                                              int lastMessageStatus) {
+        // 撤回优先：不依赖 contentType，避免图片/语音等快捷分支盖过撤回文案
+        if (MessageRepealHelper.isRecalled(lastMessageStatus)) {
+            String raw = !TextUtils.isEmpty(lastMessageContent) ? lastMessageContent : content;
+            return formatTextDisplay(raw, lastCustomInfo, currentUserId, userIdToDisplayName);
+        }
         if (isApiSystemMsgType(lastMsgType)) {
             String raw = !TextUtils.isEmpty(content) ? content : lastMessageContent;
             if (isSystemContentJson(raw)) {

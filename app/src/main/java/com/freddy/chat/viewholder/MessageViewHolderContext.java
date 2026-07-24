@@ -139,7 +139,7 @@ public final class MessageViewHolderContext {
         if (TextUtils.isEmpty(senderId)) {
             return false;
         }
-        if (prev == null || WeChatUiHelper.isSystemMessage(prev)) {
+        if (prev == null || WeChatUiHelper.isSystemMessage(prev) || WeChatUiHelper.isRecalledMessage(prev)) {
             return true;
         }
         if (prev.isSender(currentUserId)) {

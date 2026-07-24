@@ -49,6 +49,7 @@ public final class SessionRealmMapper {
         entity.setLastContentType(item.getLastContentType());
         entity.setLastCustomInfo(item.getLastCustomInfo());
         entity.setLastMsgType(item.getLastMsgType());
+        entity.setLastMessageStatus(item.getLastMessageStatus());
         entity.setLastMessageTime(item.getLastMessageTime());
         return entity;
     }
@@ -114,6 +115,7 @@ public final class SessionRealmMapper {
         item.setLastContentType(entity.getLastContentType());
         item.setLastCustomInfo(entity.getLastCustomInfo());
         item.setLastMsgType(entity.getLastMsgType());
+        item.setLastMessageStatus(entity.getLastMessageStatus());
         item.setLastMessageTime(entity.getLastMessageTime());
         return item;
     }

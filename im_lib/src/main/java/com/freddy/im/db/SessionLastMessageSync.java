@@ -16,6 +16,7 @@ import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.MessageType;
 import com.freddy.im.message.ImActiveChatSession;
 import com.freddy.im.message.ImMessageManager;
+import com.freddy.im.message.MessageRepealHelper;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -308,6 +309,7 @@ public final class SessionLastMessageSync {
         entity.setLastContentType("");
         entity.setLastCustomInfo("");
         entity.setLastMsgType(0);
+        entity.setLastMessageStatus(0);
         entity.setLastMessageTime(0L);
     }
 
@@ -316,7 +318,14 @@ public final class SessionLastMessageSync {
                 ? message.getMsgId()
                 : message.getClientMsgId();
         entity.setLastMessageId(msgId);
-        entity.setLastMessageContent(previewContent(message));
+        entity.setLastMessageStatus(message.getStatus());
+        if (MessageRepealHelper.isRecalled(message)) {
+            // 会话预览用撤回文案；消息本体 content 仍保留原文
+            entity.setLastMessageContent(MessageRepealHelper.buildRecallContent(message.getFromId()));
+        } else {
+            entity.setLastMessageContent(previewContent(message));
+
+        }
         entity.setLastContentType(String.valueOf(message.getMsgContentType()));
         entity.setLastCustomInfo(message.getCustomInfo());
         entity.setLastMsgType(message.getMsgType());

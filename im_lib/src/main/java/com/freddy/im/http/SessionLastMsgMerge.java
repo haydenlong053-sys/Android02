@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import com.freddy.im.http.model.im.ConversationLastMsgMap;
 import com.freddy.im.http.model.im.ImMessageItem;
 import com.freddy.im.http.model.im.SessionItem;
+import com.freddy.im.message.MessageRepealHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,16 +37,21 @@ public final class SessionLastMsgMerge {
             if (!TextUtils.isEmpty(last.getMessageId())) {
                 item.setLastMessageId(last.getMessageId());
             }
-            if (!TextUtils.isEmpty(last.getDesc())) {
+            if (!TextUtils.isEmpty(last.getCustomInfo())) {
+                item.setLastCustomInfo(last.getCustomInfo());
+            }
+            item.setLastMsgType(last.getMsgType());
+            int status = MessageRepealHelper.parseStatus(last.getStatus());
+            item.setLastMessageStatus(status);
+            if (MessageRepealHelper.isRecalled(status)) {
+                item.setLastMessageContent(MessageRepealHelper.buildRecallContent(last.getSender()));
+            } else if (!TextUtils.isEmpty(last.getDesc())) {
                 item.setLastMessageContent(last.getDesc());
             }
             if (!TextUtils.isEmpty(last.getContentType())) {
                 item.setLastContentType(last.getContentType());
             }
-            if (!TextUtils.isEmpty(last.getCustomInfo())) {
-                item.setLastCustomInfo(last.getCustomInfo());
-            }
-            item.setLastMsgType(last.getMsgType());
+
         }
     }
 

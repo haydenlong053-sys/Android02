@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 
 import com.freddy.im.http.model.im.ImMessageItem;
 import com.freddy.im.message.ImMessageManager;
+import com.freddy.im.message.MessageRepealHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +39,7 @@ public final class ImMessageMapper {
         m.setToId(item.getTo());
         m.setSequenceId(item.getSequenceId());
         m.setReadPersonCount(item.getReadPersonCount());
+        m.setStatus(MessageRepealHelper.parseStatus(item.getStatus()));
         return m;
     }
 

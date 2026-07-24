@@ -23,6 +23,7 @@ public final class MessageMenuPolicy {
     public static boolean supportsContextMenu(@Nullable AppMessage message) {
         return message != null
                 && !WeChatUiHelper.isSystemMessage(message)
+                && !WeChatUiHelper.isRecalledMessage(message)
                 && !WeChatUiHelper.isMeetStatusMessage(message.getMsgContentType());
     }
 
@@ -34,6 +35,9 @@ public final class MessageMenuPolicy {
                                     @Nullable String currentUserId,
                                     boolean skipTimeLimit) {
         if (!message.isSender(currentUserId)) {
+            return false;
+        }
+        if (WeChatUiHelper.isRecalledMessage(message)) {
             return false;
         }
         if (TextUtils.isEmpty(message.getMsgId())) {

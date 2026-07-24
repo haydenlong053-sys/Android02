@@ -44,6 +44,8 @@ public class SessionItem implements Serializable {
     private String lastCustomInfo;
     /** 最近一条消息类型（来自 {@code getLastMsg} 的 {@code msgType} / {@code contentType}） */
     private int lastMsgType;
+    /** 最近一条消息业务状态：0 正常，1 撤回 */
+    private int lastMessageStatus;
     /** 最近一条消息时间（用于会话列表排序） */
     private long lastMessageTime;
 
@@ -261,6 +263,14 @@ public class SessionItem implements Serializable {
 
     public void setLastMsgType(int lastMsgType) {
         this.lastMsgType = lastMsgType;
+    }
+
+    public int getLastMessageStatus() {
+        return lastMessageStatus;
+    }
+
+    public void setLastMessageStatus(int lastMessageStatus) {
+        this.lastMessageStatus = lastMessageStatus;
     }
 
     public long getLastMessageTime() {

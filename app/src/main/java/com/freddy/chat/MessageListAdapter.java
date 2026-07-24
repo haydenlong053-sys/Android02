@@ -28,6 +28,7 @@ import com.freddy.chat.viewholder.MergeTransMessageVH;
 import com.freddy.chat.viewholder.MessageViewHolderContext;
 import com.freddy.chat.viewholder.NoticeMessageVH;
 import com.freddy.chat.viewholder.OnMessageRetryListener;
+import com.freddy.chat.viewholder.RecallMessageVH;
 import com.freddy.chat.viewholder.SystemMessageVH;
 import com.freddy.chat.viewholder.TextMessageVH;
 import com.freddy.chat.viewholder.VideoMessageVH;
@@ -60,6 +61,7 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     private static final int VIEW_TYPE_MEET_START = 10;
     private static final int VIEW_TYPE_MEET_END = 11;
     private static final int VIEW_TYPE_CALL = 12;
+    private static final int VIEW_TYPE_RECALL = 13;
     private static final int VIEW_TYPE_UNKNOWN = 99;
 
     private final boolean isGroupChat;
@@ -383,8 +385,16 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
         if (index < 0) {
             return;
         }
+        int oldType = resolveViewType(items.get(index));
         items.set(index, message);
-        notifyItemChanged(index);
+        int newType = resolveViewType(message);
+        if (oldType != newType) {
+            // viewType 变化（如气泡→撤回行）需重建 ViewHolder
+            notifyItemRemoved(index);
+            notifyItemInserted(index);
+        } else {
+            notifyItemChanged(index);
+        }
     }
 
     public void removeByMsgId(@NonNull String msgId) {
@@ -458,6 +468,10 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
         if (message == null) {
             return VIEW_TYPE_SYSTEM;
         }
+        // 撤回优先：按 status 判断，不依赖 msgType/content
+        if (WeChatUiHelper.isRecalledMessage(message)) {
+            return VIEW_TYPE_RECALL;
+        }
         if (WeChatUiHelper.isCallMessage(message)) {
             return VIEW_TYPE_CALL;
         }
@@ -502,6 +516,10 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        if (viewType == VIEW_TYPE_RECALL) {
+            View v = inflater.inflate(R.layout.item_message_recall, parent, false);
+            return new RecallMessageVH(v);
+        }
         if (viewType == VIEW_TYPE_SYSTEM) {
             View v = inflater.inflate(R.layout.item_message_system, parent, false);
             return new SystemMessageVH(v);
@@ -576,6 +594,10 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
                 mentionMemberListener,
                 portraitClickListener,
                 listMode);
+        if (holder instanceof RecallMessageVH) {
+            ((RecallMessageVH) holder).bind(m, context);
+            return;
+        }
         if (holder instanceof SystemMessageVH) {
             ((SystemMessageVH) holder).bind(m, context);
             return;

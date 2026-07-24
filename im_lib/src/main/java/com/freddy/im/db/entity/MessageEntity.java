@@ -36,6 +36,8 @@ public class MessageEntity extends RealmObject {
     private int sendStatus;
     /** 群聊：已读人数（0x0210 或 HTTP 列表） */
     private int readPersonCount;
+    /** 消息状态：0 正常，1 撤回 */
+    private int status;
 
     public String getMsgId() {
         return msgId;
@@ -179,5 +181,13 @@ public class MessageEntity extends RealmObject {
 
     public void setReadPersonCount(int readPersonCount) {
         this.readPersonCount = readPersonCount;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
