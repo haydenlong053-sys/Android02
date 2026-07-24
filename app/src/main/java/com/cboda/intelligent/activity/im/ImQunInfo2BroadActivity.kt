@@ -364,7 +364,10 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         // 同步到会话页 shopIv（MessageListActivity 监听 groupDataLiveData2）
         vo.busiExt?.let { groupDataLiveData2.postValue(it) }
 
-        yaoqinghaioyu.isChecked = isOpenGroupInviteFunc
+        val busi = vo.busiExt
+        yaoqinghaioyu.isChecked = busi?.openQyyq == "1" ||
+                (busi?.openQyyq.isNullOrEmpty() && vo.allowMemberInvite == "1")
+
         jinqunjiaoyan.isChecked = busi?.openQyyz == "1" ||
                 (busi?.openQyyz.isNullOrEmpty() && vo.joinNeedVerify == "1")
         qunzhumingpian.isChecked = busi?.openQzts == "1"
