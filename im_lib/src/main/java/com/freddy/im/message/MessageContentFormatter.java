@@ -172,7 +172,7 @@ public final class MessageContentFormatter {
                                               @Nullable String currentUserId,
                                               int lastMsgType) {
         return formatSessionPreview(content, contentType, lastMessageContent, lastCustomInfo,
-                currentUserId, null, lastMsgType, MessageRepealHelper.STATUS_NORMAL);
+                currentUserId, null, lastMsgType, MessageRepealHelper.STATUS_NORMAL,false);
     }
 
     @NonNull

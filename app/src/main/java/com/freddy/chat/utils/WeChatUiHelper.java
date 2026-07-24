@@ -72,7 +72,9 @@ public final class WeChatUiHelper {
         return session.getIcon().trim();
     }
 
-    /** 单聊对方展示名（优先 sessionName，用于系统消息 ${userId} 占位符替换）。 */
+    /**
+     * 单聊对方展示名（优先 sessionName，用于系统消息 ${userId} 占位符替换）。
+     */
     @NonNull
     public static String resolvePeerDisplayName(@Nullable SessionItem session) {
         if (session == null) {
@@ -135,7 +137,9 @@ public final class WeChatUiHelper {
         return MessageRepealHelper.isRecalled(message);
     }
 
-    /** 撤回消息展示文案（含 ${uid} 占位，由 nameMap / currentUserId 替换）。 */
+    /**
+     * 撤回消息展示文案（含 ${uid} 占位，由 nameMap / currentUserId 替换）。
+     */
     @NonNull
     public static String formatRecallDisplay(@NonNull AppMessage message,
                                              @Nullable String currentUserId,
@@ -149,7 +153,7 @@ public final class WeChatUiHelper {
                 currentUserId,
                 userIdToDisplayName,
                 0,
-                MessageRepealHelper.STATUS_RECALLED);
+                MessageRepealHelper.STATUS_RECALLED, false);
     }
 
     public static boolean isVoiceMessage(int msgContentType) {
@@ -234,18 +238,6 @@ public final class WeChatUiHelper {
         return MessageContentFormatter.formatDisplayText(message, currentUserId, userIdToDisplayName);
     }
 
-    @NonNull
-    public static String formatSessionPreview(@NonNull SessionItem session) {
-        boolean groupChat = session.getConversation() == MessageType.GROUP_CHAT.getMsgType();
-        return MessageContentFormatter.formatSessionPreview(
-                session.getLastMessageContent(),
-                session.getLastContentType(),
-                session.getLastMessageContent(),
-                session.getLastCustomInfo(),
-                null,
-                session.getLastMsgType(),
-                groupChat);
-    }
 
     /**
      * 会话列表预览：传入当前用户与群成员昵称，避免撤回等系统文案显示裸 userId。
@@ -262,7 +254,7 @@ public final class WeChatUiHelper {
                 currentUserId,
                 nameMap,
                 session.getLastMsgType(),
-                session.getLastMessageStatus());
+                session.getLastMessageStatus(), false);
     }
 
     @NonNull
