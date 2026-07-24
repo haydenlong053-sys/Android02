@@ -53,7 +53,8 @@ public final class CallMessageVH extends BaseMessageVH {
         }
         callTextView.setTextColor(textColor);
         ImageViewCompat.setImageTintList(callIconView, ColorStateList.valueOf(iconColor));
-        callTextView.setText(MessageContentFormatter.formatCallDisplayText(content, sentByMe));
+        callTextView.setText(MessageContentFormatter.formatCallDisplayText(
+                content, sentByMe, context.currentUserId, context.isGroupChat));
 
         reorderCallChildren(sentByMe);
     }

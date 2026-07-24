@@ -210,12 +210,14 @@ public final class WeChatUiHelper {
 
     @NonNull
     public static String formatSessionPreview(@NonNull SessionItem session) {
+        boolean groupChat = session.getConversation() == MessageType.GROUP_CHAT.getMsgType();
         return MessageContentFormatter.formatSessionPreview(
                 session.getLastMessageContent(),
                 session.getLastContentType(),
                 session.getLastMessageContent(),
                 session.getLastCustomInfo(),
                 null,
-                session.getLastMsgType());
+                session.getLastMsgType(),
+                groupChat);
     }
 }
