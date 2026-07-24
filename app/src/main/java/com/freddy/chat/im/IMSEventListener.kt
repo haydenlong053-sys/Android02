@@ -105,22 +105,38 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     }
 
                 }
+                // cmd=516 NEW_MSGSIG：新消息通知后刷新会话列表
+//                MessageProcessor.getInstance().notifyConversationList()
             } catch (e: Exception) {
                 e.toLog(tAG + "_解析 NewMsgSignal 失败")
             }
         }
 
-        // 群变更：0x0101 GroupChangeSig.groupList → 拉群详情 → 入库 → 通知 UI
-        else if (push.header.cmd == ImSignalProtos.Cmd.GROUP_CHANGE_VALUE && push.hasBody()) {
+        // 群变更：0x0101 / cmd=257 GroupChangeSig.groupList → 拉群详情 → 入库 → 更新群会话列表
+        else if (push.header.cmd == ImSignalProtos.Cmd.GROUP_CHANGE_VALUE) {
             try {
-                val sig = GroupChangeSig.parseFrom(
-                    push.body.toByteArray()
-                )
-                val groupList: MutableList<String?> = sig.groupListList
-                eLogD(tAG, "GROUP_CHANGE groupList size=" + (groupList.size))
-                ImGroupChangeManager.getInstance().handleGroupChange(groupList) { sessions: MutableList<SessionItem?>? -> MessageProcessor.getInstance().notifySessionsUpdated(sessions) }
-            } catch (e: java.lang.Exception) {
+                if (!push.hasBody()) {
+                    eLogD(tAG, "GROUP_CHANGE(cmd=257) 无 body，直接刷新会话列表")
+                    MessageProcessor.getInstance().notifyConversationList()
+                    return
+                }
+                val sig = GroupChangeSig.parseFrom(push.body.toByteArray())
+                val groupList = sig.groupListList.filterNotNull().filter { it.isNotEmpty() }
+                eLogD(tAG, "GROUP_CHANGE(cmd=257) groupList size=${groupList.size}")
+                if (groupList.isEmpty()) {
+                    MessageProcessor.getInstance().notifyConversationList()
+                    return
+                }
+                ImGroupChangeManager.getInstance().handleGroupChange(groupList) { sessions ->
+                    if (!sessions.isNullOrEmpty()) {
+                        MessageProcessor.getInstance().notifySessionsUpdated(sessions)
+                    }
+                    // 再拉全量会话列表，确保群会话页完整刷新
+                    MessageProcessor.getInstance().notifyConversationList()
+                }
+            } catch (e: Exception) {
                 eLogD(tAG, "解析 GroupChangeSig 失败", e)
+                MessageProcessor.getInstance().notifyConversationList()
             }
         }
 
