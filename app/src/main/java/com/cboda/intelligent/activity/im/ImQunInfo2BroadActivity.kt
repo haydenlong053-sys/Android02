@@ -25,10 +25,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ActivityUtils
 import com.cboda.baselibrary.common.MyEventCodeEnum
 import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.APP_IM_TAG
 import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.click
+import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.groupDataLiveData
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.showAbsentKickTip
@@ -359,8 +361,8 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             mTvNoticeDes.isVisible = true
             mTvNoticeDes.text = state.noticeContent
         }
-
-        mAdapter?.setList(ImGroupMemberUiMapper.buildGridItems(state.members, myRole))
+        val isOpenGroupInviteFunc = (vo.allowMemberInvite == 1)
+        mAdapter?.setList(ImGroupMemberUiMapper.buildGridItems(state.members, myRole,isOpenGroupInviteFunc))
 
         mScAbsentKick.isChecked = vo.busiExt?.openAbsentKick == "1"
         val limit = vo.busiExt?.absentKickLimit?.toString()?.takeIf { it.isNotBlank() } ?: "5"
@@ -374,13 +376,13 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
         val busi = vo.busiExt
         yaoqinghaioyu.isChecked = busi?.openQyyq == "1" ||
-                (busi?.openQyyq.isNullOrEmpty() && vo.allowMemberInvite == "1")
+                (busi?.openQyyq.isNullOrEmpty() && vo.allowMemberInvite == 1)
 
         jinqunjiaoyan.isChecked = busi?.openQyyz == "1" ||
-                (busi?.openQyyz.isNullOrEmpty() && vo.joinNeedVerify == "1")
+                (busi?.openQyyz.isNullOrEmpty() && vo.joinNeedVerify == 1)
         qunzhumingpian.isChecked = busi?.openQzts == "1"
         ruqunyanz.isChecked = busi?.openQygl == "1" ||
-                (busi?.openQygl.isNullOrEmpty() && vo.joinNeedVerify == "1")
+                (busi?.openQygl.isNullOrEmpty() && vo.joinNeedVerify == 1)
         wufajiahaoyou.isChecked = busi?.openQysl == "1"
         kejianguanli.isChecked = busi?.openQykj == "1"
         jiangetime = (busi?.jiange ?: 0).coerceAtLeast(0)
@@ -520,7 +522,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                         runOnUiThread {
                             yaoqinghaioyu.isChecked = targetAllow == 1
                             val flag = if (targetAllow == 1) "1" else "0"
-                            groupVo?.allowMemberInvite = flag
+                            groupVo?.allowMemberInvite = anyToInt(flag)
                             groupVo?.ensureBusiExt()?.openQyyq = flag
                         }
                     }
@@ -555,7 +557,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                         runOnUiThread {
                             ruqunyanz.isChecked = targetVerify == 1
                             val flag = if (targetVerify == 1) "1" else "0"
-                            groupVo?.joinNeedVerify = flag
+                            groupVo?.joinNeedVerify = anyToInt(flag)
                             groupVo?.ensureBusiExt()?.openQygl = flag
                         }
                     }

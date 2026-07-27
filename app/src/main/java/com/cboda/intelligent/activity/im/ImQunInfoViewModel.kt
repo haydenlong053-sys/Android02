@@ -8,6 +8,7 @@ import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
+import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.utils.dismissLoading
 import com.cboda.intelligent.utils.showLoading
@@ -313,11 +314,11 @@ class ImQunInfoViewModel : BaseViewModel() {
             when (key) {
                 "openQyyq" -> {
                     ext.openQyyq = value
-                    vo.allowMemberInvite = value
+                    vo.allowMemberInvite = anyToInt(value)
                 }
                 "openQyyz" -> {
                     ext.openQyyz = value
-                    vo.joinNeedVerify = value
+                    vo.joinNeedVerify = anyToInt(value)
                 }
                 "openQzts" -> ext.openQzts = value
                 "openQygl" -> ext.openQygl = value

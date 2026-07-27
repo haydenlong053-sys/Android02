@@ -24,8 +24,8 @@ public class GroupVo implements java.io.Serializable {
     /** 全员禁言：0 未开启，1 开启（群详情接口返回） */
     private int allMute;
     private List<String> managerIds;
-    private String allowMemberInvite;
-    private String joinNeedVerify;
+    private int allowMemberInvite;
+    private int joinNeedVerify;
     /** 业务扩展（缺席踢人、商城、群规模 gsize 等） */
     private GroupBusiExt busiExt;
 
@@ -114,19 +114,19 @@ public class GroupVo implements java.io.Serializable {
         this.managerIds = managerIds;
     }
 
-    public String getAllowMemberInvite() {
+    public int getAllowMemberInvite() {
         return allowMemberInvite;
     }
 
-    public void setAllowMemberInvite(String allowMemberInvite) {
+    public void setAllowMemberInvite(int allowMemberInvite) {
         this.allowMemberInvite = allowMemberInvite;
     }
 
-    public String getJoinNeedVerify() {
+    public int getJoinNeedVerify() {
         return joinNeedVerify;
     }
 
-    public void setJoinNeedVerify(String joinNeedVerify) {
+    public void setJoinNeedVerify(int joinNeedVerify) {
         this.joinNeedVerify = joinNeedVerify;
     }
 
