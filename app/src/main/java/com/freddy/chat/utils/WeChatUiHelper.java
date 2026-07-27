@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.cboda.baselibrary.utils.RealmUtil;
 import com.freddy.im.MessageType;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.db.ImLocalStore;
@@ -73,12 +74,29 @@ public final class WeChatUiHelper {
     }
 
     /**
-     * 单聊对方展示名（优先 sessionName，用于系统消息 ${userId} 占位符替换）。
+     * 单聊对方展示名：本地好友备注 &gt; 昵称 &gt; sessionName &gt; username &gt; oppositeUserId。
+     * 群聊请勿依赖此方法（应使用群名 / 成员 displayName）。
      */
     @NonNull
     public static String resolvePeerDisplayName(@Nullable SessionItem session) {
+        return resolvePeerDisplayName(session, null);
+    }
+
+    /**
+     * @param currentUserId 用于从 {@code sessionId}（a!b）拆对端；可为 null
+     */
+    @NonNull
+    public static String resolvePeerDisplayName(@Nullable SessionItem session,
+                                                @Nullable String currentUserId) {
         if (session == null) {
             return "";
+        }
+        if (MessageType.isSingleChat(session.getConversation())) {
+            String peerId = SessionDisplayEnricher.INSTANCE.resolvePeerUserId(session, currentUserId);
+            String friendName = RealmUtil.INSTANCE.findFriendDisplayName(peerId);
+            if (!TextUtils.isEmpty(friendName)) {
+                return friendName.trim();
+            }
         }
         if (!TextUtils.isEmpty(session.getSessionName())) {
             return session.getSessionName().trim();
@@ -88,6 +106,24 @@ public final class WeChatUiHelper {
         }
         if (!TextUtils.isEmpty(session.getOppositeUserId())) {
             return session.getOppositeUserId();
+        }
+        return "";
+    }
+
+    /**
+     * 会话列表标题：单聊走好友备注优先；群聊仍用 sessionName（群名）。
+     */
+    @NonNull
+    public static String resolveSessionListDisplayName(@Nullable SessionItem session,
+                                                       @Nullable String currentUserId) {
+        if (session == null) {
+            return "";
+        }
+        if (MessageType.isSingleChat(session.getConversation())) {
+            return resolvePeerDisplayName(session, currentUserId);
+        }
+        if (!TextUtils.isEmpty(session.getSessionName())) {
+            return session.getSessionName().trim();
         }
         return "";
     }
@@ -275,9 +311,14 @@ public final class WeChatUiHelper {
                 if (member != null && !TextUtils.isEmpty(member.getDisplayName())) {
                     map.put(uid, member.getDisplayName());
                 }
-            } else if (uid.equals(session.getOppositeUserId())
-                    && !TextUtils.isEmpty(session.getSessionName())) {
-                map.put(uid, session.getSessionName().trim());
+            } else {
+                String peerId = SessionDisplayEnricher.INSTANCE.resolvePeerUserId(session, null);
+                if (uid.equals(peerId) || uid.equals(session.getOppositeUserId())) {
+                    String peerName = resolvePeerDisplayName(session, null);
+                    if (!TextUtils.isEmpty(peerName)) {
+                        map.put(uid, peerName);
+                    }
+                }
             }
         }
         return map;

@@ -41,6 +41,30 @@ object RealmUtil {
         }
     }
 
+    /**
+     * 同步读取好友展示名：备注名 > 昵称；无好友或都为空时返回 null。
+     * 供会话列表 / 聊天标题等主线程 bind 使用，调用方勿长时间占用。
+     */
+    fun findFriendDisplayName(userId: String?): String? {
+        if (userId.isNullOrBlank()) {
+            return null
+        }
+        val realm = getRealm() ?: return null
+        try {
+            val data = realm.where(UserRealm::class.java)
+                .equalTo("id", userId)
+                .findFirst() ?: return null
+            val remark = data.remarkName?.trim().orEmpty()
+            if (remark.isNotEmpty()) {
+                return remark
+            }
+            val nick = data.nickName?.trim().orEmpty()
+            return nick.takeIf { it.isNotEmpty() }
+        } finally {
+            realm.close()
+        }
+    }
+
 
     fun addUserData(list: List<SocialContact>?, viewModelScope: CoroutineScope? = null) {
         list?.let {

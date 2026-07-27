@@ -55,6 +55,7 @@ import com.freddy.im.group.GroupRole;
 import com.cboda.intelligent.base.BaseSimple2BroadActivity;
 import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.freddy.chat.im.IMSClientBootstrap;
+import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.http.ImGroupHttpExample;
 import com.freddy.im.group.GroupMuteEvaluator;
 import com.freddy.im.http.model.im.GroupBusiExt;
@@ -514,7 +515,8 @@ public class MessageListActivity extends BaseSimple2BroadActivity
                     + getString(com.cboda.chatui.R.string.msg_person_unit) + ")";
             pageTitle.setText(sessionName);
         } else {
-            pageTitle.setText(sessionItem.getSessionName());
+            String currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
+            pageTitle.setText(WeChatUiHelper.resolvePeerDisplayName(sessionItem, currentUserId));
         }
     }
 

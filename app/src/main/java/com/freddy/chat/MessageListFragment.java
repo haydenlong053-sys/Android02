@@ -257,7 +257,8 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 IMSClientBootstrap.getInstance().getCurrentUserAvatarUrl(),
                 sessionId,
                 isGroupChat ? null : peerUserId,
-                isGroupChat ? null : WeChatUiHelper.resolvePeerDisplayName(sessionItem),
+                isGroupChat ? null : WeChatUiHelper.resolvePeerDisplayName(
+                        sessionItem, IMSClientBootstrap.getInstance().getCurrentUserId()),
                 this::resendFailedMessage);
         adapter.setMessageActions(this);
         adapter.setPortraitClickListener(userId ->
@@ -1364,7 +1365,8 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     private void launchForwardActivity(@NonNull List<AppMessage> messages,
                                        @NonNull List<String> msgIds,
                                        @NonNull ForwardMode mode) {
-        String peerName = isGroupChat ? null : WeChatUiHelper.resolvePeerDisplayName(sessionItem);
+        String peerName = isGroupChat ? null : WeChatUiHelper.resolvePeerDisplayName(
+                sessionItem, IMSClientBootstrap.getInstance().getCurrentUserId());
         startActivity(MessageForwardActivity.buildIntent(
                 requireContext(), msgIds, mode, sessionId, isGroupChat, peerName));
         if (isInMultiSelectMode()) {
