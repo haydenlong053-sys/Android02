@@ -158,6 +158,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:background="@color/bg_main1"
         android:layout_width="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible"
         android:layout_height="53dp">
 
         <TextView
