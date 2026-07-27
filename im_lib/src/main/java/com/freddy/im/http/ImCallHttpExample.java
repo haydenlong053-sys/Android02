@@ -30,7 +30,7 @@ import java.util.List;
 public final class ImCallHttpExample {
 
     private static final String TAG = "call_http";
-    private static final Gson GSON = new Gson();
+    private static final Gson GSON = ImGsonHelper.getGson();
 
     private ImCallHttpExample() {
     }

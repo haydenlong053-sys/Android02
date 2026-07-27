@@ -77,7 +77,7 @@ import okhttp3.Response;
 public final class ImMessageHttpExample {
 
     public static final String MY_TAG = "https_resp";
-    private static final Gson GSON = new Gson();
+    private static final Gson GSON = ImGsonHelper.getGson();
 
     private ImMessageHttpExample() {
     }

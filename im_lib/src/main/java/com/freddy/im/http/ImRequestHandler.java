@@ -39,7 +39,7 @@ import okhttp3.ResponseBody;
 public final class ImRequestHandler implements IRequestHandler {
 
     private final Application app;
-    private static final Gson GSON = new Gson();
+    private static final Gson GSON = ImGsonHelper.getGson();
 
     private final Gson gson = GSON;
 
