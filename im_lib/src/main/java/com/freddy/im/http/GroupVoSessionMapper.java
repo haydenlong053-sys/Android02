@@ -21,6 +21,19 @@ public final class GroupVoSessionMapper {
     public static SessionItem toSessionItem(@NonNull GroupVo group,
                                             @Nullable SessionItem existing,
                                             @Nullable String fallbackGroupId) {
+        // 默认写入远端 memChgTime（全量/增量成员同步成功后使用）
+        return toSessionItem(group, existing, fallbackGroupId, true);
+    }
+
+    /**
+     * @param applyRemoteMemChgTime {@code false} 时保留本地水位，避免仅拉群详情就抬高
+     *                              {@code memChgTime}（成员尚未对齐）
+     */
+    @NonNull
+    public static SessionItem toSessionItem(@NonNull GroupVo group,
+                                            @Nullable SessionItem existing,
+                                            @Nullable String fallbackGroupId,
+                                            boolean applyRemoteMemChgTime) {
         SessionItem item = new SessionItem();
         String groupId = !TextUtils.isEmpty(group.getId()) ? group.getId() : fallbackGroupId;
         if (groupId == null) {
@@ -35,7 +48,13 @@ public final class GroupVoSessionMapper {
         item.setConversation(conversation);
         item.setIcon(group.getIcon());
         item.setMemCount(group.getMemCount());
-        item.setMemChgTime(group.getMemChgTime());
+        if (applyRemoteMemChgTime) {
+            item.setMemChgTime(group.getMemChgTime());
+        } else if (existing != null) {
+            item.setMemChgTime(existing.getMemChgTime());
+        } else {
+            item.setMemChgTime(0L);
+        }
         item.setOppositeUserId(group.getOppositeUserId());
         item.setOwerId(group.getOwerId());
 
@@ -69,7 +88,9 @@ public final class GroupVoSessionMapper {
             if (TextUtils.isEmpty(item.getOwerId()) && !TextUtils.isEmpty(existing.getOwerId())) {
                 item.setOwerId(existing.getOwerId());
             }
-            if (item.getMemChgTime() <= 0L && existing.getMemChgTime() > 0L) {
+            if (applyRemoteMemChgTime
+                    && item.getMemChgTime() <= 0L
+                    && existing.getMemChgTime() > 0L) {
                 item.setMemChgTime(existing.getMemChgTime());
             }
         }

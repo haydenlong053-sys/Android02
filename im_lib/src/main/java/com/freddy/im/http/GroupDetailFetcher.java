@@ -69,7 +69,8 @@ public final class GroupDetailFetcher {
             public void onHttpImSuccess(@NonNull GroupVo group) {
                 String sessionId = !TextUtils.isEmpty(group.getId()) ? group.getId() : groupId;
                 SessionItem existing = ImSessionRepository.getInstance().queryBySessionId(sessionId);
-                SessionItem item = GroupVoSessionMapper.toSessionItem(group, existing, groupId);
+                // 仅刷新会话展示字段；不抬 memChgTime（水位仅在成员全量/增量成功后写入）
+                SessionItem item = GroupVoSessionMapper.toSessionItem(group, existing, groupId, false);
                 accumulated.put(sessionId, item);
                 fetchSequential(groupIds, index + 1, accumulated, listener);
             }

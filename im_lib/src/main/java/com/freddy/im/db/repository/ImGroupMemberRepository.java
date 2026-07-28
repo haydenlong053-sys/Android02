@@ -53,7 +53,7 @@ public final class ImGroupMemberRepository {
                                 || TextUtils.isEmpty(item.getUserId())) {
                             continue;
                         }
-                        item.setDeleted(false);
+                        // 保留 item.deleted（增量 delFlag=1 软删；全量页默认 false）
                         r.copyToRealmOrUpdate(GroupMemberRealmMapper.toEntity(item));
                     }
                 });
