@@ -25,6 +25,7 @@ import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.chat.event.Events;
 import com.freddy.chat.event.I_CEventListener;
 import com.freddy.chat.group.GroupListActivity;
+import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.ImConversationHttpExample;
 import com.freddy.im.http.ImMessageHttpExample;
@@ -209,9 +210,14 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
         if (TextUtils.isEmpty(sessionId)) {
             return;
         }
+        String currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
+        String displayName = WeChatUiHelper.resolveSessionListDisplayName(sessionItem, currentUserId);
+        if (TextUtils.isEmpty(displayName)) {
+            displayName = getString(R.string.conversation_name_fallback);
+        }
         new AlertDialog.Builder(requireContext())
                 .setTitle(R.string.remove_conversation_title)
-                .setMessage(getString(R.string.remove_conversation_message, sessionId))
+                .setMessage(getString(R.string.remove_conversation_message, displayName))
                 .setPositiveButton(R.string.action_remove, (d, which) -> removeConversation(sessionId))
                 .setNegativeButton(R.string.action_cancel, null)
                 .show();

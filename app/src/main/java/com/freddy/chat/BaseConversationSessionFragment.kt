@@ -17,6 +17,7 @@ import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.viewmodel.ConversationParentViewModel
 import com.freddy.chat.im.IMSClientBootstrap
 import com.freddy.chat.utils.SessionDisplayEnricher
+import com.freddy.chat.utils.WeChatUiHelper
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.http.ImConversationHttpExample
 import com.freddy.im.http.ImMessageHttpExample
@@ -185,9 +186,14 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         if (TextUtils.isEmpty(sessionId)) {
             return
         }
+        val currentUserId = IMSClientBootstrap.getInstance().currentUserId
+        var displayName = WeChatUiHelper.resolveSessionListDisplayName(session, currentUserId)
+        if (TextUtils.isEmpty(displayName)) {
+            displayName = getString(R.string.conversation_name_fallback)
+        }
         AlertDialog.Builder(requireContext())
             .setTitle(R.string.remove_conversation_title)
-            .setMessage(getString(R.string.remove_conversation_message, sessionId))
+            .setMessage(getString(R.string.remove_conversation_message, displayName))
             .setPositiveButton(R.string.action_remove) { _, _ -> removeConversation(sessionId) }
             .setNegativeButton(R.string.action_cancel, null)
             .show()
