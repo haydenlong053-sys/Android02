@@ -20,6 +20,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import io.realm.Realm;
+import io.realm.Sort;
 
 /**
  * 群成员表读写（含软删除）。
@@ -224,7 +225,7 @@ public final class ImGroupMemberRepository {
     }
 
     /**
-     * 分页查询未删除成员，按 {@code joinTime} 升序。
+     * 分页查询未删除成员，按身份升序（群主0 &gt; 管理员1 &gt; 普通成员2），同身份再按 {@code joinTime}。
      *
      * @param ownerOrAdminOnly true 时仅返回群主 / 管理员（role=0/1）
      */
@@ -245,7 +246,9 @@ public final class ImGroupMemberRepository {
             if (ownerOrAdminOnly) {
                 query = query.in("role", new Integer[]{GroupRole.OWNER, GroupRole.ADMIN});
             }
-            List<GroupMemberEntity> results = query.sort("joinTime").findAll();
+            List<GroupMemberEntity> results = query
+                    .sort(new String[]{"role", "joinTime"}, new Sort[]{Sort.ASCENDING, Sort.ASCENDING})
+                    .findAll();
             if (safeOffset >= results.size()) {
                 return Collections.emptyList();
             }
