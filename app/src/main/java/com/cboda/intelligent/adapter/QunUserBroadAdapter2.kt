@@ -14,12 +14,12 @@ class QunUserBroadAdapter2(layoutResId: Int) :
     override fun convert(holder: BaseViewHolder, item: CommonDataListBroadBean.CommonBean) {
         when (item.type) {
             "add" -> {
-//                holder.setGone(R.id.tvshenfen,true)
+                holder.setGone(R.id.tvshenfen, true)
                 holder.setText(R.id.tvusername, context.getString(R.string.tianjaiuaer))
                 holder.setImageResource(R.id.ivTouxiang, R.mipmap.ic_add_qun_broad_user2)
             }
             "remove" -> {
-//                holder.setGone(R.id.tvshenfen, true)
+                holder.setGone(R.id.tvshenfen, true)
                 holder.setText(R.id.tvusername, context.getString(R.string.yichuuser))
                 holder.setImageResource(R.id.ivTouxiang, R.mipmap.ic_yichu_qun_broad_user2)
             }
@@ -33,24 +33,27 @@ class QunUserBroadAdapter2(layoutResId: Int) :
                     com.cboda.baselibrary.R.mipmap.ic_head_broad_defaut
                 )
 
-//                if(item.type == "1"){
-//                    holder.setGone(R.id.tvshenfen,false)
-//                    holder.getView<ShapeTextBroadView>(R.id.tvshenfen)?.shapeBuilder?.
-//                            setShapeSolidColor(Color.parseColor("#FFF2E4"))?.
-//                            into(holder.getView<ShapeTextBroadView>(R.id.tvshenfen))
-//                    holder.getView<ShapeTextBroadView>(R.id.tvshenfen)?.setTextColor(Color.parseColor("#F99D3A"))
-//                    holder.getView<ShapeTextBroadView>(R.id.tvshenfen)?.text = context.getString(R.string.qunzhushenfen)
-//                } else if (item.type == "2"){
-//                    holder.setGone(R.id.tvshenfen,false)
-//                    holder.getView<ShapeTextBroadView>(R.id.tvshenfen)?.shapeBuilder?.
-//                    setShapeSolidColor(Color.parseColor("#D4FFE6"))?.
-//                    into(holder.getView<ShapeTextBroadView>(R.id.tvshenfen))
-//                    holder.getView<ShapeTextBroadView>(R.id.tvshenfen)?.setTextColor(Color.parseColor("#20C064"))
-//                    holder.getView<ShapeTextBroadView>(R.id.tvshenfen)?.text = context.getString(R.string.qunguanlishenfen)
-//
-//                } else {
-//                    holder.setGone(R.id.tvshenfen,true)
-//                }
+                if (item.type == "1") {
+                    holder.setGone(R.id.tvshenfen, false)
+                    holder.getView<ShapeTextBroadView>(R.id.tvshenfen)?.shapeBuilder
+                        ?.setShapeSolidColor(Color.parseColor("#FFF2E4"))
+                        ?.into(holder.getView(R.id.tvshenfen))
+                    holder.getView<ShapeTextBroadView>(R.id.tvshenfen)
+                        ?.setTextColor(Color.parseColor("#F99D3A"))
+                    holder.getView<ShapeTextBroadView>(R.id.tvshenfen)?.text =
+                        context.getString(R.string.qunzhushenfen)
+                } else if (item.type == "2") {
+                    holder.setGone(R.id.tvshenfen, false)
+                    holder.getView<ShapeTextBroadView>(R.id.tvshenfen)?.shapeBuilder
+                        ?.setShapeSolidColor(Color.parseColor("#D4FFE6"))
+                        ?.into(holder.getView(R.id.tvshenfen))
+                    holder.getView<ShapeTextBroadView>(R.id.tvshenfen)
+                        ?.setTextColor(Color.parseColor("#20C064"))
+                    holder.getView<ShapeTextBroadView>(R.id.tvshenfen)?.text =
+                        context.getString(R.string.qunguanlishenfen)
+                } else {
+                    holder.setGone(R.id.tvshenfen, true)
+                }
             }
         }
     }
