@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.cboda.baselibrary.bean.UserInfoBean;
+import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.freddy.im.http.api.CallStartApi;
 import com.freddy.im.http.api.CallTokenApi;
@@ -130,6 +131,8 @@ public final class ImCallHttpExample {
                         if (!result.isSuccess()) {
                             Log.e(TAG, "startCall 业务错误: errorCode=" + result.getErrorCode()
                                     + " msg=" + result.getErrorMsg());
+                            String msg = result.getErrorMsg();
+                            ToastBroadUtils.show(TextUtils.isEmpty(msg) ? "发起通话失败" : msg);
                             if (onFail != null) {
                                 onFail.run();
                             }
@@ -138,6 +141,7 @@ public final class ImCallHttpExample {
                         CallTokenContent content = resolveContent(result.getContent());
                         if (content == null || TextUtils.isEmpty(content.getToken())) {
                             Log.e(TAG, "startCall content 或 token 为空");
+                            ToastBroadUtils.show("发起通话失败");
                             if (onFail != null) {
                                 onFail.run();
                             }
@@ -149,6 +153,8 @@ public final class ImCallHttpExample {
                     @Override
                     public void onHttpFail(@NonNull Throwable throwable) {
                         Log.e(TAG, "startCall 请求失败: " + throwable.getMessage());
+                        String msg = throwable.getMessage();
+                        ToastBroadUtils.show(TextUtils.isEmpty(msg) ? "发起通话失败" : msg);
                         if (onFail != null) {
                             onFail.run();
                         }

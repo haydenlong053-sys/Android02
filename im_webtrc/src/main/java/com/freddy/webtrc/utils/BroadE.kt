@@ -98,7 +98,7 @@ object BroadE {
                     }
                 },
                 {
-                    ToastBroadUtils.show(R.string.call_network_error2)
+                    // 业务/网络错误已在 ImCallHttpExample.requestCallStart 中 Toast 接口返回文案
                 }
             )
         }

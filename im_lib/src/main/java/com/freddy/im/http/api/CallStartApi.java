@@ -7,13 +7,17 @@ import com.hjq.http.config.IRequestApi;
 import java.util.ArrayList;
 import java.util.List;
 
-/** POST {@code call/start}：发起通话。 */
+/**
+ * POST {@code call/start}：发起通话。
+ */
 public final class CallStartApi implements IRequestApi {
 
     private List<String> toUserIds;    // 必填:被邀请者
     private String mediaType;          // audio / video,默认 audio
     private String fromUsername;       // 发起人展示名(选填)
     private String fromUserIcon;       // 发起人头像(选填)
+
+    private String groupId;
 
     @NonNull
     @Override
