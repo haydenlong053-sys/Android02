@@ -116,7 +116,10 @@ public final class MessageContentFormatter {
                     && TextUtils.equals(currentUserId, message.getFromId());
             boolean groupCall = MessageType.isGroupChat(message.getMsgType())
                     || isGroupCallContent(message.getContent());
-            return formatCallDisplayText(message.getContent(), sentByMe, currentUserId, groupCall);
+            String initiatorName = resolveCallInitiatorName(
+                    message.getContent(), message.getFromId(), currentUserId, userIdToDisplayName);
+            return formatCallDisplayText(
+                    message.getContent(), sentByMe, currentUserId, groupCall, initiatorName);
         }
         int type = message.getMsgContentType();
         if (isVoiceMessage(type)) {
@@ -161,7 +164,7 @@ public final class MessageContentFormatter {
                                               @Nullable String lastCustomInfo,
                                               @Nullable String currentUserId) {
         return formatSessionPreview(content, contentType, lastMessageContent, lastCustomInfo,
-                currentUserId, null, 0, MessageRepealHelper.STATUS_NORMAL,false);
+                currentUserId, null, 0, MessageRepealHelper.STATUS_NORMAL, false, null);
     }
 
     @NonNull
@@ -172,7 +175,7 @@ public final class MessageContentFormatter {
                                               @Nullable String currentUserId,
                                               int lastMsgType) {
         return formatSessionPreview(content, contentType, lastMessageContent, lastCustomInfo,
-                currentUserId, null, lastMsgType, MessageRepealHelper.STATUS_NORMAL,false);
+                currentUserId, null, lastMsgType, MessageRepealHelper.STATUS_NORMAL, false, null);
     }
 
     @NonNull
@@ -184,7 +187,8 @@ public final class MessageContentFormatter {
                                               @Nullable Map<String, String> userIdToDisplayName,
                                               int lastMsgType) {
         return formatSessionPreview(content, contentType, lastMessageContent, lastCustomInfo,
-                currentUserId, userIdToDisplayName, lastMsgType, MessageRepealHelper.STATUS_NORMAL,false);
+                currentUserId, userIdToDisplayName, lastMsgType, MessageRepealHelper.STATUS_NORMAL,
+                false, null);
     }
 
     @NonNull
@@ -197,6 +201,21 @@ public final class MessageContentFormatter {
                                               int lastMsgType,
                                               int lastMessageStatus,
                                               boolean groupChat) {
+        return formatSessionPreview(content, contentType, lastMessageContent, lastCustomInfo,
+                currentUserId, userIdToDisplayName, lastMsgType, lastMessageStatus, groupChat, null);
+    }
+
+    @NonNull
+    public static String formatSessionPreview(@Nullable String content,
+                                              @Nullable String contentType,
+                                              @Nullable String lastMessageContent,
+                                              @Nullable String lastCustomInfo,
+                                              @Nullable String currentUserId,
+                                              @Nullable Map<String, String> userIdToDisplayName,
+                                              int lastMsgType,
+                                              int lastMessageStatus,
+                                              boolean groupChat,
+                                              @Nullable String lastFromUserId) {
         // 撤回优先：不依赖 contentType，避免图片/语音等快捷分支盖过撤回文案
         if (MessageRepealHelper.isRecalled(lastMessageStatus)) {
             String raw = !TextUtils.isEmpty(lastMessageContent) ? lastMessageContent : content;
@@ -218,11 +237,19 @@ public final class MessageContentFormatter {
         }
         if (isCallMessageContent(content) || isCallMessageContent(lastMessageContent)) {
             String callRaw = isCallMessageContent(content) ? content : lastMessageContent;
-            return formatCallDisplayText(callRaw, false, currentUserId, groupChat);
+            boolean sentByMe = !TextUtils.isEmpty(currentUserId)
+                    && TextUtils.equals(currentUserId, lastFromUserId);
+            String initiatorName = resolveCallInitiatorName(
+                    callRaw, lastFromUserId, currentUserId, userIdToDisplayName);
+            return formatCallDisplayText(callRaw, sentByMe, currentUserId, groupChat, initiatorName);
         }
         if (groupChat && isPlainCallDescPreview(content, lastMessageContent)) {
             String previewRaw = !TextUtils.isEmpty(content) ? content : lastMessageContent;
-            return previewRaw != null && previewRaw.contains("视频") ? "视频通话" : "语音通话";
+            boolean sentByMe = !TextUtils.isEmpty(currentUserId)
+                    && TextUtils.equals(currentUserId, lastFromUserId);
+            String initiatorName = resolveCallInitiatorName(
+                    previewRaw, lastFromUserId, currentUserId, userIdToDisplayName);
+            return formatGroupCallDisplayText(previewRaw, initiatorName, sentByMe);
         }
         if (isVoiceMessage(type)) {
             return "[语音]";
@@ -428,7 +455,7 @@ public final class MessageContentFormatter {
     }
 
     /**
-     * 1v1 通话记录展示文案（区分自己 / 对方）；群通话对齐微信，仅展示「语音通话 / 视频通话」。
+     * 1v1 通话记录展示文案（区分自己 / 对方）；群通话仅展示「谁发起了语音/视频通话」。
      * <p>
      * 忙线优先顺序：显式 status（remote_busy / local_busy）→ content 角色字段 →
      * desc「忙线未接听」→ {@code sentByMe}（共享一条时 fromId 通常为主叫）。
@@ -445,14 +472,14 @@ public final class MessageContentFormatter {
      */
     @NonNull
     public static String formatCallDisplayText(@Nullable String raw, boolean sentByMe) {
-        return formatCallDisplayText(raw, sentByMe, null, isGroupCallContent(raw));
+        return formatCallDisplayText(raw, sentByMe, null, isGroupCallContent(raw), null);
     }
 
     @NonNull
     public static String formatCallDisplayText(@Nullable String raw,
                                               boolean sentByMe,
                                               @Nullable String currentUserId) {
-        return formatCallDisplayText(raw, sentByMe, currentUserId, isGroupCallContent(raw));
+        return formatCallDisplayText(raw, sentByMe, currentUserId, isGroupCallContent(raw), null);
     }
 
     @NonNull
@@ -460,8 +487,17 @@ public final class MessageContentFormatter {
                                               boolean sentByMe,
                                               @Nullable String currentUserId,
                                               boolean groupCall) {
+        return formatCallDisplayText(raw, sentByMe, currentUserId, groupCall, null);
+    }
+
+    @NonNull
+    public static String formatCallDisplayText(@Nullable String raw,
+                                              boolean sentByMe,
+                                              @Nullable String currentUserId,
+                                              boolean groupCall,
+                                              @Nullable String initiatorName) {
         if (groupCall || isGroupCallContent(raw)) {
-            return formatGroupCallDisplayText(raw);
+            return formatGroupCallDisplayText(raw, initiatorName, sentByMe);
         }
         JsonObject obj = parseJsonObject(raw);
         if (obj == null) {
@@ -523,11 +559,76 @@ public final class MessageContentFormatter {
     }
 
     /**
-     * 群通话记录文案（对齐微信）：不区分取消/忙线/未接等，仅展示「语音通话 / 视频通话」。
+     * 群通话记录文案：不区分取消/忙线/未接等，仅展示「谁发起了语音/视频通话」。
      */
     @NonNull
     public static String formatGroupCallDisplayText(@Nullable String raw) {
-        return isCallVideoMedia(raw) ? "视频通话" : "语音通话";
+        return formatGroupCallDisplayText(raw, null, false);
+    }
+
+    @NonNull
+    public static String formatGroupCallDisplayText(@Nullable String raw,
+                                                    @Nullable String initiatorName,
+                                                    boolean sentByMe) {
+        String media = isCallVideoMedia(raw) ? "视频通话" : "语音通话";
+        if (sentByMe) {
+            return "你发起了" + media;
+        }
+        String name = initiatorName;
+        if (TextUtils.isEmpty(name)) {
+            JsonObject obj = parseJsonObject(raw);
+            if (obj != null) {
+                name = firstCallString(obj,
+                        "fromUsername", "fromUserName", "callerName", "initiatorName");
+            }
+        }
+        if (!TextUtils.isEmpty(name)) {
+            return name + "发起了" + media;
+        }
+        return "发起了" + media;
+    }
+
+    /** 从通话 content JSON 中读取主叫 userId（会话预览无本地消息时兜底）。 */
+    @Nullable
+    public static String extractCallCallerUserId(@Nullable String raw) {
+        JsonObject obj = parseJsonObject(raw);
+        if (obj == null) {
+            return null;
+        }
+        return firstCallString(obj,
+                "callerId", "caller", "initiator", "inviterId", "fromId", "fromUserId");
+    }
+
+    @Nullable
+    private static String resolveCallInitiatorName(@Nullable String raw,
+                                                   @Nullable String fromId,
+                                                   @Nullable String currentUserId,
+                                                   @Nullable Map<String, String> userIdToDisplayName) {
+        if (!TextUtils.isEmpty(fromId) && userIdToDisplayName != null) {
+            String mapped = userIdToDisplayName.get(fromId);
+            if (!TextUtils.isEmpty(mapped)) {
+                return mapped;
+            }
+        }
+        JsonObject obj = parseJsonObject(raw);
+        if (obj != null) {
+            String callerId = firstCallString(obj,
+                    "callerId", "caller", "initiator", "inviterId", "fromId", "fromUserId");
+            if (!TextUtils.isEmpty(callerId)
+                    && userIdToDisplayName != null
+                    && !TextUtils.equals(callerId, currentUserId)) {
+                String mapped = userIdToDisplayName.get(callerId);
+                if (!TextUtils.isEmpty(mapped)) {
+                    return mapped;
+                }
+            }
+            String name = firstCallString(obj,
+                    "fromUsername", "fromUserName", "callerName", "initiatorName");
+            if (!TextUtils.isEmpty(name)) {
+                return name;
+            }
+        }
+        return null;
     }
 
     /** content 内可识别为群/多人通话（如 groupId、多人 targetIds）。 */

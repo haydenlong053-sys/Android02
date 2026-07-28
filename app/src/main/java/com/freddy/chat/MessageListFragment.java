@@ -210,7 +210,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                     if (userIds == null || userIds.isEmpty()) {
                         return;
                     }
-                    BroadE.startCall(userIds, false, null, requireContext());
+                    BroadE.startCall(userIds, false, null, requireContext(), sessionId);
                 });
         sessionItem = SessionItemIntent.getSessionItem(getArguments());
         focusMsgId = SessionItemIntent.getFocusMsgId(getArguments());

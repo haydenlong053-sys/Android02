@@ -95,11 +95,19 @@ public final class ImCallHttpExample {
                                         @Nullable Runnable onFail) {
         List<String> idList = new ArrayList<>();
         idList.add(identity);
-        requestCallStart(idList, video, callback, onFail);
+        requestCallStart(idList, video, null, callback, onFail);
     }
 
     public static void requestCallStart(@NonNull List<String> toUserIds,
                                         boolean video,
+                                        @NonNull OnHttpImListener<CallTokenContent> callback,
+                                        @Nullable Runnable onFail) {
+        requestCallStart(toUserIds, video, null, callback, onFail);
+    }
+
+    public static void requestCallStart(@NonNull List<String> toUserIds,
+                                        boolean video,
+                                        @Nullable String groupId,
                                         @NonNull OnHttpImListener<CallTokenContent> callback,
                                         @Nullable Runnable onFail) {
         List<String> idList = new ArrayList<>();
@@ -120,9 +128,9 @@ public final class ImCallHttpExample {
                 .setToUserIds(idList)
                 .setFromUsername(userInfoBean.getName())
                 .setFromUserIcon(userInfoBean.getUserImg());
-//        if (!TextUtils.isEmpty(name)) {
-//            api.setName(name);
-//        }
+        if (!TextUtils.isEmpty(groupId)) {
+            api.setGroupId(groupId);
+        }
         EasyHttp.post(ApplicationLifecycle.getInstance())
                 .api(api)
                 .request(new OnHttpListener<BaseMsgResponse<CallTokenContent>>() {

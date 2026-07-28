@@ -9,6 +9,7 @@ import com.cboda.baselibrary.utils.RealmUtil;
 import com.freddy.im.MessageType;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.db.ImLocalStore;
+import com.freddy.im.db.repository.ImMessageRepository;
 import com.freddy.im.http.model.im.GroupMemberItem;
 import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.http.model.im.UserInfoItem;
@@ -16,6 +17,7 @@ import com.freddy.im.message.MessageContentFormatter;
 import com.freddy.im.message.MessageRepealHelper;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -281,7 +283,9 @@ public final class WeChatUiHelper {
     @NonNull
     public static String formatSessionPreview(@NonNull SessionItem session,
                                               @Nullable String currentUserId) {
-        Map<String, String> nameMap = buildSessionPreviewNameMap(session);
+        boolean groupChat = MessageType.isGroupChat(session.getConversation());
+        String lastFromUserId = resolveSessionLastFromUserId(session);
+        Map<String, String> nameMap = buildSessionPreviewNameMap(session, lastFromUserId);
         return MessageContentFormatter.formatSessionPreview(
                 session.getLastMessageContent(),
                 session.getLastContentType(),
@@ -290,18 +294,37 @@ public final class WeChatUiHelper {
                 currentUserId,
                 nameMap,
                 session.getLastMsgType(),
-                session.getLastMessageStatus(), false);
+                session.getLastMessageStatus(),
+                groupChat,
+                lastFromUserId);
+    }
+
+    @Nullable
+    private static String resolveSessionLastFromUserId(@NonNull SessionItem session) {
+        String lastMessageId = session.getLastMessageId();
+        if (!TextUtils.isEmpty(lastMessageId)) {
+            AppMessage last = ImMessageRepository.getInstance().queryByMsgId(lastMessageId);
+            if (last != null && !TextUtils.isEmpty(last.getFromId())) {
+                return last.getFromId();
+            }
+        }
+        return MessageContentFormatter.extractCallCallerUserId(session.getLastMessageContent());
     }
 
     @NonNull
-    private static Map<String, String> buildSessionPreviewNameMap(@NonNull SessionItem session) {
+    private static Map<String, String> buildSessionPreviewNameMap(@NonNull SessionItem session,
+                                                                  @Nullable String lastFromUserId) {
         Map<String, String> map = new HashMap<>();
         List<String> uids = MessageContentFormatter.extractPlaceholderUserIds(
                 session.getLastMessageContent());
+        boolean group = MessageType.isGroupChat(session.getConversation());
+        if (group && !TextUtils.isEmpty(lastFromUserId) && !uids.contains(lastFromUserId)) {
+            uids = new ArrayList<>(uids);
+            uids.add(lastFromUserId);
+        }
         if (uids.isEmpty()) {
             return map;
         }
-        boolean group = MessageType.isGroupChat(session.getConversation());
         for (String uid : uids) {
             if (TextUtils.isEmpty(uid)) {
                 continue;

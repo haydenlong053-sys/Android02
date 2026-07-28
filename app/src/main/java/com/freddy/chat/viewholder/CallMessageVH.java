@@ -11,9 +11,11 @@ import androidx.core.content.ContextCompat;
 import androidx.core.widget.ImageViewCompat;
 
 import android.content.res.ColorStateList;
+import android.text.TextUtils;
 
 import com.cboda.intelligent.R;
 import com.freddy.im.bean.AppMessage;
+import com.freddy.im.http.model.im.GroupMemberItem;
 import com.freddy.im.message.MessageContentFormatter;
 
 /**
@@ -53,8 +55,15 @@ public final class CallMessageVH extends BaseMessageVH {
         }
         callTextView.setTextColor(textColor);
         ImageViewCompat.setImageTintList(callIconView, ColorStateList.valueOf(iconColor));
+        String initiatorName = null;
+        if (context.isGroupChat && !TextUtils.isEmpty(message.getFromId())) {
+            GroupMemberItem member = context.resolveMember(message.getFromId());
+            if (member != null && !TextUtils.isEmpty(member.getDisplayName())) {
+                initiatorName = member.getDisplayName();
+            }
+        }
         callTextView.setText(MessageContentFormatter.formatCallDisplayText(
-                content, sentByMe, context.currentUserId, context.isGroupChat));
+                content, sentByMe, context.currentUserId, context.isGroupChat, initiatorName));
 
         reorderCallChildren(sentByMe);
     }

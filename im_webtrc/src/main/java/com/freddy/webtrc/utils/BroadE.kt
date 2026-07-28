@@ -57,22 +57,24 @@ object BroadE {
         id: String?,
         video: Boolean = false,
         scope: CoroutineScope? = null,
-        context: Context? = null
+        context: Context? = null,
+        groupId: String? = null
     ) {
         if (TextUtils.isEmpty(id)) {
             return
         }
-        startCall(listOf(id!!), video, scope, context)
+        startCall(listOf(id!!), video, scope, context, groupId)
     }
 
-    /** 发起通话（支持多被叫，如群聊选人后语音通话）。 */
+    /** 发起通话（支持多被叫，如群聊选人后语音通话）。群通话需传 [groupId]。 */
     @JvmOverloads
     @JvmStatic
     fun startCall(
         toUserIds: List<String>?,
         video: Boolean = false,
         scope: CoroutineScope? = null,
-        context: Context? = null
+        context: Context? = null,
+        groupId: String? = null
     ) {
         val ids = toUserIds?.filter { !it.isNullOrBlank() }.orEmpty()
         if (ids.isEmpty()) {
@@ -82,6 +84,7 @@ object BroadE {
             ImCallHttpExample.requestCallStart(
                 ids,
                 video,
+                groupId,
                 { result ->
                     if (!TextUtils.isEmpty(result.token) && !TextUtils.isEmpty(result.url)) {
                         CallActivity.startOutgoing(

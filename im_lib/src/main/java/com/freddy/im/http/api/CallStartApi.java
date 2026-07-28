@@ -44,4 +44,9 @@ public final class CallStartApi implements IRequestApi {
         this.fromUserIcon = fromUserIcon;
         return this;
     }
+
+    public CallStartApi setGroupId(String groupId) {
+        this.groupId = groupId;
+        return this;
+    }
 }

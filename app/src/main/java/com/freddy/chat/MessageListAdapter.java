@@ -473,7 +473,8 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
             return VIEW_TYPE_RECALL;
         }
         if (WeChatUiHelper.isCallMessage(message)) {
-            return VIEW_TYPE_CALL;
+            // 群聊通话：居中提示「谁发起了语音通话」，不走 1v1 气泡样式
+            return isGroupChat ? VIEW_TYPE_SYSTEM : VIEW_TYPE_CALL;
         }
         int contentType = message.getMsgContentType();
         if (WeChatUiHelper.isImageMessage(contentType)) {
