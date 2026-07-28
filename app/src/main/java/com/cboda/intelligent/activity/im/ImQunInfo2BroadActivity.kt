@@ -97,6 +97,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
+            // onResume 已因 skip 跳过 refreshMembers；此处 load 含一次 memberList
             viewModel?.load(qunId, currentUserId)
         }
     }
@@ -785,6 +786,8 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             ToastBroadUtils.show(getString(R.string.zhiyouqunzhuguanli))
             return
         }
+        // 返回时 onResume 常早于 ActivityResult；先置位避免与 load() 重复打 memberList
+        skipMembersRefreshOnResume = true
         val intent = Intent(this, ImQunMemberListBroadActivity::class.java).apply {
             putExtra("qunid", qunId)
             putExtra("fromPage", "selectNewOwner")
