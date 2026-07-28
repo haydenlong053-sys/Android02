@@ -7,6 +7,7 @@ public class Events {
 
     public static final String CHAT_MESSAGE = "chat_message";
     public static final String CHAT_MESSAGE_UPDATE = "chat_message_update";
+    //全量刷新会话列表的通知
     public static final String NOTIFY_CONVERSATION_LIST = "notify_ConversationList";
     /** 群变更等场景：局部会话列表已入库，payload 为 {@link java.util.List}{@code <com.freddy.im.http.model.im.SessionItem>} */
     public static final String SESSION_LIST_UPDATED = "session_list_updated";

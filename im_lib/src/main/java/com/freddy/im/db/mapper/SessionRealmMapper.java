@@ -56,7 +56,7 @@ public final class SessionRealmMapper {
 
     /**
      * HTTP 会话 upsert：保留库内仅本地维护字段（如 peerRead / syncedMax），
-     * 以及 getList 常缺的展示字段（name/icon/last* / memChgTime）。
+     * 以及 getList 常缺的展示字段（name/icon/last* / memChgTime / owerId）。
      */
     @NonNull
     public static SessionEntity toEntityPreservingLocalFields(@NonNull Realm realm,
@@ -80,6 +80,10 @@ public final class SessionRealmMapper {
             }
             if (TextUtils.isEmpty(item.getOppositeUserId()) && !TextUtils.isEmpty(existing.getOppositeUserId())) {
                 entity.setOppositeUserId(existing.getOppositeUserId());
+            }
+            // getList 常缺 owerId；保留本地群主，避免私群/公群 Tab 错乱
+            if (TextUtils.isEmpty(item.getOwerId()) && !TextUtils.isEmpty(existing.getOwerId())) {
+                entity.setOwerId(existing.getOwerId());
             }
             // getList 通常不带 memChgTime；保留本地水位，避免进群聊重复全量 memberList
             if (item.getMemChgTime() <= 0L && existing.getMemChgTime() > 0L) {

@@ -22,6 +22,7 @@ import com.freddy.im.http.model.im.SessionItem
 import com.freddy.im.listener.OnEventListener
 import com.freddy.im.message.ImGroupChangeManager
 import com.freddy.im.message.ImGroupMemberChangeManager
+import com.freddy.im.message.ImGroupTransferManager
 import com.freddy.im.message.ImMessageManager
 import com.freddy.im.signal.ImSignalProtos
 import com.freddy.im.signal.ImSignalProtos.CountMsgReadSig
@@ -31,6 +32,7 @@ import com.freddy.im.signal.ImSignalProtos.MessageReadSig
 import com.freddy.im.signal.ImSignalProtos.MessageRepealSig
 import com.freddy.im.signal.ImSignalProtos.NewMsgSignal
 import com.freddy.im.signal.ImSignalProtos.NewMsgSignal.MsgSig
+import com.freddy.im.signal.ImSignalProtos.TransferGroupSig
 import com.freddy.webtrc.activity.CallActivity
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -184,6 +186,28 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                 }
             } catch (e: Exception) {
                 eLogD(tAG, "解析 MemberChangeSig 失败", e)
+            }
+        }
+
+        // 转让群主：0x0104 / cmd=260 TransferGroupSig → 回写 owerId/角色 → 刷新私群公群分类
+        else if (push.header.cmd == ImSignalProtos.Cmd.TRANSFER_GROUP_VALUE && push.hasBody()) {
+            try {
+                val sig = TransferGroupSig.parseFrom(push.body.toByteArray())
+                val groupId = sig.groupId
+                val newOwner = sig.newOwer
+                eLogD(tAG, "TRANSFER_GROUP(cmd=260) groupId=$groupId newOwer=$newOwner")
+                ImGroupTransferManager.getInstance().handleTransfer(groupId, newOwner) { gid, sessions ->
+//                    if (!sessions.isNullOrEmpty()) {
+//                        MessageProcessor.getInstance().notifySessionsUpdated(sessions)
+//                    }
+//                    if (!gid.isNullOrEmpty()) {
+//                        MessageProcessor.getInstance().notifyGroupMemberRolesUpdated(gid)
+//                    }
+                    MessageProcessor.getInstance().notifyConversationList()
+                }
+            } catch (e: Exception) {
+                eLogD(tAG, "解析 TransferGroupSig 失败", e)
+                MessageProcessor.getInstance().notifyConversationList()
             }
         }
 

@@ -25,12 +25,14 @@ import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
 import com.cboda.susindexbar.IndexBar.widget.IndexBar2
 import com.freddy.chat.im.IMSClientBootstrap
+import com.freddy.chat.im.MessageProcessor
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.db.mapper.GroupUserVoMapper
 import com.freddy.im.http.ImGroupHttpExample
 import com.freddy.im.http.model.im.BaseMsgResponse
 import com.freddy.im.http.model.im.GroupFriendBean
 import com.freddy.im.listener.OnHttpImListener
+import com.freddy.im.message.ImGroupTransferManager
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 
 /**
@@ -508,6 +510,15 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
             object : OnHttpImListener<BaseMsgResponse<Void>> {
                 override fun onHttpImSuccess(result: BaseMsgResponse<Void>) {
                     runOnUiThread {
+                        ImGroupTransferManager.getInstance().handleTransfer(qunId, newOwnerId) { gid, sessions ->
+//                            if (!sessions.isNullOrEmpty()) {
+//                                MessageProcessor.getInstance().notifySessionsUpdated(sessions)
+//                            }
+//                            if (!gid.isNullOrEmpty()) {
+//                                MessageProcessor.getInstance().notifyGroupMemberRolesUpdated(gid)
+//                            }
+                            MessageProcessor.getInstance().notifyConversationList()
+                        }
                         ToastBroadUtils.show(getString(R.string.group_transfer_success))
                         setResult(RESULT_OK)
                         finish()
