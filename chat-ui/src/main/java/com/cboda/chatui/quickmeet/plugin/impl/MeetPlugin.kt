@@ -24,6 +24,7 @@ import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.meetJoinMsgLiveData
+import com.cboda.baselibrary.utils.meetEndMsgLiveData
 import com.cboda.baselibrary.utils.meetSeatChangeMsgLiveData
 import com.cboda.baselibrary.view.MeetVoiceWaveBroadView
 import com.cboda.chatui.R
@@ -296,7 +297,12 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             //会议中的房主退出频道
             MainScope().launch {
                 val channelId = MeetCallManager.getInstance().mCallData.channelId
-                viewModel?.goDissolveQuickMeet(channelId)?.observeForever { }
+                viewModel?.goDissolveQuickMeet(channelId)?.observeForever {
+                    // 解散成功即通知会议结束，触发会前禁言态恢复（会前无禁言则解禁）
+                    if (!channelId.isNullOrEmpty()) {
+                        meetEndMsgLiveData.postValue(channelId)
+                    }
+                }
             }
         }else if (isCalling() && MeetCallManager.getInstance().isCallDirect()){
             //会议中的发言方（主播端）退出频道

@@ -19,6 +19,7 @@ public final class SessionLastMsgMerge {
 
     /**
      * {@code getList} 通常不带 last*：用本地会话摘要回填，保证列表首屏有预览。
+     * 同时回填缺省的 muteNotify，避免刷新冲掉本地免打扰。
      */
     public static void applyFromLocal(@Nullable List<SessionItem> sessions) {
         if (sessions == null || sessions.isEmpty()) {
@@ -28,11 +29,14 @@ public final class SessionLastMsgMerge {
             if (item == null || TextUtils.isEmpty(item.getSessionId())) {
                 continue;
             }
-            if (!TextUtils.isEmpty(item.getLastMessageId())) {
-                continue;
-            }
             SessionItem local = ImSessionRepository.getInstance().queryBySessionId(item.getSessionId());
             if (local == null) {
+                continue;
+            }
+            if (item.getMuteNotify() == null) {
+                item.setMuteNotify(local.isMuteNotify());
+            }
+            if (!TextUtils.isEmpty(item.getLastMessageId())) {
                 continue;
             }
             if (!TextUtils.isEmpty(local.getLastMessageId())) {

@@ -86,6 +86,7 @@ import com.freddy.im.message.MessageContentFormatter;
 import com.freddy.webtrc.utils.BroadE;
 import com.freddy.im.group.GroupMuteEvaluator;
 import com.freddy.im.group.GroupRole;
+import static com.freddy.im.util.BaseLiveDataEventKt.groupDataLiveData2;
 import com.freddy.chat.forward.ForwardMode;
 import com.freddy.chat.menu.MessageContextMenuHelper;
 import com.freddy.chat.menu.MessageListActions;
@@ -165,6 +166,10 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     private View mViewMeetJoin;
     private TextView mTvMeetJoin, mTvMeetPeople;
     private GroupVo groupVo;
+    /** 群发言间隔（秒），来自 busiExt.jiange；0 表示不限制。 */
+    private int speakIntervalSec;
+    /** 自己最近一次成功发出群消息的时间戳（毫秒）。 */
+    private long lastSelfSendAtMs;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -246,6 +251,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         if (isGroupChat) {
             setupGroupNoticeInteraction();
             setupMeetJoinInteraction();
+            observeSpeakIntervalConfig();
             if (getActivity() instanceof GroupNoticeHost) {
                 ((GroupNoticeHost) getActivity()).applyCachedGroupNotice();
             }
@@ -400,6 +406,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                     sessionId,
                     group -> {
                         this.groupVo = group;
+                        applySpeakIntervalFromGroup(group);
                         if (getActivity() instanceof GroupMuteHost) {
                             ((GroupMuteHost) getActivity()).applyGroupDetailForMute(group);
                         }
@@ -580,6 +587,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         updateSwipeRefreshEnabled();
         if (!cached.isEmpty()) {
             adapter.appendMessages(cached);
+            refreshLastSelfSendFromMessages(cached);
             if (!TextUtils.isEmpty(scrollToMsgId)) {
                 scrollToMessage(scrollToMsgId);
             } else if (adapter.getItemCount() > 0) {
@@ -870,6 +878,9 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 null,
                 dw,
                 dh);
+        if (!ensureSpeakIntervalAllowed()) {
+            return;
+        }
         publishPendingOutgoingMessage(message);
         String groupId = isGroupChat ? sessionId : null;
         ImMessageHttpExample.uploadVideoBatch(
@@ -946,6 +957,9 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                                   @NonNull File file,
                                   @NonNull UploadContentPatcher patcher,
                                   int uploadFailedToastRes) {
+        if (!ensureSpeakIntervalAllowed()) {
+            return;
+        }
         publishPendingOutgoingMessage(message);
         String groupId = isGroupChat ? sessionId : null;
         ImMessageHttpExample.uploadFile(file, groupId, new OnHttpImListener<UploadRes>() {
@@ -959,6 +973,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
     private void publishPendingOutgoingMessage(@NonNull AppMessage message) {
         MessageProcessor.getInstance().sendMsg(message, () -> {
+            markSelfSendNow();
             adapter.appendMessages(Collections.singletonList(message));
             scrollToLatest();
         }, false);
@@ -1143,8 +1158,23 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 batch -> MessageProcessor.getInstance().receiveMsg(batch));
         sessionItem.setUnreadCount(0);
         ImLocalStore.clearSessionUnread(sessionId);
-        if (isGroupChat && getActivity() instanceof GroupNoticeHost) {
-            ((GroupNoticeHost) getActivity()).applyCachedGroupNotice();
+        if (isGroupChat) {
+            refreshSpeakIntervalFromBus();
+            if (getActivity() instanceof GroupNoticeHost) {
+                ((GroupNoticeHost) getActivity()).applyCachedGroupNotice();
+            }
+        }
+    }
+
+    /** 从设置页返回时补读最新间隔（BusLiveData 在后台可能丢事件）。 */
+    private void refreshSpeakIntervalFromBus() {
+        GroupBusiExt busi = groupDataLiveData2.getValue();
+        if (busi == null) {
+            return;
+        }
+        speakIntervalSec = Math.max(0, busi.getJiange());
+        if (groupVo != null) {
+            groupVo.ensureBusiExt().setJiange(speakIntervalSec);
         }
     }
 
@@ -1203,11 +1233,15 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         if (TextUtils.isEmpty(peerUserId)) {
             return;
         }
+        if (!ensureSpeakIntervalAllowed()) {
+            return;
+        }
 
         AppMessage message = MessageBuilder.buildTextMessage(
                 sessionId, sessionItem.getConversation(), peerUserId, text, customInfo);
         ELogUtilKt.eLogI(ELogUtilKt.APP_IM_TAG, "message.getContent()=" + message.getContent() + "------" + "message.getCustomInfo()=" + message.getCustomInfo());
         MessageProcessor.getInstance().sendMsg(message, () -> {
+            markSelfSendNow();
             adapter.appendMessages(Collections.singletonList(message));
             scrollToLatest();
         });
@@ -1215,6 +1249,79 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             inputPanel.clearInput();
             inputPanel.resetPanelState();
         }
+    }
+
+    /** 监听群设置页修改发言间隔后的 LiveData。 */
+    private void observeSpeakIntervalConfig() {
+        groupDataLiveData2.observe(getViewLifecycleOwner(), busi -> {
+            if (busi == null) {
+                return;
+            }
+            speakIntervalSec = Math.max(0, busi.getJiange());
+            if (groupVo != null) {
+                groupVo.ensureBusiExt().setJiange(speakIntervalSec);
+            }
+        });
+    }
+
+    private void applySpeakIntervalFromGroup(@Nullable GroupVo group) {
+        if (group == null || group.getBusiExt() == null) {
+            speakIntervalSec = 0;
+            return;
+        }
+        speakIntervalSec = Math.max(0, group.getBusiExt().getJiange());
+    }
+
+    /**
+     * 群发言间隔：全员受控（含群主/管理员）。
+     * 对齐野火间隔逻辑，但不按角色豁免。
+     */
+    private boolean ensureSpeakIntervalAllowed() {
+        if (!isGroupChat) {
+            return true;
+        }
+        int intervalSec = resolveSpeakIntervalSec();
+        if (intervalSec <= 0) {
+            return true;
+        }
+        if (lastSelfSendAtMs > 0L) {
+            long elapsed = System.currentTimeMillis() - lastSelfSendAtMs;
+            if (elapsed < intervalSec * 1000L) {
+                ToastBroadUtils.show("发言过于频繁");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private int resolveSpeakIntervalSec() {
+        return Math.max(0, speakIntervalSec);
+    }
+
+    private void markSelfSendNow() {
+        lastSelfSendAtMs = System.currentTimeMillis();
+    }
+
+    /** 进入会话时用本地最近一条自己发的消息初始化间隔计时。 */
+    private void refreshLastSelfSendFromMessages(@Nullable List<AppMessage> messages) {
+        if (!isGroupChat || messages == null || messages.isEmpty()) {
+            return;
+        }
+        String currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
+        if (TextUtils.isEmpty(currentUserId)) {
+            return;
+        }
+        long latest = lastSelfSendAtMs;
+        for (AppMessage msg : messages) {
+            if (msg == null || !msg.isSender(currentUserId)) {
+                continue;
+            }
+            long ts = WeChatUiHelper.normalizeToMillis(msg.getTimestamp());
+            if (ts > latest) {
+                latest = ts;
+            }
+        }
+        lastSelfSendAtMs = latest;
     }
 
     @Override

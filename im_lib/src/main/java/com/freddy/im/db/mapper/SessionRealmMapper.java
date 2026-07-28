@@ -109,6 +109,10 @@ public final class SessionRealmMapper {
                     entity.setLastMessageTime(existing.getLastMessageTime());
                 }
             }
+            // getList 可能缺 muteNotify；null 时保留本地免打扰，避免开关被冲掉
+            if (item.getMuteNotify() == null) {
+                entity.setMuteNotify(existing.isMuteNotify());
+            }
         }
         return entity;
     }

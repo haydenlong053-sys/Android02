@@ -2,6 +2,7 @@ package com.freddy.chat.utils;
 
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,16 +13,18 @@ import com.cboda.baselibrary.utils.RealmUtil;
 import com.cboda.baselibrary.widge.VpGradeView;
 import com.cboda.chatui.R;
 import com.cboda.chatui.third.utils.TimeBroadBroadUtils;
+import com.freddy.im.MessageType;
 import com.freddy.im.http.model.im.GroupMemberItem;
+import com.freddy.im.http.model.im.SessionItem;
 import com.hjq.shape.view.ShapeTextView;
 
 import kotlin.Unit;
 
 /**
- * 消息列表头像、信用分、入群时间绑定。
+ * 消息 / 会话列表头像、信用分、靓号、会员、入群时间绑定。
  * <p>
- * 群聊：信用分 / VIP / 靓号 / 注册天数（用于角标配色）/ 入群时间均来自本地群成员库 {@link GroupMemberItem}。
- * 单聊：仍从 Realm 用户库读取（顶栏与头像角标逻辑不变）。
+ * 群聊消息：来自本地群成员库 {@link GroupMemberItem}。
+ * 单聊消息 / 会话列表：来自野火用户表 {@link FriendBean}（{@link RealmUtil}）。
  */
 public final class MessageAvatarBinder {
 
@@ -51,6 +54,67 @@ public final class MessageAvatarBinder {
                         friend.registerDay);
             } else {
                 avatarView.setData3(null, null, null, null);
+            }
+            return Unit.INSTANCE;
+        });
+    }
+
+    /**
+     * 会话列表头像：单聊展示信用分 / 靓号 / 会员；群聊仅头像。
+     * 对齐野火 {@code SingleConversationViewBroadHolder}，数据来自野火用户表。
+     */
+    public static void bindSessionListAvatar(@NonNull VpGradeView avatarView,
+                                             @Nullable SessionItem session,
+                                             @Nullable String currentUserId) {
+        String portrait = WeChatUiHelper.resolveAvatarUrl(session);
+        if (session == null || !MessageType.isSingleChat(session.getConversation())) {
+            avatarView.setData(portrait, null, null, null, null);
+            return;
+        }
+        String peerId = SessionDisplayEnricher.INSTANCE.resolvePeerUserId(session, currentUserId);
+        if (TextUtils.isEmpty(peerId)
+                || TextUtils.equals(peerId, MMKVBroadUtils.Companion.getKeFuId())) {
+            avatarView.setData(portrait, null, null, null, null);
+            return;
+        }
+        RealmUtil.INSTANCE.findUserData(peerId, (FriendBean friend) -> {
+            if (friend != null) {
+                avatarView.setData(
+                        portrait,
+                        friend.isNiceNum,
+                        friend.isVip,
+                        friend.grade,
+                        friend.registerDay);
+            } else {
+                avatarView.setData(portrait, null, null, null, null);
+            }
+            return Unit.INSTANCE;
+        });
+    }
+
+    /**
+     * 会话列表名称旁注册天数（单聊，野火用户表）。
+     */
+    public static void bindSessionRegisterDay(@NonNull TextView registerDayTv,
+                                              @Nullable SessionItem session,
+                                              @Nullable String currentUserId) {
+        if (session == null || !MessageType.isSingleChat(session.getConversation())) {
+            registerDayTv.setVisibility(View.GONE);
+            return;
+        }
+        String peerId = SessionDisplayEnricher.INSTANCE.resolvePeerUserId(session, currentUserId);
+        if (TextUtils.isEmpty(peerId)
+                || TextUtils.equals(peerId, MMKVBroadUtils.Companion.getKeFuId())) {
+            registerDayTv.setVisibility(View.GONE);
+            return;
+        }
+        RealmUtil.INSTANCE.findUserData(peerId, (FriendBean friend) -> {
+            if (friend != null && !TextUtils.isEmpty(friend.registerDay)) {
+                registerDayTv.setVisibility(View.VISIBLE);
+                registerDayTv.setText(friend.registerDay
+                        + registerDayTv.getContext().getString(R.string.msg_days_unit));
+            } else {
+                registerDayTv.setVisibility(View.GONE);
             }
             return Unit.INSTANCE;
         });

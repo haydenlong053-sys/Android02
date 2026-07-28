@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
- * 单聊会话展示信息补全：本地好友库 → IM getUserList。
+ * 单聊会话展示信息补全：野火用户表 → IM getUserList。
  */
 object SessionDisplayEnricher {
 

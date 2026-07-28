@@ -436,7 +436,7 @@ public final class MessageContentFormatter {
      *   <li>ended + duration&gt;0 → 通话时长 mm:ss</li>
      *   <li>ended + duration=0 → 通话结束</li>
      *   <li>cancelled → 已取消 / 对方已取消</li>
-     *   <li>rejected → 对方已拒绝 / 已拒绝</li>
+     *   <li>rejected → 拨打方是自己：对方已拒绝；拨打方是别人：已拒绝</li>
      *   <li>busy → 对方正忙 / 忙线未接听</li>
      *   <li>missed → 未接听 / 未接来电</li>
      * </ul>
@@ -480,10 +480,8 @@ public final class MessageContentFormatter {
             return sentByMe ? "已取消" : "对方已取消";
         }
         if (isCallStatus(status, "rejected", "reject", "refused", "refuse")) {
-            if (isPersonalizedReject(personalized)) {
-                return personalized;
-            }
-            return sentByMe ? "对方已拒绝" : "已拒绝";
+            // 拨打方是自己 → 对方已拒绝；拨打方是别人 → 已拒绝
+            return resolveRejectDisplay(obj, cleanedDesc, sentByMe, currentUserId);
         }
         if (isCallStatus(status, "remote_busy")) {
             return "对方正忙";
@@ -509,6 +507,9 @@ public final class MessageContentFormatter {
 
         // 兼容仅带 desc、或 status 未知：从 desc 推断
         if (!TextUtils.isEmpty(cleanedDesc)) {
+            if (cleanedDesc.contains("拒绝")) {
+                return resolveRejectDisplay(obj, cleanedDesc, sentByMe, currentUserId);
+            }
             if (personalized != null) {
                 return personalized;
             }
@@ -606,6 +607,38 @@ public final class MessageContentFormatter {
             return "busy";
         }
         return s;
+    }
+
+    /**
+     * 拒绝文案：
+     * <ul>
+     *   <li>拨打方是自己 → 对方已拒绝</li>
+     *   <li>拨打方是别人（自己拒接）→ 已拒绝</li>
+     * </ul>
+     */
+    @NonNull
+    private static String resolveRejectDisplay(@NonNull JsonObject obj,
+                                               @Nullable String cleanedDesc,
+                                               boolean sentByMe,
+                                               @Nullable String currentUserId) {
+        if (!TextUtils.isEmpty(currentUserId)) {
+            String rejectorId = firstCallString(obj, "rejectorId", "rejectUserId", "rejectedBy");
+            if (!TextUtils.isEmpty(rejectorId)) {
+                return TextUtils.equals(rejectorId, currentUserId) ? "已拒绝" : "对方已拒绝";
+            }
+        }
+        Boolean iAmCaller = resolveIAmCallerOrNull(obj, currentUserId);
+        if (iAmCaller != null) {
+            return iAmCaller ? "对方已拒绝" : "已拒绝";
+        }
+        // 服务端按视角写了「已拒绝」（无「对方」）时信任，适配双方各自一条且 sentByMe 都为 true
+        if (!TextUtils.isEmpty(cleanedDesc)
+                && cleanedDesc.contains("已拒绝")
+                && !cleanedDesc.contains("对方")) {
+            return "已拒绝";
+        }
+        // 默认约定：消息发送方=拨打方
+        return sentByMe ? "对方已拒绝" : "已拒绝";
     }
 
     /**
@@ -735,10 +768,6 @@ public final class MessageContentFormatter {
         return "已取消".equals(text) || "对方已取消".equals(text);
     }
 
-    private static boolean isPersonalizedReject(@Nullable String text) {
-        return "已拒绝".equals(text) || "对方已拒绝".equals(text);
-    }
-
     private static boolean isPersonalizedMissed(@Nullable String text) {
         return "未接听".equals(text) || "未接来电".equals(text);
     }
@@ -815,9 +844,7 @@ public final class MessageContentFormatter {
             return sentByMe ? "已取消" : "对方已取消";
         }
         if (d.contains("已拒绝") || d.contains("拒绝")) {
-            if (d.contains("对方")) {
-                return "对方已拒绝";
-            }
+            // 不因 desc 含「对方」就两端都显示「对方已拒绝」；统一按主叫/被叫视角
             return sentByMe ? "对方已拒绝" : "已拒绝";
         }
         if (d.contains("正忙") || d.contains("忙线") || d.contains("忙")) {

@@ -25,6 +25,8 @@ public final class ImGsonHelper {
             .registerTypeAdapter(long.class, new LenientLongAdapter(true))
             .registerTypeAdapter(Double.class, new LenientDoubleAdapter(false))
             .registerTypeAdapter(double.class, new LenientDoubleAdapter(true))
+            .registerTypeAdapter(Boolean.class, new LenientBooleanAdapter(false))
+            .registerTypeAdapter(boolean.class, new LenientBooleanAdapter(true))
             .create();
 
     private ImGsonHelper() {
@@ -110,6 +112,63 @@ public final class ImGsonHelper {
             }
             return parsed;
         }
+    }
+
+    private static final class LenientBooleanAdapter extends TypeAdapter<Boolean> {
+        private final boolean primitive;
+
+        LenientBooleanAdapter(boolean primitive) {
+            this.primitive = primitive;
+        }
+
+        @Override
+        public void write(JsonWriter out, Boolean value) throws IOException {
+            if (value == null) {
+                out.nullValue();
+            } else {
+                out.value(value);
+            }
+        }
+
+        @Override
+        public Boolean read(JsonReader in) throws IOException {
+            Boolean parsed = readNullableBoolean(in);
+            if (parsed == null && primitive) {
+                return false;
+            }
+            return parsed;
+        }
+    }
+
+    @Nullable
+    private static Boolean readNullableBoolean(JsonReader in) throws IOException {
+        JsonToken token = in.peek();
+        if (token == JsonToken.NULL) {
+            in.nextNull();
+            return null;
+        }
+        if (token == JsonToken.BOOLEAN) {
+            return in.nextBoolean();
+        }
+        if (token == JsonToken.NUMBER) {
+            return in.nextDouble() != 0D;
+        }
+        if (token == JsonToken.STRING) {
+            String value = in.nextString();
+            if (TextUtils.isEmpty(value)) {
+                return null;
+            }
+            String trimmed = value.trim();
+            if ("1".equals(trimmed) || "true".equalsIgnoreCase(trimmed)) {
+                return true;
+            }
+            if ("0".equals(trimmed) || "false".equalsIgnoreCase(trimmed)) {
+                return false;
+            }
+            return null;
+        }
+        in.skipValue();
+        return null;
     }
 
     @Nullable

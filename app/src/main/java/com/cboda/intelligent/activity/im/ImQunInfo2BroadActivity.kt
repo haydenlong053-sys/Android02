@@ -18,6 +18,7 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -153,6 +154,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private lateinit var jiahao: AppCompatImageView
     private lateinit var tvjiangeshi: EditText
     private var jiangetime = 0
+    private var suppressSpeakIntervalWatcher = false
 
     override fun getLayoutId(): Int = R.layout.activity_qun_broad_info2
 
@@ -387,7 +389,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         wufajiahaoyou.isChecked = busi?.openQysl == "1"
         kejianguanli.isChecked = busi?.openQykj == "1"
         jiangetime = (busi?.jiange ?: 0).coerceAtLeast(0)
-        tvjiangeshi.setText(jiangetime.toString())
+        syncSpeakIntervalInput(jiangetime)
     }
 
     /** 商业功能开关入口：isshop 为空不展示；有值则展示，1=开 / 0=关。 */
@@ -580,7 +582,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
             toggleGroupManageSwitch("openQykj", kejianguanli)
         }
-        // 间隔发言（秒）
+        // 间隔发言（秒）：每次加减/输入变更立即生效，不依赖失焦或确定
         jianhao.setOnClickListener {
             if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
             submitSpeakInterval((jiangetime - 1).coerceAtLeast(0))
@@ -589,6 +591,14 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
             submitSpeakInterval(jiangetime + 1)
         }
+        tvjiangeshi.doAfterTextChanged { editable ->
+            if (suppressSpeakIntervalWatcher) return@doAfterTextChanged
+            if (!GroupRole.isOwnerOrAdmin(myRole)) return@doAfterTextChanged
+            val raw = editable?.toString()?.trim().orEmpty()
+            if (raw.isEmpty()) return@doAfterTextChanged
+            val inputVal = raw.toIntOrNull() ?: return@doAfterTextChanged
+            submitSpeakInterval(inputVal.coerceAtLeast(0), updateInput = false)
+        }
         tvjiangeshi.setOnEditorActionListener { _, actionId, event ->
             val isDoneAction = actionId == EditorInfo.IME_ACTION_DONE
             val isEnterDown =
@@ -596,13 +606,6 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             if (!isDoneAction && !isEnterDown) {
                 return@setOnEditorActionListener false
             }
-            if (!GroupRole.isOwnerOrAdmin(myRole)) {
-                tvjiangeshi.setText(jiangetime.toString())
-                return@setOnEditorActionListener true
-            }
-            val inputVal = tvjiangeshi.text?.toString()?.trim()?.toIntOrNull()
-            submitSpeakInterval(if (inputVal == null || inputVal <= 0) 0 else inputVal)
-            tvjiangeshi.clearFocus()
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             imm?.hideSoftInputFromWindow(tvjiangeshi.windowToken, 0)
             true
@@ -621,18 +624,47 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         }
     }
 
-    /** 提交间隔发言秒数（api/editGroup jiange）。 */
-    private fun submitSpeakInterval(seconds: Int) {
-        jiangetime = seconds.coerceAtLeast(0)
-        tvjiangeshi.setText(jiangetime.toString())
-        tvjiangeshi.setSelection(tvjiangeshi.text?.length ?: 0)
+    /**
+     * 提交间隔发言秒数：本地立即生效并通知聊天页，再静默同步服务端。
+     * @param updateInput 加减按钮需要回写输入框；TextWatcher 触发时传 false 避免循环。
+     */
+    private fun submitSpeakInterval(seconds: Int, updateInput: Boolean = true) {
+        val next = seconds.coerceAtLeast(0)
+        if (next == jiangetime && (groupVo?.busiExt?.jiange ?: -1) == next) {
+            if (updateInput) {
+                syncSpeakIntervalInput(next)
+            }
+            return
+        }
+        jiangetime = next
+        if (updateInput) {
+            syncSpeakIntervalInput(next)
+        }
+        val ext = groupVo?.ensureBusiExt() ?: GroupBusiExt()
+        ext.jiange = jiangetime
+        if (groupVo != null) {
+            groupVo?.busiExt = ext
+        }
+        groupDataLiveData2.postValue(ext)
         lifecycleScope.launch {
-            viewModel?.editGroupField(qunId, "jiange", jiangetime.toString())
+            viewModel?.editGroupField(qunId, "jiange", jiangetime.toString(), showLoading = false)
                 ?.observe(this@ImQunInfo2BroadActivity) { newValue ->
                     jiangetime = newValue.toIntOrNull()?.coerceAtLeast(0) ?: jiangetime
                     groupVo?.ensureBusiExt()?.jiange = jiangetime
+                    groupVo?.busiExt?.let { groupDataLiveData2.postValue(it) }
                 }
         }
+    }
+
+    private fun syncSpeakIntervalInput(seconds: Int) {
+        val text = seconds.toString()
+        if (tvjiangeshi.text?.toString() == text) {
+            return
+        }
+        suppressSpeakIntervalWatcher = true
+        tvjiangeshi.setText(text)
+        tvjiangeshi.setSelection(text.length)
+        suppressSpeakIntervalWatcher = false
     }
 
     /** 展示当前用户群昵称：本地 [ImLocalStore.queryGroupMember]。 */

@@ -225,11 +225,26 @@ public class ConversationListViewBroadModel extends ViewModel implements OnRecei
         ).collect(Collectors.toList());
 
         for (ConversationInfo conversationInfo : myConversationList) {
-            if (conversationInfo.unreadCount.unread > 0) {
+            if (conversationInfo.unreadCount.unread > 0 && !conversationInfo.isSilent) {
                 myGroupUnreadCount += conversationInfo.unreadCount.unread;
             }
         }
-        otherGroupUnreadCount = groupUnread.unread - myGroupUnreadCount;
+        List<ConversationInfo> otherConversationList = conversationList.stream().filter(
+                conversationInfo -> {
+                    try {
+                        GroupInfo groupInfo = ChatManager.Instance().getGroupInfo(conversationInfo.conversation.target, false);
+                        String myUserId = ChatManager.Instance().getUserId();
+                        return groupInfo == null || !groupInfo.owner.equals(myUserId);
+                    } catch (Exception e) {
+                        return true;
+                    }
+                }
+        ).collect(Collectors.toList());
+        for (ConversationInfo conversationInfo : otherConversationList) {
+            if (conversationInfo.unreadCount.unread > 0 && !conversationInfo.isSilent) {
+                otherGroupUnreadCount += conversationInfo.unreadCount.unread;
+            }
+        }
         msgUnReadCountEvent.myGroupCount = myGroupUnreadCount;
         msgUnReadCountEvent.otherGroupCount = otherGroupUnreadCount;
 

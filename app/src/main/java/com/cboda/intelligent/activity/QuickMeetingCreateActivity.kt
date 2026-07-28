@@ -51,6 +51,7 @@ import com.cboda.intelligent.dialog.pop.PasswordPricedPop
 import com.cboda.intelligent.dialog.pop.PaymentMethodPopup
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.viewmodel.QuickMeetingCreateViewModel
+import com.freddy.im.group.MeetGroupMuteHelper
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
@@ -96,6 +97,11 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
     }
 
     private fun joinCreatedMeet(meetBean: QuickDetailMeetBean) {
+        // 会议开启：默认全员禁言，并记录开会前禁言态以便结束后恢复
+        val muteGroupId = meetBean.groupIdNo?.takeIf { it.isNotEmpty() }
+            ?: meetBean.channelId?.takeIf { it.isNotEmpty() }
+            ?: groupId
+        MeetGroupMuteHelper.onMeetStarted(muteGroupId)
         MeetCallManager.getInstance().callMeetAction(
             CallDirect.CALLER,
             meetBean.channelId ?: groupId,

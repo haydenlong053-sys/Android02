@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_item_white"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:gravity="center_vertical"
         android:minHeight="68dp"
         android:orientation="horizontal"
@@ -17,11 +22,15 @@
         android:paddingEnd="@dimen/wechat_list_item_padding_h"
         android:paddingBottom="@dimen/wechat_list_item_padding_v">
 
-        <include
+        <!-- 头像 + 会员角标 + 信用分/靓号条（对齐野火会话列表 VpGradeView） -->
+        <com.cboda.baselibrary.widge.VpGradeView
             android:id="@+id/avatar"
-            layout="@layout/view_avatar"
-            android:layout_width="@dimen/wechat_avatar_size"
-            android:layout_height="@dimen/wechat_avatar_size" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:user_img_width="@dimen/wechat_avatar_size"
+            app:user_vip_width="25dp"
+            app:user_grade_height="14dp"
+            app:user_grade_text_size="8dp" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -30,14 +39,33 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_name"
-                style="@style/WeChatTextPrimary"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                tools:text="用户537174" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    style="@style/WeChatTextPrimary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    tools:text="用户537174" />
+
+                <TextView
+                    android:id="@+id/tv_register_day"
+                    style="@style/WeChatTextSecondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:textSize="11sp"
+                    android:visibility="gone"
+                    tools:text="30天"
+                    tools:visibility="visible" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -83,6 +111,16 @@
             android:textSize="11sp"
             android:visibility="gone"
             tools:text="3"
+            tools:visibility="visible" />
+
+        <!-- 免打扰：有未读时只显示红点（不显示数字） -->
+        <View
+            android:id="@+id/v_mute_dot"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_unread_badge"
+            android:visibility="gone"
             tools:visibility="visible" />
     </LinearLayout>
 

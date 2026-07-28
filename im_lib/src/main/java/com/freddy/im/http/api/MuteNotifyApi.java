@@ -16,10 +16,11 @@ public final class MuteNotifyApi implements IRequestApi {
     @Override
     public String getApi() {
         String id = sessionId != null ? sessionId : "";
+        // 与协议 ConvMultiSync.muteNotify（int32）一致，服务端按 1/0 解析
         return "api/im/conversation/muteNotify?sessionId="
                 + Uri.encode(id)
                 + "&flag="
-                + flag;
+                + (flag ? "1" : "0");
     }
 
     public MuteNotifyApi setSessionId(@NonNull String sessionId) {

@@ -22,11 +22,15 @@ public final class MeetEndOthBusiSigHandler implements OthBusiSigHandler {
 
     @Override
     public boolean handle(@Nullable String data) {
-        String groupIdNo = OthBusiSigJson.readGroupId(data);
+        String groupIdNo = OthBusiSigJson.readGroupIdNo(data);
+        if (TextUtils.isEmpty(groupIdNo)) {
+            groupIdNo = OthBusiSigJson.readGroupId(data);
+        }
         if (TextUtils.isEmpty(groupIdNo)) {
             return false;
         }
         ELogUtilKt.eLogD(TAG, "groupId=" + groupIdNo);
+        // 由 MyBroadApp 全局观察 meetEndMsgLiveData 恢复会前禁言态（会前无禁言则解禁）
         BaseLiveDataEventKt.meetEndMsgLiveData.postValue(groupIdNo);
         return true;
     }

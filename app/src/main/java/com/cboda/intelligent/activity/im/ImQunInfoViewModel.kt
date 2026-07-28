@@ -261,7 +261,21 @@ class ImQunInfoViewModel : BaseViewModel() {
      * 对齐野火：openQyyq / openQyyz / openQzts / openQygl / openQysl / openQykj / jiange。
      */
     suspend fun editGroupField(groupId: String, key: String, value: String): SingleLiveBroadData<String> {
-        showLoading()
+        return editGroupField(groupId, key, value, showLoading = true)
+    }
+
+    /**
+     * @param showLoading 发言间隔等频繁微调场景传 false，避免每次弹出 loading。
+     */
+    suspend fun editGroupField(
+        groupId: String,
+        key: String,
+        value: String,
+        showLoading: Boolean,
+    ): SingleLiveBroadData<String> {
+        if (showLoading) {
+            showLoading()
+        }
         val liveData = SingleLiveBroadData<String>()
         val params = hashMapOf<String, Any?>(
             "id" to groupId,
@@ -274,7 +288,9 @@ class ImQunInfoViewModel : BaseViewModel() {
                     Any::class.java,
                     params
                 ).onSuccess {
-                    dismissLoading()
+                    if (showLoading) {
+                        dismissLoading()
+                    }
                     val cur = _state.value
                     val vo = cur?.groupVo
                     if (vo != null) {
@@ -283,13 +299,19 @@ class ImQunInfoViewModel : BaseViewModel() {
                     }
                     liveData.postValue(value)
                 }.onFailure { _, message ->
-                    dismissLoading()
+                    if (showLoading) {
+                        dismissLoading()
+                    }
                     showToastMain(message)
                 }.onError {
-                    dismissLoading()
+                    if (showLoading) {
+                        dismissLoading()
+                    }
                 }
             } catch (e: Exception) {
-                dismissLoading()
+                if (showLoading) {
+                    dismissLoading()
+                }
             }
         }
         return liveData

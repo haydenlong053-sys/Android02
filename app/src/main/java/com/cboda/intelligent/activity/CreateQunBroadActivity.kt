@@ -49,6 +49,8 @@ class CreateQunBroadActivity : BaseSimpleBroadActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerView2: RecyclerView
     private lateinit var edtSousuo: EditText
+    /** 防止连续点击确认重复创建群。 */
+    private var creatingGroup = false
 
     private fun initViews() {
         edtSousuo = findViewById(R.id.edtSousuo)
@@ -150,6 +152,9 @@ class CreateQunBroadActivity : BaseSimpleBroadActivity() {
 
 
         tvAgree?.setOnClickListener {
+            if (creatingGroup) {
+                return@setOnClickListener
+            }
             mDataList3.clear()
             for (i in 0 until mDataList.size) {
                 if (mDataList[i].isSelect) {
@@ -160,31 +165,31 @@ class CreateQunBroadActivity : BaseSimpleBroadActivity() {
                 ToastBroadUtils.show(getString(R.string.qingxuanzelianxiren))
                 return@setOnClickListener
             }
-            val str = StringBuilder()
             val members = arrayListOf<String>()
-            mDataList3.forEachIndexed { index, commonBean ->
+            mDataList3.forEach { commonBean ->
                 if (!TextUtils.isEmpty(commonBean.userId)) {
                     members.add(commonBean.userId ?: "")
                 }
-                str.append(commonBean.userId ?: "")
-                if (index != mDataList3.size - 1) {
-                    str.append("|")
-                }
             }
             val userInfoBean = fromJson2(getSqlStrData(MMKVBroadUtils.LOGIN_USER_DATA, ""), UserInfoBean::class.java)
+            creatingGroup = true
+            tvAgree.isEnabled = false
+            showLoading()
             ImMessageHttpExample.requestCreateGroup(
                 userInfoBean.name + "的群聊",
                 members,
                 ImSignalProtos.ConversationType.MULTI_VALUE,
-                { //                        AppBroadUtils.goChat(this@CreateQunBroadActivity, group.type2, "1")
+                {
+                    dismissLoading()
                     JumpBroadUtils.startChatMsgActivity(groupToSession(it), this@CreateQunBroadActivity)
                     finish()
-//                    showToastMain(R.string.create_group_success)
                 },
                 {
+                    creatingGroup = false
+                    tvAgree.isEnabled = true
+                    dismissLoading()
                     showToastMain(R.string.create_group_failed)
                 })
-//            viewModel?.chuangjainqun(this, str.toString())
         }
         smartLayout?.setEnableLoadMore(false)
         smartLayout?.setEnableRefresh(false)

@@ -41,6 +41,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.clearUserDataLiveData
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getIsDebug
+import com.cboda.baselibrary.utils.meetEndMsgLiveData
 import com.blankj.utilcode.util.ActivityUtils.addActivityLifecycleCallbacks
 import com.blankj.utilcode.util.Utils
 import com.cboda.baselibrary.utils.CrashFactory
@@ -52,6 +53,7 @@ import com.cboda.chatui.conversation.message.viewholder.MeetStartMessageContentV
 import com.cboda.intelligent.utils.PixelBroadBroadUtils
 import com.cboda.intelligent.myim.service.WfcDefaultPortraitBroadProvider
 import com.freddy.chat.im.ImAppLifecycleObserver
+import com.freddy.im.group.MeetGroupMuteHelper
 import com.freddy.im.http.EasyHttpBootstrap
 import com.freddy.webtrc.utils.CallUtil
 import com.freddy.webtrc.utils.CallUtil.initCall
@@ -152,8 +154,15 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
         addActivityLifecycleCallbacks(lifeListener)
         clearUserDataLiveData.removeObserver(clearUserDataListener)
         clearUserDataLiveData.observeForever(clearUserDataListener)
+        // 会议结束：全局恢复会前禁言态（会前无禁言则解禁），不依赖会话页是否打开
+        meetEndMsgLiveData.removeObserver(meetEndMuteRestoreObserver)
+        meetEndMsgLiveData.observeForever(meetEndMuteRestoreObserver)
         initOriginalIm()
 
+    }
+
+    private val meetEndMuteRestoreObserver = Observer<String> { groupIdNo ->
+        MeetGroupMuteHelper.onMeetEnded(groupIdNo)
     }
 
     private fun initOriginalIm() {

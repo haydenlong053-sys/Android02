@@ -14,9 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cboda.baselibrary.widge.VpGradeView;
 import com.cboda.intelligent.R;
 import com.freddy.chat.mention.AtMentionChecker;
-import com.freddy.chat.utils.AvatarViews;
+import com.freddy.chat.utils.MessageAvatarBinder;
 import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.http.model.im.SessionItem;
 
@@ -136,7 +137,8 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
                 ? holder.itemView.getContext().getString(R.string.conversation_name_fallback)
                 : name;
         holder.tvName.setText(displayName);
-        AvatarViews.bind(holder.avatar, WeChatUiHelper.resolveAvatarUrl(s), displayName, s.getSessionId());
+        MessageAvatarBinder.bindSessionListAvatar(holder.avatar, s, currentUserId);
+        MessageAvatarBinder.bindSessionRegisterDay(holder.tvRegisterDay, s, currentUserId);
 
         holder.tvSubtitle.setText(buildSubtitle(holder, s));
         if (WeChatUiHelper.isVoiceSessionPreview(s)) {
@@ -150,11 +152,19 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         }
 
         Integer unread = s.getUnreadCount();
+        boolean muted = s.isMuteNotify();
         if (unread != null && unread > 0) {
-            holder.tvUnread.setVisibility(View.VISIBLE);
-            holder.tvUnread.setText(unread > 99 ? "99+" : String.valueOf(unread));
+            if (muted) {
+                holder.tvUnread.setVisibility(View.GONE);
+                holder.muteDot.setVisibility(View.VISIBLE);
+            } else {
+                holder.muteDot.setVisibility(View.GONE);
+                holder.tvUnread.setVisibility(View.VISIBLE);
+                holder.tvUnread.setText(unread > 99 ? "99+" : String.valueOf(unread));
+            }
         } else {
             holder.tvUnread.setVisibility(View.GONE);
+            holder.muteDot.setVisibility(View.GONE);
         }
 
         holder.itemView.setBackgroundResource(
@@ -197,19 +207,23 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
     }
 
     static final class VH extends RecyclerView.ViewHolder {
-        final View avatar;
+        final VpGradeView avatar;
         final TextView tvName;
+        final TextView tvRegisterDay;
         final ImageView ivPreviewType;
         final TextView tvSubtitle;
         final TextView tvUnread;
+        final View muteDot;
 
         VH(@NonNull View itemView) {
             super(itemView);
             avatar = itemView.findViewById(R.id.avatar);
             tvName = itemView.findViewById(R.id.tv_name);
+            tvRegisterDay = itemView.findViewById(R.id.tv_register_day);
             ivPreviewType = itemView.findViewById(R.id.iv_preview_type);
             tvSubtitle = itemView.findViewById(R.id.tv_subtitle);
             tvUnread = itemView.findViewById(R.id.tv_unread);
+            muteDot = itemView.findViewById(R.id.v_mute_dot);
         }
     }
 }

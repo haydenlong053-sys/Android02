@@ -1,6 +1,8 @@
 package com.freddy.im.http.model.im;
 
 
+import androidx.annotation.Nullable;
+
 import java.io.Serializable;
 
 /**
@@ -21,7 +23,12 @@ public class SessionItem implements Serializable {
     private int unPullCount;
     private int internalFlag;
     private long topNum;
-    private boolean muteNotify;
+    /**
+     * 免打扰：接口多为 {@code 0/1}；用 {@link Boolean} 区分「未下发」与「明确 false」，
+     * 避免 getList 缺字段时把本地免打扰冲掉。
+     */
+    @Nullable
+    private Boolean muteNotify;
     private String readedPosition;
     private String selfReadPosition;
     private String busi;
@@ -118,10 +125,19 @@ public class SessionItem implements Serializable {
     }
 
     public boolean isMuteNotify() {
+        return Boolean.TRUE.equals(muteNotify);
+    }
+
+    @Nullable
+    public Boolean getMuteNotify() {
         return muteNotify;
     }
 
     public void setMuteNotify(boolean muteNotify) {
+        this.muteNotify = muteNotify;
+    }
+
+    public void setMuteNotify(@Nullable Boolean muteNotify) {
         this.muteNotify = muteNotify;
     }
 

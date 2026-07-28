@@ -229,4 +229,5 @@
     <string name="call_ended">通话已结束</string>
     <string name="call_remote_busy">对方忙线</string>
     <string name="call_remote_cancelled">对方已取消</string>
+    <string name="call_remote_no_answer">对方未接听</string>
 </resources>

@@ -92,6 +92,16 @@ class CallActivity : AppCompatActivity() {
         }
     }
 
+    /** 主叫振铃超时：未接通则自动取消。 */
+    private val outgoingRingTimeout = Runnable {
+        if (finishing || isFinishing || callConnected || !outgoing) {
+            return@Runnable
+        }
+        eLogD(tAG, "主叫振铃超时 ${OUTGOING_RING_TIMEOUT_MS}ms，自动取消 callId=$callId")
+        ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_remote_no_answer)
+        hangup()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         currentRef = WeakReference(this)
@@ -125,6 +135,7 @@ class CallActivity : AppCompatActivity() {
         if (outgoing || (!TextUtils.isEmpty(callUrl) && !TextUtils.isEmpty(callToken))) {
             joinCurrentRoom()
         }
+        startOutgoingRingTimeout()
     }
 
     private fun parseIntent() {
@@ -491,6 +502,7 @@ class CallActivity : AppCompatActivity() {
     private fun onCallConnected() {
         if (callConnected) return
         callConnected = true
+        cancelOutgoingRingTimeout()
         connectedAtMs = System.currentTimeMillis()
         incomingActionContainer.visibility = View.GONE
         if (isMultiCall) {
@@ -552,6 +564,7 @@ class CallActivity : AppCompatActivity() {
     }
 
     private fun hangup(sendSignal: Boolean = true) {
+        cancelOutgoingRingTimeout()
         if (!finishing && sendSignal) {
             sendLeaveCallSignal()
         }
@@ -560,6 +573,19 @@ class CallActivity : AppCompatActivity() {
         CallUtil.leaveRoom(this)
         restoreAudio()
         finishFade()
+    }
+
+    /** 1v1 主叫：接通前 20s 未接听则超时取消。 */
+    private fun startOutgoingRingTimeout() {
+        cancelOutgoingRingTimeout()
+        if (!outgoing || isMultiCall || callConnected || finishing) {
+            return
+        }
+        durationHandler.postDelayed(outgoingRingTimeout, OUTGOING_RING_TIMEOUT_MS)
+    }
+
+    private fun cancelOutgoingRingTimeout() {
+        durationHandler.removeCallbacks(outgoingRingTimeout)
     }
 
     /**
@@ -608,6 +634,7 @@ class CallActivity : AppCompatActivity() {
         if (currentRef?.get() === this) {
             currentRef = null
         }
+        cancelOutgoingRingTimeout()
         durationHandler.removeCallbacks(durationTicker)
         if (!finishing) {
             CallUtil.leaveRoom(this)
@@ -635,6 +662,9 @@ class CallActivity : AppCompatActivity() {
         const val EXTRA_TOKEN = "token"
         const val EXTRA_VIDEO = "video"
         const val EXTRA_OUTGOING = "outgoing"
+
+        /** 主叫振铃超时（毫秒）。 */
+        private const val OUTGOING_RING_TIMEOUT_MS = 60_000L
 
         @Volatile
         private var currentRef: WeakReference<CallActivity>? = null

@@ -52,6 +52,10 @@ enum class ConversationSessionCategory {
             }
             var total = 0
             for (session in sessions) {
+                // 免打扰会话不计入 Tab 未读角标（对齐野火 isSilent）
+                if (session.isMuteNotify) {
+                    continue
+                }
                 val unread = session.unreadCount
                 if (unread > 0) {
                     total += unread
