@@ -28,7 +28,8 @@ import com.freddy.im.listener.OnHttpImListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/** 邀请/添加群成员（§3.4 / §3.17）。 */
+/** 邀请/添加群成员（§3.4 / §3.17）。 测试类 */
+@Deprecated
 public class GroupAddMemberActivity extends AppCompatActivity {
 
     private static final int USER_LIST_PAGE_SIZE = 30;

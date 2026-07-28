@@ -431,12 +431,15 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                 val ids = selected.mapNotNull { it.userId }
                 ImGroupHttpExample.requestKickOut(qunId, ids, object : OnHttpImListener<String> {
                     override fun onHttpImSuccess(result: String) {
-                        runOnUiThread { finish() }
+                        runOnUiThread {
+                            ToastBroadUtils.show(getString(R.string.group_apply_action_success))
+                            finish()
+                        }
                     }
                 }, {
-                    runOnUiThread {
-                        ToastBroadUtils.show(getString(R.string.group_kick_failed))
-                    }
+//                    runOnUiThread {
+//                        ToastBroadUtils.show(getString(R.string.group_kick_failed))
+//                    }
                 })
             }
             "selectManager" -> {
@@ -462,12 +465,15 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                 val ids = selected.mapNotNull { it.userId }
                 ImGroupHttpExample.requestAddMembers(qunId, ids, object : OnHttpImListener<com.freddy.im.http.model.im.GroupVo> {
                     override fun onHttpImSuccess(result: com.freddy.im.http.model.im.GroupVo) {
-                        runOnUiThread { finish() }
+                        runOnUiThread {
+                            ToastBroadUtils.show(getString(R.string.group_apply_action_success))
+                            finish()
+                        }
                     }
                 }, {
-                    runOnUiThread {
-                        ToastBroadUtils.show(getString(R.string.group_add_member_failed))
-                    }
+//                    runOnUiThread {
+//                        ToastBroadUtils.show(getString(R.string.group_add_member_failed))
+//                    }
                 })
             }
             ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS -> {

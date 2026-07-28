@@ -823,7 +823,10 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         @Suppress("UNCHECKED_CAST")
         val updates = obj as? List<SessionItem> ?: return
         val update = updates.firstOrNull { it.sessionId == qunId } ?: return
-        runOnUiThread { applyGroupSessionUpdate(update) }
+        runOnUiThread {
+            applyGroupSessionUpdate(update)
+            viewModel?.refreshMembersFromLocal(qunId, currentUserId)
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
