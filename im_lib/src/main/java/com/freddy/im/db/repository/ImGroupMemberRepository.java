@@ -9,6 +9,7 @@ import com.freddy.im.db.ImDbExecutor;
 import com.freddy.im.db.ImRealm;
 import com.freddy.im.db.entity.GroupMemberEntity;
 import com.freddy.im.db.mapper.GroupMemberRealmMapper;
+import com.freddy.im.group.GroupRole;
 import com.freddy.im.http.model.im.GroupMemberItem;
 
 import java.util.ArrayList;
@@ -217,6 +218,61 @@ public final class ImGroupMemberRepository {
                 list.add(GroupMemberRealmMapper.toItem(entity));
             }
             return list;
+        } finally {
+            realm.close();
+        }
+    }
+
+    /**
+     * 分页查询未删除成员，按 {@code joinTime} 升序。
+     *
+     * @param ownerOrAdminOnly true 时仅返回群主 / 管理员（role=0/1）
+     */
+    @NonNull
+    public List<GroupMemberItem> queryActivePage(@NonNull String groupId,
+                                                 int offset,
+                                                 int limit,
+                                                 boolean ownerOrAdminOnly) {
+        if (!ImRealm.isUserBound() || TextUtils.isEmpty(groupId) || limit <= 0) {
+            return Collections.emptyList();
+        }
+        int safeOffset = Math.max(0, offset);
+        Realm realm = ImRealm.getRealm();
+        try {
+            io.realm.RealmQuery<GroupMemberEntity> query = realm.where(GroupMemberEntity.class)
+                    .equalTo("groupId", groupId)
+                    .equalTo("deleted", false);
+            if (ownerOrAdminOnly) {
+                query = query.in("role", new Integer[]{GroupRole.OWNER, GroupRole.ADMIN});
+            }
+            List<GroupMemberEntity> results = query.sort("joinTime").findAll();
+            if (safeOffset >= results.size()) {
+                return Collections.emptyList();
+            }
+            int end = Math.min(safeOffset + limit, results.size());
+            List<GroupMemberItem> list = new ArrayList<>(end - safeOffset);
+            for (int i = safeOffset; i < end; i++) {
+                list.add(GroupMemberRealmMapper.toItem(results.get(i)));
+            }
+            return list;
+        } finally {
+            realm.close();
+        }
+    }
+
+    public int countActive(@NonNull String groupId, boolean ownerOrAdminOnly) {
+        if (!ImRealm.isUserBound() || TextUtils.isEmpty(groupId)) {
+            return 0;
+        }
+        Realm realm = ImRealm.getRealm();
+        try {
+            io.realm.RealmQuery<GroupMemberEntity> query = realm.where(GroupMemberEntity.class)
+                    .equalTo("groupId", groupId)
+                    .equalTo("deleted", false);
+            if (ownerOrAdminOnly) {
+                query = query.in("role", new Integer[]{GroupRole.OWNER, GroupRole.ADMIN});
+            }
+            return (int) query.count();
         } finally {
             realm.close();
         }

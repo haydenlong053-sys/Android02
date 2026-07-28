@@ -398,7 +398,9 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
     private fun bindClicks() {
         chakangebngduo.setOnClickListener {
-            JumpBroadUtils.startImQunUserListActivity(this, qunId, myRole)
+            JumpBroadUtils.startImQunUserListActivity(
+                this, qunId, myRole, groupVo?.busiExt?.openQykj
+            )
         }
         mIvGroupQrcode.setOnClickListener {
             JumpBroadUtils.startImQunCodeActivity(this, qunId, groupVo)

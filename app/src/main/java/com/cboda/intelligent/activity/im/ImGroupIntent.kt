@@ -10,6 +10,7 @@ object ImGroupIntent {
     const val EXTRA_GROUP_ID = "im_group_id"
     const val EXTRA_GROUP_VO = "im_group_vo"
     const val EXTRA_MY_ROLE = "im_my_role"
+    const val EXTRA_OPEN_QYKJ = "im_open_qykj"
     const val EXTRA_NOTICE = "im_notice"
     const val EXTRA_MEMBER_USER_ID = "im_member_user_id"
     const val EXTRA_MEMBER_UI_TYPE = "im_member_ui_type"

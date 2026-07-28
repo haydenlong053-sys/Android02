@@ -15,6 +15,7 @@ import com.freddy.im.db.entity.SessionEntity;
 import com.freddy.im.db.repository.ImGroupMemberRepository;
 import com.freddy.im.db.repository.ImMessageRepository;
 import com.freddy.im.db.repository.ImSessionRepository;
+import com.freddy.im.group.GroupRole;
 import com.freddy.im.http.model.im.GroupMemberItem;
 import com.freddy.im.http.model.im.SessionItem;
 
@@ -523,5 +524,45 @@ public final class ImLocalStore {
             Map<String, GroupMemberItem> map = queryGroupMembersMap(groupId);
             MAIN_HANDLER.post(() -> callback.onLoaded(map));
         });
+    }
+
+    /**
+     * 群成员分页（本地库）：{@code openQykj=1} 且本人为普通成员时仅返回群主/管理员。
+     *
+     * @param knownMyRole &gt;=0 时直接使用，否则按 ownerId / 本地成员表推断
+     */
+    public static void loadGroupMembersPage(@NonNull String groupId,
+                                            @Nullable String currentUserId,
+                                            @Nullable String ownerId,
+                                            @Nullable String openQykj,
+                                            int knownMyRole,
+                                            int offset,
+                                            int limit,
+                                            @NonNull OnLoadCallback<GroupMemberPageResult> callback) {
+        ImDbExecutor.runRead(() -> {
+            int myRole = knownMyRole >= 0
+                    ? knownMyRole
+                    : resolveMyGroupRole(groupId, currentUserId, ownerId);
+            boolean ownerOrAdminOnly = "1".equals(openQykj) && !GroupRole.isOwnerOrAdmin(myRole);
+            ImGroupMemberRepository repo = ImGroupMemberRepository.getInstance();
+            int total = repo.countActive(groupId, ownerOrAdminOnly);
+            List<GroupMemberItem> page = repo.queryActivePage(groupId, offset, limit, ownerOrAdminOnly);
+            GroupMemberPageResult result = new GroupMemberPageResult(page, total, myRole);
+            MAIN_HANDLER.post(() -> callback.onLoaded(result));
+        });
+    }
+
+    /** 解析本人在群内角色：群主 id 优先，否则读本地成员表。 */
+    public static int resolveMyGroupRole(@NonNull String groupId,
+                                         @Nullable String currentUserId,
+                                         @Nullable String ownerId) {
+        if (!TextUtils.isEmpty(currentUserId) && currentUserId.equals(ownerId)) {
+            return GroupRole.OWNER;
+        }
+        if (TextUtils.isEmpty(currentUserId)) {
+            return GroupRole.MEMBER;
+        }
+        GroupMemberItem me = queryGroupMember(groupId, currentUserId);
+        return me != null ? me.getRole() : GroupRole.MEMBER;
     }
 }

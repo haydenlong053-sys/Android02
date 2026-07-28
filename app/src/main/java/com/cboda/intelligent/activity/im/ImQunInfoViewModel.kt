@@ -13,11 +13,12 @@ import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.utils.dismissLoading
 import com.cboda.intelligent.utils.showLoading
 import com.cboda.intelligent.utils.showToastMain
+import com.freddy.im.db.GroupMemberPageResult
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.group.GroupRole
 import com.freddy.im.http.ImConversationHttpExample
 import com.freddy.im.http.ImGroupHttpExample
-import com.freddy.im.http.model.im.GroupMemberListContent
+import com.freddy.im.http.model.im.GroupMemberItem
 import com.freddy.im.http.model.im.GroupNoticeRes
 import com.freddy.im.http.model.im.GroupUserVo
 import com.freddy.im.http.model.im.GroupVo
@@ -48,11 +49,10 @@ class ImQunInfoViewModel : BaseViewModel() {
 
         var groupVo: GroupVo? = null
         var notice: String? = null
-        var members: List<GroupUserVo> = emptyList()
         var pinned = false
         var muted = false
         var detailFailed = false
-        val pending = AtomicInteger(4)
+        val pending = AtomicInteger(3)
 
         fun publish() {
             if (pending.decrementAndGet() > 0) return
@@ -60,18 +60,19 @@ class ImQunInfoViewModel : BaseViewModel() {
                 _state.postValue(ImGroupInfoUiState(loadFailed = true, loading = false))
                 return
             }
-            val myRole = ImGroupMemberUiMapper.resolveMyRole(members, currentUserId, groupVo?.owerId)
-            _state.postValue(
-                ImGroupInfoUiState(
-                    groupVo = groupVo,
-                    noticeContent = notice,
-                    members = members,
-                    myRole = myRole,
-                    sessionPinned = pinned,
-                    sessionMuted = muted,
-                    loading = false
+            loadMembersFromLocal(groupId, currentUserId, groupVo) { members, myRole ->
+                _state.postValue(
+                    ImGroupInfoUiState(
+                        groupVo = groupVo,
+                        noticeContent = notice,
+                        members = members,
+                        myRole = myRole,
+                        sessionPinned = pinned,
+                        sessionMuted = muted,
+                        loading = false
+                    )
                 )
-            )
+            }
         }
 
         ImLocalStore.loadSessions { sessions ->
@@ -97,18 +98,6 @@ class ImQunInfoViewModel : BaseViewModel() {
                 publish()
             }
         }, { publish() })
-
-        ImGroupHttpExample.requestGetGroupMemberList(
-            groupId, 0, 13,
-            object : OnHttpImListener<GroupMemberListContent> {
-                override fun onHttpImSuccess(content: GroupMemberListContent) {
-                    members = content.members
-                    publish()
-                }
-            }, Runnable {
-                publish()
-            })
-
     }
 
     /** 本地修改群公告成功后回写 UI（EventBus），避免详情页仍显示旧文案。 */
@@ -119,45 +108,44 @@ class ImQunInfoViewModel : BaseViewModel() {
     }
 
     fun refreshMembers(groupId: String, currentUserId: String?) {
-        ImGroupHttpExample.requestGetGroupMemberList(
-            groupId, 0, 13,
-            object : OnHttpImListener<GroupMemberListContent> {
-                override fun onHttpImSuccess(content: GroupMemberListContent) {
-                    val cur = _state.value ?: return
-                    val myRole = ImGroupMemberUiMapper.resolveMyRole(
-                        content.members, currentUserId, cur.groupVo?.owerId
-                    )
-                    _state.postValue(cur.copy(members = content.members, myRole = myRole))
-                }
-            }, Runnable {
-//                Log.w(ImGroupMemberChangeManager.TAG, ("memberList 失败 groupId=" + groupId + " anchor=" + anchor))
-            })
+        val cur = _state.value ?: ImGroupInfoUiState()
+        loadMembersFromLocal(groupId, currentUserId, cur.groupVo) { members, myRole ->
+            _state.postValue(cur.copy(members = members, myRole = myRole, loading = false))
+        }
     }
 
     /** 信令更新本地成员角色后，从 Realm 刷新网格与 myRole。 */
     fun refreshMembersFromLocal(groupId: String, currentUserId: String?) {
-        ImLocalStore.loadGroupMembersMap(groupId) { map ->
-            val members = map.values
-                .sortedBy { it.joinTime }
-                .map { item ->
-                    GroupUserVo().apply {
-                        userId = item.userId
-                        nickname = item.nickname
-                        groupNickname = item.groupNickname
-                        username = item.username
-                        headPortrait = item.headPortrait
-                        role = item.role
-                    }
-                }
-            val cur = _state.value ?: ImGroupInfoUiState()
-            val myRole = if (!currentUserId.isNullOrEmpty() && currentUserId == cur.groupVo?.owerId) {
-                GroupRole.OWNER
-            } else if (!currentUserId.isNullOrEmpty()) {
-                map[currentUserId]?.role ?: GroupRole.MEMBER
-            } else {
-                GroupRole.MEMBER
-            }
-            _state.postValue(cur.copy(members = members.take(13), myRole = myRole))
+        refreshMembers(groupId, currentUserId)
+    }
+
+    private fun loadMembersFromLocal(
+        groupId: String,
+        currentUserId: String?,
+        groupVo: GroupVo?,
+        onDone: (List<GroupUserVo>, Int) -> Unit,
+    ) {
+        ImLocalStore.loadGroupMembersPage(
+            groupId,
+            currentUserId,
+            groupVo?.owerId,
+            groupVo?.busiExt?.openQykj,
+            -1,
+            0,
+            DETAIL_MEMBER_PREVIEW_LIMIT,
+        ) { page: GroupMemberPageResult ->
+            onDone(page.members.map { toGroupUserVo(it) }, page.myRole)
+        }
+    }
+
+    private fun toGroupUserVo(item: GroupMemberItem): GroupUserVo {
+        return GroupUserVo().apply {
+            userId = item.userId
+            nickname = item.nickname
+            groupNickname = item.groupNickname
+            username = item.username
+            headPortrait = item.headPortrait
+            role = item.role
         }
     }
 
@@ -308,6 +296,9 @@ class ImQunInfoViewModel : BaseViewModel() {
     }
 
     companion object {
+        /** 群详情网格预览人数（对齐原 memberList anchor=0,count=13） */
+        const val DETAIL_MEMBER_PREVIEW_LIMIT = 13
+
         /** 将 editGroup 成功结果回写到本地 GroupVo / busiExt。 */
         fun applyEditGroupField(vo: GroupVo, key: String, value: String) {
             val ext = vo.ensureBusiExt()

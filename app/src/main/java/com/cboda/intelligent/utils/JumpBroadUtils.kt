@@ -316,10 +316,18 @@ class JumpBroadUtils {
             context?.startActivity(intent)
         }
 
-        fun startImQunUserListActivity(context: Context?, qunId: String, myRole: Int) {
+        fun startImQunUserListActivity(
+            context: Context?,
+            qunId: String,
+            myRole: Int,
+            openQykj: String? = null,
+        ) {
             val intent = Intent(context, ImQunUserList2BroadActivity::class.java)
             intent.putExtra("qunid", qunId)
             intent.putExtra(ImGroupIntent.EXTRA_MY_ROLE, myRole)
+            if (!openQykj.isNullOrEmpty()) {
+                intent.putExtra(ImGroupIntent.EXTRA_OPEN_QYKJ, openQykj)
+            }
             context?.startActivity(intent)
         }
 
