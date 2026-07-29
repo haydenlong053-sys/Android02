@@ -78,6 +78,11 @@ class MMKVBroadUtils {
         const val KEFU_NAME_KEY = "kefuNameKey"
         const val KEY_FRIEND_LIST_DATA = "key_friend_list_data"
 
+        /** userInfo.fris：新朋友申请未处理数 */
+        const val KEY_NEW_FRIEND_APPLY_COUNT = "key_new_friend_apply_count"
+        /** userInfo.gros：新群邀请未处理数（自研角标唯一数据源） */
+        const val KEY_NEW_GROUP_INVITE_COUNT = "key_new_group_invite_count"
+
         const val KEY_GROUP_LIST_DATA = "key_group_list_data"
 
         const val KEY_GROUP_DATE_LIST_DATA = "key_group_date_list_data"
@@ -619,6 +624,31 @@ class MMKVBroadUtils {
             } catch (e: Exception) {
                 e.toLog("MMKVBroadUtilsClass")
             }
+        }
+
+        /** 写入通讯录角标计数（来自 api/userInfo 的 fris / gros）。 */
+        fun saveContactBadgeCounts(fris: Long, gros: Long) {
+            saveSqlLongData(KEY_NEW_FRIEND_APPLY_COUNT, fris.coerceAtLeast(0L))
+            saveSqlLongData(KEY_NEW_GROUP_INVITE_COUNT, gros.coerceAtLeast(0L))
+        }
+
+        fun getNewFriendApplyCount(): Long {
+            return getSqlLongData(KEY_NEW_FRIEND_APPLY_COUNT, 0L).coerceAtLeast(0L)
+        }
+
+        fun getNewGroupInviteCount(): Long {
+            return getSqlLongData(KEY_NEW_GROUP_INVITE_COUNT, 0L).coerceAtLeast(0L)
+        }
+
+        fun getContactBadgeTotal(): Long {
+            return getNewFriendApplyCount() + getNewGroupInviteCount()
+        }
+
+        /** 处理完一条新群邀请后的乐观减一（随后应用户Info 对账）。 */
+        fun decrementNewGroupInviteCount(delta: Long = 1L): Long {
+            val next = (getNewGroupInviteCount() - delta).coerceAtLeast(0L)
+            saveSqlLongData(KEY_NEW_GROUP_INVITE_COUNT, next)
+            return next
         }
 
         //配置-新入群天数

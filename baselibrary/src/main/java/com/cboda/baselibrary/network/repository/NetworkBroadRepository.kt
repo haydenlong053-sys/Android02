@@ -732,6 +732,39 @@ object NetworkBroadRepository {
         )
     }
 
+    /**
+     * 加密 POST，扁平响应并反序列化为指定类型（写法对齐 [postEncrypted]）。
+     */
+    suspend fun <T> postEncryptedFlat2(
+        url: String,
+        clazz: Class<T>,
+        body: Any,
+    ): NetworkBroadResult<T> = suspendCancellableCoroutine { continuation ->
+        NetworkBroadUtils.postEncryptedFlat(
+            url = url,
+            body = body,
+            callback = object : NetworkBroadUtils.FlatMapCallback {
+                override fun onSuccess(map: Map<String, Any?>) {
+                    try {
+                        val gson = GsonUtils.getGson()
+                        val result = gson.fromJson(gson.toJson(map), clazz)
+                        continuation.resume(NetworkBroadResult.BroadSuccess(result))
+                    } catch (e: Exception) {
+                        continuation.resume(NetworkBroadResult.BroadError(e))
+                    }
+                }
+
+                override fun onFailure(code: Int, message: String) {
+                    continuation.resume(NetworkBroadResult.BroadFailure(code, message))
+                }
+
+                override fun onError(throwable: Throwable) {
+                    continuation.resume(NetworkBroadResult.BroadError(throwable))
+                }
+            },
+        )
+    }
+
 
     /**
      * 协程版本的列表 POST 请求

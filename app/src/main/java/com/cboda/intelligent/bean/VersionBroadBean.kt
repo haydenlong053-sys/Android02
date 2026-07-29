@@ -1,19 +1,26 @@
 package com.cboda.intelligent.bean
 
-import com.cboda.baselibrary.bean.BaseBroadResponse
+import java.io.Serializable
 
 /**
- * 简述： <功能描述>
- * Created by ysh on 2023/4/7.
+ * POST {@code /api/versionUpdate} 扁平响应业务字段。
+ *
+ * @property number 升级编号，与本地 versionCode 比较
+ * @property type 0 可选 / 1 强制
+ * @property platform android / ios/all
  */
-class VersionBroadBean : BaseBroadResponse() {
-    var result: Version? = null
+class VersionUpdateBean : Serializable {
+    var number: Int = 0
+    var version: String? = null
+    var url: String? = null
+    var content: String? = null
+    var type: String? = null
+    var platform: String? = null
 
-    class Version {
-        var number: String? = null
-        var version: String? = null
-        var type: String? = null //类型 1强制更新
-        var content: String? = null
-        var url: String? = null
+    fun isForceUpdate(): Boolean = type == "1"
+
+    fun isAndroidPlatform(): Boolean {
+        val p = platform?.trim()?.lowercase().orEmpty()
+        return p.isEmpty() || p == "android" || p == "all"
     }
 }

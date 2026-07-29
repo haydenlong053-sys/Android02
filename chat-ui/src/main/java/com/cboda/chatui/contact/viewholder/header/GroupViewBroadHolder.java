@@ -9,10 +9,10 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.chatui.R;
 import com.cboda.chatui.contact.UserListBroadAdapter;
 import com.cboda.chatui.contact.model.GroupBroadValue;
-import cn.wildfirechat.remote.ChatManager;
 
 @SuppressWarnings("unused")
 public class GroupViewBroadHolder extends HeaderViewBroadHolder<GroupBroadValue> {
@@ -29,14 +29,14 @@ public class GroupViewBroadHolder extends HeaderViewBroadHolder<GroupBroadValue>
 
     @Override
     public void onBind(GroupBroadValue groupValue) {
-        if (tvNewGroupUnread != null){
-            long count = ChatManager.Instance().qunshenqing;
+        if (tvNewGroupUnread != null) {
+            long count = MMKVBroadUtils.Companion.getNewGroupInviteCount();
             if (count > 0) {
                 tvNewGroupUnread.setVisibility(View.VISIBLE);
-                if (count >99){
+                if (count > 99) {
                     tvNewGroupUnread.setText("99+");
                 } else {
-                    tvNewGroupUnread.setText("" + count);
+                    tvNewGroupUnread.setText(String.valueOf(count));
                 }
             } else {
                 tvNewGroupUnread.setVisibility(View.GONE);

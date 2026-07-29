@@ -15,7 +15,8 @@ import kotlin.system.exitProcess
 object HttpsBroadConfig {
     // 此处提审的时候改成true
     const val isReviewEnv = BuildConfig.IS_REVIEW_ENV
-    const val openTPay = true
+    const val openTPay = !BuildConfig.IS_DEBUG
+
     /**
      * 仅用自研 IM：保留野火 ChatManager.init（登录 clientId / MeetPlugin），
      * 但跳过野火长连 connect，Main 不等野火 ClientService。
@@ -25,7 +26,18 @@ object HttpsBroadConfig {
         get():String {
             return "$appHost2/api"
         }
-    const val MY_IM_HOST: String = "[{\"host\":\"95.40.9.142\", \"port\":1081}]"
+
+    //自研的长连接host
+    const val MY_IM_SOCKET_HOST_FAT: String = "[{\"host\":\"95.40.9.142\", \"port\":1081}]"
+    const val MY_IM_SOCKET_HOST_RELEASE: String = "[{\"host\":\"18.163.110.184\", \"port\":1081}]"
+    //自研的短连接http的host
+    const val MY_IM_HTTP_HOST_FAT: String = "https://im-test.seekweb4.ai/"
+    const val MY_IM_HTTP_HOST_RELEASE: String = "https://im-prd.seekweb4.ai/"
+    @JvmField
+    var myImSocketHost = MY_IM_SOCKET_HOST_RELEASE
+    @JvmField
+    var myImHttpsHost = MY_IM_HTTP_HOST_RELEASE
+
     var appHost2 = ""
 
     //    var appBaseUrl2 = ""
@@ -72,6 +84,8 @@ object HttpsBroadConfig {
                 appIcePassword = "aT3BxjPy4MRdC6@"
                 appGroupAvatarHost = "https://app.seekweb4.net"
                 appAesPwd = "f81q30ryiacasda1"
+                myImSocketHost = MY_IM_SOCKET_HOST_RELEASE
+                myImHttpsHost = MY_IM_HTTP_HOST_RELEASE
             }
 
             HONGKONG_TYPE -> {
@@ -82,6 +96,9 @@ object HttpsBroadConfig {
                 appGroupAvatarHost = "https://api.seekweb4.ai"
                 appAesPwd = "PgGMe2BWyp8G3SFxdn5fDjL5rFUoTYm1"
                 appWebHost = appHost
+                myImSocketHost = MY_IM_SOCKET_HOST_RELEASE
+                myImHttpsHost = MY_IM_HTTP_HOST_RELEASE
+
             }
 
             FAT_TYPE -> {
@@ -91,6 +108,8 @@ object HttpsBroadConfig {
                 appIcePassword = "aT3BxjPy4MRdC6@"
                 appGroupAvatarHost = "https://api-fat.seekweb4.net"
                 appAesPwd = "f81q30ryiacasda1"
+                myImSocketHost = MY_IM_SOCKET_HOST_FAT
+                myImHttpsHost = MY_IM_HTTP_HOST_FAT
             }
 
             HTTP_TYPE -> {
@@ -100,6 +119,8 @@ object HttpsBroadConfig {
                 appIcePassword = "aT3BxjPy4MRdC6@"
                 appGroupAvatarHost = "https://api.seekweb4.net"
                 appAesPwd = "1q30vqwerf8yiac3"
+                myImSocketHost = MY_IM_SOCKET_HOST_RELEASE
+                myImHttpsHost = MY_IM_HTTP_HOST_RELEASE
             }
 
 
@@ -111,6 +132,8 @@ object HttpsBroadConfig {
                 appIcePassword = "aT3BxjPy4MRdC6@"
                 appGroupAvatarHost = "https://api-fat.seekweb4.net"
                 appAesPwd = "1q30vqwerf8yiac3"
+                myImSocketHost = MY_IM_SOCKET_HOST_RELEASE
+                myImHttpsHost = MY_IM_HTTP_HOST_RELEASE
             }
 
             RELEASE_TYPE -> {
@@ -120,6 +143,8 @@ object HttpsBroadConfig {
                 appIcePassword = "aT3BxjPy4MRdC6@"
                 appGroupAvatarHost = "http://119.45.9.228:8888"
                 appAesPwd = "1q30vqwerf8yiac3"
+                myImSocketHost = MY_IM_SOCKET_HOST_RELEASE
+                myImHttpsHost = MY_IM_HTTP_HOST_RELEASE
             }
 
             EIGHT_FOUR -> {
@@ -129,6 +154,8 @@ object HttpsBroadConfig {
                 appIcePassword = "aT3BxjPy4MRdC6@"
                 appGroupAvatarHost = "http://119.45.9.228:8888"
                 appAesPwd = "1q30vqwerf8yiac3"
+                myImSocketHost = MY_IM_SOCKET_HOST_RELEASE
+                myImHttpsHost = MY_IM_HTTP_HOST_RELEASE
             }
 
             else -> {
@@ -138,6 +165,8 @@ object HttpsBroadConfig {
                 appIcePassword = "aT3BxjPy4MRdC6@"
                 appGroupAvatarHost = "https://api-fat.seekweb4.net"
                 appAesPwd = "f81q30ryiacasda1"
+                myImSocketHost = MY_IM_SOCKET_HOST_RELEASE
+                myImHttpsHost = MY_IM_HTTP_HOST_RELEASE
             }
         }
 

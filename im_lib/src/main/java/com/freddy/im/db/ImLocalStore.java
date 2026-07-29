@@ -220,7 +220,7 @@ public final class ImLocalStore {
     }
 
     /**
-     * 加载会话「最新」一页本地消息，最多 {@link #MESSAGE_PAGE_SIZE} 条（按 {@code sequenceId} 升序展示）。
+     * 加载会话「最新」一页本地消息，最多 {@link #MESSAGE_PAGE_SIZE} 条（按 {@code timestamp} 升序展示）。
      * <p>
      * 禁止在主线程调用；请使用 {@link #loadMessages(String, OnLoadCallback)}。
      */
@@ -239,14 +239,14 @@ public final class ImLocalStore {
     }
 
     /**
-     * 加载比 {@code boundarySequenceId} 更旧的一页，最多 {@code limit} 条（升序）。
+     * 加载比 {@code boundaryTimestamp} 更旧的一页，最多 {@code limit} 条（升序）。
      */
     @NonNull
     public static List<AppMessage> loadMessagesOlderThan(@Nullable String sessionId,
-                                                         long boundarySequenceId,
+                                                         long boundaryTimestamp,
                                                          int limit) {
         return ImMessageRepository.getInstance()
-                .queryOlderPageBySessionId(sessionId, boundarySequenceId, limit);
+                .queryOlderPageBySessionId(sessionId, boundaryTimestamp, limit);
     }
 
     /**
@@ -420,10 +420,11 @@ public final class ImLocalStore {
                         messages = latestPage;
                         hasMore = !latestPage.isEmpty()
                                 && ImMessageRepository.getInstance().hasOlderMessages(
-                                sessionId, latestPage.get(0).getSequenceId());
+                                sessionId, latestPage.get(0).getTimestamp());
                     } else {
                         List<AppMessage> older = ImMessageRepository.getInstance()
-                                .queryOlderPageBySessionId(sessionId, targetSeq, MESSAGE_PAGE_SIZE);
+                                .queryOlderPageBySessionId(sessionId, target.getTimestamp(),
+                                        MESSAGE_PAGE_SIZE);
                         List<AppMessage> fromTarget = ImMessageRepository.getInstance()
                                 .queryFromSequenceId(sessionId, targetSeq);
                         messages = new ArrayList<>(older.size() + fromTarget.size());
@@ -431,7 +432,7 @@ public final class ImLocalStore {
                         messages.addAll(fromTarget);
                         hasMore = !older.isEmpty()
                                 && ImMessageRepository.getInstance().hasOlderMessages(
-                                sessionId, older.get(0).getSequenceId());
+                                sessionId, older.get(0).getTimestamp());
                     }
                 }
             }

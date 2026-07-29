@@ -24,7 +24,6 @@ import com.freddy.chat.event.CEventCenter;
 import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.chat.event.Events;
 import com.freddy.chat.event.I_CEventListener;
-import com.freddy.chat.group.GroupListActivity;
 import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.ImConversationHttpExample;
@@ -96,8 +95,7 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
 
         btnCreateGroup.setOnClickListener(v ->
                 startActivity(new Intent(requireContext(), CreateGroupActivity.class)));
-        view.findViewById(R.id.btn_my_groups).setOnClickListener(v ->
-                startActivity(new Intent(requireContext(), GroupListActivity.class)));
+
 
         // 禁用下拉刷新；列表由 onViewCreated / 信令事件触发 loadConversationList
         swipeRefreshConversations.setEnabled(false);

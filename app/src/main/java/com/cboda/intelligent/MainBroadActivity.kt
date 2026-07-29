@@ -98,6 +98,7 @@ import com.cboda.chatui.user.UserViewBroadModel
 import com.cboda.chatui.utils.E
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.bean.SquareMessageUnreadBroadEvent
+import com.cboda.intelligent.bean.VersionUpdateBean
 import com.cboda.intelligent.compose.ExpandableBottomBar
 import com.cboda.intelligent.compose.ExpandableBottomBarBroadItem
 import com.cboda.intelligent.dialog.pop.PaymentMethodPopup
@@ -120,6 +121,7 @@ import com.cboda.intelligent.utils.showSelectPayMethodPop
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.viewmodel.ConversationParentViewModel
 import com.cboda.intelligent.viewmodel.NewMirrorViewBroadModel
+import com.cboda.intelligent.viewmodel.VersionUpdateViewBroadModel
 import com.cboda.intelligent.widge.CustomClickBroadView
 import com.cboda.intelligent.widge.MyUnreadCountTextBroadView
 import com.freddy.chat.ConversationListFragment
@@ -129,7 +131,6 @@ import com.freddy.chat.event.I_CEventListener
 import com.freddy.chat.im.IMSClientBootstrap
 import com.freddy.im.http.model.im.SessionItem
 import com.freddy.im.signal.othbusi.OthBusiSigJson
-import com.freddy.chat.utils.WeChatUiHelper
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -167,6 +168,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
     private val uIViewModel: HomeUIViewModel by viewModels()
     private val quickMeetViewModel: QuickMeetViewBroadModel by viewModels()
+    private val versionUpdateViewModel: VersionUpdateViewBroadModel by viewModels()
 
     private val newMirrorViewBroadModel: NewMirrorViewBroadModel by viewModels()
     /** 自研 IM 会话未读（与 MessageBroadFragment 共享 Activity 作用域）。 */
@@ -473,6 +475,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 //        getsitonggonggao()
 
 //        viewModel?.versionUpdate(this)
+        checkVersionUpdate()
         val hasNotificationPermission = AppPermissionBroadUtils.hasNotificationPermission(this)
         if (!hasNotificationPermission) {
             AppPermissionBroadUtils.requestNotificationPermission(this, 1001)
@@ -532,6 +535,63 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                     }
                 }
             }
+        }
+    }
+
+    /** 检查版本更新：number > 本地 versionCode 时弹框；点更新用 url 跳外部浏览器下载。 */
+    private fun checkVersionUpdate() {
+        versionUpdateViewModel.versionUpdate().observe(this@MainBroadActivity) { bean ->
+            if (bean == null || !bean.isAndroidPlatform()) {
+                return@observe
+            }
+            val localCode = AppBroadUtils.getVersionCode(this)
+            eLogD(APP_TAG,"localCode=$localCode  number=${bean.number}")
+            if (bean.number <= localCode) {
+                return@observe
+            }
+            showVersionUpdateDialog(bean)
+        }
+    }
+
+    private fun showVersionUpdateDialog(bean: VersionUpdateBean) {
+        val content = if (!TextUtils.isEmpty(bean.content)) {
+            bean.content!!
+        } else {
+            "发现新版本 ${bean.version.orEmpty()}，请更新后继续使用"
+        }
+        val force = bean.isForceUpdate()
+        showCommonStrTip(
+            "发现新版本",
+            content,
+            if (force) "" else "稍后",
+            "立即更新",
+            this,
+            isOutSideTouchable = !force
+        ) { update ->
+            if (update) {
+                openExternalDownload(bean.url)
+//                if (force) {
+//                    // 强制更新：点完仍再弹，避免绕过
+//                    showVersionUpdateDialog(bean)
+//                }
+            }
+        }
+    }
+
+    private fun openExternalDownload(url: String?) {
+        if (TextUtils.isEmpty(url)) {
+            ToastBroadUtils.show("下载地址为空")
+            return
+        }
+        try {
+            val intent = android.content.Intent(
+                android.content.Intent.ACTION_VIEW,
+                android.net.Uri.parse(url)
+            )
+            startActivity(intent)
+        } catch (e: Exception) {
+            eLogD(APP_TAG, "openExternalDownload fail: ${e.message}")
+            ToastBroadUtils.show("无法打开下载链接")
         }
     }
 
@@ -603,10 +663,9 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             MMKVBroadUtils.saveUserVip(data.isVip)
             MMKVBroadUtils.saveSqlStrData(LOGIN_USER_DATA, toJson2(data))
             viewModel?.getKfInfo(this@MainBroadActivity, data.aiRobotId)
-            tongxunluUnreadCount = (data.fris + data.gros).toString()
-            if (!HttpsBroadConfig.useSelfImOnly) {
-                ChatManager.Instance().qunshenqing = data.gros
-            }
+            // 新群邀请角标唯一数据源：userInfo.gros
+            MMKVBroadUtils.saveContactBadgeCounts(data.fris, data.gros)
+            tongxunluUnreadCount = MMKVBroadUtils.getContactBadgeTotal().toString()
 
             IMSClientBootstrap.getInstance().currentUserAvatarUrl = data.userImg
             eLogD("看看未读", "main$tongxunluUnreadCount")
@@ -615,12 +674,14 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                     null,
                     null,
                     null,
-//                    (it?.unreadMention!! + it?.unreadMentionAll!!).toString()
                     null,
                     null,
                     null,
                     tongxunluUnreadCount
                 )
+            )
+            EventBus.getDefault().post(
+                AppBroadEvent(AppEventBroadCode.EVENT_REFRESH_CONTACT, true)
             )
             // useSelfImOnly 时未 connect，ChatManager.userId 为空，modifyMyInfo 会 NPE
             if (!HttpsBroadConfig.useSelfImOnly) {
@@ -942,12 +1003,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                                     val qunshu = split[1].toLong()
                                     val zongshu = xinepngy + qunshu
                                     eLogD("野火", "收到自定义通知消息---> $xinepngy")
-//                                    if (zongshu > 99) {
-//                                        tongxunluUnreadCount = "99+"
-//                                    } else {
-//                                        tongxunluUnreadCount = zongshu.toString()
-//                                    }
-                                    ChatManager.Instance().qunshenqing = qunshu
+                                    MMKVBroadUtils.saveContactBadgeCounts(xinepngy, qunshu)
                                     tongxunluUnreadCount = zongshu.toString()
                                     fragmentList.forEachIndexed { index, fragment ->
                                         if (fragment is TongXunLuBroadFragment) {

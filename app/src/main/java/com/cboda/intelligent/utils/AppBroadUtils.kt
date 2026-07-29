@@ -37,7 +37,6 @@ import com.freddy.im.http.model.im.SessionItem
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.signal.ImSignalProtos
 import com.freddy.im.util.ImUtils
-import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.baselibrary.utils.getAppVersion
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
@@ -253,7 +252,7 @@ class AppBroadUtils {
 
         fun goLoginMyIm(apptoken: String?, userId: String?) {
 //            eLogD("EasyHttp", "setGlobalHeaders--> $userId  $apptoken")
-            IMSClientBootstrap.getInstance().init(userId, apptoken, HttpsBroadConfig.MY_IM_HOST, IMSConfig.APP_STATUS_FOREGROUND)
+            IMSClientBootstrap.getInstance().init(userId, apptoken, HttpsBroadConfig.myImSocketHost, IMSConfig.APP_STATUS_FOREGROUND)
             ImHttpConfig.setGlobalHeaders(apptoken, userId, ImSignalProtos.ClientType.ANDROID_VALUE)
         }
 

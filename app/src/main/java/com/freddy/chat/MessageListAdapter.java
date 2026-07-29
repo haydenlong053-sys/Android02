@@ -373,8 +373,42 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
             appendMessages(Collections.singletonList(message));
             return;
         }
-        items.set(index, message);
-        notifyItemChanged(index);
+        AppMessage old = items.get(index);
+        boolean timeChanged = old != null && old.getTimestamp() != message.getTimestamp();
+        if (!timeChanged) {
+            items.set(index, message);
+            notifyItemChanged(index);
+            return;
+        }
+        // 重发刷新时间后，按 timestamp（同毫秒再比 sequenceId）重排到正确位置
+        items.remove(index);
+        int newIndex = findInsertIndexByTimestamp(message);
+        items.add(newIndex, message);
+        if (newIndex == index) {
+            notifyItemChanged(newIndex);
+        } else {
+            notifyItemMoved(index, newIndex);
+            notifyItemChanged(newIndex);
+        }
+    }
+
+    /** 升序列表中按 timestamp / sequenceId 找插入下标（列表中尚无该消息）。 */
+    private int findInsertIndexByTimestamp(@NonNull AppMessage message) {
+        long ts = message.getTimestamp();
+        long seq = message.getSequenceId();
+        for (int i = 0; i < items.size(); i++) {
+            AppMessage existing = items.get(i);
+            if (existing == null) {
+                continue;
+            }
+            if (existing.getTimestamp() > ts) {
+                return i;
+            }
+            if (existing.getTimestamp() == ts && existing.getSequenceId() > seq) {
+                return i;
+            }
+        }
+        return items.size();
     }
 
     public void replaceOrUpdateMessage(@NonNull AppMessage message) {

@@ -541,6 +541,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     }
 
     private void loadLocalMessages() {
+        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"focusMsgId==="+focusMsgId);
         if (!TextUtils.isEmpty(focusMsgId)) {
             loadMessagesForFocus(focusMsgId);
             return;
@@ -1009,7 +1010,10 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         }
         ImLocalStore.markOutgoingResending(message.getClientMsgId(), updated -> {
             AppMessage toResend = updated != null ? updated : message;
-            runOnUiThreadSafe(() -> adapter.updateMessage(toResend));
+            runOnUiThreadSafe(() -> {
+                adapter.updateMessage(toResend);
+                scrollToLatest();
+            });
             dispatchResend(toResend);
         });
     }
@@ -1195,11 +1199,11 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             updateSwipeRefreshEnabled();
             return;
         }
-        final long boundarySeq = first.getSequenceId();
+        final long boundaryTimestamp = first.getTimestamp();
         CThreadPoolExecutor.runInBackground(() -> {
             List<AppMessage> older = ImLocalStore.loadMessagesOlderThan(
                     sessionId,
-                    boundarySeq,
+                    boundaryTimestamp,
                     ImLocalStore.MESSAGE_PAGE_SIZE);
             CThreadPoolExecutor.runOnMainThread(() -> {
                 LinearLayoutManager lm = (LinearLayoutManager) recyclerView.getLayoutManager();

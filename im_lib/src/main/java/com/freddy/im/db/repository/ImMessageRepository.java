@@ -109,9 +109,11 @@ public final class ImMessageRepository {
         }
         Realm realm = ImRealm.getRealm();
         try {
+            // 试验：按时间升序（sequenceId 作同毫秒兜底），避免失败消息 sequenceId=0 顶到最前
             RealmResults<MessageEntity> results = realm.where(MessageEntity.class)
                     .equalTo("sessionId", sessionId)
-                    .sort("sequenceId", Sort.ASCENDING)
+                    .sort(new String[]{"timestamp", "sequenceId"},
+                            new Sort[]{Sort.ASCENDING, Sort.ASCENDING})
                     .findAll();
             List<AppMessage> list = new ArrayList<>(results.size());
             for (MessageEntity entity : results) {
@@ -130,9 +132,11 @@ public final class ImMessageRepository {
         }
         Realm realm = ImRealm.getRealm();
         try {
+            // 试验：按时间取最新一页（sequenceId 作同毫秒兜底）
             RealmResults<MessageEntity> results = realm.where(MessageEntity.class)
                     .equalTo("sessionId", sessionId)
-                    .sort("sequenceId", Sort.DESCENDING)
+                    .sort(new String[]{"timestamp", "sequenceId"},
+                            new Sort[]{Sort.DESCENDING, Sort.DESCENDING})
                     .limit(limit)
                     .findAll();
             return toAscendingAppMessages(realm, results);
@@ -141,9 +145,12 @@ public final class ImMessageRepository {
         }
     }
 
+    /**
+     * 加载比 {@code boundaryTimestamp} 更旧的一页（按时间降序取后反转为升序）。
+     */
     @NonNull
     public List<AppMessage> queryOlderPageBySessionId(@Nullable String sessionId,
-                                                      long boundarySequenceId,
+                                                      long boundaryTimestamp,
                                                       int limit) {
         if (TextUtils.isEmpty(sessionId) || !ImRealm.isUserBound() || limit <= 0) {
             return Collections.emptyList();
@@ -152,8 +159,9 @@ public final class ImMessageRepository {
         try {
             RealmResults<MessageEntity> results = realm.where(MessageEntity.class)
                     .equalTo("sessionId", sessionId)
-                    .lessThan("sequenceId", boundarySequenceId)
-                    .sort("sequenceId", Sort.DESCENDING)
+                    .lessThan("timestamp", boundaryTimestamp)
+                    .sort(new String[]{"timestamp", "sequenceId"},
+                            new Sort[]{Sort.DESCENDING, Sort.DESCENDING})
                     .limit(limit)
                     .findAll();
             return toAscendingAppMessages(realm, results);
@@ -270,6 +278,9 @@ public final class ImMessageRepository {
         updateOutgoingSendStatus(clientMsgId, IMSConfig.SEND_STATUS_FAILED, onUpdated);
     }
 
+    /**
+     * 失败消息重发：状态改回发送中，并刷新为当前时间，保证按时间排序时落在会话底部。
+     */
     public void markOutgoingResending(@Nullable String clientMsgId,
                                       @Nullable OnMessageUpdatedCallback onUpdated) {
         updateOutgoingSendStatus(clientMsgId, IMSConfig.SEND_STATUS_SENDING, onUpdated);
@@ -282,6 +293,7 @@ public final class ImMessageRepository {
             return;
         }
         final String id = clientMsgId;
+        final long now = System.currentTimeMillis();
         ImDbExecutor.runWrite(() -> {
             Realm realm = ImRealm.getRealm();
             try {
@@ -291,6 +303,9 @@ public final class ImMessageRepository {
                             .findFirst();
                     if (entity != null) {
                         entity.setSendStatus(sendStatus);
+                        if (sendStatus == IMSConfig.SEND_STATUS_SENDING){
+                            entity.setTimestamp(now);
+                        }
                     }
                 });
             } finally {
@@ -804,7 +819,7 @@ public final class ImMessageRepository {
         }
     }
 
-    public boolean hasOlderMessages(@Nullable String sessionId, long boundarySequenceId) {
+    public boolean hasOlderMessages(@Nullable String sessionId, long boundaryTimestamp) {
         if (TextUtils.isEmpty(sessionId) || !ImRealm.isUserBound()) {
             return false;
         }
@@ -812,7 +827,7 @@ public final class ImMessageRepository {
         try {
             return realm.where(MessageEntity.class)
                     .equalTo("sessionId", sessionId)
-                    .lessThan("sequenceId", boundarySequenceId)
+                    .lessThan("timestamp", boundaryTimestamp)
                     .count() > 0;
         } finally {
             realm.close();

@@ -2,6 +2,7 @@ package com.freddy.im.http;
 
 import androidx.annotation.NonNull;
 
+import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.hjq.http.config.IHttpPostBodyStrategy;
 import com.hjq.http.config.IRequestServer;
 import com.hjq.http.model.RequestBodyType;
@@ -14,7 +15,8 @@ public final class RequestServer implements IRequestServer {
     @NonNull
     @Override
     public String getHost() {
-        return "https://im-test.seekweb4.ai/";
+//        return "https://im-test.seekweb4.ai/";
+        return HttpsBroadConfig.myImHttpsHost;
     }
 
     @NonNull
