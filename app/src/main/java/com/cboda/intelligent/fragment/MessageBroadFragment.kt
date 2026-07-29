@@ -149,7 +149,7 @@ class MessageBroadFragment : BaseLazyBroadFragment(), I_CEventListener {
         viewModel?.pintaiLiveData?.observe(viewLifecycleOwner) {
             it.data?.apply {
                 bean = this
-                ivkefu?.isVisible = this.showKf == "1"
+//                ivkefu?.isVisible = this.showKf == "1"
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
