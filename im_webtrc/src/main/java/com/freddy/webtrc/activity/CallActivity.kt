@@ -396,6 +396,7 @@ class CallActivity : AppCompatActivity() {
     }
 
     private fun acceptCall() {
+        val id = if (!TextUtils.isEmpty(callId)) callId else roomName
         if (!TextUtils.isEmpty(callUrl) && !TextUtils.isEmpty(callToken)) {
             incomingActionContainer.visibility = View.GONE
             if (isMultiCall) {
@@ -404,6 +405,9 @@ class CallActivity : AppCompatActivity() {
                 outgoingActionContainer?.visibility = View.VISIBLE
             }
             joinCurrentRoom()
+            if (!TextUtils.isEmpty(id) && !TextUtils.isEmpty(targetId)) {
+                CallSignalSender.accept(id, targetId, roomName, video)
+            }
             return
         }
         if (TextUtils.isEmpty(roomName)) {
@@ -438,6 +442,26 @@ class CallActivity : AppCompatActivity() {
                 CallSignalSender.accept(if (!TextUtils.isEmpty(callId)) callId else roomName, targetId, roomName, video)
             }
         }
+    }
+
+    /**
+     * 信令通知某用户已接通：
+     * - 1v1：进入已接通态（显示时长）
+     * - 多人：刷新该成员格子状态，并进入已接通计时
+     */
+    private fun handleRemoteUserConnected(fromUserId: String?) {
+        if (finishing || isFinishing) return
+        val selfId = MMKVBroadUtils.getRealUserId().orEmpty()
+        if (!fromUserId.isNullOrBlank() && TextUtils.equals(fromUserId, selfId)) {
+            return
+        }
+        if (isMultiCall) {
+            if (!fromUserId.isNullOrBlank()) {
+                ensureRemoteParticipantItem(fromUserId)
+                markParticipantConnected(fromUserId)
+            }
+        }
+        onCallConnected()
     }
 
     private fun onRoomEvent(event: RoomEvent) {
@@ -751,6 +775,22 @@ class CallActivity : AppCompatActivity() {
             val activity = currentRef?.get() ?: return false
             return TextUtils.equals(matchId, activity.callId)
                     || TextUtils.equals(matchId, activity.roomName)
+        }
+
+        /**
+         * 信令：某用户已接通（0x0502 type=1 / ACCEPT / MEMBER_JOINED）。
+         * 刷新通话页：1v1 进入计时；群通话更新该成员状态。
+         */
+        @JvmStatic
+        fun onRemoteUserConnected(matchId: String?, fromUserId: String?) {
+            if (matchId.isNullOrBlank()) return
+            val activity = currentRef?.get() ?: return
+            val same = TextUtils.equals(matchId, activity.callId)
+                    || TextUtils.equals(matchId, activity.roomName)
+            if (!same || activity.isFinishing || activity.finishing) return
+            activity.runOnUiThread {
+                activity.handleRemoteUserConnected(fromUserId)
+            }
         }
 
         /**

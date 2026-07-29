@@ -343,8 +343,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     CallSignalSender.busy(callId, sign.fromUserId, roomName, video)
                     return
                 }
-                // 被叫已收到：回执 CALL_SIGNAL(0x0502) / CALL_RINGING=1
-                CallSignalSender.ringing(callId, sign.fromUserId, roomName, video)
+                // type=1 由产品约定为「用户已接通」通知，此处不再回执 RINGING，避免主叫误判已接通
                 eLogD(tAG, "CALL_INVITE groupId=$groupId participants=$participantIds")
                 ThreadUtils.getMainHandler().post {
                     CallActivity.startIncoming(
@@ -356,6 +355,40 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                         callId = sign.callId,
                         groupId = groupId
                     )
+                }
+            }
+            ImSignalProtos.CallSignalType.CALL_RINGING_VALUE -> {
+                // 产品约定：0x0502 type=1 表示某用户已接通，刷新通话页 UI
+                val matchId = when {
+                    !TextUtils.isEmpty(sign.callId) -> sign.callId
+                    sign.hasRoomName() && !TextUtils.isEmpty(sign.roomName) -> sign.roomName
+                    else -> ""
+                }
+                eLogD(tAG, "用户已接通 CALL_RINGING/type=1 matchId=$matchId from=${sign.fromUserId}")
+                ThreadUtils.getMainHandler().post {
+                    CallActivity.onRemoteUserConnected(matchId, sign.fromUserId)
+                }
+            }
+            ImSignalProtos.CallSignalType.CALL_ACCEPT_VALUE -> {
+                val matchId = when {
+                    !TextUtils.isEmpty(sign.callId) -> sign.callId
+                    sign.hasRoomName() && !TextUtils.isEmpty(sign.roomName) -> sign.roomName
+                    else -> ""
+                }
+                eLogD(tAG, "对方接听 CALL_ACCEPT matchId=$matchId from=${sign.fromUserId}")
+                ThreadUtils.getMainHandler().post {
+                    CallActivity.onRemoteUserConnected(matchId, sign.fromUserId)
+                }
+            }
+            ImSignalProtos.CallSignalType.CALL_MEMBER_JOINED_VALUE -> {
+                val matchId = when {
+                    !TextUtils.isEmpty(sign.callId) -> sign.callId
+                    sign.hasRoomName() && !TextUtils.isEmpty(sign.roomName) -> sign.roomName
+                    else -> ""
+                }
+                eLogD(tAG, "成员加入 CALL_MEMBER_JOINED matchId=$matchId from=${sign.fromUserId}")
+                ThreadUtils.getMainHandler().post {
+                    CallActivity.onRemoteUserConnected(matchId, sign.fromUserId)
                 }
             }
             ImSignalProtos.CallSignalType.CALL_BUSY_VALUE -> {
