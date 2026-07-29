@@ -31,12 +31,15 @@ public final class SystemMessageVH extends RecyclerView.ViewHolder {
             String initiatorName = null;
             if (!sentByMe && !TextUtils.isEmpty(message.getFromId())) {
                 GroupMemberItem member = context.resolveMember(message.getFromId());
-                if (member != null && !TextUtils.isEmpty(member.getDisplayName())) {
-                    initiatorName = member.getDisplayName();
+                initiatorName = WeChatUiHelper.resolveGroupMemberDisplayName(
+                        member, message.getFromId());
+                if (TextUtils.isEmpty(initiatorName)) {
+                    initiatorName = null;
                 }
             }
-            tvSystemMessage.setText(MessageContentFormatter.formatGroupCallDisplayText(
-                    message.getContent(), initiatorName, sentByMe));
+            tvSystemMessage.setText(MessageContentFormatter.sanitizeOutgoingDisplayText(
+                    MessageContentFormatter.formatGroupCallDisplayText(
+                            message.getContent(), initiatorName, sentByMe)));
             return;
         }
         tvSystemMessage.setText(WeChatUiHelper.formatMessageBody(

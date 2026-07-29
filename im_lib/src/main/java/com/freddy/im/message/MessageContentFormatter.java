@@ -37,6 +37,9 @@ public final class MessageContentFormatter {
     private static final int SYSTEM_REMOVE_MEMBER = 3;
 
     private static final Pattern PLACEHOLDER_USER = Pattern.compile("\\$\\{([^}]+)\\}");
+    /** 群通话展示句：xxx发起了语音/视频通话 */
+    private static final Pattern GROUP_CALL_SENTENCE =
+            Pattern.compile("^(.*)发起了(语音|视频)通话$");
 
     private MessageContentFormatter() {
     }
@@ -105,11 +108,13 @@ public final class MessageContentFormatter {
                                            @Nullable Map<String, String> userIdToDisplayName) {
         if (isSystemMessage(message)) {
             if (isSystemContentJson(message.getContent())) {
-                return formatSystemDisplay(message.getContent(), message.getCustomInfo(),
-                        currentUserId, userIdToDisplayName);
+                return sanitizeOutgoingDisplayText(formatSystemDisplay(
+                        message.getContent(), message.getCustomInfo(),
+                        currentUserId, userIdToDisplayName));
             }
-            return formatTextDisplay(message.getContent(), message.getCustomInfo(),
-                    currentUserId, userIdToDisplayName);
+            return sanitizeOutgoingDisplayText(formatTextDisplay(
+                    message.getContent(), message.getCustomInfo(),
+                    currentUserId, userIdToDisplayName));
         }
         if (isCallMessageContent(message.getContent())) {
             boolean sentByMe = !TextUtils.isEmpty(currentUserId)
@@ -118,8 +123,8 @@ public final class MessageContentFormatter {
                     || isGroupCallContent(message.getContent());
             String initiatorName = resolveCallInitiatorName(
                     message.getContent(), message.getFromId(), currentUserId, userIdToDisplayName);
-            return formatCallDisplayText(
-                    message.getContent(), sentByMe, currentUserId, groupCall, initiatorName);
+            return sanitizeOutgoingDisplayText(formatCallDisplayText(
+                    message.getContent(), sentByMe, currentUserId, groupCall, initiatorName));
         }
         int type = message.getMsgContentType();
         if (isVoiceMessage(type)) {
@@ -153,8 +158,8 @@ public final class MessageContentFormatter {
         if (isMergeTranspondMessage(type)) {
             return formatMergeTranspondDisplay(message.getContent());
         }
-        return formatTextDisplay(message.getContent(), message.getCustomInfo(), currentUserId,
-                userIdToDisplayName);
+        return sanitizeOutgoingDisplayText(formatTextDisplay(
+                message.getContent(), message.getCustomInfo(), currentUserId, userIdToDisplayName));
     }
 
     @NonNull
@@ -219,21 +224,26 @@ public final class MessageContentFormatter {
         // 撤回优先：不依赖 contentType，避免图片/语音等快捷分支盖过撤回文案
         if (MessageRepealHelper.isRecalled(lastMessageStatus)) {
             String raw = !TextUtils.isEmpty(lastMessageContent) ? lastMessageContent : content;
-            return formatTextDisplay(raw, lastCustomInfo, currentUserId, userIdToDisplayName);
+            return sanitizeOutgoingDisplayText(
+                    formatTextDisplay(raw, lastCustomInfo, currentUserId, userIdToDisplayName));
         }
         if (isApiSystemMsgType(lastMsgType)) {
             String raw = !TextUtils.isEmpty(content) ? content : lastMessageContent;
             if (isSystemContentJson(raw)) {
-                return formatSystemDisplay(raw, lastCustomInfo, currentUserId, userIdToDisplayName);
+                return sanitizeOutgoingDisplayText(
+                        formatSystemDisplay(raw, lastCustomInfo, currentUserId, userIdToDisplayName));
             }
-            return formatTextDisplay(raw, lastCustomInfo, currentUserId, userIdToDisplayName);
+            return sanitizeOutgoingDisplayText(
+                    formatTextDisplay(raw, lastCustomInfo, currentUserId, userIdToDisplayName));
         }
         int type = parseContentTypeInt(contentType);
         if (isSystemContentJson(content)) {
-            return formatSystemDisplay(content, lastCustomInfo, currentUserId, userIdToDisplayName);
+            return sanitizeOutgoingDisplayText(
+                    formatSystemDisplay(content, lastCustomInfo, currentUserId, userIdToDisplayName));
         }
         if (!TextUtils.isEmpty(lastMessageContent) && isSystemContentJson(lastMessageContent)) {
-            return formatSystemDisplay(lastMessageContent, lastCustomInfo, currentUserId, userIdToDisplayName);
+            return sanitizeOutgoingDisplayText(formatSystemDisplay(
+                    lastMessageContent, lastCustomInfo, currentUserId, userIdToDisplayName));
         }
         if (isCallMessageContent(content) || isCallMessageContent(lastMessageContent)) {
             String callRaw = isCallMessageContent(content) ? content : lastMessageContent;
@@ -241,7 +251,8 @@ public final class MessageContentFormatter {
                     && TextUtils.equals(currentUserId, lastFromUserId);
             String initiatorName = resolveCallInitiatorName(
                     callRaw, lastFromUserId, currentUserId, userIdToDisplayName);
-            return formatCallDisplayText(callRaw, sentByMe, currentUserId, groupChat, initiatorName);
+            return sanitizeOutgoingDisplayText(
+                    formatCallDisplayText(callRaw, sentByMe, currentUserId, groupChat, initiatorName));
         }
         if (groupChat && isPlainCallDescPreview(content, lastMessageContent)) {
             String previewRaw = !TextUtils.isEmpty(content) ? content : lastMessageContent;
@@ -249,7 +260,8 @@ public final class MessageContentFormatter {
                     && TextUtils.equals(currentUserId, lastFromUserId);
             String initiatorName = resolveCallInitiatorName(
                     previewRaw, lastFromUserId, currentUserId, userIdToDisplayName);
-            return formatGroupCallDisplayText(previewRaw, initiatorName, sentByMe);
+            return sanitizeOutgoingDisplayText(
+                    formatGroupCallDisplayText(previewRaw, initiatorName, sentByMe));
         }
         if (isVoiceMessage(type)) {
             return "[语音]";
@@ -282,9 +294,11 @@ public final class MessageContentFormatter {
             return formatMergeTranspondDisplay(content);
         }
         if (!TextUtils.isEmpty(lastMessageContent)) {
-            return formatTextDisplay(lastMessageContent, lastCustomInfo, currentUserId, userIdToDisplayName);
+            return sanitizeOutgoingDisplayText(formatTextDisplay(
+                    lastMessageContent, lastCustomInfo, currentUserId, userIdToDisplayName));
         }
-        return formatTextDisplay(content, lastCustomInfo, currentUserId, userIdToDisplayName);
+        return sanitizeOutgoingDisplayText(
+                formatTextDisplay(content, lastCustomInfo, currentUserId, userIdToDisplayName));
     }
 
     /**
@@ -574,18 +588,101 @@ public final class MessageContentFormatter {
         if (sentByMe) {
             return "你发起了" + media;
         }
-        String name = initiatorName;
+        String name = preferShortDisplayName(initiatorName);
         if (TextUtils.isEmpty(name)) {
             JsonObject obj = parseJsonObject(raw);
             if (obj != null) {
-                name = firstCallString(obj,
-                        "fromUsername", "fromUserName", "callerName", "initiatorName");
+                name = preferShortDisplayName(firstCallString(obj,
+                        "fromUsername", "fromUserName", "callerName", "initiatorName"));
             }
         }
         if (!TextUtils.isEmpty(name)) {
             return name + "发起了" + media;
         }
         return "发起了" + media;
+    }
+
+    /**
+     * 将「昵称（备注）」缩成备注，避免文案过长（如「好计较（用过解决）」→「用过解决」）；
+     * 同时去掉包裹名的引号（如 {@code "用过解决"} → {@code 用过解决}）。
+     */
+    @NonNull
+    public static String preferShortDisplayName(@Nullable String name) {
+        if (TextUtils.isEmpty(name)) {
+            return "";
+        }
+        String trimmed = stripWrappingQuotes(name.trim());
+        String extracted = extractParentheticalAlias(trimmed);
+        return TextUtils.isEmpty(extracted) ? trimmed : extracted;
+    }
+
+    /** 去掉首尾成对引号：ASCII {@code "}、中文 {@code “”}/{@code 「」}。 */
+    @NonNull
+    private static String stripWrappingQuotes(@NonNull String name) {
+        String s = name;
+        while (s.length() >= 2) {
+            char first = s.charAt(0);
+            char last = s.charAt(s.length() - 1);
+            boolean pair = (first == '"' && last == '"')
+                    || (first == '\u201C' && last == '\u201D')
+                    || (first == '\u300C' && last == '\u300D');
+            if (!pair) {
+                break;
+            }
+            s = s.substring(1, s.length() - 1).trim();
+        }
+        return s;
+    }
+
+    /**
+     * 兜底修正群通话展示句：
+     * 「好计较（用过解决）发起了语音通话」→「用过解决发起了语音通话」；
+     * 也去掉人名两侧引号：{@code "XXX"发起了语音通话} → {@code XXX发起了语音通话}。
+     * 非该句式原文返回，避免误伤普通消息。
+     */
+    @NonNull
+    public static String sanitizeOutgoingDisplayText(@Nullable String text) {
+        if (TextUtils.isEmpty(text)) {
+            return "";
+        }
+        String trimmed = text.trim();
+        Matcher matcher = GROUP_CALL_SENTENCE.matcher(trimmed);
+        if (!matcher.matches()) {
+            return trimmed;
+        }
+        String name = preferShortDisplayName(matcher.group(1));
+        String media = matcher.group(2);
+        if (TextUtils.isEmpty(name)) {
+            return "发起了" + media + "通话";
+        }
+        return name + "发起了" + media + "通话";
+    }
+
+    @Nullable
+    private static String extractParentheticalAlias(@NonNull String name) {
+        String inner = extractInnerAlias(name, '（', '）');
+        if (!TextUtils.isEmpty(inner)) {
+            return inner;
+        }
+        return extractInnerAlias(name, '(', ')');
+    }
+
+    @Nullable
+    private static String extractInnerAlias(@NonNull String name, char left, char right) {
+        int start = name.indexOf(left);
+        if (start <= 0) {
+            return null;
+        }
+        int end = name.indexOf(right, start + 1);
+        if (end <= start + 1) {
+            return null;
+        }
+        // 仅当括号后无其它内容（纯「昵称（备注）」）时取备注
+        if (end != name.length() - 1) {
+            return null;
+        }
+        String inner = name.substring(start + 1, end).trim();
+        return TextUtils.isEmpty(inner) ? null : inner;
     }
 
     /** 从通话 content JSON 中读取主叫 userId（会话预览无本地消息时兜底）。 */
@@ -607,7 +704,7 @@ public final class MessageContentFormatter {
         if (!TextUtils.isEmpty(fromId) && userIdToDisplayName != null) {
             String mapped = userIdToDisplayName.get(fromId);
             if (!TextUtils.isEmpty(mapped)) {
-                return mapped;
+                return preferShortDisplayName(mapped);
             }
         }
         JsonObject obj = parseJsonObject(raw);
@@ -619,13 +716,13 @@ public final class MessageContentFormatter {
                     && !TextUtils.equals(callerId, currentUserId)) {
                 String mapped = userIdToDisplayName.get(callerId);
                 if (!TextUtils.isEmpty(mapped)) {
-                    return mapped;
+                    return preferShortDisplayName(mapped);
                 }
             }
             String name = firstCallString(obj,
                     "fromUsername", "fromUserName", "callerName", "initiatorName");
             if (!TextUtils.isEmpty(name)) {
-                return name;
+                return preferShortDisplayName(name);
             }
         }
         return null;
@@ -958,7 +1055,7 @@ public final class MessageContentFormatter {
         if (d.contains("未接听") || d.contains("无应答") || d.contains("未应答")) {
             return sentByMe ? "未接听" : "未接来电";
         }
-        return d;
+        return sanitizeOutgoingDisplayText(d);
     }
 
     @NonNull
@@ -1052,7 +1149,7 @@ public final class MessageContentFormatter {
         if (userIdToDisplayName != null) {
             String name = userIdToDisplayName.get(userId);
             if (!TextUtils.isEmpty(name)) {
-                return name;
+                return preferShortDisplayName(name);
             }
         }
         if (!TextUtils.isEmpty(currentUserId) && currentUserId.equals(userId)) {

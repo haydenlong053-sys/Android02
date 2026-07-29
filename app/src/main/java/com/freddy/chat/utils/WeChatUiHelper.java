@@ -276,6 +276,29 @@ public final class WeChatUiHelper {
         return MessageContentFormatter.formatDisplayText(message, currentUserId, userIdToDisplayName);
     }
 
+    /**
+     * 群成员展示名：群昵称 → 好友备注 → 用户昵称（对齐野火 getGroupMemberDisplayName）。
+     * 避免把「昵称（备注）」整段当作展示名。
+     */
+    @NonNull
+    public static String resolveGroupMemberDisplayName(@Nullable GroupMemberItem member,
+                                                       @Nullable String userId) {
+        if (member != null && !TextUtils.isEmpty(member.getGroupNickname())) {
+            return MessageContentFormatter.preferShortDisplayName(member.getGroupNickname());
+        }
+        String friendName = RealmUtil.INSTANCE.findFriendDisplayName(userId);
+        if (!TextUtils.isEmpty(friendName)) {
+            return MessageContentFormatter.preferShortDisplayName(friendName);
+        }
+        if (member != null) {
+            String name = member.getDisplayName();
+            if (!TextUtils.isEmpty(name)) {
+                return MessageContentFormatter.preferShortDisplayName(name);
+            }
+        }
+        return TextUtils.isEmpty(userId) ? "" : userId;
+    }
+
 
     /**
      * 会话列表预览：传入当前用户与群成员昵称，避免撤回等系统文案显示裸 userId。
@@ -331,8 +354,9 @@ public final class WeChatUiHelper {
             }
             if (group) {
                 GroupMemberItem member = ImLocalStore.queryGroupMember(session.getSessionId(), uid);
-                if (member != null && !TextUtils.isEmpty(member.getDisplayName())) {
-                    map.put(uid, member.getDisplayName());
+                String name = resolveGroupMemberDisplayName(member, uid);
+                if (!TextUtils.isEmpty(name)) {
+                    map.put(uid, name);
                 }
             } else {
                 String peerId = SessionDisplayEnricher.INSTANCE.resolvePeerUserId(session, null);

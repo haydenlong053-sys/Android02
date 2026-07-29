@@ -455,12 +455,6 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
 
     @NonNull
     private static String resolveDisplayName(@Nullable GroupMemberItem member, @Nullable String userId) {
-        if (member != null) {
-            String name = member.getDisplayName();
-            if (!TextUtils.isEmpty(name)) {
-                return name;
-            }
-        }
-        return TextUtils.isEmpty(userId) ? "" : userId;
+        return WeChatUiHelper.resolveGroupMemberDisplayName(member, userId);
     }
 }

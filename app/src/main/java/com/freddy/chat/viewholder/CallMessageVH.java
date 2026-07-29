@@ -14,6 +14,7 @@ import android.content.res.ColorStateList;
 import android.text.TextUtils;
 
 import com.cboda.intelligent.R;
+import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.http.model.im.GroupMemberItem;
 import com.freddy.im.message.MessageContentFormatter;
@@ -58,8 +59,10 @@ public final class CallMessageVH extends BaseMessageVH {
         String initiatorName = null;
         if (context.isGroupChat && !TextUtils.isEmpty(message.getFromId())) {
             GroupMemberItem member = context.resolveMember(message.getFromId());
-            if (member != null && !TextUtils.isEmpty(member.getDisplayName())) {
-                initiatorName = member.getDisplayName();
+            initiatorName = WeChatUiHelper.resolveGroupMemberDisplayName(
+                    member, message.getFromId());
+            if (TextUtils.isEmpty(initiatorName)) {
+                initiatorName = null;
             }
         }
         callTextView.setText(MessageContentFormatter.formatCallDisplayText(

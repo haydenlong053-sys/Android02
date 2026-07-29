@@ -119,7 +119,7 @@ public final class MessageViewHolderContext {
         Map<String, String> map = new HashMap<>(membersByUserId.size() + 1);
         for (Map.Entry<String, GroupMemberItem> e : membersByUserId.entrySet()) {
             if (e.getValue() != null) {
-                String name = e.getValue().getDisplayName();
+                String name = WeChatUiHelper.resolveGroupMemberDisplayName(e.getValue(), e.getKey());
                 if (!TextUtils.isEmpty(name)) {
                     map.put(e.getKey(), name);
                 }
