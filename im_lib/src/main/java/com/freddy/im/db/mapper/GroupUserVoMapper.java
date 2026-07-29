@@ -57,7 +57,7 @@ public final class GroupUserVoMapper {
         item.setIsvip(vo.getIsvip());
         item.setGrade(formatGrade(vo.getGrade()));
         item.setUserExtAttrs(vo.getUserExtAttrs());
-        item.setDeleted(false);
+        item.setDeleted(vo.isDeletedFlag());
         return item;
     }
 

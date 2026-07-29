@@ -28,6 +28,11 @@ public class GroupUserVo {
     private String headPortrait;
     private List<String> busiRoles;
     private String userExtAttrs;
+    /**
+     * 增量变更删除标记（{@code changeMemberList}）：0 正常，1 删除。
+     * 全量 {@code memberList} 通常不带此字段，默认为 0。
+     */
+    private int delFlag;
 
     public String getUserId() {
         return userId;
@@ -169,5 +174,18 @@ public class GroupUserVo {
 
     public void setUserExtAttrs(String userExtAttrs) {
         this.userExtAttrs = userExtAttrs;
+    }
+
+    public int getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(int delFlag) {
+        this.delFlag = delFlag;
+    }
+
+    /** {@code delFlag == 1} 表示成员已删除（退群/踢出等）。 */
+    public boolean isDeletedFlag() {
+        return delFlag == 1;
     }
 }

@@ -10,6 +10,7 @@ import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.freddy.im.http.api.AddGroupMembersApi;
 import com.freddy.im.http.api.ApplyInGroupApi;
 import com.freddy.im.http.api.ApproveInGroupApi;
+import com.freddy.im.http.api.ChangeGroupMemberListApi;
 import com.freddy.im.http.api.CreateGroupApi;
 import com.freddy.im.http.api.DisbandGroupApi;
 import com.freddy.im.http.api.GetAllGroupMembersApi;
@@ -39,6 +40,7 @@ import com.freddy.im.http.model.im.BaseMsgResponse;
 import com.freddy.im.http.model.im.GroupApplyInfoRes;
 import com.freddy.im.http.model.im.GroupFriendBean;
 import com.freddy.im.http.model.im.GroupListResp;
+import com.freddy.im.http.model.im.GroupMemberChangeListContent;
 import com.freddy.im.http.model.im.GroupMemberListContent;
 import com.freddy.im.http.model.im.GroupNoticeRes;
 import com.freddy.im.http.model.im.GroupQrCodeRes;
@@ -132,6 +134,27 @@ public final class ImGroupHttpExample {
         EasyHttp.post(ImUtilKt.getResumeActivity() != null ? ImUtilKt.getResumeActivity() : ApplicationLifecycle.getInstance())
                 .api(api)
                 .request(postListener("memberList", callback, onFail, true, GroupMemberListContent.class));
+    }
+
+    /**
+     * POST {@code /im/group/changeMemberList}：按 {@code since} 拉取成员增量（含 {@code delFlag}）。
+     *
+     * @param since 本地已对齐的 {@code memChgTime}（毫秒）
+     */
+    public static void requestChangeGroupMemberList(@NonNull String groupId,
+                                                    long since,
+                                                    @NonNull OnHttpImListener<GroupMemberChangeListContent> callback,
+                                                    @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(groupId)) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.post(ApplicationLifecycle.getInstance())
+                .api(new ChangeGroupMemberListApi().setGroupId(groupId).setSince(since))
+                .request(postListener("changeMemberList", callback, onFail, true,
+                        GroupMemberChangeListContent.class));
     }
 
     public static void requestGetAllMembers(@NonNull String groupId,
