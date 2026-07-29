@@ -1,10 +1,13 @@
 package com.freddy.im.bean;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.freddy.im.http.model.im.ImMessageItem;
 import com.freddy.im.message.ImMessageManager;
+import com.freddy.im.message.MessageContentFormatter;
 import com.freddy.im.message.MessageRepealHelper;
 
 import java.util.ArrayList;
@@ -33,7 +36,16 @@ public final class ImMessageMapper {
         m.setMsgType(item.getMsgType());
         m.setMsgContentType(parseContentType(item.getContentType()));
         m.setCustomInfo(item.getCustomInfo());
-        m.setContent(item.getContent());
+        String content = item.getContent();
+        String desc = item.getDesc();
+        // 服务端摘要：系统消息 content 常为 "{}"，详细文案在 desc
+        if (!TextUtils.isEmpty(desc)) {
+            m.setExtra(desc);
+        }
+        if (MessageContentFormatter.isBlankOrEmptyJson(content) && !TextUtils.isEmpty(desc)) {
+            content = desc;
+        }
+        m.setContent(content);
         m.setTimestamp(item.getSendTime());
         m.setConversationId(resolveSessionId(item.getGroupId(), item.getMessageId()));
         m.setToId(item.getTo());

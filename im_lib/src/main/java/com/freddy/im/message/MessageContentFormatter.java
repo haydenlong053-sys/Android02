@@ -1,5 +1,8 @@
 package com.freddy.im.message;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
+
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -15,6 +18,7 @@ import com.google.gson.JsonParser;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -107,14 +111,18 @@ public final class MessageContentFormatter {
                                            @Nullable String currentUserId,
                                            @Nullable Map<String, String> userIdToDisplayName) {
         if (isSystemMessage(message)) {
-            if (isSystemContentJson(message.getContent())) {
+            String raw = resolveSystemContentRaw(message.getContent(), message.getExtra());
+            if (isSystemContentJson(raw)) {
                 return sanitizeOutgoingDisplayText(formatSystemDisplay(
-                        message.getContent(), message.getCustomInfo(),
-                        currentUserId, userIdToDisplayName));
+                        raw, message.getCustomInfo(), currentUserId, userIdToDisplayName));
             }
-            return sanitizeOutgoingDisplayText(formatTextDisplay(
-                    message.getContent(), message.getCustomInfo(),
-                    currentUserId, userIdToDisplayName));
+            if (!isBlankOrEmptyJson(raw)) {
+                return sanitizeOutgoingDisplayText(formatTextDisplay(
+                        raw, message.getCustomInfo(), currentUserId, userIdToDisplayName));
+            }
+            // content 无效时仍尝试用 customInfo + 默认文案
+            return sanitizeOutgoingDisplayText(formatSystemDisplay(
+                    raw, message.getCustomInfo(), currentUserId, userIdToDisplayName));
         }
         if (isCallMessageContent(message.getContent())) {
             boolean sentByMe = !TextUtils.isEmpty(currentUserId)
@@ -229,7 +237,11 @@ public final class MessageContentFormatter {
         }
         if (isApiSystemMsgType(lastMsgType)) {
             String raw = !TextUtils.isEmpty(content) ? content : lastMessageContent;
-            if (isSystemContentJson(raw)) {
+            if (isBlankOrEmptyJson(raw) && !TextUtils.isEmpty(lastMessageContent)
+                    && !isBlankOrEmptyJson(lastMessageContent)) {
+                raw = lastMessageContent;
+            }
+            if (isSystemContentJson(raw) || isBlankOrEmptyJson(raw)) {
                 return sanitizeOutgoingDisplayText(
                         formatSystemDisplay(raw, lastCustomInfo, currentUserId, userIdToDisplayName));
             }
@@ -323,7 +335,7 @@ public final class MessageContentFormatter {
 
     public static boolean isSystemContentJson(@Nullable String raw) {
         JsonObject obj = parseJsonObject(raw);
-        if (obj == null || !obj.has("type") || !obj.has("msg")) {
+        if (obj == null || !obj.has("type")) {
             return false;
         }
         try {
@@ -334,39 +346,133 @@ public final class MessageContentFormatter {
         }
     }
 
+    /** content 为空、"{}" 或无有效字段的 JSON 对象。 */
+    public static boolean isBlankOrEmptyJson(@Nullable String raw) {
+        if (TextUtils.isEmpty(raw)) {
+            return true;
+        }
+        String trimmed = raw.trim();
+        if ("{}".equals(trimmed) || "null".equalsIgnoreCase(trimmed) || "[]".equals(trimmed)) {
+            return true;
+        }
+        JsonObject obj = parseJsonObject(trimmed);
+        return obj != null && obj.size() == 0;
+    }
+
+    @NonNull
+    private static String resolveSystemContentRaw(@Nullable String content, @Nullable String extraOrDesc) {
+        if (!isBlankOrEmptyJson(content)) {
+            return content;
+        }
+        if (!TextUtils.isEmpty(extraOrDesc)) {
+            return extraOrDesc.trim();
+        }
+        return content != null ? content : "";
+    }
+
     @NonNull
     private static String formatSystemDisplay(@Nullable String raw,
                                               @Nullable String customInfoJson,
                                               @Nullable String currentUserId,
                                               @Nullable Map<String, String> userIdToDisplayName) {
-        JsonObject obj = parseJsonObject(raw);
-        if (obj == null) {
-            return raw != null ? raw : "";
-        }
-        int type = obj.has("type") ? obj.get("type").getAsInt() : -1;
-        String msg = obj.has("msg") ? obj.get("msg").getAsString() : "";
         Map<String, String> nameMap = mergeDisplayNameMaps(
                 userIdToDisplayName, buildKeyToLabelMapFromCustomInfo(customInfoJson));
-        if (!TextUtils.isEmpty(msg)) {
+
+        // 纯文案摘要（来自 desc / extra）
+        if (!TextUtils.isEmpty(raw) && !isBlankOrEmptyJson(raw) && parseJsonObject(raw) == null) {
+            return substituteUserPlaceholders(raw.trim(), currentUserId, nameMap);
+        }
+
+        JsonObject obj = parseJsonObject(raw);
+        int type = -1;
+        if (obj != null && obj.has("type")) {
+            try {
+                type = obj.get("type").getAsInt();
+            } catch (Exception ignored) {
+                type = -1;
+            }
+        }
+        String msg = "";
+        if (obj != null) {
+            msg = firstPrimitiveString(obj, "msg", "text", "desc", "message", "content");
+        }
+        if (!TextUtils.isEmpty(msg) && !isBlankOrEmptyJson(msg)) {
             return substituteUserPlaceholders(msg, currentUserId, nameMap);
         }
-        return defaultSystemText(type, currentUserId);
+
+        String names = joinSysAtDisplayNames(customInfoJson, currentUserId, nameMap);
+        String typed = defaultSystemText(type, names);
+        if (!TextUtils.isEmpty(typed)) {
+            return typed;
+        }
+        if (!TextUtils.isEmpty(names)) {
+            return names;
+        }
+//        eLogD("formatSystemDisplay","raw:"+raw);
+//        eLogD("formatSystemDisplay",currentUserId);
+//        eLogD("formatSystemDisplay",customInfoJson);
+//        eLogD("formatSystemDisplay","userIdToDisplayName:"+toJson2(userIdToDisplayName));
+        return "[系统消息]";
     }
 
     @NonNull
-    private static String defaultSystemText(int type, @Nullable String currentUserId) {
+    private static String defaultSystemText(int type, @Nullable String actorNames) {
+        String who = TextUtils.isEmpty(actorNames) ? "" : actorNames;
         switch (type) {
             case SYSTEM_CREATE_GROUP:
-                return "创建了群聊";
+                return TextUtils.isEmpty(who) ? "创建了群聊" : (who + "创建了群聊");
             case SYSTEM_JOIN_MEMBER:
-                return "有成员加入了群聊";
+                return TextUtils.isEmpty(who) ? "有成员加入了群聊" : (who + "加入了群聊");
             case SYSTEM_RENAME_GROUP:
-                return "修改了群名称";
+                return TextUtils.isEmpty(who) ? "修改了群名称" : (who + "修改了群名称");
             case SYSTEM_REMOVE_MEMBER:
-                return "有成员被移出了群聊";
+                return TextUtils.isEmpty(who) ? "有成员被移出了群聊" : (who + "被移出了群聊");
             default:
                 return "";
         }
+    }
+
+    @Nullable
+    private static String firstPrimitiveString(@NonNull JsonObject obj, @NonNull String... keys) {
+        for (String key : keys) {
+            if (!obj.has(key) || !obj.get(key).isJsonPrimitive()) {
+                continue;
+            }
+            try {
+                String v = obj.get(key).getAsString();
+                if (!TextUtils.isEmpty(v)) {
+                    return v.trim();
+                }
+            } catch (Exception ignored) {
+                // continue
+            }
+        }
+        return null;
+    }
+
+    @NonNull
+    private static String joinSysAtDisplayNames(@Nullable String customInfoJson,
+                                                @Nullable String currentUserId,
+                                                @Nullable Map<String, String> userIdToDisplayName) {
+        Map<String, String> fromCustom = buildKeyToLabelMapFromCustomInfo(customInfoJson);
+        if (fromCustom == null || fromCustom.isEmpty()) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, String> e : fromCustom.entrySet()) {
+            String name = resolveDisplayName(e.getKey(), currentUserId, userIdToDisplayName);
+            if (TextUtils.isEmpty(name)) {
+                name = preferShortDisplayName(e.getValue());
+            }
+            if (TextUtils.isEmpty(name)) {
+                continue;
+            }
+            if (sb.length() > 0) {
+                sb.append("、");
+            }
+            sb.append(name);
+        }
+        return sb.toString();
     }
 
     @NonNull
@@ -375,7 +481,7 @@ public final class MessageContentFormatter {
                                             @Nullable String currentUserId,
                                             @Nullable Map<String, String> userIdToDisplayName) {
         String text = extractTextFromContent(raw);
-        if (TextUtils.isEmpty(text)) {
+        if (TextUtils.isEmpty(text) || isBlankOrEmptyJson(text)) {
             return "";
         }
         if (!PLACEHOLDER_USER.matcher(text).find()) {
@@ -396,7 +502,7 @@ public final class MessageContentFormatter {
 
     @NonNull
     private static String extractTextFromContent(@Nullable String raw) {
-        if (TextUtils.isEmpty(raw)) {
+        if (TextUtils.isEmpty(raw) || isBlankOrEmptyJson(raw)) {
             return "";
         }
         String trimmed = raw.trim();
@@ -407,8 +513,9 @@ public final class MessageContentFormatter {
         if (isCallMessageContent(trimmed)) {
             return formatCallDisplayText(trimmed, false);
         }
-        if (obj.has("msg") && obj.get("msg").isJsonPrimitive()) {
-            return obj.get("msg").getAsString();
+        String msg = firstPrimitiveString(obj, "msg", "text", "desc", "message");
+        if (!TextUtils.isEmpty(msg) && !isBlankOrEmptyJson(msg)) {
+            return msg;
         }
         if (obj.has("messages")) {
             return formatMergeTranspondDisplay(trimmed);
@@ -416,7 +523,8 @@ public final class MessageContentFormatter {
         if (obj.has("url")) {
             return formatFileDisplay(trimmed);
         }
-        return trimmed;
+        // 勿把 "{}" / 未知 JSON 原样当文案
+        return "";
     }
 
     /**
@@ -1167,7 +1275,7 @@ public final class MessageContentFormatter {
         if (custom == null || !custom.has("info") || !custom.get("info").isJsonArray()) {
             return null;
         }
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new LinkedHashMap<>();
         for (JsonElement el : custom.getAsJsonArray("info")) {
             if (!el.isJsonObject()) {
                 continue;
