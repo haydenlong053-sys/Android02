@@ -98,6 +98,7 @@ import com.cboda.chatui.user.UserViewBroadModel
 import com.cboda.chatui.utils.E
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.bean.SquareMessageUnreadBroadEvent
+import com.cboda.intelligent.bean.VersionUpdateBean
 import com.cboda.intelligent.compose.ExpandableBottomBar
 import com.cboda.intelligent.compose.ExpandableBottomBarBroadItem
 import com.cboda.intelligent.dialog.pop.PaymentMethodPopup
@@ -119,6 +120,7 @@ import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.utils.showSelectPayMethodPop
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.viewmodel.NewMirrorViewBroadModel
+import com.cboda.intelligent.viewmodel.VersionUpdateViewBroadModel
 import com.cboda.intelligent.widge.CustomClickBroadView
 import com.cboda.intelligent.widge.MyUnreadCountTextBroadView
 import com.freddy.chat.ConversationListFragment
@@ -162,6 +164,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 
     private val uIViewModel: HomeUIViewModel by viewModels()
     private val quickMeetViewModel: QuickMeetViewBroadModel by viewModels()
+    private val versionUpdateViewModel: VersionUpdateViewBroadModel by viewModels()
 
     private val newMirrorViewBroadModel: NewMirrorViewBroadModel by viewModels()
 
@@ -458,6 +461,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 //        getsitonggonggao()
 
 //        viewModel?.versionUpdate(this)
+        checkVersionUpdate()
         val hasNotificationPermission = AppPermissionBroadUtils.hasNotificationPermission(this)
         if (!hasNotificationPermission) {
             AppPermissionBroadUtils.requestNotificationPermission(this, 1001)
@@ -517,6 +521,63 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                     }
                 }
             }
+        }
+    }
+
+    /** 检查版本更新：number > 本地 versionCode 时弹框；点更新用 url 跳外部浏览器下载。 */
+    private fun checkVersionUpdate() {
+        versionUpdateViewModel.versionUpdate().observe(this@MainBroadActivity) { bean ->
+            if (bean == null || !bean.isAndroidPlatform()) {
+                return@observe
+            }
+            val localCode = AppBroadUtils.getVersionCode(this)
+            eLogD(APP_TAG,"localCode=$localCode  number=${bean.number}")
+            if (bean.number <= localCode) {
+                return@observe
+            }
+            showVersionUpdateDialog(bean)
+        }
+    }
+
+    private fun showVersionUpdateDialog(bean: VersionUpdateBean) {
+        val content = if (!TextUtils.isEmpty(bean.content)) {
+            bean.content!!
+        } else {
+            "发现新版本 ${bean.version.orEmpty()}，请更新后继续使用"
+        }
+        val force = bean.isForceUpdate()
+        showCommonStrTip(
+            "发现新版本",
+            content,
+            if (force) "" else "稍后",
+            "立即更新",
+            this,
+            isOutSideTouchable = !force
+        ) { update ->
+            if (update) {
+                openExternalDownload(bean.url)
+//                if (force) {
+//                    // 强制更新：点完仍再弹，避免绕过
+//                    showVersionUpdateDialog(bean)
+//                }
+            }
+        }
+    }
+
+    private fun openExternalDownload(url: String?) {
+        if (TextUtils.isEmpty(url)) {
+            ToastBroadUtils.show("下载地址为空")
+            return
+        }
+        try {
+            val intent = android.content.Intent(
+                android.content.Intent.ACTION_VIEW,
+                android.net.Uri.parse(url)
+            )
+            startActivity(intent)
+        } catch (e: Exception) {
+            eLogD(APP_TAG, "openExternalDownload fail: ${e.message}")
+            ToastBroadUtils.show("无法打开下载链接")
         }
     }
 

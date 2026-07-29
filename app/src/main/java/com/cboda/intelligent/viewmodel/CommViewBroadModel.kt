@@ -51,7 +51,6 @@ class CommViewBroadModel : FriendViewBroadModel() {
     var userLiveData = MutableLiveData<CommonResultBroadBean>()
     var keFuData = MutableLiveData<CommonResultBroadBean>()
     var pintaiLiveData = MutableLiveData<CommonResultBroadBean>()
-    var versionUpdateData = MutableLiveData<CommonResultBroadBean>()
     var sousuoLiveData = MutableLiveData<CommonDataListBroadBean>()
     var qunchengyuanListLiveData = MutableLiveData<CommonDataListBroadBean>()
     var xitongaongaoListLiveData = MutableLiveData<CommonDataListBroadBean>()
