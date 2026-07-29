@@ -76,9 +76,6 @@ import kotlinx.coroutines.withContext
 import com.cboda.baselibrary.view.magicindicator.MagicBroadIndicator
 import com.cboda.baselibrary.view.magicindicator.bindIndicatorAndViewPager
 import com.cboda.baselibrary.widge.NestedViewPager
-import com.cboda.chatui.conversationlist.ConversationGroupBroadFragment
-import com.cboda.chatui.conversationlist.ConversationOtherGroupBroadFragment
-import com.cboda.chatui.conversationlist.ConversationSingleBroadFragment
 import com.cboda.intelligent.widge.BadgeIndicatorAdapter
 import com.cboda.intelligent.widge.ImgIndicatorBroadAdapter
 import com.cboda.select.picture.utils.LanguageUtil
@@ -123,7 +120,7 @@ class MessageBroadFragment : BaseLazyBroadFragment(), I_CEventListener {
     //    var titles: ArrayList<String> = ArrayList()
     private val noticeViewModel: NoticeViewBroadModel by viewModels()
     private val friendViewModel: FriendViewBroadModel by viewModels()
-    private var conversationSingleFragment: ConversationSingleBroadFragment? = null
+    private var conversationSingleFragment: ConversationSingleFragment? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -226,12 +223,12 @@ class MessageBroadFragment : BaseLazyBroadFragment(), I_CEventListener {
 //            MMKVBroadUtils.getKeFuId()?.let { it1 -> AppBroadUtils.goChat(context, it1, "") }
             MMKVBroadUtils.getKeFuId()?.let { it1 -> AppBroadUtils.goChatP2p( it1, "", context) }
         }
-        conversationSingleFragment = ConversationSingleBroadFragment()
-        fragments.add(ConversationSingleFragment())
+        conversationSingleFragment = ConversationSingleFragment()
+        fragments.add(conversationSingleFragment!!)
         fragments.add(ConversationGroupFragment())
         fragments.add(ConversationOtherGroupFragment())
 
-//        fragments.add(conversationSingleFragment!!)
+//        fragments.add(ConversationSingleBroadFragment())
 //        fragments.add(ConversationGroupBroadFragment())
 //        fragments.add(ConversationOtherGroupBroadFragment())
 
