@@ -84,6 +84,11 @@ class CallActivity : AppCompatActivity() {
     private var wakeLock: PowerManager.WakeLock? = null
     private lateinit var audioManager: AudioManager
 
+    /** 群通话：已接通（信令或 LiveKit）的成员，用于取消其未接听超时。 */
+    private val connectedParticipantIds = mutableSetOf<String>()
+    /** 群通话：各被叫 60s 未接听超时任务。 */
+    private val pendingRingTimeouts = mutableMapOf<String, Runnable>()
+
     private val durationTicker = object : Runnable {
         override fun run() {
             if (callConnected && !isFinishing) {
@@ -93,7 +98,7 @@ class CallActivity : AppCompatActivity() {
         }
     }
 
-    /** 主叫振铃超时：未接通则自动取消。 */
+    /** 1v1 主叫振铃超时：未接通则自动取消。 */
     private val outgoingRingTimeout = Runnable {
         if (finishing || isFinishing || callConnected || !outgoing) {
             return@Runnable
@@ -128,6 +133,7 @@ class CallActivity : AppCompatActivity() {
         if (isMultiCall) {
             initMultiParticipants()
             applyMultiInitialUi()
+            startMultiParticipantRingTimeouts()
         } else {
             renderPeerInfo()
             applySingleInitialUi()
@@ -310,12 +316,17 @@ class CallActivity : AppCompatActivity() {
     }
 
     private fun markParticipantConnected(userId: String) {
+        if (userId.isBlank()) return
+        connectedParticipantIds.add(userId)
+        cancelParticipantRingTimeout(userId)
         val item = audioContainerGridLayout?.findViewWithTag<MultiCallParticipantItem>(userId) ?: return
         item.statusTextView.visibility = View.GONE
         item.statusTextView.text = ""
     }
 
     private fun removeParticipant(userId: String) {
+        cancelParticipantRingTimeout(userId)
+        connectedParticipantIds.remove(userId)
         val grid = audioContainerGridLayout
         if (grid != null) {
             val view = grid.findViewWithTag<View>(userId)
@@ -327,6 +338,56 @@ class CallActivity : AppCompatActivity() {
         if (TextUtils.equals(targetId, userId)) {
             targetId = participantIds.firstOrNull().orEmpty()
         }
+    }
+
+    /** 群通话主叫：对每个被叫启动 60s 未接听超时，超时后从页面移除。 */
+    private fun startMultiParticipantRingTimeouts() {
+        cancelAllParticipantRingTimeouts()
+        if (!outgoing || !isMultiCall || finishing) {
+            return
+        }
+        val selfId = MMKVBroadUtils.getRealUserId().orEmpty()
+        participantIds
+            .filter { it.isNotBlank() && it != selfId }
+            .forEach { scheduleParticipantRingTimeout(it) }
+    }
+
+    private fun scheduleParticipantRingTimeout(userId: String) {
+        if (userId.isBlank() || connectedParticipantIds.contains(userId)) {
+            return
+        }
+        cancelParticipantRingTimeout(userId)
+        val runnable = Runnable {
+            pendingRingTimeouts.remove(userId)
+            if (finishing || isFinishing) return@Runnable
+            if (connectedParticipantIds.contains(userId)) return@Runnable
+            eLogD(tAG, "群通话成员 $userId ${OUTGOING_RING_TIMEOUT_MS}ms 未接听，移除 callId=$callId")
+            removeUnansweredParticipant(userId)
+        }
+        pendingRingTimeouts[userId] = runnable
+        durationHandler.postDelayed(runnable, OUTGOING_RING_TIMEOUT_MS)
+    }
+
+    /** 超时未接听：发 CANCEL 停对端振铃，并从本页移除；无人剩余时结束本通。 */
+    private fun removeUnansweredParticipant(userId: String) {
+        val id = if (!TextUtils.isEmpty(callId)) callId else roomName
+        if (!TextUtils.isEmpty(id) && userId.isNotBlank()) {
+            CallSignalSender.cancel(id, userId, roomName, video)
+        }
+        removeParticipant(userId)
+        if (shouldEndMultiCall()) {
+            ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_remote_no_answer)
+            hangup(sendSignal = false)
+        }
+    }
+
+    private fun cancelParticipantRingTimeout(userId: String) {
+        pendingRingTimeouts.remove(userId)?.let { durationHandler.removeCallbacks(it) }
+    }
+
+    private fun cancelAllParticipantRingTimeouts() {
+        pendingRingTimeouts.values.forEach { durationHandler.removeCallbacks(it) }
+        pendingRingTimeouts.clear()
     }
 
     /**
@@ -535,9 +596,11 @@ class CallActivity : AppCompatActivity() {
     }
 
     private fun syncRemoteParticipants() {
-        // 进房时已在房内的远端，标记为已连接
-        // CallUtil 未暴露列表，通过事件补齐；此处仅标记已存在格子
-        participantIds.forEach { markParticipantConnected(it) }
+        // 仅标记 LiveKit 房内已存在的远端，避免把未接听邀请人误标为已接通
+        CallUtil.remoteParticipantIdentities(this).forEach { uid ->
+            ensureRemoteParticipantItem(uid)
+            markParticipantConnected(uid)
+        }
     }
 
     private fun ensureRemoteParticipantItem(userId: String) {
@@ -642,6 +705,7 @@ class CallActivity : AppCompatActivity() {
 
     private fun hangup(sendSignal: Boolean = true) {
         cancelOutgoingRingTimeout()
+        cancelAllParticipantRingTimeouts()
         if (!finishing && sendSignal) {
             sendLeaveCallSignal()
         }
@@ -726,6 +790,7 @@ class CallActivity : AppCompatActivity() {
             currentRef = null
         }
         cancelOutgoingRingTimeout()
+        cancelAllParticipantRingTimeouts()
         durationHandler.removeCallbacks(durationTicker)
         if (!finishing) {
             CallUtil.leaveRoom(this)

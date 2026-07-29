@@ -58,6 +58,12 @@ object CallUtil {
         return !getCallRoom(context)?.remoteParticipants.isNullOrEmpty()
     }
 
+    fun remoteParticipantIdentities(context: Context? = null): List<String> {
+        return getCallRoom(context)?.remoteParticipants?.values
+            ?.mapNotNull { it.identity?.value?.takeIf { id -> id.isNotBlank() } }
+            ?: emptyList()
+    }
+
     // 创建/加入通话
     fun joinRoom(url: String?, token: String?, scope: CoroutineScope? = null, context: Context? = null) {
         try {
