@@ -194,6 +194,7 @@ public final class CallSignalSender {
                 .setCallId(callId)
                 .setType(type)
                 .setFromUserId(fromUserId)
+                .setRoomName(roomName)
                 .setTimestamp(System.currentTimeMillis());
 
         String fromUsername = MMKVBroadUtils.Companion.getUserName();

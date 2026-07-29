@@ -435,6 +435,7 @@ class CallActivity : AppCompatActivity() {
                     outgoingActionContainer?.visibility = View.VISIBLE
                 }
                 joinCurrentRoom()
+                CallSignalSender.accept(if (!TextUtils.isEmpty(callId)) callId else roomName, targetId, roomName, video)
             }
         }
     }
