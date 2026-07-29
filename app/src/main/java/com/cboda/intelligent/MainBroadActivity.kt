@@ -118,11 +118,16 @@ import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.utils.showSelectPayMethodPop
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
+import com.cboda.intelligent.viewmodel.ConversationParentViewModel
 import com.cboda.intelligent.viewmodel.NewMirrorViewBroadModel
 import com.cboda.intelligent.widge.CustomClickBroadView
 import com.cboda.intelligent.widge.MyUnreadCountTextBroadView
 import com.freddy.chat.ConversationListFragment
+import com.freddy.chat.event.CEventCenter
+import com.freddy.chat.event.Events
+import com.freddy.chat.event.I_CEventListener
 import com.freddy.chat.im.IMSClientBootstrap
+import com.freddy.im.http.model.im.SessionItem
 import com.freddy.im.signal.othbusi.OthBusiSigJson
 import com.freddy.chat.utils.WeChatUiHelper
 import kotlinx.coroutines.launch
@@ -130,7 +135,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class MainBroadActivity : BaseSimpleBroadActivity() {
+class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
     private val fromType by lazy(LazyThreadSafetyMode.NONE) { intent?.getStringExtra("type") ?: "" }
     private var needShowAccount = false
@@ -164,6 +169,14 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
     private val quickMeetViewModel: QuickMeetViewBroadModel by viewModels()
 
     private val newMirrorViewBroadModel: NewMirrorViewBroadModel by viewModels()
+    /** 自研 IM 会话未读（与 MessageBroadFragment 共享 Activity 作用域）。 */
+    private val conversationParentViewModel: ConversationParentViewModel by viewModels()
+
+    private val imSessionEvents = arrayOf(
+        Events.NOTIFY_CONVERSATION_LIST,
+        Events.SESSION_LIST_UPDATED,
+        Events.SESSION_REMOVED,
+    )
 
     override fun getLayoutId(): Int {
         return R.layout.main_activity
@@ -189,6 +202,8 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         EventBus.getDefault().register(this)
+        CEventCenter.registerEventListener(this, imSessionEvents)
+        observeImUnreadCount()
         initViews()
         bottomLayout.isVisible = false
         val composeView = findViewById<ComposeView>(R.id.compose_bottom_bar)
@@ -640,6 +655,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
     }
 
     override fun onDestroy() {
+        CEventCenter.unregisterEventListener(this, imSessionEvents)
         super.onDestroy()
         EventBus.getDefault().unregister(this)
     }
@@ -1052,37 +1068,46 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
 
         conversationListViewModel?.unreadCountEventLiveData()?.observe(this) {
 //            Log.d(APP_TAG,"unreadCountEventLiveData==="+it.toString())
+            // 仅同步社交 Tab 等野火角标；消息底栏总未读改由自研 IM ConversationParentViewModel 驱动
             EventBus.getDefault().post(
                 UnreadCountBroadEvent(
                     null,
-                    it.singleCount?.toString(),
-                    it.groupCount?.toString(),
-//                    (it?.unreadMention!! + it?.unreadMentionAll!!).toString()
-                    (it?.unreadMention!!).toString(),
-                    it.myGroupCount.toString(),
-                    it.otherGroupCount.toString(),
+                    null,
+                    null,
+                    (it?.unreadMention ?: 0).toString(),
+                    null,
+                    null,
                     null
                 )
             )
-            val totalUnread = it.singleCount + it.groupCount
-            totalUnread.apply {
-                xiaoxiUnreadCount = this.toString()
-            }
         }
         viewPager.postDelayed({
             eLogD(this.javaClass.simpleName, "getGroupInfos671")
             conversationListViewModel?.reloadConversationUnreadStatus()
         }, 2000L)
-//        conversationListViewModel?.unreadCountLiveData()?.observe(this) {
-//            AppBroadUtil.debug("野火", "会话未读数---> ${it?.unread}")
-//            it?.unread?.apply {
-//                if (this >= 100) {
-//                    xiaoxiUnreadCount = this.toString()
-//                } else {
-//                    xiaoxiUnreadCount = this.toString()
-//                }
-//            }
-//        }
+    }
+
+    /** 自研 IM：会话顶 Tab + 消息底栏总未读。 */
+    private fun observeImUnreadCount() {
+        conversationParentViewModel.totalUnreadCount.observe(this) { total ->
+            xiaoxiUnreadCount = (total ?: 0).coerceAtLeast(0).toString()
+        }
+        conversationParentViewModel.loadConversations()
+    }
+
+    override fun onCEvent(topic: String?, msgCode: Int, resultCode: Int, obj: Any?) {
+        when (topic) {
+            Events.NOTIFY_CONVERSATION_LIST -> conversationParentViewModel.loadConversations()
+            Events.SESSION_LIST_UPDATED -> {
+                @Suppress("UNCHECKED_CAST")
+                val updated = obj as? List<SessionItem> ?: return
+                conversationParentViewModel.mergeSessions(updated)
+            }
+            Events.SESSION_REMOVED -> {
+                val sessionId = obj as? String ?: return
+                conversationParentViewModel.removeSession(sessionId)
+            }
+        }
     }
 
     private fun showSelectPayMethod() {

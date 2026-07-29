@@ -316,6 +316,24 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                 }
                 val video = TextUtils.equals("video", sign.mediaType)
                 val callId = if (!TextUtils.isEmpty(sign.callId)) sign.callId else roomName
+                val groupId = if (sign.hasGroupId()) sign.groupId else ""
+                val participantIds = linkedSetOf<String>()
+                if (!TextUtils.isEmpty(sign.fromUserId)) {
+                    participantIds.add(sign.fromUserId)
+                }
+                if (sign.toUserIdsCount > 0) {
+                    sign.toUserIdsList.forEach { uid ->
+                        if (!TextUtils.isEmpty(uid)) participantIds.add(uid)
+                    }
+                }
+                if (sign.membersCount > 0) {
+                    sign.membersList.forEach { uid ->
+                        if (!TextUtils.isEmpty(uid)) participantIds.add(uid)
+                    }
+                }
+                if (!TextUtils.isEmpty(selfId)) {
+                    participantIds.remove(selfId)
+                }
                 val sameCall = CallActivity.isSameCall(callId) || CallActivity.isSameCall(roomName)
                 // 语音/视频通话中，或会议中：回 CALL_SIGNAL(0x0502) / CALL_BUSY=5，不弹来电页
                 val busyNow = (CallActivity.isInCall() && !sameCall)
@@ -327,13 +345,16 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                 }
                 // 被叫已收到：回执 CALL_SIGNAL(0x0502) / CALL_RINGING=1
                 CallSignalSender.ringing(callId, sign.fromUserId, roomName, video)
+                eLogD(tAG, "CALL_INVITE groupId=$groupId participants=$participantIds")
                 ThreadUtils.getMainHandler().post {
                     CallActivity.startIncoming(
                         getAppContext(),
                         sign.fromUserId,
                         roomName,
                         video,
-                        callId = sign.callId
+                        participantIds = participantIds.toList(),
+                        callId = sign.callId,
+                        groupId = groupId
                     )
                 }
             }
@@ -343,9 +364,9 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     sign.hasRoomName() && !TextUtils.isEmpty(sign.roomName) -> sign.roomName
                     else -> ""
                 }
-                eLogD(tAG, "对方忙线 CALL_BUSY matchId=$matchId")
+                eLogD(tAG, "对方忙线 CALL_BUSY matchId=$matchId from=${sign.fromUserId}")
                 ThreadUtils.getMainHandler().post {
-                    CallActivity.finishIfRemoteBusy(matchId)
+                    CallActivity.onRemoteParticipantLeft(matchId, sign.fromUserId, busy = true)
                 }
             }
             ImSignalProtos.CallSignalType.CALL_CANCEL_VALUE -> {
@@ -354,9 +375,9 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     sign.hasRoomName() && !TextUtils.isEmpty(sign.roomName) -> sign.roomName
                     else -> ""
                 }
-                eLogD(tAG, "主叫取消 CALL_CANCEL matchId=$matchId")
+                eLogD(tAG, "主叫取消 CALL_CANCEL matchId=$matchId from=${sign.fromUserId}")
                 ThreadUtils.getMainHandler().post {
-                    CallActivity.finishIfRemoteCancelled(matchId)
+                    CallActivity.finishIfRemoteCancelled(matchId, sign.fromUserId)
                 }
             }
             ImSignalProtos.CallSignalType.CALL_HANGUP_VALUE -> {
@@ -365,21 +386,43 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     sign.hasRoomName() && !TextUtils.isEmpty(sign.roomName) -> sign.roomName
                     else -> ""
                 }
-                eLogD(tAG, "对方挂断 CALL_HANGUP matchId=$matchId")
+                eLogD(tAG, "对方挂断 CALL_HANGUP matchId=$matchId from=${sign.fromUserId}")
                 ThreadUtils.getMainHandler().post {
-                    CallActivity.finishIfRemoteEnded(matchId)
+                    // 群/多人：仅该成员离开；1v1 才整通结束
+                    CallActivity.onRemoteParticipantLeft(matchId, sign.fromUserId)
                 }
             }
-            ImSignalProtos.CallSignalType.CALL_REJECT_VALUE,
+            ImSignalProtos.CallSignalType.CALL_REJECT_VALUE -> {
+                val matchId = when {
+                    !TextUtils.isEmpty(sign.callId) -> sign.callId
+                    sign.hasRoomName() && !TextUtils.isEmpty(sign.roomName) -> sign.roomName
+                    else -> ""
+                }
+                eLogD(tAG, "对方拒绝 CALL_REJECT matchId=$matchId from=${sign.fromUserId}")
+                ThreadUtils.getMainHandler().post {
+                    CallActivity.onRemoteParticipantLeft(matchId, sign.fromUserId)
+                }
+            }
+            ImSignalProtos.CallSignalType.CALL_MEMBER_LEFT_VALUE -> {
+                val matchId = when {
+                    !TextUtils.isEmpty(sign.callId) -> sign.callId
+                    sign.hasRoomName() && !TextUtils.isEmpty(sign.roomName) -> sign.roomName
+                    else -> ""
+                }
+                eLogD(tAG, "成员离开 CALL_MEMBER_LEFT matchId=$matchId from=${sign.fromUserId}")
+                ThreadUtils.getMainHandler().post {
+                    CallActivity.onRemoteParticipantLeft(matchId, sign.fromUserId)
+                }
+            }
             ImSignalProtos.CallSignalType.CALL_END_VALUE -> {
                 val matchId = when {
                     !TextUtils.isEmpty(sign.callId) -> sign.callId
                     sign.hasRoomName() && !TextUtils.isEmpty(sign.roomName) -> sign.roomName
                     else -> ""
                 }
-                eLogD(tAG, "通话结束信令 type=${sign.type} matchId=$matchId")
+                eLogD(tAG, "通话结束信令 CALL_END matchId=$matchId from=${sign.fromUserId}")
                 ThreadUtils.getMainHandler().post {
-                    CallActivity.finishIfRemoteEnded(matchId)
+                    CallActivity.finishIfRemoteEnded(matchId, sign.fromUserId)
                 }
             }
             else -> {

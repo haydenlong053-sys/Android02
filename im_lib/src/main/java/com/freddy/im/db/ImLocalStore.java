@@ -337,6 +337,17 @@ public final class ImLocalStore {
         ImSessionRepository.getInstance().clearUnreadCount(sessionId);
     }
 
+    /**
+     * 标记会话未读（对齐野火 {@code markAsUnRead}，默认未读数 1）。
+     */
+    public static void markSessionUnread(@Nullable String sessionId) {
+        markSessionUnread(sessionId, 1);
+    }
+
+    public static void markSessionUnread(@Nullable String sessionId, int unreadCount) {
+        ImSessionRepository.getInstance().setUnreadCount(sessionId, unreadCount);
+    }
+
     public static void updateSessionTopMute(@Nullable String sessionId,
                                             boolean top,
                                             boolean muteNotify) {

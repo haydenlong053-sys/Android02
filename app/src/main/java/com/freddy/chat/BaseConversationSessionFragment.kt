@@ -134,21 +134,52 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         if (TextUtils.isEmpty(sessionId)) {
             return
         }
+        val unread = session.unreadCount
         val pinned = session.topNum > 0
         val pinLabel = if (pinned) {
             getString(R.string.cancel_zhiding)
         } else {
             getString(R.string.zhiding)
         }
-        val items = arrayOf(pinLabel, getString(R.string.action_remove))
+        val readLabel = if (unread > 0) {
+            getString(com.cboda.chatui.R.string.mark_as_read)
+        } else {
+            getString(com.cboda.chatui.R.string.mark_as_unread)
+        }
+        val items = arrayOf(pinLabel, readLabel, getString(R.string.action_remove))
         AlertDialog.Builder(requireContext())
             .setItems(items) { _, which ->
                 when (which) {
                     0 -> setSessionTop(session, !pinned)
-                    1 -> confirmRemoveConversation(session)
+                    1 -> if (unread > 0) {
+                        markSessionAsRead(session)
+                    } else {
+                        markSessionAsUnread(session)
+                    }
+                    2 -> confirmRemoveConversation(session)
                 }
             }
             .show()
+    }
+
+    /** 对齐野火：长按「设为已读」清零未读角标。 */
+    private fun markSessionAsRead(session: SessionItem) {
+        val sessionId = session.sessionId ?: return
+        session.unreadCount = 0
+        parentViewModel.mergeSessions(listOf(session))
+        ImLocalStore.clearSessionUnread(sessionId)
+        val lastMessageId = session.lastMessageId
+        if (!TextUtils.isEmpty(lastMessageId)) {
+            com.freddy.im.message.ImMessageManager.getInstance().reportMessageRead(lastMessageId)
+        }
+    }
+
+    /** 对齐野火：长按「标记未读」将未读数置为 1。 */
+    private fun markSessionAsUnread(session: SessionItem) {
+        val sessionId = session.sessionId ?: return
+        session.unreadCount = 1
+        parentViewModel.mergeSessions(listOf(session))
+        ImLocalStore.markSessionUnread(sessionId, 1)
     }
 
     private fun setSessionTop(session: SessionItem, top: Boolean) {

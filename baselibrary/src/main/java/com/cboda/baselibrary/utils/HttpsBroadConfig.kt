@@ -15,7 +15,7 @@ import kotlin.system.exitProcess
 object HttpsBroadConfig {
     // 此处提审的时候改成true
     const val isReviewEnv = BuildConfig.IS_REVIEW_ENV
-    const val openTPay = !BuildConfig.IS_DEBUG
+    const val openTPay = true
     /**
      * 仅用自研 IM：保留野火 ChatManager.init（登录 clientId / MeetPlugin），
      * 但跳过野火长连 connect，Main 不等野火 ClientService。

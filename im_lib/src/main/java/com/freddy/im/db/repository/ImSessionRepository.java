@@ -77,10 +77,18 @@ public final class ImSessionRepository {
      * 将指定会话未读数置 0；成功后在主线程回调 UI。
      */
     public void clearUnreadCount(@Nullable String sessionId) {
+        setUnreadCount(sessionId, 0);
+    }
+
+    /**
+     * 设置会话未读数（设为已读传 0，标记未读通常传 1），并通知列表刷新。
+     */
+    public void setUnreadCount(@Nullable String sessionId, int unreadCount) {
         if (TextUtils.isEmpty(sessionId) || !ImRealm.isUserBound()) {
             return;
         }
         final String id = sessionId;
+        final int count = Math.max(0, unreadCount);
         ImDbExecutor.runWrite(() -> {
             List<SessionItem> updated = new ArrayList<>();
             Realm realm = ImRealm.getRealm();
@@ -90,7 +98,7 @@ public final class ImSessionRepository {
                             .equalTo("sessionId", id)
                             .findFirst();
                     if (entity != null) {
-                        entity.setUnreadCount(0);
+                        entity.setUnreadCount(count);
                         updated.add(SessionRealmMapper.toSessionItem(r.copyFromRealm(entity)));
                     }
                 });

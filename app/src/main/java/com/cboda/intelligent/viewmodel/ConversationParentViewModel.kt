@@ -33,6 +33,11 @@ class ConversationParentViewModel : BaseViewBroadModel() {
     val myGroupUnreadCount: LiveData<Int> = myGroupSessions.map { ConversationSessionCategory.sumUnread(it) }
     val otherGroupUnreadCount: LiveData<Int> = otherGroupSessions.map { ConversationSessionCategory.sumUnread(it) }
 
+    /** 消息底栏总未读：单聊 + 我的群 + 其他群（均已排除免打扰）。 */
+    val totalUnreadCount: LiveData<Int> = _allSessions.map { sessions ->
+        ConversationSessionCategory.sumUnread(sessions)
+    }
+
     private val _loading = MutableLiveData(false)
     val loading: LiveData<Boolean> = _loading
 

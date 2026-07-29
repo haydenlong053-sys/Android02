@@ -173,18 +173,54 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
         if (TextUtils.isEmpty(sessionId)) {
             return;
         }
+        int unread = sessionItem.getUnreadCount();
         boolean pinned = sessionItem.getTopNum() > 0;
         String pinLabel = getString(pinned ? R.string.cancel_zhiding : R.string.zhiding);
-        CharSequence[] items = new CharSequence[]{pinLabel, getString(R.string.action_remove)};
+        String readLabel = getString(unread > 0
+                ? com.cboda.chatui.R.string.mark_as_read
+                : com.cboda.chatui.R.string.mark_as_unread);
+        CharSequence[] items = new CharSequence[]{pinLabel, readLabel, getString(R.string.action_remove)};
         new AlertDialog.Builder(requireContext())
                 .setItems(items, (d, which) -> {
                     if (which == 0) {
                         setSessionTop(sessionItem, !pinned);
                     } else if (which == 1) {
+                        if (unread > 0) {
+                            markSessionAsRead(sessionItem);
+                        } else {
+                            markSessionAsUnread(sessionItem);
+                        }
+                    } else if (which == 2) {
                         confirmRemoveConversation(sessionItem);
                     }
                 })
                 .show();
+    }
+
+    /** 对齐野火：长按「设为已读」清零未读角标。 */
+    private void markSessionAsRead(@NonNull SessionItem sessionItem) {
+        String sessionId = sessionItem.getSessionId();
+        if (TextUtils.isEmpty(sessionId)) {
+            return;
+        }
+        sessionItem.setUnreadCount(0);
+        adapter.mergeSessions(Collections.singletonList(sessionItem));
+        ImLocalStore.clearSessionUnread(sessionId);
+        String lastMessageId = sessionItem.getLastMessageId();
+        if (!TextUtils.isEmpty(lastMessageId)) {
+            com.freddy.im.message.ImMessageManager.getInstance().reportMessageRead(lastMessageId);
+        }
+    }
+
+    /** 对齐野火：长按「标记未读」将未读数置为 1。 */
+    private void markSessionAsUnread(@NonNull SessionItem sessionItem) {
+        String sessionId = sessionItem.getSessionId();
+        if (TextUtils.isEmpty(sessionId)) {
+            return;
+        }
+        sessionItem.setUnreadCount(1);
+        adapter.mergeSessions(Collections.singletonList(sessionItem));
+        ImLocalStore.markSessionUnread(sessionId, 1);
     }
 
     private void setSessionTop(@NonNull SessionItem sessionItem, boolean top) {

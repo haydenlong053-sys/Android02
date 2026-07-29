@@ -372,53 +372,13 @@ class MessageBroadFragment : BaseLazyBroadFragment(), I_CEventListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: UnreadCountBroadEvent?) {
-//        if (null != event?.count0)
-//            count0 = event?.count0.toString()
-        if (null != event?.singleCount) {
-            event.singleCount.toIntOrNull()?.let {
-                singleCount = event.singleCount.toString()
-            }
-
-        }
-
-        if (null != event?.allGroupCount) {
-            event.allGroupCount.toIntOrNull()?.let {
-                allGroupCount = if (it > 99) {
-                    "99+"
-                } else {
-                    event.allGroupCount.toString()
-                }
-
-            }
-
-        }
-        if (null != event?.atMeCount) {
-            event.atMeCount.toIntOrNull()?.let {
-                atMeCount = if (it > 99) {
-                    "99+"
-                } else {
-                    event.atMeCount.toString()
-                }
-
-            }
-        }
-        if (null != event?.myGroupCount) {
-            event.myGroupCount.toIntOrNull()?.let {
-                myGroupCount = event.myGroupCount.toString()
-            }
-        }
-        if (null != event?.otherGroupCount) {
-            event.otherGroupCount.toIntOrNull()?.let {
-                otherGroupCount = event.otherGroupCount.toString()
-
-            }
-        }
+        // 单聊/我的群/其他群未读改由 ConversationParentViewModel（自研 IM）驱动，
+        // 此处仅同步社交 Tab（野火）角标，避免覆盖自研未读。
         if (null != event?.socialCount) {
             event.socialCount.toIntOrNull()?.let {
                 socialCount = event.socialCount.toString()
             }
         }
-
         updateBadges()
     }
 

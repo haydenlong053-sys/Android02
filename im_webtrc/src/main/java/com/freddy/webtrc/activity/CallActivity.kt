@@ -65,6 +65,7 @@ class CallActivity : AppCompatActivity() {
 
     private var targetId: String = ""
     private var participantIds: ArrayList<String> = arrayListOf()
+    private var groupId: String = ""
     private var callId: String = ""
     private var roomName: String = ""
     private var callUrl: String = ""
@@ -111,7 +112,7 @@ class CallActivity : AppCompatActivity() {
                     or WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
         )
         parseIntent()
-        isMultiCall = participantIds.size > 1
+        isMultiCall = resolveIsMultiCall()
         setContentView(if (isMultiCall) R.layout.activity_multi_call else R.layout.activity_call)
         acquireWakeLock()
         audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
@@ -147,6 +148,7 @@ class CallActivity : AppCompatActivity() {
         video = intent.getBooleanExtra(EXTRA_VIDEO, false)
         outgoing = intent.getBooleanExtra(EXTRA_OUTGOING, true)
         participantIds = intent.getStringArrayListExtra(EXTRA_PARTICIPANT_IDS) ?: arrayListOf()
+        groupId = intent.getStringExtra(EXTRA_GROUP_ID).orEmpty()
         if (participantIds.isEmpty() && !TextUtils.isEmpty(targetId)) {
             participantIds = arrayListOf(targetId)
         }
@@ -156,6 +158,14 @@ class CallActivity : AppCompatActivity() {
         if (TextUtils.isEmpty(roomName)) {
             roomName = callId
         }
+    }
+
+    /** 群通话（有 groupId）或邀请多人，均按多人逻辑处理。 */
+    private fun resolveIsMultiCall(): Boolean {
+        if (!TextUtils.isEmpty(groupId)) {
+            return true
+        }
+        return participantIds.count { it.isNotBlank() } > 1
     }
 
     private fun bindViews() {
@@ -306,10 +316,46 @@ class CallActivity : AppCompatActivity() {
     }
 
     private fun removeParticipant(userId: String) {
-        val grid = audioContainerGridLayout ?: return
-        val view = grid.findViewWithTag<View>(userId) ?: return
-        grid.removeView(view)
+        val grid = audioContainerGridLayout
+        if (grid != null) {
+            val view = grid.findViewWithTag<View>(userId)
+            if (view != null) {
+                grid.removeView(view)
+            }
+        }
         participantIds.remove(userId)
+        if (TextUtils.equals(targetId, userId)) {
+            targetId = participantIds.firstOrNull().orEmpty()
+        }
+    }
+
+    /**
+     * 多人通话是否应整通结束：
+     * LiveKit 已无远端，且邀请列表中也没有其他人（含未接听）。
+     */
+    private fun shouldEndMultiCall(): Boolean {
+        if (CallUtil.hasRemoteParticipant(this)) {
+            return false
+        }
+        val selfId = MMKVBroadUtils.getRealUserId().orEmpty()
+        return participantIds.none { it.isNotBlank() && it != selfId }
+    }
+
+    /** 对端某人离开/拒绝/忙线：多人仅移除该成员；无人剩余时才结束。 */
+    private fun handleRemoteParticipantLeft(fromUserId: String?, busy: Boolean) {
+        if (finishing || isFinishing) return
+        if (!fromUserId.isNullOrBlank()) {
+            removeParticipant(fromUserId)
+        }
+        if (shouldEndMultiCall()) {
+            val toastRes = if (busy) {
+                com.cboda.baselibrary.R.string.call_remote_busy
+            } else {
+                com.cboda.baselibrary.R.string.call_ended
+            }
+            ToastBroadUtils.show(toastRes)
+            hangup(sendSignal = false)
+        }
     }
 
     private fun renderPeerInfo() {
@@ -429,10 +475,10 @@ class CallActivity : AppCompatActivity() {
                         if (uid.isNotEmpty()) {
                             removeParticipant(uid)
                         }
-                        // 多人：仅当房间内已无远端成员时结束
-                        if (!CallUtil.hasRemoteParticipant(this) && callConnected) {
+                        // 多人：仍有远端在房，或仍有未接听邀请成员时，不结束本通
+                        if (shouldEndMultiCall()) {
                             ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
-                            hangup()
+                            hangup(sendSignal = false)
                         }
                     } else if (!finishing) {
                         ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
@@ -441,7 +487,13 @@ class CallActivity : AppCompatActivity() {
                 }
 
                 is RoomEvent.Disconnected -> {
-                    if (!finishing) {
+                    if (finishing) return@runOnUiThread
+                    if (isMultiCall) {
+                        // 群通话：本地异常断线才收尾；若仍有未接听邀请成员则不因单人离开而整通结束
+                        // LiveKit Disconnected 表示本端已离房，关闭本页但不回发挂断
+                        ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
+                        hangup(sendSignal = false)
+                    } else {
                         ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
                         hangup()
                     }
@@ -590,22 +642,36 @@ class CallActivity : AppCompatActivity() {
 
     /**
      * 接通前：主叫取消发 CALL_CANCEL=4；
-     * 接通后：任一方挂断发 CALL_HANGUP=6。
+     * 接通后：离开本通发 CALL_HANGUP=6（多人通知其余成员，不结束整通）。
      * 来电拒绝由 [rejectIncoming] 单独发 CALL_REJECT。
      */
     private fun sendLeaveCallSignal() {
         val id = if (!TextUtils.isEmpty(callId)) callId else roomName
-        if (TextUtils.isEmpty(id) || TextUtils.isEmpty(targetId)) {
+        if (TextUtils.isEmpty(id)) {
+            return
+        }
+        val selfId = MMKVBroadUtils.getRealUserId().orEmpty()
+        val targets = if (isMultiCall) {
+            participantIds.filter { it.isNotBlank() && it != selfId }
+                .ifEmpty { listOfNotNull(targetId.takeIf { it.isNotBlank() }) }
+        } else {
+            listOfNotNull(targetId.takeIf { it.isNotBlank() })
+        }
+        if (targets.isEmpty()) {
             return
         }
         if (callConnected) {
-            eLogD(tAG, "挂断通话 CALL_HANGUP callId=$id toUserId=$targetId")
-            CallSignalSender.hangup(id, targetId, roomName, video)
+            eLogD(tAG, "挂断通话 CALL_HANGUP callId=$id toUserIds=$targets")
+            targets.forEach { uid ->
+                CallSignalSender.hangup(id, uid, roomName, video)
+            }
             return
         }
         if (outgoing) {
-            eLogD(tAG, "主叫取消通话 CALL_CANCEL callId=$id toUserId=$targetId")
-            CallSignalSender.cancel(id, targetId, roomName, video)
+            eLogD(tAG, "主叫取消通话 CALL_CANCEL callId=$id toUserIds=$targets")
+            targets.forEach { uid ->
+                CallSignalSender.cancel(id, uid, roomName, video)
+            }
         }
     }
 
@@ -656,6 +722,7 @@ class CallActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_TARGET_ID = "targetId"
         const val EXTRA_PARTICIPANT_IDS = "participantIds"
+        const val EXTRA_GROUP_ID = "groupId"
         const val EXTRA_CALL_ID = "callId"
         const val EXTRA_ROOM_NAME = "roomName"
         const val EXTRA_URL = "url"
@@ -685,22 +752,88 @@ class CallActivity : AppCompatActivity() {
                     || TextUtils.equals(matchId, activity.roomName)
         }
 
-        /** 对端拒绝/结束时关闭当前通话页（按 callId 或 roomName 匹配）。 */
+        /**
+         * 对端某人挂断/拒绝/忙线/取消。
+         * - 多人：只移除该成员；仍有人在通或未接听时不结束本通
+         * - 1v1：整通结束
+         */
         @JvmStatic
-        fun finishIfRemoteEnded(matchId: String?) {
-            finishIfRemoteSignal(matchId, com.cboda.baselibrary.R.string.call_ended)
+        @JvmOverloads
+        fun onRemoteParticipantLeft(matchId: String?, fromUserId: String?, busy: Boolean = false) {
+            if (matchId.isNullOrBlank()) return
+            val activity = currentRef?.get() ?: return
+            val same = TextUtils.equals(matchId, activity.callId)
+                    || TextUtils.equals(matchId, activity.roomName)
+            if (!same || activity.isFinishing || activity.finishing) return
+            activity.runOnUiThread {
+                if (activity.isMultiCall) {
+                    activity.handleRemoteParticipantLeft(fromUserId, busy)
+                } else {
+                    val toastRes = if (busy) {
+                        com.cboda.baselibrary.R.string.call_remote_busy
+                    } else {
+                        com.cboda.baselibrary.R.string.call_ended
+                    }
+                    ToastBroadUtils.show(toastRes)
+                    activity.hangup(sendSignal = false)
+                }
+            }
         }
 
-        /** 对端忙线：提示「对方忙线」并结束本通（主叫侧）。 */
+        /**
+         * 主叫接通前取消：
+         * - 群/多人且本端已在通话中：仅视为该成员离开，不整通结束
+         * - 来电未接听 / 1v1：关闭本通
+         */
+        @JvmStatic
+        @JvmOverloads
+        fun finishIfRemoteCancelled(matchId: String?, fromUserId: String? = null) {
+            if (matchId.isNullOrBlank()) return
+            val activity = currentRef?.get() ?: return
+            val same = TextUtils.equals(matchId, activity.callId)
+                    || TextUtils.equals(matchId, activity.roomName)
+            if (!same || activity.isFinishing || activity.finishing) return
+            activity.runOnUiThread {
+                if (activity.isMultiCall && (activity.callConnected || activity.outgoing)) {
+                    // 主叫侧或已入会：他人取消/离开不拆整通
+                    activity.handleRemoteParticipantLeft(fromUserId, busy = false)
+                } else {
+                    ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_remote_cancelled)
+                    activity.hangup(sendSignal = false)
+                }
+            }
+        }
+
+        /** 对端拒绝/结束时关闭当前通话页（按 callId 或 roomName 匹配）。 */
+        @JvmStatic
+        @JvmOverloads
+        fun finishIfRemoteEnded(matchId: String?, fromUserId: String? = null) {
+            if (matchId.isNullOrBlank()) return
+            val activity = currentRef?.get() ?: return
+            val same = TextUtils.equals(matchId, activity.callId)
+                    || TextUtils.equals(matchId, activity.roomName)
+            if (!same || activity.isFinishing || activity.finishing) return
+            activity.runOnUiThread {
+                // 群通话：CALL_END 若带 fromUserId，优先按成员离开处理；无人剩余才整通结束
+                if (activity.isMultiCall && !fromUserId.isNullOrBlank()) {
+                    activity.handleRemoteParticipantLeft(fromUserId, busy = false)
+                } else if (activity.isMultiCall) {
+                    // 无 fromUserId 的 END：仍按成员是否耗尽判断
+                    if (activity.shouldEndMultiCall()) {
+                        ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
+                        activity.hangup(sendSignal = false)
+                    }
+                } else {
+                    ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
+                    activity.hangup(sendSignal = false)
+                }
+            }
+        }
+
+        /** 对端忙线：提示「对方忙线」并结束本通（主叫侧，仅 1v1）。 */
         @JvmStatic
         fun finishIfRemoteBusy(matchId: String?) {
             finishIfRemoteSignal(matchId, com.cboda.baselibrary.R.string.call_remote_busy)
-        }
-
-        /** 主叫接通前取消：被叫提示「对方已取消」并关闭来电页。 */
-        @JvmStatic
-        fun finishIfRemoteCancelled(matchId: String?) {
-            finishIfRemoteSignal(matchId, com.cboda.baselibrary.R.string.call_remote_cancelled)
         }
 
         private fun finishIfRemoteSignal(matchId: String?, toastRes: Int) {
@@ -725,7 +858,8 @@ class CallActivity : AppCompatActivity() {
             token: String?,
             roomName: String? = null,
             video: Boolean = false,
-            participantIds: List<String>? = null
+            participantIds: List<String>? = null,
+            groupId: String? = null
         ) {
             val ids = ArrayList(
                 (participantIds ?: listOfNotNull(targetId))
@@ -745,6 +879,7 @@ class CallActivity : AppCompatActivity() {
                 putExtra(EXTRA_ROOM_NAME, roomName)
                 putExtra(EXTRA_VIDEO, video)
                 putExtra(EXTRA_OUTGOING, true)
+                putExtra(EXTRA_GROUP_ID, groupId.orEmpty())
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             context.startActivity(intent)
@@ -764,7 +899,8 @@ class CallActivity : AppCompatActivity() {
             url: String? = null,
             token: String? = null,
             participantIds: List<String>? = null,
-            callId: String? = null
+            callId: String? = null,
+            groupId: String? = null
         ) {
             if (TextUtils.isEmpty(targetId) || TextUtils.isEmpty(roomName)) {
                 ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_failed)
@@ -784,6 +920,7 @@ class CallActivity : AppCompatActivity() {
                 putExtra(EXTRA_TOKEN, token)
                 putExtra(EXTRA_VIDEO, video)
                 putExtra(EXTRA_OUTGOING, false)
+                putExtra(EXTRA_GROUP_ID, groupId.orEmpty())
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             context.startActivity(intent)
