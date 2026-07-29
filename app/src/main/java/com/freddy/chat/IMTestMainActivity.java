@@ -47,7 +47,7 @@ public class IMTestMainActivity extends AppCompatActivity {
 
     String userId = "";
     String token = "";
-    String hosts = HttpsBroadConfig.MY_IM_HOST;
+    String hosts = HttpsBroadConfig.MY_IM_SOCKET_HOST_FAT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
