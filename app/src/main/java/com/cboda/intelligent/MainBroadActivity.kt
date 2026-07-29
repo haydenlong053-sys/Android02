@@ -123,10 +123,8 @@ import com.cboda.intelligent.viewmodel.NewMirrorViewBroadModel
 import com.cboda.intelligent.viewmodel.VersionUpdateViewBroadModel
 import com.cboda.intelligent.widge.CustomClickBroadView
 import com.cboda.intelligent.widge.MyUnreadCountTextBroadView
-import com.freddy.chat.ConversationListFragment
 import com.freddy.chat.im.IMSClientBootstrap
 import com.freddy.im.signal.othbusi.OthBusiSigJson
-import com.freddy.chat.utils.WeChatUiHelper
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -649,10 +647,9 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
             MMKVBroadUtils.saveUserVip(data.isVip)
             MMKVBroadUtils.saveSqlStrData(LOGIN_USER_DATA, toJson2(data))
             viewModel?.getKfInfo(this@MainBroadActivity, data.aiRobotId)
-            tongxunluUnreadCount = (data.fris + data.gros).toString()
-            if (!HttpsBroadConfig.useSelfImOnly) {
-                ChatManager.Instance().qunshenqing = data.gros
-            }
+            // 新群邀请角标唯一数据源：userInfo.gros
+            MMKVBroadUtils.saveContactBadgeCounts(data.fris, data.gros)
+            tongxunluUnreadCount = MMKVBroadUtils.getContactBadgeTotal().toString()
 
             IMSClientBootstrap.getInstance().currentUserAvatarUrl = data.userImg
             eLogD("看看未读", "main$tongxunluUnreadCount")
@@ -661,12 +658,14 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                     null,
                     null,
                     null,
-//                    (it?.unreadMention!! + it?.unreadMentionAll!!).toString()
                     null,
                     null,
                     null,
                     tongxunluUnreadCount
                 )
+            )
+            EventBus.getDefault().post(
+                AppBroadEvent(AppEventBroadCode.EVENT_REFRESH_CONTACT, true)
             )
             // useSelfImOnly 时未 connect，ChatManager.userId 为空，modifyMyInfo 会 NPE
             if (!HttpsBroadConfig.useSelfImOnly) {
@@ -987,12 +986,7 @@ class MainBroadActivity : BaseSimpleBroadActivity() {
                                     val qunshu = split[1].toLong()
                                     val zongshu = xinepngy + qunshu
                                     eLogD("野火", "收到自定义通知消息---> $xinepngy")
-//                                    if (zongshu > 99) {
-//                                        tongxunluUnreadCount = "99+"
-//                                    } else {
-//                                        tongxunluUnreadCount = zongshu.toString()
-//                                    }
-                                    ChatManager.Instance().qunshenqing = qunshu
+                                    MMKVBroadUtils.saveContactBadgeCounts(xinepngy, qunshu)
                                     tongxunluUnreadCount = zongshu.toString()
                                     fragmentList.forEachIndexed { index, fragment ->
                                         if (fragment is TongXunLuBroadFragment) {

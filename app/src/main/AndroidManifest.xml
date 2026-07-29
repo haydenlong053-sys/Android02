@@ -709,26 +709,16 @@
             android:name="com.freddy.chat.CreateGroupActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name="com.freddy.chat.group.GroupListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.freddy.chat.group.GroupInfoActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name="com.freddy.chat.group.GroupMemberListActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name="com.freddy.chat.group.GroupAddMemberActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name="com.freddy.chat.group.GroupNoticeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name="com.freddy.chat.group.GroupApplyListActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name="com.freddy.chat.MessageListActivity"
             android:screenOrientation="portrait"

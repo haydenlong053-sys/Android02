@@ -1,7 +1,6 @@
 package com.cboda.intelligent.repository
 
 import android.text.TextUtils
-import cn.wildfirechat.remote.ChatManager
 import com.cboda.baselibrary.bean.FriendBean
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
@@ -11,6 +10,7 @@ import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.baselibrary.bean.SocialBroadCircle
 import com.cboda.baselibrary.bean.SocialContact
 import com.cboda.baselibrary.bean.SocialFriendRequest
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.RealmUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -123,7 +123,7 @@ class SocialBroadRepository {
     }
 
     suspend fun fetchNewGroupInviteCount(): Int {
-//        delay(100)
-        return ChatManager.Instance().qunshenqing.toInt()
+        // 仅以 api/userInfo.gros 本地缓存为计数值
+        return MMKVBroadUtils.getNewGroupInviteCount().toInt()
     }
 }

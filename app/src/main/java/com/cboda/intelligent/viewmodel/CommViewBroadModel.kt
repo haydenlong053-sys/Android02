@@ -9,6 +9,9 @@ import cn.wildfirechat.remote.ChatManager
 import com.cboda.baselibrary.bean.BaseBroadResponse
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.CommonResultBroadBean
+import com.cboda.baselibrary.event.AppBroadEvent
+import com.cboda.baselibrary.event.AppEventBroadCode
+import com.cboda.baselibrary.event.UnreadCountBroadEvent
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
@@ -26,6 +29,7 @@ import com.freddy.im.db.repository.ImSessionRepository
 import com.freddy.im.http.ImGroupHttpExample
 import com.freddy.im.http.model.im.GroupApplyInfoRes
 import com.freddy.im.listener.OnHttpImListener
+import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import java.util.ArrayList
 
@@ -765,6 +769,17 @@ class CommViewBroadModel : FriendViewBroadModel() {
         }
         ImGroupHttpExample.requestApproveInGroup(applyId, approveStatus, object : OnHttpImListener<Any> {
             override fun onHttpImSuccess(result: Any) {
+                // 乐观减一；下次 getUserInfo 用服务端 gros 对账
+                MMKVBroadUtils.decrementNewGroupInviteCount()
+                EventBus.getDefault().post(
+                    UnreadCountBroadEvent(
+                        null, null, null, null, null, null,
+                        MMKVBroadUtils.getContactBadgeTotal().toString()
+                    )
+                )
+                EventBus.getDefault().post(
+                    AppBroadEvent(AppEventBroadCode.EVENT_REFRESH_CONTACT, true)
+                )
                 errorLiveData.postValue(ErrorBroadBean(type = "tongyiSuc"))
             }
         }, {
