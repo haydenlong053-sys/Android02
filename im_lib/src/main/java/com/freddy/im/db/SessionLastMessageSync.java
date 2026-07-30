@@ -16,6 +16,7 @@ import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.MessageType;
 import com.freddy.im.message.ImActiveChatSession;
 import com.freddy.im.message.ImMessageManager;
+import com.freddy.im.message.MessageContentFormatter;
 import com.freddy.im.message.MessageRepealHelper;
 
 import java.util.ArrayList;
@@ -76,7 +77,8 @@ public final class SessionLastMessageSync {
      * 须在 Realm 写事务内调用。
      */
     /**
-     * 按 {@code fetchNewMessageList} 本批新消息条数统计各会话未读增量（排除当前打开的消息页会话、排除自己发送）。
+     * 按 {@code fetchNewMessageList} 本批新消息条数统计各会话未读增量
+     *（排除当前打开的消息页会话、自己发送、以及 {@code msgType==2} 系统消息）。
      */
     @NonNull
     public static Map<String, Integer> countUnreadDeltaBySession(@NonNull List<AppMessage> messages) {
@@ -84,6 +86,9 @@ public final class SessionLastMessageSync {
         String currentUserId = ImRealm.getCurrentUserId();
         for (AppMessage message : messages) {
             if (message == null) {
+                continue;
+            }
+            if (MessageContentFormatter.isApiSystemMsgType(message.getMsgType())) {
                 continue;
             }
             String sessionId = resolveSessionId(message);
