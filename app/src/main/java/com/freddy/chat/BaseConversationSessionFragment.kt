@@ -138,7 +138,8 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         if (session.unreadCount <= 0) {
             return
         }
-        session.unreadCount = 0
+        // 注意：Adapter 与点击回调持有同一 SessionItem 引用。
+        // 不可先改 session.unreadCount=0，否则 clearUnread 会因「已是 0」跳过 notify。
         adapter.clearUnread(sessionId)
         parentViewModel.clearSessionUnread(sessionId)
         ImLocalStore.clearSessionUnread(sessionId)

@@ -125,11 +125,8 @@ class ConversationParentViewModel : BaseViewBroadModel() {
             return
         }
         val item = current[index]
-        if (item.unreadCount <= 0) {
-            return
-        }
+        // Adapter 可能已就地清零同一引用；仍需 post，以便底栏/Tab 未读 LiveData 重算
         item.unreadCount = 0
-        // 发新 list 引用，确保 map/LiveData 传播角标；内容 Diff 后仅刷新该行
         _allSessions.value = ArrayList(current)
     }
 

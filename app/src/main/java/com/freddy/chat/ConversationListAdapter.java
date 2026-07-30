@@ -162,11 +162,20 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position, @NonNull List<Object> payloads) {
-        if (!payloads.isEmpty() && payloads.contains(PAYLOAD_UNREAD)) {
-            bindUnread(holder, items.get(position));
-            return;
+        if (!payloads.isEmpty()) {
+            boolean unreadOnly = false;
+            for (Object payload : payloads) {
+                if (payload == PAYLOAD_UNREAD) {
+                    unreadOnly = true;
+                    break;
+                }
+            }
+            if (unreadOnly) {
+                bindUnread(holder, items.get(position));
+                return;
+            }
         }
-        super.onBindViewHolder(holder, position, payloads);
+        onBindViewHolder(holder, position);
     }
 
     @Override
