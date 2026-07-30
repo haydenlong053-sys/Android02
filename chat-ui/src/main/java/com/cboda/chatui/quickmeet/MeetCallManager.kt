@@ -15,6 +15,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.baselibrary.utils.getResumeActivity
+import com.cboda.baselibrary.utils.meetEndMsgLiveData
 import com.cboda.chatui.quickmeet.bean.CallData
 import com.cboda.chatui.quickmeet.bean.GroupMemberRole
 import com.cboda.chatui.quickmeet.bean.CallDirect
@@ -235,7 +236,8 @@ class MeetCallManager private constructor() {
             eLogD(APP_TAG, "声网连接状态==" + state + "----------reason=" + reason)
             runOnUiThread(Runnable {
                 if (state == CONNECTION_STATE_DISCONNECTED && reason == CONNECTION_CHANGED_LEAVE_CHANNEL) {
-                    //正常退出会议频道
+                    // 正常/异常离会后声网回调：再兜底恢复会前禁言（会前无禁言则解禁）
+                    notifyOwnerMeetEndedMuteRestore()
                     notifyEngineDestroy(mCallData)
                 } else {
                     onRtcConnectionStateChanged(state, reason)
@@ -491,6 +493,8 @@ class MeetCallManager private constructor() {
     }
 
     fun leaveAndRelease() {
+        // 房主主动/意外离会统一在此恢复会前禁言（含 isCalling 已变为 false 的异常路径）
+        notifyOwnerMeetEndedMuteRestore()
         if (callEngine != null) {
             mCallData.callStatus = CallStatus.IDLE
             // 离开频道
@@ -498,8 +502,27 @@ class MeetCallManager private constructor() {
             callEngine = null
             // 销毁引擎
             RtcEngine.destroy()
+        } else {
+            mCallData.callStatus = CallStatus.IDLE
         }
         stopCallService()
+    }
+
+    /**
+     * 房主离会/会议结束：通知恢复开会前全员禁言态。
+     * 会前无禁言则解禁，会前已禁言则保持；无本地快照时 [MeetGroupMuteHelper] 会跳过。
+     */
+    fun notifyOwnerMeetEndedMuteRestore() {
+        if (mCallData.role != MeetRole.OWNER) {
+            return
+        }
+        val bean = mCallData.quickDetailMeetBean
+        val imGroupId = bean?.groupIdNo?.takeIf { it.isNotEmpty() }
+            ?: bean?.channelId?.takeIf { it.isNotEmpty() }
+            ?: mCallData.channelId.takeIf { it.isNotEmpty() }
+            ?: return
+        eLogD(APP_TAG, "notifyOwnerMeetEndedMuteRestore groupId=$imGroupId")
+        meetEndMsgLiveData.postValue(imGroupId)
     }
 
 

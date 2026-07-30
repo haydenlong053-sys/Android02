@@ -50,6 +50,7 @@ import com.cboda.baselibrary.utils.getAppVersion
 import com.cboda.baselibrary.utils.activityResumeLiveData
 import com.cboda.chatui.conversation.message.viewholder.MeetEndMessageContentViewBroadHolder
 import com.cboda.chatui.conversation.message.viewholder.MeetStartMessageContentViewBroadHolder
+import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.intelligent.utils.PixelBroadBroadUtils
 import com.cboda.intelligent.myim.service.WfcDefaultPortraitBroadProvider
 import com.freddy.chat.im.ImAppLifecycleObserver
@@ -161,8 +162,17 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
 
     }
 
-    private val meetEndMuteRestoreObserver = Observer<String> { groupIdNo ->
-        MeetGroupMuteHelper.onMeetEnded(groupIdNo)
+    private val meetEndMuteRestoreObserver = Observer<String> { endId ->
+        // 时间到自动结束 / 手动解散：按会前快照恢复（无禁言则解禁）
+        // 同时带上 CallData 里的 groupIdNo/channelId，防止信令字段与快照 key 不一致
+        val callData = MeetCallManager.getInstance().mCallData
+        val bean = callData.quickDetailMeetBean
+        MeetGroupMuteHelper.onMeetEnded(
+            endId,
+            bean?.groupIdNo,
+            bean?.channelId,
+            callData.channelId,
+        )
     }
 
     private fun initOriginalIm() {

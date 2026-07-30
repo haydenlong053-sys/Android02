@@ -24,7 +24,6 @@ import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.meetJoinMsgLiveData
-import com.cboda.baselibrary.utils.meetEndMsgLiveData
 import com.cboda.baselibrary.utils.meetSeatChangeMsgLiveData
 import com.cboda.baselibrary.view.MeetVoiceWaveBroadView
 import com.cboda.chatui.R
@@ -44,7 +43,6 @@ import com.cboda.chatui.quickmeet.showLoadingWfc
 import com.cboda.chatui.quickmeet.view.OnTouchHandleEvent
 import com.cboda.chatui.quickmeet.view.ViewTouchHandle
 import com.cboda.chatui.quickmeet.vm.QuickMeetViewBroadModel
-import io.agora.rtc2.Constants.CONNECTION_CHANGED_BANNED_BY_SERVER
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_INVALID_TOKEN
 import io.agora.rtc2.Constants.CONNECTION_CHANGED_KEEP_ALIVE_TIMEOUT
 import io.agora.rtc2.Constants.CONNECTION_STATE_FAILED
@@ -293,21 +291,23 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     //取消会议
     private fun cancelMeeting() {
-        if (MeetCallManager.getInstance().isOwner() && isCalling()) {
-            //会议中的房主退出频道
-            MainScope().launch {
-                val channelId = MeetCallManager.getInstance().mCallData.channelId
-                viewModel?.goDissolveQuickMeet(channelId)?.observeForever {
-                    // 解散成功即通知会议结束，触发会前禁言态恢复（会前无禁言则解禁）
-                    if (!channelId.isNullOrEmpty()) {
-                        meetEndMsgLiveData.postValue(channelId)
-                    }
+        if (MeetCallManager.getInstance().isOwner()) {
+            val callData = MeetCallManager.getInstance().mCallData
+            val bean = callData.quickDetailMeetBean
+            val imGroupId = bean?.groupIdNo?.takeIf { it.isNotEmpty() }
+                ?: groupId?.takeIf { it.isNotEmpty() }
+                ?: bean?.channelId?.takeIf { it.isNotEmpty() }
+                ?: callData.channelId
+            // 禁言恢复由 leaveAndRelease / 离会回调统一触发；此处只负责解散房间
+            if (!imGroupId.isNullOrEmpty() && isCalling()) {
+                MainScope().launch {
+                    viewModel?.goDissolveQuickMeet(imGroupId)?.observeForever { }
                 }
             }
-        }else if (isCalling() && MeetCallManager.getInstance().isCallDirect()){
+        } else if (isCalling() && MeetCallManager.getInstance().isCallDirect()) {
             //会议中的发言方（主播端）退出频道
             MainScope().launch {
-                viewModel?.goNetDownMic(myUserId, groupId)?.observeForever {  }
+                viewModel?.goNetDownMic(myUserId, groupId)?.observeForever { }
             }
         }
     }
@@ -597,7 +597,9 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         if (state == CONNECTION_STATE_FAILED && reason == CONNECTION_CHANGED_INVALID_TOKEN) {
             dismissLoadingWfc()
             ToastBroadUtils.show("会议无效的 Token")
-        } else if (state == CONNECTION_STATE_FAILED && reason == CONNECTION_CHANGED_BANNED_BY_SERVER) {
+            goOverMeeting()
+        } else if (state == CONNECTION_STATE_FAILED) {
+            // 含 BANNED_BY_SERVER（时间到）及其他失败：意外结束也要离会并恢复禁言
             goOverMeeting()
         } else if (state == CONNECTION_STATE_RECONNECTING && reason == CONNECTION_CHANGED_KEEP_ALIVE_TIMEOUT) {
             ToastBroadUtils.show("当前会议网络环境较差，正在重新连接")
