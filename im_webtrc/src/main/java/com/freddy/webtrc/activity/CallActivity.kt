@@ -746,10 +746,11 @@ class CallActivity : AppCompatActivity() {
     }
 
     /**
-     * 接通前：
+     * 接通前 / 发起方挂断：
      * - 1v1 主叫取消发 CALL_CANCEL=4
-     * - 群/多人主叫挂断发 CALL_END=9（一次信令 + groupId，只停振铃/结束房间，不落多余会话消息）
-     * 接通后：离开本通发 CALL_HANGUP=6（多人一次通知其余成员）。
+     * - 群/多人：无人接听或仅 1 人接听 → CALL_END=9 整通结束（停振铃 + 结束已接听方）
+     * - 群/多人：已有 ≥2 人接听 → CALL_HANGUP=6，发起方离开，其余人继续
+     * 接通后非上述「整通结束」场景：离开本通发 CALL_HANGUP=6。
      * 来电拒绝由 [rejectIncoming] 单独发 CALL_REJECT。
      */
     private fun sendLeaveCallSignal() {
@@ -758,16 +759,23 @@ class CallActivity : AppCompatActivity() {
             return
         }
         val selfId = MMKVBroadUtils.getRealUserId().orEmpty()
-        val targets = if (isMultiCall) {
-            participantIds.filter { it.isNotBlank() && it != selfId }
-                .ifEmpty { listOfNotNull(targetId.takeIf { it.isNotBlank() }) }
-        } else {
-            listOfNotNull(targetId.takeIf { it.isNotBlank() })
-        }
+        val targets = resolveLeaveSignalTargets(selfId)
         if (targets.isEmpty()) {
             return
         }
         val gid = groupId.takeIf { it.isNotBlank() }
+
+        // 群聊发起方挂断：0 人或仅 1 人接听 → 整通结束
+        if (isMultiCall && outgoing && shouldEndWholeMultiCallOnInitiatorLeave()) {
+            eLogD(
+                tAG,
+                "群通话发起方结束整通 CALL_END answered=${remoteAnsweredCount()}" +
+                        " callId=$id toUserIds=$targets groupId=$gid"
+            )
+            CallSignalSender.end(id, targets, roomName, video, gid)
+            return
+        }
+
         if (callConnected) {
             eLogD(tAG, "挂断通话 CALL_HANGUP callId=$id toUserIds=$targets groupId=$gid")
             CallSignalSender.hangup(id, targets, roomName, video, gid)
@@ -775,7 +783,6 @@ class CallActivity : AppCompatActivity() {
         }
         if (outgoing) {
             if (isMultiCall) {
-                // 群通话：只发结束信令，不发 CANCEL，避免服务端再落一条「语音通话」消息
                 eLogD(tAG, "群通话主叫结束 CALL_END callId=$id toUserIds=$targets groupId=$gid")
                 CallSignalSender.end(id, targets, roomName, video, gid)
             } else if (leaveAsTimeout) {
@@ -786,6 +793,35 @@ class CallActivity : AppCompatActivity() {
                 CallSignalSender.cancel(id, targets, roomName, video, null, null)
             }
         }
+    }
+
+    /** 挂断信令目标：剩余邀请成员 + 已接通成员（去重，排除自己）。 */
+    private fun resolveLeaveSignalTargets(selfId: String): List<String> {
+        val set = linkedSetOf<String>()
+        participantIds.forEach { uid ->
+            if (uid.isNotBlank() && uid != selfId) set.add(uid)
+        }
+        connectedParticipantIds.forEach { uid ->
+            if (uid.isNotBlank() && uid != selfId) set.add(uid)
+        }
+        if (set.isEmpty() && targetId.isNotBlank() && targetId != selfId) {
+            set.add(targetId)
+        }
+        return set.toList()
+    }
+
+    /** 远端已接通人数（不含自己）。 */
+    private fun remoteAnsweredCount(): Int {
+        val selfId = MMKVBroadUtils.getRealUserId().orEmpty()
+        return connectedParticipantIds.count { it.isNotBlank() && it != selfId }
+    }
+
+    /**
+     * 发起方离开时是否应整通结束：
+     * 接听方无人接听，或仅有 1 人接听。
+     */
+    private fun shouldEndWholeMultiCallOnInitiatorLeave(): Boolean {
+        return remoteAnsweredCount() <= 1
     }
 
     private fun finishFade() {
@@ -970,7 +1006,7 @@ class CallActivity : AppCompatActivity() {
                     || p.contains("reason\": \"timeout", ignoreCase = true)
         }
 
-        /** 对端拒绝/结束时关闭当前通话页（按 callId 或 roomName 匹配）。 */
+        /** 收到 CALL_END：整通结束，关闭本通（群/1v1 均直接收尾）。 */
         @JvmStatic
         @JvmOverloads
         fun finishIfRemoteEnded(matchId: String?, fromUserId: String? = null) {
@@ -980,19 +1016,12 @@ class CallActivity : AppCompatActivity() {
                     || TextUtils.equals(matchId, activity.roomName)
             if (!same || activity.isFinishing || activity.finishing) return
             activity.runOnUiThread {
-                // 群通话：CALL_END 若带 fromUserId，优先按成员离开处理；无人剩余才整通结束
-                if (activity.isMultiCall && !fromUserId.isNullOrBlank()) {
-                    activity.handleRemoteParticipantLeft(fromUserId, busy = false)
-                } else if (activity.isMultiCall) {
-                    // 无 fromUserId 的 END：仍按成员是否耗尽判断
-                    if (activity.shouldEndMultiCall()) {
-                        ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
-                        activity.hangup(sendSignal = false)
-                    }
-                } else {
-                    ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
-                    activity.hangup(sendSignal = false)
-                }
+                eLogD(
+                    activity.tAG,
+                    "收到 CALL_END，整通结束 matchId=$matchId from=$fromUserId"
+                )
+                ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
+                activity.hangup(sendSignal = false)
             }
         }
 
