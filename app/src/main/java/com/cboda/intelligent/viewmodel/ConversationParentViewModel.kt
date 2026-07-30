@@ -88,6 +88,51 @@ class ConversationParentViewModel : BaseViewBroadModel() {
         publishSessions(current)
     }
 
+    /**
+     * 仅就地补全会话展示字段（昵称/头像），不触发 LiveData，避免列表二次刷新闪烁。
+     */
+    fun patchSessionDisplayFields(updates: List<SessionItem>?) {
+        if (updates.isNullOrEmpty()) {
+            return
+        }
+        val current = _allSessions.value ?: return
+        for (update in updates) {
+            val sessionId = update.sessionId ?: continue
+            val target = current.firstOrNull { it.sessionId == sessionId } ?: continue
+            if (!update.sessionName.isNullOrBlank()) {
+                target.sessionName = update.sessionName
+            }
+            if (!update.icon.isNullOrBlank()) {
+                target.icon = update.icon
+            }
+            if (!update.username.isNullOrBlank()) {
+                target.username = update.username
+            }
+            if (!update.oppositeUserId.isNullOrBlank()) {
+                target.oppositeUserId = update.oppositeUserId
+            }
+        }
+    }
+
+    /** 进入会话后清零未读：更新内存列表并通知观察者（列表侧用 DiffUtil 局部刷新）。 */
+    fun clearSessionUnread(sessionId: String?) {
+        if (sessionId.isNullOrEmpty()) {
+            return
+        }
+        val current = _allSessions.value?.toMutableList() ?: return
+        val index = current.indexOfFirst { it.sessionId == sessionId }
+        if (index < 0) {
+            return
+        }
+        val item = current[index]
+        if (item.unreadCount <= 0) {
+            return
+        }
+        item.unreadCount = 0
+        // 发新 list 引用，确保 map/LiveData 传播角标；内容 Diff 后仅刷新该行
+        _allSessions.value = ArrayList(current)
+    }
+
     fun removeSession(sessionId: String?) {
         if (sessionId.isNullOrEmpty()) {
             return
