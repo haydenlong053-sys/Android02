@@ -731,18 +731,19 @@ class CallActivity : AppCompatActivity() {
         audioManager.isSpeakerphoneOn = speakerOn
     }
 
-    /** 来电未接通时点拒绝：发 CALL_SIGNAL(0x0502) / CALL_REJECT=3。 */
+    /** 来电未接通时点拒绝：发 CALL_SIGNAL(0x0502) / CALL_REJECT=3（群通话带 groupId）。 */
     private fun rejectIncoming() {
         if (outgoing || callConnected || finishing) {
             hangup()
             return
         }
         val id = if (!TextUtils.isEmpty(callId)) callId else roomName
-        eLogD(tAG, "拒绝通话 callId=$id toUserId=$targetId")
+        val gid = groupId.takeIf { it.isNotBlank() }
+        eLogD(tAG, "拒绝通话 callId=$id toUserId=$targetId groupId=$gid")
         if (!TextUtils.isEmpty(id) && !TextUtils.isEmpty(targetId)) {
-            CallSignalSender.reject(id, targetId, roomName, video)
+            CallSignalSender.reject(id, targetId, roomName, video, gid)
         }
-        hangup()
+        hangup(sendSignal = false)
     }
 
     private fun hangup(sendSignal: Boolean = true, timeoutNoAnswer: Boolean = false) {
