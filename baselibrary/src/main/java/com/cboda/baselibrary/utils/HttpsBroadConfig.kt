@@ -49,7 +49,7 @@ object HttpsBroadConfig {
     const val appIceServer = "turn:turn.seekweb4.net:3478"
     const val appIceUserName = "seekweb4"
 
-    const val H5_BEAUTIFUL = "https://www.web4x.net"//信用分H5链接
+    const val H5_BEAUTIFUL = "https://www.dualx.us"//信用分H5链接
 
     @JvmField
     var appWebHost = "https://app.seekweb4.net" //协议默认用美区
