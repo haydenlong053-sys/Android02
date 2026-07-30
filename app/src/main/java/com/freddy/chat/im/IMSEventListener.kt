@@ -14,6 +14,7 @@ import com.cboda.baselibrary.utils.toLog
 import com.cboda.chatui.quickmeet.MeetCallManager
 import com.freddy.chat.im.othbusi.OthBusiSigHandlers
 import com.freddy.im.bean.AppMessage
+import com.freddy.im.call.CallMissedLocalStore
 import com.freddy.im.call.CallSignalSender
 import com.freddy.im.crypto.ImCryptoKeys
 import com.freddy.im.db.ImLocalStore
@@ -345,6 +346,8 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                 }
                 // type=1 由产品约定为「用户已接通」通知，此处不再回执 RINGING，避免主叫误判已接通
                 eLogD(tAG, "CALL_INVITE groupId=$groupId participants=$participantIds")
+                CallMissedLocalStore.markIncoming(callId, sign.fromUserId)
+                CallMissedLocalStore.markIncoming(roomName, sign.fromUserId)
                 ThreadUtils.getMainHandler().post {
                     CallActivity.startIncoming(
                         getAppContext(),
@@ -408,9 +411,18 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     sign.hasRoomName() && !TextUtils.isEmpty(sign.roomName) -> sign.roomName
                     else -> ""
                 }
-                eLogD(tAG, "主叫取消 CALL_CANCEL matchId=$matchId from=${sign.fromUserId}")
+                val timeoutPayload = sign.hasPayload()
+                        && CallActivity.isCancelTimeoutPayload(sign.payload)
+                // 无 payload 时：来电已超过约 55s 也视为超时未接
+                val timeoutByRing = CallMissedLocalStore.isIncomingOlderThan(
+                        matchId, sign.fromUserId, CallActivity.ringTimeoutDetectMs())
+                val timeout = timeoutPayload || timeoutByRing
+                eLogD(tAG, "主叫取消 CALL_CANCEL matchId=$matchId from=${sign.fromUserId} timeout=$timeout")
+                if (timeout) {
+                    CallMissedLocalStore.markTimeoutAsCallee(matchId, sign.fromUserId)
+                }
                 ThreadUtils.getMainHandler().post {
-                    CallActivity.finishIfRemoteCancelled(matchId, sign.fromUserId)
+                    CallActivity.finishIfRemoteCancelled(matchId, sign.fromUserId, timeout)
                 }
             }
             ImSignalProtos.CallSignalType.CALL_HANGUP_VALUE -> {

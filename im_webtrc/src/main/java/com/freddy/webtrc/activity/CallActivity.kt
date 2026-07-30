@@ -26,6 +26,7 @@ import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.requestPermission
+import com.freddy.im.call.CallMissedLocalStore
 import com.freddy.im.call.CallSignalSender
 import com.freddy.webtrc.R
 import com.freddy.webtrc.utils.BroadE
@@ -98,18 +99,25 @@ class CallActivity : AppCompatActivity() {
         }
     }
 
-    /** 1v1 主叫振铃超时：未接通则自动取消。 */
+    /** 本次挂断是否因振铃超时未接听（用于 CANCEL payload / 文案区分）。 */
+    private var leaveAsTimeout = false
+
+    /** 通话页打开时间，用于被叫侧判断「振铃过久后的 CANCEL」是否为超时未接。 */
+    private var openedAtMs = 0L
+
+    /** 1v1 主叫振铃超时：未接通则按「未接听」结束（仍发 CANCEL 停对端振铃）。 */
     private val outgoingRingTimeout = Runnable {
         if (finishing || isFinishing || callConnected || !outgoing) {
             return@Runnable
         }
-        eLogD(tAG, "主叫振铃超时 ${OUTGOING_RING_TIMEOUT_MS}ms，自动取消 callId=$callId")
+        eLogD(tAG, "主叫振铃超时 ${OUTGOING_RING_TIMEOUT_MS}ms，未接听 callId=$callId")
         ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_remote_no_answer)
-        hangup()
+        hangup(sendSignal = true, timeoutNoAnswer = true)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        openedAtMs = System.currentTimeMillis()
         currentRef = WeakReference(this)
         window.addFlags(
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
@@ -368,11 +376,13 @@ class CallActivity : AppCompatActivity() {
         durationHandler.postDelayed(runnable, OUTGOING_RING_TIMEOUT_MS)
     }
 
-    /** 超时未接听：发 CANCEL 停对端振铃，并从本页移除；无人剩余时结束本通。 */
+    /** 超时未接听：发 CANCEL(timeout) 停对端振铃（带 groupId，不落会话消息），并从本页移除。 */
     private fun removeUnansweredParticipant(userId: String) {
         val id = if (!TextUtils.isEmpty(callId)) callId else roomName
         if (!TextUtils.isEmpty(id) && userId.isNotBlank()) {
-            CallSignalSender.cancel(id, userId, roomName, video)
+            CallMissedLocalStore.markTimeoutAsCaller(id, userId)
+            val gid = groupId.takeIf { it.isNotBlank() }
+            CallSignalSender.cancelForTimeout(id, listOf(userId), roomName, video, gid)
         }
         removeParticipant(userId)
         if (shouldEndMultiCall()) {
@@ -703,9 +713,15 @@ class CallActivity : AppCompatActivity() {
         hangup()
     }
 
-    private fun hangup(sendSignal: Boolean = true) {
+    private fun hangup(sendSignal: Boolean = true, timeoutNoAnswer: Boolean = false) {
         cancelOutgoingRingTimeout()
         cancelAllParticipantRingTimeouts()
+        if (timeoutNoAnswer) {
+            leaveAsTimeout = true
+            val id = if (!TextUtils.isEmpty(callId)) callId else roomName
+            CallMissedLocalStore.markTimeoutAsCaller(id, targetId)
+            CallMissedLocalStore.markTimeoutAsCaller(roomName, targetId)
+        }
         if (!finishing && sendSignal) {
             sendLeaveCallSignal()
         }
@@ -730,8 +746,11 @@ class CallActivity : AppCompatActivity() {
     }
 
     /**
-     * 接通前：主叫取消发 CALL_CANCEL=4；
-     * 接通后：离开本通发 CALL_HANGUP=6（多人通知其余成员，不结束整通）。
+     * 接通前 / 发起方挂断：
+     * - 1v1 主叫取消发 CALL_CANCEL=4
+     * - 群/多人：无人接听或仅 1 人接听 → CALL_END=9 整通结束（停振铃 + 结束已接听方）
+     * - 群/多人：已有 ≥2 人接听 → CALL_HANGUP=6，发起方离开，其余人继续
+     * 接通后非上述「整通结束」场景：离开本通发 CALL_HANGUP=6。
      * 来电拒绝由 [rejectIncoming] 单独发 CALL_REJECT。
      */
     private fun sendLeaveCallSignal() {
@@ -740,28 +759,69 @@ class CallActivity : AppCompatActivity() {
             return
         }
         val selfId = MMKVBroadUtils.getRealUserId().orEmpty()
-        val targets = if (isMultiCall) {
-            participantIds.filter { it.isNotBlank() && it != selfId }
-                .ifEmpty { listOfNotNull(targetId.takeIf { it.isNotBlank() }) }
-        } else {
-            listOfNotNull(targetId.takeIf { it.isNotBlank() })
-        }
+        val targets = resolveLeaveSignalTargets(selfId)
         if (targets.isEmpty()) {
             return
         }
+        val gid = groupId.takeIf { it.isNotBlank() }
+
+        // 群聊发起方挂断：0 人或仅 1 人接听 → 整通结束
+        if (isMultiCall && outgoing && shouldEndWholeMultiCallOnInitiatorLeave()) {
+            eLogD(
+                tAG,
+                "群通话发起方结束整通 CALL_END answered=${remoteAnsweredCount()}" +
+                        " callId=$id toUserIds=$targets groupId=$gid"
+            )
+            CallSignalSender.end(id, targets, roomName, video, gid)
+            return
+        }
+
         if (callConnected) {
-            eLogD(tAG, "挂断通话 CALL_HANGUP callId=$id toUserIds=$targets")
-            targets.forEach { uid ->
-                CallSignalSender.hangup(id, uid, roomName, video)
-            }
+            eLogD(tAG, "挂断通话 CALL_HANGUP callId=$id toUserIds=$targets groupId=$gid")
+            CallSignalSender.hangup(id, targets, roomName, video, gid)
             return
         }
         if (outgoing) {
-            eLogD(tAG, "主叫取消通话 CALL_CANCEL callId=$id toUserIds=$targets")
-            targets.forEach { uid ->
-                CallSignalSender.cancel(id, uid, roomName, video)
+            if (isMultiCall) {
+                eLogD(tAG, "群通话主叫结束 CALL_END callId=$id toUserIds=$targets groupId=$gid")
+                CallSignalSender.end(id, targets, roomName, video, gid)
+            } else if (leaveAsTimeout) {
+                eLogD(tAG, "主叫超时未接听 CALL_CANCEL(timeout) callId=$id toUserIds=$targets")
+                CallSignalSender.cancelForTimeout(id, targets, roomName, video, null)
+            } else {
+                eLogD(tAG, "主叫取消通话 CALL_CANCEL callId=$id toUserIds=$targets")
+                CallSignalSender.cancel(id, targets, roomName, video, null, null)
             }
         }
+    }
+
+    /** 挂断信令目标：剩余邀请成员 + 已接通成员（去重，排除自己）。 */
+    private fun resolveLeaveSignalTargets(selfId: String): List<String> {
+        val set = linkedSetOf<String>()
+        participantIds.forEach { uid ->
+            if (uid.isNotBlank() && uid != selfId) set.add(uid)
+        }
+        connectedParticipantIds.forEach { uid ->
+            if (uid.isNotBlank() && uid != selfId) set.add(uid)
+        }
+        if (set.isEmpty() && targetId.isNotBlank() && targetId != selfId) {
+            set.add(targetId)
+        }
+        return set.toList()
+    }
+
+    /** 远端已接通人数（不含自己）。 */
+    private fun remoteAnsweredCount(): Int {
+        val selfId = MMKVBroadUtils.getRealUserId().orEmpty()
+        return connectedParticipantIds.count { it.isNotBlank() && it != selfId }
+    }
+
+    /**
+     * 发起方离开时是否应整通结束：
+     * 接听方无人接听，或仅有 1 人接听。
+     */
+    private fun shouldEndWholeMultiCallOnInitiatorLeave(): Boolean {
+        return remoteAnsweredCount() <= 1
     }
 
     private fun finishFade() {
@@ -822,6 +882,14 @@ class CallActivity : AppCompatActivity() {
 
         /** 主叫振铃超时（毫秒）。 */
         private const val OUTGOING_RING_TIMEOUT_MS = 60_000L
+
+        /** 被叫侧判断「振铃过久后的 CANCEL」是否为超时（略短于主叫超时，留网络余量）。 */
+        @JvmStatic
+        fun ringTimeoutDetectMs(): Long = OUTGOING_RING_TIMEOUT_MS - 2_000L
+
+        /** 主叫振铃超时时长（供信令层对齐判断）。 */
+        @JvmStatic
+        fun outgoingRingTimeoutMs(): Long = OUTGOING_RING_TIMEOUT_MS
 
         @Volatile
         private var currentRef: WeakReference<CallActivity>? = null
@@ -890,27 +958,55 @@ class CallActivity : AppCompatActivity() {
          * 主叫接通前取消：
          * - 群/多人且本端已在通话中：仅视为该成员离开，不整通结束
          * - 来电未接听 / 1v1：关闭本通
+         * - [timeoutNoAnswer]=true 时为振铃超时，不提示「对方已取消」
          */
         @JvmStatic
         @JvmOverloads
-        fun finishIfRemoteCancelled(matchId: String?, fromUserId: String? = null) {
+        fun finishIfRemoteCancelled(
+            matchId: String?,
+            fromUserId: String? = null,
+            timeoutNoAnswer: Boolean = false
+        ) {
             if (matchId.isNullOrBlank()) return
             val activity = currentRef?.get() ?: return
             val same = TextUtils.equals(matchId, activity.callId)
                     || TextUtils.equals(matchId, activity.roomName)
             if (!same || activity.isFinishing || activity.finishing) return
             activity.runOnUiThread {
+                val ringingLongEnough = !activity.outgoing
+                        && !activity.callConnected
+                        && activity.openedAtMs > 0L
+                        && (System.currentTimeMillis() - activity.openedAtMs) >=
+                        ringTimeoutDetectMs()
+                val asTimeout = timeoutNoAnswer || ringingLongEnough
                 if (activity.isMultiCall && (activity.callConnected || activity.outgoing)) {
                     // 主叫侧或已入会：他人取消/离开不拆整通
                     activity.handleRemoteParticipantLeft(fromUserId, busy = false)
                 } else {
-                    ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_remote_cancelled)
+                    if (asTimeout) {
+                        CallMissedLocalStore.markTimeoutAsCallee(matchId, fromUserId)
+                        CallMissedLocalStore.markTimeoutAsCallee(activity.callId, fromUserId)
+                        CallMissedLocalStore.markTimeoutAsCallee(activity.roomName, activity.targetId)
+                    } else {
+                        ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_remote_cancelled)
+                    }
                     activity.hangup(sendSignal = false)
                 }
             }
         }
 
-        /** 对端拒绝/结束时关闭当前通话页（按 callId 或 roomName 匹配）。 */
+        /** 解析 CALL_CANCEL 的 payload 是否为超时未接听。 */
+        @JvmStatic
+        fun isCancelTimeoutPayload(payload: String?): Boolean {
+            if (payload.isNullOrBlank()) return false
+            val p = payload.trim()
+            if (p == CallSignalSender.PAYLOAD_TIMEOUT) return true
+            return p.contains("\"timeout\"", ignoreCase = true)
+                    || p.contains("reason\":\"timeout", ignoreCase = true)
+                    || p.contains("reason\": \"timeout", ignoreCase = true)
+        }
+
+        /** 收到 CALL_END：整通结束，关闭本通（群/1v1 均直接收尾）。 */
         @JvmStatic
         @JvmOverloads
         fun finishIfRemoteEnded(matchId: String?, fromUserId: String? = null) {
@@ -920,19 +1016,12 @@ class CallActivity : AppCompatActivity() {
                     || TextUtils.equals(matchId, activity.roomName)
             if (!same || activity.isFinishing || activity.finishing) return
             activity.runOnUiThread {
-                // 群通话：CALL_END 若带 fromUserId，优先按成员离开处理；无人剩余才整通结束
-                if (activity.isMultiCall && !fromUserId.isNullOrBlank()) {
-                    activity.handleRemoteParticipantLeft(fromUserId, busy = false)
-                } else if (activity.isMultiCall) {
-                    // 无 fromUserId 的 END：仍按成员是否耗尽判断
-                    if (activity.shouldEndMultiCall()) {
-                        ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
-                        activity.hangup(sendSignal = false)
-                    }
-                } else {
-                    ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
-                    activity.hangup(sendSignal = false)
-                }
+                eLogD(
+                    activity.tAG,
+                    "收到 CALL_END，整通结束 matchId=$matchId from=$fromUserId"
+                )
+                ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
+                activity.hangup(sendSignal = false)
             }
         }
 
