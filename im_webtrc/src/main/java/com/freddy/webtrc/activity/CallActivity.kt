@@ -10,14 +10,13 @@ import android.os.Handler
 import android.os.Looper
 import android.os.PowerManager
 import android.text.TextUtils
-import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.gridlayout.widget.GridLayout
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import com.cboda.baselibrary.toast.ToastBroadUtils
@@ -267,9 +266,8 @@ class CallActivity : AppCompatActivity() {
     private fun initMultiParticipants() {
         val grid = audioContainerGridLayout ?: return
         grid.removeAllViews()
-        val dm: DisplayMetrics = resources.displayMetrics
-        val width = dm.widthPixels
-        val size = width / maxOf(Math.ceil(Math.sqrt((participantIds.size + 1).toDouble())).toInt(), 3)
+        // 固定 3 列单元格宽度，人多时纵向滚动，避免越缩越小挤在一起
+        val size = multiParticipantCellSize()
 
         val selfId = MMKVBroadUtils.getRealUserId().orEmpty()
         val selfName = MMKVBroadUtils.getUserName().orEmpty()
@@ -295,6 +293,11 @@ class CallActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    /** 多人语音格子宽度：始终按 3 列均分屏幕，不随人数缩小。 */
+    private fun multiParticipantCellSize(): Int {
+        return resources.displayMetrics.widthPixels / 3
     }
 
     /**
@@ -654,9 +657,7 @@ class CallActivity : AppCompatActivity() {
         if (grid.findViewWithTag<View>(userId) != null) return
         val selfId = MMKVBroadUtils.getRealUserId().orEmpty()
         if (userId == selfId) return
-        val dm = resources.displayMetrics
-        val width = dm.widthPixels
-        val size = width / 3
+        val size = multiParticipantCellSize()
         loadParticipantProfile(userId) { name, avatar ->
             runOnUiThread {
                 // 插到自己前面（对齐野火）
