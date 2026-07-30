@@ -29,7 +29,7 @@ object HttpsBroadConfig {
 
     //自研的长连接host
     const val MY_IM_SOCKET_HOST_FAT: String = "[{\"host\":\"95.40.9.142\", \"port\":1081}]"
-    const val MY_IM_SOCKET_HOST_RELEASE: String = "[{\"host\":\"18.163.110.184\", \"port\":1081}]"
+    const val MY_IM_SOCKET_HOST_RELEASE: String = "[{\"host\":\"socket.seekweb4.ai\", \"port\":80}]"
     //自研的短连接http的host
     const val MY_IM_HTTP_HOST_FAT: String = "https://im-test.seekweb4.ai/"
     const val MY_IM_HTTP_HOST_RELEASE: String = "https://im-prd.seekweb4.ai/"

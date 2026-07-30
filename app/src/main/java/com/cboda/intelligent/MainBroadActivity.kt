@@ -72,6 +72,7 @@ import com.cboda.baselibrary.utils.crashReportLog
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAllEnDeviceId
 import com.cboda.baselibrary.utils.getAppContext
+import com.cboda.baselibrary.utils.getIsDebug
 import com.cboda.baselibrary.utils.getResumeActivity
 import com.cboda.baselibrary.utils.meetEndMsgLiveData
 import com.cboda.baselibrary.utils.meetJoinMsgLiveData
@@ -570,10 +571,10 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         ) { update ->
             if (update) {
                 openExternalDownload(bean.url)
-//                if (force) {
-//                    // 强制更新：点完仍再弹，避免绕过
-//                    showVersionUpdateDialog(bean)
-//                }
+                if (force && !getIsDebug()) {
+                    // 强制更新：点完仍再弹，避免绕过
+                    showVersionUpdateDialog(bean)
+                }
             }
         }
     }
