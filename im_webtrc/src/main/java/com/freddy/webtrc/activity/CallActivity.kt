@@ -28,6 +28,8 @@ import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.requestPermission
 import com.freddy.im.call.CallMissedLocalStore
 import com.freddy.im.call.CallSignalSender
+import com.freddy.im.db.ImLocalStore
+import com.freddy.im.http.model.im.GroupMemberItem
 import com.freddy.webtrc.R
 import com.freddy.webtrc.utils.BroadE
 import com.freddy.webtrc.utils.CallUtil
@@ -274,11 +276,11 @@ class CallActivity : AppCompatActivity() {
         val selfImg = MMKVBroadUtils.getUserImg()
         addParticipantItem(grid, selfId, selfName, selfImg, size, isSelf = true)
 
-        // 背景用第一个被叫头像
+        // 背景用第一个被叫头像（好友库 → 群成员库）
         val firstPeer = participantIds.firstOrNull().orEmpty()
         if (firstPeer.isNotEmpty()) {
-            RealmUtil.findUserData(firstPeer) { friend ->
-                backgroundImageView.loadImg(friend?.userImg)
+            loadParticipantProfile(firstPeer) { _, avatar ->
+                backgroundImageView.loadImg(avatar)
                 blurView.setupWith(blurTarget)
                     .setFrameClearDrawable(window.decorView.background)
                     .setBlurRadius(20f)
@@ -287,16 +289,50 @@ class CallActivity : AppCompatActivity() {
 
         participantIds.forEach { uid ->
             if (uid == selfId) return@forEach
-            RealmUtil.findUserData(uid) { friend ->
-                val name = when {
-                    friend == null -> uid
-                    !TextUtils.isEmpty(friend.remarkName) -> friend.remarkName
-                    else -> friend.nickName
-                }
+            loadParticipantProfile(uid) { name, avatar ->
                 runOnUiThread {
-                    addParticipantItem(grid, uid, name, friend?.userImg, size, isSelf = false)
+                    addParticipantItem(grid, uid, name, avatar, size, isSelf = false)
                 }
             }
+        }
+    }
+
+    /**
+     * 通话参与者展示信息：好友库优先，群成员库兜底（仅头像 + 名称）。
+     * 名称：群昵称 → 好友备注 → 好友昵称 → 群成员昵称 → userId。
+     */
+    private fun loadParticipantProfile(userId: String, onResult: (name: String, avatar: String?) -> Unit) {
+        if (userId.isBlank()) {
+            onResult("", null)
+            return
+        }
+        RealmUtil.findUserData(userId) { friend ->
+            val member: GroupMemberItem? = if (groupId.isNotBlank()) {
+                try {
+                    ImLocalStore.queryGroupMember(groupId, userId)
+                } catch (_: Exception) {
+                    null
+                }
+            } else {
+                null
+            }
+            val name: String = when {
+                member != null && !TextUtils.isEmpty(member.groupNickname) ->
+                    member.groupNickname.trim()
+                friend != null && !TextUtils.isEmpty(friend.remarkName) ->
+                    friend.remarkName.orEmpty()
+                friend != null && !TextUtils.isEmpty(friend.nickName) ->
+                    friend.nickName.orEmpty()
+                member != null && !TextUtils.isEmpty(member.displayName) ->
+                    member.displayName
+                else -> userId
+            }
+            val avatar: String? = when {
+                friend != null && !TextUtils.isEmpty(friend.userImg) -> friend.userImg
+                member != null && !TextUtils.isEmpty(member.headPortrait) -> member.headPortrait
+                else -> null
+            }
+            onResult(name, avatar)
         }
     }
 
@@ -621,20 +657,15 @@ class CallActivity : AppCompatActivity() {
         val dm = resources.displayMetrics
         val width = dm.widthPixels
         val size = width / 3
-        RealmUtil.findUserData(userId) { friend ->
-            val name = when {
-                friend == null -> userId
-                !TextUtils.isEmpty(friend.remarkName) -> friend.remarkName
-                else -> friend.nickName
-            }
+        loadParticipantProfile(userId) { name, avatar ->
             runOnUiThread {
                 // 插到自己前面（对齐野火）
                 val selfView = grid.findViewWithTag<View>(selfId)
                 val item = MultiCallParticipantItem(this)
                 item.tag = userId
                 item.layoutParams = ViewGroup.LayoutParams(size, ViewGroup.LayoutParams.WRAP_CONTENT)
-                item.portraitImageView.loadImg(friend?.userImg)
-                item.userNameTv.text = name.orEmpty()
+                item.portraitImageView.loadImg(avatar)
+                item.userNameTv.text = name
                 item.statusTextView.setText(com.cboda.baselibrary.R.string.call_connecting)
                 val index = if (selfView != null) grid.indexOfChild(selfView) else -1
                 if (index >= 0) {
