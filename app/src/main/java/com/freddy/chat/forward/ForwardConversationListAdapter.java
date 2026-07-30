@@ -86,6 +86,11 @@ public final class ForwardConversationListAdapter
     public void onBindViewHolder(@NonNull VH holder, int position) {
         SessionItem s = items.get(position);
         String name = WeChatUiHelper.resolveSessionListDisplayName(s, null);
+        if (name.isEmpty()){
+            holder.mLlView.setVisibility(View.GONE);
+        }else {
+            holder.mLlView.setVisibility(View.VISIBLE);
+        }
         String displayName = name.isEmpty()
                 ? holder.itemView.getContext().getString(R.string.conversation_name_fallback)
                 : name;
@@ -106,12 +111,14 @@ public final class ForwardConversationListAdapter
 
     static final class VH extends RecyclerView.ViewHolder {
         final View avatar;
+        final View mLlView;
         final TextView tvName;
 
         VH(@NonNull View itemView) {
             super(itemView);
             avatar = itemView.findViewById(R.id.avatar);
             tvName = itemView.findViewById(R.id.tv_name);
+            mLlView = itemView.findViewById(R.id.mLlView);
         }
     }
 }

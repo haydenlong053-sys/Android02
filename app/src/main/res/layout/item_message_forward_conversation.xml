@@ -1,51 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_item_white"
-    android:orientation="vertical">
-
+    >
     <LinearLayout
+        android:id="@+id/mLlView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:minHeight="68dp"
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/wechat_list_item_padding_h"
-        android:paddingTop="@dimen/wechat_list_item_padding_v"
-        android:paddingEnd="@dimen/wechat_list_item_padding_h"
-        android:paddingBottom="@dimen/wechat_list_item_padding_v">
-
-        <include
-            android:id="@+id/avatar"
-            layout="@layout/view_avatar"
-            android:layout_width="@dimen/wechat_avatar_size"
-            android:layout_height="@dimen/wechat_avatar_size" />
-
+        android:background="@drawable/bg_item_white"
+        android:orientation="vertical">
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:gravity="center_vertical"
+            android:minHeight="68dp"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/wechat_list_item_padding_h"
+            android:paddingTop="@dimen/wechat_list_item_padding_v"
+            android:paddingEnd="@dimen/wechat_list_item_padding_h"
+            android:paddingBottom="@dimen/wechat_list_item_padding_v">
 
-            <TextView
-                android:id="@+id/tv_name"
-                style="@style/WeChatTextPrimary"
-                android:layout_width="match_parent"
+            <include
+                android:id="@+id/avatar"
+                layout="@layout/view_avatar"
+                android:layout_width="@dimen/wechat_avatar_size"
+                android:layout_height="@dimen/wechat_avatar_size" />
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                tools:text="用户537174" />
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    style="@style/WeChatTextPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    tools:text="用户537174" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="76dp"
+            android:background="@color/wechat_divider" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginStart="76dp"
-        android:background="@color/wechat_divider" />
-</LinearLayout>
+</FrameLayout>
