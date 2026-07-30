@@ -376,12 +376,13 @@ class CallActivity : AppCompatActivity() {
         durationHandler.postDelayed(runnable, OUTGOING_RING_TIMEOUT_MS)
     }
 
-    /** 超时未接听：发 CANCEL(timeout) 停对端振铃，并从本页移除；无人剩余时结束本通。 */
+    /** 超时未接听：发 CANCEL(timeout) 停对端振铃（带 groupId，不落会话消息），并从本页移除。 */
     private fun removeUnansweredParticipant(userId: String) {
         val id = if (!TextUtils.isEmpty(callId)) callId else roomName
         if (!TextUtils.isEmpty(id) && userId.isNotBlank()) {
             CallMissedLocalStore.markTimeoutAsCaller(id, userId)
-            CallSignalSender.cancelForTimeout(id, userId, roomName, video)
+            val gid = groupId.takeIf { it.isNotBlank() }
+            CallSignalSender.cancelForTimeout(id, listOf(userId), roomName, video, gid)
         }
         removeParticipant(userId)
         if (shouldEndMultiCall()) {
@@ -745,8 +746,10 @@ class CallActivity : AppCompatActivity() {
     }
 
     /**
-     * 接通前：主叫取消发 CALL_CANCEL=4；
-     * 接通后：离开本通发 CALL_HANGUP=6（多人通知其余成员，不结束整通）。
+     * 接通前：
+     * - 1v1 主叫取消发 CALL_CANCEL=4
+     * - 群/多人主叫挂断发 CALL_END=9（一次信令 + groupId，只停振铃/结束房间，不落多余会话消息）
+     * 接通后：离开本通发 CALL_HANGUP=6（多人一次通知其余成员）。
      * 来电拒绝由 [rejectIncoming] 单独发 CALL_REJECT。
      */
     private fun sendLeaveCallSignal() {
@@ -764,24 +767,23 @@ class CallActivity : AppCompatActivity() {
         if (targets.isEmpty()) {
             return
         }
+        val gid = groupId.takeIf { it.isNotBlank() }
         if (callConnected) {
-            eLogD(tAG, "挂断通话 CALL_HANGUP callId=$id toUserIds=$targets")
-            targets.forEach { uid ->
-                CallSignalSender.hangup(id, uid, roomName, video)
-            }
+            eLogD(tAG, "挂断通话 CALL_HANGUP callId=$id toUserIds=$targets groupId=$gid")
+            CallSignalSender.hangup(id, targets, roomName, video, gid)
             return
         }
         if (outgoing) {
-            if (leaveAsTimeout) {
+            if (isMultiCall) {
+                // 群通话：只发结束信令，不发 CANCEL，避免服务端再落一条「语音通话」消息
+                eLogD(tAG, "群通话主叫结束 CALL_END callId=$id toUserIds=$targets groupId=$gid")
+                CallSignalSender.end(id, targets, roomName, video, gid)
+            } else if (leaveAsTimeout) {
                 eLogD(tAG, "主叫超时未接听 CALL_CANCEL(timeout) callId=$id toUserIds=$targets")
-                targets.forEach { uid ->
-                    CallSignalSender.cancelForTimeout(id, uid, roomName, video)
-                }
+                CallSignalSender.cancelForTimeout(id, targets, roomName, video, null)
             } else {
                 eLogD(tAG, "主叫取消通话 CALL_CANCEL callId=$id toUserIds=$targets")
-                targets.forEach { uid ->
-                    CallSignalSender.cancel(id, uid, roomName, video)
-                }
+                CallSignalSender.cancel(id, targets, roomName, video, null, null)
             }
         }
     }

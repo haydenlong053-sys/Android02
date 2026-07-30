@@ -77,12 +77,27 @@ public final class CallSignalSender {
                                  @Nullable String roomName,
                                  boolean video,
                                  @Nullable String payload) {
-        return sendSingle(
+        return cancel(callId, Collections.singletonList(toUserId), roomName, video, null, payload);
+    }
+
+    /**
+     * 主叫接通前取消（可多人 + groupId）。
+     * 群通话请走此入口一次发给全部被叫并带上 groupId，避免逐人 CANCEL 被服务端落成多条会话消息。
+     */
+    public static boolean cancel(@NonNull String callId,
+                                 @NonNull List<String> toUserIds,
+                                 @Nullable String roomName,
+                                 boolean video,
+                                 @Nullable String groupId,
+                                 @Nullable String payload) {
+        return send(
                 callId,
                 ImSignalProtos.CallSignalType.CALL_CANCEL_VALUE,
-                toUserId,
+                toUserIds,
                 roomName,
                 video ? MEDIA_VIDEO : MEDIA_AUDIO,
+                groupId,
+                MODE_SFU,
                 payload
         );
     }
@@ -92,7 +107,15 @@ public final class CallSignalSender {
                                            @NonNull String toUserId,
                                            @Nullable String roomName,
                                            boolean video) {
-        return cancel(callId, toUserId, roomName, video, PAYLOAD_TIMEOUT);
+        return cancelForTimeout(callId, Collections.singletonList(toUserId), roomName, video, null);
+    }
+
+    public static boolean cancelForTimeout(@NonNull String callId,
+                                           @NonNull List<String> toUserIds,
+                                           @Nullable String roomName,
+                                           boolean video,
+                                           @Nullable String groupId) {
+        return cancel(callId, toUserIds, roomName, video, groupId, PAYLOAD_TIMEOUT);
     }
 
     /** 挂断 / 离开本通（CALL_HANGUP）。 */
@@ -100,12 +123,23 @@ public final class CallSignalSender {
                                  @NonNull String toUserId,
                                  @Nullable String roomName,
                                  boolean video) {
-        return sendSingle(
+        return hangup(callId, Collections.singletonList(toUserId), roomName, video, null);
+    }
+
+    /** 挂断 / 离开本通（可多人 + groupId，群通话一次信令通知其余成员）。 */
+    public static boolean hangup(@NonNull String callId,
+                                 @NonNull List<String> toUserIds,
+                                 @Nullable String roomName,
+                                 boolean video,
+                                 @Nullable String groupId) {
+        return send(
                 callId,
                 ImSignalProtos.CallSignalType.CALL_HANGUP_VALUE,
-                toUserId,
+                toUserIds,
                 roomName,
                 video ? MEDIA_VIDEO : MEDIA_AUDIO,
+                groupId,
+                MODE_SFU,
                 null
         );
     }
@@ -175,12 +209,26 @@ public final class CallSignalSender {
                               @NonNull String toUserId,
                               @Nullable String roomName,
                               boolean video) {
-        return sendSingle(
+        return end(callId, Collections.singletonList(toUserId), roomName, video, null);
+    }
+
+    /**
+     * 整通结束（可多人 + groupId）。
+     * 群通话主叫接通前挂断请走此入口：只发信令结束房间/停振铃，避免 CANCEL 被落成多余会话消息。
+     */
+    public static boolean end(@NonNull String callId,
+                              @NonNull List<String> toUserIds,
+                              @Nullable String roomName,
+                              boolean video,
+                              @Nullable String groupId) {
+        return send(
                 callId,
                 ImSignalProtos.CallSignalType.CALL_END_VALUE,
-                toUserId,
+                toUserIds,
                 roomName,
                 video ? MEDIA_VIDEO : MEDIA_AUDIO,
+                groupId,
+                MODE_SFU,
                 null
         );
     }
