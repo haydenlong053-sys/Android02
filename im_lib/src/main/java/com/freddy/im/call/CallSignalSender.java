@@ -1,5 +1,8 @@
 package com.freddy.im.call;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
+
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -30,7 +33,9 @@ public final class CallSignalSender {
     private CallSignalSender() {
     }
 
-    /** 发起 / 邀请通话（CALL_INVITE）。 */
+    /**
+     * 发起 / 邀请通话（CALL_INVITE）。
+     */
     public static boolean invite(@NonNull String callId,
                                  @NonNull String toUserId,
                                  @Nullable String roomName,
@@ -56,10 +61,14 @@ public final class CallSignalSender {
         );
     }
 
-    /** 超时未接听取消 payload，供对端/服务端区分「主动取消」与「未接听」。 */
+    /**
+     * 超时未接听取消 payload，供对端/服务端区分「主动取消」与「未接听」。
+     */
     public static final String PAYLOAD_TIMEOUT = "{\"reason\":\"timeout\"}";
 
-    /** 主叫接通前取消（CALL_CANCEL）。 */
+    /**
+     * 主叫接通前取消（CALL_CANCEL）。
+     */
     public static boolean cancel(@NonNull String callId,
                                  @NonNull String toUserId,
                                  @Nullable String roomName,
@@ -102,7 +111,9 @@ public final class CallSignalSender {
         );
     }
 
-    /** 主叫振铃超时未接听：仍发 CALL_CANCEL 停对端振铃，payload 标明 timeout。 */
+    /**
+     * 主叫振铃超时未接听：仍发 CALL_CANCEL 停对端振铃，payload 标明 timeout。
+     */
     public static boolean cancelForTimeout(@NonNull String callId,
                                            @NonNull String toUserId,
                                            @Nullable String roomName,
@@ -118,15 +129,30 @@ public final class CallSignalSender {
         return cancel(callId, toUserIds, roomName, video, groupId, PAYLOAD_TIMEOUT);
     }
 
-    /** 挂断 / 离开本通（CALL_HANGUP）。 */
+    /**
+     * 挂断 / 离开本通（CALL_HANGUP）。
+     */
     public static boolean hangup(@NonNull String callId,
                                  @NonNull String toUserId,
                                  @Nullable String roomName,
                                  boolean video) {
-        return hangup(callId, Collections.singletonList(toUserId), roomName, video, null);
+        return hangup(callId, toUserId, roomName, video, null);
     }
 
-    /** 挂断 / 离开本通（可多人 + groupId，群通话一次信令通知其余成员）。 */
+    /**
+     * 挂断 / 离开本通（可带 groupId，群通话请传群 ID）。
+     */
+    public static boolean hangup(@NonNull String callId,
+                                 @NonNull String toUserId,
+                                 @Nullable String roomName,
+                                 boolean video,
+                                 @Nullable String groupId) {
+        return hangup(callId, Collections.singletonList(toUserId), roomName, video, groupId);
+    }
+
+    /**
+     * 挂断 / 离开本通（可多人 + groupId，群通话一次信令通知其余成员）。
+     */
     public static boolean hangup(@NonNull String callId,
                                  @NonNull List<String> toUserIds,
                                  @Nullable String roomName,
@@ -144,22 +170,39 @@ public final class CallSignalSender {
         );
     }
 
-    /** 被叫拒绝（CALL_REJECT=3）。 */
+    /**
+     * 被叫拒绝（CALL_REJECT=3）。
+     */
     public static boolean reject(@NonNull String callId,
                                  @NonNull String toUserId,
                                  @Nullable String roomName,
                                  boolean video) {
-        return sendSingle(
+        return reject(callId, toUserId, roomName, video, null);
+    }
+
+    /**
+     * 被叫拒绝（可带 groupId，群通话请传群 ID）。
+     */
+    public static boolean reject(@NonNull String callId,
+                                 @NonNull String toUserId,
+                                 @Nullable String roomName,
+                                 boolean video,
+                                 @Nullable String groupId) {
+        return send(
                 callId,
                 ImSignalProtos.CallSignalType.CALL_REJECT_VALUE,
-                toUserId,
+                Collections.singletonList(toUserId),
                 roomName,
                 video ? MEDIA_VIDEO : MEDIA_AUDIO,
+                groupId,
+                MODE_SFU,
                 null
         );
     }
 
-    /** 被叫振铃回执（CALL_RINGING）。 */
+    /**
+     * 被叫振铃回执（CALL_RINGING）。
+     */
     public static boolean ringing(@NonNull String callId,
                                   @NonNull String toUserId,
                                   @Nullable String roomName,
@@ -174,7 +217,9 @@ public final class CallSignalSender {
         );
     }
 
-    /** 被叫接听（CALL_ACCEPT）。 */
+    /**
+     * 被叫接听（CALL_ACCEPT）。
+     */
     public static boolean accept(@NonNull String callId,
                                  @NonNull String toUserId,
                                  @Nullable String roomName,
@@ -189,7 +234,9 @@ public final class CallSignalSender {
         );
     }
 
-    /** 忙线（CALL_BUSY）。 */
+    /**
+     * 忙线（CALL_BUSY）。
+     */
     public static boolean busy(@NonNull String callId,
                                @NonNull String toUserId,
                                @Nullable String roomName,
@@ -204,7 +251,9 @@ public final class CallSignalSender {
         );
     }
 
-    /** 整通结束（CALL_END）。 */
+    /**
+     * 整通结束（CALL_END）。
+     */
     public static boolean end(@NonNull String callId,
                               @NonNull String toUserId,
                               @Nullable String roomName,
@@ -304,7 +353,7 @@ public final class CallSignalSender {
                 }
             }
         }
-
+        eLogD(TAG, "sendBody:" + toJson2(body));
         ImSignalProtos.ClientRequestHeader.Builder header = ImSignalProtos.ClientRequestHeader.newBuilder()
                 .setVersion(1)
                 .setUserId(fromUserId)

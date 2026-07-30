@@ -49,11 +49,35 @@ public final class CallSignalSender {
         return com.freddy.im.call.CallSignalSender.hangup(callId, toUserId, roomName, video);
     }
 
+    public static boolean hangup(@NonNull String callId,
+                                 @NonNull String toUserId,
+                                 @Nullable String roomName,
+                                 boolean video,
+                                 @Nullable String groupId) {
+        return com.freddy.im.call.CallSignalSender.hangup(callId, toUserId, roomName, video, groupId);
+    }
+
+    public static boolean hangup(@NonNull String callId,
+                                 @NonNull List<String> toUserIds,
+                                 @Nullable String roomName,
+                                 boolean video,
+                                 @Nullable String groupId) {
+        return com.freddy.im.call.CallSignalSender.hangup(callId, toUserIds, roomName, video, groupId);
+    }
+
     public static boolean reject(@NonNull String callId,
                                  @NonNull String toUserId,
                                  @Nullable String roomName,
                                  boolean video) {
         return com.freddy.im.call.CallSignalSender.reject(callId, toUserId, roomName, video);
+    }
+
+    public static boolean reject(@NonNull String callId,
+                                 @NonNull String toUserId,
+                                 @Nullable String roomName,
+                                 boolean video,
+                                 @Nullable String groupId) {
+        return com.freddy.im.call.CallSignalSender.reject(callId, toUserId, roomName, video, groupId);
     }
 
     public static boolean ringing(@NonNull String callId,
