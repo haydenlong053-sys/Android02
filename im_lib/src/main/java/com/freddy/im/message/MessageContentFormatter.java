@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.freddy.im.MessageType;
 import com.freddy.im.bean.AppMessage;
+import com.freddy.im.call.CallMissedLocalStore;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -132,7 +133,8 @@ public final class MessageContentFormatter {
             String initiatorName = resolveCallInitiatorName(
                     message.getContent(), message.getFromId(), currentUserId, userIdToDisplayName);
             return sanitizeOutgoingDisplayText(formatCallDisplayText(
-                    message.getContent(), sentByMe, currentUserId, groupCall, initiatorName));
+                    message.getContent(), sentByMe, currentUserId, groupCall, initiatorName,
+                    resolveCallPeerUserId(message, currentUserId)));
         }
         int type = message.getMsgContentType();
         if (isVoiceMessage(type)) {
@@ -264,7 +266,8 @@ public final class MessageContentFormatter {
             String initiatorName = resolveCallInitiatorName(
                     callRaw, lastFromUserId, currentUserId, userIdToDisplayName);
             return sanitizeOutgoingDisplayText(
-                    formatCallDisplayText(callRaw, sentByMe, currentUserId, groupChat, initiatorName));
+                    formatCallDisplayText(callRaw, sentByMe, currentUserId, groupChat, initiatorName,
+                            sentByMe ? null : lastFromUserId));
         }
         if (groupChat && isPlainCallDescPreview(content, lastMessageContent)) {
             String previewRaw = !TextUtils.isEmpty(content) ? content : lastMessageContent;
@@ -587,21 +590,21 @@ public final class MessageContentFormatter {
      *   <li>cancelled → 已取消 / 对方已取消</li>
      *   <li>rejected → 拨打方是自己：对方已拒绝；拨打方是别人：已拒绝</li>
      *   <li>busy → 对方正忙 / 忙线未接听</li>
-     *   <li>missed → 未接听 / 未接来电</li>
+     *   <li>missed / timeout / 本机振铃超时 → 自己拨打「对方未接听」；对方拨打「未接听」</li>
      * </ul>
      *
      * @param sentByMe 是否为当前用户发出的通话记录（通常主叫为 true）
      */
     @NonNull
     public static String formatCallDisplayText(@Nullable String raw, boolean sentByMe) {
-        return formatCallDisplayText(raw, sentByMe, null, isGroupCallContent(raw), null);
+        return formatCallDisplayText(raw, sentByMe, null, isGroupCallContent(raw), null, null);
     }
 
     @NonNull
     public static String formatCallDisplayText(@Nullable String raw,
                                               boolean sentByMe,
                                               @Nullable String currentUserId) {
-        return formatCallDisplayText(raw, sentByMe, currentUserId, isGroupCallContent(raw), null);
+        return formatCallDisplayText(raw, sentByMe, currentUserId, isGroupCallContent(raw), null, null);
     }
 
     @NonNull
@@ -609,7 +612,7 @@ public final class MessageContentFormatter {
                                               boolean sentByMe,
                                               @Nullable String currentUserId,
                                               boolean groupCall) {
-        return formatCallDisplayText(raw, sentByMe, currentUserId, groupCall, null);
+        return formatCallDisplayText(raw, sentByMe, currentUserId, groupCall, null, null);
     }
 
     @NonNull
@@ -618,6 +621,16 @@ public final class MessageContentFormatter {
                                               @Nullable String currentUserId,
                                               boolean groupCall,
                                               @Nullable String initiatorName) {
+        return formatCallDisplayText(raw, sentByMe, currentUserId, groupCall, initiatorName, null);
+    }
+
+    @NonNull
+    public static String formatCallDisplayText(@Nullable String raw,
+                                              boolean sentByMe,
+                                              @Nullable String currentUserId,
+                                              boolean groupCall,
+                                              @Nullable String initiatorName,
+                                              @Nullable String peerUserId) {
         if (groupCall || isGroupCallContent(raw)) {
             return formatGroupCallDisplayText(raw, initiatorName, sentByMe);
         }
@@ -628,17 +641,36 @@ public final class MessageContentFormatter {
         String status = readCallStatus(obj);
         int durationSec = readCallDurationSec(obj);
         String cleanedDesc = stripCallDescPrefix(readCallDesc(obj));
-        // 服务端若已按收件人视角写好文案，优先采用（双方消息都可能是自己发出）
         String personalized = matchPersonalizedCallDesc(cleanedDesc);
+        String callId = firstCallString(obj, "callId", "call_id", "roomName", "roomId", "matchId");
+        boolean iAmCaller = resolveIAmCaller(obj, sentByMe, currentUserId);
 
-        if (isCallStatus(status, "cancelled", "canceled", "cancel")) {
+        // 超时未接：自己拨打→对方未接听；对方拨打→未接听
+        if (isTimeoutOrMissedHint(obj, status, cleanedDesc, personalized, callId, peerUserId)) {
+            return resolveMissedDisplay(callId, peerUserId, iAmCaller, sentByMe);
+        }
+        if (isCallStatus(status, "cancelled", "canceled", "cancel")
+                || isPersonalizedCancel(personalized)) {
+            // 振铃超时落成 cancel 时，绝不能显示「已取消」
+            if (CallMissedLocalStore.isTimeoutCaller(callId, peerUserId)
+                    || CallMissedLocalStore.hasRecentTimeoutCaller()) {
+                return resolveMissedDisplay(callId, peerUserId, true, sentByMe);
+            }
+            if (CallMissedLocalStore.isTimeoutCallee(callId, peerUserId)
+                    || CallMissedLocalStore.hasRecentTimeoutCallee()) {
+                return resolveMissedDisplay(callId, peerUserId, false, sentByMe);
+            }
+            // 被叫侧收到主叫主动取消
+            if (CallMissedLocalStore.wasIncoming(callId, peerUserId)
+                    || isIncomingDirection(obj, currentUserId, sentByMe)) {
+                return "对方已取消";
+            }
             if (isPersonalizedCancel(personalized)) {
                 return personalized;
             }
-            return sentByMe ? "已取消" : "对方已取消";
+            return iAmCaller ? "已取消" : "对方已取消";
         }
         if (isCallStatus(status, "rejected", "reject", "refused", "refuse")) {
-            // 拨打方是自己 → 对方已拒绝；拨打方是别人 → 已拒绝
             return resolveRejectDisplay(obj, cleanedDesc, sentByMe, currentUserId);
         }
         if (isCallStatus(status, "remote_busy")) {
@@ -651,10 +683,7 @@ public final class MessageContentFormatter {
             return resolveBusyDisplay(obj, cleanedDesc, sentByMe, currentUserId);
         }
         if (isCallStatus(status, "missed", "timeout", "noanswer", "no_answer", "no-answer")) {
-            if (isPersonalizedMissed(personalized)) {
-                return personalized;
-            }
-            return sentByMe ? "未接听" : "未接来电";
+            return resolveMissedDisplay(callId, peerUserId, iAmCaller, sentByMe);
         }
         if (isCallStatus(status, "ended", "connected", "hangup", "finished", "complete", "completed")) {
             if (durationSec > 0) {
@@ -663,21 +692,69 @@ public final class MessageContentFormatter {
             return "通话结束";
         }
 
-        // 兼容仅带 desc、或 status 未知：从 desc 推断
         if (!TextUtils.isEmpty(cleanedDesc)) {
             if (cleanedDesc.contains("拒绝")) {
                 return resolveRejectDisplay(obj, cleanedDesc, sentByMe, currentUserId);
             }
-            if (personalized != null) {
+            if (isPersonalizedMissed(personalized)) {
+                return resolveMissedDisplay(callId, peerUserId, iAmCaller, sentByMe);
+            }
+            if (personalized != null && !isPersonalizedCancel(personalized)) {
                 return personalized;
             }
-            return mapCallDescFallback(cleanedDesc, resolveIAmCaller(obj, sentByMe, currentUserId),
-                    durationSec);
+            return mapCallDescFallback(cleanedDesc, iAmCaller, durationSec);
         }
         if (durationSec > 0) {
             return "通话时长 " + formatCallDuration(durationSec);
         }
         return "[通话]";
+    }
+
+    /**
+     * 超时未接文案：
+     * <ul>
+     *   <li>自己是拨打方 → 对方未接听</li>
+     *   <li>对方是拨打方（自己未接）→ 未接听</li>
+     * </ul>
+     */
+    @NonNull
+    private static String resolveMissedDisplay(@Nullable String callId,
+                                               @Nullable String peerUserId,
+                                               boolean iAmCaller,
+                                               boolean sentByMe) {
+        if (CallMissedLocalStore.isTimeoutCaller(callId, peerUserId)
+                || CallMissedLocalStore.hasRecentTimeoutCaller()) {
+            return "对方未接听";
+        }
+        if (CallMissedLocalStore.isTimeoutCallee(callId, peerUserId)
+                || CallMissedLocalStore.hasRecentTimeoutCallee()
+                || CallMissedLocalStore.wasIncoming(callId, peerUserId)) {
+            return "未接听";
+        }
+        // 共享一条：发送方通常为主叫；接收方为被叫
+        if (!sentByMe) {
+            return "未接听";
+        }
+        return iAmCaller ? "对方未接听" : "未接听";
+    }
+
+    private static boolean isIncomingDirection(@NonNull JsonObject obj,
+                                               @Nullable String currentUserId,
+                                               boolean sentByMe) {
+        Boolean caller = resolveIAmCallerOrNull(obj, currentUserId);
+        if (caller != null) {
+            return !caller;
+        }
+        return !sentByMe;
+    }
+
+    @Nullable
+    private static String resolveCallPeerUserId(@NonNull AppMessage message,
+                                                 @Nullable String currentUserId) {
+        if (!TextUtils.isEmpty(currentUserId) && TextUtils.equals(currentUserId, message.getFromId())) {
+            return message.getToId();
+        }
+        return message.getFromId();
     }
 
     /**
@@ -912,7 +989,77 @@ public final class MessageContentFormatter {
         if (s.contains("正忙") || s.contains("忙线") || "busy".equalsIgnoreCase(s)) {
             return "busy";
         }
+        if (s.contains("未接来电") || s.contains("未接听") || s.contains("无应答") || s.contains("未应答")
+                || s.contains("超时")) {
+            return "missed";
+        }
+        if (s.contains("已取消") || s.contains("取消")) {
+            return "cancelled";
+        }
         return s;
+    }
+
+    /**
+     * 超时未接听判定：reason 字段、status=missed/timeout、desc 含未接听类文案、
+     * 或本机 {@link com.freddy.im.call.CallMissedLocalStore} 标记的 callId。
+     * 注意：desc 仅含「对方已取消」不算未接（那是主动取消）。
+     */
+    private static boolean isTimeoutOrMissedHint(@NonNull JsonObject obj,
+                                                 @Nullable String status,
+                                                 @Nullable String cleanedDesc,
+                                                 @Nullable String personalized,
+                                                 @Nullable String callId,
+                                                 @Nullable String peerUserId) {
+        if (isCallStatus(status, "missed", "timeout", "noanswer", "no_answer", "no-answer")) {
+            return true;
+        }
+        boolean localTimeout = CallMissedLocalStore.isTimeoutMissed(callId)
+                || CallMissedLocalStore.isTimeoutCallee(callId, peerUserId)
+                || CallMissedLocalStore.isTimeoutCaller(callId, peerUserId);
+        boolean recentTimeout = CallMissedLocalStore.hasRecentTimeoutCaller()
+                || CallMissedLocalStore.hasRecentTimeoutCallee();
+        // 本机已标记超时：服务端仍推 cancelled/「已取消」时按未接听
+        if (localTimeout || recentTimeout) {
+            if (isCallStatus(status, "cancelled", "canceled", "cancel")
+                    || isPersonalizedCancel(personalized)
+                    || TextUtils.isEmpty(status)
+                    || isPersonalizedMissed(personalized)) {
+                return true;
+            }
+            if (!TextUtils.isEmpty(cleanedDesc)
+                    && (cleanedDesc.contains("取消")
+                    || cleanedDesc.contains("未接")
+                    || cleanedDesc.contains("无应答"))) {
+                return true;
+            }
+            if (localTimeout) {
+                return true;
+            }
+        }
+        String reason = firstCallString(obj,
+                "reason", "endReason", "cancelReason", "cause", "result", "hangupReason");
+        if (!TextUtils.isEmpty(reason)) {
+            String r = reason.trim();
+            if (isCallStatus(r, "timeout", "missed", "noanswer", "no_answer", "no-answer")
+                    || r.toLowerCase().contains("timeout")
+                    || r.contains("未接")
+                    || r.contains("无应答")
+                    || r.contains("超时")) {
+                return true;
+            }
+        }
+        if (isPersonalizedMissed(personalized)) {
+            return true;
+        }
+        if (TextUtils.isEmpty(cleanedDesc)) {
+            return false;
+        }
+        String d = cleanedDesc.trim();
+        return d.contains("未接来电")
+                || d.contains("未接听")
+                || d.contains("无应答")
+                || d.contains("未应答")
+                || d.contains("对方未接");
     }
 
     /**
@@ -1049,8 +1196,11 @@ public final class MessageContentFormatter {
         if (d.contains("对方正忙") || d.contains("对方忙线")) {
             return "对方正忙";
         }
+        if (d.contains("对方未接听") || d.contains("对方未接")) {
+            return "对方未接听";
+        }
         if (d.contains("未接来电")) {
-            return "未接来电";
+            return "未接听";
         }
         if (d.contains("对方已拒绝")) {
             return "对方已拒绝";
@@ -1075,7 +1225,9 @@ public final class MessageContentFormatter {
     }
 
     private static boolean isPersonalizedMissed(@Nullable String text) {
-        return "未接听".equals(text) || "未接来电".equals(text);
+        return "未接听".equals(text)
+                || "未接来电".equals(text)
+                || "对方未接听".equals(text);
     }
 
     @NonNull
@@ -1143,9 +1295,22 @@ public final class MessageContentFormatter {
         if (d.contains("通话结束")) {
             return "通话结束";
         }
+        // 未接优先于「取消」，避免服务端误把超时写成带「取消」的 desc
+        if (d.contains("未接来电")) {
+            return sentByMe ? "对方未接听" : "未接听";
+        }
+        if (d.contains("对方未接听") || d.contains("对方未接")) {
+            return sentByMe ? "对方未接听" : "未接听";
+        }
+        if (d.contains("未接听") || d.contains("无应答") || d.contains("未应答")) {
+            return sentByMe ? "对方未接听" : "未接听";
+        }
         if (d.contains("已取消") || d.contains("取消")) {
-            if (d.contains("对方")) {
-                return "对方已取消";
+            if (CallMissedLocalStore.hasRecentTimeoutCaller()) {
+                return "对方未接听";
+            }
+            if (CallMissedLocalStore.hasRecentTimeoutCallee()) {
+                return "未接听";
             }
             return sentByMe ? "已取消" : "对方已取消";
         }
@@ -1156,12 +1321,6 @@ public final class MessageContentFormatter {
         if (d.contains("正忙") || d.contains("忙线") || d.contains("忙")) {
             // 不因 desc 含「对方」就两端都显示「对方正忙」；统一按主叫/被叫视角
             return sentByMe ? "对方正忙" : "忙线未接听";
-        }
-        if (d.contains("未接来电")) {
-            return "未接来电";
-        }
-        if (d.contains("未接听") || d.contains("无应答") || d.contains("未应答")) {
-            return sentByMe ? "未接听" : "未接来电";
         }
         return sanitizeOutgoingDisplayText(d);
     }

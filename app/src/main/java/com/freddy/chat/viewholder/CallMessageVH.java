@@ -70,7 +70,8 @@ public final class CallMessageVH extends BaseMessageVH {
             }
         }
         callTextView.setText(MessageContentFormatter.formatCallDisplayText(
-                content, sentByMe, context.currentUserId, context.isGroupChat, initiatorName));
+                content, sentByMe, context.currentUserId, context.isGroupChat, initiatorName,
+                resolvePeerUserId(message, context)));
 
         reorderCallChildren(sentByMe);
         bindRedialClick(message, context);

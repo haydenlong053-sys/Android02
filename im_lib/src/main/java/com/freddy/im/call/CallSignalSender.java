@@ -56,19 +56,43 @@ public final class CallSignalSender {
         );
     }
 
+    /** 超时未接听取消 payload，供对端/服务端区分「主动取消」与「未接听」。 */
+    public static final String PAYLOAD_TIMEOUT = "{\"reason\":\"timeout\"}";
+
     /** 主叫接通前取消（CALL_CANCEL）。 */
     public static boolean cancel(@NonNull String callId,
                                  @NonNull String toUserId,
                                  @Nullable String roomName,
                                  boolean video) {
+        return cancel(callId, toUserId, roomName, video, null);
+    }
+
+    /**
+     * 主叫接通前取消（CALL_CANCEL）。
+     *
+     * @param payload 可选 JSON，超时未接听传 {@link #PAYLOAD_TIMEOUT}
+     */
+    public static boolean cancel(@NonNull String callId,
+                                 @NonNull String toUserId,
+                                 @Nullable String roomName,
+                                 boolean video,
+                                 @Nullable String payload) {
         return sendSingle(
                 callId,
                 ImSignalProtos.CallSignalType.CALL_CANCEL_VALUE,
                 toUserId,
                 roomName,
                 video ? MEDIA_VIDEO : MEDIA_AUDIO,
-                null
+                payload
         );
+    }
+
+    /** 主叫振铃超时未接听：仍发 CALL_CANCEL 停对端振铃，payload 标明 timeout。 */
+    public static boolean cancelForTimeout(@NonNull String callId,
+                                           @NonNull String toUserId,
+                                           @Nullable String roomName,
+                                           boolean video) {
+        return cancel(callId, toUserId, roomName, video, PAYLOAD_TIMEOUT);
     }
 
     /** 挂断 / 离开本通（CALL_HANGUP）。 */
