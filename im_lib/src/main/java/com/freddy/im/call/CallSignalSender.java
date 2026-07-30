@@ -224,12 +224,25 @@ public final class CallSignalSender {
                                  @NonNull String toUserId,
                                  @Nullable String roomName,
                                  boolean video) {
-        return sendSingle(
+        return accept(callId, toUserId, roomName, video, null);
+    }
+
+    /**
+     * 被叫接听（可带 groupId，群通话请传群 ID）。
+     */
+    public static boolean accept(@NonNull String callId,
+                                 @NonNull String toUserId,
+                                 @Nullable String roomName,
+                                 boolean video,
+                                 @Nullable String groupId) {
+        return send(
                 callId,
                 ImSignalProtos.CallSignalType.CALL_ACCEPT_VALUE,
-                toUserId,
+                Collections.singletonList(toUserId),
                 roomName,
                 video ? MEDIA_VIDEO : MEDIA_AUDIO,
+                groupId,
+                MODE_SFU,
                 null
         );
     }
