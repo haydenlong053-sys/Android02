@@ -50,17 +50,29 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <GridLayout
-        android:id="@+id/audioContainerGridLayout"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/audioContainerScroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/dp_30"
-        android:alignmentMode="alignBounds"
-        android:columnCount="3"
-        android:orientation="horizontal"
-        android:useDefaultMargins="false"
+        android:clipToPadding="false"
+        android:fillViewport="false"
+        android:overScrollMode="ifContentScrolls"
+        android:layout_marginBottom="@dimen/dp_220"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/audioConTopLayout" />
+        app:layout_constraintTop_toBottomOf="@id/audioConTopLayout">
+
+        <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/audioContainerGridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            app:alignmentMode="alignBounds"
+            app:columnCount="3"
+            app:orientation="horizontal"
+            app:useDefaultMargins="false" />
+    </androidx.core.widget.NestedScrollView>
 
     <include
         android:id="@+id/connectedContainer"

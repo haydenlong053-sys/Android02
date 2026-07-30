@@ -37,5 +37,6 @@ android {
 dependencies {
     implementation project(':im_lib')
     implementation project(':baselibrary')
+    implementation libs.androidx.gridlayout
     implementation("io.livekit:livekit-android:2.26.1")
 }
