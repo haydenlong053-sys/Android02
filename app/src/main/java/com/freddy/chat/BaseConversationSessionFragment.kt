@@ -45,9 +45,9 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         adapter = ConversationListAdapter().apply {
             setCurrentUserId(IMSClientBootstrap.getInstance().currentUserId)
             setOnSessionClickListener { session ->
-                session.unreadCount = 0
-                mergeSessions(listOf(session))
+                // 先跳转，再静默清未读，避免进页前整表刷新闪烁
                 JumpBroadUtils.startChatMsgActivity(session, requireContext())
+                clearUnreadAfterEnterChat(session)
             }
             setOnSessionLongClickListener { session ->
                 showSessionActions(session)
@@ -56,6 +56,8 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         }
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+        // 关闭默认换页动画，减轻局部刷新时的视觉跳动
+        recyclerView.itemAnimator = null
 
         // 禁用下拉刷新；会话数据由 ViewModel 主动拉取 / 信令更新
         swipeRefresh.isEnabled = false
@@ -75,11 +77,12 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
                 if (!isAdded) {
                     return@enrichSingleChatSessions
                 }
+                renderSessions(enriched)
+                // 回写昵称/头像到 ViewModel，但不二次 post，避免再触发一轮观察导致闪烁
                 val changed = collectDisplayInfoUpdates(sessions, enriched)
                 if (changed.isNotEmpty()) {
-                    parentViewModel.mergeSessions(changed)
+                    parentViewModel.patchSessionDisplayFields(changed)
                 }
-                renderSessions(enriched)
             }
         }
         parentViewModel.loading.observe(viewLifecycleOwner) { loading ->
@@ -126,6 +129,23 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
             showContent()
         } else if (parentViewModel.loading.value != true) {
             showContent()
+        }
+    }
+
+    /** 进入聊天后清未读：先改 Adapter 角标，再同步 ViewModel/本地库，避免整表闪烁。 */
+    private fun clearUnreadAfterEnterChat(session: SessionItem) {
+        val sessionId = session.sessionId ?: return
+        if (session.unreadCount <= 0) {
+            return
+        }
+        // 注意：Adapter 与点击回调持有同一 SessionItem 引用。
+        // 不可先改 session.unreadCount=0，否则 clearUnread 会因「已是 0」跳过 notify。
+        adapter.clearUnread(sessionId)
+        parentViewModel.clearSessionUnread(sessionId)
+        ImLocalStore.clearSessionUnread(sessionId)
+        val lastMessageId = session.lastMessageId
+        if (!TextUtils.isEmpty(lastMessageId)) {
+            com.freddy.im.message.ImMessageManager.getInstance().reportMessageRead(lastMessageId)
         }
     }
 

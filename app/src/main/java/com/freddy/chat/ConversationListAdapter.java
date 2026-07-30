@@ -2,6 +2,7 @@ package com.freddy.chat;
 
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.baselibrary.widge.VpGradeView;
@@ -23,6 +25,7 @@ import com.freddy.im.http.model.im.SessionItem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 主会话列表 {@link ConversationListFragment} 专用。
@@ -59,12 +62,15 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
     }
 
     public void setNewData(@Nullable List<SessionItem> sessionList) {
-        items.clear();
+        List<SessionItem> next = new ArrayList<>();
         if (sessionList != null) {
-            items.addAll(sessionList);
+            next.addAll(sessionList);
         }
-        sortSessions();
-        notifyDataSetChanged();
+        sortSessions(next);
+        DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new SessionDiffCallback(items, next), true);
+        items.clear();
+        items.addAll(next);
+        diff.dispatchUpdatesTo(this);
     }
 
     /**
@@ -85,34 +91,59 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         return false;
     }
 
+    private static final Object PAYLOAD_UNREAD = new Object();
+
+    /** 仅清除指定会话未读角标，避免整表刷新闪烁。 */
+    public boolean clearUnread(@Nullable String sessionId) {
+        if (sessionId == null || sessionId.isEmpty()) {
+            return false;
+        }
+        for (int i = 0; i < items.size(); i++) {
+            SessionItem s = items.get(i);
+            if (s != null && sessionId.equals(s.getSessionId())) {
+                if (s.getUnreadCount() <= 0) {
+                    return false;
+                }
+                s.setUnreadCount(0);
+                notifyItemChanged(i, PAYLOAD_UNREAD);
+                return true;
+            }
+        }
+        return false;
+    }
+
     /** 合并/更新部分会话（群变更、拉取列表等），按置顶与最近消息时间排序。 */
     public void mergeSessions(@Nullable List<SessionItem> updates) {
         if (updates == null || updates.isEmpty()) {
             return;
         }
+        List<SessionItem> next = new ArrayList<>(items);
         for (SessionItem update : updates) {
             if (update == null || update.getSessionId() == null) {
                 continue;
             }
             int index = -1;
-            for (int i = 0; i < items.size(); i++) {
-                if (update.getSessionId().equals(items.get(i).getSessionId())) {
+            for (int i = 0; i < next.size(); i++) {
+                if (update.getSessionId().equals(next.get(i).getSessionId())) {
                     index = i;
                     break;
                 }
             }
             if (index >= 0) {
-                items.set(index, update);
+                next.set(index, update);
             } else {
-                items.add(0, update);
+                next.add(0, update);
             }
         }
-        sortSessions();
-        notifyDataSetChanged();
+        sortSessions(next);
+        DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new SessionDiffCallback(items, next), true);
+        items.clear();
+        items.addAll(next);
+        diff.dispatchUpdatesTo(this);
     }
 
-    private void sortSessions() {
-        items.sort((a, b) -> {
+    private static void sortSessions(@NonNull List<SessionItem> list) {
+        list.sort((a, b) -> {
             int topCmp = Long.compare(b.getTopNum(), a.getTopNum());
             if (topCmp != 0) {
                 return topCmp;
@@ -127,6 +158,24 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_conversation, parent, false);
         return new VH(v);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull VH holder, int position, @NonNull List<Object> payloads) {
+        if (!payloads.isEmpty()) {
+            boolean unreadOnly = false;
+            for (Object payload : payloads) {
+                if (payload == PAYLOAD_UNREAD) {
+                    unreadOnly = true;
+                    break;
+                }
+            }
+            if (unreadOnly) {
+                bindUnread(holder, items.get(position));
+                return;
+            }
+        }
+        onBindViewHolder(holder, position);
     }
 
     @Override
@@ -151,21 +200,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
             holder.ivPreviewType.setVisibility(View.GONE);
         }
 
-        Integer unread = s.getUnreadCount();
-        boolean muted = s.isMuteNotify();
-        if (unread != null && unread > 0) {
-            if (muted) {
-                holder.tvUnread.setVisibility(View.GONE);
-                holder.muteDot.setVisibility(View.VISIBLE);
-            } else {
-                holder.muteDot.setVisibility(View.GONE);
-                holder.tvUnread.setVisibility(View.VISIBLE);
-                holder.tvUnread.setText(unread > 99 ? "99+" : String.valueOf(unread));
-            }
-        } else {
-            holder.tvUnread.setVisibility(View.GONE);
-            holder.muteDot.setVisibility(View.GONE);
-        }
+        bindUnread(holder, s);
 
         holder.itemView.setBackgroundResource(
                 s.getTopNum() > 0 ? R.drawable.bg_item_pinned : R.drawable.bg_item_white);
@@ -181,6 +216,24 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
             }
             return false;
         });
+    }
+
+    private static void bindUnread(@NonNull VH holder, @NonNull SessionItem s) {
+        int unread = s.getUnreadCount();
+        boolean muted = s.isMuteNotify();
+        if (unread > 0) {
+            if (muted) {
+                holder.tvUnread.setVisibility(View.GONE);
+                holder.muteDot.setVisibility(View.VISIBLE);
+            } else {
+                holder.muteDot.setVisibility(View.GONE);
+                holder.tvUnread.setVisibility(View.VISIBLE);
+                holder.tvUnread.setText(unread > 99 ? "99+" : String.valueOf(unread));
+            }
+        } else {
+            holder.tvUnread.setVisibility(View.GONE);
+            holder.muteDot.setVisibility(View.GONE);
+        }
     }
 
     @NonNull
@@ -204,6 +257,77 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    private static final class SessionDiffCallback extends DiffUtil.Callback {
+        @NonNull
+        private final List<SessionItem> oldList;
+        @NonNull
+        private final List<SessionItem> newList;
+
+        SessionDiffCallback(@NonNull List<SessionItem> oldList, @NonNull List<SessionItem> newList) {
+            this.oldList = oldList;
+            this.newList = newList;
+        }
+
+        @Override
+        public int getOldListSize() {
+            return oldList.size();
+        }
+
+        @Override
+        public int getNewListSize() {
+            return newList.size();
+        }
+
+        @Override
+        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+            SessionItem oldItem = oldList.get(oldItemPosition);
+            SessionItem newItem = newList.get(newItemPosition);
+            return TextUtils.equals(oldItem.getSessionId(), newItem.getSessionId());
+        }
+
+        @Override
+        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+            SessionItem a = oldList.get(oldItemPosition);
+            SessionItem b = newList.get(newItemPosition);
+            return a.getUnreadCount() == b.getUnreadCount()
+                    && a.getTopNum() == b.getTopNum()
+                    && a.getLastMessageTime() == b.getLastMessageTime()
+                    && a.getLastMessageStatus() == b.getLastMessageStatus()
+                    && a.getLastMsgType() == b.getLastMsgType()
+                    && a.isMuteNotify() == b.isMuteNotify()
+                    && TextUtils.equals(a.getSessionName(), b.getSessionName())
+                    && TextUtils.equals(a.getIcon(), b.getIcon())
+                    && TextUtils.equals(a.getUsername(), b.getUsername())
+                    && TextUtils.equals(a.getLastMessageId(), b.getLastMessageId())
+                    && TextUtils.equals(a.getLastMessageContent(), b.getLastMessageContent())
+                    && TextUtils.equals(a.getLastContentType(), b.getLastContentType())
+                    && TextUtils.equals(a.getLastCustomInfo(), b.getLastCustomInfo())
+                    && Objects.equals(a.getOppositeUserId(), b.getOppositeUserId());
+        }
+
+        @Nullable
+        @Override
+        public Object getChangePayload(int oldItemPosition, int newItemPosition) {
+            SessionItem a = oldList.get(oldItemPosition);
+            SessionItem b = newList.get(newItemPosition);
+            boolean onlyUnread = a.getUnreadCount() != b.getUnreadCount()
+                    && a.getTopNum() == b.getTopNum()
+                    && a.getLastMessageTime() == b.getLastMessageTime()
+                    && a.getLastMessageStatus() == b.getLastMessageStatus()
+                    && a.getLastMsgType() == b.getLastMsgType()
+                    && a.isMuteNotify() == b.isMuteNotify()
+                    && TextUtils.equals(a.getSessionName(), b.getSessionName())
+                    && TextUtils.equals(a.getIcon(), b.getIcon())
+                    && TextUtils.equals(a.getUsername(), b.getUsername())
+                    && TextUtils.equals(a.getLastMessageId(), b.getLastMessageId())
+                    && TextUtils.equals(a.getLastMessageContent(), b.getLastMessageContent())
+                    && TextUtils.equals(a.getLastContentType(), b.getLastContentType())
+                    && TextUtils.equals(a.getLastCustomInfo(), b.getLastCustomInfo())
+                    && Objects.equals(a.getOppositeUserId(), b.getOppositeUserId());
+            return onlyUnread ? PAYLOAD_UNREAD : null;
+        }
     }
 
     static final class VH extends RecyclerView.ViewHolder {

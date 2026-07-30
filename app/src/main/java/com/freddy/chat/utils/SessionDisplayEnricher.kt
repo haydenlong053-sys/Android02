@@ -50,7 +50,12 @@ object SessionDisplayEnricher {
             resolvePeerUserId(session, currentUserId)?.let { pendingUserIds.add(it) }
         }
         if (pendingUserIds.isEmpty()) {
-            mainHandler.post { onComplete(source) }
+            // 无需补全时同步回调，避免 mainHandler.post 导致列表晚一帧整表刷新闪烁
+            if (Looper.myLooper() == Looper.getMainLooper()) {
+                onComplete(source)
+            } else {
+                mainHandler.post { onComplete(source) }
+            }
             return
         }
 
