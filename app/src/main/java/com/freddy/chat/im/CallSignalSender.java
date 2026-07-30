@@ -94,6 +94,14 @@ public final class CallSignalSender {
         return com.freddy.im.call.CallSignalSender.accept(callId, toUserId, roomName, video);
     }
 
+    public static boolean accept(@NonNull String callId,
+                                 @NonNull String toUserId,
+                                 @Nullable String roomName,
+                                 boolean video,
+                                 @Nullable String groupId) {
+        return com.freddy.im.call.CallSignalSender.accept(callId, toUserId, roomName, video, groupId);
+    }
+
     public static boolean busy(@NonNull String callId,
                                @NonNull String toUserId,
                                @Nullable String roomName,

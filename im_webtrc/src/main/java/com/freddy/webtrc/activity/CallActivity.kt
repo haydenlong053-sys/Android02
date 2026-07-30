@@ -516,7 +516,9 @@ class CallActivity : AppCompatActivity() {
             }
             joinCurrentRoom()
             if (!TextUtils.isEmpty(id) && !TextUtils.isEmpty(targetId)) {
-                CallSignalSender.accept(id, targetId, roomName, video)
+                val gid = groupId.takeIf { it.isNotBlank() }
+                eLogD(tAG, "接听通话 callId=$id toUserId=$targetId groupId=$gid")
+                CallSignalSender.accept(id, targetId, roomName, video, gid)
             }
             return
         }
@@ -549,7 +551,9 @@ class CallActivity : AppCompatActivity() {
                     outgoingActionContainer?.visibility = View.VISIBLE
                 }
                 joinCurrentRoom()
-                CallSignalSender.accept(if (!TextUtils.isEmpty(callId)) callId else roomName, targetId, roomName, video)
+                val gid = groupId.takeIf { it.isNotBlank() }
+                eLogD(tAG, "接听通话(拉token后) callId=${if (!TextUtils.isEmpty(callId)) callId else roomName} toUserId=$targetId groupId=$gid")
+                CallSignalSender.accept(if (!TextUtils.isEmpty(callId)) callId else roomName, targetId, roomName, video, gid)
             }
         }
     }
