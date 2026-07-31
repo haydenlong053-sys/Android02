@@ -343,6 +343,7 @@
     <string name="create_group_load_users_failed">載入用戶列表失敗</string>
     <string name="create_group_success">群組建立成功</string>
     <string name="create_group_failed">建立群組失敗</string>
+    <string name="create_group_name_fmt">%1$s的群聊</string>
     <string name="app_update_title">發現新版本</string>
     <string name="app_update_content_default">發現新版本 %1$s，請更新後繼續使用</string>
     <string name="app_update_later">稍後</string>

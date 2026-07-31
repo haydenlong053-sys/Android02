@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.UserInfoBean
 import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.ImUiStrings
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getSqlStrData
 import com.cboda.baselibrary.utils.fromJson2
@@ -175,8 +176,12 @@ class CreateQunBroadActivity : BaseSimpleBroadActivity() {
             creatingGroup = true
             tvAgree.isEnabled = false
             showLoading()
+            val groupName = ImUiStrings.get(
+                com.cboda.baselibrary.R.string.create_group_name_fmt,
+                userInfoBean?.name.orEmpty(),
+            )
             ImMessageHttpExample.requestCreateGroup(
-                userInfoBean.name + "的群聊",
+                groupName,
                 members,
                 ImSignalProtos.ConversationType.MULTI_VALUE,
                 {

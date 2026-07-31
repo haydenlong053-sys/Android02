@@ -358,6 +358,7 @@
     <string name="create_group_load_users_failed">Failed to load user list</string>
     <string name="create_group_success">Group created successfully</string>
     <string name="create_group_failed">Failed to create group</string>
+    <string name="create_group_name_fmt">%1$s\'s Group Chat</string>
     <string name="app_update_title">New version available</string>
     <string name="app_update_content_default">New version %1$s is available. Please update to continue.</string>
     <string name="app_update_later">Later</string>
