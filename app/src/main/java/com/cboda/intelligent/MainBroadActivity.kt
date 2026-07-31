@@ -143,7 +143,10 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private var selectedIndex by mutableStateOf(0)
     private var isBottomBarExpanded by mutableStateOf(false)
     private var xiaoxiUnreadCount by mutableStateOf("0")
-    private var tongxunluUnreadCount by mutableStateOf("0")
+    /** 好友 Tab：好友申请 + 群邀请（与 Message 页「好友」角标同源）。 */
+    private var tongxunluUnreadCount by mutableStateOf(
+        MMKVBroadUtils.getContactBadgeTotal().coerceAtLeast(0L).toString()
+    )
 
     private lateinit var bottomLayout: LinearLayoutCompat
     private lateinit var wodeLayout: ConstraintLayout
@@ -232,7 +235,8 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                     icon = painterResource(id = R.drawable.ic_home_tab_broad_message),
                     selectedIcon = painterResource(id = R.drawable.ic_home_tab_message_broad_pre),
                     text = stringResource(id = R.string.bottom_bar_social),
-                    badge = if (xiaoxiUnreadCount == "0" && tongxunluUnreadCount == "0") "" else ((xiaoxiUnreadCount.toInt()) + (tongxunluUnreadCount.toInt())).toString()
+                    // 对话 + 私群 + 公群 + 好友
+                    badge = socialBottomBadgeText(xiaoxiUnreadCount, tongxunluUnreadCount)
                 )
             )
 //            }
@@ -665,7 +669,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             viewModel?.getKfInfo(this@MainBroadActivity, data.aiRobotId)
             // 新群邀请角标唯一数据源：userInfo.gros
             MMKVBroadUtils.saveContactBadgeCounts(data.fris, data.gros)
-            tongxunluUnreadCount = MMKVBroadUtils.getContactBadgeTotal().toString()
+            refreshContactBadgeFromCache()
 
             IMSClientBootstrap.getInstance().currentUserAvatarUrl = data.userImg
             eLogD("看看未读", "main$tongxunluUnreadCount")
@@ -1001,10 +1005,9 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                                     val split = zidingyi.split("|")
                                     val xinepngy = split[0].toLong()
                                     val qunshu = split[1].toLong()
-                                    val zongshu = xinepngy + qunshu
                                     eLogD("野火", "收到自定义通知消息---> $xinepngy")
                                     MMKVBroadUtils.saveContactBadgeCounts(xinepngy, qunshu)
-                                    tongxunluUnreadCount = zongshu.toString()
+                                    refreshContactBadgeFromCache()
                                     fragmentList.forEachIndexed { index, fragment ->
                                         if (fragment is TongXunLuBroadFragment) {
                                             fragment.updateShuLiang(xinepngy, qunshu)
@@ -1143,12 +1146,37 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         }, 2000L)
     }
 
-    /** 自研 IM：会话顶 Tab + 消息底栏总未读。 */
+    /** 自研 IM：会话未读 = 对话 + 私群 + 公群。 */
     private fun observeImUnreadCount() {
         conversationParentViewModel.totalUnreadCount.observe(this) { total ->
             xiaoxiUnreadCount = (total ?: 0).coerceAtLeast(0).toString()
         }
         conversationParentViewModel.loadConversations()
+    }
+
+    /**
+     * 社交底栏角标 = 对话 + 私群 + 公群 + 好友。
+     * [sessionUnread] 已是前三项之和，[contactUnread] 为好友 Tab（申请/邀请）。
+     */
+    private fun socialBottomBadgeText(sessionUnread: String, contactUnread: String): String {
+        val session = sessionUnread.toIntOrNull()?.coerceAtLeast(0) ?: 0
+        val contact = contactUnread.toIntOrNull()?.coerceAtLeast(0) ?: 0
+        val total = session + contact
+        return if (total <= 0) "" else total.toString()
+    }
+
+    private fun refreshContactBadgeFromCache(socialCountFromEvent: String? = null) {
+        val total = socialCountFromEvent?.toIntOrNull()?.coerceAtLeast(0)?.toLong()
+            ?: MMKVBroadUtils.getContactBadgeTotal()
+        tongxunluUnreadCount = total.coerceAtLeast(0L).toString()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onUnreadCountEvent(event: UnreadCountBroadEvent?) {
+        // 与 Message 页「好友」Tab 同步（含群邀请处理后的乐观减一）
+        if (event?.socialCount != null) {
+            refreshContactBadgeFromCache(event.socialCount)
+        }
     }
 
     override fun onCEvent(topic: String?, msgCode: Int, resultCode: Int, obj: Any?) {

@@ -33,9 +33,19 @@ class ConversationParentViewModel : BaseViewBroadModel() {
     val myGroupUnreadCount: LiveData<Int> = myGroupSessions.map { ConversationSessionCategory.sumUnread(it) }
     val otherGroupUnreadCount: LiveData<Int> = otherGroupSessions.map { ConversationSessionCategory.sumUnread(it) }
 
-    /** 消息底栏总未读：单聊 + 我的群 + 其他群（均已排除免打扰）。 */
+    /**
+     * 社交底栏会话未读 = 对话 + 私群 + 公群（与 Message 页顶栏三分角标之和一致，均已排除免打扰）。
+     * 底栏最终展示还需再加上「好友」通讯录角标（fris+gros）。
+     */
     val totalUnreadCount: LiveData<Int> = _allSessions.map { sessions ->
-        ConversationSessionCategory.sumUnread(sessions)
+        val uid = currentUserId()
+        ConversationSessionCategory.sumUnread(
+            ConversationSessionCategory.filter(sessions, ConversationSessionCategory.SINGLE, uid)
+        ) + ConversationSessionCategory.sumUnread(
+            ConversationSessionCategory.filter(sessions, ConversationSessionCategory.MY_GROUP, uid)
+        ) + ConversationSessionCategory.sumUnread(
+            ConversationSessionCategory.filter(sessions, ConversationSessionCategory.OTHER_GROUP, uid)
+        )
     }
 
     private val _loading = MutableLiveData(false)
@@ -143,6 +153,7 @@ class ConversationParentViewModel : BaseViewBroadModel() {
     private fun publishSessions(sessions: List<SessionItem>?) {
         val sorted = sessions
             ?.filter { !it.sessionId.isNullOrEmpty() }
+            ?.distinctBy { it.sessionId }
             ?.sortedWith(
                 compareByDescending<SessionItem> { it.topNum }
                     .thenByDescending { it.lastMessageTime },

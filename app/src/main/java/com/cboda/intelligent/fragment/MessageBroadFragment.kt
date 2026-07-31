@@ -113,7 +113,7 @@ class MessageBroadFragment : BaseLazyBroadFragment(), I_CEventListener {
     private var atMeCount = "0"
     private var myGroupCount = "0"
     private var otherGroupCount = "0"
-    private var socialCount = "0"
+    private var socialCount = MMKVBroadUtils.getContactBadgeTotal().coerceAtLeast(0L).toString()
     private var bean: CommonResultBroadBean.CommonResult? = null
     private val fragments = ArrayList<Fragment>()
 
@@ -140,7 +140,10 @@ class MessageBroadFragment : BaseLazyBroadFragment(), I_CEventListener {
         EventBus.getDefault().register(this)
         CEventCenter.registerEventListener(this, IM_CHAT_EVENTS)
 
+        // 与底栏「好友」项对齐：页面创建时可能已错过 userInfo EventBus
+        socialCount = MMKVBroadUtils.getContactBadgeTotal().coerceAtLeast(0L).toString()
         observeConversationBadges()
+        updateBadges()
 
         viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
         viewModel?.pintaiLiveData?.observe(viewLifecycleOwner) {
