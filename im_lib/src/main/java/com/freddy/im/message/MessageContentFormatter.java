@@ -15,6 +15,7 @@ import com.cboda.baselibrary.utils.ImUiStrings;
 import com.freddy.im.MessageType;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.call.CallMissedLocalStore;
+import com.freddy.im.call.CallDurationLocalStore;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -762,8 +763,9 @@ public final class MessageContentFormatter {
             return resolveMissedDisplay(callId, peerUserId, iAmCaller, sentByMe);
         }
         if (isCallStatus(status, "ended", "connected", "hangup", "finished", "complete", "completed")) {
-            if (durationSec > 0) {
-                return callDurationLabel(durationSec);
+            int resolved = resolveEndedDurationSec(obj, callId, durationSec, cleanedDesc);
+            if (resolved > 0) {
+                return callDurationLabel(resolved);
             }
             return str(R.string.call_finished);
         }
@@ -773,12 +775,19 @@ public final class MessageContentFormatter {
                 return resolveMissedDisplay(callId, peerUserId, iAmCaller, sentByMe);
             }
             if (personalized != null && !isPersonalizedCancel(personalized)) {
+                if ("通话结束".equals(personalized)) {
+                    int resolved = resolveEndedDurationSec(obj, callId, durationSec, cleanedDesc);
+                    if (resolved > 0) {
+                        return callDurationLabel(resolved);
+                    }
+                }
                 return localizeCallPhrase(personalized);
             }
-            return mapCallDescFallback(cleanedDesc, iAmCaller, durationSec);
+            return mapCallDescFallback(cleanedDesc, iAmCaller, durationSec, callId);
         }
-        if (durationSec > 0) {
-            return callDurationLabel(durationSec);
+        int resolved = resolveEndedDurationSec(obj, callId, durationSec, cleanedDesc);
+        if (resolved > 0) {
+            return callDurationLabel(resolved);
         }
         return str(R.string.call_digest);
     }
@@ -1387,14 +1396,116 @@ public final class MessageContentFormatter {
     }
 
     private static int readCallDurationSec(@NonNull JsonObject obj) {
-        if (!obj.has("duration")) {
+        int fromField = readPositiveDurationField(obj, "duration", "durationSec", "talkTime", "callTime");
+        if (fromField > 0) {
+            return fromField;
+        }
+        int fromMs = readPositiveDurationField(obj, "durationMs", "duration_ms", "talkTimeMs");
+        if (fromMs > 0) {
+            return Math.max(1, fromMs / 1000);
+        }
+        return 0;
+    }
+
+    private static int readPositiveDurationField(@NonNull JsonObject obj, @NonNull String... keys) {
+        for (String key : keys) {
+            if (!obj.has(key) || obj.get(key).isJsonNull()) {
+                continue;
+            }
+            try {
+                if (obj.get(key).isJsonPrimitive()) {
+                    com.google.gson.JsonPrimitive p = obj.get(key).getAsJsonPrimitive();
+                    if (p.isNumber()) {
+                        int v = (int) Math.round(p.getAsDouble());
+                        if (v > 0) {
+                            return v;
+                        }
+                    } else if (p.isString()) {
+                        String s = p.getAsString().trim();
+                        if (s.isEmpty()) {
+                            continue;
+                        }
+                        // "00:31" / "0:31" / "1:02:03"
+                        int parsed = parseDurationClock(s);
+                        if (parsed > 0) {
+                            return parsed;
+                        }
+                        double d = Double.parseDouble(s);
+                        if (d > 0) {
+                            return (int) Math.round(d);
+                        }
+                    }
+                }
+            } catch (Exception ignored) {
+                // try next key
+            }
+        }
+        return 0;
+    }
+
+    /** 解析 mm:ss / h:mm:ss。 */
+    private static int parseDurationClock(@Nullable String text) {
+        if (TextUtils.isEmpty(text) || !text.contains(":")) {
             return 0;
         }
         try {
-            return Math.max(0, obj.get("duration").getAsInt());
-        } catch (Exception e) {
+            String[] parts = text.trim().split(":");
+            if (parts.length == 2) {
+                return Integer.parseInt(parts[0]) * 60 + Integer.parseInt(parts[1]);
+            }
+            if (parts.length == 3) {
+                return Integer.parseInt(parts[0]) * 3600
+                        + Integer.parseInt(parts[1]) * 60
+                        + Integer.parseInt(parts[2]);
+            }
+        } catch (Exception ignored) {
             return 0;
         }
+        return 0;
+    }
+
+    /**
+     * ended 态时长：JSON duration → 本机记录 → desc 中的时钟。
+     */
+    private static int resolveEndedDurationSec(@NonNull JsonObject obj,
+                                               @Nullable String callId,
+                                               int durationSec,
+                                               @Nullable String cleanedDesc) {
+        if (durationSec > 0) {
+            return durationSec;
+        }
+        int local = CallDurationLocalStore.get(callId);
+        if (local > 0) {
+            return local;
+        }
+        // 再扫一遍可能的别名字段
+        int again = readCallDurationSec(obj);
+        if (again > 0) {
+            return again;
+        }
+        return parseDurationFromDesc(cleanedDesc);
+    }
+
+    private static int parseDurationFromDesc(@Nullable String desc) {
+        if (TextUtils.isEmpty(desc)) {
+            return 0;
+        }
+        String d = desc.trim();
+        // 「通话时长 00:31」/「通话时长 0:31」
+        int sp = d.lastIndexOf(' ');
+        if (sp > 0 && sp < d.length() - 1) {
+            int clock = parseDurationClock(d.substring(sp + 1).trim());
+            if (clock > 0) {
+                return clock;
+            }
+        }
+        java.util.regex.Matcher m = java.util.regex.Pattern
+                .compile("(\\d{1,2}:\\d{2}(?::\\d{2})?)")
+                .matcher(d);
+        if (m.find()) {
+            return parseDurationClock(m.group(1));
+        }
+        return 0;
     }
 
     @NonNull
@@ -1422,11 +1533,18 @@ public final class MessageContentFormatter {
     }
 
     @NonNull
-    private static String mapCallDescFallback(@NonNull String desc, boolean sentByMe, int durationSec) {
+    private static String mapCallDescFallback(@NonNull String desc,
+                                              boolean sentByMe,
+                                              int durationSec,
+                                              @Nullable String callId) {
         String d = desc.trim();
+        int resolved = durationSec > 0 ? durationSec : CallDurationLocalStore.get(callId);
+        if (resolved <= 0) {
+            resolved = parseDurationFromDesc(d);
+        }
         if (d.contains("通话时长")) {
-            if (durationSec > 0) {
-                return callDurationLabel(durationSec);
+            if (resolved > 0) {
+                return callDurationLabel(resolved);
             }
             int sp = d.lastIndexOf(' ');
             if (sp > 0 && sp < d.length() - 1) {
@@ -1435,6 +1553,9 @@ public final class MessageContentFormatter {
             return str(R.string.call_finished);
         }
         if (d.contains("通话结束")) {
+            if (resolved > 0) {
+                return callDurationLabel(resolved);
+            }
             return str(R.string.call_finished);
         }
         // 未接优先于「取消」，避免服务端误把超时写成带「取消」的 desc

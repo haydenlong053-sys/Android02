@@ -31,6 +31,7 @@ import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.requestPermission
 import com.freddy.im.call.CallMissedLocalStore
+import com.freddy.im.call.CallDurationLocalStore
 import com.freddy.im.call.CallSignalSender
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.http.model.im.GroupMemberItem
@@ -828,21 +829,24 @@ class CallActivity : AppCompatActivity() {
             return
         }
         val gid = groupId.takeIf { it.isNotBlank() }
+        val durationSec = connectedDurationSec()
+        rememberConnectedDuration(id, durationSec)
+        val durationPayload = CallSignalSender.payloadDuration(durationSec)
 
         // 群聊发起方挂断：0 人或仅 1 人接听 → 整通结束
         if (isMultiCall && outgoing && shouldEndWholeMultiCallOnInitiatorLeave()) {
             eLogD(
                 tAG,
                 "群通话发起方结束整通 CALL_END answered=${remoteAnsweredCount()}" +
-                        " callId=$id toUserIds=$targets groupId=$gid"
+                        " callId=$id toUserIds=$targets groupId=$gid duration=$durationSec"
             )
-            CallSignalSender.end(id, targets, roomName, video, gid)
+            CallSignalSender.end(id, targets, roomName, video, gid, durationPayload)
             return
         }
 
         if (callConnected) {
-            eLogD(tAG, "挂断通话 CALL_HANGUP callId=$id toUserIds=$targets groupId=$gid")
-            CallSignalSender.hangup(id, targets, roomName, video, gid)
+            eLogD(tAG, "挂断通话 CALL_HANGUP callId=$id toUserIds=$targets groupId=$gid duration=$durationSec")
+            CallSignalSender.hangup(id, targets, roomName, video, gid, durationPayload)
             return
         }
         if (outgoing) {
@@ -856,6 +860,28 @@ class CallActivity : AppCompatActivity() {
                 eLogD(tAG, "主叫取消通话 CALL_CANCEL callId=$id toUserIds=$targets")
                 CallSignalSender.cancel(id, targets, roomName, video, null, null)
             }
+        }
+    }
+
+    /** 已接通通话时长（秒）。 */
+    private fun connectedDurationSec(): Int {
+        if (!callConnected || connectedAtMs <= 0L) {
+            return 0
+        }
+        val sec = ((System.currentTimeMillis() - connectedAtMs) / 1000L).toInt()
+        return sec.coerceAtLeast(0)
+    }
+
+    private fun rememberConnectedDuration(matchId: String?, durationSec: Int = connectedDurationSec()) {
+        if (durationSec <= 0) return
+        if (!matchId.isNullOrBlank()) {
+            CallDurationLocalStore.mark(matchId, durationSec)
+        }
+        if (!TextUtils.isEmpty(callId)) {
+            CallDurationLocalStore.mark(callId, durationSec)
+        }
+        if (!TextUtils.isEmpty(roomName)) {
+            CallDurationLocalStore.mark(roomName, durationSec)
         }
     }
 
@@ -1137,6 +1163,10 @@ class CallActivity : AppCompatActivity() {
                         || TextUtils.equals(matchId, activity.roomName)
                 if (!same) return
                 activity.runOnUiThread {
+                    // 1v1 已接通时先记下时长，再收尾
+                    if (!activity.isMultiCall && activity.callConnected) {
+                        activity.rememberConnectedDuration(matchId)
+                    }
                     if (activity.isMultiCall) {
                         activity.handleRemoteParticipantLeft(fromUserId, busy)
                     } else {
@@ -1152,6 +1182,19 @@ class CallActivity : AppCompatActivity() {
                 return
             }
             if (!CallSessionHolder.matches(matchId)) return
+            if (CallSessionHolder.callConnected) {
+                val sec = if (CallSessionHolder.connectedAtMs > 0L) {
+                    ((System.currentTimeMillis() - CallSessionHolder.connectedAtMs) / 1000L).toInt()
+                        .coerceAtLeast(0)
+                } else {
+                    0
+                }
+                if (sec > 0) {
+                    CallDurationLocalStore.mark(matchId, sec)
+                    CallDurationLocalStore.mark(CallSessionHolder.callId, sec)
+                    CallDurationLocalStore.mark(CallSessionHolder.roomName, sec)
+                }
+            }
             if (CallSessionHolder.isMultiCall) {
                 CallSessionHolder.removeParticipant(fromUserId)
                 if (CallSessionHolder.shouldEndMultiCall()) {
@@ -1246,6 +1289,9 @@ class CallActivity : AppCompatActivity() {
                         || TextUtils.equals(matchId, activity.roomName)
                 if (!same) return
                 activity.runOnUiThread {
+                    if (activity.callConnected) {
+                        activity.rememberConnectedDuration(matchId)
+                    }
                     eLogD(
                         activity.tAG,
                         "收到 CALL_END，整通结束 matchId=$matchId from=$fromUserId"
@@ -1256,6 +1302,15 @@ class CallActivity : AppCompatActivity() {
                 return
             }
             if (CallSessionHolder.matches(matchId)) {
+                if (CallSessionHolder.callConnected && CallSessionHolder.connectedAtMs > 0L) {
+                    val sec = ((System.currentTimeMillis() - CallSessionHolder.connectedAtMs) / 1000L)
+                        .toInt().coerceAtLeast(0)
+                    if (sec > 0) {
+                        CallDurationLocalStore.mark(matchId, sec)
+                        CallDurationLocalStore.mark(CallSessionHolder.callId, sec)
+                        CallDurationLocalStore.mark(CallSessionHolder.roomName, sec)
+                    }
+                }
                 endFloatingCall()
             }
         }

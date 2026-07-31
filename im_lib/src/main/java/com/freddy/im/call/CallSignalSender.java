@@ -130,13 +130,23 @@ public final class CallSignalSender {
     }
 
     /**
+     * 挂断 payload：附带通话时长（秒），供服务端落会话消息。
+     */
+    public static String payloadDuration(int durationSec) {
+        if (durationSec <= 0) {
+            return null;
+        }
+        return "{\"duration\":" + durationSec + "}";
+    }
+
+    /**
      * 挂断 / 离开本通（CALL_HANGUP）。
      */
     public static boolean hangup(@NonNull String callId,
                                  @NonNull String toUserId,
                                  @Nullable String roomName,
                                  boolean video) {
-        return hangup(callId, toUserId, roomName, video, null);
+        return hangup(callId, Collections.singletonList(toUserId), roomName, video, null, null);
     }
 
     /**
@@ -147,7 +157,7 @@ public final class CallSignalSender {
                                  @Nullable String roomName,
                                  boolean video,
                                  @Nullable String groupId) {
-        return hangup(callId, Collections.singletonList(toUserId), roomName, video, groupId);
+        return hangup(callId, Collections.singletonList(toUserId), roomName, video, groupId, null);
     }
 
     /**
@@ -158,6 +168,18 @@ public final class CallSignalSender {
                                  @Nullable String roomName,
                                  boolean video,
                                  @Nullable String groupId) {
+        return hangup(callId, toUserIds, roomName, video, groupId, null);
+    }
+
+    /**
+     * 挂断 / 离开本通（可附带 duration payload）。
+     */
+    public static boolean hangup(@NonNull String callId,
+                                 @NonNull List<String> toUserIds,
+                                 @Nullable String roomName,
+                                 boolean video,
+                                 @Nullable String groupId,
+                                 @Nullable String payload) {
         return send(
                 callId,
                 ImSignalProtos.CallSignalType.CALL_HANGUP_VALUE,
@@ -166,7 +188,7 @@ public final class CallSignalSender {
                 video ? MEDIA_VIDEO : MEDIA_AUDIO,
                 groupId,
                 MODE_SFU,
-                null
+                payload
         );
     }
 
@@ -271,7 +293,7 @@ public final class CallSignalSender {
                               @NonNull String toUserId,
                               @Nullable String roomName,
                               boolean video) {
-        return end(callId, Collections.singletonList(toUserId), roomName, video, null);
+        return end(callId, Collections.singletonList(toUserId), roomName, video, null, null);
     }
 
     /**
@@ -283,6 +305,18 @@ public final class CallSignalSender {
                               @Nullable String roomName,
                               boolean video,
                               @Nullable String groupId) {
+        return end(callId, toUserIds, roomName, video, groupId, null);
+    }
+
+    /**
+     * 整通结束（可附带 duration payload）。
+     */
+    public static boolean end(@NonNull String callId,
+                              @NonNull List<String> toUserIds,
+                              @Nullable String roomName,
+                              boolean video,
+                              @Nullable String groupId,
+                              @Nullable String payload) {
         return send(
                 callId,
                 ImSignalProtos.CallSignalType.CALL_END_VALUE,
@@ -291,7 +325,7 @@ public final class CallSignalSender {
                 video ? MEDIA_VIDEO : MEDIA_AUDIO,
                 groupId,
                 MODE_SFU,
-                null
+                payload
         );
     }
 

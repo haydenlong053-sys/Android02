@@ -15,6 +15,7 @@ import com.cboda.chatui.quickmeet.MeetCallManager
 import com.freddy.chat.im.othbusi.OthBusiSigHandlers
 import com.freddy.im.bean.AppMessage
 import com.freddy.im.call.CallMissedLocalStore
+import com.freddy.im.call.CallDurationLocalStore
 import com.freddy.im.call.CallSignalSender
 import com.freddy.im.crypto.ImCryptoKeys
 import com.freddy.im.db.ImLocalStore
@@ -298,6 +299,33 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
         }
     }
 
+    /** 从挂断/结束信令 payload 提取 duration，写入本机用于会话气泡展示。 */
+    private fun markDurationFromCallPayload(matchId: String?, sign: ImSignalProtos.CallSignal) {
+        if (matchId.isNullOrBlank() || !sign.hasPayload() || TextUtils.isEmpty(sign.payload)) {
+            return
+        }
+        try {
+            val obj = org.json.JSONObject(sign.payload)
+            val sec = when {
+                obj.has("duration") -> obj.optInt("duration", 0)
+                obj.has("durationSec") -> obj.optInt("durationSec", 0)
+                obj.has("durationMs") -> (obj.optLong("durationMs", 0L) / 1000L).toInt()
+                else -> 0
+            }
+            if (sec > 0) {
+                CallDurationLocalStore.mark(matchId, sec)
+                if (sign.hasCallId() && !TextUtils.isEmpty(sign.callId)) {
+                    CallDurationLocalStore.mark(sign.callId, sec)
+                }
+                if (sign.hasRoomName() && !TextUtils.isEmpty(sign.roomName)) {
+                    CallDurationLocalStore.mark(sign.roomName, sec)
+                }
+            }
+        } catch (_: Exception) {
+            // ignore invalid payload
+        }
+    }
+
     private fun handleCallSignal(sign: ImSignalProtos.CallSignal) {
         when (sign.type) {
             ImSignalProtos.CallSignalType.CALL_INVITE_VALUE -> {
@@ -431,6 +459,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     sign.hasRoomName() && !TextUtils.isEmpty(sign.roomName) -> sign.roomName
                     else -> ""
                 }
+                markDurationFromCallPayload(matchId, sign)
                 eLogD(tAG, "对方挂断 CALL_HANGUP matchId=$matchId from=${sign.fromUserId}")
                 ThreadUtils.getMainHandler().post {
                     // 群/多人：仅该成员离开；1v1 才整通结束
@@ -465,6 +494,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     sign.hasRoomName() && !TextUtils.isEmpty(sign.roomName) -> sign.roomName
                     else -> ""
                 }
+                markDurationFromCallPayload(matchId, sign)
                 eLogD(tAG, "通话结束信令 CALL_END matchId=$matchId from=${sign.fromUserId}")
                 ThreadUtils.getMainHandler().post {
                     CallActivity.finishIfRemoteEnded(matchId, sign.fromUserId)
