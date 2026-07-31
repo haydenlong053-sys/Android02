@@ -1083,7 +1083,6 @@
     <string name="credit_score_tab_compose">信用構成</string>
     <string name="credit_score_tab_record">變動記錄</string>
 
-
     <string name="AbsentKick">缺席自動移出</string>
     <string name="absentkick_tip">連續%1$s次未進入群會議，系統將自動移出該成員</string>
     <string name="look_rule_tip">查看規則</string>

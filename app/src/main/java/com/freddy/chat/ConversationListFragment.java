@@ -173,11 +173,11 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
         }
         int unread = sessionItem.getUnreadCount();
         boolean pinned = sessionItem.getTopNum() > 0;
-        String pinLabel = getString(pinned ? R.string.cancel_zhiding : R.string.zhiding);
+        String pinLabel = getString(pinned ? com.cboda.baselibrary.R.string.cancel_zhiding : R.string.zhiding);
         String readLabel = getString(unread > 0
                 ? com.cboda.chatui.R.string.mark_as_read
                 : com.cboda.chatui.R.string.mark_as_unread);
-        CharSequence[] items = new CharSequence[]{pinLabel, readLabel, getString(R.string.action_remove)};
+        CharSequence[] items = new CharSequence[]{pinLabel, readLabel, getString(com.cboda.baselibrary.R.string.action_remove)};
         new AlertDialog.Builder(requireContext())
                 .setItems(items, (d, which) -> {
                     if (which == 0) {
@@ -231,11 +231,11 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
             ImLocalStore.updateSessionTopMute(sessionId, top, sessionItem.isMuteNotify());
             progressBar.setVisibility(View.GONE);
             Toast.makeText(requireContext(),
-                    top ? R.string.session_top_success : R.string.session_untop_success,
+                    top ? com.cboda.baselibrary.R.string.session_top_success : com.cboda.baselibrary.R.string.session_untop_success,
                     Toast.LENGTH_SHORT).show();
         }), () -> runOnUiThreadSafe(() -> {
             progressBar.setVisibility(View.GONE);
-            Toast.makeText(requireContext(), R.string.session_top_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.session_top_failed, Toast.LENGTH_SHORT).show();
         }));
     }
 
@@ -247,13 +247,13 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
         String currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
         String displayName = WeChatUiHelper.resolveSessionListDisplayName(sessionItem, currentUserId);
         if (TextUtils.isEmpty(displayName)) {
-            displayName = getString(R.string.conversation_name_fallback);
+            displayName = getString(com.cboda.baselibrary.R.string.conversation_name_fallback);
         }
         new AlertDialog.Builder(requireContext())
-                .setTitle(R.string.remove_conversation_title)
-                .setMessage(getString(R.string.remove_conversation_message, displayName))
-                .setPositiveButton(R.string.action_remove, (d, which) -> removeConversation(sessionId))
-                .setNegativeButton(R.string.action_cancel, null)
+                .setTitle(com.cboda.baselibrary.R.string.remove_conversation_title)
+                .setMessage(getString(com.cboda.baselibrary.R.string.remove_conversation_message, displayName))
+                .setPositiveButton(com.cboda.baselibrary.R.string.action_remove, (d, which) -> removeConversation(sessionId))
+                .setNegativeButton(com.cboda.baselibrary.R.string.action_cancel, null)
                 .show();
     }
 
@@ -267,13 +267,13 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
         }), () -> runOnUiThreadSafe(() -> {
             progressBar.setVisibility(View.GONE);
             goLocalDbRemoveConversation(sessionId);
-//            Toast.makeText(requireContext(), R.string.remove_conversation_failed, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.remove_conversation_failed, Toast.LENGTH_SHORT).show();
         }));
     }
 
     private void goLocalDbRemoveConversation(String sessionId) {
         ImLocalStore.removeSessionCompletely(sessionId, () -> runOnUiThreadSafe(() -> {
-            Toast.makeText(requireContext(), R.string.remove_conversation_success, Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.remove_conversation_success, Toast.LENGTH_SHORT).show();
             applySessionRemoved(sessionId);
         }));
     }

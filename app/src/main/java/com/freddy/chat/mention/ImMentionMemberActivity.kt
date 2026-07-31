@@ -48,7 +48,7 @@ class ImMentionMemberActivity : BaseSimple2BroadActivity() {
         groupId = intent.getStringExtra(ImMentionContract.EXTRA_GROUP_ID).orEmpty()
         showMentionAll = intent.getBooleanExtra(ImMentionContract.EXTRA_SHOW_MENTION_ALL, false)
 
-        getToolbarTitle()?.text = getString(R.string.im_mention_pick_title)
+        getToolbarTitle()?.text = getString(com.cboda.baselibrary.R.string.im_mention_pick_title)
 
         edtSousuo = findViewById(R.id.edtSousuo)
         recyclerView = findViewById(R.id.rv_members)

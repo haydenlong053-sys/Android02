@@ -18,7 +18,7 @@ public class ConversationListActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation_list);
-        setTitle(R.string.conversation_list_title);
+        setTitle(com.cboda.baselibrary.R.string.conversation_list_title);
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()

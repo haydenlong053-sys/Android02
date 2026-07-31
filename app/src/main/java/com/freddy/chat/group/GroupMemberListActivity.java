@@ -43,7 +43,7 @@ public class GroupMemberListActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_members);
-        setTitle(R.string.group_members_title);
+        setTitle(com.cboda.baselibrary.R.string.group_members_title);
 
         groupId = GroupIntent.getGroupId(getIntent());
         groupVo = GroupIntent.getGroupVo(getIntent());
@@ -83,16 +83,16 @@ public class GroupMemberListActivity extends AppCompatActivity {
         }, () -> runOnUiThread(() -> {
             progressBar.setVisibility(View.GONE);
             tvEmpty.setVisibility(View.VISIBLE);
-            Toast.makeText(this, R.string.group_members_load_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, com.cboda.baselibrary.R.string.group_members_load_failed, Toast.LENGTH_SHORT).show();
         }));
     }
 
     private void confirmKick(@NonNull GroupUserVo member) {
         new AlertDialog.Builder(this)
-                .setTitle(R.string.group_member_kick)
-                .setMessage(getString(R.string.group_kick_confirm, member.getDisplayName()))
-                .setNegativeButton(R.string.action_cancel, null)
-                .setPositiveButton(R.string.action_confirm, (d, w) -> kickMember(member))
+                .setTitle(com.cboda.baselibrary.R.string.group_member_kick)
+                .setMessage(getString(com.cboda.baselibrary.R.string.group_kick_confirm, member.getDisplayName()))
+                .setNegativeButton(com.cboda.baselibrary.R.string.action_cancel, null)
+                .setPositiveButton(com.cboda.baselibrary.R.string.action_confirm, (d, w) -> kickMember(member))
                 .show();
     }
 
@@ -107,14 +107,14 @@ public class GroupMemberListActivity extends AppCompatActivity {
                     public void onHttpImSuccess(@NonNull String result) {
                         runOnUiThread(() -> {
                             Toast.makeText(GroupMemberListActivity.this,
-                                    R.string.group_kick_success, Toast.LENGTH_SHORT).show();
+                                    com.cboda.baselibrary.R.string.group_kick_success, Toast.LENGTH_SHORT).show();
                             loadMembers();
                         });
                     }
                 }, () -> runOnUiThread(() -> {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(GroupMemberListActivity.this,
-                            R.string.group_kick_failed, Toast.LENGTH_SHORT).show();
+                            com.cboda.baselibrary.R.string.group_kick_failed, Toast.LENGTH_SHORT).show();
                 }));
     }
 }

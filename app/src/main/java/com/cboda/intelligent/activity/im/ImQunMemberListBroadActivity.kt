@@ -432,13 +432,13 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                 ImGroupHttpExample.requestKickOut(qunId, ids, object : OnHttpImListener<String> {
                     override fun onHttpImSuccess(result: String) {
                         runOnUiThread {
-                            ToastBroadUtils.show(getString(R.string.group_apply_action_success))
+                            ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_apply_action_success))
                             finish()
                         }
                     }
                 }, {
 //                    runOnUiThread {
-//                        ToastBroadUtils.show(getString(R.string.group_kick_failed))
+//                        ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_kick_failed))
 //                    }
                 })
             }
@@ -455,7 +455,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                     },
                     {
                         runOnUiThread {
-                            ToastBroadUtils.show(getString(R.string.group_apply_action_failed))
+                            ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_apply_action_failed))
                         }
                     },
                 )
@@ -466,13 +466,13 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                 ImGroupHttpExample.requestAddMembers(qunId, ids, object : OnHttpImListener<com.freddy.im.http.model.im.GroupVo> {
                     override fun onHttpImSuccess(result: com.freddy.im.http.model.im.GroupVo) {
                         runOnUiThread {
-                            ToastBroadUtils.show(getString(R.string.group_apply_action_success))
+                            ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_apply_action_success))
                             finish()
                         }
                     }
                 }, {
 //                    runOnUiThread {
-//                        ToastBroadUtils.show(getString(R.string.group_add_member_failed))
+//                        ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_add_member_failed))
 //                    }
                 })
             }
@@ -495,8 +495,8 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         val displayName = target.name?.takeIf { it.isNotBlank() } ?: newOwnerId
         CommanConfimBroadHolder(
             this,
-            getString(R.string.group_row_transfer),
-            getString(R.string.group_transfer_confirm, displayName),
+            getString(com.cboda.baselibrary.R.string.group_row_transfer),
+            getString(com.cboda.baselibrary.R.string.group_transfer_confirm, displayName),
             getString(R.string.queding),
             getString(R.string.quxiao)
         ).apply {
@@ -525,7 +525,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
 //                            }
                             MessageProcessor.getInstance().notifyConversationList()
                         }
-                        ToastBroadUtils.show(getString(R.string.group_transfer_success))
+                        ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_transfer_success))
                         setResult(RESULT_OK)
                         finish()
                     }
@@ -533,7 +533,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
             },
             {
                 runOnUiThread {
-                    ToastBroadUtils.show(getString(R.string.group_transfer_failed))
+                    ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_transfer_failed))
                 }
             },
         )

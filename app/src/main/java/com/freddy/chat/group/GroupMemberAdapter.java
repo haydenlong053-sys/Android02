@@ -66,8 +66,8 @@ public final class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAd
         holder.tvName.setText(name);
         boolean isOwner = !TextUtils.isEmpty(ownerId) && ownerId.equals(member.getUserId());
         holder.tvRole.setText(isOwner
-                ? holder.itemView.getContext().getString(R.string.group_role_owner)
-                : holder.itemView.getContext().getString(R.string.group_role_member));
+                ? holder.itemView.getContext().getString(com.cboda.baselibrary.R.string.group_role_owner)
+                : holder.itemView.getContext().getString(com.cboda.baselibrary.R.string.group_role_member));
         AvatarViews.bind(holder.avatarRoot, member.getHeadPortrait(), name, name);
 
         boolean canKick = showKick
@@ -78,7 +78,7 @@ public final class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAd
                 && !member.getUserId().equals(currentUserId);
         if (canKick) {
             holder.btnAction.setVisibility(View.VISIBLE);
-            holder.btnAction.setText(R.string.group_member_kick);
+            holder.btnAction.setText(com.cboda.baselibrary.R.string.group_member_kick);
             holder.btnAction.setOnClickListener(v -> {
                 if (actionListener != null) {
                     actionListener.onKick(member);

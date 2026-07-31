@@ -92,7 +92,7 @@ public final class ForwardConversationListAdapter
             holder.mLlView.setVisibility(View.VISIBLE);
         }
         String displayName = name.isEmpty()
-                ? holder.itemView.getContext().getString(R.string.conversation_name_fallback)
+                ? holder.itemView.getContext().getString(com.cboda.baselibrary.R.string.conversation_name_fallback)
                 : name;
         holder.tvName.setText(displayName);
         AvatarViews.bind(holder.avatar, WeChatUiHelper.resolveAvatarUrl(s), displayName, s.getSessionId());

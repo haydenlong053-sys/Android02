@@ -62,7 +62,7 @@ class ImQunJinYanMemberBroadActivity : BaseSimpleBroadActivity() {
             }
         }, {
             runOnUiThread {
-                ToastBroadUtils.show(getString(R.string.group_apply_action_failed))
+                ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_apply_action_failed))
             }
         })
     }
@@ -79,7 +79,7 @@ class ImQunJinYanMemberBroadActivity : BaseSimpleBroadActivity() {
                 }
             }, {
                 runOnUiThread {
-                    ToastBroadUtils.show(getString(R.string.group_apply_action_failed))
+                    ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_apply_action_failed))
                 }
             })
     }

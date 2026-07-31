@@ -45,7 +45,7 @@ class ImQunJinYanBroadActivity : BaseSimpleBroadActivity() {
             val target = !quanyuanjinyan.isChecked
             viewModel?.setAllMute(qunId, target) { ok ->
                 if (!ok) {
-                    ToastBroadUtils.show(getString(R.string.group_apply_action_failed))
+                    ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_apply_action_failed))
                     quanyuanjinyan.isChecked = !target
                 } else {
                     //此处逻辑先注释，目前服务器会下发群禁言更新通知

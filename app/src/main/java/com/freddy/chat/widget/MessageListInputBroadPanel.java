@@ -288,7 +288,7 @@ public class MessageListInputBroadPanel extends FrameLayout
                     if (granted) {
                         enterVoiceRecordMode();
                     } else {
-                        Toast.makeText(getContext(), R.string.voice_permission_denied, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), com.cboda.baselibrary.R.string.voice_permission_denied, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -394,7 +394,7 @@ public class MessageListInputBroadPanel extends FrameLayout
 
     private void onAudioImageViewClick() {
         if (callback != null && !callback.canSendVoice()) {
-            Toast.makeText(getContext(), R.string.voice_record_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), com.cboda.baselibrary.R.string.voice_record_failed, Toast.LENGTH_SHORT).show();
             return;
         }
         if (isVoicePanelShowing()) {
@@ -408,7 +408,7 @@ public class MessageListInputBroadPanel extends FrameLayout
             } else if (recordPermissionLauncher != null) {
                 recordPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO);
             } else {
-                Toast.makeText(getContext(), R.string.voice_permission_denied, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), com.cboda.baselibrary.R.string.voice_permission_denied, Toast.LENGTH_SHORT).show();
             }
         }
     }

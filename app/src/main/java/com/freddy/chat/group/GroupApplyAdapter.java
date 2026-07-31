@@ -58,7 +58,7 @@ public final class GroupApplyAdapter extends RecyclerView.Adapter<GroupApplyAdap
         String meta = !TextUtils.isEmpty(item.getDesc())
                 ? item.getDesc()
                 : holder.itemView.getContext().getString(
-                R.string.group_apply_item_meta, item.getGroupId(), item.getApplyId());
+                com.cboda.baselibrary.R.string.group_apply_item_meta, item.getGroupId(), item.getApplyId());
         holder.tvTitle.setText(title);
         holder.tvMeta.setText(meta);
         boolean pendingApprove = "0".equals(item.getStatus())

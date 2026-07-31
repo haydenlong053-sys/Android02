@@ -264,7 +264,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         viewModel?.state?.observe(this) { state ->
             if (state.loading) return@observe
             if (state.loadFailed) {
-                ToastBroadUtils.show(getString(R.string.group_detail_load_failed))
+                ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_detail_load_failed))
                 return@observe
             }
             applyUiState(state)
@@ -430,7 +430,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                     zhiding.isChecked = target
                     groupVo?.ensureBusiExt()?.isZd = if (target) "1" else "0"
                 } else {
-                    ToastBroadUtils.show(getString(R.string.group_rename_failed))
+                    ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_rename_failed))
                 }
             }
         }
@@ -441,7 +441,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                 if (ok) {
                     miaodarao.isChecked = target
                 } else {
-                    ToastBroadUtils.show(getString(R.string.group_rename_failed))
+                    ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_rename_failed))
                 }
             }
         }
@@ -534,7 +534,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                 },
                 {
                     runOnUiThread {
-                        ToastBroadUtils.show(getString(R.string.group_apply_action_failed))
+                        ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_apply_action_failed))
                     }
                 },
             )
@@ -569,7 +569,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                 },
                 {
                     runOnUiThread {
-                        ToastBroadUtils.show(getString(R.string.group_apply_action_failed))
+                        ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_apply_action_failed))
                     }
                 },
             )
@@ -719,12 +719,12 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                                 runOnUiThread {
 //                                    viewModel?.load(qunId, currentUserId)
                                     dismissLoading()
-                                    ToastBroadUtils.show(getString(R.string.group_apply_action_success))
+                                    ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_apply_action_success))
                                 }
                             }
                         }, {
                             runOnUiThread {
-                                ToastBroadUtils.show(getString(R.string.group_apply_action_failed))
+                                ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_apply_action_failed))
                             }
                         })
                     }
@@ -756,7 +756,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                 onGroupRemoved()
             }
         }, {
-            ToastBroadUtils.show(getString(R.string.group_disband_failed))
+            ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_disband_failed))
         })
     }
 
@@ -780,7 +780,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                 onGroupRemoved()
             }
         }, {
-            ToastBroadUtils.show(getString(R.string.group_leave_failed))
+            ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_leave_failed))
         })
     }
 

@@ -51,7 +51,7 @@ public final class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapte
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         GroupVo group = items.get(position);
         String name = TextUtils.isEmpty(group.getName()) ? holder.itemView.getContext()
-                .getString(R.string.conversation_name_fallback) : group.getName();
+                .getString(com.cboda.baselibrary.R.string.conversation_name_fallback) : group.getName();
         holder.tvName.setText(name);
         String meta = group.getMemCount() > 0
                 ? group.getMemCount() + "人 · " + group.getId()

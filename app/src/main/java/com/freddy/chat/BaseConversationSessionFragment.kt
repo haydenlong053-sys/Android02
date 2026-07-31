@@ -157,7 +157,7 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         val unread = session.unreadCount
         val pinned = session.topNum > 0
         val pinLabel = if (pinned) {
-            getString(R.string.cancel_zhiding)
+            getString(com.cboda.baselibrary.R.string.cancel_zhiding)
         } else {
             getString(R.string.zhiding)
         }
@@ -166,7 +166,7 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         } else {
             getString(com.cboda.chatui.R.string.mark_as_unread)
         }
-        val items = arrayOf(pinLabel, readLabel, getString(R.string.action_remove))
+        val items = arrayOf(pinLabel, readLabel, getString(com.cboda.baselibrary.R.string.action_remove))
         AlertDialog.Builder(requireContext())
             .setItems(items) { _, which ->
                 when (which) {
@@ -215,7 +215,7 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
                         progressBar.visibility = View.GONE
                         Toast.makeText(
                             requireContext(),
-                            if (top) R.string.session_top_success else R.string.session_untop_success,
+                            if (top) com.cboda.baselibrary.R.string.session_top_success else com.cboda.baselibrary.R.string.session_untop_success,
                             Toast.LENGTH_SHORT,
                         ).show()
                     }
@@ -225,7 +225,7 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
                 if (isAdded) {
                     requireActivity().runOnUiThread {
                         progressBar.visibility = View.GONE
-                        Toast.makeText(requireContext(), R.string.session_top_failed, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.session_top_failed, Toast.LENGTH_SHORT).show()
                     }
                 }
             },
@@ -240,13 +240,13 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         val currentUserId = IMSClientBootstrap.getInstance().currentUserId
         var displayName = WeChatUiHelper.resolveSessionListDisplayName(session, currentUserId)
         if (TextUtils.isEmpty(displayName)) {
-            displayName = getString(R.string.conversation_name_fallback)
+            displayName = getString(com.cboda.baselibrary.R.string.conversation_name_fallback)
         }
         AlertDialog.Builder(requireContext())
-            .setTitle(R.string.remove_conversation_title)
-            .setMessage(getString(R.string.remove_conversation_message, displayName))
-            .setPositiveButton(R.string.action_remove) { _, _ -> removeConversation(sessionId) }
-            .setNegativeButton(R.string.action_cancel, null)
+            .setTitle(com.cboda.baselibrary.R.string.remove_conversation_title)
+            .setMessage(getString(com.cboda.baselibrary.R.string.remove_conversation_message, displayName))
+            .setPositiveButton(com.cboda.baselibrary.R.string.action_remove) { _, _ -> removeConversation(sessionId) }
+            .setNegativeButton(com.cboda.baselibrary.R.string.action_cancel, null)
             .show()
     }
 
@@ -266,7 +266,7 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
             }
             requireActivity().runOnUiThread {
                 progressBar.visibility = View.GONE
-                Toast.makeText(requireContext(), R.string.remove_conversation_success, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.remove_conversation_success, Toast.LENGTH_SHORT).show()
                 parentViewModel.removeSession(sessionId)
             }
         }

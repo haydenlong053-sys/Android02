@@ -87,7 +87,7 @@ class ImQunNichengBroadActivity : BaseSimple2BroadActivity() {
             },
             {
                 runOnUiThread {
-                    ToastBroadUtils.show(getString(R.string.group_apply_action_failed))
+                    ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_apply_action_failed))
                 }
             }
         )
@@ -109,7 +109,7 @@ class ImQunNichengBroadActivity : BaseSimple2BroadActivity() {
             item.groupNickname = nickname
             ImLocalStore.saveGroupMembersThen(Collections.singletonList(item), qunId) {
                 runOnUiThread {
-                    ToastBroadUtils.show(getString(R.string.group_apply_action_success))
+                    ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_apply_action_success))
                     finish()
                 }
             }

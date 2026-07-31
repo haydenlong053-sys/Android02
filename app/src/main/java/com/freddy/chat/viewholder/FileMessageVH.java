@@ -57,7 +57,7 @@ public final class FileMessageVH extends BaseMessageVH {
     private void openFile(@NonNull View anchor, @NonNull AppMessage message, boolean sentByMe) {
         String path = MediaMessageContentUtil.resolveDisplayUrl(message.getContent(), sentByMe);
         if (path.isEmpty()) {
-            Toast.makeText(anchor.getContext(), R.string.file_pick_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(anchor.getContext(), com.cboda.baselibrary.R.string.file_pick_failed, Toast.LENGTH_SHORT).show();
             return;
         }
         try {
@@ -68,7 +68,7 @@ public final class FileMessageVH extends BaseMessageVH {
             } else {
                 File file = new File(path);
                 if (!file.isFile()) {
-                    Toast.makeText(anchor.getContext(), R.string.file_pick_failed, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(anchor.getContext(), com.cboda.baselibrary.R.string.file_pick_failed, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 uri = FileProvider.getUriForFile(
@@ -81,7 +81,7 @@ public final class FileMessageVH extends BaseMessageVH {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             anchor.getContext().startActivity(intent);
         } catch (Exception e) {
-            Toast.makeText(anchor.getContext(), R.string.file_pick_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(anchor.getContext(), com.cboda.baselibrary.R.string.file_pick_failed, Toast.LENGTH_SHORT).show();
         }
     }
 }

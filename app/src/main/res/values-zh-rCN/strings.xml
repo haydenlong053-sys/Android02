@@ -64,10 +64,6 @@
     <string name="bveizhutips">请输入备注</string>
     <string name="wancheng">完成</string>
     <string name="zhiding">置顶</string>
-    <string name="cancel_zhiding">取消置顶</string>
-    <string name="session_top_success">已置顶</string>
-    <string name="session_untop_success">已取消置顶</string>
-    <string name="session_top_failed">置顶操作失败</string>
     <string name="miaodarao">免打扰</string>
     <string name="jiaruheimingdan">加入黑名单</string>
     <string name="shanchu">删除</string>

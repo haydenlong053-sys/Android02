@@ -183,7 +183,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         SessionItem s = items.get(position);
         String name = WeChatUiHelper.resolveSessionListDisplayName(s, currentUserId);
         String displayName = name.isEmpty()
-                ? holder.itemView.getContext().getString(R.string.conversation_name_fallback)
+                ? holder.itemView.getContext().getString(com.cboda.baselibrary.R.string.conversation_name_fallback)
                 : name;
         holder.tvName.setText(displayName);
         MessageAvatarBinder.bindSessionListAvatar(holder.avatar, s, currentUserId);

@@ -152,7 +152,7 @@ class ImQunGerenPageBroadActivity : BaseSimpleBroadActivity() {
             },
             {
                 runOnUiThread {
-                    ToastBroadUtils.show(getString(R.string.group_detail_load_failed))
+                    ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_detail_load_failed))
                 }
             }
         )
@@ -207,7 +207,7 @@ class ImQunGerenPageBroadActivity : BaseSimpleBroadActivity() {
             }
         }, {
             runOnUiThread {
-                ToastBroadUtils.show(getString(R.string.group_kick_failed))
+                ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_kick_failed))
             }
         })
     }

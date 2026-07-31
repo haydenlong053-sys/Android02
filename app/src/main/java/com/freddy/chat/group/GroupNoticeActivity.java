@@ -35,7 +35,7 @@ public class GroupNoticeActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_notice);
-        setTitle(R.string.group_notice_title);
+        setTitle(com.cboda.baselibrary.R.string.group_notice_title);
 
         groupId = GroupIntent.getGroupId(getIntent());
         isOwner = GroupIntent.isOwner(getIntent());
@@ -71,7 +71,7 @@ public class GroupNoticeActivity extends AppCompatActivity {
                         String time = result.getPublishTime() > 0
                                 ? WeChatUiHelper.formatMessageTime(result.getPublishTime()) : "";
                         String publisher = result.getPublisher() != null ? result.getPublisher() : "";
-                        tvMeta.setText(getString(R.string.group_notice_meta, publisher, time));
+                        tvMeta.setText(getString(com.cboda.baselibrary.R.string.group_notice_meta, publisher, time));
                     }
                 });
             }
@@ -81,7 +81,7 @@ public class GroupNoticeActivity extends AppCompatActivity {
     private void saveNotice() {
         String content = etNotice.getText().toString().trim();
         if (TextUtils.isEmpty(content)) {
-            Toast.makeText(this, R.string.group_notice_empty, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, com.cboda.baselibrary.R.string.group_notice_empty, Toast.LENGTH_SHORT).show();
             return;
         }
         btnSave.setEnabled(false);
@@ -94,7 +94,7 @@ public class GroupNoticeActivity extends AppCompatActivity {
                             progressBar.setVisibility(View.GONE);
                             btnSave.setEnabled(true);
                             Toast.makeText(GroupNoticeActivity.this,
-                                    R.string.group_notice_save_success, Toast.LENGTH_SHORT).show();
+                                    com.cboda.baselibrary.R.string.group_notice_save_success, Toast.LENGTH_SHORT).show();
                             loadNotice();
                         });
                     }
@@ -102,7 +102,7 @@ public class GroupNoticeActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     btnSave.setEnabled(true);
                     Toast.makeText(GroupNoticeActivity.this,
-                            R.string.group_notice_save_failed, Toast.LENGTH_SHORT).show();
+                            com.cboda.baselibrary.R.string.group_notice_save_failed, Toast.LENGTH_SHORT).show();
                 }));
     }
 }

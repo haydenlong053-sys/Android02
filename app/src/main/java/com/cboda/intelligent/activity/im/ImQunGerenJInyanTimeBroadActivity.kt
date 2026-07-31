@@ -105,14 +105,14 @@ class ImQunGerenJInyanTimeBroadActivity : BaseSimpleBroadActivity() {
                 override fun onHttpImSuccess(result: Boolean) {
                     runOnUiThread {
                         MessageProcessor.getInstance().notifyGroupMuteUpdated(qunId)
-                        ToastBroadUtils.show(getString(R.string.group_apply_action_success))
+                        ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_apply_action_success))
                         finish()
                     }
                 }
             },
             {
                 runOnUiThread {
-                    ToastBroadUtils.show(getString(R.string.group_apply_action_failed))
+                    ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_apply_action_failed))
                 }
             }
         )

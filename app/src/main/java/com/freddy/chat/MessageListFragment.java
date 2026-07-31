@@ -228,7 +228,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (sessionItem == null) {
-            Toast.makeText(requireContext(), R.string.session_item_missing, Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.session_item_missing, Toast.LENGTH_SHORT).show();
             closeHost();
             return;
         }
@@ -661,7 +661,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     private void openFilePicker() {
         hideInputPanelIfShowing();
         if (filePickerLauncher == null) {
-            Toast.makeText(requireContext(), R.string.file_pick_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.file_pick_failed, Toast.LENGTH_SHORT).show();
             return;
         }
         filePickerLauncher.launch(new String[]{"*/*"});
@@ -672,12 +672,12 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             return;
         }
         if (TextUtils.isEmpty(peerUserId)) {
-            Toast.makeText(requireContext(), R.string.file_pick_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.file_pick_failed, Toast.LENGTH_SHORT).show();
             return;
         }
         File cacheFile = MediaUploadFileResolver.resolve(requireContext(), uri);
         if (cacheFile == null || !cacheFile.isFile()) {
-            Toast.makeText(requireContext(), R.string.file_pick_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.file_pick_failed, Toast.LENGTH_SHORT).show();
             return;
         }
         dispatchPickedFile(cacheFile, uri);
@@ -765,7 +765,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             return;
         }
         if (TextUtils.isEmpty(peerUserId)) {
-            Toast.makeText(requireContext(), R.string.picture_pick_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.picture_pick_failed, Toast.LENGTH_SHORT).show();
             return;
         }
         boolean sentAny = false;
@@ -787,7 +787,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             sentAny = true;
         }
         if (!sentAny) {
-            Toast.makeText(requireContext(), R.string.picture_path_invalid, Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.picture_path_invalid, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -833,7 +833,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
     private void sendImageMessage(@NonNull File file, boolean meetingImage) {
         if (!file.isFile()) {
-            Toast.makeText(requireContext(), R.string.picture_path_invalid, Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.picture_path_invalid, Toast.LENGTH_SHORT).show();
             return;
         }
         final String localPath = file.getAbsolutePath();
@@ -850,18 +850,18 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 null,
                 contentType);
         sendMediaMessage(message, file, (msg, upload) ->
-                MessageBuilder.applyImageUpload(msg, localPath, upload), R.string.picture_upload_failed);
+                MessageBuilder.applyImageUpload(msg, localPath, upload), com.cboda.baselibrary.R.string.picture_upload_failed);
     }
 
     private void sendVideoMessage(@NonNull File file, int durationSec) {
         if (!file.isFile()) {
-            Toast.makeText(requireContext(), R.string.video_path_invalid, Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.video_path_invalid, Toast.LENGTH_SHORT).show();
             return;
         }
         final String localPath = file.getAbsolutePath();
         VideoCoverUtil.Meta meta = VideoCoverUtil.extract(localPath);
         if (meta == null || meta.coverFile == null || !meta.coverFile.isFile()) {
-            Toast.makeText(requireContext(), R.string.video_cover_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.video_cover_failed, Toast.LENGTH_SHORT).show();
             return;
         }
         final String localCoverPath = meta.coverFile.getAbsolutePath();
@@ -896,7 +896,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                     }
                 },
                 () -> runOnUiThreadSafe(() ->
-                        onMediaUploadFailed(message.getClientMsgId(), R.string.video_upload_failed)));
+                        onMediaUploadFailed(message.getClientMsgId(), com.cboda.baselibrary.R.string.video_upload_failed)));
     }
 
     private void onVideoBatchUploadSuccess(@NonNull AppMessage message,
@@ -933,7 +933,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 localPath);
         sendMediaMessage(message, file, (msg, upload) ->
                         MessageBuilder.applyFileUpload(msg, fileName, localPath, upload.getUrl()),
-                R.string.file_upload_failed);
+                com.cboda.baselibrary.R.string.file_upload_failed);
     }
 
     private void sendVoiceMessage(@NonNull File file, int durationSec) {
@@ -947,7 +947,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 localPath);
         sendMediaMessage(message, file, (msg, upload) ->
                         MessageBuilder.applyVoiceUpload(msg, duration, localPath, upload.getUrl()),
-                R.string.voice_upload_failed);
+                com.cboda.baselibrary.R.string.voice_upload_failed);
     }
 
     private interface UploadContentPatcher {
@@ -1044,7 +1044,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             return;
         }
         retryMediaUpload(message, new File(localPath), (msg, upload) ->
-                MessageBuilder.applyImageUpload(msg, localPath, upload), R.string.picture_upload_failed);
+                MessageBuilder.applyImageUpload(msg, localPath, upload), com.cboda.baselibrary.R.string.picture_upload_failed);
     }
 
     private void resendVoiceMessage(@NonNull AppMessage message) {
@@ -1060,7 +1060,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         final int duration = MediaMessageContentUtil.resolveVoiceDurationSec(message.getContent());
         retryMediaUpload(message, new File(localPath), (msg, upload) ->
                         MessageBuilder.applyVoiceUpload(msg, duration, localPath, upload.getUrl()),
-                R.string.voice_upload_failed);
+                com.cboda.baselibrary.R.string.voice_upload_failed);
     }
 
     private void resendFileMessage(@NonNull AppMessage message) {
@@ -1076,7 +1076,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         final String fileName = MediaMessageContentUtil.resolveFileName(message.getContent());
         retryMediaUpload(message, new File(localPath), (msg, upload) ->
                         MessageBuilder.applyFileUpload(msg, fileName, localPath, upload.getUrl()),
-                R.string.file_upload_failed);
+                com.cboda.baselibrary.R.string.file_upload_failed);
     }
 
     private void resendVideoMessage(@NonNull AppMessage message) {
@@ -1121,7 +1121,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                     }
                 },
                 () -> runOnUiThreadSafe(() ->
-                        onMediaUploadFailed(message.getClientMsgId(), R.string.video_upload_failed)));
+                        onMediaUploadFailed(message.getClientMsgId(), com.cboda.baselibrary.R.string.video_upload_failed)));
     }
 
     private void retryMediaUpload(@NonNull AppMessage message,
@@ -1140,7 +1140,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
     private void onResendLocalFileMissing(@NonNull AppMessage message) {
         runOnUiThreadSafe(() -> Toast.makeText(requireContext(),
-                R.string.message_resend_local_missing, Toast.LENGTH_SHORT).show());
+                com.cboda.baselibrary.R.string.message_resend_local_missing, Toast.LENGTH_SHORT).show());
         ImLocalStore.markOutgoingSendFailed(message.getClientMsgId(), updated -> {
             if (updated != null) {
                 runOnUiThreadSafe(() -> adapter.updateMessage(updated));
@@ -1398,12 +1398,12 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     @Override
     public void onRecallMessage(@NonNull AppMessage message) {
         if (TextUtils.isEmpty(message.getMsgId())) {
-            Toast.makeText(requireContext(), R.string.message_recall_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.message_recall_failed, Toast.LENGTH_SHORT).show();
             return;
         }
         ImMessageHttpExample.requestRepealMessage(message.getMsgId(), success -> runOnUiThreadSafe(() ->
                 applyRecallUi(message.getMsgId())), () -> runOnUiThreadSafe(() ->
-                Toast.makeText(requireContext(), R.string.message_recall_failed, Toast.LENGTH_SHORT).show()));
+                Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.message_recall_failed, Toast.LENGTH_SHORT).show()));
     }
 
     @Override
@@ -1434,7 +1434,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     public void onCollectMessage(@NonNull AppMessage message) {
         String params = MessageCollectHelper.buildCollectParams(message);
         if (TextUtils.isEmpty(params)) {
-            Toast.makeText(requireContext(), R.string.message_collect_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.message_collect_failed, Toast.LENGTH_SHORT).show();
             return;
         }
         MyCommonBroadBridge2.getInstance().setMyBridgeMethod2(
@@ -1450,7 +1450,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     public void onForwardMessages(@NonNull List<AppMessage> messages) {
         List<String> msgIds = collectForwardableMsgIds(messages);
         if (msgIds.isEmpty()) {
-            Toast.makeText(requireContext(), R.string.message_forward_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.message_forward_failed, Toast.LENGTH_SHORT).show();
             return;
         }
         if (messages.size() > 1) {
@@ -1535,7 +1535,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                     return;
                 }
                 new AlertDialog.Builder(requireContext())
-                        .setMessage(R.string.message_delete_confirm)
+                        .setMessage(com.cboda.baselibrary.R.string.message_delete_confirm)
                         .setNegativeButton(android.R.string.cancel, null)
                         .setPositiveButton(android.R.string.ok, (d, w) ->
                                 deleteMessagesLocally(checked))

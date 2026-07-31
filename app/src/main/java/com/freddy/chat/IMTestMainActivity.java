@@ -75,7 +75,7 @@ public class IMTestMainActivity extends AppCompatActivity {
             startActivity(newIntent);
             finish();
         } else {
-            Toast.makeText(this, R.string.main_select_user_hint, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, com.cboda.baselibrary.R.string.main_select_user_hint, Toast.LENGTH_SHORT).show();
         }
     }
 

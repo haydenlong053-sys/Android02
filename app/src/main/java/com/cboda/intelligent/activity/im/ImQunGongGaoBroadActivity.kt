@@ -70,7 +70,7 @@ class ImQunGongGaoBroadActivity : BaseSimple2BroadActivity() {
                     }
                 }, {
                     runOnUiThread {
-                        ToastBroadUtils.show(getString(R.string.group_notice_save_failed))
+                        ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_notice_save_failed))
                     }
                 })
         }

@@ -193,7 +193,7 @@ public class MessageForwardActivity extends AppCompatActivity {
             return;
         }
         if (TextUtils.isEmpty(MessageForwardHelper.resolveTargetId(session))) {
-            Toast.makeText(this, R.string.message_forward_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, com.cboda.baselibrary.R.string.message_forward_failed, Toast.LENGTH_SHORT).show();
             return;
         }
         showForwardConfirmDialog(session);
@@ -253,7 +253,7 @@ public class MessageForwardActivity extends AppCompatActivity {
                 () -> {
                     runOnUiThread(() -> {
                         Toast.makeText(MessageForwardActivity.this,
-                                R.string.message_forward_success, Toast.LENGTH_SHORT).show();
+                                com.cboda.baselibrary.R.string.message_forward_success, Toast.LENGTH_SHORT).show();
                         setResult(RESULT_OK);
                         finish();
                     });
@@ -261,7 +261,7 @@ public class MessageForwardActivity extends AppCompatActivity {
                 () -> {
                     runOnUiThread(() ->
                             Toast.makeText(MessageForwardActivity.this,
-                                    R.string.message_forward_failed, Toast.LENGTH_SHORT).show());
+                                    com.cboda.baselibrary.R.string.message_forward_failed, Toast.LENGTH_SHORT).show());
                 });
     }
 
