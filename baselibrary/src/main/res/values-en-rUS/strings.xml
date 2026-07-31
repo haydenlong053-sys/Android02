@@ -219,6 +219,13 @@
     <string name="call_group_started_audio">Started a voice call</string>
     <string name="call_group_started_video">Started a video call</string>
     <string name="call_finished">Call ended</string>
+    <string name="call_toast_overlay_permission_required">Display over other apps permission is required.</string>
+    <string name="call_float_waiting_answer">Waiting</string>
+    <string name="call_notification_channel_name">Calls</string>
+    <string name="call_notification_waiting_peer">Waiting for the other party to accept...</string>
+    <string name="call_notification_invite">Incoming call</string>
+    <string name="call_notification_connecting">Connecting...</string>
+    <string name="call_notification_in_call">In call</string>
     <string name="base_digest_system">[System]</string>
     <string name="base_digest_chat_record_plain">[Chat History]</string>
     <string name="base_digest_chat_record_count">[Chat History] %1$d messages</string>

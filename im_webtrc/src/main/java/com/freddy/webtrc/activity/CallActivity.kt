@@ -4,17 +4,22 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.media.AudioManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.PowerManager
+import android.provider.Settings
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.gridlayout.widget.GridLayout
 import androidx.lifecycle.coroutineScope
@@ -30,6 +35,8 @@ import com.freddy.im.call.CallSignalSender
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.http.model.im.GroupMemberItem
 import com.freddy.webtrc.R
+import com.freddy.webtrc.floatcall.CallFloatService
+import com.freddy.webtrc.floatcall.CallSessionHolder
 import com.freddy.webtrc.utils.BroadE
 import com.freddy.webtrc.utils.CallUtil
 import com.freddy.webtrc.widget.MultiCallParticipantItem
@@ -106,6 +113,9 @@ class CallActivity : AppCompatActivity() {
     /** 通话页打开时间，用于被叫侧判断「振铃过久后的 CANCEL」是否为超时未接。 */
     private var openedAtMs = 0L
 
+    /** 跳转系统悬浮窗权限页时，避免 onStop 自动弹出浮窗。 */
+    private var preventShowFloatingViewOnStop = false
+
     /** 1v1 主叫振铃超时：未接通则按「未接听」结束（仍发 CANCEL 停对端振铃）。 */
     private val outgoingRingTimeout = Runnable {
         if (finishing || isFinishing || callConnected || !outgoing) {
@@ -118,7 +128,12 @@ class CallActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        openedAtMs = System.currentTimeMillis()
+        val fromFloating = intent.getBooleanExtra(EXTRA_FROM_FLOATING_VIEW, false)
+        openedAtMs = if (fromFloating && CallSessionHolder.active && CallSessionHolder.openedAtMs > 0L) {
+            CallSessionHolder.openedAtMs
+        } else {
+            System.currentTimeMillis()
+        }
         currentRef = WeakReference(this)
         window.addFlags(
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
@@ -139,7 +154,9 @@ class CallActivity : AppCompatActivity() {
             targetId = participantIds.first()
         }
         bindEvents()
-        if (isMultiCall) {
+        if (fromFloating && CallSessionHolder.active) {
+            restoreFromSessionHolder()
+        } else if (isMultiCall) {
             initMultiParticipants()
             applyMultiInitialUi()
             startMultiParticipantRingTimeouts()
@@ -148,10 +165,18 @@ class CallActivity : AppCompatActivity() {
             applySingleInitialUi()
         }
         CallUtil.setCallListener(lifecycle.coroutineScope, this) { event -> onRoomEvent(event) }
-        if (outgoing || (!TextUtils.isEmpty(callUrl) && !TextUtils.isEmpty(callToken))) {
+        val alreadyConnected = CallUtil.isRoomConnected(this)
+        if (!alreadyConnected && (outgoing || (!TextUtils.isEmpty(callUrl) && !TextUtils.isEmpty(callToken)))) {
             joinCurrentRoom()
         }
-        startOutgoingRingTimeout()
+        if (!fromFloating) {
+            startOutgoingRingTimeout()
+        } else if (!callConnected) {
+            startOutgoingRingTimeout()
+            if (isMultiCall) {
+                startMultiParticipantRingTimeouts()
+            }
+        }
     }
 
     private fun parseIntent() {
@@ -206,7 +231,7 @@ class CallActivity : AppCompatActivity() {
     }
 
     private fun bindEvents() {
-        findViewById<View>(R.id.minimizeImageView)?.setOnClickListener { moveTaskToBack(true) }
+        findViewById<View>(R.id.minimizeImageView)?.setOnClickListener { showFloatingView() }
         muteImageView.setOnClickListener { toggleMute() }
         speakerImageView.setOnClickListener { toggleSpeaker() }
 
@@ -764,6 +789,8 @@ class CallActivity : AppCompatActivity() {
         }
         finishing = true
         durationHandler.removeCallbacks(durationTicker)
+        CallFloatService.stop(this)
+        CallSessionHolder.clear()
         CallUtil.leaveRoom(this)
         restoreAudio()
         finishFade()
@@ -882,6 +909,25 @@ class CallActivity : AppCompatActivity() {
         ).also { it.acquire(60 * 60 * 1000L) }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (preventShowFloatingViewOnStop) {
+            preventShowFloatingViewOnStop = false
+            return
+        }
+        hideFloatingView()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (preventShowFloatingViewOnStop || finishing || isFinishing) {
+            return
+        }
+        if (!isChangingConfigurations()) {
+            showFloatingView()
+        }
+    }
+
     override fun onDestroy() {
         if (currentRef?.get() === this) {
             currentRef = null
@@ -889,8 +935,12 @@ class CallActivity : AppCompatActivity() {
         cancelOutgoingRingTimeout()
         cancelAllParticipantRingTimeouts()
         durationHandler.removeCallbacks(durationTicker)
-        if (!finishing) {
+        val keepRoom = CallSessionHolder.keepRoomOnDestroy
+        CallSessionHolder.keepRoomOnDestroy = false
+        if (!finishing && !keepRoom) {
             CallUtil.leaveRoom(this)
+            CallSessionHolder.clear()
+            CallFloatService.stop(applicationContext)
         }
         restoreAudio()
         wakeLock?.let {
@@ -903,8 +953,96 @@ class CallActivity : AppCompatActivity() {
     @SuppressLint("MissingSuperCall")
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        moveTaskToBack(true)
+        showFloatingView()
     }
+
+    private fun restoreFromSessionHolder() {
+        muted = CallSessionHolder.muted
+        speakerOn = CallSessionHolder.speakerOn
+        callConnected = CallSessionHolder.callConnected
+        connectedAtMs = CallSessionHolder.connectedAtMs
+        connectedParticipantIds.clear()
+        connectedParticipantIds.addAll(CallSessionHolder.connectedParticipantIds)
+        if (isMultiCall) {
+            initMultiParticipants()
+            connectedParticipantIds.forEach { markParticipantConnected(it) }
+            applyMultiInitialUi()
+        } else {
+            renderPeerInfo()
+            applySingleInitialUi()
+        }
+        muteImageView.isSelected = muted
+        speakerImageView.isSelected = speakerOn
+        applySpeakerRoute()
+        if (callConnected) {
+            incomingActionContainer.visibility = View.GONE
+            if (isMultiCall) {
+                connectedContainer?.visibility = View.VISIBLE
+            } else {
+                outgoingActionContainer?.visibility = View.VISIBLE
+            }
+            updateDurationText()
+            durationHandler.removeCallbacks(durationTicker)
+            durationHandler.post(durationTicker)
+        }
+    }
+
+    private fun checkOverlayPermission(): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+            Toast.makeText(
+                this,
+                getString(com.cboda.baselibrary.R.string.call_toast_overlay_permission_required),
+                Toast.LENGTH_LONG
+            ).show()
+            val intent = Intent(
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:$packageName")
+            )
+            val infos = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+            if (infos.isNullOrEmpty()) {
+                return true
+            }
+            preventShowFloatingViewOnStop = true
+            startActivity(intent)
+            return false
+        }
+        return true
+    }
+
+    private fun showFloatingView() {
+        if (finishing || isFinishing) return
+        if (TextUtils.isEmpty(callId) && TextUtils.isEmpty(roomName)) return
+        if (!checkOverlayPermission()) return
+        CallSessionHolder.saveFrom(this)
+        CallSessionHolder.keepRoomOnDestroy = true
+        CallFloatService.start(this, true)
+        finishFade()
+    }
+
+    private fun hideFloatingView() {
+        if (CallSessionHolder.active || CallUtil.isRoomConnected(this)) {
+            CallFloatService.start(this, false)
+        }
+    }
+
+    // region Session export for floating window
+    internal fun exportTargetId() = targetId
+    internal fun exportParticipantIds() = participantIds
+    internal fun exportGroupId() = groupId
+    internal fun exportCallId() = callId
+    internal fun exportRoomName() = roomName
+    internal fun exportCallUrl() = callUrl
+    internal fun exportCallToken() = callToken
+    internal fun exportVideo() = video
+    internal fun exportOutgoing() = outgoing
+    internal fun exportIsMultiCall() = isMultiCall
+    internal fun exportMuted() = muted
+    internal fun exportSpeakerOn() = speakerOn
+    internal fun exportCallConnected() = callConnected
+    internal fun exportConnectedAtMs() = connectedAtMs
+    internal fun exportOpenedAtMs() = openedAtMs
+    internal fun exportConnectedParticipantIds() = connectedParticipantIds.toSet()
+    // endregion
 
     companion object {
         const val EXTRA_TARGET_ID = "targetId"
@@ -916,6 +1054,7 @@ class CallActivity : AppCompatActivity() {
         const val EXTRA_TOKEN = "token"
         const val EXTRA_VIDEO = "video"
         const val EXTRA_OUTGOING = "outgoing"
+        const val EXTRA_FROM_FLOATING_VIEW = "fromFloatingView"
 
         /** 主叫振铃超时（毫秒）。 */
         private const val OUTGOING_RING_TIMEOUT_MS = 60_000L
@@ -931,9 +1070,10 @@ class CallActivity : AppCompatActivity() {
         @Volatile
         private var currentRef: WeakReference<CallActivity>? = null
 
-        /** 当前是否已在通话页（用于忙线判断）。 */
+        /** 当前是否已在通话中（含悬浮窗保活）。 */
         @JvmStatic
         fun isInCall(): Boolean {
+            if (CallSessionHolder.active) return true
             val activity = currentRef?.get() ?: return false
             return !activity.isFinishing && !activity.finishing
         }
@@ -942,9 +1082,22 @@ class CallActivity : AppCompatActivity() {
         @JvmStatic
         fun isSameCall(matchId: String?): Boolean {
             if (matchId.isNullOrBlank()) return false
+            if (CallSessionHolder.matches(matchId)) return true
             val activity = currentRef?.get() ?: return false
             return TextUtils.equals(matchId, activity.callId)
                     || TextUtils.equals(matchId, activity.roomName)
+        }
+
+        private fun endFloatingCall(busy: Boolean = false, cancelled: Boolean = false) {
+            val ctx = com.cboda.baselibrary.app.UtilBroadApplication.cxt
+            when {
+                busy -> ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_remote_busy)
+                cancelled -> ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_remote_cancelled)
+                else -> ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
+            }
+            CallUtil.leaveRoom(ctx)
+            CallFloatService.stop(ctx)
+            CallSessionHolder.clear()
         }
 
         /**
@@ -954,12 +1107,18 @@ class CallActivity : AppCompatActivity() {
         @JvmStatic
         fun onRemoteUserConnected(matchId: String?, fromUserId: String?) {
             if (matchId.isNullOrBlank()) return
-            val activity = currentRef?.get() ?: return
-            val same = TextUtils.equals(matchId, activity.callId)
-                    || TextUtils.equals(matchId, activity.roomName)
-            if (!same || activity.isFinishing || activity.finishing) return
-            activity.runOnUiThread {
-                activity.handleRemoteUserConnected(fromUserId)
+            val activity = currentRef?.get()
+            if (activity != null && !activity.isFinishing && !activity.finishing) {
+                val same = TextUtils.equals(matchId, activity.callId)
+                        || TextUtils.equals(matchId, activity.roomName)
+                if (!same) return
+                activity.runOnUiThread {
+                    activity.handleRemoteUserConnected(fromUserId)
+                }
+                return
+            }
+            if (CallSessionHolder.matches(matchId)) {
+                CallSessionHolder.markRemoteConnected(fromUserId)
             }
         }
 
@@ -972,22 +1131,34 @@ class CallActivity : AppCompatActivity() {
         @JvmOverloads
         fun onRemoteParticipantLeft(matchId: String?, fromUserId: String?, busy: Boolean = false) {
             if (matchId.isNullOrBlank()) return
-            val activity = currentRef?.get() ?: return
-            val same = TextUtils.equals(matchId, activity.callId)
-                    || TextUtils.equals(matchId, activity.roomName)
-            if (!same || activity.isFinishing || activity.finishing) return
-            activity.runOnUiThread {
-                if (activity.isMultiCall) {
-                    activity.handleRemoteParticipantLeft(fromUserId, busy)
-                } else {
-                    val toastRes = if (busy) {
-                        com.cboda.baselibrary.R.string.call_remote_busy
+            val activity = currentRef?.get()
+            if (activity != null && !activity.isFinishing && !activity.finishing) {
+                val same = TextUtils.equals(matchId, activity.callId)
+                        || TextUtils.equals(matchId, activity.roomName)
+                if (!same) return
+                activity.runOnUiThread {
+                    if (activity.isMultiCall) {
+                        activity.handleRemoteParticipantLeft(fromUserId, busy)
                     } else {
-                        com.cboda.baselibrary.R.string.call_ended
+                        val toastRes = if (busy) {
+                            com.cboda.baselibrary.R.string.call_remote_busy
+                        } else {
+                            com.cboda.baselibrary.R.string.call_ended
+                        }
+                        ToastBroadUtils.show(toastRes)
+                        activity.hangup(sendSignal = false)
                     }
-                    ToastBroadUtils.show(toastRes)
-                    activity.hangup(sendSignal = false)
                 }
+                return
+            }
+            if (!CallSessionHolder.matches(matchId)) return
+            if (CallSessionHolder.isMultiCall) {
+                CallSessionHolder.removeParticipant(fromUserId)
+                if (CallSessionHolder.shouldEndMultiCall()) {
+                    endFloatingCall(busy = busy)
+                }
+            } else {
+                endFloatingCall(busy = busy)
             }
         }
 
@@ -1005,29 +1176,50 @@ class CallActivity : AppCompatActivity() {
             timeoutNoAnswer: Boolean = false
         ) {
             if (matchId.isNullOrBlank()) return
-            val activity = currentRef?.get() ?: return
-            val same = TextUtils.equals(matchId, activity.callId)
-                    || TextUtils.equals(matchId, activity.roomName)
-            if (!same || activity.isFinishing || activity.finishing) return
-            activity.runOnUiThread {
-                val ringingLongEnough = !activity.outgoing
-                        && !activity.callConnected
-                        && activity.openedAtMs > 0L
-                        && (System.currentTimeMillis() - activity.openedAtMs) >=
-                        ringTimeoutDetectMs()
-                val asTimeout = timeoutNoAnswer || ringingLongEnough
-                if (activity.isMultiCall && (activity.callConnected || activity.outgoing)) {
-                    // 主叫侧或已入会：他人取消/离开不拆整通
-                    activity.handleRemoteParticipantLeft(fromUserId, busy = false)
-                } else {
-                    if (asTimeout) {
-                        CallMissedLocalStore.markTimeoutAsCallee(matchId, fromUserId)
-                        CallMissedLocalStore.markTimeoutAsCallee(activity.callId, fromUserId)
-                        CallMissedLocalStore.markTimeoutAsCallee(activity.roomName, activity.targetId)
+            val activity = currentRef?.get()
+            if (activity != null && !activity.isFinishing && !activity.finishing) {
+                val same = TextUtils.equals(matchId, activity.callId)
+                        || TextUtils.equals(matchId, activity.roomName)
+                if (!same) return
+                activity.runOnUiThread {
+                    val ringingLongEnough = !activity.outgoing
+                            && !activity.callConnected
+                            && activity.openedAtMs > 0L
+                            && (System.currentTimeMillis() - activity.openedAtMs) >=
+                            ringTimeoutDetectMs()
+                    val asTimeout = timeoutNoAnswer || ringingLongEnough
+                    if (activity.isMultiCall && (activity.callConnected || activity.outgoing)) {
+                        activity.handleRemoteParticipantLeft(fromUserId, busy = false)
                     } else {
-                        ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_remote_cancelled)
+                        if (asTimeout) {
+                            CallMissedLocalStore.markTimeoutAsCallee(matchId, fromUserId)
+                            CallMissedLocalStore.markTimeoutAsCallee(activity.callId, fromUserId)
+                            CallMissedLocalStore.markTimeoutAsCallee(activity.roomName, activity.targetId)
+                        } else {
+                            ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_remote_cancelled)
+                        }
+                        activity.hangup(sendSignal = false)
                     }
-                    activity.hangup(sendSignal = false)
+                }
+                return
+            }
+            if (!CallSessionHolder.matches(matchId)) return
+            if (CallSessionHolder.isMultiCall && (CallSessionHolder.callConnected || CallSessionHolder.outgoing)) {
+                CallSessionHolder.removeParticipant(fromUserId)
+                if (CallSessionHolder.shouldEndMultiCall()) {
+                    endFloatingCall(cancelled = !timeoutNoAnswer)
+                }
+            } else {
+                if (timeoutNoAnswer) {
+                    CallMissedLocalStore.markTimeoutAsCallee(matchId, fromUserId)
+                    CallMissedLocalStore.markTimeoutAsCallee(CallSessionHolder.callId, fromUserId)
+                    CallMissedLocalStore.markTimeoutAsCallee(
+                        CallSessionHolder.roomName,
+                        CallSessionHolder.targetId
+                    )
+                    endFloatingCall()
+                } else {
+                    endFloatingCall(cancelled = true)
                 }
             }
         }
@@ -1048,17 +1240,23 @@ class CallActivity : AppCompatActivity() {
         @JvmOverloads
         fun finishIfRemoteEnded(matchId: String?, fromUserId: String? = null) {
             if (matchId.isNullOrBlank()) return
-            val activity = currentRef?.get() ?: return
-            val same = TextUtils.equals(matchId, activity.callId)
-                    || TextUtils.equals(matchId, activity.roomName)
-            if (!same || activity.isFinishing || activity.finishing) return
-            activity.runOnUiThread {
-                eLogD(
-                    activity.tAG,
-                    "收到 CALL_END，整通结束 matchId=$matchId from=$fromUserId"
-                )
-                ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
-                activity.hangup(sendSignal = false)
+            val activity = currentRef?.get()
+            if (activity != null && !activity.isFinishing && !activity.finishing) {
+                val same = TextUtils.equals(matchId, activity.callId)
+                        || TextUtils.equals(matchId, activity.roomName)
+                if (!same) return
+                activity.runOnUiThread {
+                    eLogD(
+                        activity.tAG,
+                        "收到 CALL_END，整通结束 matchId=$matchId from=$fromUserId"
+                    )
+                    ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
+                    activity.hangup(sendSignal = false)
+                }
+                return
+            }
+            if (CallSessionHolder.matches(matchId)) {
+                endFloatingCall()
             }
         }
 
@@ -1070,14 +1268,21 @@ class CallActivity : AppCompatActivity() {
 
         private fun finishIfRemoteSignal(matchId: String?, toastRes: Int) {
             if (matchId.isNullOrBlank()) return
-            val activity = currentRef?.get() ?: return
-            val same = TextUtils.equals(matchId, activity.callId)
-                    || TextUtils.equals(matchId, activity.roomName)
-            if (!same || activity.isFinishing || activity.finishing) return
-            activity.runOnUiThread {
-                ToastBroadUtils.show(toastRes)
-                // 对端已挂断，本端只收尾，不再回发挂断信令
-                activity.hangup(sendSignal = false)
+            val activity = currentRef?.get()
+            if (activity != null && !activity.isFinishing && !activity.finishing) {
+                val same = TextUtils.equals(matchId, activity.callId)
+                        || TextUtils.equals(matchId, activity.roomName)
+                if (!same) return
+                activity.runOnUiThread {
+                    ToastBroadUtils.show(toastRes)
+                    // 对端已挂断，本端只收尾，不再回发挂断信令
+                    activity.hangup(sendSignal = false)
+                }
+                return
+            }
+            if (CallSessionHolder.matches(matchId)) {
+                val busy = toastRes == com.cboda.baselibrary.R.string.call_remote_busy
+                endFloatingCall(busy = busy)
             }
         }
 

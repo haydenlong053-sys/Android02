@@ -218,6 +218,13 @@
     <string name="call_group_started_audio">发起了语音通话</string>
     <string name="call_group_started_video">发起了视频通话</string>
     <string name="call_finished">通话结束</string>
+    <string name="call_toast_overlay_permission_required">需要悬浮窗权限</string>
+    <string name="call_float_waiting_answer">等待接听</string>
+    <string name="call_notification_channel_name">通话</string>
+    <string name="call_notification_waiting_peer">正在等待对方接受邀请...</string>
+    <string name="call_notification_invite">邀请你进行通话</string>
+    <string name="call_notification_connecting">连接中...</string>
+    <string name="call_notification_in_call">通话中</string>
     <string name="base_digest_system">[系统消息]</string>
     <string name="base_digest_chat_record_plain">[聊天记录]</string>
     <string name="base_digest_chat_record_count">[聊天记录] %1$d条</string>

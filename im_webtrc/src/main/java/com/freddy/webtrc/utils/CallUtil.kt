@@ -58,6 +58,20 @@ object CallUtil {
         return !getCallRoom(context)?.remoteParticipants.isNullOrEmpty()
     }
 
+    fun isRoomConnected(context: Context? = null): Boolean {
+        return try {
+            getCallRoom(context)?.state == Room.State.CONNECTED
+        } catch (e: Exception) {
+            e.toLog(tAG)
+            false
+        }
+    }
+
+    /** 供悬浮窗 Service 等独立协程监听房间事件。 */
+    suspend fun observeRoomEvents(context: Context? = null, callBack: (RoomEvent) -> Unit) {
+        setCallListener(context, callBack)
+    }
+
     fun remoteParticipantIdentities(context: Context? = null): List<String> {
         return getCallRoom(context)?.remoteParticipants?.values
             ?.mapNotNull { it.identity?.value?.takeIf { id -> id.isNotBlank() } }
