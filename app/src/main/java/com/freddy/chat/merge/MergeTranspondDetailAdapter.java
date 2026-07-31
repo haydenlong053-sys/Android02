@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.cboda.baselibrary.utils.ImUiStrings;
 import com.cboda.chatui.R;
 import com.cboda.chatui.third.utils.TimeConvertBroadUtils;
 import com.cboda.chatui.utils.FileBroadUtils;
@@ -119,7 +120,8 @@ public final class MergeTranspondDetailAdapter extends RecyclerView.Adapter<Recy
         }
 
         void bind(int count) {
-            compositeDurationTextView.setText("共 " + count + " 条聊天记录");
+            compositeDurationTextView.setText(
+                    ImUiStrings.get(com.cboda.baselibrary.R.string.merge_chat_history_count, count));
         }
     }
 

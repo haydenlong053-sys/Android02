@@ -50,6 +50,7 @@ import com.cboda.baselibrary.bean.PayLsOrderBean
 import com.cboda.baselibrary.bean.UserInfoBean
 import com.cboda.baselibrary.common.BridgeImEnum
 import com.cboda.baselibrary.event.AppBroadEvent
+import com.cboda.baselibrary.utils.ImUiStrings
 import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.event.DoubleMessageBroadEvent
 import com.cboda.baselibrary.event.UnreadCountBroadEvent
@@ -226,7 +227,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                 ExpandableBottomBarBroadItem(
                     icon = painterResource(id = R.drawable.ic_gc_tab_mirror),
                     selectedIcon = painterResource(id = R.drawable.ic_gc_tab_mirror_pre),
-                    text = stringResource(id = com.cboda.baselibrary.R.string.bottom_bar_gc)
+                    text = ImUiStrings.get(com.cboda.baselibrary.R.string.bottom_bar_gc)
                 )
             )
 //            if (!HttpsBroadConfig.isReviewEnv) {
@@ -561,14 +562,17 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         val content = if (!TextUtils.isEmpty(bean.content)) {
             bean.content!!
         } else {
-            "发现新版本 ${bean.version.orEmpty()}，请更新后继续使用"
+            ImUiStrings.get(
+                com.cboda.baselibrary.R.string.app_update_content_default,
+                bean.version.orEmpty(),
+            )
         }
         val force = bean.isForceUpdate()
         showCommonStrTip(
-            "发现新版本",
+            ImUiStrings.get(com.cboda.baselibrary.R.string.app_update_title),
             content,
-            if (force) "" else "稍后",
-            "立即更新",
+            if (force) "" else ImUiStrings.get(com.cboda.baselibrary.R.string.app_update_later),
+            ImUiStrings.get(com.cboda.baselibrary.R.string.app_update_now),
             this,
             isOutSideTouchable = !force
         ) { update ->
@@ -584,7 +588,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
     private fun openExternalDownload(url: String?) {
         if (TextUtils.isEmpty(url)) {
-            ToastBroadUtils.show("下载地址为空")
+            ToastBroadUtils.show(ImUiStrings.get(com.cboda.baselibrary.R.string.app_update_url_empty))
             return
         }
         try {
@@ -595,7 +599,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             startActivity(intent)
         } catch (e: Exception) {
             eLogD(APP_TAG, "openExternalDownload fail: ${e.message}")
-            ToastBroadUtils.show("无法打开下载链接")
+            ToastBroadUtils.show(ImUiStrings.get(com.cboda.baselibrary.R.string.app_update_open_failed))
         }
     }
 

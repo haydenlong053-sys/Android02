@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
 import androidx.annotation.LayoutRes
+import com.cboda.baselibrary.utils.ImUiStrings
 import com.cboda.baselibrary.utils.getAppColor
 import com.cboda.baselibrary.view.magicindicator.buildins.UIBroadUtil
 import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.abs.CommonNavigatorBroadAdapter
@@ -87,7 +88,7 @@ class TextIndicatorAdapter : CommonNavigatorBroadAdapter {
         val titleText = itemLayout.findViewById<TextView>(R.id.textIndicatorTitleTv)
 //        val shapeView = itemLayout.findViewById<View>(R.id.shapeView)
 //        titleText.post {
-        titleText.setText(mTitles!![index])
+        titleText.text = ImUiStrings.get(mTitles!![index])
 //        }
 //        titleText.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize.toFloat())
         pagerTitleView.contentView = itemLayout

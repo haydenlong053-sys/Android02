@@ -64,7 +64,7 @@ class SquareDetailActivity : BaseSimple2BroadActivity() {
         mBinding = binding as? SquareDetailActivityBinding
         postBinding = mBinding?.squareDetailPost
         setRootBgColor(R.color.white)
-        getToolbarTitle()?.setText(R.string.详情)
+        getToolbarTitle()?.setText(com.cboda.baselibrary.R.string.square_detail_title)
         postId = intent.getStringExtra(EXTRA_POST_ID).orEmpty()
         viewModel.recordSquarePostView(postId)
         initLoadMore()
@@ -150,7 +150,7 @@ class SquareDetailActivity : BaseSimple2BroadActivity() {
         val holder = CommanConfimBroadHolder(
             this,
             getString(R.string.wenxintishi),
-            getString(R.string.square_post_delete_confirm),
+            getString(com.cboda.baselibrary.R.string.square_post_delete_confirm),
             getString(R.string.shanchu),
             getString(R.string.quxiao),
         )
@@ -169,7 +169,7 @@ class SquareDetailActivity : BaseSimple2BroadActivity() {
         lifecycleScope.launch {
             viewModel.deleteSquarePost(postId).observe(this@SquareDetailActivity) { success ->
                 if (success != true) return@observe
-                ToastBroadUtil.show(getString(R.string.square_post_delete_success))
+                ToastBroadUtil.show(getString(com.cboda.baselibrary.R.string.square_post_delete_success))
                 EventBus.getDefault().post(SquarePostDeleteBroadEvent(postId.trim()))
                 finish()
             }
@@ -188,9 +188,9 @@ class SquareDetailActivity : BaseSimple2BroadActivity() {
                 ToastBroadUtil.show(
                     getString(
                         if (top) {
-                            R.string.square_post_top_success
+                            com.cboda.baselibrary.R.string.square_post_top_success
                         } else {
-                            R.string.square_post_untop_success
+                            com.cboda.baselibrary.R.string.square_post_untop_success
                         },
                     ),
                 )
@@ -449,7 +449,7 @@ class SquareDetailActivity : BaseSimple2BroadActivity() {
                 )
             }
         }
-        val replyPrefix = "回复"
+        val replyPrefix = getString(com.cboda.baselibrary.R.string.square_comment_reply)
         val fullText = name + replyPrefix + replyTarget
         val spannable = SpannableString(fullText)
         if (name.isNotEmpty()) {

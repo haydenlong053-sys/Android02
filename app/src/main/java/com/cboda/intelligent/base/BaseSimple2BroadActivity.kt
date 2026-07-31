@@ -576,14 +576,14 @@ abstract class BaseSimple2BroadActivity : BaseActivity() {
     }
 
     override fun attachBaseContext(newBase: Context?) {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
-            val res = newBase!!.resources
-            val config = res.configuration
-            config.fontScale = getTextSize(newBase)
-            val newContext = newBase!!.createConfigurationContext(config)
-            super.attachBaseContext(newContext)
+        val languageBase = com.cboda.select.picture.utils.LanguageUtil.getLanguageContext(newBase, false)
+            ?: newBase
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N && languageBase != null) {
+            val config = android.content.res.Configuration(languageBase.resources.configuration)
+            config.fontScale = getTextSize(languageBase)
+            super.attachBaseContext(languageBase.createConfigurationContext(config))
         } else {
-            super.attachBaseContext(newBase)
+            super.attachBaseContext(languageBase)
         }
     }
 

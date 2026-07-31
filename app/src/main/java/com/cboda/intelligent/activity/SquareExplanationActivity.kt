@@ -47,14 +47,14 @@ class SquareExplanationActivity : BaseSimple2BroadActivity() {
         val auditRule = config?.publishRules?.auditRule
 
         binding.stakeTitle.text = stakeRule?.title?.takeIf { it.isNotBlank() }
-            ?: getString(R.string.square_publish_rules_stake_title)
+            ?: getString(com.cboda.baselibrary.R.string.square_publish_rules_stake_title)
         binding.stakeContent.text = stakeRule?.content?.takeIf { it.isNotBlank() }
-            ?: getString(R.string.square_publish_rules_stake_content)
+            ?: getString(com.cboda.baselibrary.R.string.square_publish_rules_stake_content)
 
         binding.auditTitle.text = auditRule?.title?.takeIf { it.isNotBlank() }
-            ?: getString(R.string.square_publish_rules_audit_title)
+            ?: getString(com.cboda.baselibrary.R.string.square_publish_rules_audit_title)
         binding.auditContent.text = auditRule?.content?.takeIf { it.isNotBlank() }
-            ?: getString(R.string.square_publish_rules_audit_content)
+            ?: getString(com.cboda.baselibrary.R.string.square_publish_rules_audit_content)
     }
 
     override fun getViewBindingClass() = SquareExplanationActivityBinding::class.java

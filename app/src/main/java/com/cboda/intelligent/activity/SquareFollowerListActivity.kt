@@ -52,12 +52,12 @@ class SquareFollowerListActivity : BaseSimple2BroadActivity() {
         val isSelf = targetUserId.isNullOrBlank() ||
             targetUserId == MMKVBroadUtils.getRealUserId()
         getToolbarTitle()?.text = getString(
-            if (isSelf) R.string.square_follower_list_title else R.string.square_follower_list_title_other,
+            if (isSelf) com.cboda.baselibrary.R.string.square_follower_list_title else com.cboda.baselibrary.R.string.square_follower_list_title_other,
         )
         getRightImg()?.visibility = View.GONE
         getRightView()?.apply {
             visibility = if (isSelf) View.VISIBLE else View.GONE
-            text = getString(R.string.黑名单)
+            text = getString(com.cboda.baselibrary.R.string.square_blacklist_entry)
             setTextColor(getAppColor(this@SquareFollowerListActivity, com.cboda.baselibrary.R.color.black_90))
             paint.isFakeBoldText = false
             setOnClickListener {

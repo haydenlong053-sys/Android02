@@ -7,7 +7,10 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
+import com.cboda.baselibrary.R;
+import com.cboda.baselibrary.utils.ImUiStrings;
 import com.freddy.im.MessageType;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.call.CallMissedLocalStore;
@@ -47,6 +50,52 @@ public final class MessageContentFormatter {
             Pattern.compile("^(.*)发起了(语音|视频)通话$");
 
     private MessageContentFormatter() {
+    }
+
+    @NonNull
+    private static String str(@StringRes int resId) {
+        return ImUiStrings.get(resId);
+    }
+
+    @NonNull
+    private static String str(@StringRes int resId, @Nullable Object... args) {
+        return ImUiStrings.get(resId, args);
+    }
+
+    /** 将内部中文通话短语转为当前语言展示文案（匹配逻辑仍用中文原文）。 */
+    @NonNull
+    private static String localizeCallPhrase(@Nullable String phrase) {
+        if (TextUtils.isEmpty(phrase)) {
+            return "";
+        }
+        switch (phrase) {
+            case "对方已取消":
+                return str(R.string.call_remote_cancelled);
+            case "已取消":
+                return str(R.string.call_cancelled);
+            case "对方正忙":
+                return str(R.string.call_busy);
+            case "忙线未接听":
+                return str(R.string.call_busy_missed);
+            case "对方已拒绝":
+                return str(R.string.call_remote_rejected);
+            case "已拒绝":
+                return str(R.string.call_rejected);
+            case "对方未接听":
+                return str(R.string.call_remote_no_answer);
+            case "未接听":
+            case "未接来电":
+                return str(R.string.call_missed);
+            case "通话结束":
+                return str(R.string.call_finished);
+            default:
+                return phrase;
+        }
+    }
+
+    @NonNull
+    private static String callDurationLabel(int durationSec) {
+        return str(R.string.call_duration_fmt, formatCallDuration(durationSec));
     }
 
     public static boolean isApiSystemMsgType(int msgType) {
@@ -139,31 +188,32 @@ public final class MessageContentFormatter {
         int type = message.getMsgContentType();
         if (isVoiceMessage(type)) {
             String duration = parseVoiceDurationLabel(message.getContent());
-            return duration.isEmpty() ? "[语音]" : "[语音] " + duration;
+            String audio = str(R.string.base_digest_audio);
+            return duration.isEmpty() ? audio : audio + " " + duration;
         }
         if (isImageMessage(type)) {
-            return "[图片]";
+            return str(R.string.base_digest_img);
         }
         if (isVideoMessage(type)) {
-            return "[视频]";
+            return str(R.string.base_digest_video);
         }
         if (isFileMessage(type)) {
             return formatFileDisplay(message.getContent());
         }
         if (isMapMessage(type)) {
-            return "[位置]";
+            return str(R.string.base_digest_location);
         }
         if (isCardMessage(type)) {
-            return "[个人名片]";
+            return str(R.string.base_digest_person_card);
         }
         if (isNoticeMessage(type)) {
-            return "[公告]";
+            return str(R.string.base_digest_notice);
         }
         if (isMeetStartMessage(type)) {
-            return "会议中";
+            return str(R.string.base_digest_meet_ongoing);
         }
         if (isMeetEndMessage(type)) {
-            return "会议已结束";
+            return str(R.string.base_digest_meet_ended);
         }
         if (isMergeTranspondMessage(type)) {
             return formatMergeTranspondDisplay(message.getContent());
@@ -279,31 +329,31 @@ public final class MessageContentFormatter {
                     formatGroupCallDisplayText(previewRaw, initiatorName, sentByMe));
         }
         if (isVoiceMessage(type)) {
-            return "[语音]";
+            return str(R.string.base_digest_audio);
         }
         if (isImageMessage(type)) {
-            return "[图片]";
+            return str(R.string.base_digest_img);
         }
         if (isVideoMessage(type)) {
-            return "[视频]";
+            return str(R.string.base_digest_video);
         }
         if (isFileMessage(type)) {
             return formatFileDisplay(content);
         }
         if (isMapMessage(type)) {
-            return "[位置]";
+            return str(R.string.base_digest_location);
         }
         if (isCardMessage(type)) {
-            return "[个人名片]";
+            return str(R.string.base_digest_person_card);
         }
         if (isNoticeMessage(type)) {
-            return "[公告]";
+            return str(R.string.base_digest_notice);
         }
         if (isMeetStartMessage(type)) {
-            return "会议中";
+            return str(R.string.base_digest_meet_ongoing);
         }
         if (isMeetEndMessage(type)) {
-            return "会议已结束";
+            return str(R.string.base_digest_meet_ended);
         }
         if (isMergeTranspondMessage(type)) {
             return formatMergeTranspondDisplay(content);
@@ -415,7 +465,7 @@ public final class MessageContentFormatter {
 //        eLogD("formatSystemDisplay",currentUserId);
 //        eLogD("formatSystemDisplay",customInfoJson);
 //        eLogD("formatSystemDisplay","userIdToDisplayName:"+toJson2(userIdToDisplayName));
-        return "[系统消息]";
+        return str(R.string.base_digest_system);
     }
 
     @NonNull
@@ -423,13 +473,21 @@ public final class MessageContentFormatter {
         String who = TextUtils.isEmpty(actorNames) ? "" : actorNames;
         switch (type) {
             case SYSTEM_CREATE_GROUP:
-                return TextUtils.isEmpty(who) ? "创建了群聊" : (who + "创建了群聊");
+                return TextUtils.isEmpty(who)
+                        ? str(R.string.base_sys_created_group)
+                        : str(R.string.base_sys_created_group_by, who);
             case SYSTEM_JOIN_MEMBER:
-                return TextUtils.isEmpty(who) ? "有成员加入了群聊" : (who + "加入了群聊");
+                return TextUtils.isEmpty(who)
+                        ? str(R.string.base_sys_member_joined)
+                        : str(R.string.base_sys_member_joined_by, who);
             case SYSTEM_RENAME_GROUP:
-                return TextUtils.isEmpty(who) ? "修改了群名称" : (who + "修改了群名称");
+                return TextUtils.isEmpty(who)
+                        ? str(R.string.base_sys_renamed_group)
+                        : str(R.string.base_sys_renamed_group_by, who);
             case SYSTEM_REMOVE_MEMBER:
-                return TextUtils.isEmpty(who) ? "有成员被移出了群聊" : (who + "被移出了群聊");
+                return TextUtils.isEmpty(who)
+                        ? str(R.string.base_sys_member_removed)
+                        : str(R.string.base_sys_member_removed_by, who);
             default:
                 return "";
         }
@@ -636,7 +694,7 @@ public final class MessageContentFormatter {
         }
         JsonObject obj = parseJsonObject(raw);
         if (obj == null) {
-            return "[通话]";
+            return str(R.string.call_digest);
         }
         String status = readCallStatus(obj);
         int durationSec = readCallDurationSec(obj);
@@ -664,18 +722,18 @@ public final class MessageContentFormatter {
             // 被叫侧收到主叫主动取消
             if (CallMissedLocalStore.wasIncoming(callId, peerUserId)
                     || isIncomingDirection(obj, currentUserId, sentByMe)) {
-                return "对方已取消";
+                return str(R.string.call_remote_cancelled);
             }
             if (isPersonalizedCancel(personalized)) {
-                return personalized;
+                return localizeCallPhrase(personalized);
             }
-            return iAmCaller ? "已取消" : "对方已取消";
+            return iAmCaller ? str(R.string.call_cancelled) : str(R.string.call_remote_cancelled);
         }
         if (isCallStatus(status, "remote_busy")) {
-            return "对方正忙";
+            return str(R.string.call_busy);
         }
         if (isCallStatus(status, "local_busy", "busy_missed", "line_busy")) {
-            return "忙线未接听";
+            return str(R.string.call_busy_missed);
         }
         if (isCallStatus(status, "busy")) {
             return resolveBusyDisplay(obj, cleanedDesc, sentByMe, currentUserId);
@@ -685,9 +743,9 @@ public final class MessageContentFormatter {
         }
         if (isCallStatus(status, "ended", "connected", "hangup", "finished", "complete", "completed")) {
             if (durationSec > 0) {
-                return "通话时长 " + formatCallDuration(durationSec);
+                return callDurationLabel(durationSec);
             }
-            return "通话结束";
+            return str(R.string.call_finished);
         }
 
         if (!TextUtils.isEmpty(cleanedDesc)) {
@@ -695,14 +753,14 @@ public final class MessageContentFormatter {
                 return resolveMissedDisplay(callId, peerUserId, iAmCaller, sentByMe);
             }
             if (personalized != null && !isPersonalizedCancel(personalized)) {
-                return personalized;
+                return localizeCallPhrase(personalized);
             }
             return mapCallDescFallback(cleanedDesc, iAmCaller, durationSec);
         }
         if (durationSec > 0) {
-            return "通话时长 " + formatCallDuration(durationSec);
+            return callDurationLabel(durationSec);
         }
-        return "[通话]";
+        return str(R.string.call_digest);
     }
 
     /**
@@ -719,24 +777,24 @@ public final class MessageContentFormatter {
                                                boolean sentByMe) {
         // 明确超时角色优先；不要用「近期任意超时」覆盖本条角色判断
         if (CallMissedLocalStore.isTimeoutCaller(callId, peerUserId)) {
-            return "对方未接听";
+            return str(R.string.call_remote_no_answer);
         }
         if (CallMissedLocalStore.isTimeoutCallee(callId, peerUserId)
                 || CallMissedLocalStore.wasIncoming(callId, peerUserId)) {
-            return "未接听";
+            return str(R.string.call_missed);
         }
         if (CallMissedLocalStore.hasRecentTimeoutCaller()
                 && !CallMissedLocalStore.hasRecentTimeoutCallee()) {
-            return "对方未接听";
+            return str(R.string.call_remote_no_answer);
         }
         if (CallMissedLocalStore.hasRecentTimeoutCallee()
                 && !CallMissedLocalStore.hasRecentTimeoutCaller()) {
-            return "未接听";
+            return str(R.string.call_missed);
         }
         if (!sentByMe) {
-            return "未接听";
+            return str(R.string.call_missed);
         }
-        return iAmCaller ? "对方未接听" : "未接听";
+        return iAmCaller ? str(R.string.call_remote_no_answer) : str(R.string.call_missed);
     }
 
     private static boolean isIncomingDirection(@NonNull JsonObject obj,
@@ -770,9 +828,11 @@ public final class MessageContentFormatter {
     public static String formatGroupCallDisplayText(@Nullable String raw,
                                                     @Nullable String initiatorName,
                                                     boolean sentByMe) {
-        String media = isCallVideoMedia(raw) ? "视频通话" : "语音通话";
+        boolean video = isCallVideoMedia(raw);
         if (sentByMe) {
-            return "你发起了" + media;
+            return str(video
+                    ? R.string.call_group_started_by_me_video
+                    : R.string.call_group_started_by_me_audio);
         }
         String name = preferShortDisplayName(initiatorName);
         if (TextUtils.isEmpty(name)) {
@@ -783,9 +843,13 @@ public final class MessageContentFormatter {
             }
         }
         if (!TextUtils.isEmpty(name)) {
-            return name + "发起了" + media;
+            return str(video
+                    ? R.string.call_group_started_by_other_video
+                    : R.string.call_group_started_by_other_audio, name);
         }
-        return "发起了" + media;
+        return str(video
+                ? R.string.call_group_started_video
+                : R.string.call_group_started_audio);
     }
 
     /**
@@ -838,10 +902,15 @@ public final class MessageContentFormatter {
         }
         String name = preferShortDisplayName(matcher.group(1));
         String media = matcher.group(2);
+        boolean video = "视频".equals(media);
         if (TextUtils.isEmpty(name)) {
-            return "发起了" + media + "通话";
+            return str(video
+                    ? R.string.call_group_started_video
+                    : R.string.call_group_started_audio);
         }
-        return name + "发起了" + media + "通话";
+        return str(video
+                ? R.string.call_group_started_by_other_video
+                : R.string.call_group_started_by_other_audio, name);
     }
 
     @Nullable
@@ -1115,21 +1184,23 @@ public final class MessageContentFormatter {
         if (!TextUtils.isEmpty(currentUserId)) {
             String rejectorId = firstCallString(obj, "rejectorId", "rejectUserId", "rejectedBy");
             if (!TextUtils.isEmpty(rejectorId)) {
-                return TextUtils.equals(rejectorId, currentUserId) ? "已拒绝" : "对方已拒绝";
+                return TextUtils.equals(rejectorId, currentUserId)
+                        ? str(R.string.call_rejected)
+                        : str(R.string.call_remote_rejected);
             }
         }
         Boolean iAmCaller = resolveIAmCallerOrNull(obj, currentUserId);
         if (iAmCaller != null) {
-            return iAmCaller ? "对方已拒绝" : "已拒绝";
+            return iAmCaller ? str(R.string.call_remote_rejected) : str(R.string.call_rejected);
         }
         // 服务端按视角写了「已拒绝」（无「对方」）时信任，适配双方各自一条且 sentByMe 都为 true
         if (!TextUtils.isEmpty(cleanedDesc)
                 && cleanedDesc.contains("已拒绝")
                 && !cleanedDesc.contains("对方")) {
-            return "已拒绝";
+            return str(R.string.call_rejected);
         }
         // 默认约定：消息发送方=拨打方
-        return sentByMe ? "对方已拒绝" : "已拒绝";
+        return sentByMe ? str(R.string.call_remote_rejected) : str(R.string.call_rejected);
     }
 
     /**
@@ -1147,12 +1218,12 @@ public final class MessageContentFormatter {
                                              @Nullable String currentUserId) {
         Boolean iAmCaller = resolveIAmCallerOrNull(obj, currentUserId);
         if (iAmCaller != null) {
-            return iAmCaller ? "对方正忙" : "忙线未接听";
+            return iAmCaller ? str(R.string.call_busy) : str(R.string.call_busy_missed);
         }
         if (!TextUtils.isEmpty(cleanedDesc) && cleanedDesc.contains("忙线未接听")) {
-            return "忙线未接听";
+            return str(R.string.call_busy_missed);
         }
-        return sentByMe ? "对方正忙" : "忙线未接听";
+        return sentByMe ? str(R.string.call_busy) : str(R.string.call_busy_missed);
     }
 
     /**
@@ -1322,40 +1393,44 @@ public final class MessageContentFormatter {
     private static String mapCallDescFallback(@NonNull String desc, boolean sentByMe, int durationSec) {
         String d = desc.trim();
         if (d.contains("通话时长")) {
-            if (durationSec > 0 && !d.matches(".*\\d.*")) {
-                return "通话时长 " + formatCallDuration(durationSec);
+            if (durationSec > 0) {
+                return callDurationLabel(durationSec);
             }
-            return d.startsWith("通话时长") ? d : ("通话时长 " + formatCallDuration(durationSec));
+            int sp = d.lastIndexOf(' ');
+            if (sp > 0 && sp < d.length() - 1) {
+                return str(R.string.call_duration_fmt, d.substring(sp + 1).trim());
+            }
+            return str(R.string.call_finished);
         }
         if (d.contains("通话结束")) {
-            return "通话结束";
+            return str(R.string.call_finished);
         }
         // 未接优先于「取消」，避免服务端误把超时写成带「取消」的 desc
         if (d.contains("未接来电")) {
-            return sentByMe ? "对方未接听" : "未接听";
+            return sentByMe ? str(R.string.call_remote_no_answer) : str(R.string.call_missed);
         }
         if (d.contains("对方未接听") || d.contains("对方未接")) {
-            return "对方未接听";
+            return str(R.string.call_remote_no_answer);
         }
         if (d.contains("未接听") || d.contains("无应答") || d.contains("未应答")) {
             // 「忙线未接听」已在上方处理；此处勿把拒绝误归未接（拒绝已在入口优先处理）
-            return sentByMe ? "对方未接听" : "未接听";
+            return sentByMe ? str(R.string.call_remote_no_answer) : str(R.string.call_missed);
         }
         if (d.contains("已取消") || d.contains("取消")) {
             if (CallMissedLocalStore.hasRecentTimeoutCaller()) {
-                return "对方未接听";
+                return str(R.string.call_remote_no_answer);
             }
             if (CallMissedLocalStore.hasRecentTimeoutCallee()) {
-                return "未接听";
+                return str(R.string.call_missed);
             }
-            return sentByMe ? "已取消" : "对方已取消";
+            return sentByMe ? str(R.string.call_cancelled) : str(R.string.call_remote_cancelled);
         }
         if (d.contains("已拒绝") || d.contains("拒绝")) {
-            return sentByMe ? "对方已拒绝" : "已拒绝";
+            return sentByMe ? str(R.string.call_remote_rejected) : str(R.string.call_rejected);
         }
         if (d.contains("正忙") || d.contains("忙线") || d.contains("忙")) {
             // 不因 desc 含「对方」就两端都显示「对方正忙」；统一按主叫/被叫视角
-            return sentByMe ? "对方正忙" : "忙线未接听";
+            return sentByMe ? str(R.string.call_busy) : str(R.string.call_busy_missed);
         }
         return sanitizeOutgoingDisplayText(d);
     }
@@ -1391,7 +1466,7 @@ public final class MessageContentFormatter {
     private static String formatFileDisplay(@Nullable String raw) {
         JsonObject obj = parseJsonObject(raw);
         if (obj == null) {
-            return "[文件]";
+            return str(R.string.base_digest_file);
         }
         String name = "";
         if (obj.has("msg") && obj.get("msg").isJsonPrimitive()) {
@@ -1401,9 +1476,9 @@ public final class MessageContentFormatter {
             name = obj.get("fileName").getAsString();
         }
         if (!TextUtils.isEmpty(name)) {
-            return "[文件] " + name;
+            return str(R.string.base_digest_file_named, name);
         }
-        return "[文件]";
+        return str(R.string.base_digest_file);
     }
 
     @NonNull
@@ -1419,11 +1494,11 @@ public final class MessageContentFormatter {
             if (arr != null) {
                 int count = arr.size();
                 if (count > 0) {
-                    return "[聊天记录] " + count + "条";
+                    return str(R.string.base_digest_chat_record_count, count);
                 }
             }
         }
-        return "[聊天记录]";
+        return str(R.string.base_digest_chat_record_plain);
     }
 
     @NonNull
@@ -1455,7 +1530,7 @@ public final class MessageContentFormatter {
             }
         }
         if (!TextUtils.isEmpty(currentUserId) && currentUserId.equals(userId)) {
-            return "你";
+            return str(R.string.base_you);
         }
         return userId;
     }

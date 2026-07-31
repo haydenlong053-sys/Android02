@@ -206,7 +206,7 @@ class SquarePostDetailAdapter(val type: String) :
                 )
             }
         }
-        val replyPrefix = "回复"
+        val replyPrefix = context.getString(com.cboda.baselibrary.R.string.square_comment_reply)
         val fullText = name + replyPrefix + replyTarget
         val spannable = SpannableString(fullText)
         if (name.isNotEmpty()) {

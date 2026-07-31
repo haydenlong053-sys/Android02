@@ -5,7 +5,8 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.freddy.chat.utils.MediaMessageContentUtil;
+import com.cboda.baselibrary.R;
+import com.cboda.baselibrary.utils.ImUiStrings;
 import com.freddy.im.MessageType;
 import com.freddy.im.message.MessageContentFormatter;
 import com.google.gson.JsonArray;
@@ -91,10 +92,12 @@ public final class MergeTranspondMessageContentUtil {
     @NonNull
     public static String buildTitle(boolean isGroupChat, @Nullable String peerDisplayName) {
         if (isGroupChat) {
-            return "群的聊天记录";
+            return ImUiStrings.get(R.string.merge_chat_history_group);
         }
-        String peer = !TextUtils.isEmpty(peerDisplayName) ? peerDisplayName.trim() : "对方";
-        return "你和" + peer + "的聊天记录";
+        String peer = !TextUtils.isEmpty(peerDisplayName)
+                ? peerDisplayName.trim()
+                : ImUiStrings.get(R.string.base_peer);
+        return ImUiStrings.get(R.string.merge_chat_history_private, peer);
     }
 
     @NonNull
@@ -126,36 +129,37 @@ public final class MergeTranspondMessageContentUtil {
     @NonNull
     public static String formatItemDigest(int contentType, @Nullable String contentJson) {
         if (MessageContentFormatter.isImageMessage(contentType)) {
-            return "[图片]";
+            return ImUiStrings.get(R.string.base_digest_img);
         }
         if (MessageContentFormatter.isVoiceMessage(contentType)) {
             String duration = MessageContentFormatter.parseVoiceDurationLabel(contentJson);
-            return duration.isEmpty() ? "[语音]" : "[语音] " + duration;
+            String audio = ImUiStrings.get(R.string.base_digest_audio);
+            return duration.isEmpty() ? audio : audio + " " + duration;
         }
         if (MessageContentFormatter.isVideoMessage(contentType)) {
-            return "[视频]";
+            return ImUiStrings.get(R.string.base_digest_video);
         }
         if (MessageContentFormatter.isFileMessage(contentType)) {
             return MessageContentFormatter.formatDisplayText(
                     buildStubMessage(contentType, contentJson), null, null);
         }
         if (MessageContentFormatter.isMapMessage(contentType)) {
-            return "[位置]";
+            return ImUiStrings.get(R.string.base_digest_location);
         }
         if (MessageContentFormatter.isCardMessage(contentType)) {
-            return "[个人名片]";
+            return ImUiStrings.get(R.string.base_digest_person_card);
         }
         if (MessageContentFormatter.isNoticeMessage(contentType)) {
-            return "[公告]";
+            return ImUiStrings.get(R.string.base_digest_notice);
         }
         if (MessageContentFormatter.isMeetStartMessage(contentType)) {
-            return "会议中";
+            return ImUiStrings.get(R.string.base_digest_meet_ongoing);
         }
         if (MessageContentFormatter.isMeetEndMessage(contentType)) {
-            return "会议已结束";
+            return ImUiStrings.get(R.string.base_digest_meet_ended);
         }
         if (MessageType.MessageContentType.isMergeTranspond(contentType)) {
-            return "[聊天记录]";
+            return ImUiStrings.get(R.string.base_digest_chat_record_plain);
         }
         return MessageContentFormatter.extractPlainText(contentJson);
     }
@@ -183,7 +187,7 @@ public final class MergeTranspondMessageContentUtil {
             }
         }
         if (!TextUtils.isEmpty(currentUserId) && currentUserId.equals(userId)) {
-            return "你";
+            return ImUiStrings.get(R.string.base_you);
         }
         return userId;
     }

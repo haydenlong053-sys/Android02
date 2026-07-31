@@ -30,7 +30,7 @@ class SquarePostCommentBroadAdapter :
         }
 
         val colon = "："
-        val replyPrefix = "回复"
+        val replyPrefix = context.getString(com.cboda.baselibrary.R.string.square_comment_reply)
         var replyTarget = ""
         if (parentId != 0) {
             replyTarget = data.find { it.id == parentId }?.name ?: ""

@@ -2,6 +2,7 @@ package com.cboda.intelligent.base
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
@@ -462,14 +463,14 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
     }
 
     override fun attachBaseContext(newBase: Context?) {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
-            val res = newBase!!.resources
-            val config = res.configuration
-            config.fontScale = getTextSize(newBase)
-            val newContext = newBase!!.createConfigurationContext(config)
-            super.attachBaseContext(newContext)
+        val languageBase = com.cboda.select.picture.utils.LanguageUtil.getLanguageContext(newBase, false)
+            ?: newBase
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N && languageBase != null) {
+            val config = Configuration(languageBase.resources.configuration)
+            config.fontScale = getTextSize(languageBase)
+            super.attachBaseContext(languageBase.createConfigurationContext(config))
         } else {
-            super.attachBaseContext(newBase)
+            super.attachBaseContext(languageBase)
         }
     }
 

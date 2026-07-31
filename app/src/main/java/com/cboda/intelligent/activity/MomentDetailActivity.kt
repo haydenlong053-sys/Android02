@@ -179,7 +179,7 @@ class MomentDetailActivity : BaseSimple2BroadActivity() {
         val holder = CommanConfimBroadHolder(
             this,
             getString(R.string.wenxintishi),
-            getString(R.string.square_post_delete_confirm),
+            getString(com.cboda.baselibrary.R.string.square_post_delete_confirm),
             getString(R.string.shanchu),
             getString(R.string.quxiao),
         )
@@ -198,7 +198,7 @@ class MomentDetailActivity : BaseSimple2BroadActivity() {
         lifecycleScope.launch {
             viewModel.deleteMomentPost(postId, false).observe(this@MomentDetailActivity) { success ->
                 if (success != true) return@observe
-                ToastBroadUtil.show(getString(R.string.square_post_delete_success))
+                ToastBroadUtil.show(getString(com.cboda.baselibrary.R.string.square_post_delete_success))
                 EventBus.getDefault().post(SquarePostDeleteBroadEvent(postId.trim()))
                 finish()
             }
@@ -217,9 +217,9 @@ class MomentDetailActivity : BaseSimple2BroadActivity() {
                 ToastBroadUtil.show(
                     getString(
                         if (top) {
-                            R.string.square_post_top_success
+                            com.cboda.baselibrary.R.string.square_post_top_success
                         } else {
-                            R.string.square_post_untop_success
+                            com.cboda.baselibrary.R.string.square_post_untop_success
                         },
                     ),
                 )

@@ -44,7 +44,7 @@ class SquareBlackActivity : BaseSimple2BroadActivity() {
     }
 
     private fun initTitleBar() {
-        getToolbarTitle()?.text = getString(R.string.square_blacklist_title)
+        getToolbarTitle()?.text = getString(com.cboda.baselibrary.R.string.square_blacklist_title)
         getRightView()?.visibility = View.GONE
         getRightImg()?.visibility = View.GONE
     }

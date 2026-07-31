@@ -150,7 +150,7 @@ class SquareNoticeActivity : BaseSimple2BroadActivity() {
             return
         }
         if (item.isCommentType() && item.targetId.isBlank()) {
-            showToastMain(getString(R.string.square_notice_comment_deleted))
+            showToastMain(getString(com.cboda.baselibrary.R.string.square_notice_comment_deleted))
             return
         }
         val targetId = item.targetId.trim()

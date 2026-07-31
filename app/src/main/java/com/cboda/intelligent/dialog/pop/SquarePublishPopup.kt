@@ -242,7 +242,7 @@ class SquarePublishPopup(
                 odicStakeAmount = config?.odicStakeAmount()?.takeIf { it.isNotBlank() }
                     ?: DEFAULT_PLEDGE_AMOUNT
                 binding.publishInfoTip.text = config?.stakeTip?.takeIf { it.isNotBlank() }
-                    ?: context.getString(R.string.square_publish_tip, odicStakeAmount)
+                    ?: context.getString(com.cboda.baselibrary.R.string.square_publish_tip, odicStakeAmount)
             }
         }
     }
@@ -293,7 +293,7 @@ class SquarePublishPopup(
         }
         val leftCount = MAX_MEDIA_COUNT - mediaPaths.size
         if (leftCount <= 0) {
-            showToastMain(context.getString(R.string.square_publish_max_images, MAX_MEDIA_COUNT))
+            showToastMain(context.getString(com.cboda.baselibrary.R.string.square_publish_max_images, MAX_MEDIA_COUNT))
             return
         }
         val chooseType = if (mediaPaths.isNotEmpty()) {
@@ -333,14 +333,14 @@ class SquarePublishPopup(
         val isVideo = PictureMimeType.getMimeType(firstMedia.mimeType) == SelectMimeType.TYPE_VIDEO
         if (isVideo) {
             if (mediaPaths.isNotEmpty()) {
-                showToastMain(context.getString(R.string.square_publish_video_image_conflict))
+                showToastMain(context.getString(com.cboda.baselibrary.R.string.square_publish_video_image_conflict))
                 return
             }
             compressSelectedVideo(firstPath)
             return
         }
         if (!videoPath.isNullOrBlank()) {
-            showToastMain(context.getString(R.string.square_publish_video_image_conflict))
+            showToastMain(context.getString(com.cboda.baselibrary.R.string.square_publish_video_image_conflict))
             return
         }
         val leftCount = MAX_MEDIA_COUNT - mediaPaths.size
@@ -354,7 +354,7 @@ class SquarePublishPopup(
             .map { it.first }
             .take(leftCount)
         if (imagePaths.isEmpty()) {
-            showToastMain(context.getString(R.string.square_publish_image_only))
+            showToastMain(context.getString(com.cboda.baselibrary.R.string.square_publish_image_only))
             return
         }
         mediaPaths.addAll(imagePaths)
@@ -381,7 +381,7 @@ class SquarePublishPopup(
         if (isPublishing) return
         val content = binding.publishContentInput.text?.toString()?.trim().orEmpty()
         if (content.isBlank() && !hasMedia() && quoteRefId.isBlank()) {
-            showToastMain(context.getString(R.string.square_publish_empty))
+            showToastMain(context.getString(com.cboda.baselibrary.R.string.square_publish_empty))
             return
         }
         if (publishType == PUBLISH_TYPE_SQUARE) {
@@ -447,7 +447,7 @@ class SquarePublishPopup(
             liveData.observe(activity) { success ->
                 resetPublishState()
                 if (success != true) return@observe
-                showToastMain(context.getString(R.string.square_publish_success))
+                showToastMain(context.getString(com.cboda.baselibrary.R.string.square_publish_success))
                 EventBus.getDefault().post(SquarePostPublishBroadEvent(publishType))
                 dismiss()
             }
@@ -508,9 +508,9 @@ class SquarePublishPopup(
         binding.publishQuoteLayout.isVisible = isSquare && quoteRefId.isNotEmpty()
         binding.publishSubmit.text = context.getString(
             if (isSquare) {
-                R.string.square_publish_submit
+                com.cboda.baselibrary.R.string.square_publish_submit
             } else {
-                R.string.square_publish_submit_moments
+                com.cboda.baselibrary.R.string.square_publish_submit_moments
             },
         )
     }

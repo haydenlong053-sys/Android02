@@ -84,7 +84,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         getToolbarTitle()?.text = when (fromPage) {
             "selectManager" -> getString(R.string.qunguanliyuan)
             "selectNewOwner" -> getString(R.string.xuanxinqunzhu)
-            ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS -> getString(R.string.select_group_members)
+            ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS -> getString(com.cboda.baselibrary.R.string.select_group_members)
             else -> getString(R.string.xuanzelianxiren)
         }
         tvAgree.isSubmitCanGo(false)

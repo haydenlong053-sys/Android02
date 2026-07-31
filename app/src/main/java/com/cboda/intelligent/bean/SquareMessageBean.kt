@@ -1,5 +1,7 @@
 package com.cboda.intelligent.bean
 
+import com.cboda.baselibrary.utils.ImUiStrings
+
 data class SquareMessageBean(
     val id: String = "",
     val msgType: String = "",
@@ -33,13 +35,19 @@ data class SquareMessageBean(
     fun isCommentType(): Boolean = msgType.contains("comment", ignoreCase = true)
 
     fun displayName(): String {
-        return if (isSystemMessage()) SYSTEM_NAME else name
+        return if (isSystemMessage()) {
+            ImUiStrings.get(com.cboda.baselibrary.R.string.square_notice_system_name)
+        } else {
+            name
+        }
     }
 
     fun displayMessage(): String {
         return when {
             isCommentType() -> {
-                val prefix = msgTip.ifBlank { "评论了你" }
+                val prefix = msgTip.ifBlank {
+                    ImUiStrings.get(com.cboda.baselibrary.R.string.square_notice_commented_you)
+                }
                 if (content.isNotBlank()) "$prefix：$content" else prefix
             }
             else -> msgTip.ifBlank { content }
@@ -54,6 +62,7 @@ data class SquareMessageBean(
     }
 
     companion object {
+        /** 服务端系统消息名称（匹配用，勿本地化） */
         const val SYSTEM_NAME = "系统提醒"
         const val TARGET_SQUARE = "square"
         const val TARGET_MOMENT = "moment"

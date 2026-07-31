@@ -51,7 +51,7 @@ class SquareAttentionActivity : BaseSimple2BroadActivity() {
         val isSelf = targetUserId.isNullOrBlank() ||
             targetUserId == MMKVBroadUtils.getRealUserId()
         getToolbarTitle()?.text = getString(
-            if (isSelf) R.string.square_following_list_title else R.string.square_following_list_title_other,
+            if (isSelf) com.cboda.baselibrary.R.string.square_following_list_title else com.cboda.baselibrary.R.string.square_following_list_title_other,
         )
         getRightView()?.visibility = View.GONE
         getRightImg()?.visibility = View.GONE

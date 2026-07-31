@@ -52,7 +52,7 @@ public class CreateGroupActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_group);
-        setTitle(R.string.create_group);
+        setTitle(com.cboda.baselibrary.R.string.create_group);
 
         currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
 
@@ -103,7 +103,7 @@ public class CreateGroupActivity extends AppCompatActivity {
         tvMembersEmpty.setVisibility(View.VISIBLE);
         rvMembers.setVisibility(View.GONE);
         btnConfirmCreate.setEnabled(true);
-        Toast.makeText(this, R.string.create_group_load_users_failed, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, com.cboda.baselibrary.R.string.create_group_load_users_failed, Toast.LENGTH_SHORT).show();
     }
 
     private void onUserListLoaded(@NonNull UserInfoListRes res) {
@@ -139,7 +139,7 @@ public class CreateGroupActivity extends AppCompatActivity {
         String name = etGroupName.getText().toString().trim();
         List<String> members = buildMemberIds();
         if (TextUtils.isEmpty(name) || members.isEmpty()) {
-            Toast.makeText(this, R.string.create_group_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, com.cboda.baselibrary.R.string.create_group_failed, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -156,7 +156,7 @@ public class CreateGroupActivity extends AppCompatActivity {
                         runOnUiThread(() -> {
                             progressMembers.setVisibility(View.GONE);
                             Toast.makeText(CreateGroupActivity.this,
-                                    getString(R.string.create_group_success) + " " + group.getName(),
+                                    getString(com.cboda.baselibrary.R.string.create_group_success) + " " + group.getName(),
                                     Toast.LENGTH_SHORT).show();
                             setResult(RESULT_OK);
                             finish();
@@ -167,7 +167,7 @@ public class CreateGroupActivity extends AppCompatActivity {
                     progressMembers.setVisibility(View.GONE);
                     btnConfirmCreate.setEnabled(true);
                     Toast.makeText(CreateGroupActivity.this,
-                            R.string.create_group_failed, Toast.LENGTH_SHORT).show();
+                            com.cboda.baselibrary.R.string.create_group_failed, Toast.LENGTH_SHORT).show();
                 }));
     }
 

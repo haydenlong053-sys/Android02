@@ -34,7 +34,7 @@ class SquarePostOwnerActionPopup(
             .inflate(R.layout.square_post_owner_action_popup, null)
         popView.findViewById<TextView>(R.id.squareOwnerTopTitle).setText(
             if (isTop == 1) {
-                R.string.square_post_unpin
+                com.cboda.baselibrary.R.string.square_post_unpin
             } else {
                 R.string.zhiding
             },

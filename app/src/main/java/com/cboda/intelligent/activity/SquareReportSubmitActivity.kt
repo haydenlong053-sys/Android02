@@ -31,7 +31,7 @@ class SquareReportSubmitActivity : BaseSimple2BroadActivity() {
         super.onCreate(savedInstanceState)
         mBinding = binding as? SquareReportSubmitActivityBinding
         setRootBgColor(com.cboda.baselibrary.R.color.color_F7F8FA)
-        getToolbarTitle()?.setText(R.string.square_report_title)
+        getToolbarTitle()?.setText(com.cboda.baselibrary.R.string.square_report_title)
         targetType = intent.getStringExtra(EXTRA_TARGET_TYPE).orEmpty()
             .ifBlank { SquareReportTypeActivity.TARGET_TYPE_SQUARE }
         targetId = intent.getStringExtra(EXTRA_TARGET_ID).orEmpty()
@@ -89,7 +89,7 @@ class SquareReportSubmitActivity : BaseSimple2BroadActivity() {
             ).observe(this@SquareReportSubmitActivity) { success ->
                 dismissLoading()
                 if (success != true) return@observe
-                ToastBroadUtil.show(getString(R.string.square_report_submit_success))
+                ToastBroadUtil.show(getString(com.cboda.baselibrary.R.string.square_report_submit_success))
                 finish()
             }
         }

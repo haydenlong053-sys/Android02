@@ -18,16 +18,16 @@ object SquareCommentGateBroadHelper {
     ): String {
         val selected = types.filter { it.isNotBlank() }.toSet()
         if (selected.isEmpty() || selected == setOf(GATE_TYPE_EVERYONE)) {
-            return context.getString(R.string.square_publish_everyone)
+            return context.getString(com.cboda.baselibrary.R.string.square_publish_everyone)
         }
         val labels = mutableListOf<String>()
         if (GATE_TYPE_VIP in selected) {
-            labels.add(context.getString(R.string.square_comment_gate_vip_title))
+            labels.add(context.getString(com.cboda.baselibrary.R.string.square_comment_gate_vip_title))
         }
         if (GATE_TYPE_CREDIT in selected) {
             labels.add(
                 context.getString(
-                    R.string.square_comment_gate_credit_value,
+                    com.cboda.baselibrary.R.string.square_comment_gate_credit_value,
                     creditMin.coerceIn(MIN_CREDIT_SCORE, MAX_CREDIT_SCORE),
                 ),
             )

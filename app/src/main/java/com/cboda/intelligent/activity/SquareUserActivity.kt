@@ -158,7 +158,7 @@ class SquareUserActivity : BaseSimple2BroadActivity() {
     private fun updateFollowButton(followed: Boolean) {
         val binding = mBinding ?: return
         binding.followBtn.text = getString(
-            if (followed) R.string.square_user_unfollow else R.string.square_user_follow,
+            if (followed) com.cboda.baselibrary.R.string.square_user_unfollow else com.cboda.baselibrary.R.string.square_user_follow,
         )
         if (followed) {
             binding.followBtn.setBackColor(com.cboda.baselibrary.R.color.grayF0)

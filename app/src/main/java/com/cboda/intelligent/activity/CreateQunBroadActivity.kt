@@ -188,7 +188,7 @@ class CreateQunBroadActivity : BaseSimpleBroadActivity() {
                     creatingGroup = false
                     tvAgree.isEnabled = true
                     dismissLoading()
-                    showToastMain(R.string.create_group_failed)
+                    showToastMain(com.cboda.baselibrary.R.string.create_group_failed)
                 })
         }
         smartLayout?.setEnableLoadMore(false)

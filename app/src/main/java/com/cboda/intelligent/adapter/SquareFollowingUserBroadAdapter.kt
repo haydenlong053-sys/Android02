@@ -39,7 +39,7 @@ class SquareFollowingUserBroadAdapter :
 
     private fun bindFollowButton(button: ShapeTextView, followed: Boolean) {
         if (followed) {
-            button.text = context.getString(R.string.square_user_unfollow)
+            button.text = context.getString(com.cboda.baselibrary.R.string.square_user_unfollow)
             button.setBackColor(com.cboda.baselibrary.R.color.white)
             button.setTxtColor(com.cboda.baselibrary.R.color.color_3B47DD)
             button.setStrokeColorAndStrokeWidth(
@@ -47,7 +47,7 @@ class SquareFollowingUserBroadAdapter :
                 SizeUtils.dp2px(1f),
             )
         } else {
-            button.text = context.getString(R.string.square_user_follow)
+            button.text = context.getString(com.cboda.baselibrary.R.string.square_user_follow)
             button.setBackColor(com.cboda.baselibrary.R.color.color_3B47DD)
             button.setTxtColor(com.cboda.baselibrary.R.color.white)
             button.setStrokeColorAndStrokeWidth(

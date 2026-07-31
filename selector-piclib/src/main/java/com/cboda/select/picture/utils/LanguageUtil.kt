@@ -75,7 +75,7 @@ object LanguageUtil {
     fun setAppLanguage(key: String, context: Context? = null) {
         val lanList = getLanList(key)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            val locale = Locale.forLanguageTag(lanList)
+            val locale = Locale.forLanguageTag(lanList.replace('_', '-'))
             applyLocaleToContext(context, locale)
         } else {
             val locale = LocaleListCompat.forLanguageTags(lanList)
@@ -99,11 +99,12 @@ object LanguageUtil {
     }
 
     private fun updateResources(context: Context?, lanList: String? = "", mLocale: Locale? = null): Context? {
-        return if (TextUtils.isEmpty(lanList) && null == mLocale || null == context) {
+        return if ((TextUtils.isEmpty(lanList) && null == mLocale) || null == context) {
             null
         } else {
-            val locale = mLocale ?: Locale(lanList)
-            val configuration = context.resources.configuration
+            // 必须用 forLanguageTag："zh-CN"/"en-US" 不能传给 Locale(String)（会被当成整段 language）
+            val locale = mLocale ?: Locale.forLanguageTag(lanList!!.replace('_', '-'))
+            val configuration = Configuration(context.resources.configuration)
             configuration.setLocale(locale)
             configuration.setLayoutDirection(locale)
             context.createConfigurationContext(configuration)
