@@ -2,6 +2,7 @@ package com.freddy.im.message;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
 
 import android.text.TextUtils;
 
@@ -19,6 +20,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,17 +38,23 @@ import java.util.regex.Pattern;
  */
 public final class MessageContentFormatter {
 
-    /** 接口 {@link com.freddy.im.http.model.im.ImMessageItem#getMsgType()}：系统消息 */
+    /**
+     * 接口 {@link com.freddy.im.http.model.im.ImMessageItem#getMsgType()}：系统消息
+     */
     public static final int API_MSG_TYPE_SYSTEM = 2;
 
-    /** 系统消息 content.type（JSON 内嵌） */
+    /**
+     * 系统消息 content.type（JSON 内嵌）
+     */
     private static final int SYSTEM_CREATE_GROUP = 0;
     private static final int SYSTEM_JOIN_MEMBER = 1;
     private static final int SYSTEM_RENAME_GROUP = 2;
     private static final int SYSTEM_REMOVE_MEMBER = 3;
 
     private static final Pattern PLACEHOLDER_USER = Pattern.compile("\\$\\{([^}]+)\\}");
-    /** 群通话展示句：xxx发起了语音/视频通话 */
+    /**
+     * 群通话展示句：xxx发起了语音/视频通话
+     */
     private static final Pattern GROUP_CALL_SENTENCE =
             Pattern.compile("^(.*)发起了(语音|视频)通话$");
 
@@ -62,7 +71,9 @@ public final class MessageContentFormatter {
         return ImUiStrings.get(resId, args);
     }
 
-    /** 将内部中文通话短语转为当前语言展示文案（匹配逻辑仍用中文原文）。 */
+    /**
+     * 将内部中文通话短语转为当前语言展示文案（匹配逻辑仍用中文原文）。
+     */
     @NonNull
     private static String localizeCallPhrase(@Nullable String phrase) {
         if (TextUtils.isEmpty(phrase)) {
@@ -100,6 +111,11 @@ public final class MessageContentFormatter {
 
     public static boolean isApiSystemMsgType(int msgType) {
         return msgType == API_MSG_TYPE_SYSTEM;
+    }
+
+
+    public static boolean isCallMsgType(AppMessage message) {
+        return message.getMsgType() == 1 && anyToInt(message.getContentType()) == 800 && !TextUtils.isEmpty(message.getGroupId());
     }
 
     public static boolean isSystemMessage(@Nullable AppMessage message) {
@@ -399,7 +415,9 @@ public final class MessageContentFormatter {
         }
     }
 
-    /** content 为空、"{}" 或无有效字段的 JSON 对象。 */
+    /**
+     * content 为空、"{}" 或无有效字段的 JSON 对象。
+     */
     public static boolean isBlankOrEmptyJson(@Nullable String raw) {
         if (TextUtils.isEmpty(raw)) {
             return true;
@@ -622,7 +640,9 @@ public final class MessageContentFormatter {
         }
     }
 
-    /** 会话列表里可能只有服务端 desc（如 [语音通话]xxx），非 JSON。 */
+    /**
+     * 会话列表里可能只有服务端 desc（如 [语音通话]xxx），非 JSON。
+     */
     private static boolean isPlainCallDescPreview(@Nullable String content,
                                                   @Nullable String lastMessageContent) {
         return isPlainCallDesc(content) || isPlainCallDesc(lastMessageContent);
@@ -660,35 +680,35 @@ public final class MessageContentFormatter {
 
     @NonNull
     public static String formatCallDisplayText(@Nullable String raw,
-                                              boolean sentByMe,
-                                              @Nullable String currentUserId) {
+                                               boolean sentByMe,
+                                               @Nullable String currentUserId) {
         return formatCallDisplayText(raw, sentByMe, currentUserId, isGroupCallContent(raw), null, null);
     }
 
     @NonNull
     public static String formatCallDisplayText(@Nullable String raw,
-                                              boolean sentByMe,
-                                              @Nullable String currentUserId,
-                                              boolean groupCall) {
+                                               boolean sentByMe,
+                                               @Nullable String currentUserId,
+                                               boolean groupCall) {
         return formatCallDisplayText(raw, sentByMe, currentUserId, groupCall, null, null);
     }
 
     @NonNull
     public static String formatCallDisplayText(@Nullable String raw,
-                                              boolean sentByMe,
-                                              @Nullable String currentUserId,
-                                              boolean groupCall,
-                                              @Nullable String initiatorName) {
+                                               boolean sentByMe,
+                                               @Nullable String currentUserId,
+                                               boolean groupCall,
+                                               @Nullable String initiatorName) {
         return formatCallDisplayText(raw, sentByMe, currentUserId, groupCall, initiatorName, null);
     }
 
     @NonNull
     public static String formatCallDisplayText(@Nullable String raw,
-                                              boolean sentByMe,
-                                              @Nullable String currentUserId,
-                                              boolean groupCall,
-                                              @Nullable String initiatorName,
-                                              @Nullable String peerUserId) {
+                                               boolean sentByMe,
+                                               @Nullable String currentUserId,
+                                               boolean groupCall,
+                                               @Nullable String initiatorName,
+                                               @Nullable String peerUserId) {
         if (groupCall || isGroupCallContent(raw)) {
             return formatGroupCallDisplayText(raw, initiatorName, sentByMe);
         }
@@ -809,7 +829,7 @@ public final class MessageContentFormatter {
 
     @Nullable
     private static String resolveCallPeerUserId(@NonNull AppMessage message,
-                                                 @Nullable String currentUserId) {
+                                                @Nullable String currentUserId) {
         if (!TextUtils.isEmpty(currentUserId) && TextUtils.equals(currentUserId, message.getFromId())) {
             return message.getToId();
         }
@@ -866,7 +886,9 @@ public final class MessageContentFormatter {
         return TextUtils.isEmpty(extracted) ? trimmed : extracted;
     }
 
-    /** 去掉首尾成对引号：ASCII {@code "}、中文 {@code “”}/{@code 「」}。 */
+    /**
+     * 去掉首尾成对引号：ASCII {@code "}、中文 {@code “”}/{@code 「」}。
+     */
     @NonNull
     private static String stripWrappingQuotes(@NonNull String name) {
         String s = name;
@@ -940,7 +962,9 @@ public final class MessageContentFormatter {
         return TextUtils.isEmpty(inner) ? null : inner;
     }
 
-    /** 从通话 content JSON 中读取主叫 userId（会话预览无本地消息时兜底）。 */
+    /**
+     * 从通话 content JSON 中读取主叫 userId（会话预览无本地消息时兜底）。
+     */
     @Nullable
     public static String extractCallCallerUserId(@Nullable String raw) {
         JsonObject obj = parseJsonObject(raw);
@@ -983,7 +1007,9 @@ public final class MessageContentFormatter {
         return null;
     }
 
-    /** content 内可识别为群/多人通话（如 groupId、多人 targetIds）。 */
+    /**
+     * content 内可识别为群/多人通话（如 groupId、多人 targetIds）。
+     */
     public static boolean isGroupCallContent(@Nullable String raw) {
         JsonObject obj = parseJsonObject(raw);
         if (obj == null) {
@@ -1036,7 +1062,9 @@ public final class MessageContentFormatter {
         }
     }
 
-    /** 兼容 status 为字符串数字（\"5\"）或中文别名。 */
+    /**
+     * 兼容 status 为字符串数字（\"5\"）或中文别名。
+     */
     @NonNull
     private static String normalizeCallStatusAlias(@Nullable String raw) {
         if (TextUtils.isEmpty(raw)) {
@@ -1136,7 +1164,9 @@ public final class MessageContentFormatter {
                 || d.contains("对方未接");
     }
 
-    /** 取消类文案/状态（超时未接时常被服务端落成 cancel）。 */
+    /**
+     * 取消类文案/状态（超时未接时常被服务端落成 cancel）。
+     */
     private static boolean isCancelLike(@Nullable String status,
                                         @Nullable String personalized,
                                         @Nullable String cleanedDesc) {
@@ -1292,7 +1322,9 @@ public final class MessageContentFormatter {
         return null;
     }
 
-    /** 从 desc 识别服务端已按视角写好的文案。 */
+    /**
+     * 从 desc 识别服务端已按视角写好的文案。
+     */
     @Nullable
     private static String matchPersonalizedCallDesc(@Nullable String cleanedDesc) {
         if (TextUtils.isEmpty(cleanedDesc)) {

@@ -26,6 +26,9 @@ public class AppMessage implements Parcelable {
     private String toId;
     private long timestamp;
     private long sequenceId;
+    private String contentType;
+
+    private String groupId;
 
     private int statusReport;
     private String extend;
@@ -43,6 +46,22 @@ public class AppMessage implements Parcelable {
     private int status;
 
     public AppMessage() {
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     public int getConversationType() {

@@ -78,7 +78,7 @@ public final class SessionLastMessageSync {
      */
     /**
      * 按 {@code fetchNewMessageList} 本批新消息条数统计各会话未读增量
-     *（排除当前打开的消息页会话、自己发送、以及 {@code msgType==2} 系统消息）。
+     * （排除当前打开的消息页会话、自己发送、以及 {@code msgType==2} 系统消息）。
      */
     @NonNull
     public static Map<String, Integer> countUnreadDeltaBySession(@NonNull List<AppMessage> messages) {
@@ -91,6 +91,11 @@ public final class SessionLastMessageSync {
             if (MessageContentFormatter.isApiSystemMsgType(message.getMsgType())) {
                 continue;
             }
+            //过滤语音通话未读消息数
+            if (MessageContentFormatter.isCallMsgType(message)) {
+                continue;
+            }
+
             String sessionId = resolveSessionId(message);
             if (TextUtils.isEmpty(sessionId) || ImActiveChatSession.isActive(sessionId)) {
                 continue;
@@ -108,7 +113,7 @@ public final class SessionLastMessageSync {
      */
     @Nullable
     public static SessionItem refreshSessionPreviewAfterDelete(@NonNull Realm realm,
-                                                                @NonNull String sessionId) {
+                                                               @NonNull String sessionId) {
         if (TextUtils.isEmpty(sessionId)) {
             return null;
         }
