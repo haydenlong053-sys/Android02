@@ -40,66 +40,68 @@ object E {
     private const val MAX_SAVE_TIME = 24L
     //加载群头像（portrait：头像url）
     fun loadGroupImg(imageView: ImageView?, groupId: String?, portrait: String? = null) {
-        imageView?.let {
-            if (null != groupId && !TextUtils.isEmpty(groupId)) {
-                GlobalBroadInfo.getGroupData(null) { stringGlobalSmallGroupBroadBeanHashMap ->
-                    val globalSmallGroupBroadBean = stringGlobalSmallGroupBroadBeanHashMap[groupId]
-                    if (null != globalSmallGroupBroadBean && !TextUtils.isEmpty(globalSmallGroupBroadBean.icon)) {
-                        imageView.loadGroupImg2(globalSmallGroupBroadBean.icon)
-                    } else if (null != portrait && !TextUtils.isEmpty(portrait) && !portrait.startsWith("file://")) {
-                        imageView.loadGroupImg2(portrait)
-                    } else {
-                        val groupInfo = ChatManager.Instance().getGroupInfo(groupId, false)
-                        val getPortrait = groupInfo?.portrait
-                        if (null != getPortrait && !TextUtils.isEmpty(getPortrait) && !getPortrait.startsWith("file://")) {
-                            imageView.loadGroupImg2(getPortrait)
-                        } else {
-                            imageView.loadGroupImg2()
-                            ChatManagerBroadHolder.gChatManager.getGroupMembers(groupId, false, object : GetGroupMembersCallback {
-                                override fun onSuccess(groupMembers: List<GroupMember?>?) {
-                                    groupMembers?.let {
-                                        if (groupMembers.isNotEmpty()) {
-                                            val memberIds = arrayListOf<String>()
-                                            groupMembers.forEach { item ->
-                                                //   // 获取最多30个成员的用户ID
-                                                if (null != item && !TextUtils.isEmpty(item.memberId) && memberIds.size < 30) {
-                                                    memberIds.add(item.memberId)
-                                                }
-                                            }
-                                            // 获取用户信息（包括头像）
-                                            val userInfos = ChatManagerBroadHolder.gChatManager.getUserInfos(memberIds, groupId)
-                                            if (null != userInfos && userInfos.isNotEmpty()) {
-                                                memberIds.clear()
-                                                userInfos.forEach { item ->
-                                                    // 获取最多9个成员的用户头像
-                                                    if (null != item && !TextUtils.isEmpty(item.portrait) && memberIds.size < 9) {
-                                                        memberIds.add(item.portrait)
-                                                    } else if (null != item && !TextUtils.isEmpty(item.uid) && memberIds.size < 9) {
-                                                        RealmUtil.findUserData(item.uid) { globalFriendBean ->
-                                                            if (null != globalFriendBean && null != globalFriendBean.userImg && !TextUtils.isEmpty(globalFriendBean.userImg)) {
-                                                                memberIds.add(globalFriendBean.userImg ?: "")
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                GroupAvatarBroadLoader.load(imageView.context, memberIds, imageView, groupId)
-                                            }
-                                        }
-                                    }
-
-                                }
-
-                                override fun onFail(errorCode: Int) {
-                                    imageView.loadGroupImg2()
-                                }
-                            })
-                        }
-                    }
-                }
-            } else {
-                imageView.loadGroupImg2(portrait)
-            }
-        }
+        imageView?.loadGroupImg2(portrait)
+        //自研已不需要下面的头像处理逻辑
+//        imageView?.let {
+//            if (null != groupId && !TextUtils.isEmpty(groupId)) {
+//                GlobalBroadInfo.getGroupData(null) { stringGlobalSmallGroupBroadBeanHashMap ->
+//                    val globalSmallGroupBroadBean = stringGlobalSmallGroupBroadBeanHashMap[groupId]
+//                    if (null != globalSmallGroupBroadBean && !TextUtils.isEmpty(globalSmallGroupBroadBean.icon)) {
+//                        imageView.loadGroupImg2(globalSmallGroupBroadBean.icon)
+//                    } else if (null != portrait && !TextUtils.isEmpty(portrait) && !portrait.startsWith("file://")) {
+//                        imageView.loadGroupImg2(portrait)
+//                    } else {
+//                        val groupInfo = ChatManager.Instance().getGroupInfo(groupId, false)
+//                        val getPortrait = groupInfo?.portrait
+//                        if (null != getPortrait && !TextUtils.isEmpty(getPortrait) && !getPortrait.startsWith("file://")) {
+//                            imageView.loadGroupImg2(getPortrait)
+//                        } else {
+//                            imageView.loadGroupImg2()
+//                            ChatManagerBroadHolder.gChatManager.getGroupMembers(groupId, false, object : GetGroupMembersCallback {
+//                                override fun onSuccess(groupMembers: List<GroupMember?>?) {
+//                                    groupMembers?.let {
+//                                        if (groupMembers.isNotEmpty()) {
+//                                            val memberIds = arrayListOf<String>()
+//                                            groupMembers.forEach { item ->
+//                                                //   // 获取最多30个成员的用户ID
+//                                                if (null != item && !TextUtils.isEmpty(item.memberId) && memberIds.size < 30) {
+//                                                    memberIds.add(item.memberId)
+//                                                }
+//                                            }
+//                                            // 获取用户信息（包括头像）
+//                                            val userInfos = ChatManagerBroadHolder.gChatManager.getUserInfos(memberIds, groupId)
+//                                            if (null != userInfos && userInfos.isNotEmpty()) {
+//                                                memberIds.clear()
+//                                                userInfos.forEach { item ->
+//                                                    // 获取最多9个成员的用户头像
+//                                                    if (null != item && !TextUtils.isEmpty(item.portrait) && memberIds.size < 9) {
+//                                                        memberIds.add(item.portrait)
+//                                                    } else if (null != item && !TextUtils.isEmpty(item.uid) && memberIds.size < 9) {
+//                                                        RealmUtil.findUserData(item.uid) { globalFriendBean ->
+//                                                            if (null != globalFriendBean && null != globalFriendBean.userImg && !TextUtils.isEmpty(globalFriendBean.userImg)) {
+//                                                                memberIds.add(globalFriendBean.userImg ?: "")
+//                                                            }
+//                                                        }
+//                                                    }
+//                                                }
+//                                                GroupAvatarBroadLoader.load(imageView.context, memberIds, imageView, groupId)
+//                                            }
+//                                        }
+//                                    }
+//
+//                                }
+//
+//                                override fun onFail(errorCode: Int) {
+//                                    imageView.loadGroupImg2()
+//                                }
+//                            })
+//                        }
+//                    }
+//                }
+//            } else {
+//                imageView.loadGroupImg2(portrait)
+//            }
+//        }
     }
 
     private fun ImageView.loadGroupImg2(url: String? = "") {
@@ -201,6 +203,7 @@ object E {
         } ?: callBack.invoke("")
     }
 
+    @Deprecated("废弃")
     fun getAllListUserData(groupId: String?) {
         if (!TextUtils.isEmpty(groupId)) {
             val saveMap = getGroupDateListData()
@@ -221,7 +224,7 @@ object E {
         }
     }
 
-
+    @Deprecated("废弃")
     private fun getAllListUserData(groupId: String?, saveMap: HashMap<String, Long>) {
         val map = mapOf("id" to groupId)
         postEncryptedList(

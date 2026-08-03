@@ -449,6 +449,7 @@ class MMKVBroadUtils {
             }
         }
 
+        @Deprecated("废弃")
         fun updateGroupNameAndRenameCount(id: String?, name: String?, renameCount: Int?, icon: String?, viewModelScope: CoroutineScope? = null) {
             if (!TextUtils.isEmpty(id) && (!TextUtils.isEmpty(name) || null != renameCount)) {
                 getGroupData(viewModelScope) { map ->
@@ -465,7 +466,7 @@ class MMKVBroadUtils {
             }
         }
 
-
+       @Deprecated("废弃")
         private fun saveGroupData(map: HashMap<String, GlobalSmallGroupBroadBean>, id: String?, name: String?, renameCount: Int?, icon: String?) {
             val bean = map[id]
             if (bean != null) {
@@ -491,6 +492,7 @@ class MMKVBroadUtils {
             MMKV.defaultMMKV().encode(KEY_GROUP_LIST_DATA, toJson2(map))
         }
 
+        @Deprecated("废弃")
         fun saveGroupList(list: List<GlobalSmallGroupBroadBean>, viewModelScope: CoroutineScope? = null) {
             getGroupData(viewModelScope) { map ->
                 viewModelScope?.launch {
@@ -517,7 +519,7 @@ class MMKVBroadUtils {
             }
         }
 
-
+        @Deprecated("废弃")
         fun getGroupListData(): HashMap<String, GlobalSmallGroupBroadBean> {
             val decodeString = MMKV.defaultMMKV().decodeString(KEY_GROUP_LIST_DATA)
             return if (decodeString?.isNotEmpty() == true) {
@@ -528,7 +530,7 @@ class MMKVBroadUtils {
             }
         }
 
-
+        @Deprecated("废弃")
         fun getGroupDateListData(): HashMap<String, Long> {
             val decodeString = MMKV.defaultMMKV().decodeString(KEY_GROUP_DATE_LIST_DATA)
             return if (decodeString?.isNotEmpty() == true) {
@@ -540,6 +542,7 @@ class MMKVBroadUtils {
         }
 
 
+        @Deprecated("废弃")
         fun getGroupSaveDateData(groupId: String?, map: HashMap<String, Long>? = null): Long? {
             return if (!TextUtils.isEmpty(groupId)) {
                 val getMap = map ?: getGroupDateListData()
@@ -549,7 +552,7 @@ class MMKVBroadUtils {
             }
         }
 
-
+        @Deprecated("废弃")
         fun saveGroupDate(map: HashMap<String, Long>? = null) {
             MMKV.defaultMMKV().encode(KEY_GROUP_DATE_LIST_DATA, toJson2(map))
         }

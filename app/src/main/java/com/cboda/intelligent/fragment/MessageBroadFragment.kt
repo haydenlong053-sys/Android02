@@ -265,12 +265,13 @@ class MessageBroadFragment : BaseLazyBroadFragment(), I_CEventListener {
 //                    RealmUtil.addUserData(mList.second, lifecycleScope)
 //                }
 //            }
-            friendViewModel.fetchGroupList().observe(viewLifecycleOwner) { mList ->
-                eLogD("getGroupListDataClass", "fetchGroupList-----------${mList.size}")
-                if (mList.isNotEmpty()) {
-                    MMKVBroadUtils.saveGroupList(mList, lifecycleScope)
-                }
-            }
+            // 自研 IM 会话/群资料走 SessionItem + 群详情，不再依赖 api/groupList → MMKV 缓存
+//            friendViewModel.fetchGroupList().observe(viewLifecycleOwner) { mList ->
+//                eLogD("getGroupListDataClass", "fetchGroupList-----------${mList.size}")
+//                if (mList.isNotEmpty()) {
+//                    MMKVBroadUtils.saveGroupList(mList, lifecycleScope)
+//                }
+//            }
         }
 
     }

@@ -183,6 +183,7 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
     /**
      * 查询群信息
      */
+    @Deprecated("废弃")
     suspend fun queryGroupInfo(groupId: String, failInvoke: (code: Int, msg: String) -> Unit = { _, _ -> }): SingleLiveBroadData<GlobalChatGroupBean> {
 //        showLoadingWfc()
         val safeCenterLiveData = SingleLiveBroadData<GlobalChatGroupBean>()

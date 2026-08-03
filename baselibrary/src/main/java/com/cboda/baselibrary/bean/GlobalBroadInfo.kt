@@ -62,6 +62,7 @@ object GlobalBroadInfo {
 //        }
 //    }
 
+    @Deprecated("废弃")
     fun queryGroupInfo(targetId: String, viewModelScope: CoroutineScope? = null, callBack: (GlobalSmallGroupBroadBean?) -> Unit) {
         getGroupData(viewModelScope) {
             callBack.invoke(it[targetId])
