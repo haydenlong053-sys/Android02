@@ -34,6 +34,7 @@ object GlobalBroadInfo {
 //        }
 //    }
 
+    @Deprecated("废弃")
     fun getGroupData(viewModelScope: CoroutineScope? = null, callBack: (HashMap<String, GlobalSmallGroupBroadBean>) -> Unit) {
         if (myGroupListData.isEmpty()) {
             viewModelScope?.launch {
