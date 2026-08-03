@@ -88,9 +88,23 @@ public final class CallMissedLocalStore {
         return hasRoleRecently(ROLE_TIMEOUT_CALLEE);
     }
 
+    /**
+     * 是否为本机「该通」被叫。
+     * <p>
+     * 仅按 callId / room 键判断，不用 peer 键：peer 标记会污染同一对端后续主叫取消文案
+     * （自己拨打取消被误判成「对方已取消」）。
+     */
     public static boolean wasIncoming(@Nullable String callId, @Nullable String peerUserId) {
+        return wasIncomingCall(callId);
+    }
+
+    /** 仅按 callId / room:callId 判断本机是否曾作为该通被叫。 */
+    public static boolean wasIncomingCall(@Nullable String callId) {
+        if (TextUtils.isEmpty(callId)) {
+            return false;
+        }
         int r1 = getRole(callId);
-        int r2 = getRole(peerKey(peerUserId));
+        int r2 = getRole(roomKey(callId));
         return isIncomingRole(r1) || isIncomingRole(r2);
     }
 

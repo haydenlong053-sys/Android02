@@ -740,15 +740,8 @@ public final class MessageContentFormatter {
             if (isCancelCausedByTimeout(callId, peerUserId, status, personalized, cleanedDesc)) {
                 return resolveMissedDisplay(callId, peerUserId, iAmCaller, sentByMe);
             }
-            // 被叫侧收到主叫主动取消
-            if (CallMissedLocalStore.wasIncoming(callId, peerUserId)
-                    || isIncomingDirection(obj, currentUserId, sentByMe)) {
-                return str(R.string.call_remote_cancelled);
-            }
-            if (isPersonalizedCancel(personalized)) {
-                return localizeCallPhrase(personalized);
-            }
-            return iAmCaller ? str(R.string.call_cancelled) : str(R.string.call_remote_cancelled);
+            // 自己拨打取消 → 已取消；对方拨打后取消 → 对方已取消（不盲信服务端「对方已取消」文案）
+            return resolveCancelDisplay(obj, callId, sentByMe, currentUserId, iAmCaller);
         }
         if (isCallStatus(status, "remote_busy")) {
             return str(R.string.call_busy);
@@ -834,6 +827,36 @@ public final class MessageContentFormatter {
             return !caller;
         }
         return !sentByMe;
+    }
+
+    /**
+     * 取消文案：
+     * <ul>
+     *   <li>自己是主叫（自己拨打后取消）→ 已取消</li>
+     *   <li>自己是被叫（对方拨打后取消）→ 对方已取消</li>
+     * </ul>
+     */
+    @NonNull
+    private static String resolveCancelDisplay(@NonNull JsonObject obj,
+                                               @Nullable String callId,
+                                               boolean sentByMe,
+                                               @Nullable String currentUserId,
+                                               boolean iAmCaller) {
+        Boolean caller = resolveIAmCallerOrNull(obj, currentUserId);
+        if (caller != null) {
+            return caller ? str(R.string.call_cancelled) : str(R.string.call_remote_cancelled);
+        }
+        // 仅本通 callId 的来电标记；禁止用 peer 历史来电污染后续主叫取消
+        if (CallMissedLocalStore.wasIncomingCall(callId)) {
+            return str(R.string.call_remote_cancelled);
+        }
+        if (sentByMe || iAmCaller) {
+            return str(R.string.call_cancelled);
+        }
+        if (isIncomingDirection(obj, currentUserId, sentByMe)) {
+            return str(R.string.call_remote_cancelled);
+        }
+        return str(R.string.call_cancelled);
     }
 
     @Nullable
@@ -1576,6 +1599,7 @@ public final class MessageContentFormatter {
             if (CallMissedLocalStore.hasRecentTimeoutCallee()) {
                 return str(R.string.call_missed);
             }
+            // 此处 sentByMe 实参多为 iAmCaller：主叫→已取消，被叫→对方已取消
             return sentByMe ? str(R.string.call_cancelled) : str(R.string.call_remote_cancelled);
         }
         if (d.contains("已拒绝") || d.contains("拒绝")) {
