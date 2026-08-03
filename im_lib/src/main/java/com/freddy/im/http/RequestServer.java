@@ -15,7 +15,7 @@ public final class RequestServer implements IRequestServer {
     @NonNull
     @Override
     public String getHost() {
-//        return "https://im-test.seekweb4.ai/";
+//        return "http://95.40.9.142/";
         return HttpsBroadConfig.myImHttpsHost;
     }
 

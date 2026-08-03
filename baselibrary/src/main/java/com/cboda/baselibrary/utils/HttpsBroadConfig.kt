@@ -32,6 +32,7 @@ object HttpsBroadConfig {
     const val MY_IM_SOCKET_HOST_RELEASE: String = "[{\"host\":\"socket.seekweb4.ai\", \"port\":80}]"
     //自研的短连接http的host
     const val MY_IM_HTTP_HOST_FAT: String = "https://im-test.seekweb4.ai/"
+    const val MY_IM_HTTP_HOST_FAT_IP: String = "http://95.40.9.142/"
     const val MY_IM_HTTP_HOST_RELEASE: String = "https://im-prd.seekweb4.ai/"
     @JvmField
     var myImSocketHost = MY_IM_SOCKET_HOST_RELEASE
@@ -60,7 +61,7 @@ object HttpsBroadConfig {
         "自定义",
         "US\nhttps://app.seekweb4.net",
         "HongKong\nhttps://api.seekweb4.ai",
-        "84\nhttp://119.45.9.228:84",
+        "fat_ip\nhttp://95.40.9.142",
     )
     const val RELEASE_TYPE = 0
     private const val HTTP_TYPE = 1
@@ -69,7 +70,7 @@ object HttpsBroadConfig {
     private const val US_TYPE = 4
     private const val HONGKONG_TYPE = 5
 
-    private const val EIGHT_FOUR = 6
+    private const val FAT_IP = 6
 
     @JvmField
     var currentHostHttpUrlType = RELEASE_TYPE
@@ -147,15 +148,15 @@ object HttpsBroadConfig {
                 myImHttpsHost = MY_IM_HTTP_HOST_RELEASE
             }
 
-            EIGHT_FOUR -> {
-                appHost = "http://119.45.9.228:84"
-                appHost2 = "$appHost/lixin"
-                appImServerHost = "119.45.9.228"
+            FAT_IP -> {
+                appHost = "https://api-fat.seekweb4.net"
+                appHost2 = appHost
+                appImServerHost = "testim.seekweb4.ai"
                 appIcePassword = "aT3BxjPy4MRdC6@"
-                appGroupAvatarHost = "http://119.45.9.228:8888"
-                appAesPwd = "1q30vqwerf8yiac3"
-                myImSocketHost = MY_IM_SOCKET_HOST_RELEASE
-                myImHttpsHost = MY_IM_HTTP_HOST_RELEASE
+                appGroupAvatarHost = "https://api-fat.seekweb4.net"
+                appAesPwd = "f81q30ryiacasda1"
+                myImSocketHost = MY_IM_SOCKET_HOST_FAT
+                myImHttpsHost = MY_IM_HTTP_HOST_FAT_IP
             }
 
             else -> {
