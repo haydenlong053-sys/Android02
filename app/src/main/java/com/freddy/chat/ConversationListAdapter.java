@@ -182,7 +182,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
         SessionItem s = items.get(position);
-        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"getSessionId="+s.getSessionId()+"------"+"getCreateTime="+s.getCreateTime());
+//        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"getSessionId="+s.getSessionId()+"------"+"getCreateTime="+s.getCreateTime());
         String name = WeChatUiHelper.resolveSessionListDisplayName(s, currentUserId);
         String displayName = name.isEmpty()
                 ? holder.itemView.getContext().getString(com.cboda.baselibrary.R.string.conversation_name_fallback)
