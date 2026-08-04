@@ -113,6 +113,10 @@ public final class SessionRealmMapper {
             if (item.getMuteNotify() == null) {
                 entity.setMuteNotify(existing.isMuteNotify());
             }
+            // 本地已有 createTime（群详情写入）则不被 getList 覆盖
+            if (existing.getCreateTime() > 0L) {
+                entity.setCreateTime(existing.getCreateTime());
+            }
         }
         return entity;
     }
