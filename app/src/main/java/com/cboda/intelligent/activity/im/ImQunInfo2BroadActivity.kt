@@ -263,6 +263,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         viewModel = ViewModelProvider(this)[ImQunInfoViewModel::class.java]
         viewModel?.state?.observe(this) { state ->
             if (state.loading) return@observe
+            dismissLoading()
             if (state.loadFailed) {
                 ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_detail_load_failed))
                 return@observe
@@ -304,6 +305,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                 }
             }
         }
+        showLoading()
         viewModel?.load(qunId, currentUserId)
         CEventCenter.registerEventListener(this, GROUP_CHANGE_EVENTS)
         if (!EventBus.getDefault().isRegistered(this)) {
