@@ -61,7 +61,7 @@ object RealmUtil {
             val nick = data.nickName?.trim().orEmpty()
             return nick.takeIf { it.isNotEmpty() }
         } finally {
-            realm.close()
+//            realm.close()
         }
     }
 

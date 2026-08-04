@@ -277,23 +277,17 @@ public final class WeChatUiHelper {
     }
 
     /**
-     * 群成员展示名：群昵称 → 好友备注 → 用户昵称（对齐野火 getGroupMemberDisplayName）。
-     * 避免把「昵称（备注）」整段当作展示名。
+     * 群成员展示名：
+     *
      */
     @NonNull
-    public static String resolveGroupMemberDisplayName(@Nullable GroupMemberItem member,
-                                                       @Nullable String userId) {
-        if (member != null && !TextUtils.isEmpty(member.getGroupNickname())) {
-            return MessageContentFormatter.preferShortDisplayName(member.getGroupNickname());
-        }
-        String friendName = RealmUtil.INSTANCE.findFriendDisplayName(userId);
-        if (!TextUtils.isEmpty(friendName)) {
-            return MessageContentFormatter.preferShortDisplayName(friendName);
-        }
+    public static String resolveGroupMemberDisplayName(@Nullable GroupMemberItem member, @Nullable String userId) {
         if (member != null) {
-            String name = member.getDisplayName();
-            if (!TextUtils.isEmpty(name)) {
-                return MessageContentFormatter.preferShortDisplayName(name);
+            return member.getDisplayName();
+        } else {
+            String friendName = RealmUtil.INSTANCE.findFriendDisplayName(userId);
+            if (!TextUtils.isEmpty(friendName)) {
+                return MessageContentFormatter.preferShortDisplayName(friendName);
             }
         }
         return TextUtils.isEmpty(userId) ? "" : userId;
