@@ -131,7 +131,7 @@ class SecurityVerificationPopup(val context: Context, val loginBean: LoginBean) 
 
 
     private fun checkResultBroadBean(googleCode: String? = null, payPwd: String? = null, securityQuestion: String? = null, resultBean: ResultBroadBean?) {
-        if (null != resultBean && !TextUtils.isEmpty(resultBean.apptoken) && !TextUtils.isEmpty(resultBean.imtoken) && !TextUtils.isEmpty(resultBean.userId)) {
+        if (null != resultBean && !TextUtils.isEmpty(resultBean.apptoken) && ((!HttpsBroadConfig.useSelfImOnly && !TextUtils.isEmpty(resultBean.imtoken)) || HttpsBroadConfig.useSelfImOnly) && !TextUtils.isEmpty(resultBean.userId)) {
             AppBroadUtils.imLogin(
                 context,
                 resultBean.apptoken,
