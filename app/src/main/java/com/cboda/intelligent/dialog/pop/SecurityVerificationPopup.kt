@@ -13,6 +13,7 @@ import com.cboda.baselibrary.bean.LoginBean
 import com.cboda.baselibrary.bean.LoginIdBean
 import com.cboda.baselibrary.bean.LoginReturnBean
 import com.cboda.baselibrary.popup.BaseBottomBroadPop
+import com.cboda.baselibrary.utils.DeviceBroadUtil
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.click
@@ -95,7 +96,7 @@ class SecurityVerificationPopup(val context: Context, val loginBean: LoginBean) 
 
     private fun postIdLogin(googleCode: String? = null, payPwd: String? = null, securityQuestion: String? = null) {
         if (!TextUtils.isEmpty(loginBean.linkId)) {
-            val params = hashMapOf("id" to loginBean.linkId, "clientId" to ChatManagerBroadHolder.gChatManager.getClientId(), "type" to 2)
+            val params = hashMapOf("id" to loginBean.linkId, "clientId" to DeviceBroadUtil.getAndroidId(context), "type" to 2)
             if (!TextUtils.isEmpty(googleCode)) {
                 params["googleCode"] = googleCode
             }

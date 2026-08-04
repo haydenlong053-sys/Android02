@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.core.view.isGone
 import com.cboda.baselibrary.bean.LoginBean
+import com.cboda.baselibrary.utils.DeviceBroadUtil
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.fromJson2
@@ -95,7 +96,7 @@ class LoginVerificationActivity : BaseSimple2BroadActivity() {
 //            loginIdBean.googleCode = googleCode ?: ""
 //            loginIdBean.oldDevCode = oldDevCode ?: ""
 //            loginIdBean.linkId = loginBean.linkId
-            val params = hashMapOf("id" to loginBean.linkId, "clientId" to ChatManagerBroadHolder.gChatManager.getClientId(), "type" to 2)
+            val params = hashMapOf("id" to loginBean.linkId, "clientId" to DeviceBroadUtil.getAndroidId(this@LoginVerificationActivity), "type" to 2)
             if (!TextUtils.isEmpty(googleCode)) {
                 params["googleCode"] = googleCode
             }

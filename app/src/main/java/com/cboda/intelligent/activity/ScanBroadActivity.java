@@ -320,7 +320,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
      * @param s
      */
     public void handleQrCode(String s) {
-        ELogUtilKt.eLogD(ELogUtilKt.APP_TAG,"====handleQrCode===="+s);
+        ELogUtilKt.eLogD(ELogUtilKt.APP_TAG, "====handleQrCode====" + s);
         if (null == s) {
             ToastBroadUtil.show(getString(R.string.scan_image_qr_code_unrecognizable));
             restartScan();
@@ -406,7 +406,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
                         @Override
                         public void onSuccess(Response response, ResultBroadBean commonResultBean) {
                             if (commonResultBean != null && !TextUtils.isEmpty(commonResultBean.groupId)) {
-                                AppBroadUtils.Companion.goChat(ScanBroadActivity.this, commonResultBean.groupId, "1",null);
+                                AppBroadUtils.Companion.goChat(ScanBroadActivity.this, commonResultBean.groupId, "1", null);
                                 finish();
                             } else {
                                 ToastBroadUtil.show(getString(R.string.scan_applied_waiting_group_owner));
@@ -436,7 +436,9 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
 
     }
 
-    /** 自研：扫码 codeId → getGroupByCodeId → applyInGroup */
+    /**
+     * 自研：扫码 codeId → getGroupByCodeId → applyInGroup
+     */
     private void handleSelfImGroupQr(@Nullable String codeId) {
         if (TextUtils.isEmpty(codeId)) {
             ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code));
@@ -524,7 +526,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
         if (HttpsBroadConfig.currentHostHttpUrlType > 1000) {
             Map<String, Object> param = new HashMap<>();
             param.put("id", linkId);
-            param.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
+            param.put("clientId", DeviceBroadUtil.INSTANCE.getAndroidId(this));
             param.put("type", "2");
             param.put("model", DeviceBroadUtil.INSTANCE.getDeviceBrand() + " " + DeviceBroadUtil.INSTANCE.getDeviceModel());
             OkHttpBroadHelper.getInstance().post_json(ScanBroadActivity.this, HttpsBroadConfig.INSTANCE.getAppBaseUrl() + "/idLogin", param, new SpotsCallBroadBack<ResultBroadBean>(ScanBroadActivity.this) {
@@ -579,7 +581,7 @@ public class ScanBroadActivity extends BaseSimpleBroadActivity implements View.O
             @Override
             public void onScannerCompletion(Result rawResult, ParsedResult parsedResult, Bitmap barcode) {
 //                handleQrCode(rawResult.getText());
-                ELogUtilKt.eLogD(ELogUtilKt.APP_TAG,"onScannerCompletion========"+rawResult.getText());
+                ELogUtilKt.eLogD(ELogUtilKt.APP_TAG, "onScannerCompletion========" + rawResult.getText());
                 if (jumpSource == ScanJumpBroadEnum.ETH_TRANSFER.getSourceType() && isEthWalletLinkQrCode(rawResult.getText())) {
                     Intent intent = new Intent();
                     intent.putExtra("scan_result", rawResult.getText());

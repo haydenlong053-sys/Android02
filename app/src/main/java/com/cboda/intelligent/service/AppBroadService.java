@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.cboda.baselibrary.utils.DeviceBroadUtil;
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.cboda.intelligent.myim.model.LoginBroadResult;
 import com.cboda.intelligent.myim.model.PCBroadSession;
@@ -88,7 +89,7 @@ public class AppBroadService implements AppServiceBroadProvider {
         params.put("platform", new Integer(2));
 
         try {
-            params.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
+            params.put("clientId", DeviceBroadUtil.INSTANCE.getAndroidId(null));
         } catch (Exception e) {
             e.printStackTrace();
             callback.onUiFailure(-1, "网络出来问题了。。。");
@@ -133,7 +134,8 @@ public class AppBroadService implements AppServiceBroadProvider {
         params.put("platform", new Integer(2));
 
         try {
-            params.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
+//            params.put("clientId", ChatManagerBroadHolder.gChatManager.getClientId());
+            params.put("clientId", DeviceBroadUtil.INSTANCE.getAndroidId(null));
         } catch (Exception e) {
             e.printStackTrace();
             callback.onUiFailure(-1, "获取clientId失败");

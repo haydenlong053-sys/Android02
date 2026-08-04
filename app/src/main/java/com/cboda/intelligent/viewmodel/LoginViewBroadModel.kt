@@ -227,7 +227,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
 
 
     private fun idLogin(linkId: String, errMsg: String) {
-        val params = hashMapOf("id" to linkId, "clientId" to ChatManagerBroadHolder.gChatManager.getClientId(), "type" to "2", "model" to "${getDeviceBrand()} ${getDeviceModel()}")
+        val params = hashMapOf("id" to linkId, "clientId" to getAndroidId(), "type" to "2", "model" to "${getDeviceBrand()} ${getDeviceModel()}")
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
@@ -396,7 +396,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
         val param =
             mapOf(
                 "eqno" to getAndroidId(),
-                "clientId" to ChatManagerBroadHolder.gChatManager.getClientId(),
+                "clientId" to getAndroidId(),
                 "type" to 2,
                 "model" to model
             )
@@ -455,7 +455,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                 "pwd" to pwd,
                 "code" to code,
                 "eqno" to getAndroidId(),
-                "clientId" to ChatManagerBroadHolder.gChatManager.getClientId(),
+                "clientId" to getAndroidId(),
                 "type" to 2,
                 "model" to model
             )
@@ -516,7 +516,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                 "pwd" to pwd,
                 "code" to code,
                 "eqno" to getAndroidId(),
-                "clientId" to ChatManagerBroadHolder.gChatManager.getClientId(),
+                "clientId" to getAndroidId(),
                 "type" to 2,
                 "model" to model
             )
@@ -589,7 +589,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                 "account" to account,
                 "pwd" to pwd,
                 "eqno" to getAndroidId(),
-                "clientId" to ChatManagerBroadHolder.gChatManager.getClientId(),
+                "clientId" to getAndroidId(),
                 "type" to 2,
                 "model" to model
             )
