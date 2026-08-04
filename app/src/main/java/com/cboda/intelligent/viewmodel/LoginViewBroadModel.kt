@@ -455,18 +455,18 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                 "pwd" to pwd,
                 "code" to code,
                 "eqno" to getAndroidId(),
-                "clientId" to getAndroidId(),
                 "type" to 2,
                 "model" to model
             )
+        param["clientId"] = getAndroidId()
         if (!TextUtils.isEmpty(payPwd)) {
-            param["paywd"] = payPwd
+            param["paywd"] = payPwd ?: ""
         }
         if (!TextUtils.isEmpty(googleCode)) {
-            param["googleCode"] = googleCode
+            param["googleCode"] = googleCode ?: ""
         }
         if (!TextUtils.isEmpty(securityQuestion)) {
-            param["mbda"] = securityQuestion
+            param["mbda"] = securityQuestion ?: ""
         }
 //        eLogD("LoginViewModelClass_pwdLoginMap", param)
         UserServerBroadManager.accLogin(

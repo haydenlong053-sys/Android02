@@ -96,18 +96,19 @@ class SecurityVerificationPopup(val context: Context, val loginBean: LoginBean) 
 
     private fun postIdLogin(googleCode: String? = null, payPwd: String? = null, securityQuestion: String? = null) {
         if (!TextUtils.isEmpty(loginBean.linkId)) {
-            val params = hashMapOf("id" to loginBean.linkId, "clientId" to DeviceBroadUtil.getAndroidId(context), "type" to 2)
+            val params = hashMapOf("id" to loginBean.linkId, "type" to 2)
+            params["clientId"] = DeviceBroadUtil.getAndroidId(context)
             if (!TextUtils.isEmpty(googleCode)) {
-                params["googleCode"] = googleCode
+                params["googleCode"] = googleCode ?: ""
             }
 //        if (!TextUtils.isEmpty(loginIdBean.oldDevCode)) {
 //            params["oldDeviceCode"] = loginIdBean.oldDevCode
 //        }
             if (!TextUtils.isEmpty(payPwd)) {
-                params["paywd"] = payPwd
+                params["paywd"] = payPwd ?: ""
             }
             if (!TextUtils.isEmpty(securityQuestion)) {
-                params["mbda"] = securityQuestion
+                params["mbda"] = securityQuestion ?: ""
             }
             OkHttpBroadHelper.getInstance().post_json(context, HttpsBroadConfig.appBaseUrl + "/idLogin", params.toMap(), object : SpotsCallBroadBack<ResultBroadBean>(context) {
                 override fun onSuccess(response: Response?, resultBean: ResultBroadBean?) {

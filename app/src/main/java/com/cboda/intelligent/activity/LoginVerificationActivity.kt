@@ -96,24 +96,25 @@ class LoginVerificationActivity : BaseSimple2BroadActivity() {
 //            loginIdBean.googleCode = googleCode ?: ""
 //            loginIdBean.oldDevCode = oldDevCode ?: ""
 //            loginIdBean.linkId = loginBean.linkId
-            val params = hashMapOf("id" to loginBean.linkId, "clientId" to DeviceBroadUtil.getAndroidId(this@LoginVerificationActivity), "type" to 2)
+            val params = hashMapOf("id" to loginBean.linkId, "type" to 2)
+            params["clientId"] = DeviceBroadUtil.getAndroidId(this@LoginVerificationActivity)
             if (!TextUtils.isEmpty(googleCode)) {
-                params["googleCode"] = googleCode
+                params["googleCode"] = googleCode ?: ""
             }
             if (!TextUtils.isEmpty(oldDevCode)) {
-                params["oldDeviceCode"] = oldDevCode
+                params["oldDeviceCode"] = oldDevCode ?: ""
             }
             if (!TextUtils.isEmpty(payPwd)) {
-                params["paywd"] = payPwd
+                params["paywd"] = payPwd ?: ""
             }
             if (!TextUtils.isEmpty(securityQuestion)) {
-                params["mbda"] = securityQuestion
+                params["mbda"] = securityQuestion ?: ""
             }
 
             OkHttpBroadHelper.getInstance().post_json(this, HttpsBroadConfig.appBaseUrl + "/idLogin", params.toMap(), object : SpotsCallBroadBack<ResultBroadBean>(this) {
                 override fun onSuccess(response: Response?, resultBean: ResultBroadBean?) {
                     resultBean?.let {
-                        AppBroadUtils.imLogin(this@LoginVerificationActivity, resultBean.apptoken, resultBean.userId, resultBean.imtoken,"LoginVerificationActivity")
+                        AppBroadUtils.imLogin(this@LoginVerificationActivity, resultBean.apptoken, resultBean.userId, resultBean.imtoken, "LoginVerificationActivity")
                     } ?: showToastMain(com.cboda.baselibrary.R.string.device_error)
                 }
 
