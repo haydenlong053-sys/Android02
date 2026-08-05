@@ -60,14 +60,27 @@ public final class MessageAvatarBinder {
     }
 
     /**
-     * 会话列表头像：单聊展示信用分 / 靓号 / 会员；群聊仅头像。
-     * 对齐野火 {@code SingleConversationViewBroadHolder}，数据来自野火用户表。
+     * 会话列表头像：单聊展示信用分 / 靓号 / 会员；群聊展示创建天数角标（对齐野火）。
+     * 群天数取会话表 {@link SessionItem#getCreateTime()}（由群详情 {@code GroupVo.createTime} 入库）。
+     * 天数为 0 或 createTime 为空时不展示。
      */
     public static void bindSessionListAvatar(@NonNull VpGradeView avatarView,
                                              @Nullable SessionItem session,
                                              @Nullable String currentUserId) {
         String portrait = WeChatUiHelper.resolveAvatarUrl(session);
-        if (session == null || !MessageType.isSingleChat(session.getConversation())) {
+        if (session == null) {
+            avatarView.setData(null, null, null, null, null);
+            return;
+        }
+        if (MessageType.isGroupChat(session.getConversation())) {
+            // 对齐野火 GroupConversationViewBroadHolder：紫色「N天」角标
+            avatarView.loadUserImg(portrait);
+            avatarView.setData3(null, null, null, null);
+            Integer days = groupDaysFromCreateTime(session.getCreateTime());
+            avatarView.setRegisterDay(days, R.string.msg_days_unit2);
+            return;
+        }
+        if (!MessageType.isSingleChat(session.getConversation())) {
             avatarView.setData(portrait, null, null, null, null);
             return;
         }
@@ -90,6 +103,22 @@ public final class MessageAvatarBinder {
             }
             return Unit.INSTANCE;
         });
+    }
+
+    /**
+     * 由 GroupVo/会话 createTime 计算群天数；无效或不足 1 天返回 null（不展示）。
+     */
+    @Nullable
+    static Integer groupDaysFromCreateTime(long createTime) {
+        long millis = WeChatUiHelper.normalizeToMillis(createTime);
+        if (millis <= 0L) {
+            return null;
+        }
+        long days = (System.currentTimeMillis() - millis) / (24L * 60L * 60L * 1000L);
+        if (days <= 0L) {
+            return null;
+        }
+        return (int) days;
     }
 
     /**

@@ -36,6 +36,10 @@ public final class SessionLastMsgMerge {
             if (item.getMuteNotify() == null) {
                 item.setMuteNotify(local.isMuteNotify());
             }
+            // getList 通常不带 createTime；回填本地（GroupVo 群详情写入）供群天数展示
+            if (item.getCreateTime() <= 0L && local.getCreateTime() > 0L) {
+                item.setCreateTime(local.getCreateTime());
+            }
             if (!TextUtils.isEmpty(item.getLastMessageId())) {
                 continue;
             }

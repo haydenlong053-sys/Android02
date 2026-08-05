@@ -58,6 +58,8 @@ import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.http.ImGroupHttpExample;
 import com.freddy.im.group.GroupMuteEvaluator;
+import com.freddy.im.db.ImLocalStore;
+import com.freddy.im.http.GroupVoSessionMapper;
 import com.freddy.im.http.model.im.GroupBusiExt;
 import com.freddy.im.http.model.im.GroupVo;
 import com.freddy.im.http.model.im.GroupNoticeRes;
@@ -622,6 +624,13 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         }
         groupMuteFetched = true;
         groupAllMute = group.isAllMute();
+        // 写入 GroupVo.createTime，供会话列表群天数角标展示
+        SessionItem merged = GroupVoSessionMapper.toSessionItem(
+                group, sessionItem, sessionItem.getSessionId(), false);
+        if (merged.getCreateTime() > 0L) {
+            sessionItem.setCreateTime(merged.getCreateTime());
+            ImLocalStore.saveSessions(Collections.singletonList(merged));
+        }
         applyShopEntryFromBusiExt(group.getBusiExt());
         fetchMutedMembersOnly(sessionItem.getSessionId());
     }

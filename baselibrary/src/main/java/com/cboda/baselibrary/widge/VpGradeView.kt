@@ -133,7 +133,7 @@ class VpGradeView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     @SuppressLint("SetTextI18n")
     fun setRegisterDay(registerDay: Int?, @StringRes res: Int = R.string.msg_score_unit3) {
-        if (null != registerDay) {
+        if (registerDay != null && registerDay > 0) {
             binding.vpGvGradeTv.setBackColor(R.color.color_956BEC, R.color.color_7A66FA)
             binding.vpGvGradeTv.setTxtColor(R.color.white)
             binding.vpGvGradeTv.text = registerDay.toString() + getAppStr(res, context)

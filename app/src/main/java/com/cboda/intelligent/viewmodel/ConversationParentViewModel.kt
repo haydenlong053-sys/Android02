@@ -6,7 +6,9 @@ import androidx.lifecycle.map
 import com.cboda.intelligent.base.BaseViewBroadModel
 import com.freddy.chat.ConversationSessionCategory
 import com.freddy.chat.im.IMSClientBootstrap
+import com.freddy.im.MessageType
 import com.freddy.im.db.ImLocalStore
+import com.freddy.im.http.GroupDetailFetcher
 import com.freddy.im.http.ImMessageHttpExample
 import com.freddy.im.http.model.im.ConversationListContent
 import com.freddy.im.http.model.im.SessionItem
@@ -63,6 +65,7 @@ class ConversationParentViewModel : BaseViewBroadModel() {
         ImLocalStore.loadSessions { cached ->
             if (!cached.isNullOrEmpty()) {
                 publishSessions(cached)
+                ensureGroupCreateTimes(cached)
             }
         }
         _loading.postValue(true)
@@ -72,11 +75,40 @@ class ConversationParentViewModel : BaseViewBroadModel() {
             object : OnHttpImListener<ConversationListContent> {
                 override fun onHttpImSuccess(content: ConversationListContent) {
                     _loading.postValue(false)
-                    publishSessions(content.getSessionList())
+                    val list = content.getSessionList()
+                    publishSessions(list)
+                    ensureGroupCreateTimes(list)
                 }
             },
             { _loading.postValue(false) },
         )
+    }
+
+    /**
+     * 群会话缺 createTime 时拉 im/group/detail（GroupVo.createTime）写入会话库并刷新角标。
+     */
+    private fun ensureGroupCreateTimes(sessions: List<SessionItem>?) {
+        if (sessions.isNullOrEmpty()) {
+            return
+        }
+        val missingIds = sessions
+            .filter { MessageType.isGroupChat(it.conversation) && it.createTime <= 0L }
+            .mapNotNull { it.sessionId?.takeIf { id -> id.isNotBlank() } }
+            .distinct()
+        if (missingIds.isEmpty()) {
+            return
+        }
+        GroupDetailFetcher.fetchSessionItems(missingIds) { map ->
+            val updates = ArrayList(map.values.filter { it.createTime > 0L })
+            if (updates.isEmpty()) {
+                return@fetchSessionItems
+            }
+            ImLocalStore.saveSessionsThen(updates) {
+                android.os.Handler(android.os.Looper.getMainLooper()).post {
+                    mergeSessions(updates)
+                }
+            }
+        }
     }
 
     fun mergeSessions(updates: List<SessionItem>?) {

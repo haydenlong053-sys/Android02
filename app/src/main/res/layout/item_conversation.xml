@@ -22,7 +22,7 @@
         android:paddingEnd="@dimen/wechat_list_item_padding_h"
         android:paddingBottom="@dimen/wechat_list_item_padding_v">
 
-        <!-- 头像 + 会员角标 + 信用分/靓号条（对齐野火会话列表 VpGradeView） -->
+        <!-- 头像 + 群天数角标（对齐野火会话列表 VpGradeView） -->
         <com.cboda.baselibrary.widge.VpGradeView
             android:id="@+id/avatar"
             android:layout_width="wrap_content"
@@ -30,7 +30,9 @@
             app:user_img_width="@dimen/wechat_avatar_size"
             app:user_vip_width="25dp"
             app:user_grade_height="14dp"
-            app:user_grade_text_size="8dp" />
+            app:user_grade_pad="4dp"
+            app:user_grade_text_size="8dp"
+            app:user_vip_margin_bottom="-10dp" />
 
         <LinearLayout
             android:layout_width="0dp"

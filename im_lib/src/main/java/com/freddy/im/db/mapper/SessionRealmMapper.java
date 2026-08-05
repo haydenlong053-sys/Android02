@@ -115,8 +115,9 @@ public final class SessionRealmMapper {
             if (item.getMuteNotify() == null) {
                 entity.setMuteNotify(existing.isMuteNotify());
             }
-            // 本地已有 createTime（群详情写入）则不被 getList 覆盖
-            if (existing.getCreateTime() > 0L) {
+            // getList 通常不带 createTime；本地已有（来自 GroupVo 群详情）则保留。
+            // 若本次 item 已带远端 createTime（群详情入库），优先用远端值。
+            if (item.getCreateTime() <= 0L && existing.getCreateTime() > 0L) {
                 entity.setCreateTime(existing.getCreateTime());
             }
         }
