@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 
 import androidx.annotation.NonNull;
 
+import com.freddy.im.http.model.im.BaseMsgResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.hjq.http.EasyLog;
@@ -90,7 +91,14 @@ public final class ImRequestHandler implements IRequestHandler {
         }
 
         try {
-            return gson.fromJson(text, type);
+            Object parsed = gson.fromJson(text, type);
+            if (parsed instanceof BaseMsgResponse) {
+                BaseMsgResponse<?> biz = (BaseMsgResponse<?>) parsed;
+                if (!biz.isSuccess()) {
+                    ImAuthInvalidHandler.handleIfNeeded(biz.getErrorCode(), biz.getErrorMsg());
+                }
+            }
+            return parsed;
         } catch (JsonSyntaxException e) {
             throw new DataException("JSON 解析失败", e);
         }

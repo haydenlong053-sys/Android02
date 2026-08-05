@@ -56,6 +56,7 @@ import com.cboda.intelligent.myim.service.WfcDefaultPortraitBroadProvider
 import com.freddy.chat.im.ImAppLifecycleObserver
 import com.freddy.im.group.MeetGroupMuteHelper
 import com.freddy.im.http.EasyHttpBootstrap
+import com.freddy.im.http.ImAuthInvalidHandler
 import com.freddy.webtrc.utils.CallUtil
 import com.freddy.webtrc.utils.CallUtil.initCall
 import com.lzy.okgo.OkGo
@@ -68,7 +69,7 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 
 
-class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
+class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener, ImAuthInvalidHandler.Listener {
 
 
     companion object {
@@ -178,6 +179,8 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
     private fun initOriginalIm() {
         EasyHttpBootstrap.init(this)
         ProcessLifecycleOwner.get().lifecycle.addObserver(ImAppLifecycleObserver())
+        // 自研 IM HTTP errorCode=1001007 无效 token → Toast + 失效重登
+        ImAuthInvalidHandler.setListener(this)
     }
 
     private val clearUserDataListener = Observer<Boolean> { _ ->
@@ -381,6 +384,16 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener {
             longLinkHost = host
             longLinkPort = port
         }
+    }
+
+    override fun onImTokenInvalid(errorCode: Int, errorMsg: String?) {
+        val tip = if (!errorMsg.isNullOrBlank()) {
+            errorMsg
+        } else {
+            getString(R.string.dengluguoqi)
+        }
+        ToastBroadUtils.show(tip)
+        AppBroadUtils.exit(this)
     }
 
 

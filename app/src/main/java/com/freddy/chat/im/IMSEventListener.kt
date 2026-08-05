@@ -7,11 +7,14 @@ import android.os.Looper
 import android.text.TextUtils
 import com.blankj.utilcode.util.ThreadUtils
 import com.cboda.baselibrary.app.UtilBroadApplication
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.baselibrary.utils.toLog
 import com.cboda.chatui.quickmeet.MeetCallManager
+import com.cboda.intelligent.R
+import com.cboda.intelligent.utils.AppBroadUtils
 import com.freddy.chat.im.othbusi.OthBusiSigHandlers
 import com.freddy.im.bean.AppMessage
 import com.freddy.im.call.CallMissedLocalStore
@@ -20,6 +23,7 @@ import com.freddy.im.call.CallSignalSender
 import com.freddy.im.crypto.ImCryptoKeys
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.db.repository.ImMessageRepository.OnMessageUpdatedCallback
+import com.freddy.im.http.ImHttpConfig
 import com.freddy.im.http.model.im.SessionItem
 import com.freddy.im.listener.OnEventListener
 import com.freddy.im.message.ImGroupChangeManager
@@ -34,11 +38,13 @@ import com.freddy.im.signal.ImSignalProtos.MessageReadSig
 import com.freddy.im.signal.ImSignalProtos.MessageRepealSig
 import com.freddy.im.signal.ImSignalProtos.NewMsgSignal
 import com.freddy.im.signal.ImSignalProtos.NewMsgSignal.MsgSig
+import com.freddy.im.signal.ImSignalProtos.OfflineMsg
 import com.freddy.im.signal.ImSignalProtos.TransferGroupSig
 import com.freddy.webtrc.activity.CallActivity
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
+import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.LinkedHashMap
 import kotlin.collections.MutableList
 import kotlin.collections.MutableMap
@@ -56,6 +62,9 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
     @Volatile
     private var rsaPublicKeyPem: String? = null
 
+    /** 防止重复 OFFLINE 推送多次 exit。 */
+    private val kickedOfflineHandled = AtomicBoolean(false)
+
     override fun onSignalResponse(res: ImSignalProtos.SignalResponse?) {
         if (res?.hasHeader() == false) {
             return
@@ -72,6 +81,12 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
             return
         }
         eLogD(tAG, "收到服务端的onSignalPush信令响应cmd: " + push.header.cmd)
+
+        // 0x0004 下线通知：被踢下线 → 提示并走失效登录
+        if (push.header.cmd == ImSignalProtos.Cmd.OFFLINE_VALUE) {
+            handleOfflineKick(push)
+            return
+        }
 
         if (push.header.cmd == ImSignalProtos.Cmd.NEW_MSGSIG_VALUE && push.hasBody()) {
             try {
@@ -296,6 +311,34 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
         else if (push.header.cmd == ImSignalProtos.Cmd.OTHER_BUSI_VALUE && push.hasBody()) {
             eLogD(tAG, "收到 OTHER_BUSI，bodySize=${push.body.size()}")
             OthBusiSigHandlers.get().dispatch(push.body.toByteArray())
+        }
+    }
+
+    /**
+     * 0x0004 OFFLINE / OfflineMsg：设备被踢下线。
+     * 示例 body：code=1, reason=kick out
+     */
+    private fun handleOfflineKick(push: ImSignalProtos.SignalPush) {
+        var code = -1
+        var reason = ""
+        if (push.hasBody() && push.body.size() > 0) {
+            try {
+                val offline = OfflineMsg.parseFrom(push.body.toByteArray())
+                code = offline.code
+                if (offline.hasReason()) {
+                    reason = offline.reason
+                }
+            } catch (e: Exception) {
+                eLogD(tAG, "解析 OfflineMsg 失败", e)
+            }
+        }
+        eLogD(tAG, "OFFLINE(cmd=0x0004) code=$code reason=$reason")
+        ThreadUtils.getMainHandler().post {
+            if (!kickedOfflineHandled.compareAndSet(false, true)) {
+                return@post
+            }
+            ToastBroadUtils.show(getAppContext().getString(R.string.im_kicked_offline))
+            AppBroadUtils.exit(getAppContext())
         }
     }
 

@@ -49,6 +49,7 @@
     <string name="qitashebeidenglu">Account has been logged in on another device</string>
     <string name="queding">Confirm</string>
     <string name="dengluguoqi">Login information has expired, please log in again</string>
+    <string name="im_kicked_offline">Your device has been logged in elsewhere</string>
     <string name="faqiqunliao">Start group chat</string>
     <string name="tianjiapengyou">Add friend</string>
     <string name="saoyisao">Scan</string>
