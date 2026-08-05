@@ -29,6 +29,7 @@ import com.freddy.im.call.CallDurationLocalStore
 import com.freddy.im.call.CallSignalSender
 import com.freddy.webtrc.R
 import com.freddy.webtrc.activity.CallActivity
+import com.freddy.webtrc.utils.CallRingPlayer
 import com.freddy.webtrc.utils.CallUtil
 import io.livekit.android.events.RoomEvent
 import kotlinx.coroutines.CoroutineScope
@@ -132,8 +133,10 @@ class CallFloatService : Service() {
                             }
                             if (!uid.isNullOrBlank()) {
                                 CallSessionHolder.markRemoteConnected(uid)
+                                CallRingPlayer.stop()
                             } else if (CallUtil.hasRemoteParticipant()) {
                                 CallSessionHolder.markRemoteConnected(null)
+                                CallRingPlayer.stop()
                             }
                             refreshFloatContent()
                         }
@@ -171,12 +174,14 @@ class CallFloatService : Service() {
 
     private fun endCallFromFloat(sendSignal: Boolean) {
         if (!CallSessionHolder.active && !CallUtil.isRoomConnected()) {
+            CallRingPlayer.stop()
             stopSelf()
             return
         }
         if (sendSignal) {
             sendLeaveSignalFromHolder()
         }
+        CallRingPlayer.stop()
         CallUtil.leaveRoom(this)
         CallSessionHolder.clear()
         hideFloatBox()

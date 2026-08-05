@@ -39,6 +39,7 @@ import com.freddy.webtrc.R
 import com.freddy.webtrc.floatcall.CallFloatService
 import com.freddy.webtrc.floatcall.CallSessionHolder
 import com.freddy.webtrc.utils.BroadE
+import com.freddy.webtrc.utils.CallRingPlayer
 import com.freddy.webtrc.utils.CallUtil
 import com.freddy.webtrc.widget.MultiCallParticipantItem
 import java.lang.ref.WeakReference
@@ -178,6 +179,19 @@ class CallActivity : AppCompatActivity() {
                 startMultiParticipantRingTimeouts()
             }
         }
+        startRingIfNeeded()
+    }
+
+    /** 接通前播放野火同款铃声；来电额外循环震动。悬浮窗恢复且已在振铃时不重复开播。 */
+    private fun startRingIfNeeded() {
+        if (callConnected || finishing) {
+            return
+        }
+        CallRingPlayer.start(applicationContext, incoming = !outgoing)
+    }
+
+    private fun stopRing() {
+        CallRingPlayer.stop()
     }
 
     private fun parseIntent() {
@@ -270,7 +284,10 @@ class CallActivity : AppCompatActivity() {
             incomingActionContainer.visibility = View.GONE
         }
         speakerImageView.isSelected = speakerOn
-        applySpeakerRoute()
+        // 振铃阶段由 CallRingPlayer 使用 MODE_NORMAL + STREAM_RING；接通后再切通话路由
+        if (callConnected) {
+            applySpeakerRoute()
+        }
     }
 
     private fun applyMultiInitialUi() {
@@ -285,7 +302,9 @@ class CallActivity : AppCompatActivity() {
             incomingActionContainer.visibility = View.GONE
         }
         speakerImageView.isSelected = speakerOn
-        applySpeakerRoute()
+        if (callConnected) {
+            applySpeakerRoute()
+        }
     }
 
     /** 多人：网格展示自己 + 被邀请成员（对齐 MultiCallAudioBroadFragment）。 */
@@ -532,6 +551,7 @@ class CallActivity : AppCompatActivity() {
     }
 
     private fun acceptCall() {
+        stopRing()
         val id = if (!TextUtils.isEmpty(callId)) callId else roomName
         if (!TextUtils.isEmpty(callUrl) && !TextUtils.isEmpty(callToken)) {
             incomingActionContainer.visibility = View.GONE
@@ -540,6 +560,7 @@ class CallActivity : AppCompatActivity() {
             } else {
                 outgoingActionContainer?.visibility = View.VISIBLE
             }
+            applySpeakerRoute()
             joinCurrentRoom()
             if (!TextUtils.isEmpty(id) && !TextUtils.isEmpty(targetId)) {
                 val gid = groupId.takeIf { it.isNotBlank() }
@@ -576,6 +597,7 @@ class CallActivity : AppCompatActivity() {
                 } else {
                     outgoingActionContainer?.visibility = View.VISIBLE
                 }
+                applySpeakerRoute()
                 joinCurrentRoom()
                 val gid = groupId.takeIf { it.isNotBlank() }
                 eLogD(tAG, "接听通话(拉token后) callId=${if (!TextUtils.isEmpty(callId)) callId else roomName} toUserId=$targetId groupId=$gid")
@@ -714,6 +736,7 @@ class CallActivity : AppCompatActivity() {
     private fun onCallConnected() {
         if (callConnected) return
         callConnected = true
+        stopRing()
         cancelOutgoingRingTimeout()
         connectedAtMs = System.currentTimeMillis()
         incomingActionContainer.visibility = View.GONE
@@ -722,6 +745,7 @@ class CallActivity : AppCompatActivity() {
         } else {
             outgoingActionContainer?.visibility = View.VISIBLE
         }
+        applySpeakerRoute()
         updateDurationText()
         durationHandler.removeCallbacks(durationTicker)
         durationHandler.post(durationTicker)
@@ -777,6 +801,7 @@ class CallActivity : AppCompatActivity() {
     }
 
     private fun hangup(sendSignal: Boolean = true, timeoutNoAnswer: Boolean = false) {
+        stopRing()
         cancelOutgoingRingTimeout()
         cancelAllParticipantRingTimeouts()
         if (timeoutNoAnswer) {
@@ -964,11 +989,17 @@ class CallActivity : AppCompatActivity() {
         val keepRoom = CallSessionHolder.keepRoomOnDestroy
         CallSessionHolder.keepRoomOnDestroy = false
         if (!finishing && !keepRoom) {
+            stopRing()
             CallUtil.leaveRoom(this)
             CallSessionHolder.clear()
             CallFloatService.stop(applicationContext)
+        } else if (finishing) {
+            stopRing()
         }
-        restoreAudio()
+        // 缩小悬浮：保持振铃；结束通话时再恢复 AudioManager
+        if (!keepRoom) {
+            restoreAudio()
+        }
         wakeLock?.let {
             if (it.isHeld) it.release()
         }
@@ -999,8 +1030,8 @@ class CallActivity : AppCompatActivity() {
         }
         muteImageView.isSelected = muted
         speakerImageView.isSelected = speakerOn
-        applySpeakerRoute()
         if (callConnected) {
+            applySpeakerRoute()
             incomingActionContainer.visibility = View.GONE
             if (isMultiCall) {
                 connectedContainer?.visibility = View.VISIBLE
@@ -1121,6 +1152,7 @@ class CallActivity : AppCompatActivity() {
                 cancelled -> ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_remote_cancelled)
                 else -> ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
             }
+            CallRingPlayer.stop()
             CallUtil.leaveRoom(ctx)
             CallFloatService.stop(ctx)
             CallSessionHolder.clear()
@@ -1145,6 +1177,7 @@ class CallActivity : AppCompatActivity() {
             }
             if (CallSessionHolder.matches(matchId)) {
                 CallSessionHolder.markRemoteConnected(fromUserId)
+                CallRingPlayer.stop()
             }
         }
 
