@@ -11,7 +11,6 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -353,15 +352,6 @@ public class MessageListInputBroadPanel extends FrameLayout
             public void onSingleClick(View v) {
                 sendVoiceMsg();
             }
-        });
-        editText.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_SEND
-                    || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER
-                    && event.getAction() == KeyEvent.ACTION_DOWN)) {
-                dispatchSend();
-                return true;
-            }
-            return false;
         });
         editText.addTextChangedListener(new TextWatcher() {
             @Override
