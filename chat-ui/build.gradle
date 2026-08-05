@@ -84,7 +84,8 @@ dependencies {
     api libs.androidx.lifecycle.process
     api libs.flexbox
     api libs.afollestad.core
-    api libs.king.zxing
+//    api libs.king.zxing
+    api("com.github.jenly1314:zxing-lite:3.5.0")
     api libs.wheelpicker
     api libs.agora.meet
 //    api libs.agora.screen.share

@@ -167,9 +167,9 @@ dependencies {
     implementation libs.pickerview
     implementation libs.eventbus
     implementation libs.sonic
-    implementation libs.zxing
+//    implementation libs.zxing
     implementation libs.shadowlayout
-    implementation libs.zxingscanner
+//    implementation libs.zxingscanner
     implementation libs.roundedimageview
     implementation libs.bigimageviewpager
     implementation libs.mnpasswordedittext
@@ -184,6 +184,7 @@ dependencies {
     implementation libs.datastore.preferences
     implementation libs.rootbeer
     implementation 'com.github.DSAppTeam:PanelSwitchHelper:v1.5.14'
+//    implementation("com.github.jenly1314:zxing-lite:3.5.0")
     implementation(libs.xpopup) {
         exclude group: "com.davemorrissey.labs", module: "subsampling-scale-image-view-androidx"
     }

@@ -32,7 +32,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import com.cboda.baselibrary.utils.EncryptUtil
 import com.cboda.intelligent.activity.PaySuccessBroadActivity
-import com.cboda.intelligent.activity.ScanBroadActivity
 import com.cboda.intelligent.compose.wallet.WTAssetScreen
 import com.cboda.intelligent.compose.wallet.WTAddTokenScreen
 import com.cboda.intelligent.compose.wallet.WTBackupScreen
@@ -51,6 +50,7 @@ import com.cboda.intelligent.configuration.ScanJumpBroadEnum
 import com.cboda.intelligent.model.CreateWalletRequest
 import com.cboda.intelligent.model.DeleteWalletRequest
 import com.cboda.intelligent.repository.WTRepository
+import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.viewmodel.WTViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -220,9 +220,7 @@ fun WTFlowHost(
             WTAssetScreen(
                 onBack = { onBack?.invoke() },
                 onScanClick = {
-                    val intent = Intent(context, ScanBroadActivity::class.java)
-                    intent.putExtra("jumpSource", ScanJumpBroadEnum.ETH_TRANSFER.sourceType)
-                    scanLauncher.launch(intent)
+                    scanLauncher.launch(JumpBroadUtils.getScanIntent(ScanJumpBroadEnum.ETH_TRANSFER.sourceType,context))
                 },
                 onTransferClick = {
                     navController.navigate(WTRoute.transferWt(null, null, null))

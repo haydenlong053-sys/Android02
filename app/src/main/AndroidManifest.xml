@@ -402,7 +402,7 @@
             android:name="com.cboda.intelligent.activity.CiecelBroadActivity"
             android:exported="false" />
         <activity
-            android:name="com.cboda.intelligent.activity.ScanBroadActivity"
+            android:name="com.cboda.intelligent.activity.ScanActivity"
             android:exported="false" />
         <activity
             android:name="com.cboda.intelligent.activity.RegionBroadActivity"

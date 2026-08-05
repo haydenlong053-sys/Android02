@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseLazyBroadFragment
 import com.cboda.intelligent.activity.CiecelBroadActivity
-import com.cboda.intelligent.activity.ScanBroadActivity
 import com.cboda.intelligent.activity.SignInBroadActivity
 import com.cboda.intelligent.adapter.FaxianBroadAdapter
 import com.cboda.select.picture.entity.DataListBroadBean
@@ -19,6 +18,7 @@ import com.cboda.intelligent.configuration.ScanJumpBroadEnum
 import com.cboda.intelligent.utils.BaseBroadCallback
 import com.cboda.intelligent.utils.OkHttpBroadHelper
 import com.cboda.intelligent.net.BroadUrl
+import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.StringBroadUtil
 import com.cboda.intelligent.widge.BadgeBroadView
 import com.cboda.intelligent.utils.JumpBroadUtils.Companion.startH5Activity
@@ -75,9 +75,10 @@ class FaXianBroadFragment:BaseLazyBroadFragment() {
 
 
         llSao?.setOnClickListener {//扫一扫
-            val intent = Intent(context, ScanBroadActivity::class.java)
-            intent.putExtra("jumpSource",ScanJumpBroadEnum.Find.sourceType)
-            context?.startActivity(intent)
+//            val intent = Intent(context, ScanBroadActivity::class.java)
+//            intent.putExtra("jumpSource",ScanJumpBroadEnum.Find.sourceType)
+//            context?.startActivity(intent)
+            JumpBroadUtils.startScanAct(ScanJumpBroadEnum.Find.sourceType,context)
         }
         llFenxaing?.setOnClickListener{//好友分享
             val intent = Intent(context, CiecelBroadActivity::class.java)

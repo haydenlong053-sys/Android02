@@ -49,6 +49,7 @@ import com.cboda.intelligent.activity.QunNameBroadActivity
 import com.cboda.intelligent.activity.QunNichengBroadActivity
 import com.cboda.intelligent.activity.QunTouSuBroadActivity
 import com.cboda.intelligent.activity.QunUserList2BroadActivity
+import com.cboda.intelligent.activity.ScanActivity
 import com.cboda.intelligent.activity.im.ImGroupIntent
 import com.cboda.intelligent.activity.im.ImQunGerenJInyanTimeBroadActivity
 import com.cboda.intelligent.activity.im.ImQunGerenPageBroadActivity
@@ -63,7 +64,6 @@ import com.cboda.intelligent.activity.im.ImQunMemberListBroadActivity
 import com.cboda.intelligent.activity.im.ImQunNameBroadActivity
 import com.cboda.intelligent.activity.im.ImQunUserList2BroadActivity
 import com.cboda.intelligent.activity.im.ImXuanQunJinYanBroadActivity
-import com.cboda.intelligent.activity.ScanBroadActivity
 import com.cboda.intelligent.activity.SearchUserBroadActivity
 import com.cboda.intelligent.activity.SjqlBroadActivity
 import com.cboda.intelligent.activity.TestActivity
@@ -101,6 +101,7 @@ class JumpBroadUtils {
 //                eLogD(tAG, "actName2:$actName")
 //            }
         }
+
 
         fun startMainActivity(context: Context? = null, type: String = "") {
             val mContext = getAppContext(context)
@@ -309,6 +310,7 @@ class JumpBroadUtils {
             val intent = Intent(context, AbsentKickRulesBroadActivity::class.java)
             context?.startActivity(intent)
         }
+
         /** 自研 IM 群详情入口。 */
         fun startImQunInfoActivity(context: Context?, qunId: String) {
             val intent = Intent(context, ImQunInfo2BroadActivity::class.java)
@@ -671,14 +673,24 @@ class JumpBroadUtils {
             context: Context? = null,
             startForResult: ActivityResultLauncher<Intent>? = null
         ) {
-            val mContext = getAppContext(context)
-            val intent = Intent(mContext, ScanBroadActivity::class.java)
-            intent.putExtra("jumpSource", jumpSource)
+            val intent = getScanIntent(jumpSource)
             if (null != startForResult) {
                 startForResult.launch(intent)
             } else {
-                mContext.startActivity(intent)
+                getAppContext(context).startActivity(intent)
             }
+        }
+
+
+        fun getScanIntent(jumpSource: Int, context: Context? = null): Intent {
+            val intent = Intent(getAppContext(context), ScanActivity::class.java)
+            intent.putExtra("jumpSource", jumpSource)
+            return intent
+        }
+
+
+        fun startScanAct(jumpSource: Int, context: Context? = null) {
+            getAppContext(context).startActivity(getScanIntent(jumpSource))
         }
 
         fun startInputTipsActivity3(context: Context?, uid: String, qunid: String) {

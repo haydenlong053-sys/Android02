@@ -21,7 +21,6 @@ import com.cboda.intelligent.compose.BlurFabButton
 import com.cboda.intelligent.compose.MorePopUp
 import com.cboda.intelligent.holder.CommanConfimBroadHolder
 import com.cboda.intelligent.holder.XiaoXiMoreBroadHolder
-import com.cboda.intelligent.activity.ScanBroadActivity
 import com.cboda.intelligent.configuration.ScanJumpBroadEnum
 import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.intelligent.utils.JumpBroadUtils
@@ -212,9 +211,10 @@ class TongXunLuBroadFragment:BaseLazyBroadFragment() {
     }
 
     private fun saoyisao() {
-        val intent = Intent(context, ScanBroadActivity::class.java)
-        intent.putExtra("jumpSource",ScanJumpBroadEnum.Contacts.sourceType)
-        startActivity(intent)
+//        val intent = Intent(context, ScanBroadActivity::class.java)
+//        intent.putExtra("jumpSource",ScanJumpBroadEnum.Contacts.sourceType)
+//        startActivity(intent)
+        JumpBroadUtils.startScanAct(ScanJumpBroadEnum.Contacts.sourceType,context)
     }
 
     private fun addFragment(targetFragment: Fragment) {

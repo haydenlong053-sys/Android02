@@ -45,7 +45,6 @@ import com.cboda.intelligent.holder.CommanConfimBroadHolder
 import com.cboda.intelligent.holder.XiaoXiMoreBroadHolder
 import com.cboda.intelligent.activity.NoticeDetailBroadActivity
 import com.cboda.intelligent.activity.NoticeListBroadActivity
-import com.cboda.intelligent.activity.ScanBroadActivity
 import com.cboda.intelligent.configuration.CommonBroadConfig
 import com.cboda.intelligent.configuration.ScanJumpBroadEnum
 import com.cboda.intelligent.model.NoticeInfoBroadBean
@@ -581,9 +580,10 @@ class MessageBroadFragment : BaseLazyBroadFragment(), I_CEventListener {
     }
 
     private fun saoyisao() {
-        val intent = Intent(context, ScanBroadActivity::class.java)
-        intent.putExtra("jumpSource", ScanJumpBroadEnum.Message.sourceType)
-        startActivity(intent)
+//        val intent = Intent(context, ScanBroadActivity::class.java)
+//        intent.putExtra("jumpSource", ScanJumpBroadEnum.Message.sourceType)
+//        startActivity(intent)
+        JumpBroadUtils.startScanAct(ScanJumpBroadEnum.Message.sourceType,context)
     }
 
 //    private fun addFragment(targetFragment: Fragment) {

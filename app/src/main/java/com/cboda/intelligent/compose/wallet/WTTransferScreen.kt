@@ -72,7 +72,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import coil.compose.SubcomposeAsyncImage
 import com.cboda.baselibrary.utils.EncryptUtil
-import com.cboda.intelligent.activity.ScanBroadActivity
 import com.cboda.intelligent.compose.formatSixDecimalChange
 import com.cboda.intelligent.compose.formatSixDecimalValue
 import com.cboda.intelligent.compose.getFormattedAmount
@@ -80,6 +79,7 @@ import com.cboda.intelligent.compose.getOriginalAmount
 import com.cboda.intelligent.compose.noRippleClickable
 import com.cboda.intelligent.compose.widget.ComposeNormalScreenToolBar
 import com.cboda.intelligent.configuration.ScanJumpBroadEnum
+import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.intelligent.utils.WalletManager
 import org.web3j.utils.Convert
@@ -379,9 +379,10 @@ fun WTTransferScreen(
                         modifier = Modifier
                             .size(18.dp)
                             .clickable {
-                                val intent = Intent(context, ScanBroadActivity::class.java)
-                                intent.putExtra("jumpSource", ScanJumpBroadEnum.ETH_TRANSFER.sourceType)
-                                scanLauncher.launch(intent)
+//                                val intent = Intent(context, ScanBroadActivity::class.java)
+//                                intent.putExtra("jumpSource", ScanJumpBroadEnum.ETH_TRANSFER.sourceType)
+//                                scanLauncher.launch(intent)
+                                scanLauncher.launch(JumpBroadUtils.getScanIntent(ScanJumpBroadEnum.ETH_TRANSFER.sourceType,context))
                             }
                     )
                 }
