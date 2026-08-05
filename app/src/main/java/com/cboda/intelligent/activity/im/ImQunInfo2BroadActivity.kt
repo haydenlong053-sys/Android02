@@ -265,7 +265,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             if (state.loading) return@observe
             dismissLoading()
             if (state.loadFailed) {
-                ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_detail_load_failed))
+//                ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_detail_load_failed))
                 return@observe
             }
             applyUiState(state)

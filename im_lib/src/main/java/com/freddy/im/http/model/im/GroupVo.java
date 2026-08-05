@@ -14,6 +14,8 @@ public class GroupVo implements java.io.Serializable {
     private String name;
     private int conversation;
     private String creator;
+    /** 群创建时间（毫秒） */
+    private long createTime;
     private String icon;
     private int memCount;
     /** 群成员变更时间（毫秒）；用于与本地比对后决定是否全量同步成员 */
@@ -72,6 +74,14 @@ public class GroupVo implements java.io.Serializable {
 
     public void setCreator(String creator) {
         this.creator = creator;
+    }
+
+    public long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
     }
 
     public String getIcon() {

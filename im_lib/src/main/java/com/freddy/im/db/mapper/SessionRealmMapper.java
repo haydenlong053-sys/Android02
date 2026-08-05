@@ -6,7 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.freddy.im.db.entity.SessionEntity;
+import com.freddy.im.http.ImGsonHelper;
 import com.freddy.im.http.model.im.SessionItem;
+import com.freddy.im.http.model.im.SessionPermission;
 
 import io.realm.Realm;
 
@@ -38,7 +40,7 @@ public final class SessionRealmMapper {
         entity.setSelfReadPosition(item.getSelfReadPosition());
         entity.setBusi(item.getBusi());
         entity.setTags(item.getTags());
-        entity.setPermission(item.getPermission());
+        entity.setPermission(permissionToJson(item.getPermission()));
         entity.setOppositeUserId(item.getOppositeUserId());
         entity.setOwerId(item.getOwerId());
         entity.setOppositeCompanyId(item.getOppositeCompanyId());
@@ -113,6 +115,10 @@ public final class SessionRealmMapper {
             if (item.getMuteNotify() == null) {
                 entity.setMuteNotify(existing.isMuteNotify());
             }
+            // 本地已有 createTime（群详情写入）则不被 getList 覆盖
+            if (existing.getCreateTime() > 0L) {
+                entity.setCreateTime(existing.getCreateTime());
+            }
         }
         return entity;
     }
@@ -137,7 +143,7 @@ public final class SessionRealmMapper {
         item.setSelfReadPosition(entity.getSelfReadPosition());
         item.setBusi(entity.getBusi());
         item.setTags(entity.getTags());
-        item.setPermission(entity.getPermission());
+        item.setPermission(permissionFromJson(entity.getPermission()));
         item.setOppositeUserId(entity.getOppositeUserId());
         item.setOwerId(entity.getOwerId());
         item.setOppositeCompanyId(entity.getOppositeCompanyId());
@@ -151,5 +157,34 @@ public final class SessionRealmMapper {
         item.setLastMessageStatus(entity.getLastMessageStatus());
         item.setLastMessageTime(entity.getLastMessageTime());
         return item;
+    }
+
+    @Nullable
+    private static String permissionToJson(@Nullable SessionPermission permission) {
+        if (permission == null) {
+            return null;
+        }
+        try {
+            return ImGsonHelper.getGson().toJson(permission);
+        } catch (Exception ignored) {
+            return null;
+        }
+    }
+
+    @Nullable
+    private static SessionPermission permissionFromJson(@Nullable String json) {
+        if (TextUtils.isEmpty(json)) {
+            return null;
+        }
+        // 兼容旧库：历史上 permission 可能是普通字符串
+        String trimmed = json.trim();
+        if (!trimmed.startsWith("{")) {
+            return null;
+        }
+        try {
+            return ImGsonHelper.getGson().fromJson(trimmed, SessionPermission.class);
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 }

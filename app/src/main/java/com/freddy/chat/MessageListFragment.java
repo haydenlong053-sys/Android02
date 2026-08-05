@@ -161,6 +161,10 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
      * 本地是否可能还有更早一页（用于下拉刷新）
      */
     private boolean hasMoreHistory;
+    /** 是否贴在最后一屏；由滚动空闲时刷新，避免 append 后 canScrollVertically 误判。 */
+    private boolean atLatestScreen = true;
+    /** 距末尾 N 条以内视为底部区域，收消息仍可自动跟滚。 */
+    private static final int LATEST_BOTTOM_ITEM_THRESHOLD = 3;
     public View qungonggaoBroad;
     public MarqueeTextBroadView gonggaoxinxiBroad;
     private View mViewMeetJoin;
@@ -278,6 +282,14 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView rv, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    atLatestScreen = computeAtLatestScreen();
+                }
+            }
+        });
         multiMessageActionContainer = view.findViewById(R.id.multi_message_action_container);
         setupDismissPanelOnListTouch();
 
@@ -350,7 +362,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
             @Override
             public void onKeyboardOrPanelShown() {
-                scrollToLatest();
+                scrollToLatest(true);
             }
         });
         inputPanel.configureMorePanel(isGroupChat);
@@ -593,6 +605,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 scrollToMessage(scrollToMsgId);
             } else if (adapter.getItemCount() > 0) {
                 recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+                atLatestScreen = true;
             }
         }
     }
@@ -976,7 +989,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         MessageProcessor.getInstance().sendMsg(message, () -> {
             markSelfSendNow();
             adapter.appendMessages(Collections.singletonList(message));
-            scrollToLatest();
+            scrollToLatest(true);
         }, false);
         if (inputPanel != null) {
             inputPanel.resetPanelState();
@@ -1012,7 +1025,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             AppMessage toResend = updated != null ? updated : message;
             runOnUiThreadSafe(() -> {
                 adapter.updateMessage(toResend);
-                scrollToLatest();
+                scrollToLatest(true);
             });
             dispatchResend(toResend);
         });
@@ -1148,10 +1161,57 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         });
     }
 
-    private void scrollToLatest() {
-        if (adapter.getItemCount() > 0) {
-            recyclerView.post(() -> recyclerView.scrollToPosition(adapter.getItemCount() - 1));
+    /**
+     * 滚到最新消息。
+     *
+     * @param force {@code true} 强制滚底（自己发消息/重发等）；
+     *              {@code false} 仅在空闲且已在最后一屏时滚底（收消息等）
+     */
+    private void scrollToLatest(boolean force) {
+        if (adapter == null || recyclerView == null || adapter.getItemCount() <= 0) {
+            return;
         }
+        recyclerView.post(() -> {
+            if (adapter.getItemCount() <= 0) {
+                return;
+            }
+            if (!force && !shouldStickToLatest()) {
+                return;
+            }
+            recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+            atLatestScreen = true;
+        });
+    }
+
+    /** 仅供 {@link #scrollToLatest(boolean)} 内部使用。 */
+    private boolean shouldStickToLatest() {
+        if (recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_IDLE) {
+            return false;
+        }
+        return atLatestScreen;
+    }
+
+    /**
+     * 底部区域：无法再向下滚，或最后可见项落在末尾
+     * {@link #LATEST_BOTTOM_ITEM_THRESHOLD} 条以内。
+     */
+    private boolean computeAtLatestScreen() {
+        if (adapter == null || adapter.getItemCount() <= 0) {
+            return true;
+        }
+        if (!recyclerView.canScrollVertically(1)) {
+            return true;
+        }
+        RecyclerView.LayoutManager lm = recyclerView.getLayoutManager();
+        if (!(lm instanceof LinearLayoutManager)) {
+            return false;
+        }
+        int lastVisible = ((LinearLayoutManager) lm).findLastVisibleItemPosition();
+        if (lastVisible == RecyclerView.NO_POSITION) {
+            return false;
+        }
+        int lastIndex = adapter.getItemCount() - 1;
+        return lastVisible >= lastIndex - (LATEST_BOTTOM_ITEM_THRESHOLD - 1);
     }
 
     @Override
@@ -1247,7 +1307,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         MessageProcessor.getInstance().sendMsg(message, () -> {
             markSelfSendNow();
             adapter.appendMessages(Collections.singletonList(message));
-            scrollToLatest();
+            scrollToLatest(true);
         });
         if (inputPanel != null) {
             inputPanel.clearInput();
@@ -1754,7 +1814,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 int countBefore = adapter.getItemCount();
                 adapter.updateMessage(message);
                 if (adapter.getItemCount() > countBefore) {
-                    scrollToLatest();
+                    scrollToLatest(false);
                 }
             });
             return;
@@ -1770,7 +1830,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         }
         CThreadPoolExecutor.runOnMainThread(() -> {
             adapter.appendMessages(matched);
-            scrollToLatest();
+            scrollToLatest(false);
         });
     }
 

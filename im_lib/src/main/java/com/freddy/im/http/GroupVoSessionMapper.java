@@ -57,10 +57,15 @@ public final class GroupVoSessionMapper {
         }
         item.setOppositeUserId(group.getOppositeUserId());
         item.setOwerId(group.getOwerId());
+        // 进群聊拉群详情：远端 createTime 同步到会话表
+        if (group.getCreateTime() > 0L) {
+            item.setCreateTime(group.getCreateTime());
+        } else if (existing != null) {
+            item.setCreateTime(existing.getCreateTime());
+        }
 
         if (existing != null) {
             item.setUsername(existing.getUsername());
-            item.setCreateTime(existing.getCreateTime());
             item.setUnreadCount(existing.getUnreadCount());
             item.setInternalFlag(existing.getInternalFlag());
             item.setTopNum(existing.getTopNum());

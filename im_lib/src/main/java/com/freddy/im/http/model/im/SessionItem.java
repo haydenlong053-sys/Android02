@@ -33,7 +33,8 @@ public class SessionItem implements Serializable {
     private String selfReadPosition;
     private String busi;
     private String tags;
-    private String permission;
+    /** 会话权限对象（接口返回 JSON object，非字符串） */
+    private SessionPermission permission;
     private String oppositeUserId;
     /** 群主 userId（接口字段名为 {@code owerId}） */
     private String owerId;
@@ -169,11 +170,11 @@ public class SessionItem implements Serializable {
         this.tags = tags;
     }
 
-    public String getPermission() {
+    public SessionPermission getPermission() {
         return permission;
     }
 
-    public void setPermission(String permission) {
+    public void setPermission(SessionPermission permission) {
         this.permission = permission;
     }
 
