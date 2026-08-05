@@ -13,6 +13,7 @@ import com.freddy.chat.event.MessageDeletedEvent;
 import com.freddy.chat.event.MessageReadStateEvent;
 import com.freddy.chat.event.MessageRepealEvent;
 import com.freddy.chat.utils.CThreadPoolExecutor;
+import com.freddy.chat.utils.ImMsgReminder;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.model.im.SessionItem;
@@ -101,6 +102,8 @@ public class MessageProcessor implements IMessageProcessor {
             public void run() {
                 try {
                     Log.d(TAG, "收到消息批量，count=" + batch.size());
+                    // 新消息提醒（非免打扰）：对齐野火 TiXingBroadUtils
+                    ImMsgReminder.onIncomingBatch(batch);
                     CEventCenter.dispatchEvent(Events.CHAT_MESSAGE, 0, 0, batch);
                 } catch (Exception e) {
                     Log.e(TAG, "消息处理出错，reason=" + e.getMessage());
