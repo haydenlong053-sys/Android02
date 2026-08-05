@@ -1,5 +1,6 @@
 package com.cboda.intelligent.utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
@@ -143,8 +144,13 @@ class JumpBroadUtils {
         }
 
         fun startLoginActivity(context: Context?) {
-            val intent = Intent(context, NewEquipmentBroadActivity::class.java)
-            context?.startActivity(intent)
+            val mContext = getAppContext(context)
+            val intent = Intent(mContext, NewEquipmentBroadActivity::class.java)
+            // Application / 非 Activity 上下文必须带 NEW_TASK（如 IM token 失效回调）
+            if (mContext !is Activity) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            }
+            mContext.startActivity(intent)
         }
 
         fun startMyCollectActivity(context: Context?, uid: String, qunid: String) {

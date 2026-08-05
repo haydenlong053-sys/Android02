@@ -49,6 +49,7 @@
     <string name="qitashebeidenglu">賬號已在其他設備登錄</string>
     <string name="queding">確定</string>
     <string name="dengluguoqi">登錄信息已過期，請重新登錄</string>
+    <string name="im_kicked_offline">你的設備已在其他地方登錄</string>
     <string name="faqiqunliao">發起群聊</string>
     <string name="tianjiapengyou">添加朋友</string>
     <string name="saoyisao">掃一掃</string>

@@ -23,6 +23,7 @@ import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean
 import com.cboda.baselibrary.utils.getAppContext
+import com.cboda.baselibrary.utils.getResumeActivity
 import com.cboda.chatui.ChatManagerBroadHolder
 import com.cboda.chatui.conversation.ConversationBroadActivity
 import com.cboda.intelligent.activity.NewEquipmentBroadActivity
@@ -32,6 +33,7 @@ import com.freddy.chat.MessageListActivity
 import com.freddy.chat.SessionItemIntent
 import com.freddy.chat.im.IMSClientBootstrap
 import com.freddy.im.IMSConfig
+import com.freddy.im.http.ImAuthInvalidHandler
 import com.freddy.im.http.ImHttpConfig
 import com.freddy.im.http.model.im.SessionItem
 import com.freddy.im.db.ImLocalStore
@@ -252,7 +254,8 @@ class AppBroadUtils {
 
         fun goLoginMyIm(apptoken: String?, userId: String?) {
 //            eLogD("EasyHttp", "setGlobalHeaders--> $userId  $apptoken")
-            IMSClientBootstrap.getInstance().init(userId, apptoken, HttpsBroadConfig.myImSocketHost, IMSConfig.APP_STATUS_FOREGROUND)
+            ImAuthInvalidHandler.reset()
+            IMSClientBootstrap.getInstance().init(userId, MMKVBroadUtils.getMyImToken(), HttpsBroadConfig.myImSocketHost, IMSConfig.APP_STATUS_FOREGROUND)
             ImHttpConfig.setGlobalHeaders(apptoken, userId, ImSignalProtos.ClientType.ANDROID_VALUE)
         }
 
@@ -298,7 +301,8 @@ class AppBroadUtils {
 
         fun exit(context: Context?) {
             clearUserData(context)
-            JumpBroadUtils.startLoginActivity(context)
+            // 优先用栈顶 Activity，避免 Application Context 启登录页缺 NEW_TASK
+            JumpBroadUtils.startLoginActivity(getResumeActivity() ?: context)
             activityList.forEachIndexed { _, activity ->
                 if (activity !is NewEquipmentBroadActivity) {
                     activity.finish()
@@ -308,6 +312,15 @@ class AppBroadUtils {
 
 
         fun clearUserData(context: Context?) {
+            // 先断自研长连并关用户库，避免被踢后仍用旧 token 静默重连
+            try {
+                IMSClientBootstrap.getInstance().logout()
+            } catch (_: Exception) {
+            }
+            try {
+                ImHttpConfig.clearGlobalHeaders()
+            } catch (_: Exception) {
+            }
             if (!HttpsBroadConfig.useSelfImOnly) {
                 ChatManager.Instance().disconnect(true, false)
             }

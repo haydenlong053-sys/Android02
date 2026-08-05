@@ -49,6 +49,7 @@
     <string name="qitashebeidenglu">账号已在其他设备登录</string>
     <string name="queding">确定</string>
     <string name="dengluguoqi">登录信息已过期，请重新登录</string>
+    <string name="im_kicked_offline">你的设备已在其他地方登录</string>
     <string name="faqiqunliao">发起群聊</string>
     <string name="tianjiapengyou">添加朋友</string>
     <string name="saoyisao">扫一扫</string>

@@ -599,6 +599,9 @@ public final class ImMessageHttpExample {
                     Type responseType = TypeToken.getParameterized(BaseMsgResponse.class, listType).getType();
                     BaseMsgResponse<List<UploadRes>> result = GSON.fromJson(text, responseType);
                     if (result == null || !result.isSuccess()) {
+                        if (result != null) {
+                            ImAuthInvalidHandler.handleIfNeeded(result);
+                        }
                         Log.e(MY_TAG, "filehub/batchUpload 业务错误");
                         if (onFail != null) {
                             onFail.run();
