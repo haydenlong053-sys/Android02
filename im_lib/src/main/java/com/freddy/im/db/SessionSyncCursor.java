@@ -71,6 +71,9 @@ public final class SessionSyncCursor {
                                      int unreadCount,
                                      int unPullCount) {
         // unreadCount / unPullCount 保留入参以兼容调用方；对齐判断仅看水位
+        if (unPullCount > 0 || unreadCount > 0) {
+            return false;
+        }
         if (session == null || TextUtils.isEmpty(serverLastMessageId)) {
             return false;
         }
