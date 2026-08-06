@@ -2,6 +2,7 @@ package com.cboda.intelligent.activity
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -31,6 +32,10 @@ class LoginQrCodeActivity : BaseSimple2BroadActivity() {
     private var backCallback: OnBackPressedCallback? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        )
         mBinding = (binding as? LoginQrCodeActivityBinding)
         setRootBgRes(R.drawable.bg_blue_white)
         backIcon.imageTintList = ColorStateList.valueOf(getAppColor(this@LoginQrCodeActivity, R.color.white))
