@@ -61,24 +61,42 @@ public final class SessionSyncCursor {
     }
 
     /**
-     * 本地是否已与服务端会话摘要对齐（有未读/未拉取时一律视为未对齐）。
+     * 本地是否已与服务端会话摘要对齐。
+     * <p>
+     * 以 {@code syncedMax} vs {@code lastMessageId} 为准；未读/unPull 不再强制未对齐，
+     * 避免服务端 sticky {@code unPullCount} 导致反复 getList。
      */
     public static boolean isCaughtUp(@Nullable SessionEntity session,
                                      @Nullable String serverLastMessageId,
                                      int unreadCount,
                                      int unPullCount) {
-        if (unPullCount > 0 || unreadCount > 0) {
-            return false;
-        }
-        if (session == null || TextUtils.isEmpty(serverLastMessageId)) {
-            return false;
-        }
-        long serverSeq = ImMessageManager.extractTrailingSequence(serverLastMessageId);
-        if (serverSeq == ImMessageManager.INVALID_SEQUENCE) {
-            return false;
-        }
-        long syncedSeq = session.getSyncedMaxSequence();
-        return syncedSeq > 0L && syncedSeq >= serverSeq;
+
+            if (unPullCount > 0 || unreadCount > 0) {
+                return false;
+            }
+            if (session == null || TextUtils.isEmpty(serverLastMessageId)) {
+                return false;
+            }
+            long serverSeq = ImMessageManager.extractTrailingSequence(serverLastMessageId);
+            if (serverSeq == ImMessageManager.INVALID_SEQUENCE) {
+                return false;
+            }
+            long syncedSeq = session.getSyncedMaxSequence();
+            return syncedSeq > 0L && syncedSeq >= serverSeq;
+
+//        if (session == null) {
+//            return false;
+//        }
+//        if (TextUtils.isEmpty(serverLastMessageId)) {
+//            // 无服务端水位：仅有同步高水位且无未拉取信号时视为对齐
+//            return session.getSyncedMaxSequence() > 0L && unPullCount <= 0;
+//        }
+//        long serverSeq = ImMessageManager.extractTrailingSequence(serverLastMessageId);
+//        if (serverSeq == ImMessageManager.INVALID_SEQUENCE) {
+//            return false;
+//        }
+//        long syncedSeq = session.getSyncedMaxSequence();
+//        return syncedSeq > 0L && syncedSeq >= serverSeq;
     }
 
     /**

@@ -64,6 +64,8 @@ public class MessageProcessor implements IMessageProcessor {
                         });
                     }
                 });
+        ImMessageManager.getInstance().setDefaultNewMessageListListener(
+                batch -> MessageProcessor.getInstance().receiveMsg(batch));
         ImLocalStore.setOnSessionPreviewUpdatedListener(this::notifySessionsUpdated);
         ImLocalStore.setOnGroupMembersUpdatedListener(this::notifyGroupMembersUpdated);
         ImLocalStore.setOnSessionRemovedListener(this::notifySessionRemoved);

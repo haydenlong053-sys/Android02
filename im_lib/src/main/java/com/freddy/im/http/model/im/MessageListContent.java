@@ -1,5 +1,7 @@
 package com.freddy.im.http.model.im;
 
+import androidx.annotation.NonNull;
+
 import com.freddy.im.http.ImHttpConfig;
 
 import java.util.List;
@@ -10,6 +12,12 @@ public class MessageListContent {
     private String groupId;
     private int anchor;
     private List<ImMessageItem> msgList;
+
+    /** 空页/终结用，{@link #isHasNextPage()} 为 false。 */
+    @NonNull
+    public static MessageListContent empty() {
+        return new MessageListContent();
+    }
 
     public String getGroupId() {
         return groupId;

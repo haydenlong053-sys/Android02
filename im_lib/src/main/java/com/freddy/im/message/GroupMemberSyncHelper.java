@@ -43,10 +43,21 @@ public final class GroupMemberSyncHelper {
     }
 
     /**
-     * 本地活跃成员数少于远端 {@code memCount}：半截全量 / 脏水位，必须走全量而非增量。
+     * 本地活跃成员相对远端存在<strong>严重缺口</strong>时才强制全量（半截全量 / 脏水位）。
+     * <p>
+     * 略少于远端（如万人群差几十人）不触发，避免误打全量 {@code memberList}。
+     * 条件：缺口达到远端一半，或绝对缺口 &gt;= {@link #FULL_SYNC_ABS_GAP}。
      */
+    private static final double FULL_SYNC_RATIO = 0.5d;
+    private static final int FULL_SYNC_ABS_GAP = 101;
+
     public static boolean needsFullSyncByCount(int localActiveCount, int remoteMemCount) {
-        return remoteMemCount > 0 && localActiveCount < remoteMemCount;
+        if (remoteMemCount <= 0 || localActiveCount >= remoteMemCount) {
+            return false;
+        }
+        int gap = remoteMemCount - localActiveCount;
+        return gap >= FULL_SYNC_ABS_GAP
+                || localActiveCount < remoteMemCount * FULL_SYNC_RATIO;
     }
 
     /**

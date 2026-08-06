@@ -81,6 +81,31 @@ public final class ImSessionRepository {
     }
 
     /**
+     * 拉消息成功后清零 sticky {@code unPullCount}，避免会话同步反复触发 getList。
+     */
+    public void clearUnPullCount(@Nullable String sessionId) {
+        if (TextUtils.isEmpty(sessionId) || !ImRealm.isUserBound()) {
+            return;
+        }
+        final String id = sessionId;
+        ImDbExecutor.runWrite(() -> {
+            Realm realm = ImRealm.getRealm();
+            try {
+                realm.executeTransaction(r -> {
+                    SessionEntity entity = r.where(SessionEntity.class)
+                            .equalTo("sessionId", id)
+                            .findFirst();
+                    if (entity != null && entity.getUnPullCount() != 0) {
+                        entity.setUnPullCount(0);
+                    }
+                });
+            } finally {
+                realm.close();
+            }
+        });
+    }
+
+    /**
      * 设置会话未读数（设为已读传 0，标记未读通常传 1），并通知列表刷新。
      */
     public void setUnreadCount(@Nullable String sessionId, int unreadCount) {

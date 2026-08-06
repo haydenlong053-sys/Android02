@@ -337,6 +337,11 @@ public final class ImLocalStore {
         ImSessionRepository.getInstance().clearUnreadCount(sessionId);
     }
 
+    /** 拉消息链结束后清零 sticky unPullCount。 */
+    public static void clearSessionUnPull(@Nullable String sessionId) {
+        ImSessionRepository.getInstance().clearUnPullCount(sessionId);
+    }
+
     /**
      * 标记会话未读（对齐野火 {@code markAsUnRead}，默认未读数 1）。
      */

@@ -84,7 +84,19 @@ public final class ImMessageHttpExample {
 
     public static void requestGetMessageList(@NonNull String messageId,
                                              int anchor,
-                                             int op, OnHttpImListener<MessageListContent> callBack) {
+                                             int op,
+                                             @Nullable OnHttpImListener<MessageListContent> callBack) {
+        requestGetMessageList(messageId, anchor, op, callBack, null);
+    }
+
+    /**
+     * 拉消息列表；空页也回调成功（便于结束分页链），失败走 {@code onFail}。
+     */
+    public static void requestGetMessageList(@NonNull String messageId,
+                                             int anchor,
+                                             int op,
+                                             @Nullable OnHttpImListener<MessageListContent> callBack,
+                                             @Nullable Runnable onFail) {
         EasyHttp.post(ApplicationLifecycle.getInstance())
                 .api(new GetMessageListApi()
                         .setMessageId(messageId)
@@ -96,20 +108,30 @@ public final class ImMessageHttpExample {
                     public void onHttpSuccess(@NonNull BaseMsgResponse<MessageListContent> result) {
                         if (!result.isSuccess()) {
                             Log.e(MY_TAG, "业务错误: " + result.getErrorCode() + " " + result.getErrorMsg());
+                            if (onFail != null) {
+                                onFail.run();
+                            }
                             return;
                         }
                         MessageListContent c = result.getContent();
-                        if (c == null || c.getMsgList() == null || c.getMsgList().isEmpty()) {
+                        if (c == null) {
                             Log.e(MY_TAG, "content 为空或无消息");
+                            if (callBack != null) {
+                                callBack.onHttpImSuccess(MessageListContent.empty());
+                            }
                             return;
                         }
-                        callBack.onHttpImSuccess(result.getContent());
-
+                        if (callBack != null) {
+                            callBack.onHttpImSuccess(c);
+                        }
                     }
 
                     @Override
                     public void onHttpFail(@NonNull Throwable throwable) {
                         Log.e(MY_TAG, "请求失败: " + throwable.getMessage());
+                        if (onFail != null) {
+                            onFail.run();
+                        }
                     }
                 });
     }

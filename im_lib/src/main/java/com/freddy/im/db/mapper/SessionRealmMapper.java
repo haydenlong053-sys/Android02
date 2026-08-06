@@ -9,6 +9,7 @@ import com.freddy.im.db.entity.SessionEntity;
 import com.freddy.im.http.ImGsonHelper;
 import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.http.model.im.SessionPermission;
+import com.freddy.im.message.ImMessageManager;
 
 import io.realm.Realm;
 
@@ -119,6 +120,14 @@ public final class SessionRealmMapper {
             // 若本次 item 已带远端 createTime（群详情入库），优先用远端值。
             if (item.getCreateTime() <= 0L && existing.getCreateTime() > 0L) {
                 entity.setCreateTime(existing.getCreateTime());
+            }
+            // 本地已追上 lastMessageId 时忽略服务端 sticky unPull，避免反复 getList
+            if (existing.getSyncedMaxSequence() > 0L && !TextUtils.isEmpty(item.getLastMessageId())) {
+                long serverSeq = ImMessageManager.extractTrailingSequence(item.getLastMessageId());
+                if (serverSeq != ImMessageManager.INVALID_SEQUENCE
+                        && existing.getSyncedMaxSequence() >= serverSeq) {
+                    entity.setUnPullCount(0);
+                }
             }
         }
         return entity;
