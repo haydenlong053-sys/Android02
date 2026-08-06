@@ -161,7 +161,16 @@ public final class ImLocalStore {
      * 适合在 {@code afterCommit} 里再调用 {@code MessageProcessor#receiveMsg}，避免 UI 早于 DB 可见。
      */
     public static void saveMessagesThen(@Nullable List<AppMessage> messages, @Nullable Runnable afterCommit) {
-        ImMessageRepository.getInstance().insertOrUpdateBatchThen(messages, afterCommit);
+        saveMessagesThen(messages, afterCommit, true);
+    }
+
+    /**
+     * @param incrementUnread {@code false}：不累加会话未读（getList 已带服务端 unreadCount 时的补拉正文）。
+     */
+    public static void saveMessagesThen(@Nullable List<AppMessage> messages,
+                                        @Nullable Runnable afterCommit,
+                                        boolean incrementUnread) {
+        ImMessageRepository.getInstance().insertOrUpdateBatchThen(messages, afterCommit, incrementUnread);
     }
 
 

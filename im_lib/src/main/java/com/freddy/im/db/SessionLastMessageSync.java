@@ -74,12 +74,46 @@ public final class SessionLastMessageSync {
     }
 
     /**
-     * 须在 Realm 写事务内调用。
+     * 按本批消息统计各会话未读增量（排除当前打开会话、自己发送、系统消息、通话消息）。
+     * <p>
+     * <b>仅统计库中尚不存在的消息</b>，避免增量拉取带回 sync 锚点/水位 tip 时未读多计 1，
+     * 或 dirty 重启 / getList 补拉重复 upsert 时翻倍。
+     * 须在写事务内、{@code insertOrUpdate} <b>之前</b>调用。
      */
+    @NonNull
+    public static Map<String, Integer> countUnreadDeltaForNewMessages(@NonNull Realm realm,
+                                                                      @NonNull List<AppMessage> messages) {
+        Map<String, Integer> delta = new LinkedHashMap<>();
+        String currentUserId = ImRealm.getCurrentUserId();
+        for (AppMessage message : messages) {
+            if (message == null) {
+                continue;
+            }
+            if (MessageContentFormatter.isApiSystemMsgType(message.getMsgType())) {
+                continue;
+            }
+            if (MessageContentFormatter.isCallMsgType(message)) {
+                continue;
+            }
+            if (isMessageAlreadyPersisted(realm, message)) {
+                continue;
+            }
+            String sessionId = resolveSessionId(message);
+            if (TextUtils.isEmpty(sessionId) || ImActiveChatSession.isActive(sessionId)) {
+                continue;
+            }
+            if (!TextUtils.isEmpty(currentUserId) && message.isSender(currentUserId)) {
+                continue;
+            }
+            delta.put(sessionId, delta.getOrDefault(sessionId, 0) + 1);
+        }
+        return delta;
+    }
+
     /**
-     * 按 {@code fetchNewMessageList} 本批新消息条数统计各会话未读增量
-     * （排除当前打开的消息页会话、自己发送、以及 {@code msgType==2} 系统消息）。
+     * @deprecated 请用 {@link #countUnreadDeltaForNewMessages(Realm, List)}，避免对已落库消息重复累加。
      */
+    @Deprecated
     @NonNull
     public static Map<String, Integer> countUnreadDeltaBySession(@NonNull List<AppMessage> messages) {
         Map<String, Integer> delta = new LinkedHashMap<>();
@@ -91,11 +125,9 @@ public final class SessionLastMessageSync {
             if (MessageContentFormatter.isApiSystemMsgType(message.getMsgType())) {
                 continue;
             }
-            //过滤语音通话未读消息数
             if (MessageContentFormatter.isCallMsgType(message)) {
                 continue;
             }
-
             String sessionId = resolveSessionId(message);
             if (TextUtils.isEmpty(sessionId) || ImActiveChatSession.isActive(sessionId)) {
                 continue;
@@ -106,6 +138,25 @@ public final class SessionLastMessageSync {
             delta.put(sessionId, delta.getOrDefault(sessionId, 0) + 1);
         }
         return delta;
+    }
+
+    /** 消息是否已在本地（按 clientMsgId 主键或 msgId）。 */
+    private static boolean isMessageAlreadyPersisted(@NonNull Realm realm, @NonNull AppMessage message) {
+        String clientMsgId = MessageRealmMapper.clientMsgIdForPersist(message);
+        if (!TextUtils.isEmpty(clientMsgId)
+                && realm.where(MessageEntity.class)
+                .equalTo("clientMsgId", clientMsgId)
+                .findFirst() != null) {
+            return true;
+        }
+        String msgId = message.getMsgId();
+        if (!TextUtils.isEmpty(msgId)
+                && realm.where(MessageEntity.class)
+                .equalTo("msgId", msgId)
+                .findFirst() != null) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -177,7 +228,7 @@ public final class SessionLastMessageSync {
                                                        @NonNull List<AppMessage> messages,
                                                        @NonNull Map<String, SessionItem> prefetchedGroupSessions) {
         return applyInTransaction(realm, messages, prefetchedGroupSessions,
-                countUnreadDeltaBySession(messages));
+                countUnreadDeltaForNewMessages(realm, messages));
     }
 
     @NonNull

@@ -113,6 +113,8 @@ public final class ImMessageManager {
 
     /**
      * 会话列表拉取成功后：优先当前聊天会话，其余限流补拉未读/未拉取消息。
+     * <p>
+     * getList 已写入服务端 unreadCount，此处只补消息正文，<b>不再累加未读</b>。
      */
     public void syncUnreadMessagesForSessions(@Nullable List<SessionItem> sessions) {
         if (sessions == null || sessions.isEmpty()) {
@@ -131,56 +133,9 @@ public final class ImMessageManager {
                 if (TextUtils.isEmpty(sessionId)) {
                     continue;
                 }
-                fetchNewMessageListBySessionIdOnRealmThread(sessionItem, null);
+                fetchNewMessageListBySessionIdOnRealmThread(sessionItem, null, false);
             }
         });
-
-//        if (sessions == null || sessions.isEmpty()) {
-//            return;
-//        }
-//        ImDbExecutor.runRead(() -> {
-//            String activeId = ImActiveChatSession.getActiveSessionId();
-//            SessionItem activeItem = null;
-//            List<SessionItem> background = new ArrayList<>();
-//            for (SessionItem sessionItem : sessions) {
-//                if (sessionItem == null) {
-//                    continue;
-//                }
-//                if (sessionItem.getUnPullCount() <= 0 && sessionItem.getUnreadCount() <= 0) {
-//                    continue;
-//                }
-//                ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"---拉-"+sessionItem.getSessionName()+sessionItem.getUnPullCount()+"--groupid="+sessionItem.getSessionId());
-//                String sessionId = sessionItem.getSessionId();
-//                if (TextUtils.isEmpty(sessionId)) {
-//                    continue;
-//                }
-//                SessionEntity entity = ImSessionRepository.getInstance().queryEntityBySessionId(sessionId);
-//                if (SessionSyncCursor.isCaughtUp(
-//                        entity,
-//                        sessionItem.getLastMessageId(),
-//                        0,
-//                        0)) {
-//                    // 水位已对齐仍带 sticky unPull → 清本地，避免下次再扫
-//                    if (sessionItem.getUnPullCount() > 0
-//                            || (entity != null && entity.getUnPullCount() > 0)) {
-//                        ImLocalStore.clearSessionUnPull(sessionId);
-//                    }
-//                    continue;
-//                }
-//                if (!TextUtils.isEmpty(activeId) && activeId.equals(sessionId)) {
-//                    activeItem = sessionItem;
-//                } else {
-//                    background.add(sessionItem);
-//                }
-//            }
-//            if (activeItem != null) {
-//                fetchNewMessageListBySessionIdOnRealmThread(activeItem, null);
-//            }
-//            int limit = Math.min(MAX_BACKGROUND_UNREAD_SYNC, background.size());
-//            for (int i = 0; i < limit; i++) {
-//                fetchNewMessageListBySessionIdOnRealmThread(background.get(i), null);
-//            }
-//        });
     }
 
     private void fetchNewMessageListOnRealmThread(@NonNull String msgId,
@@ -191,7 +146,7 @@ public final class ImMessageManager {
         }
         SessionItem localSession = ImSessionRepository.getInstance().queryBySessionId(sessionId);
         if (localSession != null) {
-            proceedFetchNewMessageList(msgId, listener);
+            proceedFetchNewMessageList(msgId, listener, true);
             return;
         }
         GroupDetailFetcher.fetchSessionItems(Collections.singletonList(sessionId), map ->
@@ -204,17 +159,18 @@ public final class ImMessageManager {
                                                 @Nullable OnNewMessageListListener listener) {
         SessionItem session = prefetched.get(sessionId);
         if (session == null) {
-            proceedFetchNewMessageList(msgId, listener);
+            proceedFetchNewMessageList(msgId, listener, true);
             return;
         }
         ImLocalStore.saveSessionsThen(Collections.singletonList(session), () -> {
             ImLocalStore.dispatchSessionPreviewUpdated(Collections.singletonList(session));
-            proceedFetchNewMessageList(msgId, listener);
+            proceedFetchNewMessageList(msgId, listener, true);
         });
     }
 
     private void proceedFetchNewMessageList(@NonNull String msgId,
-                                            @Nullable OnNewMessageListListener listener) {
+                                            @Nullable OnNewMessageListListener listener,
+                                            boolean incrementUnread) {
         String sessionId = extractConversationAnchor(msgId);
         if (TextUtils.isEmpty(sessionId)) {
             return;
@@ -232,13 +188,18 @@ public final class ImMessageManager {
             queryMsgId = msgId;
             anchor = 0;
         }
-        beginOrCoalescePull(sessionId, queryMsgId, anchor, op, listener);
+        beginOrCoalescePull(sessionId, queryMsgId, anchor, op, listener, incrementUnread);
     }
 
     private void fetchNewMessageListBySessionIdOnRealmThread(@NonNull SessionItem sessionItem,
                                                               @Nullable OnNewMessageListListener listener) {
+        fetchNewMessageListBySessionIdOnRealmThread(sessionItem, listener, true);
+    }
+
+    private void fetchNewMessageListBySessionIdOnRealmThread(@NonNull SessionItem sessionItem,
+                                                              @Nullable OnNewMessageListListener listener,
+                                                              boolean incrementUnread) {
         String sessionId = sessionItem.getSessionId();
-//        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"---拉1-"+sessionItem.getSessionName()+sessionItem.getUnPullCount()+"--groupid="+sessionItem.getSessionId());
         SessionEntity sessionEntity = ImSessionRepository.getInstance().queryEntityBySessionId(sessionId);
         int unreadCount = sessionItem.getUnreadCount();
         int unPullCount = sessionItem.getUnPullCount();
@@ -251,13 +212,8 @@ public final class ImMessageManager {
                 sessionItem.getLastMessageId(),
                 unreadCount,
                 unPullCount)) {
-//            if (unPullCount > 0) {
-//                ImLocalStore.clearSessionUnPull(sessionId);
-//            }
-//            ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"---拉1.2-"+sessionItem.getSessionName()+sessionItem.getUnPullCount()+"--groupid="+sessionItem.getSessionId());
             return;
         }
-//        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"---拉1.3-"+sessionItem.getSessionName()+sessionItem.getUnPullCount()+"--groupid="+sessionItem.getSessionId());
         String syncAnchor = ImLocalStore.resolveMessageSyncAnchor(sessionId);
         String queryMsgId;
         int anchor = 1;
@@ -268,7 +224,7 @@ public final class ImMessageManager {
             queryMsgId = syncAnchor;
         }
 
-        beginOrCoalescePull(sessionId, queryMsgId, anchor, 3, listener);
+        beginOrCoalescePull(sessionId, queryMsgId, anchor, 3, listener, incrementUnread);
     }
 
     /**
@@ -278,19 +234,22 @@ public final class ImMessageManager {
                                      @NonNull String queryMsgId,
                                      int anchor,
                                      int op,
-                                     @Nullable OnNewMessageListListener listener) {
+                                     @Nullable OnNewMessageListListener listener,
+                                     boolean incrementUnread) {
         ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"---拉2-"+"000"+"--groupid="+sessionId);
         SessionPullState state = pullStates.computeIfAbsent(sessionId, k -> new SessionPullState());
         synchronized (state) {
             state.mergeListener(listener);
             if (state.inFlight) {
+                // 任一请求需要本地 +N，则本链保留累加（避免 getList 补拉与推送合并后漏计）
+                state.incrementUnread = state.incrementUnread || incrementUnread;
                 state.dirty = true;
                 return;
             }
             state.inFlight = true;
             state.dirty = false;
+            state.incrementUnread = incrementUnread;
         }
-//        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"---拉4-"+"--groupid="+sessionId);
         requestMessageListPageByPage(sessionId, queryMsgId, anchor, op);
     }
 
@@ -308,6 +267,13 @@ public final class ImMessageManager {
                 return;
             }
             List<AppMessage> batch = ImMessageMapper.toAppMessageList(page);
+            boolean incrementUnread = true;
+            SessionPullState state = pullStates.get(sessionId);
+            if (state != null) {
+                synchronized (state) {
+                    incrementUnread = state.incrementUnread;
+                }
+            }
             ImLocalStore.saveMessagesThen(batch, () -> {
                 dispatchPageToListener(sessionId, batch);
                 if (content.isHasNextPage()) {
@@ -321,7 +287,7 @@ public final class ImMessageManager {
                 } else {
                     onPullChainFinished(sessionId, true);
                 }
-            });
+            }, incrementUnread);
         }, () -> onPullChainFinished(sessionId, false));
     }
 
@@ -430,10 +396,12 @@ public final class ImMessageManager {
         });
     }
 
-    /** 同会话 getList 在飞状态：合并回调、脏标记。 */
+    /** 同会话 getList 在飞状态：合并回调、脏标记、是否累加未读。 */
     private static final class SessionPullState {
         boolean inFlight;
         boolean dirty;
+        /** 默认 false；begin 时赋值，合并时按「任一需要则 true」。 */
+        boolean incrementUnread;
         @Nullable
         OnNewMessageListListener listener;
 

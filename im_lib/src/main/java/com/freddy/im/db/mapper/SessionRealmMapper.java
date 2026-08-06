@@ -121,6 +121,10 @@ public final class SessionRealmMapper {
             if (item.getCreateTime() <= 0L && existing.getCreateTime() > 0L) {
                 entity.setCreateTime(existing.getCreateTime());
             }
+            // getList 未读为 0 时保留本地角标，避免被冲成 0 后再靠补拉「假对齐」或漏显
+            if (item.getUnreadCount() <= 0 && existing.getUnreadCount() > 0) {
+                entity.setUnreadCount(existing.getUnreadCount());
+            }
             // 本地已追上 lastMessageId 时忽略服务端 sticky unPull，避免反复 getList
             if (existing.getSyncedMaxSequence() > 0L && !TextUtils.isEmpty(item.getLastMessageId())) {
                 long serverSeq = ImMessageManager.extractTrailingSequence(item.getLastMessageId());

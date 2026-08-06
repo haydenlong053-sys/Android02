@@ -60,8 +60,18 @@ public final class ImMessageRepository {
 
     /**
      * 批量 upsert，事务提交成功后在<strong>同一条写线程</strong>执行 {@code afterSuccess}（失败不执行）。
+     * 默认会为<strong>新插入</strong>的未读消息累加会话未读。
      */
     public void insertOrUpdateBatchThen(@Nullable List<AppMessage> messages, @Nullable Runnable afterSuccess) {
+        insertOrUpdateBatchThen(messages, afterSuccess, true);
+    }
+
+    /**
+     * @param incrementUnread {@code false} 时不改会话未读（用于 getList 后按服务端未读数补拉消息正文，避免再 +N）。
+     */
+    public void insertOrUpdateBatchThen(@Nullable List<AppMessage> messages,
+                                        @Nullable Runnable afterSuccess,
+                                        boolean incrementUnread) {
         if (messages == null || messages.isEmpty() || !ImRealm.isUserBound()) {
             return;
         }
@@ -71,10 +81,15 @@ public final class ImMessageRepository {
             return;
         }
         final Runnable callback = afterSuccess;
+        final boolean countUnread = incrementUnread;
         SessionLastMessageSync.runWriteWithSessionSync(snapshot, (realm, prefetched, sessionUpdates) -> {
+            // 必须在 insertOrUpdate 之前统计，否则已写入的消息会被当成「已存在」而漏计
+            Map<String, Integer> unreadDelta = countUnread
+                    ? SessionLastMessageSync.countUnreadDeltaForNewMessages(realm, snapshot)
+                    : Collections.emptyMap();
             realm.insertOrUpdate(entities);
             sessionUpdates.addAll(SessionLastMessageSync.applyInTransaction(
-                    realm, snapshot, prefetched, SessionLastMessageSync.countUnreadDeltaBySession(snapshot)));
+                    realm, snapshot, prefetched, unreadDelta));
         }, callback);
     }
 
@@ -92,12 +107,12 @@ public final class ImMessageRepository {
                 Collections.singletonList(snapshot),
                 (realm, prefetched, sessionUpdates) -> {
                     realm.copyToRealmOrUpdate(MessageRealmMapper.toEntity(snapshot));
+                    // 自己发出的消息不累加未读
                     sessionUpdates.addAll(SessionLastMessageSync.applyInTransaction(
                             realm,
                             Collections.singletonList(snapshot),
                             prefetched,
-                            SessionLastMessageSync.countUnreadDeltaBySession(
-                                    Collections.singletonList(snapshot))));
+                            Collections.emptyMap()));
                 },
                 callback);
     }
@@ -218,8 +233,7 @@ public final class ImMessageRepository {
                                 realm,
                                 Collections.singletonList(updated),
                                 prefetched,
-                                SessionLastMessageSync.countUnreadDeltaBySession(
-                                        Collections.singletonList(updated))));
+                                Collections.emptyMap()));
                     },
                     () -> {
                         AppMessage updated = queryAppMessageByClientMsgId(clientMsgId);
