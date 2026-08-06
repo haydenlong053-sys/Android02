@@ -24,11 +24,11 @@ import com.google.gson.JsonParser;
 import kotlin.Unit;
 
 public final class ImageMessageVH extends BaseMessageVH {
-    public final AppRoundBroadImage ivMessageImage;
+    public final ImageView ivMessageImage;
 
     public ImageMessageVH(@NonNull View itemView) {
         super(itemView, R.layout.item_message_content_image, false);
-        ivMessageImage = (AppRoundBroadImage) contentView;
+        ivMessageImage = (ImageView) contentView;
     }
 
     public void bind(@NonNull AppMessage message, int position, @NonNull MessageViewHolderContext context) {
@@ -51,9 +51,9 @@ public final class ImageMessageVH extends BaseMessageVH {
             GlideUtilsKt.loadDiyImg(ivMessageImage, imgUrl, targetW, 0, () -> Unit.INSTANCE);
         } else {
             if (!thumbnailsImg.isEmpty()){
-                GlideUtilsKt.loadImg(ivMessageImage,thumbnailsImg);
+                GlideUtilsKt.loadImg(ivMessageImage,thumbnailsImg, com.cboda.baselibrary.R.mipmap.icon_image_placeholder_my);
             }else {
-                GlideUtilsKt.loadImg(ivMessageImage,imgUrl);
+                GlideUtilsKt.loadImg(ivMessageImage,imgUrl,com.cboda.baselibrary.R.mipmap.icon_image_placeholder_my);
             }
 
 //            Glide.with(ivMessageImage.getContext())

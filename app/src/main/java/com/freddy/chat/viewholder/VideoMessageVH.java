@@ -25,7 +25,7 @@ import java.util.Locale;
 
 public final class VideoMessageVH extends BaseMessageVH {
 
-    private final AppRoundBroadImage ivVideoCover;
+    private final ImageView ivVideoCover;
     private final ImageView ivVideoPlay;
     private final TextView tvVideoDuration;
 
@@ -43,7 +43,7 @@ public final class VideoMessageVH extends BaseMessageVH {
         applyVideoBubbleSize(message);
         String coverUrl = MediaMessageContentUtil.resolveCoverDisplayUrl(message.getContent(), sentByMe);
 
-        GlideUtilsKt.loadImg(ivVideoCover,coverUrl);
+        GlideUtilsKt.loadImg(ivVideoCover,coverUrl,com.cboda.baselibrary.R.mipmap.icon_image_placeholder_my);
 //        Glide.with(ivVideoCover.getContext())
 //                .load(coverUrl)
 //                .placeholder(R.drawable.bg_bubble_received)
