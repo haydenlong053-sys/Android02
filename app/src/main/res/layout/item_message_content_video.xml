@@ -6,14 +6,13 @@
     android:layout_height="wrap_content"
     android:padding="2dp">
 
-    <com.cboda.baselibrary.view.AppRoundBroadImage
+    <com.cboda.baselibrary.view.RoundedImageBroadView
         android:id="@+id/iv_video_cover"
         android:layout_width="@dimen/dp_140"
         android:layout_height="@dimen/dp_140"
         android:contentDescription="@null"
         android:scaleType="centerCrop"
-        app:app_round_borderRadius="@dimen/dp_12"
-        app:app_round_borderRadius_type="1"
+        app:riv_corner_radius="@dimen/dp_12"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:src="@color/black" />
 
