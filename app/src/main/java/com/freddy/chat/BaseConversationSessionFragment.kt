@@ -1,6 +1,5 @@
 package com.freddy.chat
 
-import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.ProgressBar
@@ -33,6 +32,8 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var progressBar: ProgressBar
     private lateinit var tvEmpty: TextView
+    private lateinit var errorContainer: View
+    private var sessionsEmpty: Boolean = true
 
     override fun contentLayout(): Int = R.layout.conversation_session_list_fragment
 
@@ -41,6 +42,10 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         swipeRefresh = view.findViewById(R.id.swipe_refresh_conversations)
         progressBar = view.findViewById(R.id.progress)
         tvEmpty = view.findViewById(R.id.tv_empty)
+        errorContainer = view.findViewById(R.id.conversation_list_error)
+        view.findViewById<View>(R.id.btn_retry_conversations).setOnClickListener {
+            parentViewModel.loadConversations()
+        }
 
         adapter = ConversationListAdapter().apply {
             setCurrentUserId(IMSClientBootstrap.getInstance().currentUserId)
@@ -85,12 +90,11 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
                 }
             }
         }
-        parentViewModel.loading.observe(viewLifecycleOwner) { loading ->
-            if (loading == true && adapter.itemCount <= 0) {
-                progressBar.visibility = View.VISIBLE
-            } else if (loading != true) {
-                progressBar.visibility = View.GONE
-            }
+        parentViewModel.loading.observe(viewLifecycleOwner) {
+            applyOverlayState()
+        }
+        parentViewModel.loadFailed.observe(viewLifecycleOwner) {
+            applyOverlayState()
         }
     }
 
@@ -122,12 +126,27 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
     private fun renderSessions(sessions: List<SessionItem>?) {
         val list = sessions ?: emptyList()
         adapter.setNewData(list)
-        val empty = list.isEmpty()
-        tvEmpty.visibility = if (empty) View.VISIBLE else View.GONE
-        recyclerView.visibility = if (empty) View.GONE else View.VISIBLE
-        if (!empty) {
+        sessionsEmpty = list.isEmpty()
+        applyOverlayState()
+    }
+
+    /** 空态 / 加载中 / 失败重试，并关闭 ProgressBroad 全屏 loading。 */
+    private fun applyOverlayState() {
+        val failed = parentViewModel.loadFailed.value == true
+        val loading = parentViewModel.loading.value == true
+        if (failed && sessionsEmpty) {
+            errorContainer.visibility = View.VISIBLE
+            tvEmpty.visibility = View.GONE
+            progressBar.visibility = View.GONE
+            recyclerView.visibility = View.GONE
             showContent()
-        } else if (parentViewModel.loading.value != true) {
+            return
+        }
+        errorContainer.visibility = View.GONE
+        tvEmpty.visibility = if (sessionsEmpty && !loading) View.VISIBLE else View.GONE
+        recyclerView.visibility = if (sessionsEmpty) View.GONE else View.VISIBLE
+        progressBar.visibility = if (loading && sessionsEmpty) View.VISIBLE else View.GONE
+        if (!sessionsEmpty || !loading) {
             showContent()
         }
     }

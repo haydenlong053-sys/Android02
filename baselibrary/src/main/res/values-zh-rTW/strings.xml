@@ -363,6 +363,8 @@
     <string name="main_select_user_hint">選擇帳號登入</string>
     <string name="avatar_content_desc">頭像</string>
     <string name="conversation_list_empty">暫無會話</string>
+    <string name="conversation_list_load_failed">載入失敗</string>
+    <string name="conversation_list_retry">重試</string>
     <string name="conversation_list_title">會話列表</string>
     <string name="open_conversation_list">會話列表</string>
     <string name="conversation_name_fallback">未命名會話</string>

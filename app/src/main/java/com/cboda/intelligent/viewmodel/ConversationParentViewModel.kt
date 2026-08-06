@@ -53,6 +53,10 @@ class ConversationParentViewModel : BaseViewBroadModel() {
     private val _loading = MutableLiveData(false)
     val loading: LiveData<Boolean> = _loading
 
+    /** 会话列表拉取失败；有数据时仅记录状态，空列表时由 UI 展示重试。 */
+    private val _loadFailed = MutableLiveData(false)
+    val loadFailed: LiveData<Boolean> = _loadFailed
+
     fun observeSessions(category: ConversationSessionCategory): LiveData<List<SessionItem>> {
         return when (category) {
             ConversationSessionCategory.SINGLE -> singleSessions
@@ -68,19 +72,24 @@ class ConversationParentViewModel : BaseViewBroadModel() {
                 ensureGroupCreateTimes(cached)
             }
         }
+        _loadFailed.postValue(false)
         _loading.postValue(true)
         ImMessageHttpExample.requestGetConversationList(
             0,
             0,
             object : OnHttpImListener<ConversationListContent> {
                 override fun onHttpImSuccess(content: ConversationListContent) {
+                    _loadFailed.postValue(false)
                     _loading.postValue(false)
                     val list = content.getSessionList()
                     publishSessions(list)
                     ensureGroupCreateTimes(list)
                 }
             },
-            { _loading.postValue(false) },
+            {
+                _loading.postValue(false)
+                _loadFailed.postValue(true)
+            },
         )
     }
 
