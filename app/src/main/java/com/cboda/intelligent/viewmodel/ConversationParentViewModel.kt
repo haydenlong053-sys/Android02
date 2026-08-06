@@ -13,6 +13,7 @@ import com.freddy.im.http.ImMessageHttpExample
 import com.freddy.im.http.model.im.ConversationListContent
 import com.freddy.im.http.model.im.SessionItem
 import com.freddy.im.listener.OnHttpImListener
+import java.util.concurrent.atomic.AtomicBoolean
 
 class ConversationParentViewModel : BaseViewBroadModel() {
 
@@ -57,6 +58,9 @@ class ConversationParentViewModel : BaseViewBroadModel() {
     private val _loadFailed = MutableLiveData(false)
     val loadFailed: LiveData<Boolean> = _loadFailed
 
+    /** 防止 Main / 重试 / 信令同时触发重复 getList。 */
+    private val requestInFlight = AtomicBoolean(false)
+
     fun observeSessions(category: ConversationSessionCategory): LiveData<List<SessionItem>> {
         return when (category) {
             ConversationSessionCategory.SINGLE -> singleSessions
@@ -66,6 +70,9 @@ class ConversationParentViewModel : BaseViewBroadModel() {
     }
 
     fun loadConversations() {
+        if (!requestInFlight.compareAndSet(false, true)) {
+            return
+        }
         ImLocalStore.loadSessions { cached ->
             if (!cached.isNullOrEmpty()) {
                 publishSessions(cached)
@@ -79,6 +86,7 @@ class ConversationParentViewModel : BaseViewBroadModel() {
             0,
             object : OnHttpImListener<ConversationListContent> {
                 override fun onHttpImSuccess(content: ConversationListContent) {
+                    requestInFlight.set(false)
                     _loadFailed.postValue(false)
                     _loading.postValue(false)
                     val list = content.getSessionList()
@@ -87,6 +95,7 @@ class ConversationParentViewModel : BaseViewBroadModel() {
                 }
             },
             {
+                requestInFlight.set(false)
                 _loading.postValue(false)
                 _loadFailed.postValue(true)
             },

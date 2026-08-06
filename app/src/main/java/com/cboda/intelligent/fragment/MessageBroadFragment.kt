@@ -81,29 +81,20 @@ import com.cboda.select.picture.utils.LanguageUtil
 import com.freddy.chat.ConversationGroupFragment
 import com.freddy.chat.ConversationOtherGroupFragment
 import com.freddy.chat.ConversationSingleFragment
-import com.freddy.chat.event.CEventCenter
-import com.freddy.chat.event.Events
-import com.freddy.chat.event.I_CEventListener
-import com.freddy.im.http.model.im.SessionItem
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.badge.BadgePagerTitleView
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class MessageBroadFragment : BaseLazyBroadFragment(), I_CEventListener {
+class MessageBroadFragment : BaseLazyBroadFragment() {
     companion object {
         fun getInstance(): Fragment {
             return MessageBroadFragment()
         }
-
-        private val IM_CHAT_EVENTS = arrayOf(
-            Events.NOTIFY_CONVERSATION_LIST,
-            Events.SESSION_LIST_UPDATED,
-            Events.SESSION_REMOVED,
-        )
     }
 
     private val uiViewModel: HomeUIViewModel by activityViewModels()
+    /** 与 MainBroadActivity 共享；列表请求只在 Activity 发起，此处仅消费角标数据。 */
     private val conversationViewModel: ConversationParentViewModel by activityViewModels()
 
     private var allCount = "0"
@@ -137,7 +128,6 @@ class MessageBroadFragment : BaseLazyBroadFragment(), I_CEventListener {
         hometool?.layoutParams = linearParams
 
         EventBus.getDefault().register(this)
-        CEventCenter.registerEventListener(this, IM_CHAT_EVENTS)
 
         // 与底栏「好友」项对齐：页面创建时可能已错过 userInfo EventBus
         socialCount = MMKVBroadUtils.getContactBadgeTotal().coerceAtLeast(0L).toString()
@@ -236,8 +226,6 @@ class MessageBroadFragment : BaseLazyBroadFragment(), I_CEventListener {
 
         fragments.add(SocialFragment())
 
-
-        conversationViewModel.loadConversations()
 
         val vp2FragmentAdapter = Vp2FragmentBroadAdapter(this)
         vp2FragmentAdapter.setData(fragments)
@@ -349,23 +337,7 @@ class MessageBroadFragment : BaseLazyBroadFragment(), I_CEventListener {
         }
     }
 
-    override fun onCEvent(topic: String?, msgCode: Int, resultCode: Int, obj: Any?) {
-        when (topic) {
-            Events.NOTIFY_CONVERSATION_LIST -> conversationViewModel.loadConversations()
-            Events.SESSION_LIST_UPDATED -> {
-                @Suppress("UNCHECKED_CAST")
-                val updated = obj as? List<SessionItem> ?: return
-                conversationViewModel.mergeSessions(updated)
-            }
-            Events.SESSION_REMOVED -> {
-                val sessionId = obj as? String ?: return
-                conversationViewModel.removeSession(sessionId)
-            }
-        }
-    }
-
     override fun onDestroyView() {
-        CEventCenter.unregisterEventListener(this, IM_CHAT_EVENTS)
         EventBus.getDefault().unregister(this)
         super.onDestroyView()
     }

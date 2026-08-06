@@ -1150,7 +1150,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         }, 2000L)
     }
 
-    /** 自研 IM：会话未读 = 对话 + 私群 + 公群。 */
+    /** 自研 IM：会话列表与未读统一在此拉取；三个会话 Tab 通过 activityViewModels 共享同一份数据。 */
     private fun observeImUnreadCount() {
         conversationParentViewModel.totalUnreadCount.observe(this) { total ->
             xiaoxiUnreadCount = (total ?: 0).coerceAtLeast(0).toString()
