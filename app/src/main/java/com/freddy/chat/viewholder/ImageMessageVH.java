@@ -50,13 +50,19 @@ public final class ImageMessageVH extends BaseMessageVH {
                     - itemView.getResources().getDimensionPixelSize(com.cboda.baselibrary.R.dimen.dp_40);
             GlideUtilsKt.loadDiyImg(ivMessageImage, imgUrl, targetW, 0, () -> Unit.INSTANCE);
         } else {
-            Glide.with(ivMessageImage.getContext())
-                    .load(imgUrl)
-                    .placeholder(R.drawable.bg_bubble_received)
-                    .thumbnail(Glide.with(ivMessageImage.getContext()).load(thumbnailsImg)
-                            .placeholder(R.drawable.bg_bubble_received))
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(ivMessageImage);
+            if (!thumbnailsImg.isEmpty()){
+                GlideUtilsKt.loadImg(ivMessageImage,thumbnailsImg);
+            }else {
+                GlideUtilsKt.loadImg(ivMessageImage,imgUrl);
+            }
+
+//            Glide.with(ivMessageImage.getContext())
+//                    .load(imgUrl)
+//                    .placeholder(R.drawable.bg_bubble_received)
+//                    .thumbnail(Glide.with(ivMessageImage.getContext()).load(thumbnailsImg)
+//                            .placeholder(R.drawable.bg_bubble_received))
+//                    .transition(DrawableTransitionOptions.withCrossFade())
+//                    .into(ivMessageImage);
         }
 
         ivMessageImage.setOnClickListener(v -> MessageMediaPreviewHelper.previewImages(

@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.cboda.baselibrary.utils.ELogUtilKt;
+import com.cboda.baselibrary.utils.GlideUtilsKt;
 import com.cboda.baselibrary.view.AppRoundBroadImage;
 import com.cboda.intelligent.R;
 import com.freddy.chat.media.MessageMediaPreviewHelper;
@@ -42,11 +43,12 @@ public final class VideoMessageVH extends BaseMessageVH {
         applyVideoBubbleSize(message);
         String coverUrl = MediaMessageContentUtil.resolveCoverDisplayUrl(message.getContent(), sentByMe);
 
-        Glide.with(ivVideoCover.getContext())
-                .load(coverUrl)
-                .placeholder(R.drawable.bg_bubble_received)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(ivVideoCover);
+        GlideUtilsKt.loadImg(ivVideoCover,coverUrl);
+//        Glide.with(ivVideoCover.getContext())
+//                .load(coverUrl)
+//                .placeholder(R.drawable.bg_bubble_received)
+//                .transition(DrawableTransitionOptions.withCrossFade())
+//                .into(ivVideoCover);
 
         tvVideoDuration.setText(formatDuration(extractDurationSec(message)));
         ivVideoPlay.setVisibility(View.VISIBLE);
