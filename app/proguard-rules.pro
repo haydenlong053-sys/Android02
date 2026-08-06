@@ -1250,3 +1250,14 @@
 #-keep class com.example.contracts.** { *; }
 #-keepclassmembers class com.example.contracts.** { *; }
 
+#==== zxing‑lite jenly1314 3.5.0 混淆保护 ====
+-keep class com.king.zxing.** { *; }
+-dontwarn com.king.zxing.**
+
+# 底层zxing原生库，防止解码类被R8裁剪
+-keep class com.google.zxing.** { *; }
+-dontwarn com.google.zxing.**
+
+# 保留注解、泛型（库内部反射用到）
+-keepattributes *Annotation*,Signature
+
