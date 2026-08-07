@@ -288,30 +288,38 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
 
         @Override
         public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-            SessionItem oldItem = oldList.get(oldItemPosition);
-            SessionItem newItem = newList.get(newItemPosition);
-            return TextUtils.equals(oldItem.getSessionId(), newItem.getSessionId());
+            if (null == oldList || null == newList || oldList.size() <= oldItemPosition || newList.size() <= newItemPosition) {
+                return false;
+            } else {
+                SessionItem oldItem = oldList.get(oldItemPosition);
+                SessionItem newItem = newList.get(newItemPosition);
+                return TextUtils.equals(oldItem.getSessionId(), newItem.getSessionId());
+            }
         }
 
         @Override
         public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-            SessionItem a = oldList.get(oldItemPosition);
-            SessionItem b = newList.get(newItemPosition);
-            return a.getUnreadCount() == b.getUnreadCount()
-                    && a.getTopNum() == b.getTopNum()
-                    && a.getLastMessageTime() == b.getLastMessageTime()
-                    && a.getLastMessageStatus() == b.getLastMessageStatus()
-                    && a.getLastMsgType() == b.getLastMsgType()
-                    && a.isMuteNotify() == b.isMuteNotify()
-                    && a.getCreateTime() == b.getCreateTime()
-                    && TextUtils.equals(a.getSessionName(), b.getSessionName())
-                    && TextUtils.equals(a.getIcon(), b.getIcon())
-                    && TextUtils.equals(a.getUsername(), b.getUsername())
-                    && TextUtils.equals(a.getLastMessageId(), b.getLastMessageId())
-                    && TextUtils.equals(a.getLastMessageContent(), b.getLastMessageContent())
-                    && TextUtils.equals(a.getLastContentType(), b.getLastContentType())
-                    && TextUtils.equals(a.getLastCustomInfo(), b.getLastCustomInfo())
-                    && Objects.equals(a.getOppositeUserId(), b.getOppositeUserId());
+            if (null == oldList || null == newList || oldList.size() <= oldItemPosition || newList.size() <= newItemPosition) {
+                return false;
+            } else {
+                SessionItem a = oldList.get(oldItemPosition);
+                SessionItem b = newList.get(newItemPosition);
+                return a.getUnreadCount() == b.getUnreadCount()
+                        && a.getTopNum() == b.getTopNum()
+                        && a.getLastMessageTime() == b.getLastMessageTime()
+                        && a.getLastMessageStatus() == b.getLastMessageStatus()
+                        && a.getLastMsgType() == b.getLastMsgType()
+                        && a.isMuteNotify() == b.isMuteNotify()
+                        && a.getCreateTime() == b.getCreateTime()
+                        && TextUtils.equals(a.getSessionName(), b.getSessionName())
+                        && TextUtils.equals(a.getIcon(), b.getIcon())
+                        && TextUtils.equals(a.getUsername(), b.getUsername())
+                        && TextUtils.equals(a.getLastMessageId(), b.getLastMessageId())
+                        && TextUtils.equals(a.getLastMessageContent(), b.getLastMessageContent())
+                        && TextUtils.equals(a.getLastContentType(), b.getLastContentType())
+                        && TextUtils.equals(a.getLastCustomInfo(), b.getLastCustomInfo())
+                        && Objects.equals(a.getOppositeUserId(), b.getOppositeUserId());
+            }
         }
 
         @Nullable
