@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.cboda.baselibrary.R
 import com.cboda.baselibrary.bean.LoginBean
 import com.cboda.baselibrary.bean.LoginIdBean
-import com.cboda.baselibrary.bean.LoginReturnBean
 import com.cboda.baselibrary.popup.BaseBottomBroadPop
 import com.cboda.baselibrary.utils.DeviceBroadUtil
 import com.cboda.baselibrary.utils.HttpsBroadConfig
@@ -19,10 +18,7 @@ import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppColor
-import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.baselibrary.utils.setTxt
-import com.cboda.baselibrary.utils.toJson2
-import com.cboda.chatui.ChatManagerBroadHolder
 import com.cboda.intelligent.bean.ResultBroadBean
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
 import com.cboda.intelligent.databinding.SecurityVerificationPopupBinding

@@ -8,6 +8,7 @@ import com.cboda.baselibrary.bean.FriendBean
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.bean.LoginBean
 import com.cboda.baselibrary.bean.LoginIdBean
+import com.cboda.baselibrary.bean.LoginReturnBean
 import com.cboda.baselibrary.bean.UserInfoBean
 import com.cboda.chatui.ChatManagerBroadHolder
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
@@ -252,9 +253,10 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
 
     }
 
-    fun getScanLoginDetail(linkId: String): SingleLiveBroadData<LoginBean?> {
+    fun getScanLoginDetail(linkId: String): SingleLiveBroadData<LoginReturnBean> {
         val params = hashMapOf("idno" to linkId, "eqno" to getAndroidId())
-        val liveData = SingleLiveBroadData<LoginBean?>()
+        val liveData = SingleLiveBroadData<LoginReturnBean>()
+        val loginReturnBean = LoginReturnBean()
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
@@ -266,15 +268,21 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                         } else if (data?.secondVerifyNeed == 0 && !data.existMbName && !data.existPayPassword && !data.twoFactorCode) {
                             idLogin(linkId, data.secondVerifyUnsetHint)
                         } else {
-                            liveData.postValue(data)
+                            loginReturnBean.loginBean = data
+                            loginReturnBean.loginBean?.linkId = linkId
+                            liveData.postValue(loginReturnBean)
                         }
-                    }.onFailure { _, _ ->
-                        liveData.postValue(null)
-                    }.onError { _ ->
-                        liveData.postValue(null)
+                    }.onFailure { c, e ->
+                        loginReturnBean.errorCode = c
+                        loginReturnBean.msg = e
+                        liveData.postValue(loginReturnBean)
+                    }.onError { e ->
+                        loginReturnBean.msg = e.message
+                        liveData.postValue(loginReturnBean)
                     }
-                } catch (_: kotlin.Exception) {
-                    liveData.postValue(null)
+                } catch (e: kotlin.Exception) {
+                    loginReturnBean.msg = e.message
+                    liveData.postValue(loginReturnBean)
                 }
             }
         }

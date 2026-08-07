@@ -25,17 +25,10 @@ class LoginBean {
 }
 
 
-class LoginReturnBean : java.io.Serializable {
-    @SerializedName("apptoken")
-    var appToken = ""
-
-    @SerializedName("imtoken")
-    var imToken = ""
-
-    var userId = ""
-    var code: String? = null
-    var success = false
+class LoginReturnBean {
+    var loginBean: LoginBean? = null
     var msg: String? = null
+    var errorCode: Int? = null
 }
 
 class LoginIdBean {

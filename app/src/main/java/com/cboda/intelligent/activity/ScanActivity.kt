@@ -15,6 +15,7 @@ import com.cboda.baselibrary.utils.DeviceBroadUtil
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.getAppStr
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.intelligent.R
 import com.cboda.intelligent.bean.ResultBroadBean
@@ -130,7 +131,8 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
             .statusBarDarkFont(true)
             .init()
     }
-//
+
+    //
     override fun getLayoutId(): Int {
         return R.layout.activity_broad_scan
     }
@@ -518,15 +520,14 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
             )
         } else {
             loginViewBroadModel.getScanLoginDetail(linkId).observe(this) { loginBean ->
-                if (loginBean != null) {
-                    loginBean.linkId = linkId
+                if (loginBean.loginBean != null) {
                     val newIntent = Intent()
-                    newIntent.putExtra("loginBean", toJson2(loginBean))
+                    newIntent.putExtra("loginBean", toJson2(loginBean.loginBean))
                     setResult(RESULT_OK, newIntent)
                     finish()
                 } else {
                     restartScan()
-                    showToastMain(R.string.scan_login_request_failed)
+                    showToastMain(if (loginBean.msg != null) "${loginBean.msg}" else getAppStr(R.string.scan_login_request_failed, null))
                 }
             }
         }
