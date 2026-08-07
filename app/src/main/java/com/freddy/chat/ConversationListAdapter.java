@@ -94,7 +94,9 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
 
     private static final Object PAYLOAD_UNREAD = new Object();
 
-    /** 仅清除指定会话未读角标，避免整表刷新闪烁。 */
+    /**
+     * 仅清除指定会话未读角标，避免整表刷新闪烁。
+     */
     public boolean clearUnread(@Nullable String sessionId) {
         if (sessionId == null || sessionId.isEmpty()) {
             return false;
@@ -113,7 +115,9 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         return false;
     }
 
-    /** 合并/更新部分会话（群变更、拉取列表等），按置顶与最近消息时间排序。 */
+    /**
+     * 合并/更新部分会话（群变更、拉取列表等），按置顶与最近消息时间排序。
+     */
     public void mergeSessions(@Nullable List<SessionItem> updates) {
         if (updates == null || updates.isEmpty()) {
             return;
@@ -313,24 +317,28 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         @Nullable
         @Override
         public Object getChangePayload(int oldItemPosition, int newItemPosition) {
-            SessionItem a = oldList.get(oldItemPosition);
-            SessionItem b = newList.get(newItemPosition);
-            boolean onlyUnread = a.getUnreadCount() != b.getUnreadCount()
-                    && a.getTopNum() == b.getTopNum()
-                    && a.getLastMessageTime() == b.getLastMessageTime()
-                    && a.getLastMessageStatus() == b.getLastMessageStatus()
-                    && a.getLastMsgType() == b.getLastMsgType()
-                    && a.isMuteNotify() == b.isMuteNotify()
-                    && a.getCreateTime() == b.getCreateTime()
-                    && TextUtils.equals(a.getSessionName(), b.getSessionName())
-                    && TextUtils.equals(a.getIcon(), b.getIcon())
-                    && TextUtils.equals(a.getUsername(), b.getUsername())
-                    && TextUtils.equals(a.getLastMessageId(), b.getLastMessageId())
-                    && TextUtils.equals(a.getLastMessageContent(), b.getLastMessageContent())
-                    && TextUtils.equals(a.getLastContentType(), b.getLastContentType())
-                    && TextUtils.equals(a.getLastCustomInfo(), b.getLastCustomInfo())
-                    && Objects.equals(a.getOppositeUserId(), b.getOppositeUserId());
-            return onlyUnread ? PAYLOAD_UNREAD : null;
+            if (null == oldList || null == newList || oldList.size() <= oldItemPosition || newList.size() <= newItemPosition) {
+                return super.getChangePayload(oldItemPosition, newItemPosition);
+            } else {
+                SessionItem a = oldList.get(oldItemPosition);
+                SessionItem b = newList.get(newItemPosition);
+                boolean onlyUnread = a.getUnreadCount() != b.getUnreadCount()
+                        && a.getTopNum() == b.getTopNum()
+                        && a.getLastMessageTime() == b.getLastMessageTime()
+                        && a.getLastMessageStatus() == b.getLastMessageStatus()
+                        && a.getLastMsgType() == b.getLastMsgType()
+                        && a.isMuteNotify() == b.isMuteNotify()
+                        && a.getCreateTime() == b.getCreateTime()
+                        && TextUtils.equals(a.getSessionName(), b.getSessionName())
+                        && TextUtils.equals(a.getIcon(), b.getIcon())
+                        && TextUtils.equals(a.getUsername(), b.getUsername())
+                        && TextUtils.equals(a.getLastMessageId(), b.getLastMessageId())
+                        && TextUtils.equals(a.getLastMessageContent(), b.getLastMessageContent())
+                        && TextUtils.equals(a.getLastContentType(), b.getLastContentType())
+                        && TextUtils.equals(a.getLastCustomInfo(), b.getLastCustomInfo())
+                        && Objects.equals(a.getOppositeUserId(), b.getOppositeUserId());
+                return onlyUnread ? PAYLOAD_UNREAD : null;
+            }
         }
     }
 
