@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import androidx.annotation.Nullable;
 
 import com.freddy.im.signal.ImSignalProtos;
+import com.freddy.im.util.E;
 
 /**
  * IM SDK 统一消息载体（长连接、HTTP 拉取、宿主 UI 共用）。
@@ -77,7 +78,7 @@ public class AppMessage implements Parcelable {
     }
 
     public void setConversationTypeEnum(ImSignalProtos.ConversationType conversationType) {
-        this.conversationType = conversationType != null ? conversationType.getNumber() : 0;
+        this.conversationType = E.INSTANCE.getImConversationType(conversationType);
     }
 
     public String getMsgId() {
