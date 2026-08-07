@@ -1,5 +1,6 @@
 package com.cboda.chatui.quickmeet
 
+import android.Manifest
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -7,16 +8,21 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ServiceInfo
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import androidx.core.app.ServiceCompat
+import androidx.core.content.ContextCompat
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.chatui.R
 
 class MeetCallService : Service() {
     private val notificationId = android.os.Process.myPid()
+
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
@@ -27,9 +33,33 @@ class MeetCallService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val createNotification = createNotification()
-        startForeground(notificationId, createNotification)
-        return super.onStartCommand(intent, flags, startId)
+        // targetSdk 34+：microphone 类型 FGS 必须已授予 RECORD_AUDIO，且 startForeground 需带类型
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+            && ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            eLogD("call", "MeetCallService stop: RECORD_AUDIO not granted")
+            stopSelf()
+            return START_NOT_STICKY
+        }
+        val notification = createNotification()
+        try {
+            val fgsType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
+            } else {
+                0
+            }
+            ServiceCompat.startForeground(this, notificationId, notification, fgsType)
+        } catch (e: SecurityException) {
+            eLogD("call", "startForeground SecurityException: ${e.message}")
+            stopSelf()
+            return START_NOT_STICKY
+        } catch (e: Exception) {
+            eLogD("call", "startForeground failed: ${e.message}")
+            stopSelf()
+            return START_NOT_STICKY
+        }
+        return START_STICKY
     }
 
     private fun createNotification(): Notification {
@@ -59,17 +89,6 @@ class MeetCallService : Service() {
                 setOngoing(true)
                 setSmallIcon(com.cboda.baselibrary.R.mipmap.chat_broad_logo)
                 setLargeIcon(BitmapFactory.decodeResource(resources, com.cboda.baselibrary.R.mipmap.chat_broad_logo))
-//                val intent = if (fromLive) {
-//                    val itt = Intent()
-//                    itt.setClassName(packageName, ".ui.LiveRoomActivity")
-//                    itt
-//                } else {
-//                    Intent(applicationContext, CallActivity::class.java)
-//                }
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//                val activity =
-//                    PendingIntent.getActivity(applicationContext, 1, intent, PendingIntent.FLAG_IMMUTABLE)
-//                this.setContentIntent(activity)
                 val contentIntent = PendingIntent.getActivity(
                     applicationContext, 0,
                     packageManager.getLaunchIntentForPackage(packageName),
@@ -82,7 +101,6 @@ class MeetCallService : Service() {
     }
 
     override fun onDestroy() {
-//        stopForeground(true)
         stopForeground(STOP_FOREGROUND_REMOVE)
         super.onDestroy()
     }

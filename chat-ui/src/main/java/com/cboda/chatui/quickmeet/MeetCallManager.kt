@@ -536,13 +536,28 @@ class MeetCallManager private constructor() {
 
     //开启前台服务
     private fun startCallService() {
-        if (!isCallServiceStart) {
+        if (isCallServiceStart) {
+            return
+        }
+        val ctx = UtilBroadApplication.cxt
+        // targetSdk 36：microphone FGS 必须已有 RECORD_AUDIO，且应用处于可启动前台服务的状态
+        if (ContextCompat.checkSelfPermission(ctx, android.Manifest.permission.RECORD_AUDIO)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            eLogD("call", "skip MeetCallService: RECORD_AUDIO not granted")
+            return
+        }
+        try {
             isCallServiceStart = true
-            try {
-                val intent = Intent(UtilBroadApplication.cxt, MeetCallService::class.java)
-                UtilBroadApplication.cxt.startForegroundService(intent)
-            } catch (ignore: Exception) {
+            val intent = Intent(ctx, MeetCallService::class.java)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                ctx.startForegroundService(intent)
+            } else {
+                ctx.startService(intent)
             }
+        } catch (e: Exception) {
+            isCallServiceStart = false
+            eLogD("call", "startCallService failed: ${e.message}")
         }
     }
 
