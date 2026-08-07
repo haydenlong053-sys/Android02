@@ -10,6 +10,7 @@ import cc.shinichi.library.ImagePreview
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.intelligent.R
+import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.holder.CommanConfimBroadHolder
 import com.cboda.intelligent.utils.GlideLoaderBroadHelper
@@ -27,7 +28,7 @@ import com.freddy.im.listener.OnHttpImListener
  * 自研群成员资料页（对齐野火 [com.cboda.intelligent.activity.QunGerenPageBroadActivity]）。
  * 入参仅 [qunid]、[uid]；角色与好友态页内拉取。
  */
-class ImQunGerenPageBroadActivity : BaseSimpleBroadActivity() {
+class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
 
     private var qunId = ""
     private var uid = ""
@@ -52,6 +53,8 @@ class ImQunGerenPageBroadActivity : BaseSimpleBroadActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getToolbarTitle()?.text="成员资料"
+
         qunId = intent?.getStringExtra("qunid") ?: ""
         uid = intent?.getStringExtra("uid") ?: ""
         if (qunId.isEmpty() || uid.isEmpty()) {
