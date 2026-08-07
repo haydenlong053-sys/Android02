@@ -32,6 +32,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_LOGIN_DATA
 import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.anyToDouble
 import com.cboda.baselibrary.utils.anyToInt
+import com.cboda.baselibrary.utils.getAppStr
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.baselibrary.utils.toLog
 import com.cboda.intelligent.R
@@ -276,8 +277,8 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                         loginReturnBean.errorCode = c
                         loginReturnBean.msg = e
                         liveData.postValue(loginReturnBean)
-                    }.onError { e ->
-                        loginReturnBean.msg = e.message
+                    }.onError { _ ->
+                        loginReturnBean.msg = getAppStr(R.string.httperror)
                         liveData.postValue(loginReturnBean)
                     }
                 } catch (e: kotlin.Exception) {
