@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 群成员变更信令（0x0102 {@code MemberChangeSig}）与成员全量/增量拉取。
@@ -32,6 +33,9 @@ public final class ImGroupMemberChangeManager {
     public static final String TAG = "ImGroupMemberChange";
 
     private static final ImGroupMemberChangeManager INSTANCE = new ImGroupMemberChangeManager();
+
+    /** 同群全量 memberList 只保留一条分页链，避免反复进群并行从 anchor=0 重拉。 */
+    private final ConcurrentHashMap<String, FullSyncState> fullSyncStates = new ConcurrentHashMap<>();
 
     /** 信令同步成员后是否对齐 {@code memChgTime}，默认关闭（由进群同步统一写水位）。 */
     private boolean alignMemChgTimeAfterSignal;
@@ -49,6 +53,15 @@ public final class ImGroupMemberChangeManager {
 
     public void setAlignMemChgTimeAfterSignal(boolean alignMemChgTimeAfterSignal) {
         this.alignMemChgTimeAfterSignal = alignMemChgTimeAfterSignal;
+    }
+
+    /** 该群是否正在全量 memberList 分页拉取中。 */
+    public boolean isFullSyncInFlight(@Nullable String groupId) {
+        if (TextUtils.isEmpty(groupId)) {
+            return false;
+        }
+        FullSyncState state = fullSyncStates.get(groupId.trim());
+        return state != null && state.inFlight;
     }
 
     private void maybeAlignMemChgTimeAfterSignal(@NonNull String groupId,
@@ -114,43 +127,71 @@ public final class ImGroupMemberChangeManager {
             }
             return;
         }
-        fetchMemberListPage(groupId.trim(), 0, GroupMemberListContent.DEFAULT_PAGE_SIZE,
-                onFullSyncSuccess, onFullSyncFailed);
+        final String gid = groupId.trim();
+        FullSyncState state = fullSyncStates.computeIfAbsent(gid, k -> new FullSyncState());
+        synchronized (state) {
+            state.mergeCallbacks(onFullSyncSuccess, onFullSyncFailed);
+            if (state.inFlight) {
+                Log.d(TAG, "memberList 已在飞，合并回调 groupId=" + gid);
+                return;
+            }
+            state.inFlight = true;
+        }
+        fetchMemberListPage(gid, 0, GroupMemberListContent.DEFAULT_PAGE_SIZE,
+                () -> finishFullSyncChain(gid, true),
+                () -> finishFullSyncChain(gid, false));
     }
 
     private void fetchMemberListPage(@NonNull String groupId,
                                      int anchor,
                                      int pageSize,
-                                     @Nullable Runnable onFullSyncSuccess,
-                                     @Nullable Runnable onFullSyncFailed) {
+                                     @NonNull Runnable onChainSuccess,
+                                     @NonNull Runnable onChainFailed) {
         ImMessageHttpExample.requestGetGroupMemberList(groupId, anchor, pageSize,
                 new OnHttpImListener<GroupMemberListContent>() {
                     @Override
                     public void onHttpImSuccess(@NonNull GroupMemberListContent content) {
                         List<GroupUserVo> page = content.getMembers();
                         if (page == null || page.isEmpty()) {
-                            if (onFullSyncSuccess != null) {
-                                onFullSyncSuccess.run();
-                            }
+                            onChainSuccess.run();
                             return;
                         }
                         List<GroupMemberItem> items = GroupUserVoMapper.toItems(groupId, page);
                         ImLocalStore.saveGroupMembersThen(items, groupId, () -> {
                             if (content.hasNextPage(pageSize)) {
                                 fetchMemberListPage(groupId, content.getAnchor(), pageSize,
-                                        onFullSyncSuccess, onFullSyncFailed);
-                            } else if (onFullSyncSuccess != null) {
-                                onFullSyncSuccess.run();
+                                        onChainSuccess, onChainFailed);
+                            } else {
+                                onChainSuccess.run();
                             }
                         });
                     }
                 }, () -> {
                     Log.w(TAG, "memberList 失败 groupId=" + groupId + " anchor=" + anchor
                             + "（不更新 memChgTime，下次可重拉全量）");
-                    if (onFullSyncFailed != null) {
-                        onFullSyncFailed.run();
-                    }
+                    onChainFailed.run();
                 });
+    }
+
+    private void finishFullSyncChain(@NonNull String groupId, boolean success) {
+        FullSyncState state = fullSyncStates.get(groupId);
+        if (state == null) {
+            return;
+        }
+        Runnable callback;
+        synchronized (state) {
+            if (!state.inFlight) {
+                return;
+            }
+            callback = success ? state.onSuccess : state.onFailed;
+            state.inFlight = false;
+            state.onSuccess = null;
+            state.onFailed = null;
+        }
+        fullSyncStates.remove(groupId, state);
+        if (callback != null) {
+            callback.run();
+        }
     }
 
     /**
@@ -238,6 +279,35 @@ public final class ImGroupMemberChangeManager {
             if (!TextUtils.isEmpty(id)) {
                 set.add(id.trim());
             }
+        }
+    }
+
+    /** 同群全量 memberList 在飞状态：合并成功/失败回调。 */
+    private static final class FullSyncState {
+        boolean inFlight;
+        @Nullable
+        Runnable onSuccess;
+        @Nullable
+        Runnable onFailed;
+
+        void mergeCallbacks(@Nullable Runnable success, @Nullable Runnable failed) {
+            onSuccess = chain(onSuccess, success);
+            onFailed = chain(onFailed, failed);
+        }
+
+        @Nullable
+        private static Runnable chain(@Nullable Runnable existing, @Nullable Runnable more) {
+            if (more == null) {
+                return existing;
+            }
+            if (existing == null) {
+                return more;
+            }
+            Runnable prev = existing;
+            return () -> {
+                prev.run();
+                more.run();
+            };
         }
     }
 }
