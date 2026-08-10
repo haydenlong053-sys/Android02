@@ -1,5 +1,6 @@
 package com.cboda.intelligent.activity.im
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import cc.shinichi.library.ImagePreview
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.loadImg
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
@@ -51,6 +53,7 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
 
     override fun getLayoutId(): Int = R.layout.activity_qun_ge_broad_ren_page
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getToolbarTitle()?.text="成员资料"
@@ -76,9 +79,9 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
         commViewModel?.imUserLiveData?.observe(this) { bean ->
             bean.data?.apply {
                 isFriend = isFri == "1"
-                tvnicheng.text = StringBroadUtils.format(getString(R.string.nichengshi), name ?: "")
+                tvnicheng.text = "("+StringBroadUtils.format(getString(R.string.nichengshi), name ?: "")+")"
                 ivxingbie.setImageResource(
-                    if (sex == "1") R.mipmap.ic_broad_nan else R.mipmap.ic_broad_nv
+                    if (sex == "1") R.mipmap.ic_msg_icon_boy else R.mipmap.ic_msg_icon_girl
                 )
                 applyActionVisibility()
             }
@@ -134,15 +137,7 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
                                 }
                                 if (avatarUrl.isEmpty() && !vo.headPortrait.isNullOrEmpty()) {
                                     avatarUrl = vo.headPortrait!!
-                                    GlideLoaderBroadHelper.loadCenterCopRoundedCornersUrl(
-                                        this@ImQunGerenPageBroadActivity,
-                                        avatarUrl,
-                                        ivTouxiang,
-                                        PixelBroadBroadUtils.dip2px(
-                                            this@ImQunGerenPageBroadActivity,
-                                            10f
-                                        )
-                                    )
+                                    ivTouxiang.loadImg(avatarUrl)
                                 }
                             }
                             if (selfId != null && id == selfId) {
