@@ -17,12 +17,16 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 class GlideLoaderBroadHelper {
     companion object {
         fun loadUrl(context: Context?, url: String, imageView: ImageView, placeId: Int = 0, isCenterCrop: Boolean = true) {
-            context?.apply {
-                if (isCenterCrop) {
-                    Glide.with(this).load(url).placeholder(placeId).centerCrop().into(imageView)
-                } else {
-                    Glide.with(this).load(url).placeholder(placeId).into(imageView)
+            try {
+                context?.apply {
+                    if (isCenterCrop) {
+                        Glide.with(this).load(url).placeholder(placeId).centerCrop().into(imageView)
+                    } else {
+                        Glide.with(this).load(url).placeholder(placeId).into(imageView)
+                    }
                 }
+            } catch (_: Exception) {
+
             }
         }
 
@@ -30,9 +34,13 @@ class GlideLoaderBroadHelper {
          * 圆形
          */
         fun loadCircleUrl(context: Context?, url: String, imageView: ImageView, placeId: Int = 0) {
-            context?.apply {
-                val trans = RequestOptions.circleCropTransform()
-                Glide.with(this).load(url).apply(trans).placeholder(placeId).into(imageView)
+            try {
+                context?.apply {
+                    val trans = RequestOptions.circleCropTransform()
+                    Glide.with(this).load(url).apply(trans).placeholder(placeId).into(imageView)
+                }
+            } catch (_: Exception) {
+
             }
         }
 
@@ -46,10 +54,14 @@ class GlideLoaderBroadHelper {
             borderSize: Int,
             borderColor: Int
         ) {
-            context?.apply {
-                val trans = CropCircleWithBorderTransformation(borderSize, borderColor)
-                Glide.with(this).load(url).apply(RequestOptions.bitmapTransform(trans))
-                    .into(imageView)
+            try {
+                context?.apply {
+                    val trans = CropCircleWithBorderTransformation(borderSize, borderColor)
+                    Glide.with(this).load(url).apply(RequestOptions.bitmapTransform(trans))
+                        .into(imageView)
+                }
+            } catch (_: Exception) {
+
             }
         }
 
@@ -64,16 +76,20 @@ class GlideLoaderBroadHelper {
             placeId: Int = 0,
             errorId: Int = 0
         ) {
-            context?.apply {
-                val trans = MultiTransformation(CenterCrop(), RoundedCorners(radius))
-                val glide = Glide.with(this).load(url).apply(RequestOptions.bitmapTransform(trans))
-                if (errorId != 0) {
-                    glide.error(errorId)
+            try {
+                context?.apply {
+                    val trans = MultiTransformation(CenterCrop(), RoundedCorners(radius))
+                    val glide = Glide.with(this).load(url).apply(RequestOptions.bitmapTransform(trans))
+                    if (errorId != 0) {
+                        glide.error(errorId)
+                    }
+                    if (placeId != 0) {
+                        glide.placeholder(placeId)
+                    }
+                    glide.into(imageView)
                 }
-                if (placeId != 0) {
-                    glide.placeholder(placeId)
-                }
-                glide.into(imageView)
+            } catch (_: Exception) {
+
             }
         }
 
@@ -86,13 +102,17 @@ class GlideLoaderBroadHelper {
             imageView: ImageView,
             radius: Int, margin: Int, cornerType: RoundedCornersTransformation.CornerType
         ) {
-            context?.apply {
-                val multi = MultiTransformation(
-                    CenterCrop(),
-                    RoundedCornersTransformation(radius, margin, cornerType)
-                )
-                Glide.with(this).load(url).apply(RequestOptions.bitmapTransform(multi))
-                    .into(imageView)
+            try {
+                context?.apply {
+                    val multi = MultiTransformation(
+                        CenterCrop(),
+                        RoundedCornersTransformation(radius, margin, cornerType)
+                    )
+                    Glide.with(this).load(url).apply(RequestOptions.bitmapTransform(multi))
+                        .into(imageView)
+                }
+            } catch (_: Exception) {
+
             }
         }
 

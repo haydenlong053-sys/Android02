@@ -363,7 +363,7 @@
     <string name="main_select_user_hint">选择账号登录</string>
     <string name="avatar_content_desc">头像</string>
     <string name="conversation_list_empty">暂无会话</string>
-    <string name="conversation_list_load_failed">加载失败</string>
+    <string name="conversation_list_load_failed">加载失败（网络异常）</string>
     <string name="conversation_list_retry">重试</string>
     <string name="conversation_list_title">会话列表</string>
     <string name="open_conversation_list">会话列表</string>

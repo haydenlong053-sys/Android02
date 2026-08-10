@@ -378,7 +378,7 @@
     <string name="main_select_user_hint">Select an account to log in</string>
     <string name="avatar_content_desc">Avatar</string>
     <string name="conversation_list_empty">No conversations</string>
-    <string name="conversation_list_load_failed">Failed to load conversations</string>
+    <string name="conversation_list_load_failed">Load failed (network error)</string>
     <string name="conversation_list_retry">Retry</string>
     <string name="conversation_list_title">Conversations</string>
     <string name="open_conversation_list">Conversations</string>
