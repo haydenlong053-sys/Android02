@@ -380,7 +380,7 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
                                     AppBroadUtils.goChat(this@ScanActivity, commonResultBean.groupId, "1", null)
                                     finish()
                                 } else {
-                                    ToastBroadUtil.show(getString(R.string.scan_applied_waiting_group_owner))
+                                    ToastBroadUtil.show(commonResultBean?.msg ?: getString(R.string.scan_applied_waiting_group_owner))
                                     finish()
                                 }
                             }
