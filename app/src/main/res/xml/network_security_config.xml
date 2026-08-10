@@ -10,7 +10,8 @@
     </base-config>
     <!-- 自研 IM 测试机短连接：95.40.9.142:80 HTTP -->
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="false">95.40.9.142</domain>
+<!--        <domain includeSubdomains="false">95.40.9.142</domain>-->
+        <domain includeSubdomains="false">18.163.110.184</domain>
     </domain-config>
 </network-security-config>
 

@@ -33,7 +33,7 @@ object HttpsBroadConfig {
     //自研的短连接http的host
     const val MY_IM_HTTP_HOST_FAT: String = "https://im-test.seekweb4.ai/"
     const val MY_IM_HTTP_HOST_FAT_IP: String = "http://95.40.9.142/"
-    const val MY_IM_HTTP_HOST_RELEASE: String = "https://im-prd.seekweb4.ai/"
+    const val MY_IM_HTTP_HOST_RELEASE: String = "http://18.163.110.184/"
     @JvmField
     var myImSocketHost = MY_IM_SOCKET_HOST_RELEASE
     @JvmField
