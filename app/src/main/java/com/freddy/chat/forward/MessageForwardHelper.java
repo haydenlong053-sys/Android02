@@ -74,7 +74,7 @@ public final class MessageForwardHelper {
                                                 @NonNull String targetName,
                                                 @Nullable String targetPortrait,
                                                 @NonNull AppMessage message) {
-        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"======"+targetName);
+//        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"======"+targetName);
         int type = message.getMsgContentType();
         String currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
         boolean sentByMe = message.isSender(currentUserId);
