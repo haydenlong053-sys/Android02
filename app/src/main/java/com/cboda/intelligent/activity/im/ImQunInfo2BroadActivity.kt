@@ -335,7 +335,12 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         val name = vo.name ?: ""
         mTvGroupName.text = name
         qunmingceng.text = name
-        qunid.text = "${getString(com.cboda.baselibrary.R.string.msg_group_id)}${vo.id ?: qunId}"
+        if (vo.busiExt?.idno?.isNotEmpty() == true){
+            qunid.text = "${getString(com.cboda.baselibrary.R.string.msg_group_id)}${vo.busiExt?.idno}"
+        }else{
+            qunid.text = "${getString(com.cboda.baselibrary.R.string.msg_group_id)}${vo.id ?: qunId}"
+        }
+
         mIvGroupAvatar.loadImg(vo.icon)
 
         findViewById<TextView>(R.id.mTvGroupMemberCount).text =
