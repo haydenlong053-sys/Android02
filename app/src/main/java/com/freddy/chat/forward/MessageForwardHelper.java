@@ -74,20 +74,26 @@ public final class MessageForwardHelper {
                                                 @NonNull String targetName,
                                                 @Nullable String targetPortrait,
                                                 @NonNull AppMessage message) {
+//        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"======"+targetName);
         int type = message.getMsgContentType();
         String currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
         boolean sentByMe = message.isSender(currentUserId);
         if (MessageContentFormatter.isImageMessage(type)) {
-            String url = MediaMessageContentUtil.resolveDisplayUrl(message.getContent(), sentByMe);
-            view.bind2(targetName, targetPortrait, url, 0, 0);
+//            String url = MediaMessageContentUtil.resolveDisplayUrl(message.getContent(), sentByMe);
+//            view.bind2(targetName, targetPortrait, url, 0, 0);
+            view.bind(targetName, targetPortrait,
+                    view.getContext().getString(com.cboda.baselibrary.R.string.base_digest_img));
             return;
         }
         if (MessageContentFormatter.isVideoMessage(type)) {
-            String cover = MediaMessageContentUtil.resolveCoverDisplayUrl(message.getContent(), sentByMe);
-            if (TextUtils.isEmpty(cover)) {
-                cover = MediaMessageContentUtil.resolveDisplayUrl(message.getContent(), sentByMe);
-            }
-            view.bind2(targetName, targetPortrait, cover, 0, 0);
+//            String cover = MediaMessageContentUtil.resolveCoverDisplayUrl(message.getContent(), sentByMe);
+//            if (TextUtils.isEmpty(cover)) {
+//                cover = MediaMessageContentUtil.resolveDisplayUrl(message.getContent(), sentByMe);
+//            }
+//            view.bind2(targetName, targetPortrait, cover, 0, 0);
+
+            view.bind(targetName, targetPortrait,
+                    view.getContext().getString(com.cboda.baselibrary.R.string.base_digest_video));
             return;
         }
         if (MessageContentFormatter.isMergeTranspondMessage(type)) {
