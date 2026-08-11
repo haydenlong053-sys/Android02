@@ -198,6 +198,7 @@ public final class ImMessageRepository {
 
     /**
      * 发送成功：按 {@code clientMsgId} 更新服务端 {@code msgId} 与发送状态，并同步会话最近一条。
+     * syncedMax 仅在 serverSeq 与当前水位连续（+1）时推进。
      */
     public void markOutgoingSendSuccess(@NonNull String clientMsgId,
                                         @NonNull String serverMsgId,
@@ -229,11 +230,13 @@ public final class ImMessageRepository {
                             entity.setSequenceId(sequence);
                         }
                         AppMessage updated = MessageRealmMapper.toAppMessage(entity);
+                        // 发送成功：仅连续（serverSeq == syncedMax+1）才抬水位，跳跃不推进以免漏拉
                         sessionUpdates.addAll(SessionLastMessageSync.applyInTransaction(
                                 realm,
                                 Collections.singletonList(updated),
                                 prefetched,
-                                Collections.emptyMap()));
+                                Collections.emptyMap(),
+                                true));
                     },
                     () -> {
                         AppMessage updated = queryAppMessageByClientMsgId(clientMsgId);

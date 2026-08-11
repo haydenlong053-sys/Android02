@@ -28,11 +28,27 @@ public final class SessionSyncCursor {
 
     /**
      * 消息落库后推进各会话 syncedMax（只增不减；仅以本地已持久化消息为准）。
+     * getList 分页路径使用：本批取最大 sequence，允许跨号推进。
      */
     public static void advanceInTransaction(@NonNull Realm realm, @NonNull List<AppMessage> messages) {
+        advanceInTransaction(realm, messages, false);
+    }
+
+    /**
+     * 发送成功回包：仅当新 messageId 与当前水位<strong>连续</strong>（{@code seq == syncedMax + 1}）才推进。
+     * 跳跃（中间未拉消息）不抬游标，避免后续增量从高水位起步漏拉。
+     */
+    public static void advanceIfContiguousInTransaction(@NonNull Realm realm,
+                                                        @NonNull List<AppMessage> messages) {
+        advanceInTransaction(realm, messages, true);
+    }
+
+    private static void advanceInTransaction(@NonNull Realm realm,
+                                             @NonNull List<AppMessage> messages,
+                                             boolean requireContiguous) {
         Map<String, AppMessage> latestBySession = pickLatestPerSession(messages);
         for (Map.Entry<String, AppMessage> entry : latestBySession.entrySet()) {
-            advanceSessionInTransaction(realm, entry.getKey(), entry.getValue());
+            advanceSessionInTransaction(realm, entry.getKey(), entry.getValue(), requireContiguous);
         }
     }
 
@@ -111,7 +127,8 @@ public final class SessionSyncCursor {
 
     private static void advanceSessionInTransaction(@NonNull Realm realm,
                                                     @NonNull String sessionId,
-                                                    @NonNull AppMessage message) {
+                                                    @NonNull AppMessage message,
+                                                    boolean requireContiguous) {
         SessionEntity session = realm.where(SessionEntity.class)
                 .equalTo("sessionId", sessionId)
                 .findFirst();
@@ -122,7 +139,12 @@ public final class SessionSyncCursor {
         if (candidateSeq == ImMessageManager.INVALID_SEQUENCE) {
             return;
         }
-        if (candidateSeq <= session.getSyncedMaxSequence()) {
+        long currentSeq = session.getSyncedMaxSequence();
+        if (candidateSeq <= currentSeq) {
+            return;
+        }
+        // 发送成功：必须与当前水位严格 +1，否则中间缺口会被跳过
+        if (requireContiguous && candidateSeq != currentSeq + 1) {
             return;
         }
         String candidateMsgId = resolveMsgId(message);
