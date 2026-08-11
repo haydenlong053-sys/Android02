@@ -9,7 +9,7 @@ import java.util.List;
 public class GroupMemberListContent {
 
     /** 与接口文档默认每页条数一致 */
-    public static final int DEFAULT_PAGE_SIZE = 200;
+    public static final int DEFAULT_PAGE_SIZE = 100;
     public static final int PAGE_SIZE_100 = 100;
     public static final int PAGE_SIZE_50 =50;
 
