@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="NetworkSecurityConfig,AcceptsUserCertificates">
-<!--    /*** 用于抓包 ***/-->
+    <!--        <domain includeSubdomains="false">18.163.110.184</domain>-->
+    <!--    /*** 用于抓包 ***/-->
     <base-config cleartextTrafficPermitted="false">
         <trust-anchors>
             <certificates src="system" />
@@ -11,14 +12,12 @@
     <!-- 自研 IM 测试机短连接：95.40.9.142:80 HTTP -->
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="false">95.40.9.142</domain>
-        <domain includeSubdomains="false">18.163.110.184</domain>
     </domain-config>
 </network-security-config>
 
     <!--    /*** 截止抓包 ***/-->
-<!--    <domain-config cleartextTrafficPermitted="true">-->
-<!--        <domain includeSubdomains="true">127.0.0.1</domain>-->
-<!--        <domain includeSubdomains="false">18.163.110.184</domain>-->
-<!--    </domain-config>-->
-<!--    <base-config cleartextTrafficPermitted="true" />-->
-<!--</network-security-config>-->
+    <!--    <domain-config cleartextTrafficPermitted="true">-->
+    <!--        <domain includeSubdomains="true">127.0.0.1</domain>-->
+    <!--    </domain-config>-->
+    <!--    <base-config cleartextTrafficPermitted="true" />-->
+    <!--</network-security-config>-->
