@@ -144,6 +144,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private var selectedIndex by mutableStateOf(0)
     private var isBottomBarExpanded by mutableStateOf(false)
     private var xiaoxiUnreadCount by mutableStateOf("0")
+
     /** 好友 Tab：好友申请 + 群邀请（与 Message 页「好友」角标同源）。 */
     private var tongxunluUnreadCount by mutableStateOf(
         MMKVBroadUtils.getContactBadgeTotal().coerceAtLeast(0L).toString()
@@ -175,6 +176,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private val versionUpdateViewModel: VersionUpdateViewBroadModel by viewModels()
 
     private val newMirrorViewBroadModel: NewMirrorViewBroadModel by viewModels()
+
     /** 自研 IM 会话未读（与 MessageBroadFragment 共享 Activity 作用域）。 */
     private val conversationParentViewModel: ConversationParentViewModel by viewModels()
 
@@ -220,19 +222,6 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         composeView.setContent {
             val itemList = arrayListOf(
                 ExpandableBottomBarBroadItem(
-                    icon = painterResource(id = R.drawable.ic_home_tab_broad_mirror),
-                    selectedIcon = painterResource(id = R.drawable.ic_home_tab_mirror_broad_pre),
-                    text = stringResource(id = R.string.bottom_bar_mirror)
-                ),
-                ExpandableBottomBarBroadItem(
-                    icon = painterResource(id = R.drawable.ic_gc_tab_mirror),
-                    selectedIcon = painterResource(id = R.drawable.ic_gc_tab_mirror_pre),
-                    text = ImUiStrings.get(com.cboda.baselibrary.R.string.bottom_bar_gc)
-                )
-            )
-//            if (!HttpsBroadConfig.isReviewEnv) {
-            itemList.add(
-                ExpandableBottomBarBroadItem(
                     icon = painterResource(id = R.drawable.ic_home_tab_broad_message),
                     selectedIcon = painterResource(id = R.drawable.ic_home_tab_message_broad_pre),
                     text = stringResource(id = R.string.bottom_bar_social),
@@ -240,6 +229,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                     badge = socialBottomBadgeText(xiaoxiUnreadCount, tongxunluUnreadCount)
                 )
             )
+//            if (!HttpsBroadConfig.isReviewEnv) {
 //            }
             itemList.add(
                 ExpandableBottomBarBroadItem(
@@ -494,14 +484,14 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 //                    1001)
 //            }
 //        }
-        setNavBarHeightListener {
-            val bottomView = findViewById<View>(R.id.bottomView)
-            val layoutParams = bottomView.layoutParams
-            layoutParams.height = dp2px(12f) + it
-            bottomView.layoutParams = layoutParams
-//            (messageFragment as MessageBroadFragment).setBottomHeight(it)
-            gpFragment.setBottomHeight(it)
-        }
+//        setNavBarHeightListener {
+//            val bottomView = findViewById<View>(R.id.bottomView)
+//            val layoutParams = bottomView.layoutParams
+//            layoutParams.height = dp2px(12f) + it
+//            bottomView.layoutParams = layoutParams
+////            (messageFragment as MessageBroadFragment).setBottomHeight(it)
+//            gpFragment.setBottomHeight(it)
+//        }
 //        val oldQrCode = MMKVBroadUtils.getSqlStrData(OLD_QR_CODE, "")
         //82环境登录后不自动跳转到登录二维码页面
         if (fromType != "PushInfo2BroadActivity" && fromType != "LoginQrCodeActivity" && HttpsBroadConfig.currentHostHttpUrlType > 1000) {
@@ -550,7 +540,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                 return@observe
             }
             val localCode = AppBroadUtils.getVersionCode(this)
-            eLogD(APP_TAG,"localCode=$localCode  number=${bean.number}")
+            eLogD(APP_TAG, "localCode=$localCode  number=${bean.number}")
             if (bean.number <= localCode) {
                 return@observe
             }
@@ -731,11 +721,12 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
     private var isInitialized = false
     private var playHolder: SingleBtnBroadHolder? = null
+
     /**
      * 会议倒计时提醒（野火 6011 / 自研 OthBusiSig 6011 共用）：
      * 房主在会议中弹加时提醒，确认后走付费/免费延长会议流程。
      */
-    private fun handleMeetPreEndTip(groupId: String?,time: String?, amount: String?) {
+    private fun handleMeetPreEndTip(groupId: String?, time: String?, amount: String?) {
         if (!MeetCallManager.getInstance().isCallingState() || !MeetCallManager.getInstance().isOwner() || groupId != MeetCallManager.getInstance().mCallData.channelId) {
             return
         }
@@ -763,11 +754,11 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
     private fun afterViews() {
         // 自研 OthBusiSig 6011：会议倒计时提醒（value 为原始 data JSON）
-        meetPreEndTipMsgLiveData.observeForever {  data ->
+        meetPreEndTipMsgLiveData.observeForever { data ->
             val time = OthBusiSigJson.readString(data, "time")
             val amount = OthBusiSigJson.readString(data, "amount")
             val groupId = OthBusiSigJson.readGroupId(data)
-            handleMeetPreEndTip(groupId,time, amount)
+            handleMeetPreEndTip(groupId, time, amount)
         }
 
         if (HttpsBroadConfig.useSelfImOnly) {
@@ -862,13 +853,14 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
 
     private val messageFragment = MessageBroadFragment.getInstance()
-    private val gpFragment = GpFragment()
+
+    //    private val gpFragment = GpFragment()
     private fun initMyIm() {
 
 //        fragmentList.add(MirrorBroadFragment.getInstance())
 
-        fragmentList.add(NewMirrorBroadFragment())
-        fragmentList.add(gpFragment)
+//        fragmentList.add(NewMirrorBroadFragment())
+//        fragmentList.add(gpFragment)
 //        fragmentList.add(CleverBodyBroadFragment())
 //        fragmentNameList.add("faxian")
 //        if (!HttpsBroadConfig.isReviewEnv) {
@@ -894,205 +886,6 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 //        fragmentList.add(MineBroadFragment())
         fragmentList.add(NewMineBroadFragment())
 //        fragmentNameList.add("wode")
-
-
-        ChatManager.Instance().addOnReceiveMessageListener(object : OnReceiveMessageListener {
-            override fun onReceiveMessage(messages: MutableList<Message>?, hasMore: Boolean) {
-                try {
-//                    val uidList = arrayListOf<Pair<String, String>>()
-                    val uidMap = HashMap<String, HashMap<String, String>>()
-                    messages?.forEachIndexed { _, message ->
-                        eLogD(
-                            "MainBroadActivityClass",
-                            "sender:" + message.sender + ", conversationType:" + message.conversation.type.value + ", conversationId:" + message.conversation.target + ", messageId" + message.messageId + ", messageContent:" + toJson2(
-                                message.content
-                            )
-                        )
-                        eLogD(APP_TAG, "MessageContent===" + message.content + "--messageContentType==" + message.content.messageContentType)
-
-                        if (message.conversation.type == ConversationType.Group) {
-                            if (message.sender != getRealUserId() && message.sender != MMKVBroadUtils.getKeFuId()) {
-                                val getList = uidMap[message.conversation.target]
-                                val uidList = getList ?: HashMap()
-                                uidList[message.sender] = message.sender
-                                uidMap[message.conversation.target] = uidList
-                            }
-                        }
-                        if (message.sender == "admin" && message.content is NoticeInformMessageContent) {
-                            val bean = message.content as NoticeInformMessageContent
-//                            Log.d(APP_TAG,"NoticeInformMessageContent==$bean==${bean.isRead}---${bean.isForcePopup}---${bean.isStatus}")
-                            EventBus.getDefault().post(
-                                NoticeInfoBroadBean(
-                                    id = bean.id,
-                                    contentUrl = bean.contentUrl,
-                                    forcePopup = bean.isForcePopup,
-                                    imageUrl = bean.imageUrl,
-                                    previewContent = bean.previewContent,
-                                    noticeTitle = bean.noticeTitle,
-                                    status = bean.isStatus,
-                                    createTime = bean.createTime
-                                )
-                            )
-                        } else if (message.sender == "admin" && message.content is PrivateNoticeInformMessageContent) {
-                            val bean = message.content as PrivateNoticeInformMessageContent
-                            eLogD(APP_TAG, "PrivateNoticeInformMessageContent==$bean==${bean.isRead}---${bean.isForcePopup}---${bean.isStatus}--${bean.createTime}")
-                            EventBus.getDefault().post(
-                                NoticeInfoBroadBean(
-                                    id = bean.id,
-                                    contentUrl = bean.contentUrl,
-                                    forcePopup = bean.isForcePopup,
-                                    imageUrl = bean.imageUrl,
-                                    previewContent = bean.previewContent,
-                                    noticeTitle = bean.noticeTitle,
-                                    status = bean.isStatus,
-                                    createTime = bean.createTime
-                                )
-                            )
-                        } else if (message.sender == "admin" && message.content is MeetingPreEndTipMessageContent) {
-                            //原野火会议室的逻辑，废弃
-//                            val preEndTipMessageContent = message.content as MeetingPreEndTipMessageContent
-//                            runOnUiThread {
-//                                handleMeetPreEndTip(preEndTipMessageContent.time, preEndTipMessageContent.amount)
-//                            }
-                        } else if (message.content is MeetingUpMicApplyMessageContent) {
-                            val meetingUpMicApplyMessageContent = message.content as MeetingUpMicApplyMessageContent
-                            meetUpMicMsgLiveData.postValue(meetingUpMicApplyMessageContent.groupIdNo ?: "")
-                        } else if (message.content is MeetingSeatChangeMessageContent) {
-                            val meetingMicMessageContent = message.content as MeetingSeatChangeMessageContent
-                            meetSeatChangeMsgLiveData.postValue(meetingMicMessageContent.groupIdNo ?: "")
-                        } else if (message.content is MeetStartMessageContent) {
-                            message.conversation?.target?.let { groupId ->
-                                meetJoinMsgLiveData.postValue(groupId)
-                            }
-                        } else if (message.content is MeetEndMessageContent) {
-                            message.conversation?.target?.let { groupId ->
-                                meetEndMsgLiveData.postValue(groupId)
-                            }
-                        }
-                        if (message.content is UnknownMessageContent) {
-                            val unknowMsg = message.content as UnknownMessageContent
-                            val time1 = System.currentTimeMillis() - message.serverTime - ChatManager.Instance().serverDeltaTime
-                            eLogD(
-                                "野火",
-                                "收到自定义通知消息---> ${unknowMsg.orignalPayload.type}---> ${unknowMsg.orignalPayload.content} ---> $time1"
-                            )
-                            eLogD(
-                                "野火",
-                                "收到自定义通知消息---> ${System.currentTimeMillis()}---> ${message.serverTime}---> ${ChatManager.Instance().serverDeltaTime}---> ${(System.currentTimeMillis() - message.serverTime - ChatManager.Instance().serverDeltaTime)}"
-                            )
-//                            eLogD("MainBroadActivityClass", "time1:" + System.currentTimeMillis() + ",time2:" + message.serverTime + ",time3:" + ChatManager.Instance().serverDeltaTime)
-                            if (unknowMsg.orignalPayload.type == MessageContentBroadType.MESSAGE_CONTENT_TYPE_GROUP_BARRAGE && time1 < 300000L) {
-                                val barrageContent = message.content as UnknownMessageContent
-                                val barrageBean = BarrageBean()
-                                barrageBean.sender = message.sender
-                                // 支持两种来源：
-                                // 1）群会话中的弹幕（老逻辑）
-                                // 2）礼物聊天室（roomId = gift_ + groupId）
-                                val conv = message.conversation
-                                barrageBean.conversationId = conv.target
-                                barrageBean.conversationType = ConversationType.Group.value
-                                barrageBean.giftType = anyToInt(barrageContent.orignalPayload.content)
-//                                        ChatManager.Instance().isOnce = false
-                                updateBarrageDataLiveData.postValue(barrageBean)
-                                eLogD("MainBroadActivityClass", "BARRAGE")
-                            }
-
-//                            eLogD("野火", "time1:$time1")
-                            if (time1 / 1000 > 120) {
-                                return@forEachIndexed
-                            }
-                            eLogD("野火", "收到自定义通知消息")
-//                            if (message.conversation.target == ChatManager.Instance().userId) {
-                            when (unknowMsg.orignalPayload.type) {
-                                1002 -> {
-                                    val zidingyi = unknowMsg.orignalPayload.content
-                                    val split = zidingyi.split("|")
-                                    val xinepngy = split[0].toLong()
-                                    val qunshu = split[1].toLong()
-                                    eLogD("野火", "收到自定义通知消息---> $xinepngy")
-                                    MMKVBroadUtils.saveContactBadgeCounts(xinepngy, qunshu)
-                                    refreshContactBadgeFromCache()
-                                    fragmentList.forEachIndexed { index, fragment ->
-                                        if (fragment is TongXunLuBroadFragment) {
-                                            fragment.updateShuLiang(xinepngy, qunshu)
-                                        }
-                                    }
-                                    EventBus.getDefault().post(
-                                        UnreadCountBroadEvent(
-                                            null,
-                                            null,
-                                            null,
-//                    (it?.unreadMention!! + it?.unreadMentionAll!!).toString()
-                                            null,
-                                            null,
-                                            null,
-                                            tongxunluUnreadCount
-                                        )
-                                    )
-                                    EventBus.getDefault()
-                                        .post(AppBroadEvent(AppEventBroadCode.EVENT_REFRESH_CONTACT, true))
-                                    //非自己名义发送的消息才响铃
-                                    if (message.sender != MMKVBroadUtils.getRealUserId()) {
-                                        TiXingBroadUtils.imMsgReminder(this@MainBroadActivity)
-
-                                    }
-                                }
-
-                                1003 -> {
-                                    fragmentList.forEachIndexed { index, fragment ->
-                                        if (fragment is TongXunLuBroadFragment) {
-                                            fragment.reflushTongxunlu()
-                                        }
-                                    }
-                                    TiXingBroadUtils.imMsgReminder(this@MainBroadActivity)
-                                }
-
-                                1005 -> {
-                                    if (unknowMsg.orignalPayload.content.equals(MMKVBroadUtils.getRealUserId())) {
-                                        MyCommonBroadBridge.getInstance().setMyBridgeMethod(
-                                            this@MainBroadActivity, BridgeImEnum.BANNED.value,
-                                            "",
-                                            "",
-                                            null
-                                        )
-                                    }
-                                }
-
-                                6015 -> {
-                                    EventBus.getDefault().post(SquareMessageUnreadBroadEvent())
-                                }
-//                                MessageContentBroadType.MESSAGE_CONTENT_TYPE_GROUP_BARRAGE -> {
-////                                    eLogD("MainBroadActivityClass", "MESSAGE_CONTENT_TYPE_GROUP_BARRAGE")
-//                                    if (message.content is UnknownMessageContent) {
-//                                        val barrageContent = message.content as UnknownMessageContent
-//                                        val barrageBean = BarrageBean()
-//                                        barrageBean.sender = message.sender
-//                                        // 支持两种来源：
-//                                        // 1）群会话中的弹幕（老逻辑）
-//                                        // 2）礼物聊天室（roomId = gift_ + groupId）
-//                                        val conv = message.conversation
-//                                        barrageBean.conversationId = conv.target
-//                                        barrageBean.conversationType = ConversationType.Group.value
-//                                        barrageBean.giftType = anyToInt(barrageContent.orignalPayload.content)
-////                                        ChatManager.Instance().isOnce = false
-//                                        updateBarrageDataLiveData.postValue(barrageBean)
-//                                        eLogD("MainBroadActivityClass", "BARRAGE")
-//                                    }
-//                                }
-                            }
-
-
-                        }
-                    }
-                    if (uidMap.isNotEmpty()) {
-                        E.getMapUserData(uidMap)
-                    }
-
-                } catch (e: Exception) {
-                    eLogD("野火", "收到自定义通知消息异常---> $e")
-                }
-            }
-        })
 
 
 //        viewPager?.apply {
@@ -1191,6 +984,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                 val updated = obj as? List<SessionItem> ?: return
                 conversationParentViewModel.mergeSessions(updated)
             }
+
             Events.SESSION_REMOVED -> {
                 val sessionId = obj as? String ?: return
                 conversationParentViewModel.removeSession(sessionId)
