@@ -8,11 +8,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class UnreadCount implements Parcelable {
-    public UnreadCount(ProtoUnreadCount protocolUnreadCount) {
-        this.unread = protocolUnreadCount.getUnread();
-        this.unreadMention = protocolUnreadCount.getUnreadMention();
-        this.unreadMentionAll = protocolUnreadCount.getUnreadMentionAll();
-    }
 
     public UnreadCount() {
     }
