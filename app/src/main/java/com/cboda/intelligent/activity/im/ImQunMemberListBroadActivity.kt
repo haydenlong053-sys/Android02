@@ -32,6 +32,7 @@ import com.freddy.im.http.ImGroupHttpExample
 import com.freddy.im.http.model.im.BaseMsgResponse
 import com.freddy.im.http.model.im.GroupFriendBean
 import com.freddy.im.listener.OnHttpImListener
+import com.freddy.im.message.ImGroupMemberChangeManager
 import com.freddy.im.message.ImGroupTransferManager
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 
@@ -69,6 +70,8 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         fromPage = intent?.getStringExtra("fromPage") ?: ""
         qunId = intent?.getStringExtra("qunid") ?: ""
         userType = intent?.getStringExtra("userType") ?: ""
+        // 打开成员选择/踢人页：全量 memberList 闲时续拉提速为立刻
+        ImGroupMemberChangeManager.getInstance().promoteFullSyncPriority(qunId)
         viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
         tvAgree = findViewById(R.id.tvAgree)
         recyclerView = findViewById(R.id.recyclerView)

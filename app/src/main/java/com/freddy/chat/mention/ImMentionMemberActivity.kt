@@ -22,6 +22,7 @@ import com.freddy.chat.im.IMSClientBootstrap
 import com.freddy.chat.utils.AvatarViews
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.http.model.im.GroupMemberItem
+import com.freddy.im.message.ImGroupMemberChangeManager
 
 /**
  * 群聊 @ 成员选择页（自研 IM）。
@@ -47,6 +48,8 @@ class ImMentionMemberActivity : BaseSimple2BroadActivity() {
         setRootBgColor(R.color.white)
         groupId = intent.getStringExtra(ImMentionContract.EXTRA_GROUP_ID).orEmpty()
         showMentionAll = intent.getBooleanExtra(ImMentionContract.EXTRA_SHOW_MENTION_ALL, false)
+        // 万人群全量若在闲时续拉，打开 @ 页立刻提速
+        ImGroupMemberChangeManager.getInstance().promoteFullSyncPriority(groupId)
 
         getToolbarTitle()?.text = getString(com.cboda.baselibrary.R.string.im_mention_pick_title)
 

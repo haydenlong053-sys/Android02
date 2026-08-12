@@ -4,6 +4,7 @@ import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppVersion;
 
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.hjq.http.EasyConfig;
+import com.hjq.http.EasyHttp;
 
 /**
  * IM 接口全局请求头：{@code apptoken}、{@code userId}、{@code clientType}。
@@ -30,6 +31,7 @@ public final class ImHttpConfig {
 
     /** 登出/被踢时清空 IM EasyHttp 全局头。 */
     public static void clearGlobalHeaders() {
+        EasyHttp.cancelAll();
         MMKVBroadUtils.Companion.saveMyImToken("");
         setGlobalHeaders("", "", 0);
     }
