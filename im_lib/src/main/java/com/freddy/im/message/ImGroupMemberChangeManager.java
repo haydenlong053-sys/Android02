@@ -9,9 +9,12 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.cboda.baselibrary.utils.ELogUtilKt;
+import com.freddy.im.db.ImDbExecutor;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.db.ImRealm;
 import com.freddy.im.db.mapper.GroupUserVoMapper;
+import com.freddy.im.db.repository.ImGroupMemberRepository;
 import com.freddy.im.http.ImGroupHttpExample;
 import com.freddy.im.http.ImMessageHttpExample;
 import com.freddy.im.http.model.im.GroupMemberChangeListContent;
@@ -31,8 +34,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * <p>
  * HTTP：{@code memberList}（全量分页）、{@code changeMemberList}（增量）、{@code getSpecifyMembers}。
  * <p>
- * 万人群全量：首屏页立刻拉取，余量进闲时续拉；打开成员页 / {@code @} 时可
- * {@link #promoteFullSyncPriority} 提速为立刻翻页。
+ * 万人群全量：首屏页立刻拉取，余量进闲时续拉；半截失败后再全量时用本地活跃人数作
+ * {@code anchor} 续拉。打开成员页 / {@code @} 时可 {@link #promoteFullSyncPriority} 提速。
  */
 public final class ImGroupMemberChangeManager {
 
@@ -106,7 +109,7 @@ public final class ImGroupMemberChangeManager {
             cancelIdleScheduleLocked(state);
             final int nextAnchor = state.nextAnchor;
             final int pageSize = state.pageSize;
-            Log.d(TAG, "memberList 提速立刻续拉 groupId=" + gid + " anchor=" + nextAnchor);
+            ELogUtilKt.eLogD(TAG, "memberList 提速立刻续拉 groupId=" + gid + " anchor=" + nextAnchor);
             mainHandler.post(() -> fetchMemberListPage(gid, nextAnchor, pageSize,
                     () -> finishFullSyncChain(gid, true),
                     () -> finishFullSyncChain(gid, false)));
@@ -177,7 +180,8 @@ public final class ImGroupMemberChangeManager {
 
     /**
      * @param expectedMemCount 远端 memCount 提示；&gt;= {@link #IMMEDIATE_FULL_SYNC_MAX_MEMBERS}
-     *                         时首屏后余量闲时续拉；0 表示未知，由首包 {@code total} 再判断
+     *                         时首屏后余量闲时续拉；0 表示未知，由首包 {@code total} 再判断。
+     *                         大群若本地已有半截成员，起始 {@code anchor} 用本地活跃人数续拉，避免失败后从 0 重头扫。
      */
     public void fetchAllMembersPaginated(@NonNull String groupId,
                                          @Nullable Runnable onFullSyncSuccess,
@@ -190,33 +194,66 @@ public final class ImGroupMemberChangeManager {
             return;
         }
         final String gid = groupId.trim();
+        final int expected = Math.max(0, expectedMemCount);
         FullSyncState state = fullSyncStates.computeIfAbsent(gid, k -> new FullSyncState());
         synchronized (state) {
             state.mergeCallbacks(onFullSyncSuccess, onFullSyncFailed);
             if (state.inFlight) {
                 // 进行中再触发：若调用方已知大群，保持/打开闲时；提速由 promote 负责
-                if (expectedMemCount >= IMMEDIATE_FULL_SYNC_MAX_MEMBERS) {
+                if (expected >= IMMEDIATE_FULL_SYNC_MAX_MEMBERS) {
                     state.deferTail = true;
                 }
-                Log.d(TAG, "memberList 已在飞，合并回调 groupId=" + gid
+                ELogUtilKt.eLogD(TAG, "memberList 已在飞，合并回调 groupId=" + gid
                         + " deferTail=" + state.deferTail);
                 return;
             }
             state.inFlight = true;
             state.urgent = false;
             state.waitingIdle = false;
-            state.deferTail = expectedMemCount >= IMMEDIATE_FULL_SYNC_MAX_MEMBERS;
-            state.expectedMemCount = Math.max(0, expectedMemCount);
+            state.deferTail = expected >= IMMEDIATE_FULL_SYNC_MAX_MEMBERS;
+            state.expectedMemCount = expected;
             state.pageSize = GroupMemberListContent.DEFAULT_PAGE_SIZE;
             state.nextAnchor = 0;
             cancelIdleScheduleLocked(state);
         }
-        Log.d(TAG, "memberList 开始 groupId=" + gid
-                + " expectedMemCount=" + expectedMemCount
-                + " deferTailHint=" + (expectedMemCount >= IMMEDIATE_FULL_SYNC_MAX_MEMBERS));
-        fetchMemberListPage(gid, 0, GroupMemberListContent.DEFAULT_PAGE_SIZE,
-                () -> finishFullSyncChain(gid, true),
-                () -> finishFullSyncChain(gid, false));
+        ImDbExecutor.runRead(() -> {
+            int localCount = ImGroupMemberRepository.getInstance().countActive(gid, false);
+            int startAnchor = resolveFullSyncStartAnchor(localCount, expected);
+            synchronized (state) {
+                if (!state.inFlight) {
+                    return;
+                }
+                state.nextAnchor = startAnchor;
+                if (localCount >= IMMEDIATE_FULL_SYNC_MAX_MEMBERS
+                        || expected >= IMMEDIATE_FULL_SYNC_MAX_MEMBERS) {
+                    state.deferTail = true;
+                }
+            }
+            ELogUtilKt.eLogD(TAG, "memberList 开始 groupId=" + gid
+                    + " startAnchor=" + startAnchor
+                    + " localActive=" + localCount
+                    + " expectedMemCount=" + expected
+                    + " deferTailHint=" + (expected >= IMMEDIATE_FULL_SYNC_MAX_MEMBERS
+                    || localCount >= IMMEDIATE_FULL_SYNC_MAX_MEMBERS));
+            fetchMemberListPage(gid, startAnchor, GroupMemberListContent.DEFAULT_PAGE_SIZE,
+                    () -> finishFullSyncChain(gid, true),
+                    () -> finishFullSyncChain(gid, false));
+        });
+    }
+
+    /**
+     * 大群全量起始锚点：本地已有半截数据时用活跃成员数续拉；小群或本地为空仍从 0。
+     */
+    static int resolveFullSyncStartAnchor(int localActiveCount, int expectedMemCount) {
+        if (localActiveCount <= 0) {
+            return 0;
+        }
+        boolean largeGroup = expectedMemCount >= IMMEDIATE_FULL_SYNC_MAX_MEMBERS
+                || localActiveCount >= IMMEDIATE_FULL_SYNC_MAX_MEMBERS;
+        if (!largeGroup) {
+            return 0;
+        }
+        return localActiveCount;
     }
 
     private void fetchMemberListPage(@NonNull String groupId,
@@ -245,8 +282,8 @@ public final class ImGroupMemberChangeManager {
                         });
                     }
                 }, () -> {
-                    Log.w(TAG, "memberList 失败 groupId=" + groupId + " anchor=" + anchor
-                            + "（不更新 memChgTime，下次可重拉全量）");
+                    ELogUtilKt.eLogW(TAG, "memberList 失败 groupId=" + groupId + " anchor=" + anchor
+                            + "（不更新 memChgTime；大群下次全量将按本地活跃人数续拉）");
                     onChainFailed.run();
                 });
     }
@@ -296,7 +333,7 @@ public final class ImGroupMemberChangeManager {
                     mainHandler.postDelayed(continuePage, IDLE_PAGE_MIN_GAP_MS);
                     return false;
                 };
-                Log.d(TAG, "memberList 余量闲时等待 groupId=" + groupId
+                ELogUtilKt.eLogD(TAG, "memberList 余量闲时等待 groupId=" + groupId
                         + " nextAnchor=" + nextAnchor + " total=" + responseTotal);
             }
         }
@@ -398,7 +435,7 @@ public final class ImGroupMemberChangeManager {
                         ImLocalStore.saveGroupMembersThen(items, gid, onSuccess);
                     }
                 }, () -> {
-                    Log.w(TAG, "changeMemberList 失败 groupId=" + gid + " since=" + since);
+                    ELogUtilKt.eLogW(TAG, "changeMemberList 失败 groupId=" + gid + " since=" + since);
                     if (onFailed != null) {
                         onFailed.run();
                     }
@@ -417,7 +454,7 @@ public final class ImGroupMemberChangeManager {
                         ImLocalStore.saveGroupMembersThen(items, groupId, () ->
                                 maybeAlignMemChgTimeAfterSignal(groupId, null));
                     }
-                }, () -> Log.w(TAG, "getSpecifyMembers 失败 groupId=" + groupId));
+                }, () -> ELogUtilKt.eLogW(TAG, "getSpecifyMembers 失败 groupId=" + groupId));
     }
 
     private static boolean containsUserId(@NonNull List<String> userIds, @Nullable String target) {
