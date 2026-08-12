@@ -23,6 +23,7 @@ import com.freddy.im.http.model.im.GroupNoticeRes
 import com.freddy.im.http.model.im.GroupUserVo
 import com.freddy.im.http.model.im.GroupVo
 import com.freddy.im.listener.OnHttpImListener
+import com.freddy.im.message.ImGroupMemberChangeManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.atomic.AtomicInteger
@@ -45,6 +46,8 @@ class ImQunInfoViewModel : BaseViewModel() {
 
     fun load(groupId: String, currentUserId: String?) {
         if (groupId.isEmpty()) return
+        // 群资料页需要成员网格：提速闲时中的全量 memberList
+        ImGroupMemberChangeManager.getInstance().promoteFullSyncPriority(groupId)
         _state.value = ImGroupInfoUiState(loading = true)
 
         var groupVo: GroupVo? = null
