@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:text="@string/auth_brand_name"
+            android:text="@string/new_app_name"
             android:textColor="@color/color_3B47DD"
             android:textSize="28sp"
             android:textStyle="bold"

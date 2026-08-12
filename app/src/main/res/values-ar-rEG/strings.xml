@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SeekWeb4</string>
     <string name="xiao_xi">رسائل</string>
     <string name="tongxunlu">دفتر العناوين</string>
     <string name="xiaochengxu">البرامج الصغيرة</string>
@@ -432,7 +431,7 @@
     <string name="contact_avatar">صورة رمزية للاتصال</string>
 
     <string name="vip_member">عضو VIP</string>
-    <string name="seekweb4_vip_member">عضو VIP SeekWeb4</string>
+    <string name="wujie_vip_member">عضو VIP wujie</string>
     <string name="open_vip_privilege">افتح العضوية واستمتع بامتيازات حصرية</string>
     <string name="open_now">افتح الآن</string>
     <string name="personal_assets">الأصول الشخصية</string>
@@ -490,7 +489,7 @@
     <string name="circle_work">دائرة العمل</string>
     <string name="circle_public_relations">دائرة العلاقات العامة</string>
     <string name="累计获得">إجمالي المكتسب</string>
-    <string name="welcome_to_seekweb4">مرحباً بك في SeekWeb4</string>
+    <string name="welcome_to_wujie">مرحباً بك في wujie</string>
     <string name="app_cannot_transfer_to_self">لا يمكنك التحويل إلى نفسك!</string>
     <string name="app_transfer_address_format_error">تنسيق عنوان التحويل غير صحيح!</string>
     <string name="app_withdraw_address_format_error">تنسيق عنوان السحب غير صحيح!</string>

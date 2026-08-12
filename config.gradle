@@ -1,10 +1,10 @@
 ext {
     libsinfo = [
-            applicationId    : "com.cboda.intelligent",
+            applicationId    : "com.wujie.intelligent",
             minSdk           : 29,
             compileSdk       : 36,
-            versionCode      : 387,
-            versionName      : "3.8.7",
+            versionCode      : 1,
+            versionName      : "1.0.0",
             buildToolsVersion: "33.0.3",
 
 

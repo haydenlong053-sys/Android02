@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SeekWeb4</string>
+
     <string name="xiao_xi">Mesaje</string>
     <string name="tongxunlu">Agendă</string>
     <string name="xiaochengxu">Mini-aplicații</string>
@@ -434,7 +434,7 @@
     <string name="contact_avatar">Avatar contact</string>
 
     <string name="vip_member">Membru VIP</string>
-    <string name="seekweb4_vip_member">Membru VIP SeekWeb4</string>
+    <string name="app_vip_member">Membru VIP wujie</string>
     <string name="open_vip_privilege">Deschideți abonamentul și bucurați-vă de privilegii exclusive</string>
     <string name="open_now">Deschide acum</string>
     <string name="personal_assets">Active personale</string>
@@ -493,7 +493,7 @@
     <string name="circle_work">Cercul de Lucru</string>
     <string name="circle_public_relations">Cercul Relațiilor Publice</string>
     <string name="累计获得">Total Obținut</string>
-    <string name="welcome_to_seekweb4">Bun venit la SeekWeb4</string>
+    <string name="welcome_to_app">Bun venit la wujie</string>
     <string name="app_cannot_transfer_to_self">Nu vă puteți transfera singur!</string>
     <string name="app_transfer_address_format_error">Format adresă transfer invalid!</string>
     <string name="app_withdraw_address_format_error">Format adresă retragere invalid!</string>

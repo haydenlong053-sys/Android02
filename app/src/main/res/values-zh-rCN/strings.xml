@@ -35,7 +35,7 @@
     <string name="ai_audio">语音</string>
     <string name="ai_video">视频</string>
     <string name="continuing_means_you_agree">继续即表示你同意</string>
-    <string name="app_name">SeekWeb4</string>
+
     <string name="xiao_xi">消息</string>
     <string name="tongxunlu">通讯录</string>
     <string name="xiaochengxu">小程序</string>
@@ -653,7 +653,7 @@
     <string name="mine_google_auth_des_1">复制16位密钥，或扫描下方二维码。</string>
     <string name="mine_google_auth_des_2">16位密钥</string>
     <string name="mine_google_auth_des_3">打开谷歌验证器，使用您刚刚复制的16位密钥添加新的身份验证器</string>
-    <string name="mine_google_auth_des_4">复制验证码，返回SeekWeb4 App，点击下一步</string>
+    <string name="mine_google_auth_des_4">复制验证码，返回wujie App，点击下一步</string>
     <string name="mine_google_auth_des_5">下一步</string>
     <string name="mine_google_auth_des_6">验证身份证验证器</string>
     <string name="mine_google_auth_des_7">身份证验证App验证码</string>
@@ -688,7 +688,7 @@
     <string name="mine_input_money">请输入转账金额</string>
     <string name="mine_handling_fee">手续费：</string>
     <string name="mine_Actual_amount_received">实际到帐：</string>
-    <string name="mine_transfer_des1">使用SeekWeb4扫一扫转账</string>
+    <string name="mine_transfer_des1">使用wujie扫一扫转账</string>
     <string name="mine_transfer_des2">收款人将收到</string>
     <string name="mine_transfer_des3">确认转让</string>
     <string name="mine_transfer_des4">转账至</string>
@@ -771,7 +771,7 @@
     <string name="generate_login_qrcode">生成登录二维码</string>
     <string name="simplified_chinese">简体中文</string>
     <string name="password_reset_success">密码重置成功！</string>
-    <string name="user_qrcode_add_friend">使用SeekWeb4扫一扫，加为好友</string>
+    <string name="user_qrcode_add_friend">使用wujie扫一扫，加为好友</string>
     <string name="ai_check_result">检测结果</string>
     <string name="high_risk_warning">高风险预警</string>
     <string name="mid_risk_warning">中度风险提醒</string>
@@ -830,7 +830,7 @@
     <string name="contact_avatar">联系人头像</string>
 
     <string name="vip_member">VIP会员</string>
-    <string name="seekweb4_vip_member">SeekWeb4 VIP会员</string>
+    <string name="app_vip_member">wujie VIP会员</string>
     <string name="open_vip_privilege">开启会员，享受尊贵特权</string>
     <string name="open_now">立即开通</string>
     <string name="personal_assets">个人资产</string>
@@ -1068,7 +1068,7 @@
     <string name="wt_total">数量: </string>
     <string name="wt_select_wallet">选择钱包</string>
     <string name="wt_transfer_address_no_same_tip">收款地址和钱包地址不可一样</string>
-    <string name="welcome_to_seekweb4">欢迎来到SeekWeb4</string>
+    <string name="welcome_to_app">欢迎来到wujie</string>
     <string name="credit_score_hi_nickname">HI,%1$s</string>
     <string name="credit_score_member_benefits">会员权益</string>
     <string name="credit_score_member_not_open">会员未开通</string>

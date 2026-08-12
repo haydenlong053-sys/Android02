@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SeekWeb4</string>
+
     <string name="xiao_xi">सन्देश</string>
     <string name="tongxunlu">सम्पर्क सूची</string>
     <string name="xiaochengxu">सानो कार्यक्रम</string>
@@ -434,7 +434,7 @@
     <string name="contact_avatar">सम्पर्क अवतार</string>
 
     <string name="vip_member">VIP सदस्य</string>
-    <string name="seekweb4_vip_member">SeekWeb4 VIP सदस्य</string>
+    <string name="app_vip_member">wujie VIP सदस्य</string>
     <string name="open_vip_privilege">सदस्यता खोल्नुहोस् र विशेषाधिकारहरू प्राप्त गर्नुहोस्</string>
     <string name="open_now">अहिले खोल्नुहोस्</string>
     <string name="personal_assets">व्यक्तिगत सम्पत्ति</string>
@@ -493,7 +493,7 @@
     <string name="circle_work">कामको वृत्त</string>
     <string name="circle_public_relations">जनसम्पर्क वृत्त</string>
     <string name="累计获得">कुल प्राप्त</string>
-    <string name="welcome_to_seekweb4">SeekWeb4 मा स्वागत छ</string>
+    <string name="welcome_to_app">wujie मा स्वागत छ</string>
     <string name="app_cannot_transfer_to_self">तपाईं आफैलाई स्थानान्तरण गर्न सक्नुहुन्न!</string>
     <string name="app_transfer_address_format_error">स्थानान्तरण ठेगाना ढाँचा गलत!</string>
     <string name="app_withdraw_address_format_error">निकासी ठेगाना ढाँचा गलत!</string>

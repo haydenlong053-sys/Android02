@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SeekWeb4</string>
+
     <string name="xiao_xi">Tin nhắn</string>
     <string name="tongxunlu">Danh bạ</string>
     <string name="xiaochengxu">Mini chương trình</string>
@@ -432,7 +432,7 @@
     <string name="contact_avatar">Ảnh đại diện liên hệ</string>
 
     <string name="vip_member">Thành viên VIP</string>
-    <string name="seekweb4_vip_member">Thành viên VIP SeekWeb4</string>
+    <string name="app_vip_member">Thành viên VIP wujie</string>
     <string name="open_vip_privilege">Mở thành viên và tận hưởng đặc quyền độc quyền</string>
     <string name="open_now">Mở ngay</string>
     <string name="personal_assets">Tài sản cá nhân</string>
@@ -490,7 +490,7 @@
     <string name="circle_work">Vòng tròn công việc</string>
     <string name="circle_public_relations">Vòng tròn quan hệ công chúng</string>
     <string name="累计获得">Tổng Đã Nhận</string>
-    <string name="welcome_to_seekweb4">Chào mừng đến với SeekWeb4</string>
+    <string name="welcome_to_app">Chào mừng đến với wujie</string>
     <string name="app_cannot_transfer_to_self">Bạn không thể chuyển cho chính mình!</string>
     <string name="app_transfer_address_format_error">Định dạng địa chỉ chuyển khoản không đúng!</string>
     <string name="app_withdraw_address_format_error">Định dạng địa chỉ rút tiền không đúng!</string>

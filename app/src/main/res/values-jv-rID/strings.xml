@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SeekWeb4</string>
+
     <string name="xiao_xi">Pesenan</string>
     <string name="tongxunlu">Buku Kontak</string>
     <string name="xiaochengxu">Mini Program</string>
@@ -434,7 +434,7 @@
     <string name="contact_avatar">Avatar kontak</string>
 
     <string name="vip_member">Anggota VIP</string>
-    <string name="seekweb4_vip_member">Anggota VIP SeekWeb4</string>
+    <string name="app_vip_member">Anggota VIP wujie</string>
     <string name="open_vip_privilege">Bukak keanggotaan lan nikmati hak istimewa eksklusif</string>
     <string name="open_now">Bukak saiki</string>
     <string name="personal_assets">Aset pribadi</string>
@@ -493,7 +493,7 @@
     <string name="circle_work">Lingkaran Kerja</string>
     <string name="circle_public_relations">Lingkaran Hubungan Masyarakat</string>
     <string name="累计获得">Total Diperoleh</string>
-    <string name="welcome_to_seekweb4">Sugeng rawuh ing SeekWeb4</string>
+    <string name="welcome_to_app">Sugeng rawuh ing wujie</string>
     <string name="app_cannot_transfer_to_self">Sampeyan ora bisa transfer menyang awake dhewe!</string>
     <string name="app_transfer_address_format_error">Format alamat transfer salah!</string>
     <string name="app_withdraw_address_format_error">Format alamat penarikan salah!</string>

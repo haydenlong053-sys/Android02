@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SeekWeb4</string>
+
     <string name="xiao_xi">הודעות</string>
     <string name="tongxunlu">אנשי קשר</string>
     <string name="xiaochengxu">תוכניות קטנות</string>
@@ -432,7 +432,7 @@
     <string name="contact_avatar">אווטר איש קשר</string>
 
     <string name="vip_member">חבר VIP</string>
-    <string name="seekweb4_vip_member">חבר VIP SeekWeb4</string>
+    <string name="app_vip_member">חבר VIP wujie</string>
     <string name="open_vip_privilege">פתח חברות ותהנה מהרשאות בלעדיות</string>
     <string name="open_now">פתח עכשיו</string>
     <string name="personal_assets">נכסים אישיים</string>
@@ -491,7 +491,7 @@
     <string name="circle_work">מעגל עבודה</string>
     <string name="circle_public_relations">מעגל יחסי ציבור</string>
     <string name="累计获得">סה&quot;כ שהושג</string>
-    <string name="welcome_to_seekweb4">ברוכים הבאים ל-SeekWeb4</string>
+    <string name="welcome_to_app">ברוכים הבאים ל-wujie</string>
     <string name="app_cannot_transfer_to_self">לא ניתן להעביר לעצמך!</string>
     <string name="app_transfer_address_format_error">פורמט כתובת ההעברה שגוי!</string>
     <string name="app_withdraw_address_format_error">פורמט כתובת המשיכה שגוי!</string>

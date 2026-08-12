@@ -112,7 +112,7 @@
 
     <string name="urgent_reminder">Urgent notice</string>
     <string name="qr_code_expired">Your login QR code has expired. Please save a new QR code; otherwise you will not be able to sign in next time.</string>
-    <string name="welcome_to_seek_four">Welcome to SeekWeb4</string>
+    <string name="welcome_to_seek_four">Welcome to wujie</string>
 
     <!-- Credit score activation dialog -->
     <string name="credit_score_activate_dialog_title">Activate Credit Score</string>
@@ -168,7 +168,7 @@
     <!-- Mine page (new) -->
     <string name="mine_vip_limited_offer">Limited-Time VIP Offer</string>
     <string name="mine_open_now">Activate Now</string>
-    <string name="mine_seekweb4_vip_member">SeekWeb4 VIP Member</string>
+    <string name="mine_app_vip_member">wujie VIP Member</string>
     <string name="mine_assets">Assets</string>
     <string name="mine_square">Square</string>
     <string name="mine_customer_service">Customer Service</string>
@@ -276,7 +276,7 @@
     <string name="square_comment_gate_save">Save</string>
     <string name="square_comment_gate_subtitle">Multiple options can be combined; only users who meet the conditions can comment</string>
     <string name="square_comment_gate_title">Set comment threshold</string>
-    <string name="square_comment_gate_vip_desc">SeekWeb4 VIP members only</string>
+    <string name="square_comment_gate_vip_desc">wujie VIP members only</string>
     <string name="square_comment_gate_vip_title">Member users</string>
     <string name="square_comment_input_hint">Please enter your comment</string>
     <string name="square_comment_reply">Reply</string>
@@ -310,7 +310,7 @@
     <string name="square_publish_image_only">Only images are supported</string>
     <string name="square_publish_input_hint">Please enter</string>
     <string name="square_publish_max_images">You can select up to %1$d images</string>
-    <string name="square_publish_rules_audit_content">SeekWeb4 is committed to high-value information exchange. Spam, fake news, and personal attacks are strictly prohibited. Violations will result in forfeiture of the full pledge and restricted square access.</string>
+    <string name="square_publish_rules_audit_content">wujie is committed to high-value information exchange. Spam, fake news, and personal attacks are strictly prohibited. Violations will result in forfeiture of the full pledge and restricted square access.</string>
     <string name="square_publish_rules_audit_title">Content review standards</string>
     <string name="square_publish_rules_confirm">Read and understood</string>
     <string name="square_publish_rules_stake_content">Posting to the square requires a pledge of 2.0 ODIS. If no violations are reported within 24 hours, the full pledge will be refunded to your account.</string>
@@ -324,7 +324,7 @@
     <string name="square_publish_who_can_comment">Who can comment</string>
     <string name="square_report">Report</string>
     <string name="square_report_explanation">Report instructions</string>
-    <string name="square_report_explanation_content">You should ensure that your complaint is made in good faith and represents your true intent. As a neutral platform service provider, SeekWeb4 will independently assess and handle your complaint as soon as possible in accordance with relevant international conventions, international digital service standards, and applicable laws and regulations.\n\nSeekWeb4 will take reasonable measures to protect your personal information. Except as required by laws and regulations, SeekWeb4 will not disclose your personal information to third parties without your permission.\n\nUnder relevant international conventions and digital copyright protection standards, rights holders must provide authentic identity information when notifying network service providers. Therefore, when you submit an infringement complaint or an impersonation complaint, we will collect relevant information (including sensitive personal information) based on your entity type, including your name or organization name, ID number or organization registration number, front and back photos of your ID, and company or organization certificate photos, for the purpose of verifying the authenticity of your identity. If you authorize an agent to file a complaint, we will also collect the agent\'s name, ID number, front and back photos of the ID, and a photo of the authorization letter to verify the agent\'s identity. You may refuse to provide this information; if you do, we may be unable to evaluate your complaint, but this will not affect your normal use of other SeekWeb4 features.\n\nIn addition, to evaluate your complaint, you should also provide relevant evidence that can be effectively submitted and is necessary for complaint assessment.\n\nIf SeekWeb4 has reasonable grounds to believe that a complaint falls under any of the following circumstances, it may adjust the handling method according to the actual situation, including but not limited to:\n(1) filing a complaint while knowing or should have known that it does not constitute infringement, or clearly lacking rights basis and factual grounds;\n(2) repeatedly filing complaints without substantive supplements after being informed that handling basis is insufficient;\n(3) submitting infringement complaints multiple times or in large volumes with a low overall approval rate or suspected abuse of complaints;\n(4) adversely affecting the platform\'s normal handling of other rights holders\' infringement complaints without reasonable and legitimate grounds;\n(5) other circumstances that SeekWeb4 has reason to believe are unreasonable or abusive complaints.\n\nOnce identified, special handling mechanisms or restriction measures may be applied, including but not limited to limiting frequency, adding to an abnormal complaint list, and adjusting the processing order of infringement complaint tickets, which may result in complaints not being submitted at high frequency, not being approved, or delayed review and assessment.\n\nIf the platform\'s processing capacity is overloaded due to special reasons, including but not limited to network factors, device issues, or a short-term surge in complaint volume, SeekWeb4\'s processing and feedback may also be adjusted or delayed.</string>
+    <string name="square_report_explanation_content">You should ensure that your complaint is made in good faith and represents your true intent. As a neutral platform service provider, wujie will independently assess and handle your complaint as soon as possible in accordance with relevant international conventions, international digital service standards, and applicable laws and regulations.\n\nwujie will take reasonable measures to protect your personal information. Except as required by laws and regulations, wujie will not disclose your personal information to third parties without your permission.\n\nUnder relevant international conventions and digital copyright protection standards, rights holders must provide authentic identity information when notifying network service providers. Therefore, when you submit an infringement complaint or an impersonation complaint, we will collect relevant information (including sensitive personal information) based on your entity type, including your name or organization name, ID number or organization registration number, front and back photos of your ID, and company or organization certificate photos, for the purpose of verifying the authenticity of your identity. If you authorize an agent to file a complaint, we will also collect the agent\'s name, ID number, front and back photos of the ID, and a photo of the authorization letter to verify the agent\'s identity. You may refuse to provide this information; if you do, we may be unable to evaluate your complaint, but this will not affect your normal use of other wujie features.\n\nIn addition, to evaluate your complaint, you should also provide relevant evidence that can be effectively submitted and is necessary for complaint assessment.\n\nIf wujie has reasonable grounds to believe that a complaint falls under any of the following circumstances, it may adjust the handling method according to the actual situation, including but not limited to:\n(1) filing a complaint while knowing or should have known that it does not constitute infringement, or clearly lacking rights basis and factual grounds;\n(2) repeatedly filing complaints without substantive supplements after being informed that handling basis is insufficient;\n(3) submitting infringement complaints multiple times or in large volumes with a low overall approval rate or suspected abuse of complaints;\n(4) adversely affecting the platform\'s normal handling of other rights holders\' infringement complaints without reasonable and legitimate grounds;\n(5) other circumstances that wujie has reason to believe are unreasonable or abusive complaints.\n\nOnce identified, special handling mechanisms or restriction measures may be applied, including but not limited to limiting frequency, adding to an abnormal complaint list, and adjusting the processing order of infringement complaint tickets, which may result in complaints not being submitted at high frequency, not being approved, or delayed review and assessment.\n\nIf the platform\'s processing capacity is overloaded due to special reasons, including but not limited to network factors, device issues, or a short-term surge in complaint volume, wujie\'s processing and feedback may also be adjusted or delayed.</string>
     <string name="square_report_input_hint">Please enter the report details</string>
     <string name="square_report_input_placeholder">Optional, up to 500 characters</string>
     <string name="square_report_submit">Submit for review</string>
@@ -499,7 +499,6 @@
     <string name="group_apply_action_failed">Action failed. Please try again later</string>
     <string name="my_groups">My groups</string>
     <string name="menu_group_info">Group info</string>
-    <string name="auth_brand_name">wujie</string>
     <string name="login_welcome_subtitle">欢迎回来，请登录您的账号</string>
     <string name="auth_account_hint">请输入账号</string>
     <string name="go_to_register">去注册</string>
@@ -507,6 +506,6 @@
     <string name="auth_password_rule_hint">密码长度6-20位，需包含字母和数字</string>
     <string name="auth_confirm_new_password_hint">请再次输入新密码</string>
     <string name="confirm_modify_pwd">确认修改</string>
-
+    <string name="new_app_name">wujie</string>
 
 </resources>

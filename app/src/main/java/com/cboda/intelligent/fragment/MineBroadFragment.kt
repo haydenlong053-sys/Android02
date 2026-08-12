@@ -240,7 +240,7 @@ private fun VipBanner(isVip: Boolean, vipExpireText: String) {
             Spacer(Modifier.width(8.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = if (isVip && !HttpsBroadConfig.isReviewEnv) stringResource(R.string.seekweb4_vip_member) else if (!HttpsBroadConfig.isReviewEnv) stringResource(R.string.open_vip_privilege) else stringResource(
+                    text = if (isVip && !HttpsBroadConfig.isReviewEnv) stringResource(R.string.app_vip_member) else if (!HttpsBroadConfig.isReviewEnv) stringResource(R.string.open_vip_privilege) else stringResource(
                         com.cboda.baselibrary.R.string.welcome_to_seek_four
                     ),
                     color = Color(0xFFFFD3A9),

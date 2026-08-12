@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SeekWeb4</string>
+
     <string name="xiao_xi">ຂໍ້ຄວາມ</string>
     <string name="tongxunlu">ສາຍຕໍ່</string>
     <string name="xiaochengxu">ໂປຣແກຣມນ້ອຍ</string>
@@ -434,7 +434,7 @@
     <string name="contact_avatar">ຮູບພາບຕິດຕໍ່</string>
 
     <string name="vip_member">ສະມາຊິກ VIP</string>
-    <string name="seekweb4_vip_member">ສະມາຊິກ VIP SeekWeb4</string>
+    <string name="app_vip_member">ສະມາຊິກ VIP wujie</string>
     <string name="open_vip_privilege">ເປີດສະມາຊິກການແລະສະແດງສິດພິເສດ</string>
     <string name="open_now">ເປີດດຽວນີ້</string>
     <string name="personal_assets">ຊັບສິນສ່ວນບຸກຄົນ</string>
@@ -493,7 +493,7 @@
     <string name="circle_work">ວົງການເຮັດວຽກ</string>
     <string name="circle_public_relations">ວົງການສາຍພົວພັນສາທາລະນະ</string>
     <string name="累计获得">ລວມທີ່ໄດ້ຮັບ</string>
-    <string name="welcome_to_seekweb4">ຍິນດີຕ້ອນຮັບສູ່ SeekWeb4</string>
+    <string name="welcome_to_app">ຍິນດີຕ້ອນຮັບສູ່ wujie</string>
     <string name="app_cannot_transfer_to_self">ທ່ານບໍ່ສາມາດໂອນໃຫ້ຕົວເອງໄດ້!</string>
     <string name="app_transfer_address_format_error">ຮູບແບບທີ່ຢູ່ໂອນເງິນບໍ່ຖືກຕ້ອງ!</string>
     <string name="app_withdraw_address_format_error">ຮູບແບບທີ່ຢູ່ຖອນເງິນບໍ່ຖືກຕ້ອງ!</string>

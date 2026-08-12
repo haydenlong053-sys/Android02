@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SeekWeb4</string>
+
     <string name="xiao_xi">Ujumbe</string>
     <string name="tongxunlu">Anuani</string>
     <string name="xiaochengxu">Programu Ndogo</string>
@@ -434,7 +434,7 @@
     <string name="contact_avatar">Avatar ya mawasiliano</string>
 
     <string name="vip_member">Mwanachama wa VIP</string>
-    <string name="seekweb4_vip_member">Mwanachama wa VIP SeekWeb4</string>
+    <string name="app_vip_member">Mwanachama wa VIP wujie</string>
     <string name="open_vip_privilege">Fungua uanachama na furahia mapendeleo ya kipekee</string>
     <string name="open_now">Fungua sasa</string>
     <string name="personal_assets">Mali za kibinafsi</string>
@@ -493,7 +493,7 @@
     <string name="circle_work">Mzunguko wa Kazi</string>
     <string name="circle_public_relations">Mzunguko wa Uhusiano wa Umma</string>
     <string name="累计获得">Jumla Ilipatikana</string>
-    <string name="welcome_to_seekweb4">Karibu SeekWeb4</string>
+    <string name="welcome_to_app">Karibu wujie</string>
     <string name="app_cannot_transfer_to_self">Huwezi kuhamisha kwa wewe mwenyewe!</string>
     <string name="app_transfer_address_format_error">Muundo wa anwani ya uhamisho si sahihi!</string>
     <string name="app_withdraw_address_format_error">Muundo wa anwani ya kutowa si sahihi!</string>

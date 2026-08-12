@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SeekWeb4</string>
+
     <string name="xiao_xi">Messaggi</string>
     <string name="tongxunlu">Rubrica</string>
     <string name="xiaochengxu">Mini Programmi</string>
@@ -432,7 +432,7 @@
     <string name="contact_avatar">Avatar del contatto</string>
 
     <string name="vip_member">Membro VIP</string>
-    <string name="seekweb4_vip_member">Membro VIP SeekWeb4</string>
+    <string name="app_vip_member">Membro VIP wujie</string>
     <string name="open_vip_privilege">Apri l\'adesione e goditi privilegi esclusivi</string>
     <string name="open_now">Apri ora</string>
     <string name="personal_assets">Patrimonio personale</string>
@@ -490,7 +490,7 @@
     <string name="circle_work">Cerchio Lavorativo</string>
     <string name="circle_public_relations">Cerchio delle Pubbliche Relazioni</string>
     <string name="累计获得">Totale Ottenuto</string>
-    <string name="welcome_to_seekweb4">Benvenuto su SeekWeb4</string>
+    <string name="welcome_to_app">Benvenuto su wujie</string>
     <string name="app_cannot_transfer_to_self">Non puoi trasferire a te stesso!</string>
     <string name="app_transfer_address_format_error">Formato indirizzo di trasferimento non valido!</string>
     <string name="app_withdraw_address_format_error">Formato indirizzo di prelievo non valido!</string>

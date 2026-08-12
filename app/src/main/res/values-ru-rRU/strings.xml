@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SeekWeb4</string>
+
     <string name="xiao_xi">Сообщения</string>
     <string name="tongxunlu">Контакты</string>
     <string name="xiaochengxu">Мини-программы</string>
@@ -433,7 +433,7 @@
     <string name="contact_avatar">Аватар контакта</string>
 
     <string name="vip_member">VIP-член</string>
-    <string name="seekweb4_vip_member">VIP-член SeekWeb4</string>
+    <string name="app_vip_member">VIP-член wujie</string>
     <string name="open_vip_privilege">Откройте членство и наслаждайтесь эксклюзивными привилегиями</string>
     <string name="open_now">Открыть сейчас</string>
     <string name="personal_assets">Личные активы</string>
@@ -491,7 +491,7 @@
     <string name="circle_work">Рабочий круг</string>
     <string name="circle_public_relations">PR круг</string>
     <string name="累计获得">Всего Получено</string>
-    <string name="welcome_to_seekweb4">Добро пожаловать в SeekWeb4</string>
+    <string name="welcome_to_app">Добро пожаловать в wujie</string>
     <string name="app_cannot_transfer_to_self">Нельзя переводить себе!</string>
     <string name="app_transfer_address_format_error">Неверный формат адреса перевода!</string>
     <string name="app_withdraw_address_format_error">Неверный формат адреса вывода!</string>

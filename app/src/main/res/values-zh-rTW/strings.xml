@@ -35,7 +35,7 @@
     <string name="ai_audio">語音</string>
     <string name="ai_video">影片</string>
 
-    <string name="app_name">SeekWeb4</string>
+
     <string name="xiao_xi">消息</string>
     <string name="tongxunlu">通訊錄</string>
     <string name="xiaochengxu">小程序</string>
@@ -461,7 +461,7 @@
     <string name="注销账号">注销账号</string>
     <string name="密码验证">密码验证</string>
     <string name="mine_t_Withdrawal_ok">提现成功</string>
-    <string name="mine_google_auth_des_4">复制验证码，返回SeekWeb4 App，点击下一步</string>
+    <string name="mine_google_auth_des_4">复制验证码，返回wujie App，点击下一步</string>
     <string name="mine_transfer_success">转账成功</string>
     <string name="generate_login_qrcode">生成登录二维码</string>
     <string name="password">Password</string>
@@ -626,7 +626,7 @@
     <string name="mine_sys_currency">平台通证(%1$s)</string>
     <string name="action_new_profile">New Server</string>
     <string name="please_enter_new_password">请输入新密码</string>
-    <string name="mine_transfer_des1">使用SeekWeb4扫一扫转账</string>
+    <string name="mine_transfer_des1">使用wujie扫一扫转账</string>
     <string name="common_cancel">Cancel</string>
     <string name="边写边译">边写边译</string>
     <string name="提醒方式">提醒方式</string>
@@ -765,7 +765,7 @@
     <string name="mine_bind_success">绑定成功,请重新登录</string>
     <string name="continuing_means_you_agree">继续即表示你同意</string>
     <string name="action_add_url">从网址导入</string>
-    <string name="user_qrcode_add_friend">使用SeekWeb4扫一扫，加为好友</string>
+    <string name="user_qrcode_add_friend">使用wujie扫一扫，加为好友</string>
 
     <string name="ai_check_result">檢測結果</string>
     <string name="high_risk_warning">高風險預警</string>
@@ -832,7 +832,7 @@
     <string name="contact_avatar">聯繫人頭像</string>
 
     <string name="vip_member">VIP會員</string>
-    <string name="seekweb4_vip_member">SeekWeb4 VIP會員</string>
+    <string name="app_vip_member">wujie VIP會員</string>
     <string name="open_vip_privilege">開啟會員，享受尊貴特權</string>
     <string name="open_now">立即開通</string>
     <string name="personal_assets">個人資產</string>
@@ -1069,7 +1069,7 @@
     <string name="wt_total">數量：</string>
     <string name="wt_select_wallet">選擇錢包</string>
     <string name="wt_transfer_address_no_same_tip">收款地址與錢包地址不可相同</string>
-    <string name="welcome_to_seekweb4">歡迎來到SeekWeb4</string>
+    <string name="welcome_to_app">歡迎來到wujie</string>
 
     <string name="credit_score_hi_nickname">HI,%1$s</string>
     <string name="credit_score_member_benefits">會員權益</string>

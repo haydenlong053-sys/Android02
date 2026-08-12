@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SeekWeb4</string>
+
     <string name="xiao_xi">Mesej</string>
     <string name="tongxunlu">Buku Alamat</string>
     <string name="xiaochengxu">Mini Program</string>
@@ -435,7 +435,7 @@
     <string name="contact_avatar">Avatar kenalan</string>
 
     <string name="vip_member">Ahli VIP</string>
-    <string name="seekweb4_vip_member">Ahli VIP SeekWeb4</string>
+    <string name="app_vip_member">Ahli VIP wujie</string>
     <string name="open_vip_privilege">Buka keahlian dan nikmati keistimewaan eksklusif</string>
     <string name="open_now">Buka sekarang</string>
     <string name="personal_assets">Aset peribadi</string>
@@ -494,7 +494,7 @@
     <string name="circle_work">Bulatan Kerja</string>
     <string name="circle_public_relations">Bulatan Hubungan Awam</string>
     <string name="累计获得">Jumlah Diperoleh</string>
-    <string name="welcome_to_seekweb4">Selamat datang ke SeekWeb4</string>
+    <string name="welcome_to_app">Selamat datang ke wujie</string>
     <string name="app_cannot_transfer_to_self">Anda tidak boleh pindah wang kepada diri sendiri!</string>
     <string name="app_transfer_address_format_error">Format alamat pindahan tidak sah!</string>
     <string name="app_withdraw_address_format_error">Format alamat pengeluaran tidak sah!</string>

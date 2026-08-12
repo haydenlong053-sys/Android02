@@ -35,7 +35,6 @@
     <string name="ai_video">Video</string>
 
     <string name="continuing_means_you_agree">By continuing, you agree to</string>
-    <string name="app_name">SeekWeb4</string>
     <string name="xiao_xi">Messages</string>
     <string name="tongxunlu">Contacts</string>
     <string name="xiaochengxu">Mini Programs</string>
@@ -641,7 +640,7 @@
     <string name="mine_google_auth_des_1">Copy the 16-digit key or scan the QR code below.</string>
     <string name="mine_google_auth_des_2">16-digit Key</string>
     <string name="mine_google_auth_des_3">Open Google Authenticator and add a new authenticator using the 16-digit key you just copied</string>
-    <string name="mine_google_auth_des_4">Copy the verification code, return to SeekWeb4 App, and click Next</string>
+    <string name="mine_google_auth_des_4">Copy the verification code, return to wujie App, and click Next</string>
     <string name="mine_google_auth_des_5">Next</string>
     <string name="mine_google_auth_des_6">Verify Authenticator</string>
     <string name="mine_google_auth_des_7">Authenticator App Code</string>
@@ -676,7 +675,7 @@
     <string name="mine_input_money">Please enter transfer amount</string>
     <string name="mine_handling_fee">Fee:</string>
     <string name="mine_Actual_amount_received">Actual Received: </string>
-    <string name="mine_transfer_des1">Use SeekWeb4 to scan and transfer money</string>
+    <string name="mine_transfer_des1">Use wujie to scan and transfer money</string>
     <string name="mine_transfer_des2">Recipient will receive</string>
     <string name="mine_transfer_des3">Confirm Transfer</string>
     <string name="mine_transfer_des4">Transfer to</string>
@@ -759,7 +758,7 @@
     <string name="generate_login_qrcode">Generate Login QR Code</string>
     <string name="simplified_chinese">Simplified Chinese</string>
     <string name="password_reset_success">Password reset successful!</string>
-    <string name="user_qrcode_add_friend">Use SeekWeb4 to scan and add as a friend.</string>
+    <string name="user_qrcode_add_friend">Use wujie to scan and add as a friend.</string>
 
     <string name="ai_check_result">Detection Result</string>
     <string name="high_risk_warning">High Risk Warning</string>
@@ -826,7 +825,7 @@
     <string name="contact_avatar">Contact Avatar</string>
 
     <string name="vip_member">VIP Member</string>
-    <string name="seekweb4_vip_member">SeekWeb4 VIP Member</string>
+    <string name="app_vip_member">wujie VIP Member</string>
     <string name="open_vip_privilege">Open membership and enjoy exclusive privileges</string>
     <string name="open_now">Open Now</string>
     <string name="personal_assets">My Wallet</string>
@@ -1063,7 +1062,7 @@
     <string name="wt_total">Amount: </string>
     <string name="wt_select_wallet">Select Wallet</string>
     <string name="wt_transfer_address_no_same_tip">The receiving address cannot be the same as the wallet address</string>
-    <string name="welcome_to_seekweb4">Welcome to SeekWeb4</string>
+    <string name="welcome_to_app">Welcome to wujie</string>
 
     <string name="credit_score_hi_nickname">HI,%1$s</string>
     <string name="credit_score_member_benefits">Membership Benefits</string>
