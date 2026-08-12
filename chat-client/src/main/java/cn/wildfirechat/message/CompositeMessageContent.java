@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.wildfirechat.client.ClientService;
 import cn.wildfirechat.message.core.ContentTag;
 import cn.wildfirechat.message.core.MessageDirection;
 import cn.wildfirechat.message.core.MessagePayload;
@@ -115,9 +114,9 @@ public class CompositeMessageContent extends MediaMessageContent {
     }
 
     // 只能从marsservice 进程调用
-    public void decode(MessagePayload payload, ClientService service) {
-        this.decode(payload, service::messageContentFromPayload);
-    }
+//    public void decode(MessagePayload payload, ClientService service) {
+//        this.decode(payload, service::messageContentFromPayload);
+//    }
 
     // 只能从主进程调用
     public void decode(MessagePayload payload, ChatManager chatManager) {

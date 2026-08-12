@@ -5,7 +5,6 @@
 package cn.wildfirechat.remote;
 
 
-import static android.content.Context.BIND_AUTO_CREATE;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.ELogUtilKt.toLog;
@@ -13,7 +12,6 @@ import static com.cboda.baselibrary.utils.ELogUtilKt.toLog;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -70,7 +68,6 @@ import java.util.concurrent.CountDownLatch;
 
 import cn.wildfirechat.ErrorCode;
 import cn.wildfirechat.UserSource;
-import cn.wildfirechat.client.ClientService;
 import cn.wildfirechat.comm.MarsExactAlarmHelper;
 import cn.wildfirechat.client.ConnectionStatus;
 import cn.wildfirechat.client.ICreateChannelCallback;
@@ -8729,15 +8726,6 @@ public class ChatManager {
         if (INST != null) {
             if (mClient != null) {
                 return true;
-            }
-
-            Intent intent = new Intent(gContext, ClientService.class);
-            intent.putExtra("clientId", getClientId());
-            boolean result = gContext.bindService(intent, serviceConnection, BIND_AUTO_CREATE);
-            if (!result) {
-                eLogD(TAG, "Bind service failure");
-            } else {
-                eLogD(TAG, "Bind service success");
             }
         } else {
             eLogD(TAG, "Chat manager not initialized");
