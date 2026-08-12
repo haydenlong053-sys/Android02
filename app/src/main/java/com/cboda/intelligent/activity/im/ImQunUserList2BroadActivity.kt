@@ -13,6 +13,7 @@ import com.cboda.intelligent.utils.JumpBroadUtils
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.group.GroupRole
 import com.freddy.im.http.model.im.GroupMemberListContent
+import com.freddy.im.message.ImGroupMemberChangeManager
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
@@ -36,6 +37,7 @@ class ImQunUserList2BroadActivity : BaseSimpleBroadActivity() {
         qunId = intent?.getStringExtra("qunid") ?: ImGroupIntent.getGroupId(intent) ?: ""
         myRole = intent?.getIntExtra(ImGroupIntent.EXTRA_MY_ROLE, GroupRole.MEMBER) ?: GroupRole.MEMBER
         openQykj = intent?.getStringExtra(ImGroupIntent.EXTRA_OPEN_QYKJ)
+        ImGroupMemberChangeManager.getInstance().promoteFullSyncPriority(qunId)
         smartLayout = findViewById(R.id.smart)
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
 

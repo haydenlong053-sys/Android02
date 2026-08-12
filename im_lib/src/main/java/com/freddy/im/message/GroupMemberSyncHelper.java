@@ -22,7 +22,8 @@ import java.util.Collections;
 /**
  * 群成员同步：冷启动/半截全量走分页全量；日常按 {@code memChgTime} 走增量 {@code changeMemberList}。
  * <p>
- * {@code memChgTime} 仅在全量或增量<strong>成功</strong>后写入；失败/杀进程不抬水位。
+ * 万人群全量 {@code memberList}：首屏立刻、余量闲时（见 {@link ImGroupMemberChangeManager}）；
+ * 增量始终立刻。{@code memChgTime} 仅在全量或增量<strong>成功</strong>后写入；失败/杀进程不抬水位。
  */
 public final class GroupMemberSyncHelper {
 
@@ -143,14 +144,16 @@ public final class GroupMemberSyncHelper {
                 Log.w(TAG, "人数不足或半截全量，强制 memberList groupId=" + groupId
                         + " local=" + localActiveCount + " remoteMemCount=" + remoteMemCount);
             }
+            // 万人群：首屏立刻，余量闲时；小群整链立刻。memChgTime 仍仅全量成功后抬。
             ImGroupMemberChangeManager.getInstance().fetchAllMembersPaginated(
                     groupId,
                     () -> finishMemberSync(groupId, group, onMembersReloaded),
-                    () -> Log.w(TAG, "全量 memberList 未完成，保留旧 memChgTime groupId=" + groupId));
+                    () -> Log.w(TAG, "全量 memberList 未完成，保留旧 memChgTime groupId=" + groupId),
+                    remoteMemCount);
             return;
         }
 
-        // 日常：水位落后但本地已有底库 → 增量
+        // 日常：水位落后但本地已有底库 → 增量（立刻，不进闲时）
         Log.d(TAG, "changeMemberList since=" + localMemChgTime + " groupId=" + groupId);
         ImGroupMemberChangeManager.getInstance().fetchChangedMembers(
                 groupId,
@@ -161,7 +164,8 @@ public final class GroupMemberSyncHelper {
                     ImGroupMemberChangeManager.getInstance().fetchAllMembersPaginated(
                             groupId,
                             () -> finishMemberSync(groupId, group, onMembersReloaded),
-                            () -> Log.w(TAG, "降级全量仍失败，保留旧 memChgTime groupId=" + groupId));
+                            () -> Log.w(TAG, "降级全量仍失败，保留旧 memChgTime groupId=" + groupId),
+                            remoteMemCount);
                 });
     }
 
