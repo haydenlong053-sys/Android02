@@ -1,11 +1,14 @@
 package com.cboda.intelligent.activity
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import com.cboda.baselibrary.bean.LoginBean
@@ -153,26 +156,49 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
         mBinding?.languageGroup?.isGone = !boolean
     }
 
+    /** 登录/注册白底页：隐藏暗色 Lottie，返回键与协议文案改深色。 */
+    private fun applyAuthLightChrome(light: Boolean) {
+        if (light) {
+            mIvBgTop.setImageResource(android.R.color.white)
+            setBackLottieIsShow(false)
+            mBinding?.ivBlack?.imageTintList = ColorStateList.valueOf(Color.BLACK)
+            mBinding?.languageTv?.setTextColor(ContextCompat.getColor(this, R.color.black_65))
+            mBinding?.bottomTv1?.setTextColor(0x99000000.toInt())
+            mBinding?.bottomTv2?.setTextColor(ContextCompat.getColor(this, R.color.color_3B47DD))
+            mBinding?.bottomTv3?.setTextColor(0x99000000.toInt())
+            mBinding?.bottomTv5?.setTextColor(ContextCompat.getColor(this, R.color.color_3B47DD))
+        } else {
+            mIvBgTop.setImageResource(com.cboda.baselibrary.R.color.color_111B40)
+            setBackLottieIsShow(true)
+            mBinding?.ivBlack?.imageTintList = ColorStateList.valueOf(Color.WHITE)
+            mBinding?.languageTv?.setTextColor(ContextCompat.getColor(this, R.color.white))
+            mBinding?.bottomTv1?.setTextColor(0x59FFFFFF)
+            mBinding?.bottomTv2?.setTextColor(0xA6FFFFFF.toInt())
+            mBinding?.bottomTv3?.setTextColor(0x59FFFFFF)
+            mBinding?.bottomTv5?.setTextColor(0xA6FFFFFF.toInt())
+        }
+    }
+
     fun toSelectLogin(smoothScroll: Boolean = true) {
         mBinding?.loginViewPager?.setCurrentItem(selectLoginIndex, smoothScroll)
         setBackIsShow(false)
-        setBackLottieIsShow(true)
         setLanguageIsShow(true)
+        applyAuthLightChrome(false)
     }
 
     fun toLogin(smoothScroll: Boolean = true) {
         mBinding?.loginViewPager?.setCurrentItem(loginIndex, smoothScroll)
         setBackIsShow(true)
-        setBackLottieIsShow(true)
-        setLanguageIsShow(true)
+        setLanguageIsShow(false)
+        applyAuthLightChrome(true)
     }
 
 
     fun toForgetPwd(needUpdateAccount: Boolean = false) {
         mBinding?.loginViewPager?.setCurrentItem(forgetPwdIndex, true)
         setBackIsShow(true)
-        setBackLottieIsShow(true)
         setLanguageIsShow(true)
+        applyAuthLightChrome(false)
         if (needUpdateAccount) {
             forgetPwdFragment.updateAccount(loginAccount)
         }
@@ -181,8 +207,8 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
     fun toUpdatePwd() {
         mBinding?.loginViewPager?.setCurrentItem(updatePwdIndex, true)
         setBackIsShow(true)
-        setBackLottieIsShow(false)
         setLanguageIsShow(false)
+        applyAuthLightChrome(false)
         updatePwdFragment.updateAccount(updatePwdAccount)
     }
 
@@ -212,8 +238,8 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
         this.isSelectLoginFragment = isSelectLoginFragment
         mBinding?.loginViewPager?.setCurrentItem(registeredIndex, false)
         setBackIsShow(true)
-        setBackLottieIsShow(false)
         setLanguageIsShow(false)
+        applyAuthLightChrome(true)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

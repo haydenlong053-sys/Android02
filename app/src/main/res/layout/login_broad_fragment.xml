@@ -1,151 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@color/black">
+    android:background="@color/white"
+    android:fillViewport="true"
+    android:overScrollMode="never">
 
-    <com.hjq.shape.view.ShapeView
-        android:id="@+id/backView"
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="@dimen/dp_0"
-        android:layout_marginHorizontal="@dimen/dp_24"
-        android:layout_marginTop="@dimen/dp_148"
-        android:layout_marginBottom="-34dp"
-        app:layout_constraintBottom_toBottomOf="@id/loginBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shape_radius="@dimen/dp_16"
-        app:shape_solidColor="#FF0F1B3A"
-        app:shape_strokeColor="#FF3E5387"
-        app:shape_strokeWidth="@dimen/dp_1"
-        tools:visibility="visible" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/loginTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="@string/account_login"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@id/backView"
-        app:layout_constraintStart_toStartOf="@id/backView"
-        app:layout_constraintTop_toTopOf="@id/backView" />
+        <!-- 保留 id，新样式不再展示卡片底 -->
+        <View
+            android:id="@+id/backView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <com.hjq.shape.view.ShapeEditText
-        android:id="@+id/loginAccount"
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="@dimen/dp_50"
-        android:layout_marginHorizontal="@dimen/dp_24"
-        android:layout_marginTop="@dimen/dp_24"
-        android:drawableStart="@mipmap/icon_login_broad_account"
-        android:drawablePadding="@dimen/dp_12"
-        android:hint="@string/please_enter_account"
-        android:paddingHorizontal="@dimen/dp_16"
-        android:textColor="@color/white"
-        android:textColorHint="#7366A0F7"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@id/backView"
-        app:layout_constraintStart_toStartOf="@id/backView"
-        app:layout_constraintTop_toBottomOf="@id/loginTv"
-        app:shape_radius="@dimen/dp_16"
-        app:shape_solidColor="@color/color_080E1E"
-        app:shape_strokeColor="@color/color_080E1E"
-        app:shape_strokeWidth="@dimen/dp_1" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/brandTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/auth_brand_name"
+            android:textColor="@color/color_3B47DD"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/loginTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/login"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/brandTv" />
 
-    <com.hjq.shape.view.ShapeEditText
-        android:id="@+id/loginPwd"
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="@dimen/dp_50"
-        android:layout_marginTop="@dimen/dp_20"
-        android:drawableStart="@mipmap/icon_login_broad_pwd"
-        android:drawablePadding="@dimen/dp_12"
-        android:hint="@string/please_enter_password"
-        android:inputType="textPassword"
-        android:paddingStart="@dimen/dp_16"
-        android:paddingEnd="@dimen/dp_48"
-        android:textColor="@color/white"
-        android:textColorHint="#7366A0F7"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@id/loginAccount"
-        app:layout_constraintStart_toStartOf="@id/loginAccount"
-        app:layout_constraintTop_toBottomOf="@id/loginAccount"
-        app:shape_radius="@dimen/dp_16"
-        app:shape_solidColor="@color/color_080E1E"
-        app:shape_strokeColor="@color/color_080E1E"
-        app:shape_strokeWidth="@dimen/dp_1" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/loginSubtitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/login_welcome_subtitle"
+            android:textColor="#999999"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/loginTv" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/loginLookPwd"
-        android:layout_width="@dimen/dp_48"
-        android:layout_height="@dimen/dp_48"
-        android:background="@color/transparent"
-        android:padding="@dimen/dp_16"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/icon_pwd_broad_close"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/loginPwd"
-        app:layout_constraintEnd_toEndOf="@id/loginPwd"
-        app:layout_constraintTop_toTopOf="@id/loginPwd"
-        tools:visibility="visible" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/accountLabelTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:text="@string/user_account"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/loginSubtitleTv" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/loginForgetPwd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_4"
-        android:padding="@dimen/dp_20"
-        android:text="@string/forget_password"
-        android:textColor="#F19A38"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@id/backView"
-        app:layout_constraintTop_toBottomOf="@id/loginLookPwd" />
+        <com.hjq.shape.view.ShapeEditText
+            android:id="@+id/loginAccount"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:drawableStart="@mipmap/icon_login_broad_account"
+            android:drawablePadding="12dp"
+            android:hint="@string/auth_account_hint"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingHorizontal="16dp"
+            android:textColor="@color/black"
+            android:textColorHint="#BBBBBB"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/accountLabelTv"
+            app:shape_radius="12dp"
+            app:shape_solidColor="@color/white"
+            app:shape_strokeColor="#E5E5E5"
+            app:shape_strokeWidth="1dp" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/loginRegisterAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dp_4"
-        android:padding="@dimen/dp_20"
-        android:text="@string/register_account"
-        android:textColor="#F19A38"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@id/backView"
-        app:layout_constraintTop_toTopOf="@id/loginForgetPwd" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/pwdLabelTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/密码"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/loginAccount" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/loginBtn"
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="@dimen/dp_50"
-        android:layout_marginHorizontal="@dimen/dp_24"
-        android:gravity="center"
-        android:text="@string/login"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@id/backView"
-        app:layout_constraintStart_toStartOf="@id/backView"
-        app:layout_constraintTop_toBottomOf="@id/loginRegisterAccount" />
+        <com.hjq.shape.view.ShapeEditText
+            android:id="@+id/loginPwd"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:drawableStart="@mipmap/icon_login_broad_pwd"
+            android:drawablePadding="12dp"
+            android:hint="@string/请输入密码"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:paddingStart="16dp"
+            android:paddingEnd="48dp"
+            android:textColor="@color/black"
+            android:textColorHint="#BBBBBB"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pwdLabelTv"
+            app:shape_radius="12dp"
+            app:shape_solidColor="@color/white"
+            app:shape_strokeColor="#E5E5E5"
+            app:shape_strokeWidth="1dp" />
 
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/loginLookPwd"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@color/transparent"
+            android:padding="14dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/icon_pwd_broad_close"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/loginPwd"
+            app:layout_constraintEnd_toEndOf="@id/loginPwd"
+            app:layout_constraintTop_toTopOf="@id/loginPwd"
+            tools:visibility="visible" />
 
-    <com.hjq.shape.view.ShapeTextView
-        android:id="@+id/oneLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_46"
-        android:layout_marginTop="@dimen/dp_24"
-        android:paddingHorizontal="@dimen/dp_25"
-        android:paddingVertical="@dimen/dp_12"
-        android:text="@string/one_click_login"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/backView"
-        app:shape_radius="@dimen/dp_16"
-        app:shape_solidColor="#1affffff"
-        app:shape_strokeColor="#40ffffff"
-        app:shape_strokeWidth="@dimen/dp_05" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/loginBtn"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/bg_auth_btn_disabled"
+            android:gravity="center"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/loginPwd" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/loginRegisterAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:padding="8dp"
+            android:text="@string/go_to_register"
+            android:textColor="@color/color_3B47DD"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/loginBtn" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/loginForgetPwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:padding="8dp"
+            android:text="@string/forget_password"
+            android:textColor="#999999"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/loginRegisterAccount" />
+
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/oneLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp"
+            android:text="@string/one_click_login"
+            android:textColor="#999999"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/loginForgetPwd"
+            app:shape_radius="12dp"
+            app:shape_solidColor="@color/transparent"
+            app:shape_strokeColor="#DDDDDD"
+            app:shape_strokeWidth="1dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

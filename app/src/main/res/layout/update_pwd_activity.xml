@@ -1,124 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_main2">
+    android:background="@color/white"
+    android:fillViewport="true"
+    android:overScrollMode="never">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="32dp">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/title1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_32"
-        android:text="@string/set_login_pwd"
-        android:textColor="@color/black_90"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/修改密码"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/title2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_30"
-        android:text="@string/新密码"
-        android:textColor="@color/black_65"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@id/title1"
-        app:layout_constraintTop_toBottomOf="@id/title1" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/oldPwdLabelTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:text="@string/原密码"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title1" />
 
-    <com.hjq.shape.view.ShapeEditText
-        android:id="@+id/newPwdEt"
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="@dimen/dp_55"
-        android:layout_marginHorizontal="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_8"
-        android:hint="@string/please_input_new_pwd"
-        android:paddingStart="@dimen/dp_12"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black35"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title2"
-        app:shape_radius="@dimen/dp_10"
-        app:shape_solidColor="@color/white" />
+        <com.hjq.shape.view.ShapeEditText
+            android:id="@+id/oldPwdEt"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:drawableStart="@mipmap/icon_login_broad_pwd"
+            android:drawablePadding="12dp"
+            android:hint="@string/请输入原密码"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:paddingStart="16dp"
+            android:paddingEnd="48dp"
+            android:textColor="@color/black"
+            android:textColorHint="#BBBBBB"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/oldPwdLabelTv"
+            app:shape_radius="12dp"
+            app:shape_solidColor="@color/white"
+            app:shape_strokeColor="#E5E5E5"
+            app:shape_strokeWidth="1dp" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/title3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_24"
-        android:text="@string/confirm_password"
-        android:textColor="@color/black_65"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@id/title1"
-        app:layout_constraintTop_toBottomOf="@id/newPwdEt" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/oldPwdLook"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@color/transparent"
+            android:padding="14dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/icon_pwd_broad_close"
+            app:layout_constraintBottom_toBottomOf="@id/oldPwdEt"
+            app:layout_constraintEnd_toEndOf="@id/oldPwdEt"
+            app:layout_constraintTop_toTopOf="@id/oldPwdEt" />
 
-    <com.hjq.shape.view.ShapeEditText
-        android:id="@+id/againPwdEt"
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="@dimen/dp_55"
-        android:layout_marginHorizontal="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_8"
-        android:hint="@string/请再次输入密码"
-        android:paddingStart="@dimen/dp_12"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black35"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title3"
-        app:shape_radius="@dimen/dp_10"
-        app:shape_solidColor="@color/white" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/新密码"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/oldPwdEt" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_14"
-        android:text="@string/password_not_is_num"
-        android:textColor="@color/black_65"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/againPwdEt" />
+        <com.hjq.shape.view.ShapeEditText
+            android:id="@+id/newPwdEt"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:drawableStart="@mipmap/icon_login_broad_pwd"
+            android:drawablePadding="12dp"
+            android:hint="@string/请输入新密码"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:paddingStart="16dp"
+            android:paddingEnd="48dp"
+            android:textColor="@color/black"
+            android:textColorHint="#BBBBBB"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title2"
+            app:shape_radius="12dp"
+            app:shape_solidColor="@color/white"
+            app:shape_strokeColor="#E5E5E5"
+            app:shape_strokeWidth="1dp" />
 
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/newPwdLook"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@color/transparent"
+            android:padding="14dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/icon_pwd_broad_close"
+            app:layout_constraintBottom_toBottomOf="@id/newPwdEt"
+            app:layout_constraintEnd_toEndOf="@id/newPwdEt"
+            app:layout_constraintTop_toTopOf="@id/newPwdEt" />
 
-    <com.hjq.shape.view.ShapeTextView
-        android:id="@+id/cancelBtn"
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="@dimen/dp_46"
-        android:layout_marginHorizontal="@dimen/dp_24"
-        android:layout_marginBottom="@dimen/dp_66"
-        android:gravity="center"
-        android:text="@string/cancel"
-        android:textColor="@color/color_3B47DD"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:shape_radius="@dimen/dp_16"
-        app:shape_solidColor="@color/transparent"
-        app:shape_strokeColor="@color/color_3B47DD"
-        app:shape_strokeWidth="@dimen/dp_1" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/pwdRuleTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/auth_password_rule_hint"
+            android:textColor="#999999"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/newPwdEt" />
 
-    <com.hjq.shape.view.ShapeTextView
-        android:alpha="0.3"
-        android:id="@+id/sureBtn"
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="@dimen/dp_46"
-        android:layout_marginBottom="@dimen/dp_24"
-        android:gravity="center"
-        android:text="@string/mine_sure"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/cancelBtn"
-        app:layout_constraintEnd_toEndOf="@id/cancelBtn"
-        app:layout_constraintStart_toStartOf="@id/cancelBtn"
-        app:shape_radius="@dimen/dp_16"
-        app:shape_solidColor="@color/color_3B47DD" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/确认新密码"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pwdRuleTv" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.hjq.shape.view.ShapeEditText
+            android:id="@+id/againPwdEt"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:drawableStart="@mipmap/icon_login_broad_pwd"
+            android:drawablePadding="12dp"
+            android:hint="@string/auth_confirm_new_password_hint"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:paddingStart="16dp"
+            android:paddingEnd="48dp"
+            android:textColor="@color/black"
+            android:textColorHint="#BBBBBB"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title3"
+            app:shape_radius="12dp"
+            app:shape_solidColor="@color/white"
+            app:shape_strokeColor="#E5E5E5"
+            app:shape_strokeWidth="1dp" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/againPwdLook"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@color/transparent"
+            android:padding="14dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/icon_pwd_broad_close"
+            app:layout_constraintBottom_toBottomOf="@id/againPwdEt"
+            app:layout_constraintEnd_toEndOf="@id/againPwdEt"
+            app:layout_constraintTop_toTopOf="@id/againPwdEt" />
+
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/sureBtn"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="36dp"
+            android:alpha="0.3"
+            android:gravity="center"
+            android:text="@string/confirm_modify_pwd"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/againPwdEt"
+            app:shape_radius="12dp"
+            app:shape_solidColor="@color/color_3B47DD" />
+
+        <!-- 保留取消入口，默认隐藏以贴合设计稿 -->
+        <com.hjq.shape.view.ShapeTextView
+            android:id="@+id/cancelBtn"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/cancel"
+            android:textColor="@color/color_3B47DD"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sureBtn"
+            app:shape_radius="12dp"
+            app:shape_solidColor="@color/transparent"
+            app:shape_strokeColor="@color/color_3B47DD"
+            app:shape_strokeWidth="1dp"
+            tools:visibility="gone" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

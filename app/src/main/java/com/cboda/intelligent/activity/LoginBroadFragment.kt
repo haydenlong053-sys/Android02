@@ -13,12 +13,10 @@ import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.setEdTextChange
 import com.cboda.baselibrary.utils.setInputTypeKeepingCursor
 import com.cboda.baselibrary.utils.setStrokeColorAndStartAlpha
-import com.cboda.baselibrary.utils.toJson2
 import com.cboda.intelligent.base.BaseBroadFragment
 import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.viewmodel.LoginViewBroadModel
 import com.cboda.intelligent.R
-import com.cboda.intelligent.configuration.ScanJumpBroadEnum
 import com.cboda.intelligent.databinding.LoginBroadFragmentBinding
 
 class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginViewBroadModel>() {
@@ -31,9 +29,13 @@ class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginVie
 
     override fun initView() {
         super.initView()
-        binding.loginAccount.setStrokeColorAndStartAlpha(noFocusColor = com.cboda.baselibrary.R.color.color_080E1E)
-        binding.loginPwd.setStrokeColorAndStartAlpha(noFocusColor = com.cboda.baselibrary.R.color.color_080E1E)
-        binding.loginBtn.isSubmitCanGo(false)
+        binding.loginAccount.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)
+        binding.loginPwd.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)
+        binding.loginBtn.isSubmitCanGo(
+            false,
+            R.drawable.bg_auth_btn_disabled,
+            R.drawable.bg_auth_btn,
+        )
         binding.loginLookPwd.isGone = false
     }
 
@@ -42,14 +44,18 @@ class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginVie
         binding.loginAccount.setEdTextChange {
             (activity as NewEquipmentBroadActivity).updateLoginAccount(it)
             val pwd = binding.loginPwd.text.toString()
-            binding.loginBtn.isSubmitCanGo(!TextUtils.isEmpty(it) && !TextUtils.isEmpty(pwd))
+            binding.loginBtn.isSubmitCanGo(
+                !TextUtils.isEmpty(it) && !TextUtils.isEmpty(pwd),
+                R.drawable.bg_auth_btn_disabled,
+                R.drawable.bg_auth_btn,
+            )
         }
         binding.loginPwd.setEdTextChange {
             val account = binding.loginAccount.text.toString()
             binding.loginBtn.isSubmitCanGo(
-                !TextUtils.isEmpty(it) && !TextUtils.isEmpty(
-                    account
-                )
+                !TextUtils.isEmpty(it) && !TextUtils.isEmpty(account),
+                R.drawable.bg_auth_btn_disabled,
+                R.drawable.bg_auth_btn,
             )
         }
         binding.loginForgetPwd.click {
@@ -61,8 +67,6 @@ class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginVie
         binding.loginBtn.click {
             val loginAccount = binding.loginAccount.text.toString()
             val loginPwd = binding.loginPwd.text.toString()
-            //82环境使用老登录
-//            if (HttpsBroadConfig.currentHostHttpUrlType == HttpsBroadConfig.RELEASE_TYPE) {
             if (HttpsBroadConfig.currentHostHttpUrlType > 1000) {
                 viewModel.pwdLogin(
                     loginAccount,
@@ -77,20 +81,25 @@ class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginVie
                         loginBean.loginAccount = loginAccount
                         loginBean.loginPwd = loginPwd
                         (activity as NewEquipmentBroadActivity).openSecurityDialog(loginBean)
-//                        val bundle = Bundle()
-//                        bundle.putString("loginBean", toJson2(loginBean))
-//                        viewModel.startAct<LoginVerificationActivity>(bundle)
                     }
                 }
             }
         }
         binding.oneLogin.click {
-//            viewModel.startAct<EquipmentBroadActivity>(canFinish = true)
             viewModel.oneClickLogin()
         }
         binding.loginLookPwd.setOnTouchListener { _, event ->
-            binding.loginLookPwd.setImageResource(if (event.action == MotionEvent.ACTION_UP) R.mipmap.icon_pwd_broad_close else R.mipmap.icon_pwd_broad_open)
-            binding.loginPwd.setInputTypeKeepingCursor(if (event.action == MotionEvent.ACTION_UP) InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD else InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
+            binding.loginLookPwd.setImageResource(
+                if (event.action == MotionEvent.ACTION_UP) R.mipmap.icon_pwd_broad_close
+                else R.mipmap.icon_pwd_broad_open
+            )
+            binding.loginPwd.setInputTypeKeepingCursor(
+                if (event.action == MotionEvent.ACTION_UP) {
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                } else {
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                }
+            )
             true
         }
     }

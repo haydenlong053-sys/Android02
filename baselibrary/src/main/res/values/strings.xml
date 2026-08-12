@@ -377,6 +377,8 @@
     <string name="app_login">Log in</string>
     <string name="main_select_user_hint">Select an account to log in</string>
     <string name="avatar_content_desc">Avatar</string>
+
+
     <string name="conversation_list_empty">No conversations</string>
     <string name="conversation_list_load_failed">Load failed (network error)</string>
     <string name="conversation_list_retry">Retry</string>
@@ -497,4 +499,14 @@
     <string name="group_apply_action_failed">Action failed. Please try again later</string>
     <string name="my_groups">My groups</string>
     <string name="menu_group_info">Group info</string>
+    <string name="auth_brand_name">wujie</string>
+    <string name="login_welcome_subtitle">欢迎回来，请登录您的账号</string>
+    <string name="auth_account_hint">请输入账号</string>
+    <string name="go_to_register">去注册</string>
+    <string name="register_welcome_subtitle">创建账号，开启您的wujie之旅</string>
+    <string name="auth_password_rule_hint">密码长度6-20位，需包含字母和数字</string>
+    <string name="auth_confirm_new_password_hint">请再次输入新密码</string>
+    <string name="confirm_modify_pwd">确认修改</string>
+
+
 </resources>
