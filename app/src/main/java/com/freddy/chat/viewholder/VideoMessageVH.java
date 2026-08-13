@@ -37,7 +37,7 @@ public final class VideoMessageVH extends BaseMessageVH {
     }
 
     public void bind(@NonNull AppMessage message, int position, @NonNull MessageViewHolderContext context) {
-        ELogUtilKt.eLogD("zhanglong", "视频消息getContent--->" + message.getContent());
+        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG, "视频消息getContent--->" + message.getContent());
         bindCommon(message, position, context);
         boolean sentByMe = message.isSender(context.currentUserId);
         applyVideoBubbleSize(message);

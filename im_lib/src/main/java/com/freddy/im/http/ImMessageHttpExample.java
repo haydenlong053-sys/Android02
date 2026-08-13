@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.cboda.baselibrary.toast.ToastBroadUtils;
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.api.CreateGroupApi;
 import com.freddy.im.http.api.FileUploadApi;
@@ -616,7 +617,7 @@ public final class ImMessageHttpExample {
                         return;
                     }
                     String text = resp.body().string();
-                    Log.d("zhanglong","批量文件上传成功--》"+text);
+                    ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"批量文件上传成功--》"+text);
                     Type listType = TypeToken.getParameterized(List.class, UploadRes.class).getType();
                     Type responseType = TypeToken.getParameterized(BaseMsgResponse.class, listType).getType();
                     BaseMsgResponse<List<UploadRes>> result = GSON.fromJson(text, responseType);

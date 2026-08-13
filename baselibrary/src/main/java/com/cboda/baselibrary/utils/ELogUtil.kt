@@ -8,7 +8,7 @@ import java.io.PrintWriter
 import java.io.StringWriter
 
 private const val eLogTag = "ELogClass"
-const val APP_TAG = "APP_WEB4"
+const val APP_TAG = "APP_WUJIE"
 const val APP_IM_TAG = "APP_IM"
 
 //private var mIsDebug = false
