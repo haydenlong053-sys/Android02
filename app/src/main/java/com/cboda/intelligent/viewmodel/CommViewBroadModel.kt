@@ -1726,28 +1726,28 @@ class CommViewBroadModel : FriendViewBroadModel() {
 
     fun getconfig(context: Context?) {
 
-        val map = mapOf(
-            "id" to "",
-        )
-
-        okGoHelper.post(
-            context,
-            "/ptConfig",
-            JSONObject(map).toString(),
-            CommonResultBroadBean(),
-            showLoading = false,
-            showToast = false,
-            callBack = object : OKGoBroadHelper.RequestCallBack {
-                override fun onSuccess(bean: BaseBroadResponse?) {
-                    if (bean is CommonResultBroadBean) {
-                        pintaiLiveData.value = bean
-                    }
-                }
-
-                override fun onFail(bean: BaseBroadResponse?) {
-                }
-            },
-        )
+//        val map = mapOf(
+//            "id" to "",
+//        )
+//
+//        okGoHelper.post(
+//            context,
+//            "/ptConfig",
+//            JSONObject(map).toString(),
+//            CommonResultBroadBean(),
+//            showLoading = false,
+//            showToast = false,
+//            callBack = object : OKGoBroadHelper.RequestCallBack {
+//                override fun onSuccess(bean: BaseBroadResponse?) {
+//                    if (bean is CommonResultBroadBean) {
+//                        pintaiLiveData.value = bean
+//                    }
+//                }
+//
+//                override fun onFail(bean: BaseBroadResponse?) {
+//                }
+//            },
+//        )
     }
 
 //    fun versionUpdate(context: Context?) {

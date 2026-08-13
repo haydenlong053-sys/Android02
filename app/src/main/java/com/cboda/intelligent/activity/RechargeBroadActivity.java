@@ -198,35 +198,35 @@ public class RechargeBroadActivity extends BaseSimpleBroadActivity implements Vi
      * 平台参数
      */
     private void ptConfig() {
-        Map<String, Object> param = new HashMap<>();
-        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.ptConfig, param, new BaseBroadCallback<ResultBroadBean>() {
-            @Override
-            public void onBeforeRequest(Request request) {
-
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-
-            }
-
-            @Override
-            public void onResponse(Response response) {
-
-            }
-
-            @Override
-            public void onSuccess(Response response, ResultBroadBean resultBean) {
-                tvBiaoti.setText(resultBean.data.cz);
-                GlideBroadUtil.setImagOverSize(RechargeBroadActivity.this, resultBean.data.skm, imBiaoti, 100, 100);
-                tvShoukuanUser.setText(resultBean.data.sname);
-                tvShoukuanZhanghu.setText(resultBean.data.sno);
-            }
-
-            @Override
-            public void onError(Response response, int code, Exception e) {
-            }
-        });
+//        Map<String, Object> param = new HashMap<>();
+//        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.ptConfig, param, new BaseBroadCallback<ResultBroadBean>() {
+//            @Override
+//            public void onBeforeRequest(Request request) {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Request request, Exception e) {
+//
+//            }
+//
+//            @Override
+//            public void onResponse(Response response) {
+//
+//            }
+//
+//            @Override
+//            public void onSuccess(Response response, ResultBroadBean resultBean) {
+//                tvBiaoti.setText(resultBean.data.cz);
+//                GlideBroadUtil.setImagOverSize(RechargeBroadActivity.this, resultBean.data.skm, imBiaoti, 100, 100);
+//                tvShoukuanUser.setText(resultBean.data.sname);
+//                tvShoukuanZhanghu.setText(resultBean.data.sno);
+//            }
+//
+//            @Override
+//            public void onError(Response response, int code, Exception e) {
+//            }
+//        });
     }
 
     @Override

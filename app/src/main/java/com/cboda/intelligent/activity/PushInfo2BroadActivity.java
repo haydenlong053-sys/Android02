@@ -212,33 +212,33 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
     }
 
     private void ptConfig() {
-        Map<String, Object> param = new HashMap<>();
-        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.ptConfig, param, new BaseBroadCallback<ResultBroadBean>() {
-            @Override
-            public void onBeforeRequest(Request request) {
-
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-
-            }
-
-            @Override
-            public void onResponse(Response response) {
-
-            }
-
-            @Override
-            public void onSuccess(Response response, ResultBroadBean resultBean) {
-                ptbean = resultBean;
-                tvRegInfo.setText(resultBean.data.appinfo);
-            }
-
-            @Override
-            public void onError(Response response, int code, Exception e) {
-            }
-        });
+//        Map<String, Object> param = new HashMap<>();
+//        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.ptConfig, param, new BaseBroadCallback<ResultBroadBean>() {
+//            @Override
+//            public void onBeforeRequest(Request request) {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Request request, Exception e) {
+//
+//            }
+//
+//            @Override
+//            public void onResponse(Response response) {
+//
+//            }
+//
+//            @Override
+//            public void onSuccess(Response response, ResultBroadBean resultBean) {
+//                ptbean = resultBean;
+//                tvRegInfo.setText(resultBean.data.appinfo);
+//            }
+//
+//            @Override
+//            public void onError(Response response, int code, Exception e) {
+//            }
+//        });
     }
 
     @Override

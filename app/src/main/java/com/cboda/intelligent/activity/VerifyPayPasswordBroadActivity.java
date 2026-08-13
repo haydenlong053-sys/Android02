@@ -62,46 +62,6 @@ public class VerifyPayPasswordBroadActivity extends BaseSimpleBroadActivity {
         });
     }
 
-    /**
-     * 平台参数
-     */
-    private void ptConfig() {
-        Map<String, Object> param = new HashMap<>();
-        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.ptConfig, param, new BaseBroadCallback<ResultBroadBean>() {
-            @Override
-            public void onBeforeRequest(Request request) {
-
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-
-            }
-
-            @Override
-            public void onResponse(Response response) {
-
-            }
-
-            @Override
-            public void onSuccess(Response response, ResultBroadBean resultBean) {
-                if (resultBean.data.openMibao.equals("0")) {
-                    Intent intent = new Intent(VerifyPayPasswordBroadActivity.this, RestPasswordBroadActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Intent intent = new Intent(VerifyPayPasswordBroadActivity.this, MiBaoBroadActivity.class);
-                    intent.putExtra("type", "1");
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onError(Response response, int code, Exception e) {
-            }
-        });
-    }
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_verify_pay_broad_password;

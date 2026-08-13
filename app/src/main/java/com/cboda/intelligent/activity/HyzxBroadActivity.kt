@@ -182,16 +182,16 @@ class HyzxBroadActivity : BaseSimpleBroadActivity(), View.OnClickListener {
     private var payLsOrderBean: PayLsOrderBean? = null
     private var canPay = false
     private fun ptConfig() {
-        val param: MutableMap<String?, Any?> = HashMap<String?, Any?>()
-        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.ptConfig, param, object : SpotsCallBroadBack<ResultBroadBean?>(this) {
-
-            override fun onSuccess(response: Response?, resultBean: ResultBroadBean?) {
-                tvTq?.text = resultBean?.data?.vipinfo
-            }
-
-            override fun onError(response: Response?, code: Int, e: Exception?) {
-            }
-        })
+//        val param: MutableMap<String?, Any?> = HashMap<String?, Any?>()
+//        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.ptConfig, param, object : SpotsCallBroadBack<ResultBroadBean?>(this) {
+//
+//            override fun onSuccess(response: Response?, resultBean: ResultBroadBean?) {
+//                tvTq?.text = resultBean?.data?.vipinfo
+//            }
+//
+//            override fun onError(response: Response?, code: Int, e: Exception?) {
+//            }
+//        })
     }
 
     /**

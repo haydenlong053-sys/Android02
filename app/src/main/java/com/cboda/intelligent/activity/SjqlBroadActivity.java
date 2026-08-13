@@ -120,19 +120,19 @@ public class SjqlBroadActivity extends BaseSimpleBroadActivity implements View.O
     }
 
     private void ptConfig() {
-        Map<String, Object> param = new HashMap<>();
-        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.ptConfig, param, new SpotsCallBroadBack<ResultBroadBean>(this) {
-            @Override
-            public void onSuccess(Response response, ResultBroadBean resultBean) {
-                if (resultBean != null && resultBean.data != null) {
-                    tvGroupinfo.setText(resultBean.data.groupinfo);
-                }
-            }
-
-            @Override
-            public void onError(Response response, int code, Exception e) {
-            }
-        });
+//        Map<String, Object> param = new HashMap<>();
+//        OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.ptConfig, param, new SpotsCallBroadBack<ResultBroadBean>(this) {
+//            @Override
+//            public void onSuccess(Response response, ResultBroadBean resultBean) {
+//                if (resultBean != null && resultBean.data != null) {
+//                    tvGroupinfo.setText(resultBean.data.groupinfo);
+//                }
+//            }
+//
+//            @Override
+//            public void onError(Response response, int code, Exception e) {
+//            }
+//        });
     }
 
     private void userInfo() {

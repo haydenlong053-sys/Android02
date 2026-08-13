@@ -104,41 +104,41 @@ class ZhuanzhangBroadActivity : BaseSimpleBroadActivity() {
     }
 
     private fun ptConfig() {
-        val param: Map<String, Any> = java.util.HashMap()
-        OkHttpBroadHelper.getInstance()
-            .post_json(this, BroadUrl.ptConfig, param, object : BaseBroadCallback<ResultBroadBean>() {
-                override fun onBeforeRequest(request: Request) {
-                }
-
-                override fun onFailure(request: Request, e: java.lang.Exception) {
-                }
-
-                override fun onResponse(response: Response) {
-                }
-
-                override fun onSuccess(response: Response, resultBean: ResultBroadBean) {
-                    if (resultBean.data.openMibao == "1") {
-                        val intent = Intent(
-                            this@ZhuanzhangBroadActivity,
-                            MiBaoBroadActivity::class.java
-                        )
-                        intent.putExtra("type", "0")
-                        startActivity(intent)
-                    } else {
-//                    Intent intent = new Intent(QianbaoBroadActivity.this, PaySettingBroadActivity.class);
-//                    startActivity(intent);
-                        val intent = Intent(
-                            this@ZhuanzhangBroadActivity,
-                            SetPayPasswordBroadActivity::class.java
-                        )
-                        intent.putExtra("editIndex", "1")
-                        startActivity(intent)
-                    }
-                }
-
-                override fun onError(response: Response, code: Int, e: java.lang.Exception) {
-                }
-            })
+//        val param: Map<String, Any> = java.util.HashMap()
+//        OkHttpBroadHelper.getInstance()
+//            .post_json(this, BroadUrl.ptConfig, param, object : BaseBroadCallback<ResultBroadBean>() {
+//                override fun onBeforeRequest(request: Request) {
+//                }
+//
+//                override fun onFailure(request: Request, e: java.lang.Exception) {
+//                }
+//
+//                override fun onResponse(response: Response) {
+//                }
+//
+//                override fun onSuccess(response: Response, resultBean: ResultBroadBean) {
+//                    if (resultBean.data.openMibao == "1") {
+//                        val intent = Intent(
+//                            this@ZhuanzhangBroadActivity,
+//                            MiBaoBroadActivity::class.java
+//                        )
+//                        intent.putExtra("type", "0")
+//                        startActivity(intent)
+//                    } else {
+////                    Intent intent = new Intent(QianbaoBroadActivity.this, PaySettingBroadActivity.class);
+////                    startActivity(intent);
+//                        val intent = Intent(
+//                            this@ZhuanzhangBroadActivity,
+//                            SetPayPasswordBroadActivity::class.java
+//                        )
+//                        intent.putExtra("editIndex", "1")
+//                        startActivity(intent)
+//                    }
+//                }
+//
+//                override fun onError(response: Response, code: Int, e: java.lang.Exception) {
+//                }
+//            })
     }
 
     private var zhuanzhangjinapan:ZhuanZhangKeyBoardBroadHolder? = null

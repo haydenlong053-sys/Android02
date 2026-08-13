@@ -22,7 +22,7 @@ public class BroadUrl {
     //获取验证码
     public static String sendMsg = IP + "sendMsg";
     //平台参数
-    public static String ptConfig = IP + "ptConfig";
+//    public static String ptConfig = IP + "ptConfig";
     //设备号登录
     public static String eqLogin = IP + "eqLogin";
     //设备号注册
