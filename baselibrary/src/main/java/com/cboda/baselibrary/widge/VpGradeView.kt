@@ -82,8 +82,8 @@ class VpGradeView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     @SuppressLint("SetTextI18n")
     fun setData3(isNiceNum: Boolean?, isVip: Boolean?, grade: String?, registerDay: String?) {
-        binding.vpGvVip2.isGone = isVip != true
-        binding.vpGvVip1.isGone = isVip != true
+//        binding.vpGvVip2.isGone = isVip != true
+//        binding.vpGvVip1.isGone = isVip != true
         if (null != grade) {
             if (isNiceNum == true) {
                 binding.vpGvGradeTv.setBackColor2(R.color.black, R.color.color_31231A, R.color.black)
@@ -128,7 +128,7 @@ class VpGradeView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         } else {
             binding.vpGvGradeTv.text = ""
         }
-        binding.vpGvGradeTv.isGone = null == grade
+//        binding.vpGvGradeTv.isGone = null == grade
     }
 
     @SuppressLint("SetTextI18n")
@@ -137,9 +137,9 @@ class VpGradeView @JvmOverloads constructor(context: Context, attrs: AttributeSe
             binding.vpGvGradeTv.setBackColor(R.color.color_956BEC, R.color.color_7A66FA)
             binding.vpGvGradeTv.setTxtColor(R.color.white)
             binding.vpGvGradeTv.text = registerDay.toString() + getAppStr(res, context)
-            binding.vpGvGradeTv.isGone = false
+//            binding.vpGvGradeTv.isGone = false
         } else {
-            binding.vpGvGradeTv.isGone = true
+//            binding.vpGvGradeTv.isGone = true
         }
 
     }

@@ -145,14 +145,14 @@ public class MessageListInputBroadPanel extends FrameLayout
 
     /** 群聊显示「会议室」，单聊隐藏（对齐野火 {@code MeetingBroadExt#filter}）。 */
     public void configureMorePanel(boolean showMeetingRoom) {
-        showMeetingRoomEntry = showMeetingRoom;
-        if (fragment == null) {
-            return;
-        }
-        View meeting = fragment.requireView().findViewById(R.id.panel_more_meeting);
-        if (meeting != null) {
-            meeting.setVisibility(showMeetingRoom ? VISIBLE : INVISIBLE);
-        }
+//        showMeetingRoomEntry = showMeetingRoom;
+//        if (fragment == null) {
+//            return;
+//        }
+//        View meeting = fragment.requireView().findViewById(R.id.panel_more_meeting);
+//        if (meeting != null) {
+//            meeting.setVisibility(showMeetingRoom ? VISIBLE : INVISIBLE);
+//        }
     }
 
     /** 群聊 @ 成员：输入 {@code @} 弹出选择页，长按头像由外部插入片段。 */

@@ -799,15 +799,15 @@ public class MessageListActivity extends BaseSimple2BroadActivity
             RealmUtil.INSTANCE.findUserData(sessionItem.getOppositeUserId(), new Function1<FriendBean, Unit>() {
                 @Override
                 public Unit invoke(FriendBean bean) {
-                    if (null != bean && null != bean.grade && null != bean.registerDay) {
-                        titleGradeAndTimeBroad.setVisibility(View.VISIBLE);
-                        TextView titleGrade = findViewById(R.id.titleGrade);
-                        TextView titleTime = findViewById(R.id.titleTime);
-                        titleGrade.setText(getString(com.cboda.baselibrary.R.string.credit_prefix2) + formatWithBigDecimal(bean.grade) + getString(com.cboda.chatui.R.string.msg_score_unit2));
-                        titleTime.setText(getString(com.cboda.baselibrary.R.string.register_time_prefix2) + bean.registerDay + getString(com.cboda.chatui.R.string.msg_days_unit2));
-                    } else {
-                        titleGradeAndTimeBroad.setVisibility(View.GONE);
-                    }
+//                    if (null != bean && null != bean.grade && null != bean.registerDay) {
+//                        titleGradeAndTimeBroad.setVisibility(View.VISIBLE);
+//                        TextView titleGrade = findViewById(R.id.titleGrade);
+//                        TextView titleTime = findViewById(R.id.titleTime);
+//                        titleGrade.setText(getString(com.cboda.baselibrary.R.string.credit_prefix2) + formatWithBigDecimal(bean.grade) + getString(com.cboda.chatui.R.string.msg_score_unit2));
+//                        titleTime.setText(getString(com.cboda.baselibrary.R.string.register_time_prefix2) + bean.registerDay + getString(com.cboda.chatui.R.string.msg_days_unit2));
+//                    } else {
+//                        titleGradeAndTimeBroad.setVisibility(View.GONE);
+//                    }
                     return null;
                 }
             });

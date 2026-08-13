@@ -282,6 +282,7 @@
                     android:layout_height="@dimen/dp_64"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginEnd="20dp"
+                    android:visibility="gone"
                     android:minWidth="@dimen/dp_85"
                     android:paddingHorizontal="@dimen/dp_14"
                     app:layout_constraintEnd_toEndOf="parent"

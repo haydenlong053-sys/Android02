@@ -183,9 +183,9 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 findViewById<TextView>(R.id.addFriend).isGone =
                     isFriend || otherUid == MMKVBroadUtils.getRealUserId()
                 val daysTv = findViewById<TextView>(R.id.daysTv)
-                val registerDay = it.data?.registerDayBean?.registDay
-                daysTv.isGone = registerDay == null
-                daysTv.text = "${registerDay}${getString(R.string.days_unit)}"
+//                val registerDay = it.data?.registerDayBean?.registDay
+//                daysTv.isGone = registerDay == null
+//                daysTv.text = "${registerDay}${getString(R.string.days_unit)}"
                 val vocationalTv = findViewById<TextView>(R.id.vocationalTv)
                 vocationalTv.isGone = TextUtils.isEmpty(it.data?.profession)
                 vocationalTv.text = it.data?.profession ?: ""
