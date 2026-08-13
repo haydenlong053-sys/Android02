@@ -70,6 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="40dp"
+                    android:paddingBottom="@dimen/dp_20"
                     android:orientation="vertical"
                     app:shape_radius="16dp"
                     app:shape_solidColor="@color/white">
@@ -174,6 +175,7 @@
                         android:orientation="vertical"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="16dp"
+                        android:visibility="gone"
                         app:shape_radius="10dp"
                         app:shape_solidColor="@color/colorF7F8FA">
 

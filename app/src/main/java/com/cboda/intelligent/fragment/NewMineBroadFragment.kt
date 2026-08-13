@@ -47,25 +47,25 @@ class NewMineBroadFragment : BaseBroadFragment<FragmentNewMineBinding, MineViewM
     }
 
     override fun initListener() {
-        binding.cardVip.click {
-            if (!HttpsBroadConfig.isReviewEnv) {
-                startActivity(Intent(requireContext(), HyzxBroadActivity::class.java))
-            }
-        }
-        binding.mTvOpenVip.click {
-            if (!HttpsBroadConfig.isReviewEnv) {
-                startActivity(Intent(requireContext(), HyzxBroadActivity::class.java))
-            }
-        }
+//        binding.cardVip.click {
+//            if (!HttpsBroadConfig.isReviewEnv) {
+//                startActivity(Intent(requireContext(), HyzxBroadActivity::class.java))
+//            }
+//        }
+//        binding.mTvOpenVip.click {
+//            if (!HttpsBroadConfig.isReviewEnv) {
+//                startActivity(Intent(requireContext(), HyzxBroadActivity::class.java))
+//            }
+//        }
 
         // 顶部入口：资产、客服
-        binding.layoutViewMoney?.click {
-            if (isHasPassword) {
-                startActivity(Intent(requireContext(), QianbaoBroadActivity::class.java))
-            } else {
-                showGuidePasswordTip(requireContext())
-            }
-        }
+//        binding.layoutViewMoney?.click {
+//            if (isHasPassword) {
+//                startActivity(Intent(requireContext(), QianbaoBroadActivity::class.java))
+//            } else {
+//                showGuidePasswordTip(requireContext())
+//            }
+//        }
         binding.layoutViewService?.click {
             MMKVBroadUtils.getKeFuId()?.let { keFuId ->
                 AppBroadUtils.goChatP2p(keFuId, "", context)
@@ -132,31 +132,31 @@ class NewMineBroadFragment : BaseBroadFragment<FragmentNewMineBinding, MineViewM
     }
 
     private fun bindVipViews() {
-        if (HttpsBroadConfig.isReviewEnv) {
+//        if (HttpsBroadConfig.isReviewEnv) {
             binding.cardVip.setImageResource(R.drawable.ic_mine_bg_no_vip)
-            binding.mTvOpenVipDes1.text = getString(com.cboda.baselibrary.R.string.welcome_to_seek_four)
-            binding.mTvOpenVip.visibility = View.GONE
-            binding.mTvOpenVipDes2.visibility = View.GONE
-            binding.mTvVipEndTime.visibility = View.GONE
-            binding.mTvOpenVipDes1.visibility = View.VISIBLE
-            binding.layoutViewMoney.isGone = false
-            return
-        }
-        binding.layoutViewMoney.isGone = false
-        if (isVip) {
+//            binding.mTvOpenVipDes1.text = getString(com.cboda.baselibrary.R.string.welcome_to_seek_four)
+//            binding.mTvOpenVip.visibility = View.GONE
+//            binding.mTvOpenVipDes2.visibility = View.GONE
+//            binding.mTvVipEndTime.visibility = View.GONE
+//            binding.mTvOpenVipDes1.visibility = View.VISIBLE
+//            binding.layoutViewMoney.isGone = true
+//            return
+//        }
+//        binding.layoutViewMoney.isGone = true
+//        if (isVip) {
             binding.cardVip.setImageResource(R.drawable.ic_mine_bg_has_vip)
-            binding.mTvOpenVip.visibility = View.GONE
-            binding.mTvOpenVipDes1.visibility = View.GONE
-            binding.mTvOpenVipDes2.visibility = View.VISIBLE
-            binding.mTvVipEndTime.visibility = View.VISIBLE
-            binding.mTvVipEndTime.text = vipExpireText
-        } else {
+//            binding.mTvOpenVip.visibility = View.GONE
+//            binding.mTvOpenVipDes1.visibility = View.GONE
+//            binding.mTvOpenVipDes2.visibility = View.VISIBLE
+//            binding.mTvVipEndTime.visibility = View.VISIBLE
+//            binding.mTvVipEndTime.text = vipExpireText
+//        } else {
             binding.cardVip.setImageResource(R.drawable.ic_mine_bg_no_vip)
-            binding.mTvOpenVip.visibility = View.VISIBLE
-            binding.mTvOpenVipDes1.visibility = View.VISIBLE
-            binding.mTvOpenVipDes2.visibility = View.GONE
-            binding.mTvVipEndTime.visibility = View.GONE
-        }
+//            binding.mTvOpenVip.visibility = View.VISIBLE
+//            binding.mTvOpenVipDes1.visibility = View.VISIBLE
+//            binding.mTvOpenVipDes2.visibility = View.GONE
+//            binding.mTvVipEndTime.visibility = View.GONE
+//        }
     }
 
     private fun fetchUserInfo() {

@@ -144,13 +144,13 @@ public class UserSetBroadActivity extends BaseSimple2BroadActivity implements Vi
             intent = new Intent(this, CommonSetBroadActivity.class);
             startActivity(intent);
         } else if (view.getId() == R.id.llGuanyu) {
-            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getAboutUrl(), getString(R.string.关于我们));
+//            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getAboutUrl(), getString(R.string.关于我们));
         } else if (view.getId() == R.id.llYonghu) {
-            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getUserAgreementUrl(), getString(R.string.用户协议));
+//            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getUserAgreementUrl(), getString(R.string.用户协议));
         } else if (view.getId() == R.id.llYinsi) {
-            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getPrivacyPolicyUrl(), getString(R.string.隐私协议));
+//            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getPrivacyPolicyUrl(), getString(R.string.隐私协议));
         } else if (view.getId() == R.id.llThird) {
-            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getThirdContentUrl(), getString(R.string.第三方信息共享清单));
+//            JumpBroadUtils.Companion.startH5Activity(this, BroadUrl.getThirdContentUrl(), getString(R.string.第三方信息共享清单));
         } else if (view.getId() == R.id.llIdea) {
             intent = new Intent(this, FeedbackBroadActivity.class);
             startActivity(intent);

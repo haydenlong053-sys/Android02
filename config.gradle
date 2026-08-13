@@ -3,7 +3,7 @@ ext {
             applicationId    : "com.wujie.intelligent",
             minSdk           : 29,
             compileSdk       : 36,
-            versionCode      : 1,
+            versionCode      : 100,
             versionName      : "1.0.0",
             buildToolsVersion: "33.0.3",
 

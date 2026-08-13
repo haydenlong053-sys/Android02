@@ -39,6 +39,7 @@
         android:ellipsize="end"
         android:lines="1"
         android:text="@string/mine_vip_limited_offer"
+        android:visibility="invisible"
         android:textColor="#FFD3A9"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -53,6 +54,7 @@
         android:layout_marginTop="13dp"
         android:gravity="center"
         android:text="@string/mine_open_now"
+        android:visibility="invisible"
         android:textColor="#1A1A1C"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@id/mTvOpenVipDes1"
@@ -92,6 +94,21 @@
         app:layout_constraintStart_toStartOf="@id/mTvOpenVipDes2"
         app:layout_constraintTop_toBottomOf="@id/mTvOpenVipDes2" />
 
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="20dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="欢迎来到无界"
+        android:textColor="#FFD3A9"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/cardVip"
+        app:layout_constraintStart_toStartOf="@id/cardVip"
+        app:layout_constraintTop_toTopOf="@id/cardVip" />
 
     <ImageView
         android:layout_width="match_parent"
@@ -249,6 +266,7 @@
                 android:background="@drawable/bg_rect_mine_fff_broad_12dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:paddingHorizontal="12dp">
 
                 <ImageView
@@ -282,6 +300,7 @@
                 android:background="@drawable/bg_rect_mine_fff_broad_12dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:paddingHorizontal="12dp">
 
                 <ImageView
