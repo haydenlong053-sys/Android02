@@ -280,7 +280,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 ivxingbie?.setImageResource(if (this.sex == "1") R.mipmap.ic_broad_nan else R.mipmap.ic_broad_nv)
                 qianmingname?.text = this.sign ?: ""
                 beizhuname?.text = goTempTranslateString(this@HaoYouPageBroadActivity, this.characterTags ?: "")
-                pengyouquanlay?.isVisible = this.isOpenQuan == "1"
+//                pengyouquanlay?.isVisible = this.isOpenQuan == "1"
 
                 if (BroadConstant.getRealUid() == this.id) {
                     getRightImg()?.isVisible = false
@@ -367,7 +367,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
 //            val intent = Intent(this, MyCircleBroadActivity::class.java)
 //            intent.putExtra("id", otherUid)
 //            startActivity(intent)
-            SquareUserActivity.start(this, otherUid)
+//            SquareUserActivity.start(this, otherUid)
         }
 
         faxiaoxi?.setOnClickListener {
