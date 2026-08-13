@@ -215,7 +215,9 @@
             android:id="@+id/zhuanrangxian"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="#1E000000" />
+            android:background="#1E000000"
+            android:visibility="gone"
+            />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -625,6 +627,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
+            tools:visibility="visible"
             android:orientation="vertical">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
