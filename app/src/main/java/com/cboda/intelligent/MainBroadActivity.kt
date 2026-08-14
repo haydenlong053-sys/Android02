@@ -470,12 +470,12 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 //        getsitonggonggao()
 
 //        viewModel?.versionUpdate(this)
-        checkVersionUpdate()
-        val hasNotificationPermission = AppPermissionBroadUtils.hasNotificationPermission(this)
-        if (!hasNotificationPermission) {
-            AppPermissionBroadUtils.requestNotificationPermission(this, 1001)
-
-        }
+//        checkVersionUpdate()
+//        val hasNotificationPermission = AppPermissionBroadUtils.hasNotificationPermission(this)
+//        if (!hasNotificationPermission) {
+//            AppPermissionBroadUtils.requestNotificationPermission(this, 1001)
+//
+//        }
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 //            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
 //                != PackageManager.PERMISSION_GRANTED) {

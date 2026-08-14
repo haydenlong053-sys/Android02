@@ -621,7 +621,6 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                         // 新 IM 注册：content 已展平为 apptoken/imtoken/userId/qrcode
                         eLogD("LoginViewBroadModelClass", "resultBean:${toJson2(resultBean)}")
                         imLogin(resultBean, mContext)
-
                     } ?: showToastMain(com.cboda.baselibrary.R.string.service_error_token_null)
                 }
 

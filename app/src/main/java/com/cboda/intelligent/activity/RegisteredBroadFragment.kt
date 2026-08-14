@@ -41,11 +41,11 @@ class RegisteredBroadFragment : BaseBroadFragment<RegisteredBroadFragmentBinding
         val uuIdCreate = getUuIdCreate()
         binding.content.text =
             (uuIdCreate + EncryptUtils.encryptMD5ToString(uuIdCreate)).uppercase()
-        viewModel.getMnemonicWords().observe(this) {
-            if (!TextUtils.isEmpty(it)) {
-                binding.content.text = it
-            }
-        }
+//        viewModel.getMnemonicWords().observe(this) {
+//            if (!TextUtils.isEmpty(it)) {
+//                binding.content.text = it
+//            }
+//        }
     }
 
     override fun initListener() {
