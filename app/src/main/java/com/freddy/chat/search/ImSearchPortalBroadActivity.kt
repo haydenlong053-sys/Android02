@@ -7,7 +7,7 @@ import com.freddy.chat.search.module.ImConversationSearchModule
 import com.freddy.chat.search.module.ImGroupSearchModule
 
 /**
- * 自研 IM 聊天搜索入口：联系人 HTTP + Realm 本地群名搜索。
+ * 自研 IM 聊天搜索入口：联系人 GET im/user/search/{keyword}（非加密）+ Realm 本地群名/聊天记录。
  */
 class ImSearchPortalBroadActivity : SearchBroadActivity2() {
 

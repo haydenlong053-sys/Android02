@@ -27,14 +27,16 @@ public class GlobalFriendListBroadBean {
     private int days;
     private String first;
     //    private double grade;
+    @SerializedName(value = "icon", alternate = {"avatar", "headImg", "headUrl", "userImg"})
     private String icon;
     private String id;
-    @SerializedName(value = "nickName", alternate = {"name"})
+    @SerializedName(value = "nickName", alternate = {"name", "nickname", "userName", "username"})
     private String nickName;
     private String profession;
     @SerializedName(value = "remarkName", alternate = {"bei"})
     private String remarkName;
     private String sex;
+    @SerializedName(value = "userId", alternate = {"uid"})
     private String userId;
     private String idno;
     private String lianghao;

@@ -6,6 +6,7 @@ package com.cboda.chatui.search;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -34,9 +35,8 @@ import com.google.gson.reflect.TypeToken;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import com.cboda.chatui.R;
 import com.cboda.chatui.conversation.ConversationBroadActivity;
@@ -122,51 +122,102 @@ public class SearchBroadFragment2 extends Fragment {
     };
 
     private void queryFriendList(String mKeyword) {
-        if (!TextUtils.isEmpty(mKeyword.trim())) {
-//            Log.d(APP_TAG, "keyword====" + mKeyword);
-            Map<String, Object> map = new HashMap<>();
-            map.put("text", mKeyword);
-            NetworkBroadUtils.INSTANCE.postEncryptedList(UrlBroadConstants.FRIEND_CONTACT_LIST, map, new NetworkBroadUtils.ListCallback<GlobalFriendListBroadBean>() {
-                @Override
-                public void onError(@NotNull Throwable throwable) {
+        String keyword = mKeyword != null ? mKeyword.trim() : "";
+        if (TextUtils.isEmpty(keyword)) {
+            return;
+        }
+        // GET im/user/search/{keyword}（非加密）
+        String url = UrlBroadConstants.FRIEND_CONTACT_LIST + Uri.encode(keyword);
+        NetworkBroadUtils.INSTANCE.get(url, Collections.emptyMap(),
+                new NetworkBroadUtils.NetworkCallback<Object>() {
+                    @Override
+                    public void onSuccess(Object data) {
+                        applyFriendSearchResult(parseFriendSearchPayload(data), keyword);
+                    }
 
+                    @Override
+                    public void onFailure(int code, @NotNull String message, Object data) {
+                        applyFriendSearchResult(new ArrayList<>(), keyword);
+                    }
+
+                    @Override
+                    public void onError(@NotNull Throwable throwable) {
+                        applyFriendSearchResult(new ArrayList<>(), keyword);
+                    }
+                });
+    }
+
+    /**
+     * 兼容 content 为数组、单对象、或 {@code userList} 包装。
+     */
+    private List<GlobalFriendListBroadBean> parseFriendSearchPayload(Object data) {
+        List<GlobalFriendListBroadBean> result = new ArrayList<>();
+        if (data == null) {
+            return result;
+        }
+        try {
+            Gson gson = GsonUtils.getGson();
+            String json = gson.toJson(data);
+            if (TextUtils.isEmpty(json) || "null".equals(json)) {
+                return result;
+            }
+            if (json.trim().startsWith("[")) {
+                List<GlobalFriendListBroadBean> list = gson.fromJson(json,
+                        new TypeToken<List<GlobalFriendListBroadBean>>() {
+                        }.getType());
+                if (list != null) {
+                    result.addAll(list);
                 }
-
-                @Override
-                public void onFailure(int code, @NotNull String message) {
-//                    ToastBroadUtils.show(message);
+                return result;
+            }
+            com.google.gson.JsonObject obj = gson.fromJson(json, com.google.gson.JsonObject.class);
+            if (obj != null) {
+                if (obj.has("userList") && obj.get("userList").isJsonArray()) {
+                    List<GlobalFriendListBroadBean> list = gson.fromJson(obj.get("userList"),
+                            new TypeToken<List<GlobalFriendListBroadBean>>() {
+                            }.getType());
+                    if (list != null) {
+                        result.addAll(list);
+                    }
+                    return result;
                 }
-
-                @Override
-                public void onSuccess(@org.jetbrains.annotations.Nullable List<? extends GlobalFriendListBroadBean> list, int totalCount, int totalPage) {
-                    if (getActivity() != null && isAdded()) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (myFriendAdapter != null) {
-                                    try {
-                                        if (list != null && !list.isEmpty()) {
-                                            Gson gson = GsonUtils.getGson();
-                                            String jsonStr = gson.toJson(list);
-                                            List<GlobalFriendListBroadBean> friendList = gson.fromJson(jsonStr, new TypeToken<List<GlobalFriendListBroadBean>>() {
-                                            }.getType());
-                                            myFriendAdapter.updateData(friendList, mKeyword);
-                                        } else {
-                                            myFriendAdapter.updateData(new ArrayList<>(), mKeyword);
-                                        }
-
-                                    } catch (Exception e) {
-                                        myFriendAdapter.updateData(new ArrayList<>(), mKeyword);
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                        });
+                if (obj.has("list") && obj.get("list").isJsonArray()) {
+                    List<GlobalFriendListBroadBean> list = gson.fromJson(obj.get("list"),
+                            new TypeToken<List<GlobalFriendListBroadBean>>() {
+                            }.getType());
+                    if (list != null) {
+                        result.addAll(list);
+                    }
+                    return result;
+                }
+                GlobalFriendListBroadBean bean = gson.fromJson(obj, GlobalFriendListBroadBean.class);
+                if (bean != null) {
+                    if (TextUtils.isEmpty(bean.getUserId()) && !TextUtils.isEmpty(bean.getId())) {
+                        bean.setUserId(bean.getId());
+                    }
+                    if (!TextUtils.isEmpty(bean.getUserId())) {
+                        result.add(bean);
                     }
                 }
-            });
-
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return result;
+    }
+
+    private void applyFriendSearchResult(List<GlobalFriendListBroadBean> friendList, String mKeyword) {
+        if (getActivity() == null || !isAdded() || myFriendAdapter == null) {
+            return;
+        }
+        getActivity().runOnUiThread(() -> {
+            if (myFriendAdapter != null) {
+                myFriendAdapter.updateData(
+                        friendList != null ? friendList : new ArrayList<>(),
+                        mKeyword
+                );
+            }
+        });
     }
 
     public void reset() {

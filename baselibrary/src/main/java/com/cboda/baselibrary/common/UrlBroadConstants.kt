@@ -1,8 +1,8 @@
 package com.cboda.baselibrary.common
 
 object UrlBroadConstants {
-    //好友列表
-    const val FRIEND_CONTACT_LIST = "api/friendship/page"
+    /** 聊天搜索页联系人搜索：GET im/user/search/{keyword}（非加密） */
+    const val FRIEND_CONTACT_LIST = "im/user/search/"
 
     //查询当个群成员信息
     const val GROUP_ME_USER = "api/groupUserInfo"
