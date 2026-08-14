@@ -25,6 +25,7 @@ import com.cboda.intelligent.configuration.CommonBroadConfig
 import com.cboda.intelligent.holder.SendCustomBroadMsg
 import com.cboda.intelligent.utils.OKGoBroadHelper
 import com.cboda.intelligent.utils.ToastBroadUtil
+import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.freddy.im.db.repository.ImSessionRepository
 import com.freddy.im.http.ImGroupHttpExample
 import com.freddy.im.http.model.im.GroupApplyInfoRes
@@ -63,11 +64,11 @@ class CommViewBroadModel : FriendViewBroadModel() {
     private val okGoHelper = OKGoBroadHelper()
     fun imUser(context: Context?, uid: String) {
         val map = mapOf(
-            "id" to uid,
+            "friendUserId" to uid,
         )
         okGoHelper.post(
             context,
-            "/duiInfo",
+            UrlBroadBroadConstants.FRIEND_DUI_INFO,
             JSONObject(map).toString(),
             CommonResultBroadBean(),
             callBack = object : OKGoBroadHelper.RequestCallBack {
@@ -1518,11 +1519,11 @@ class CommViewBroadModel : FriendViewBroadModel() {
 
     fun getKfInfo(context: Context?, id: String) {
         val map = mapOf(
-            "id" to id,
+            "friendUserId" to id,
         )
         okGoHelper.post(
             context,
-            "/duiInfo",
+            UrlBroadBroadConstants.FRIEND_DUI_INFO,
             JSONObject(map).toString(),
             CommonResultBroadBean(),
             showToast = false,

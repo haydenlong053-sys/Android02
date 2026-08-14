@@ -28,6 +28,7 @@ import com.cboda.intelligent.utils.OkHttpBroadHelper
 import com.cboda.intelligent.utils.SpotsCallBroadBack
 import com.cboda.intelligent.utils.StringBroadUtil
 import com.cboda.intelligent.utils.ToastBroadUtil
+import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.utils.isEthWalletLinkQrCode
 import com.cboda.intelligent.utils.isTransferLinkQrCode
 import com.cboda.intelligent.utils.showToastMain
@@ -339,10 +340,10 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
                         return
                     }
                     val param = HashMap<String, Any>()
-                    param["id"] = linkId
+                    param["friendUserId"] = linkId
                     OkHttpBroadHelper.getInstance().post_json(
                         this,
-                        HttpsBroadConfig.appBaseUrl + "/duiInfo",
+                        HttpsBroadConfig.appBaseUrl.trimEnd('/') + "/" + UrlBroadBroadConstants.FRIEND_DUI_INFO,
                         param,
                         object : SpotsCallBroadBack<ResultBroadBean>(this) {
                             override fun onSuccess(response: Response?, commonResultBean: ResultBroadBean?) {

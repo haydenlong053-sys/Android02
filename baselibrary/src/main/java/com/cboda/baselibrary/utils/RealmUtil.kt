@@ -125,13 +125,17 @@ object RealmUtil {
             val bean = FriendBean()
             bean.id = data.id ?: ""
             bean.nickName = data.name
-            bean.remarkName = data.remarkName
+            bean.remarkName = data.remarkName?.takeIf { it.isNotEmpty() } ?: data.bei
             bean.registerDay = data.registerDayBean?.registDay?.toString() ?: ""
             bean.grade = data.grade?.toString()
             bean.userImg = data.icon
             bean.isVip = data.isvip == "1"
             bean.isNiceNum = !TextUtils.isEmpty(data.lianghao)
             bean.sex = data.sex
+            // duiInfo 的 id 即为对方 userId；若另有 userId 字段优先用它
+            if (!TextUtils.isEmpty(data.userId)) {
+                bean.id = data.userId ?: ""
+            }
             addUserData(bean)
         }
     }
