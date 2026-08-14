@@ -35,12 +35,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="310dp"
                     android:layout_marginTop="80dp"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/ic_head_broad_defaut"
+                    android:scaleType="centerInside"
                     android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/ic_mirror_broad_female"
                     tools:visibility="visible" />
 
 
@@ -282,9 +282,9 @@
                     android:layout_height="@dimen/dp_64"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginEnd="20dp"
-                    android:visibility="gone"
                     android:minWidth="@dimen/dp_85"
                     android:paddingHorizontal="@dimen/dp_14"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/iv_mirror_sex"
                     app:shape_radius="@dimen/dp_10"

@@ -23,7 +23,7 @@ class ImSearchPortalBroadActivity : SearchBroadActivity2() {
         displayName: String?
     ): Boolean {
         // 与 SearchUserBroadActivity 一致：搜索结果进好友主页
-        JumpBroadUtils.startHaoYouAddActivity(this, userId, "4")
+        JumpBroadUtils.startHaoYouAddActivity(this, userId, "2")
         finish()
         return true
     }

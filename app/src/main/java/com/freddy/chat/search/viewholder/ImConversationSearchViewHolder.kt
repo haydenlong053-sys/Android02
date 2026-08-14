@@ -1,15 +1,12 @@
 package com.freddy.chat.search.viewholder
 
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.cboda.baselibrary.view.AppRoundBroadImage
 import com.cboda.chatui.R
 import com.cboda.chatui.search.viewHolder.ResultItemViewBroadHolder
-import com.cboda.chatui.third.utils.UIBroadUtils
 import com.freddy.im.MessageType
 import com.freddy.im.bean.AppMessage
 import com.freddy.im.bean.ImConversationSearchResult
@@ -19,7 +16,7 @@ import com.freddy.im.message.MessageContentFormatter
 class ImConversationSearchViewHolder(fragment: Fragment, itemView: View) :
     ResultItemViewBroadHolder<ImConversationSearchResult>(fragment, itemView) {
 
-    private val portraitImageView: ImageView = itemView.findViewById(R.id.portraitImageView)
+    private val portraitImageView: AppRoundBroadImage = itemView.findViewById(R.id.portraitImageView)
     private val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
     private val descTextView: TextView = itemView.findViewById(R.id.descTextView)
     private val dividerLine: View = itemView.findViewById(R.id.dividerLine)
@@ -56,18 +53,16 @@ class ImConversationSearchViewHolder(fragment: Fragment, itemView: View) :
             ?: ""
         nameTextView.text = name
         val icon = session?.icon
+        val headDefault = com.cboda.baselibrary.R.mipmap.ic_head_broad_defaut
         val placeholder = if (session != null && session.conversation == MessageType.GROUP_CHAT.msgType) {
             R.mipmap.ic_group_broad_chat
         } else {
-            R.mipmap.avatar_broad_def
+            headDefault
         }
         Glide.with(fragment)
             .load(icon)
             .placeholder(placeholder)
-            .transforms(
-                CenterCrop(),
-                RoundedCorners(UIBroadUtils.dip2Px(fragment.requireContext(), 4))
-            )
+            .error(placeholder)
             .into(portraitImageView)
         descTextView.text = buildDesc(item)
     }

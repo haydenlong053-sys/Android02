@@ -157,13 +157,14 @@ class VerifyBroadActivity : BaseSimple2BroadActivity() {
 //                            mDataList[positio].getDisplayName() ?: "",
 //                            ""
 //                        )
+
                         JumpBroadUtils.startHaoyouApplyActivity(
                             this,
+                            toEditUserId,
                             "",
                             "",
                             "",
-                            "",
-                            "2",
+                            "9",
                             startForResult
                         )
                     } else {

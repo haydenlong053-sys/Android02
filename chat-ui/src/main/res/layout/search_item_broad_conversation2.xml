@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -21,12 +22,13 @@
             android:paddingHorizontal="8dp"
             android:paddingVertical="14dp">
 
-            <ImageView
+            <com.cboda.baselibrary.view.AppRoundBroadImage
                 android:id="@+id/portraitImageView"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/avatar_broad_def" />
+                android:src="@mipmap/ic_head_broad_defaut"
+                app:app_round_round_type="0" />
 
             <LinearLayout
                 android:layout_width="match_parent"

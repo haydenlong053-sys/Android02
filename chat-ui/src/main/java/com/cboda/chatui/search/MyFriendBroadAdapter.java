@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.baselibrary.bean.GlobalFriendListBroadBean;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,8 +102,11 @@ public class MyFriendBroadAdapter extends RecyclerView.Adapter<FriendViewBroadHo
         } else {
             holder.descTextView.setVisibility(View.GONE);
         }
-        Glide.with(context).load(currentItem.getIcon()).placeholder(R.mipmap.avatar_broad_def)
-                .transforms(new CenterCrop(), new RoundedCorners(10))
+        int headDefault = com.cboda.baselibrary.R.mipmap.ic_head_broad_defaut;
+        Glide.with(context)
+                .load(currentItem.getIcon())
+                .placeholder(headDefault)
+                .error(headDefault)
                 .into(holder.portraitImageView);
 
         // 设置点击事件

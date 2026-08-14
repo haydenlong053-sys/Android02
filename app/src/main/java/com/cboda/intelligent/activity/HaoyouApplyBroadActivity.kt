@@ -78,6 +78,7 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
             checkData()
         }
         circleRecyclerView.adapter = circleAdapter
+        checkData()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -151,6 +152,8 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
                     source,
                     qunid
                 )
+            } else if (type == "9") {
+
             } else {
                 circleAdapter.getSelectedData()?.let {
                     setResult(RESULT_OK, Intent().apply {

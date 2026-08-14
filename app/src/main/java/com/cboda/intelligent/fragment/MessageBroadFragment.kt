@@ -502,7 +502,8 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
                         }
 
                         2 -> { // 加好友
-                            JumpBroadUtils.startSearchUserActivity(context)
+//                            JumpBroadUtils.startSearchUserActivity(context)
+                            JumpBroadUtils.startSearchActivity(context)
                         }
 
                         3 -> { // 扫一扫
