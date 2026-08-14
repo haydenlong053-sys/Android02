@@ -184,6 +184,24 @@ object UrlBroadBroadConstants {
     /** 对方资料 / 名片页 POST im/friend/duiInfo，body: friendUserId */
     const val FRIEND_DUI_INFO = "im/friend/duiInfo"
 
+    /** 发起好友申请 POST im/friend/addFriend */
+    const val FRIEND_ADD = "im/friend/addFriend"
+
+    /** 新的朋友（收到的申请） POST im/friend/newFriList */
+    const val FRIEND_NEW_LIST = "im/friend/newFriList"
+
+    /** 处理好友申请 POST im/friend/friExamine */
+    const val FRIEND_EXAMINE = "im/friend/friExamine"
+
+    /** 设置好友备注 POST im/friend/setBei */
+    const val FRIEND_SET_BEI = "im/friend/setBei"
+
+    /** 拉黑 / 解除拉黑 POST im/friend/black */
+    const val FRIEND_BLACK = "im/friend/black"
+
+    /** 删除好友 POST im/friend/delFriend */
+    const val FRIEND_DEL = "im/friend/delFriend"
+
 
     //群列表
     const val GROUP_LIST = "api/groupList"

@@ -161,7 +161,14 @@ class OKGoBroadHelper {
             out.put("success", ok)
             out.put("msg", root.optString("errorMsg", ""))
             when (val content = root.opt("content")) {
-                is JSONObject -> out.put("data", content)
+                is JSONObject -> {
+                    out.put("data", content)
+                    // newFriList 等：content.list → dataList，供 CommonDataListBroadBean 解析
+                    val list = content.opt("list")
+                    if (list is JSONArray) {
+                        out.put("dataList", list)
+                    }
+                }
                 is JSONArray -> {
                     out.put("dataList", content)
                     out.put("data", content)

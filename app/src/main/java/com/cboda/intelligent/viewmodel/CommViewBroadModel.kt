@@ -182,21 +182,14 @@ class CommViewBroadModel : FriendViewBroadModel() {
     }
 
     fun shezhibeizhu(context: Context?, uid: String, beizhu: String, characterTagsId: Int? = -1) {
-        val map = if (characterTagsId == -1) {
-            mapOf(
-                "id" to uid,
-                "bei" to beizhu,
-            )
-        } else {
-            mapOf(
-                "id" to uid,
-                "bei" to beizhu,
-                "characterTagsId" to characterTagsId
-            )
-        }
+        // 文档 im/friend/setBei：仅 friendUserId + bei（空串表示清除备注）
+        val map = mapOf(
+            "friendUserId" to uid,
+            "bei" to beizhu,
+        )
         okGoHelper.post(
             context,
-            "/setBei",
+            UrlBroadBroadConstants.FRIEND_SET_BEI,
             JSONObject(map).toString(),
             NoResultBroadBean(),
             callBack = object : OKGoBroadHelper.RequestCallBack {
@@ -239,11 +232,11 @@ class CommViewBroadModel : FriendViewBroadModel() {
 
     fun shanchu(context: Context?, uid: String) {
         val map = mapOf(
-            "uid" to uid,
+            "friendUserId" to uid,
         )
         okGoHelper.post(
             context,
-            "/delFriend",
+            UrlBroadBroadConstants.FRIEND_DEL,
             JSONObject(map).toString(),
             NoResultBroadBean(),
             callBack = object : OKGoBroadHelper.RequestCallBack {
@@ -361,13 +354,14 @@ class CommViewBroadModel : FriendViewBroadModel() {
 
 
     fun jiaruheimingdan(context: Context?, uid: String, type: String) {
+        // 文档 im/friend/black：targetUserId + type（"1" 拉黑 / "0" 解除）
         val map = mapOf(
-            "uid" to uid,
+            "targetUserId" to uid,
             "type" to type
         )
         okGoHelper.post(
             context,
-            "/black",
+            UrlBroadBroadConstants.FRIEND_BLACK,
             JSONObject(map).toString(),
             NoResultBroadBean(),
             callBack = object : OKGoBroadHelper.RequestCallBack {
@@ -507,15 +501,18 @@ class CommViewBroadModel : FriendViewBroadModel() {
             return
         }
 
+        // 文档 im/friend/newFriList：可选 keyword；无分页字段
         val map = mapOf(
-            "pageNo" to pageNo,
-            "pageSize" to "10",
-            "key" to type,
+            "keyword" to type,
         )
 
         okGoHelper.post(
             context,
-            if (fromPage == "xindepengyou") "/newFriList" else "/newGroupList",
+            if (fromPage == "xindepengyou") {
+                UrlBroadBroadConstants.FRIEND_NEW_LIST
+            } else {
+                "/newGroupList"
+            },
             JSONObject(map).toString(),
             CommonDataListBroadBean(),
             showToast = true,
@@ -702,23 +699,19 @@ class CommViewBroadModel : FriendViewBroadModel() {
             approveSelfImGroupApply(uid, "Y")
             return
         }
-        val map = if (tagsId == -1) {
-            mapOf(
-                "id" to uid,
-                "state" to "2",
-                "remarkName" to remarkName,
-            )
-        } else {
-            mapOf(
-                "id" to uid,
-                "state" to "2",
-                "remarkName" to remarkName,
-                "characterTagsId" to tagsId,
-            )
-        }
+        // 文档 im/friend/friExamine：applyId + state("2"同意) + 可选 remarkName
+        val map = mapOf(
+            "applyId" to uid,
+            "state" to "2",
+            "remarkName" to remarkName,
+        )
         okGoHelper.post(
             context,
-            if (fromPage == "xindepengyou") "/friExamine" else "/groupExamine",
+            if (fromPage == "xindepengyou") {
+                UrlBroadBroadConstants.FRIEND_EXAMINE
+            } else {
+                "/groupExamine"
+            },
             JSONObject(map).toString(),
             NoResultBroadBean(),
             callBack = object : OKGoBroadHelper.RequestCallBack {
@@ -741,12 +734,16 @@ class CommViewBroadModel : FriendViewBroadModel() {
             return
         }
         val map = mapOf(
-            "id" to uid,
+            "applyId" to uid,
             "state" to "3",
         )
         okGoHelper.post(
             context,
-            if (fromPage == "xindepengyou") "/friExamine" else "/groupExamine",
+            if (fromPage == "xindepengyou") {
+                UrlBroadBroadConstants.FRIEND_EXAMINE
+            } else {
+                "/groupExamine"
+            },
             JSONObject(map).toString(),
             NoResultBroadBean(),
             callBack = object : OKGoBroadHelper.RequestCallBack {
@@ -1552,19 +1549,22 @@ class CommViewBroadModel : FriendViewBroadModel() {
         source: String,
         qunid: String
     ) {
-        val map = mapOf(
-            "id" to uid,
-            "sinfo" to name,
-            "bei" to beizhu,
-            "info" to "",
-            "characterTagsId" to tagId,
-            "source" to source,
-            "groupId" to qunid,
-        )
+        // 文档 im/friend/addFriend：targetUserId、sinfo(必填)、source、bei、groupId(source=1)
+        val sinfo = if (name.isBlank()) "你好" else name
+        val body = JSONObject()
+        body.put("targetUserId", uid)
+        body.put("sinfo", sinfo)
+        body.put("source", source)
+        if (beizhu.isNotEmpty()) {
+            body.put("bei", beizhu)
+        }
+        if (source == "1" && qunid.isNotEmpty()) {
+            body.put("groupId", qunid)
+        }
         okGoHelper.post(
             context,
-            "/addFriend",
-            JSONObject(map).toString(),
+            UrlBroadBroadConstants.FRIEND_ADD,
+            body.toString(),
             NoResultBroadBean(),
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
