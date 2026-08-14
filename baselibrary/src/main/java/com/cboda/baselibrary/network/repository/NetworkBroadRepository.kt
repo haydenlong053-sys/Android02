@@ -798,18 +798,18 @@ object NetworkBroadRepository {
                 override fun onSuccess(list: List<T>?, totalCount: Int, totalPage: Int) {
                     try {
                         val gson = GsonUtils.getGson()
-                        val json = gson.toJson(list)
+                        val json = gson.toJson(list ?: emptyList<T>())
                         val type = TypeToken.getParameterized(List::class.java, clazz).getType()
-                        val result = gson.fromJson<List<T>>(json, type)
-                        eLogD(tAG, result.toString())
+                        val result = gson.fromJson<List<T>>(json, type) ?: emptyList()
+                        eLogD(tAG, "postEncryptedList2 size=${result.size} $result")
                         continuation.resume(
-                            NetworkBroadResult.BroadSuccess(NetworkListBroadResult(result, totalCount, totalPage))
+                            NetworkBroadResult.BroadSuccess(
+                                NetworkListBroadResult(result, totalCount, totalPage)
+                            )
                         )
                     } catch (e: Exception) {
                         continuation.resume(NetworkBroadResult.BroadError(e))
                     }
-
-
                 }
 
                 override fun onFailure(code: Int, message: String) {

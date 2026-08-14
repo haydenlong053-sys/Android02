@@ -1,73 +1,52 @@
 package com.cboda.baselibrary.network.model
 
 /**
- * 网络请求列表响应数据模型
- * 继承自NetworkResponse，增加分页信息
- *
- * @author CommonLibrary
- * @param T 列表数据类型
+ * 网络请求列表响应。
+ * 兼容旧协议 `data` / `dataList`，以及 IM 统一信封 `content` 为数组。
  */
-class NetworkListBroadResponse2<T>(
-    code: Int = 0,
-    msg: String? = null,
-    success: Boolean = false,
-    data: List<T>? = null,
-    /**
-     * 总记录数
-     */
-    var totalCount: Int = 0,
+class NetworkListBroadResponse2<T> : NetworkBroadResponse<List<T>> {
+
+    var totalCount: Int = 0
+    var totalPage: Int = 0
+    var unreadCount: Int = 0
+    var dataList: List<T>? = null
+
+    constructor() : super()
+
+    constructor(
+        code: Int = 0,
+        msg: String? = null,
+        success: Boolean = false,
+        data: List<T>? = null,
+        totalCount: Int = 0,
+        totalPage: Int = 0,
+        unreadCount: Int = 0,
+        dataList: List<T>? = null,
+    ) : super(code, msg, success, data) {
+        this.totalCount = totalCount
+        this.totalPage = totalPage
+        this.unreadCount = unreadCount
+        this.dataList = dataList
+    }
 
     /**
-     * 总页数
-     */
-    var totalPage: Int = 0,
-    /**
-     * 未读消息总数
-     */
-    var unreadCount: Int = 0,
-    var dataList: List<T>? = null,
-) : NetworkBroadResponse<List<T>>(code, msg, success, data) {
-
-    /**
-     * 获取列表数据
-     * @return 列表数据，如果为空则返回null
+     * 列表业务数据：`dataList` > `data` > `content`
      */
     fun getList(): List<T>? {
-        return data
+        return dataList ?: getPayload()
     }
 
-    fun getMyDataList(): List<T>? {
-        return dataList
-    }
+    fun getMyDataList(): List<T>? = dataList
 
+    fun hasListData(): Boolean = !getList().isNullOrEmpty()
 
-    /**
-     * 判断是否有列表数据
-     * @return true表示有数据，false表示无数据
-     */
-    fun hasListData(): Boolean {
-        return !data.isNullOrEmpty()
-    }
+    fun getListSize(): Int = getList()?.size ?: 0
 
-    /**
-     * 获取列表数据大小
-     * @return 数据大小，如果为空则返回0
-     */
-    fun getListSize(): Int {
-        return data?.size ?: 0
-    }
-
-    /**
-     * 判断是否还有更多数据（用于分页）
-     * @param currentPage 当前页码（从1开始）
-     * @return true表示还有更多数据，false表示没有更多数据
-     */
-    fun hasMoreData(currentPage: Int): Boolean {
-        return currentPage < totalPage
-    }
+    fun hasMoreData(currentPage: Int): Boolean = currentPage < totalPage
 
     override fun toString(): String {
-        return "NetworkListBroadResponse(totalCount=$totalCount, totalPage=$totalPage, " +
-                "code=$code, msg='$msg', success=$success, listSize=${getListSize()})" + ",data=$data" + ",dataList=$dataList"
+        return "NetworkListBroadResponse2(totalCount=$totalCount, totalPage=$totalPage, " +
+                "code=$code, errorCode=$errorCode, msg='$msg', success=$success, " +
+                "listSize=${getListSize()}, data=$data, content=$content, dataList=$dataList)"
     }
 }

@@ -29,7 +29,7 @@ class NetworkListBroadResponse<T>(
      * @return 列表数据，如果为空则返回null
      */
     fun getList(): List<T>? {
-        return data
+        return getPayload()
     }
     
     /**
