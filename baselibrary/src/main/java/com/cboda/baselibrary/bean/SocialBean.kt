@@ -12,25 +12,40 @@ data class SocialBroadCircle(
 )
 
 data class SocialContact(
-    val id: String,
-    val userId: String,
+    val id: String = "",
+    val userId: String = "",
     val nickName: String? = "",
+    /** 昵称（im/friend/friendList 返回 name） */
     val name: String? = "",
-    val remarkName: String?,
-    val icon: String?,
-    val city: String?,
-    val profession: String?,
-    val sex: String?,
-    val grade: String?,
-    val days: Int?,
+    val remarkName: String? = null,
+    /** 备注（im/friend/friendList 返回 bei） */
+    val bei: String? = null,
+    val icon: String? = null,
+    val city: String? = null,
+    val profession: String? = null,
+    val sex: String? = null,
+    val grade: String? = null,
+    val days: Int? = null,
     val characterTags: String? = "",
-    val characterTagsId: Int?,
-    val registerDay: String?,
-    val isvip: String?,
-    val lianghao: String?,
-    val first: String?, // 服务器返回的首字母备用
-    val zimu: String? // 服务器返回的首字母
-)
+    val characterTagsId: Int? = null,
+    val registerDay: String? = null,
+    val isvip: String? = null,
+    val lianghao: String? = null,
+    val first: String? = null, // 服务器返回的首字母备用
+    val zimu: String? = null, // 服务器返回的首字母
+    val idno: String? = null,
+    val sign: String? = null,
+    val isZy: String? = null,
+) {
+    /** 展示名：备注 > 昵称 > userId */
+    fun displayName(): String {
+        return remarkName?.takeIf { it.isNotBlank() }
+            ?: bei?.takeIf { it.isNotBlank() }
+            ?: nickName?.takeIf { it.isNotBlank() }
+            ?: name?.takeIf { it.isNotBlank() }
+            ?: userId
+    }
+}
 
 data class SocialUiState(
     val isLoading: Boolean = false,

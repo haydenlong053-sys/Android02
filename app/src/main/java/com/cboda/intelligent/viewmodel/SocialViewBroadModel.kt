@@ -90,12 +90,13 @@ class SocialViewBroadModel(
         ))
     }
 
-    private fun displayName(c: SocialContact): String {
-        val name = c.remarkName?.takeIf { it.isNotBlank() } ?: (c.name?:c.userId)
-        return name
-    }
+    private fun displayName(c: SocialContact): String = c.displayName()
 
     private fun initialOf(contact: SocialContact): Char {
+        val fromServer = contact.zimu?.trim()?.firstOrNull()
+        if (fromServer != null) {
+            return if (fromServer.isLetter()) fromServer.uppercaseChar() else '#'
+        }
         val name = displayName(contact)
         val firstChar = name.firstOrNull() ?: return '#'
         val py = PinyinBroadUtils.getPinyin(firstChar.toString())

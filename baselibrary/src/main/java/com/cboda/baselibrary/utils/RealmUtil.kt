@@ -402,11 +402,15 @@ object RealmUtil {
             if (!TextUtils.isEmpty(friendBean.registerDay)) {
                 createUserRealm.registerDay = friendBean.registerDay ?: ""
             }
-            if (!TextUtils.isEmpty(friendBean.nickName)) {
-                createUserRealm.nickName = friendBean.nickName ?: ""
+            val nick = friendBean.nickName?.takeIf { !TextUtils.isEmpty(it) }
+                ?: friendBean.name
+            if (!TextUtils.isEmpty(nick)) {
+                createUserRealm.nickName = nick ?: ""
             }
-            if (!TextUtils.isEmpty(friendBean.remarkName)) {
-                createUserRealm.remarkName = friendBean.remarkName ?: ""
+            val remark = friendBean.remarkName?.takeIf { !TextUtils.isEmpty(it) }
+                ?: friendBean.bei
+            if (!TextUtils.isEmpty(remark)) {
+                createUserRealm.remarkName = remark ?: ""
             }
             createUserRealm.isNiceNum = !TextUtils.isEmpty(friendBean.lianghao)
             if (!TextUtils.isEmpty(friendBean.sex)) {

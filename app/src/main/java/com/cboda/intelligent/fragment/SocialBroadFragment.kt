@@ -596,8 +596,7 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            val display = (contact.remarkName?.takeIf { it.isNotBlank() } ?: (contact.name
-                ?: contact.userId))
+            val display = contact.displayName()
             AndroidView(
                 modifier = Modifier.size(48.dp),
                 factory = { context -> VpGradeView(context) },

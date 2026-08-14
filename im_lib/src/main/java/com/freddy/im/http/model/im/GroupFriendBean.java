@@ -32,6 +32,7 @@ public class GroupFriendBean {
     private String isLiang;
     private String isZy;
     private String id;
+    private String sign;
 
     public String getSex() {
         return sex;
@@ -127,5 +128,13 @@ public class GroupFriendBean {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getSign() {
+        return sign;
+    }
+
+    public void setSign(String sign) {
+        this.sign = sign;
     }
 }

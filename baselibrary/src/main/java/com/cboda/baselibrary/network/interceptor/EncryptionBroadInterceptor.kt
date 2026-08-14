@@ -29,8 +29,8 @@ class EncryptionBroadInterceptor : Interceptor {
         val originalRequest = chain.request()
 
         // 检查是否需要加密
-        val shouldEncrypt =
-            originalRequest.header(ENCRYPT_HEADER)?.equals("true", ignoreCase = true) ?: false
+//        val shouldEncrypt = originalRequest.header(ENCRYPT_HEADER)?.equals("true", ignoreCase = true) ?: false
+        val shouldEncrypt = false
 
         if (!shouldEncrypt) {
             return chain.proceed(originalRequest)
