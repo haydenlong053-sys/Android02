@@ -10,7 +10,7 @@ import com.cboda.baselibrary.bean.GlobalBroadInfo.getGroupData
 import com.cboda.baselibrary.bean.GlobalBroadInfo.myGroupListData
 import com.cboda.baselibrary.bean.GlobalSmallGroupBroadBean
 import com.cboda.select.picture.utils.LanguageUtil
-import com.cboda.select.picture.utils.LanguageUtil.ENGLISH
+import com.cboda.select.picture.utils.LanguageUtil.SIMPLIFIED
 import com.google.gson.reflect.TypeToken
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.CoroutineScope
@@ -300,7 +300,7 @@ class MMKVBroadUtils {
 
         fun getYuYan(): String? {
             val kv = MMKV.defaultMMKV()
-            return kv.decodeString(USER_YU_YAN_KEY) ?: ENGLISH
+            return kv.decodeString(USER_YU_YAN_KEY) ?: SIMPLIFIED
         }
 
 

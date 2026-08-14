@@ -24,7 +24,7 @@ object LanguageUtil {
             if (isAttApp) {
                 getSharedPreferences(context)?.getString("LanguageKey", "") ?: ""
             } else {
-                getSharedPreferences(context)?.getString("LanguageKey", ENGLISH) ?: ENGLISH
+                getSharedPreferences(context)?.getString("LanguageKey", SIMPLIFIED) ?: SIMPLIFIED
             }
         return languageKey
     }
@@ -69,7 +69,7 @@ object LanguageUtil {
     }
 
     fun getAppLanguageName(key: String = "", context: Context): String {
-        return getAllLanguage().find { bean -> bean.sqlKey == if (TextUtils.isEmpty(key)) getAppLanguageKey(context, false) else key }?.name ?: ENGLISH
+        return getAllLanguage().find { bean -> bean.sqlKey == if (TextUtils.isEmpty(key)) getAppLanguageKey(context, false) else key }?.name ?: SIMPLIFIED
     }
 
     fun setAppLanguage(key: String, context: Context? = null) {
@@ -383,8 +383,8 @@ object LanguageUtil {
         return languageList
     }
 
-    const val ENGLISH = "English"//英文
-    private const val SIMPLIFIED = "SimplifiedChinese"//简体中文
+    private const val ENGLISH = "English"//英文
+    const val SIMPLIFIED = "SimplifiedChinese"//简体中文
     private const val TRADITIONAL = "TraditionalChinese"//繁体中文
     private const val HINDI = "Hindi"//印地语
     private const val SPANISH = "Spanish"//西班牙语

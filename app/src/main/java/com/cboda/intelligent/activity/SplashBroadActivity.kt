@@ -68,8 +68,8 @@ class SplashBroadActivity : BaseSimpleBroadActivity() {
     private fun ptConfig() {
         val language = LanguageUtil.getAppLanguageKey(this, true)
         if (TextUtils.isEmpty(language)) {
-            LanguageUtil.saveAppLanguageKey(LanguageUtil.ENGLISH, this)
-            LanguageUtil.setAppLanguage(LanguageUtil.ENGLISH, this@SplashBroadActivity)
+            LanguageUtil.saveAppLanguageKey(LanguageUtil.SIMPLIFIED, this)
+            LanguageUtil.setAppLanguage(LanguageUtil.SIMPLIFIED, this@SplashBroadActivity)
         }
 
 
