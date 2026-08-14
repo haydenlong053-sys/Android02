@@ -30,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -199,7 +200,7 @@ public class NettyTcpClient implements IMSClientInterface {
         }
 
         if (sessionAesKey == null) {
-            System.err.println("尚未协商 AES，无法发送 SignalRequest");
+            eLogD(TAG, "尚未协商 AES，无法发送 SignalRequest");
             return;
         }
         try {
@@ -216,7 +217,7 @@ public class NettyTcpClient implements IMSClientInterface {
 
     public void writeTransport(byte cmd, byte flags, byte[] body, int seqId) {
         if (channel == null || !channel.isActive()) {
-            System.err.println("channel 不可用，发送失败");
+            eLogD(TAG, "channel 不可用，发送失败");
             return;
         }
         channel.writeAndFlush(new SeekWeb4OutboundFrame(cmd, flags, body, seqId));
@@ -269,7 +270,7 @@ public class NettyTcpClient implements IMSClientInterface {
         }
         String uid = mOnEventListener.getUserId();
         if (uid == null || uid.isEmpty()) {
-            System.err.println("userId 为空，跳过 BIND_USER");
+            eLogD(TAG, "userId 为空，跳过 BIND_USER");
             return;
         }
         ImSignalProtos.BindUserSig bind = ImSignalProtos.BindUserSig.newBuilder().setOperation(1).build();
@@ -318,12 +319,12 @@ public class NettyTcpClient implements IMSClientInterface {
             return;
         }
         if (appStatus != IMSConfig.APP_STATUS_BACKGROUND && appStatus != IMSConfig.APP_STATUS_FOREGROUND) {
-            System.err.println("appStatus 非法，跳过 REPORT_USER_PROCESS: " + appStatus);
+            eLogD(TAG, "appStatus 非法，跳过 REPORT_USER_PROCESS: " + appStatus);
             return;
         }
         String uid = mOnEventListener.getUserId();
         if (uid == null || uid.isEmpty()) {
-            System.err.println("userId 为空，跳过 REPORT_USER_PROCESS");
+            eLogD(TAG, "userId 为空，跳过 REPORT_USER_PROCESS");
             return;
         }
         ImSignalProtos.UserProcessSig processSig = ImSignalProtos.UserProcessSig.newBuilder()
@@ -365,12 +366,12 @@ public class NettyTcpClient implements IMSClientInterface {
             return;
         }
         if (messageId.isEmpty()) {
-            System.err.println("messageId 为空，跳过 MSG_READ");
+            eLogD(TAG, "messageId 为空，跳过 MSG_READ");
             return;
         }
         String uid = mOnEventListener.getUserId();
         if (uid == null || uid.isEmpty()) {
-            System.err.println("userId 为空，跳过 MSG_READ");
+            eLogD(TAG, "userId 为空，跳过 MSG_READ");
             return;
         }
         ImSignalProtos.MessageReadSig readSig = ImSignalProtos.MessageReadSig.newBuilder()
@@ -594,7 +595,7 @@ public class NettyTcpClient implements IMSClientInterface {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("添加心跳 handler 失败：" + e.getMessage());
+            eLogD(TAG, "添加心跳 handler 失败：" + e.getMessage());
         }
     }
 
@@ -645,7 +646,31 @@ public class NettyTcpClient implements IMSClientInterface {
     }
 
     private void toServer() {
+//        ChannelFuture future = null;
         try {
+//            if (bootstrap == null || TextUtils.isEmpty(currentHost) || currentPort <= 0) {
+//                channel = null;
+//                return;
+//            }
+//            // 使用 await + 超时，避免断网/DNS 卡住时 sync() 长时间无失败回调
+//            future = bootstrap.connect(currentHost, currentPort);
+//            int timeoutMs = Math.max(getConnectTimeout(), 1000);
+//            if (!future.await(timeoutMs, TimeUnit.MILLISECONDS)) {
+//                future.cancel(true);
+//                eLogD(TAG, String.format("连接Server超时(ip[%s], port[%s], timeout=%dms)",
+//                        currentHost, currentPort, timeoutMs));
+//                channel = null;
+//                return;
+//            }
+//            if (!future.isSuccess()) {
+//                Throwable cause = future.cause();
+//                eLogD(TAG, String.format("连接Server失败(ip[%s], port[%s]): %s",
+//                        currentHost, currentPort,
+//                        cause != null ? cause.getMessage() : "unknown"));
+//                channel = null;
+//                return;
+//            }
+//            channel = future.channel();
             channel = bootstrap.connect(currentHost, currentPort).sync().channel();
         } catch (Exception e) {
             try {
@@ -653,8 +678,12 @@ public class NettyTcpClient implements IMSClientInterface {
             } catch (InterruptedException e1) {
                 e1.printStackTrace();
             }
-            System.err.println(String.format("连接Server(ip[%s], port[%s])失败", currentHost, currentPort));
+            eLogD(TAG, String.format("连接Server(ip[%s], port[%s])失败", currentHost, currentPort));
+
             channel = null;
+//            if (future != null && !future.isDone()) {
+//                future.cancel(true);
+//            }
         }
     }
 
@@ -668,6 +697,7 @@ public class NettyTcpClient implements IMSClientInterface {
 
         @Override
         public void run() {
+            // 首次连接也会在无网/失败时回调；此前 isFirst 跳过失败导致一直停在「连接中」
             if (!isFirst) {
                 onConnectStatusCallback(IMSConfig.CONNECT_STATE_FAILURE);
             }
@@ -677,6 +707,10 @@ public class NettyTcpClient implements IMSClientInterface {
 
                 while (!isClosed) {
                     if (!isNetworkAvailable()) {
+                        // 断网时必须从 CONNECTING 落到 FAILURE，否则只会打印「连接中」
+                        if (connectStatus != IMSConfig.CONNECT_STATE_FAILURE) {
+                            onConnectStatusCallback(IMSConfig.CONNECT_STATE_FAILURE);
+                        }
                         try {
                             Thread.sleep(2000);
                         } catch (InterruptedException e) {
@@ -751,6 +785,7 @@ public class NettyTcpClient implements IMSClientInterface {
                         if (channel != null) {
                             return IMSConfig.CONNECT_STATE_SUCCESSFUL;
                         } else {
+                            eLogD(TAG, String.format("第『%d』次连接未成功，准备重试", j));
                             Thread.sleep(j * getReconnectInterval());
                         }
                     } catch (InterruptedException e) {
