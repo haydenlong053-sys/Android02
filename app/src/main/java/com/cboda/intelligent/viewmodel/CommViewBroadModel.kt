@@ -703,28 +703,42 @@ class CommViewBroadModel : FriendViewBroadModel() {
             return
         }
         // 文档 im/friend/friExamine：applyId + state("2"同意) + 可选 remarkName
-        val map = mapOf(
-            "applyId" to uid,
-            "state" to "2",
-            "remarkName" to remarkName,
-        )
+        val isFriendApply = fromPage == "xindepengyou"
+        val body = JSONObject().apply {
+            put("applyId", uid)
+            put("state", "2")
+            if (remarkName.isNotEmpty()) {
+                put("remarkName", remarkName)
+            }
+        }
         okGoHelper.post(
             context,
-            if (fromPage == "xindepengyou") {
+            if (isFriendApply) {
                 UrlBroadBroadConstants.FRIEND_EXAMINE
             } else {
                 "/groupExamine"
             },
-            JSONObject(map).toString(),
-            NoResultBroadBean(),
+            body.toString(),
+            if (isFriendApply) CommonResultBroadBean() else NoResultBroadBean(),
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
-                    if (bean is NoResultBroadBean) {
-                        errorLiveData.value = ErrorBroadBean(type = "tongyiSuc")
+                    when {
+                        isFriendApply && bean is CommonResultBroadBean -> {
+                            errorLiveData.value = ErrorBroadBean(
+                                type = "tongyiSuc",
+                                type2 = bean.data?.applicantUserId.orEmpty()
+                            )
+                        }
+                        bean is NoResultBroadBean -> {
+                            errorLiveData.value = ErrorBroadBean(type = "tongyiSuc")
+                        }
                     }
                 }
 
                 override fun onFail(bean: BaseBroadResponse?) {
+                    if (isFriendApply) {
+                        errorLiveData.value = ErrorBroadBean(type = "tongyiFail")
+                    }
                 }
             },
 

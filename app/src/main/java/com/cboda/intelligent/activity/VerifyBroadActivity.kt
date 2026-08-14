@@ -94,9 +94,30 @@ class VerifyBroadActivity : BaseSimple2BroadActivity() {
 
         viewModel?.errorLiveData?.observe(this) {
             when (it.type) {
+                "tongyiFail" -> {
+                    pendingAgreeJump = false
+                }
                 "tongyiSuc" -> {
-                    toEditId = ""
-                    toEditUserId = ""
+                    val shouldJumpRemark = fromPage == FRIEND_APPLY && pendingAgreeJump
+                    pendingAgreeJump = false
+                    if (shouldJumpRemark) {
+                        val jumpUid = it.type2.takeIf { id -> id.isNotEmpty() } ?: toEditUserId
+                        if (jumpUid.isNotEmpty()) {
+                            toEditUserId = jumpUid
+//                            JumpBroadUtils.startHaoyouApplyActivity(
+//                                this,
+//                                jumpUid,
+//                                "",
+//                                "",
+//                                "",
+//                                "9",
+//                                startForResult
+//                            )
+                        }
+                    } else {
+                        toEditId = ""
+                        toEditUserId = ""
+                    }
                     pageNo = 1
                     mDataList.clear()
                     mAllDataList.clear()
@@ -144,6 +165,7 @@ class VerifyBroadActivity : BaseSimple2BroadActivity() {
             if (mDataList.isEmpty()) return@setOnItemChildClickListener
             when (view.id) {
                 R.id.tvNotAgree -> {
+                    pendingAgreeJump = false
                     viewModel?.jujue(this, mDataList[positio].id ?: "", fromPage)
                 }
 
@@ -151,22 +173,9 @@ class VerifyBroadActivity : BaseSimple2BroadActivity() {
                     if (fromPage == FRIEND_APPLY) {
                         toEditId = mDataList[positio].id ?: ""
                         toEditUserId = mDataList[positio].userId ?: ""
-//                        CircleAndRemarkBroadActivity.toPage(
-//                            this,
-//                            startForResult,
-//                            mDataList[positio].getDisplayName() ?: "",
-//                            ""
-//                        )
-
-                        JumpBroadUtils.startHaoyouApplyActivity(
-                            this,
-                            toEditUserId,
-                            "",
-                            "",
-                            "",
-                            "9",
-                            startForResult
-                        )
+                        // 先 friExamine，成功后再进备注/圈子页
+                        pendingAgreeJump = true
+                        viewModel?.tongyi(this, toEditId, fromPage)
                     } else {
                         viewModel?.tongyi(this, mDataList[positio].id ?: "", fromPage)
                     }
@@ -246,8 +255,14 @@ class VerifyBroadActivity : BaseSimple2BroadActivity() {
 
     private var toEditId = ""
     private var toEditUserId = ""
+    /** 好友申请：同意接口成功后再跳转备注页 */
+    private var pendingAgreeJump = false
+
     private fun acceptFriendApply(circleId: Int, remarkName: String) {
-        viewModel?.tongyi(this, toEditId, fromPage, remarkName, circleId)
+        // 好友关系已在 friExamine 建立，这里只补备注
+        if (toEditUserId.isNotEmpty()) {
+            viewModel?.shezhibeizhu(this, toEditUserId, remarkName, circleId)
+        }
         if (fromPage == "xindepengyou") {
             ChatManager.Instance().setBlackList(toEditUserId, false, object :
                 GeneralCallback {
@@ -261,6 +276,8 @@ class VerifyBroadActivity : BaseSimple2BroadActivity() {
 
             })
         }
+        toEditId = ""
+        toEditUserId = ""
     }
 
 }

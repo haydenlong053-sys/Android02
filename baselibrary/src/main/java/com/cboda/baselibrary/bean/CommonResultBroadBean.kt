@@ -123,6 +123,13 @@ class CommonResultBroadBean : BaseBroadResponse() {
         var fris = 0L
         var gros = 0L
 
+        /** friExamine：本次是否真正建立好友关系 */
+        var accepted: Boolean? = null
+        /** friExamine：申请人 userId */
+        var applicantUserId: String? = null
+        /** friExamine content.message */
+        var message: String? = null
+
         var kfid: String? = null
         var autofanyi: String? = null
         var isvip: String? = null

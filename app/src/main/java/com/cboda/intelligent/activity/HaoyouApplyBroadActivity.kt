@@ -153,7 +153,15 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
                     qunid
                 )
             } else if (type == "9") {
-
+                // 验证页同意后设置备注/圈子
+                setResult(RESULT_OK, Intent().apply {
+                    putExtra("remark", edtbeizhu?.text?.trim()?.toString() ?: "")
+                    putExtra("circleId", circleAdapter.getSelectedId())
+                    circleAdapter.getSelectedData()?.characterTags?.let { tag ->
+                        putExtra("circleTag", tag)
+                    }
+                })
+                finish()
             } else {
                 circleAdapter.getSelectedData()?.let {
                     setResult(RESULT_OK, Intent().apply {
