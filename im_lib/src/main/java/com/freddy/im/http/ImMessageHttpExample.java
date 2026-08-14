@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.cboda.baselibrary.utils.ELogUtilKt;
+import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.api.CreateGroupApi;
 import com.freddy.im.http.api.FileUploadApi;
@@ -592,7 +593,7 @@ public final class ImMessageHttpExample {
                 .build();
 
         Request.Builder requestBuilder = new Request.Builder()
-                .url(new RequestServer().getHost() + "filehub/batchUpload")
+                .url(HttpsBroadConfig.myImOssHost + "filehub/batchUpload")
                 .post(multipartBody);
         applyGlobalHeaders(requestBuilder);
 

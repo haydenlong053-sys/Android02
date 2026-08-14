@@ -137,17 +137,17 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
 //                ToastBroadUtils.show(getString(R.string.shezhibneizhutispa))
 //                return@setOnClickListener
 //            }
-            if (circleAdapter.getSelectedId() == -1) {
-                ToastBroadUtils.show(getString(R.string.social_select_circle))
-                return@setOnClickListener
-            }
+//            if (circleAdapter.getSelectedId() == -1) {
+//                ToastBroadUtils.show(getString(R.string.social_select_circle))
+//                return@setOnClickListener
+//            }
             if (type == "1") {
                 viewModel?.fasonghaoyoushenqing(
                     this,
                     uid,
                     edtshenqing?.text?.trim()?.toString() ?: "",
                     edtbeizhu?.text?.trim()?.toString() ?: "",
-                    circleAdapter.getSelectedId().toString(),
+                    "",
                     source,
                     qunid
                 )
@@ -174,7 +174,7 @@ class HaoyouApplyBroadActivity : BaseSimple2BroadActivity() {
 //        } else if (edtbeizhu?.text?.trim().isNullOrEmpty()) {
 //            false
         } else if (circleAdapter.getSelectedId() == -1) {
-            false
+            true
         } else {
             true
         }

@@ -151,6 +151,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/set_circle_tags"
                 android:textColor="@color/black_65"
+                android:visibility="gone"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/layout_remark" />

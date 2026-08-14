@@ -37,12 +37,21 @@ object HttpsBroadConfig {
 
     private const val MY_IM_HTTP_HOST_RELEASE: String = "https://im-prd.seekweb4.ai/"
 
+    /** filehub 上传独立域名（与 im-api 分离） */
+    private const val MY_IM_OSS_HOST_FAT: String = "https://oss-test.wujie168.net/"
+    /** 正式 OSS 占位，确认后可改 */
+    private const val MY_IM_OSS_HOST_RELEASE: String = "https://oss.wujie168.net/"
+
     //   private const val MY_IM_HTTP_HOST_RELEASE: String = "http://18.163.110.184/"
     @JvmField
     var myImSocketHost = MY_IM_SOCKET_HOST_RELEASE
 
     @JvmField
     var myImHttpsHost = MY_IM_HTTP_HOST_RELEASE
+
+    /** filehub/upload、filehub/batchUpload 基址 */
+    @JvmField
+    var myImOssHost = MY_IM_OSS_HOST_RELEASE
 
     var appHost2 = ""
 
@@ -93,6 +102,7 @@ object HttpsBroadConfig {
                 appAesPwd = "f81q30ryiacasda1"
                 myImSocketHost = MY_IM_SOCKET_HOST_RELEASE
                 myImHttpsHost = MY_IM_HTTP_HOST_RELEASE
+                myImOssHost = MY_IM_OSS_HOST_RELEASE
             }
 
             HONGKONG_TYPE -> {
@@ -105,6 +115,7 @@ object HttpsBroadConfig {
                 appWebHost = appHost
                 myImSocketHost = MY_IM_SOCKET_HOST_RELEASE
                 myImHttpsHost = MY_IM_HTTP_HOST_RELEASE
+                myImOssHost = MY_IM_OSS_HOST_RELEASE
 
             }
 
@@ -117,6 +128,7 @@ object HttpsBroadConfig {
                 appAesPwd = "f81q30ryiacasda1"
                 myImSocketHost = MY_IM_SOCKET_HOST_FAT
                 myImHttpsHost = MY_IM_HTTP_HOST_FAT
+                myImOssHost = MY_IM_OSS_HOST_FAT
             }
 
             HTTP_TYPE -> {
@@ -128,6 +140,7 @@ object HttpsBroadConfig {
                 appAesPwd = "1q30vqwerf8yiac3"
                 myImSocketHost = MY_IM_SOCKET_HOST_RELEASE
                 myImHttpsHost = MY_IM_HTTP_HOST_RELEASE
+                myImOssHost = MY_IM_OSS_HOST_RELEASE
             }
 
 
@@ -141,6 +154,7 @@ object HttpsBroadConfig {
                 appAesPwd = "1q30vqwerf8yiac3"
                 myImSocketHost = MY_IM_SOCKET_HOST_RELEASE
                 myImHttpsHost = MY_IM_HTTP_HOST_RELEASE
+                myImOssHost = MY_IM_OSS_HOST_RELEASE
             }
 
             RELEASE_TYPE -> {
@@ -152,6 +166,7 @@ object HttpsBroadConfig {
                 appAesPwd = "1q30vqwerf8yiac3"
                 myImSocketHost = MY_IM_SOCKET_HOST_RELEASE
                 myImHttpsHost = MY_IM_HTTP_HOST_RELEASE
+                myImOssHost = MY_IM_OSS_HOST_RELEASE
             }
 
             FAT_IP -> {
@@ -163,6 +178,7 @@ object HttpsBroadConfig {
                 appAesPwd = "f81q30ryiacasda1"
                 myImSocketHost = MY_IM_SOCKET_HOST_FAT
                 myImHttpsHost = MY_IM_HTTP_HOST_FAT_IP
+                myImOssHost = MY_IM_OSS_HOST_FAT
             }
 
             else -> {
@@ -174,6 +190,7 @@ object HttpsBroadConfig {
                 appAesPwd = "f81q30ryiacasda1"
                 myImSocketHost = MY_IM_SOCKET_HOST_RELEASE
                 myImHttpsHost = MY_IM_HTTP_HOST_RELEASE
+                myImOssHost = MY_IM_OSS_HOST_RELEASE
             }
         }
 
