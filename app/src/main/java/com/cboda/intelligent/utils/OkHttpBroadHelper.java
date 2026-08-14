@@ -451,21 +451,31 @@ public class OkHttpBroadHelper {
                             callback.onSuccess(response, obj);
                         } else {
                             BaseBroadBean bean = (BaseBroadBean) obj;
+                            // IM 失败信封可能只有 errorCode/errorMsg，无 code/msg
+                            if ((bean.code == null || bean.code.isEmpty()) && bean.errorCode != 0) {
+                                bean.code = String.valueOf(bean.errorCode);
+                                bean.success = false;
+                            }
+                            if ((bean.msg == null || bean.msg.isEmpty())
+                                    && bean.errorMsg != null && !bean.errorMsg.isEmpty()) {
+                                bean.msg = bean.errorMsg;
+                            }
                             String code = bean.code != null ? bean.code : "";
+                            String tip = resolveBizMessage(bean);
                             if ("200".equals(code) && bean.success) {
                                 callback.onSuccess(response, obj);
                             } else if ("401".equals(code) || "201".equals(code)) {
                                 SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, "");
                                 SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, "");
                                 NetworkBroadConfig.INSTANCE.updateAppToken("");
-                                ToastBroadUtil.show(bean.msg);
+                                ToastBroadUtil.show(tip);
                                 AppBroadUtils.Companion.exit(context);
                             } else {
-                                ToastBroadUtil.show(bean.msg);
+                                ToastBroadUtil.show(tip);
                                 if ("200".equals(code) && !bean.success) {
-                                    callback.onError(response, 2, new Exception());
+                                    callback.onError(response, 2, new Exception(tip));
                                 } else {
-                                    callback.onError(response, 1, new Exception());
+                                    callback.onError(response, 1, new Exception(tip));
                                 }
                             }
                         }
@@ -498,10 +508,25 @@ public class OkHttpBroadHelper {
         }
     }
 
+    /** 业务提示：优先 msg，其次 errorMsg。 */
+    private static String resolveBizMessage(BaseBroadBean bean) {
+        if (bean == null) {
+            return "";
+        }
+        if (bean.msg != null && !bean.msg.isEmpty()) {
+            return bean.msg;
+        }
+        if (bean.errorMsg != null && !bean.errorMsg.isEmpty()) {
+            return bean.errorMsg;
+        }
+        return "";
+    }
+
     /**
      * IM 用户接口返回 {@code {"errorCode":0,"content":{...}}} 时，展平为 ResultBroadBean 可解析形态。
      * <ul>
      *   <li>登录/注册：content 展平到根（token→apptoken/imtoken 等）</li>
+     *   <li>失败且 content 为 null：仍映射 errorCode/errorMsg → code/msg，便于弹窗</li>
      *   <li>getUser 资料：再写入 {@code data}，供 UserInfoBroadActivity 使用 bean.data</li>
      * </ul>
      */
@@ -518,12 +543,25 @@ public class OkHttpBroadHelper {
                 return body;
             }
             org.json.JSONObject root = new org.json.JSONObject(trim);
-            if (!root.has("content")) {
+            if (!root.has("content") && !root.has("errorCode")) {
                 return body;
             }
-            Object contentObj = root.opt("content");
+            Object contentObj = root.has("content") ? root.opt("content") : null;
+            // 失败常见：{"content":null,"errorCode":-1,"errorMsg":"..."}
             if (!(contentObj instanceof org.json.JSONObject)) {
-                return body;
+                if (!root.has("errorCode")) {
+                    return body;
+                }
+                int errorCode = root.optInt("errorCode", -1);
+                boolean ok = errorCode == 0;
+                org.json.JSONObject flat = new org.json.JSONObject();
+                flat.put("success", ok);
+                flat.put("code", ok ? "200" : String.valueOf(errorCode));
+                flat.put("errorCode", errorCode);
+                String errorMsg = root.optString("errorMsg", "");
+                flat.put("errorMsg", errorMsg);
+                flat.put("msg", errorMsg);
+                return flat.toString();
             }
             org.json.JSONObject content = (org.json.JSONObject) contentObj;
             boolean looksLikeAuth = content.has("success") || content.has("userId")
