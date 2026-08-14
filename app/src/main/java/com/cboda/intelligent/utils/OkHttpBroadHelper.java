@@ -188,13 +188,14 @@ public class OkHttpBroadHelper {
                 if (response.isSuccessful()) {
                     eLogD(TAG, "http--url", request.url().toString());
                     String resultStr = response.body().string();
-                    String resultStrAes = "";
-                    try {
-                        resultStrAes = EncryptUtil.INSTANCE.aesDecrypt(resultStr, "AES", null, null);
-                    } catch (Exception e) {
-//                        throw new RuntimeException(e);
-                        eLogD(TAG, "http--http", "--->Exception " + e);
-                    }
+//                    String resultStrAes = "";
+//                    try {
+//                        resultStrAes = EncryptUtil.INSTANCE.aesDecrypt(resultStr, "AES", null, null);
+//                    } catch (Exception e) {
+////                        throw new RuntimeException(e);
+//                        eLogD(TAG, "http--http", "--->Exception " + e);
+//                    }
+                    String resultStrAes = resultStr;
                     eLogD(TAG, "http--http---", resultStrAes);
 //                    Log.d(APP_TAG,"callback.mType=="+callback.mType);
                     if (callback.mType == String.class) {

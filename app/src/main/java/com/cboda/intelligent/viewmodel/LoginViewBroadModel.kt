@@ -620,21 +620,22 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                     resultBean: ResultBroadBean?
                 ) {
                     resultBean?.let {
-                        if (resultBean.isws == "0") {
-                            val newIntent = Intent(mContext, PushInfo2BroadActivity::class.java)
-                            newIntent.putExtra("apptoken", resultBean.apptoken)
-                            newIntent.putExtra("uid", resultBean.userId)
-                            newIntent.putExtra("userSign", resultBean.userSign)
-                            newIntent.putExtra("imtoken", resultBean.imtoken)
-                            newIntent.putExtra("idno", resultBean.idno)
-                            newIntent.putExtra("qrcode", resultBean.qrcode)
-                            newIntent.putExtra("qrCodeNew", resultBean.tQrcode2)
-                            newIntent.putExtra("account", account)
-                            newIntent.putExtra("pwd", pwd)
-                            mContext.startActivity(newIntent)
-                        } else {
-                            imLogin(resultBean, mContext)
-                        }
+//                        if (resultBean.isws == "0") {
+//                            val newIntent = Intent(mContext, PushInfo2BroadActivity::class.java)
+//                            newIntent.putExtra("apptoken", resultBean.apptoken)
+//                            newIntent.putExtra("uid", resultBean.userId)
+//                            newIntent.putExtra("userSign", resultBean.userSign)
+//                            newIntent.putExtra("imtoken", resultBean.imtoken)
+//                            newIntent.putExtra("idno", resultBean.idno)
+//                            newIntent.putExtra("qrcode", resultBean.qrcode)
+//                            newIntent.putExtra("qrCodeNew", resultBean.tQrcode2)
+//                            newIntent.putExtra("account", account)
+//                            newIntent.putExtra("pwd", pwd)
+//                            mContext.startActivity(newIntent)
+//                        } else {
+//                            imLogin(resultBean, mContext)
+//                        }
+
                     } ?: showToastMain(com.cboda.baselibrary.R.string.service_error_token_null)
                 }
 
