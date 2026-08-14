@@ -161,6 +161,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
     fun getUserInfo(): SingleLiveBroadData<UserInfoBean> {
         val liveData = SingleLiveBroadData<UserInfoBean>()
         val params = HashMap<String, Any>()
+        params["userId"] = MMKVBroadUtils.getRealUserId() ?: ""
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
