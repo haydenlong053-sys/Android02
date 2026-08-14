@@ -6,226 +6,124 @@
     android:layout_height="match_parent"
     android:background="@color/bg_main2">
 
-    <ImageView
-        android:id="@+id/ivTopBg"
-        android:layout_width="match_parent"
-        android:layout_height="203dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_mine_top_bg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
-
-    <ImageView
-        android:id="@+id/cardVip"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/dp_16"
-        android:scaleType="fitXY"
-        app:layout_constraintDimensionRatio="H,345:150"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_mine_bg_no_vip" />
-
-    <TextView
-        android:id="@+id/mTvOpenVipDes1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="20dp"
-        android:ellipsize="end"
-        android:lines="1"
-        android:text="@string/mine_vip_limited_offer"
-        android:textColor="#FFD3A9"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@id/cardVip"
-        app:layout_constraintStart_toStartOf="@id/cardVip"
-        app:layout_constraintTop_toTopOf="@id/cardVip" />
-
-    <com.hjq.shape.view.ShapeTextView
-        android:id="@+id/mTvOpenVip"
-        android:layout_width="81dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="13dp"
-        android:gravity="center"
-        android:text="@string/mine_open_now"
-        android:textColor="#1A1A1C"
-        android:textSize="12sp"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@id/mTvOpenVipDes1"
-        app:layout_constraintTop_toBottomOf="@id/mTvOpenVipDes1"
-        app:shape_radius="13dp"
-        app:shape_solidColor="#F9D8A4" />
-
-    <TextView
-        android:id="@+id/mTvOpenVipDes2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="20dp"
-        android:ellipsize="end"
-        android:lines="1"
-        android:text="@string/mine_app_vip_member"
-        android:textColor="#FFD3A9"
-        android:textSize="18sp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/cardVip"
-        app:layout_constraintTop_toTopOf="@id/cardVip"
-
-        />
-
-    <TextView
-        android:id="@+id/mTvVipEndTime"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/mine_vip_time_to"
-        android:textColor="#A5FFD3A9"
-        android:textSize="12sp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/mTvOpenVipDes2"
-        app:layout_constraintTop_toBottomOf="@id/mTvOpenVipDes2" />
-
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="20dp"
-        android:ellipsize="end"
-        android:lines="1"
-        android:text="欢迎来到无界"
-        android:textColor="#FFD3A9"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/cardVip"
-        app:layout_constraintStart_toStartOf="@id/cardVip"
-        app:layout_constraintTop_toTopOf="@id/cardVip" />
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="114dp"
-        android:layout_marginTop="-20dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_mine_icon_bg_c"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardVip" />
-
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsvMineContent"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
+        android:fillViewport="true"
         android:paddingHorizontal="16dp"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardVip">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="28dp">
 
-            <LinearLayout
-                android:id="@+id/layoutTopMenus"
+            <!-- 用户信息卡片 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardUserProfile"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_84"
-                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/bg_rect_mine_fff_broad_12dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="16dp">
 
-                <LinearLayout
-                    android:id="@+id/layoutViewMoney"
+                <com.cboda.baselibrary.view.AppRoundBroadImage
+                    android:id="@+id/ivUserAvatar"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"
+                    tools:src="@mipmap/ic_broad_head" />
+
+                <TextView
+                    android:id="@+id/tvUserName"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    tools:visibility="visible">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="8dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="#1A1A1C"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/tvUserId"
+                    app:layout_constraintEnd_toStartOf="@id/ivProfileArrow"
+                    app:layout_constraintStart_toEndOf="@id/ivUserAvatar"
+                    app:layout_constraintTop_toTopOf="@id/ivUserAvatar"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="x123" />
 
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@drawable/ic_mine_icon_money"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:singleLine="true"
-                        android:text="@string/mine_assets2"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/layoutViewSquare"
+                <TextView
+                    android:id="@+id/tvUserId"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="#999999"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="@id/ivUserAvatar"
+                    app:layout_constraintEnd_toEndOf="@id/tvUserName"
+                    app:layout_constraintStart_toStartOf="@id/tvUserName"
+                    app:layout_constraintTop_toBottomOf="@id/tvUserName"
+                    tools:text="ID:10010" />
 
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@drawable/ic_mine_icon_square"
-                        tools:ignore="ContentDescription" />
+                <ImageView
+                    android:id="@+id/ivProfileArrow"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_mine_icon_back"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:singleLine="true"
-                        android:text="@string/mine_square"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-                </LinearLayout>
+            <!-- 客服 -->
+            <LinearLayout
+                android:id="@+id/layoutViewService"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_rect_mine_fff_broad_12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp">
 
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_mine_icon_service_call"
+                    tools:ignore="ContentDescription" />
 
-                <LinearLayout
-                    android:id="@+id/layoutViewService"
+                <TextView
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:text="@string/mine_customer_service"
+                    android:textColor="#1A1A1C"
+                    android:textSize="16sp" />
 
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@drawable/ic_mine_icon_service_call"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:singleLine="true"
-                        android:text="@string/mine_customer_service"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_mine_icon_back"
+                    tools:ignore="ContentDescription" />
             </LinearLayout>
 
+            <!-- 收藏 -->
             <LinearLayout
                 android:id="@+id/itemFavorite"
                 android:layout_width="match_parent"
@@ -234,22 +132,21 @@
                 android:background="@drawable/bg_rect_mine_fff_broad_12dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingHorizontal="12dp"
-                android:visibility="gone">
+                android:paddingHorizontal="16dp">
 
                 <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_mine_icon_colloct"
                     tools:ignore="ContentDescription" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="12dp"
                     android:layout_weight="1"
                     android:text="@string/mine_favorite"
-                    android:textColor="@color/black"
+                    android:textColor="#1A1A1C"
                     android:textSize="16sp" />
 
                 <ImageView
@@ -259,96 +156,30 @@
                     tools:ignore="ContentDescription" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/itemSafeCenter"
-                android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/bg_rect_mine_fff_broad_12dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="12dp"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_mine_icon_safe"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
-                    android:text="@string/mine_safe_center"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/ic_mine_icon_back"
-                    tools:ignore="ContentDescription" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/itemFaq"
-                android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/bg_rect_mine_fff_broad_12dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="12dp"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_mine_icon_question"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
-                    android:text="@string/mine_faq"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/ic_mine_icon_back"
-                    tools:ignore="ContentDescription" />
-            </LinearLayout>
-
+            <!-- 系统设置 -->
             <LinearLayout
                 android:id="@+id/itemSettings"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/bg_rect_mine_fff_broad_12dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp">
 
                 <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_mine_icon_sys_set"
                     tools:ignore="ContentDescription" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="12dp"
                     android:layout_weight="1"
                     android:text="@string/mine_system_settings"
-                    android:textColor="@color/black"
+                    android:textColor="#1A1A1C"
                     android:textSize="16sp" />
 
                 <ImageView
@@ -357,10 +188,6 @@
                     android:src="@drawable/ic_mine_icon_back"
                     tools:ignore="ContentDescription" />
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="28dp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

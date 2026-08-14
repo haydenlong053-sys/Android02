@@ -313,36 +313,36 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
     public void onClick(View view) {
         Intent intent;
         if (view.getId() == R.id.iv_user_avatar && bean != null && bean.data != null) {
-            String[] perms = {
-                    Permission.READ_MEDIA_IMAGES,
-                    Permission.CAMERA};
-            if (XXPermissions.isGranted(this, perms)) {
-                pmsSuccess();
-            } else {
-                new NormalBroadDialog(this, getString(R.string.温馨提示), getString(R.string.使用选择图片功能需要相机存储权限是否请求权限), getString(R.string.取消), getString(R.string.确定), true)
-                        .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
-                            @Override
-                            public void OnRightClick() {
-                                XXPermissions permission = XXPermissions.with(UserInfoBroadActivity.this).permission(perms);
-                                permission.request(new OnPermissionCallback() {
-                                    @Override
-                                    public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
-                                        pmsSuccess();
-                                    }
-
-                                    @Override
-                                    public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
-                                        OnPermissionCallback.super.onDenied(permissions, doNotAskAgain);
-                                        ToastBroadUtil.show(getString(R.string.权限被拒绝));
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void OnLeftClick() {
-                            }
-                        }).show();
-            }
+//            String[] perms = {
+//                    Permission.READ_MEDIA_IMAGES,
+//                    Permission.CAMERA};
+//            if (XXPermissions.isGranted(this, perms)) {
+//                pmsSuccess();
+//            } else {
+//                new NormalBroadDialog(this, getString(R.string.温馨提示), getString(R.string.使用选择图片功能需要相机存储权限是否请求权限), getString(R.string.取消), getString(R.string.确定), true)
+//                        .setOnButtonClickListener(new NormalBroadDialog.OnButtonClick() {
+//                            @Override
+//                            public void OnRightClick() {
+//                                XXPermissions permission = XXPermissions.with(UserInfoBroadActivity.this).permission(perms);
+//                                permission.request(new OnPermissionCallback() {
+//                                    @Override
+//                                    public void onGranted(@NonNull List<String> permissions, boolean allGranted) {
+//                                        pmsSuccess();
+//                                    }
+//
+//                                    @Override
+//                                    public void onDenied(@NonNull List<String> permissions, boolean doNotAskAgain) {
+//                                        OnPermissionCallback.super.onDenied(permissions, doNotAskAgain);
+//                                        ToastBroadUtil.show(getString(R.string.权限被拒绝));
+//                                    }
+//                                });
+//                            }
+//
+//                            @Override
+//                            public void OnLeftClick() {
+//                            }
+//                        }).show();
+//            }
         }
         if (view.getId() == R.id.tv_user_name && bean != null && bean.data != null) {
             intent = new Intent(this, NickNameBroadActivity.class);

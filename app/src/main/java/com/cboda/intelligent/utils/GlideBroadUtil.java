@@ -83,9 +83,9 @@ public class GlideBroadUtil {
     public static void setHeadImag(Context context, String url, ImageView iv) {
         Glide.with(context)
                 .load(url)
-                .placeholder(R.mipmap.ic_broad_head) // 加载中显示
-                .error(R.mipmap.ic_broad_head) // 加载失败显示
-                .fallback(R.mipmap.ic_broad_head) // 空URL或null时显示
+                .placeholder(R.mipmap.ic_broad_logo) // 加载中显示
+                .error(R.mipmap.ic_broad_logo) // 加载失败显示
+                .fallback(R.mipmap.ic_broad_logo) // 空URL或null时显示
                 .into(iv);
     }
 
