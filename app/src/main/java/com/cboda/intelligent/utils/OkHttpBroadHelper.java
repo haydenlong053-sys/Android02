@@ -510,7 +510,8 @@ public class OkHttpBroadHelper {
             return body;
         }
         boolean imUserApi = url != null && url.contains("/im/user/");
-        boolean isGetUser = url != null && url.contains("/im/user/getUser");
+            boolean isGetUser = url != null && url.contains("/im/user/getUser");
+            boolean isDuiInfo = url != null && url.contains("/im/friend/duiInfo");
         try {
             String trim = body.trim();
             if (!trim.startsWith("{")) {
@@ -573,9 +574,10 @@ public class OkHttpBroadHelper {
             }
 
             // getUser 资料页依赖 ResultBroadBean.data
-            boolean isProfile = isGetUser
+            boolean isProfile = isGetUser || isDuiInfo
                     || (!content.has("token")
-                    && (content.has("nickname") || content.has("idno") || content.has("cardQrUrl")));
+                    && (content.has("nickname") || content.has("idno")
+                    || content.has("cardQrUrl") || content.has("isFri")));
             if (isProfile) {
                 org.json.JSONObject data = new org.json.JSONObject(content.toString());
                 if (data.has("nickname")

@@ -181,6 +181,9 @@ object UrlBroadBroadConstants {
     //好友列表
     const val FRIEND_CONTACT_LIST = "im/friend/friendList"
 
+    /** 对方资料 / 名片页 POST im/friend/duiInfo，body: friendUserId */
+    const val FRIEND_DUI_INFO = "im/friend/duiInfo"
+
 
     //群列表
     const val GROUP_LIST = "api/groupList"

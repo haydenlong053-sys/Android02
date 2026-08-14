@@ -10,7 +10,6 @@ import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.BroadConstant
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.bean.CommonResultBroadBean
-import com.cboda.baselibrary.utils.EncryptUtil
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.toLog
 import com.cboda.intelligent.bean.CreateRoomBroadBean
@@ -25,6 +24,7 @@ import com.cboda.baselibrary.widge.LoadingBroadDialog
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.Response
+import org.json.JSONArray
 import org.json.JSONObject
 
 /**
@@ -35,6 +35,13 @@ class OKGoBroadHelper {
 
     private var dialogHelper: LoadingBroadDialog? = null
 
+    /**
+     * POST 明文 JSON（不加解密）。
+     * 响应若为 IM 统一信封 `{errorCode,errorMsg,content}`，先展平为
+     * `{code,success,msg,data/dataList}` 再按原 Bean 解析。
+     *
+     * @see <a href="https://d274bn8ctb3rl6.cloudfront.net/wujie/docs/%E8%B4%A6%E5%8F%B7%E4%B8%8E%E5%A5%BD%E5%8F%8B%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3.html">账号与好友接口文档</a>
+     */
     fun post(
         context: Context?,
         url: String,
@@ -48,25 +55,22 @@ class OKGoBroadHelper {
     ) {
         if (showLoading) showLoading(context, canDis)
 
-//        eLogD("OKGoHelperClass接口请求", " url-->${url} 加密前--> $json ")
-        val map = mapOf(
-            "encrData" to EncryptUtil.aesEncrypt(json),
-        )
+        val fullUrl = if (hasBasUrl) {
+            url
+        } else {
+            joinUrl(HttpsBroadConfig.appBaseUrl, url)
+        }
+        eLogD("OKGoHelperClass接口请求", " url-->$fullUrl  body--> $json ")
 
-        OkGo.post<String>(if (hasBasUrl) url else (HttpsBroadConfig.appBaseUrl + url))
-            ?.upJson(JSONObject(map).toString())
+        OkGo.post<String>(fullUrl)
+            ?.upJson(json)
             ?.execute(object : StringCallback() {
                 override fun onSuccess(response: Response<String>?) {
                     try {
                         if (showLoading) dismissLoading()
-//                        eLogD("OKGoHelperClass", "开始解析数据")
                         if (bean != null) {
-                            var body = response?.body()
-//                            eLogD(
-//                                "OKGoHelperClass接口返回",
-//                                " url-->${url}  加密后--> ${AEBroadS.decrypt(body)} "
-//                            )
-                            body = EncryptUtil.aesDecrypt(body)
+                            val body = normalizeImEnvelope(response?.body())
+                            eLogD("OKGoHelperClass接口返回", " url-->$url  body--> $body ")
 
                             val baseBean = JsonBroadUtils.getSuccessJsonBean(body)
                             baseBean?.code?.apply {
@@ -94,19 +98,25 @@ class OKGoBroadHelper {
                                             eLogD("OKGoHelperClass数据解析", "需新加对象--->")
                                         }
                                     }
-                                } else if (this == "401" || this == "201") {
+                                } else if (this == "401" || this == "201"
+                                    || this == "106" || this == "1001007"
+                                ) {
                                     ToastBroadUtils.show(baseBean.msg)
                                     exit(context)
                                 } else {
                                     if (showToast) ToastBroadUtils.show(baseBean.msg)
                                     callBack?.onFail(baseBean)
                                 }
+                            } ?: run {
+                                if (showToast) ToastBroadUtils.show("响应解析失败")
+                                callBack?.onFail(baseBean)
                             }
                         }
                     } catch (e: Exception) {
                         e.toLog("OKGoHelperClass解析异常")
+                        if (showLoading) dismissLoading()
+                        callBack?.onFail(null)
                     }
-
                 }
 
                 override fun onError(response: Response<String>?) {
@@ -114,9 +124,56 @@ class OKGoBroadHelper {
                     eLogD("OKGoHelperClass", "网络请求异常")
                     if (showToast) ToastBroadUtils.show("网络请求异常")
                     if (showLoading) dismissLoading()
+                    callBack?.onFail(null)
                 }
-
             })
+    }
+
+    /**
+     * 拼接基址与相对路径，保证中间恰好一个 `/`。
+     * 测试环境 appHost2 为 `https://im-test.wujie168.net`（无尾斜杠），
+     * 路径为 `im/friend/duiInfo`（无前斜杠）时，直接相加会少 `/`。
+     */
+    private fun joinUrl(baseUrl: String, path: String): String {
+        val normalizedBase = if (baseUrl.endsWith("/")) baseUrl else "$baseUrl/"
+        val normalizedPath = path.trimStart('/')
+        return normalizedBase + normalizedPath
+    }
+
+    private fun normalizeImEnvelope(body: String?): String? {
+        if (body.isNullOrBlank()) {
+            return body
+        }
+        return try {
+            val trim = body.trim()
+            if (!trim.startsWith("{")) {
+                return body
+            }
+            val root = JSONObject(trim)
+            if (!root.has("errorCode")) {
+                return body
+            }
+            val errorCode = root.optInt("errorCode", -1)
+            val ok = errorCode == 0
+            val out = JSONObject()
+            out.put("errorCode", errorCode)
+            out.put("code", if (ok) BroadConstant.RESULT_OK else errorCode.toString())
+            out.put("success", ok)
+            out.put("msg", root.optString("errorMsg", ""))
+            when (val content = root.opt("content")) {
+                is JSONObject -> out.put("data", content)
+                is JSONArray -> {
+                    out.put("dataList", content)
+                    out.put("data", content)
+                }
+                JSONObject.NULL, null -> Unit
+                else -> out.put("data", content)
+            }
+            out.toString()
+        } catch (e: Exception) {
+            e.toLog("OKGoHelperClass normalizeImEnvelope")
+            body
+        }
     }
 
     fun postNoAes(

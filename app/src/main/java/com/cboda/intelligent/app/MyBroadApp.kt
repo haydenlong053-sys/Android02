@@ -37,6 +37,7 @@ import com.cboda.baselibrary.bean.BroadConstant
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.HttpsBroadConfig.setHttpMode
 import com.cboda.baselibrary.network.ResBroadInterceptor
+import com.cboda.baselibrary.network.interceptor.HeaderBroadInterceptor
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.clearUserDataLiveData
 import com.cboda.baselibrary.utils.eLogD
@@ -102,6 +103,8 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener, ImAuthInva
             val builder = OkHttpClient.Builder()
             builder.connectTimeout(180000, TimeUnit.MILLISECONDS)
             builder.readTimeout(180000, TimeUnit.MILLISECONDS)
+            // IM 网关要求 userId / token / clientType
+            builder.addInterceptor(HeaderBroadInterceptor())
             val headers = HttpHeaders()
             headers.put("apptoken", BroadConstant.getAppToken() ?: "")
             headers.put("sensorNo", DeviceBroadUtil.getAndroidId(mContext))

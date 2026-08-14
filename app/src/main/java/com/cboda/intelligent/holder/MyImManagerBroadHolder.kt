@@ -175,11 +175,11 @@ class MyImManagerBroadHolder(private val context: Context?) {
 
                         BridgeImEnum.GET_USER_DATA.value -> {
                             val map = mapOf(
-                                "id" to params,
+                                "friendUserId" to params,
                             )
                             okGoHelper.post(
                                 context,
-                                "/duiInfo",
+                                UrlBroadBroadConstants.FRIEND_DUI_INFO,
                                 JSONObject(map).toString(),
                                 CommonResultBroadBean(),
                                 showLoading = false,
@@ -199,11 +199,11 @@ class MyImManagerBroadHolder(private val context: Context?) {
 
                         BridgeImEnum.ADD_FRIEND.value -> {
                             val map = mapOf(
-                                "id" to params,
+                                "friendUserId" to params,
                             )
                             okGoHelper.post(
                                 context,
-                                "/duiInfo",
+                                UrlBroadBroadConstants.FRIEND_DUI_INFO,
                                 JSONObject(map).toString(),
                                 CommonResultBroadBean(),
                                 callBack = object : OKGoBroadHelper.RequestCallBack {
@@ -234,11 +234,11 @@ class MyImManagerBroadHolder(private val context: Context?) {
 
                         BridgeImEnum.UNREAD_MESSAGE_ADD_FRIEND.value -> {
                             val map = mapOf(
-                                "id" to params,
+                                "friendUserId" to params,
                             )
                             okGoHelper.post(
                                 context,
-                                "/duiInfo",
+                                UrlBroadBroadConstants.FRIEND_DUI_INFO,
                                 JSONObject(map).toString(),
                                 CommonResultBroadBean(),
                                 callBack = object : OKGoBroadHelper.RequestCallBack {
@@ -960,11 +960,11 @@ class MyImManagerBroadHolder(private val context: Context?) {
 
     fun duiInfo(params: String) {
         val map = mapOf(
-            "id" to params,
+            "friendUserId" to params,
         )
         okGoHelper.post(
             context,
-            "/duiInfo",
+            UrlBroadBroadConstants.FRIEND_DUI_INFO,
             JSONObject(map).toString(),
             CommonResultBroadBean(),
             showLoading = false,
@@ -979,10 +979,11 @@ class MyImManagerBroadHolder(private val context: Context?) {
                                 "autofanyi",
                                 "1"
                             )
+                            val fanTime = bean.data?.fantime?.toLongOrNull() ?: 0L
                             SharePrefBroadBroadUtil.saveLong(
                                 context,
                                 "autofanyitime",
-                                bean.data?.fantime!!.toLong()
+                                fanTime
                             )
                         } else {
                             SharePrefBroadBroadUtil.saveString(
