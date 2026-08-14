@@ -24,7 +24,8 @@ class DecryptionBroadInterceptor : Interceptor {
         val response = chain.proceed(request)
 
         // 检查是否需要解密
-        val shouldDecrypt = request.header(DECRYPT_HEADER)?.equals("true", ignoreCase = true) ?: false
+//        val shouldDecrypt = request.header(DECRYPT_HEADER)?.equals("true", ignoreCase = true) ?: false
+        val shouldDecrypt = false
 
         if (!shouldDecrypt) {
             return response

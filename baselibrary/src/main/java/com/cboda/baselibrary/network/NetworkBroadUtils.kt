@@ -694,7 +694,7 @@ object NetworkBroadUtils {
                                 )
                             } else {
                                 callback.onFailure(
-                                    networkResponse.code,
+                                    networkResponse.getFailureCode(),
                                     networkResponse.getErrorMessage() ?: "请求失败"
                                 )
                             }
@@ -744,23 +744,16 @@ object NetworkBroadUtils {
 //                                )
                             }
                             if (networkResponse.isRequestSuccess()) {
-                                if (networkResponse.getMyDataList() != null) {
-                                    callback.onSuccess(
-                                        networkResponse.getMyDataList(),
-                                        networkResponse.totalCount,
-                                        networkResponse.totalPage
-                                    )
-                                } else {
-                                    callback.onSuccess(
-                                        networkResponse.getList(),
-                                        networkResponse.totalCount,
-                                        networkResponse.totalPage
-                                    )
-                                }
-
+                                val list = networkResponse.getList()
+                                callback.onSuccess(
+                                    list,
+                                    networkResponse.totalCount.takeIf { it > 0 }
+                                        ?: (list?.size ?: 0),
+                                    networkResponse.totalPage
+                                )
                             } else {
                                 callback.onFailure(
-                                    networkResponse.code,
+                                    networkResponse.getFailureCode(),
                                     networkResponse.getErrorMessage() ?: "请求失败"
                                 )
                             }
