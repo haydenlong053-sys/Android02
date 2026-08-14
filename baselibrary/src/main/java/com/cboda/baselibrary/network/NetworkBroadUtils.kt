@@ -585,13 +585,14 @@ object NetworkBroadUtils {
                             eLogD(tAG, "networkResponse-->${networkResponse}")
                         }
                         if (networkResponse != null) {
+                            eLogD(tAG, "networkResponse-->$networkResponse success=${networkResponse.isRequestSuccess()} payload=${networkResponse.getPayload()}")
                             if (networkResponse.isRequestSuccess()) {
-                                callback.onSuccess(networkResponse.data)
+                                callback.onSuccess(networkResponse.getPayload())
                             } else {
                                 callback.onFailure(
-                                    networkResponse.code,
+                                    networkResponse.getFailureCode(),
                                     networkResponse.getErrorMessage() ?: "请求失败",
-                                    networkResponse.data
+                                    networkResponse.getPayload()
                                 )
 
                             }

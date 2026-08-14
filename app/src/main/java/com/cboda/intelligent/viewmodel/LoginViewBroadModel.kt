@@ -167,6 +167,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                 try {
                     val result = NetworkBroadRepository.post("im/user/getUser", UserInfoBean::class.java, params)
                     result.onSuccess { data ->
+                        data?.normalizeImFields()
 //                        MMKVBroadUtils.saveSqlStrData(USER_LOGIN_DATA, toJson2(data))
                         RealmUtil.addUserData(data)
                         data?.let {

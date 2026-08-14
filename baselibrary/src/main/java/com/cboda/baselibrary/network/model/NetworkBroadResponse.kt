@@ -1,66 +1,62 @@
 package com.cboda.baselibrary.network.model
 
 /**
- * 网络请求基础响应数据模型
- * 适用于所有API接口的通用响应格式
- * 
- * @author CommonLibrary
- * @param T 数据类型
+ * 网络请求基础响应。
+ * 兼容旧格式 code/msg/success/data，以及 IM 格式 errorCode/errorMsg/content。
+ *
+ * 使用无参构造 + 可写字段，避免 Kotlin 主构造导致 Gson 反序列化丢字段。
  */
-open class NetworkBroadResponse<T>(
-    /**
-     * 响应状态码
-     */
-    var code: Int = 0,
-    
-    /**
-     * 响应消息
-     */
-    var msg: String? = null,
-    
-    /**
-     * 请求是否成功
-     */
-    var success: Boolean = false,
-    
-    /**
-     * 响应数据，可能为空
-     */
+open class NetworkBroadResponse<T> {
+
+    var code: Int = 0
+    var msg: String? = null
+    var success: Boolean = false
     var data: T? = null
 
+    /** IM：0 成功；缺省 -1 表示非 IM 信封 */
+    var errorCode: Int = -1
+    var errorMsg: String? = null
+    var content: T? = null
 
+    constructor()
 
-) {
-    
-    /**
-     * 判断请求是否成功
-     * @return true表示成功，false表示失败
-     */
-    fun isRequestSuccess(): Boolean {
-        return code == 200 && success
+    constructor(code: Int, msg: String?, success: Boolean, data: T?) {
+        this.code = code
+        this.msg = msg
+        this.success = success
+        this.data = data
     }
-    
-    /**
-     * 获取错误信息
-     * @return 错误信息，如果成功则返回null
-     */
+
+    fun getPayload(): T? = data ?: content
+
+    fun isRequestSuccess(): Boolean {
+        if (code == 200 && success) {
+            return true
+        }
+        return errorCode == 0
+    }
+
+    fun getFailureCode(): Int {
+        if (errorCode != -1 && errorCode != 0) {
+            return errorCode
+        }
+        if (code != 0 && code != 200) {
+            return code
+        }
+        return -1
+    }
+
     fun getErrorMessage(): String? {
         return if (isRequestSuccess()) {
             null
         } else {
-            msg ?: "请求失败"
+            msg?.takeIf { it.isNotEmpty() } ?: errorMsg ?: "请求失败"
         }
     }
-    
-    /**
-     * 判断是否有数据
-     * @return true表示有数据，false表示无数据
-     */
-    fun hasData(): Boolean {
-        return data != null
-    }
-    
+
+    fun hasData(): Boolean = getPayload() != null
+
     override fun toString(): String {
-        return "NetworkBroadResponse(code=$code, msg='$msg', success=$success, data=$data)"
+        return "NetworkBroadResponse(code=$code, msg='$msg', success=$success, data=$data, errorCode=$errorCode, errorMsg='$errorMsg', content=$content)"
     }
 }

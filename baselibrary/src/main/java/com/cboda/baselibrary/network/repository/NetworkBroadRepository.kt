@@ -402,10 +402,23 @@ object NetworkBroadRepository {
                 override fun onSuccess(data: Any?) {
                     try {
                         val gson = GsonUtils.getGson()
-                        val json = gson.toJson(data)
-                        val result = gson.fromJson(json, clazz)
+                        val tree = gson.toJsonTree(data)
+                        // 若上层未解信封，这里再剥一层 content/data
+                        val payload = if (tree != null && tree.isJsonObject) {
+                            val obj = tree.asJsonObject
+                            when {
+                                obj.has("content") && !obj.get("content").isJsonNull -> obj.get("content")
+                                obj.has("data") && !obj.get("data").isJsonNull -> obj.get("data")
+                                else -> tree
+                            }
+                        } else {
+                            tree
+                        }
+                        val result = gson.fromJson(payload, clazz)
                         continuation.resume(NetworkBroadResult.BroadSuccess(result))
                     } catch (e: Exception) {
+                        eLogD(tAG, "post convert fail url=$url err=${e.message}")
+                        e.toLog(tAG)
                         continuation.resume(NetworkBroadResult.BroadError(e))
                     }
                 }
