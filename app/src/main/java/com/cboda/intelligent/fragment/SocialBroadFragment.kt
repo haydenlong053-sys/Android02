@@ -191,20 +191,20 @@ fun SocialScreen(
                     groupBadgeCount = state.newGroupInviteCount
                 )
             }
-            item {
-                CirclesRow(
-                    circles = state.circles,
-                    selectedTag = state.selectedCircleTag,
-                    onSelect = { vm.selectCircle(it) },
-                    mode = interactionMode
-                )
-            }
-            item {
-                val explanationText = state.selectedCircleTag?.let { tag ->
-                    state.circles.firstOrNull { it.characterTags == tag }?.characterExplanation
-                } ?: stringResource(R.string.all)
-                CharacterExplanation(text = explanationText, state.selectedCircleTag, state.contactsAll.size, state.filteredContacts.size)
-            }
+//            item {
+//                CirclesRow(
+//                    circles = state.circles,
+//                    selectedTag = state.selectedCircleTag,
+//                    onSelect = { vm.selectCircle(it) },
+//                    mode = interactionMode
+//                )
+//            }
+//            item {
+//                val explanationText = state.selectedCircleTag?.let { tag ->
+//                    state.circles.firstOrNull { it.characterTags == tag }?.characterExplanation
+//                } ?: stringResource(R.string.all)
+//                CharacterExplanation(text = explanationText, state.selectedCircleTag, state.contactsAll.size, state.filteredContacts.size)
+//            }
             state.indexLetters.forEach { letter ->
                 stickyHeader(key = "header_$letter") {
                     Box(
@@ -596,7 +596,7 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            val display = (contact.remarkName?.takeIf { it.isNotBlank() } ?: (contact.nickName
+            val display = (contact.remarkName?.takeIf { it.isNotBlank() } ?: (contact.name
                 ?: contact.userId))
             AndroidView(
                 modifier = Modifier.size(48.dp),

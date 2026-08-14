@@ -32,7 +32,7 @@ class SocialViewBroadModel(
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
             try {
 
-                val circles = repository.fetchFriendshipCharacter()
+//                val circles = repository.fetchFriendshipCharacter()
                 val contacts = repository.fetchFriendShipList()
                 val newFriendCount = repository.fetchNewFriendCount()
                 val newGroupInviteCount = repository.fetchNewGroupInviteCount()
@@ -42,7 +42,7 @@ class SocialViewBroadModel(
                 val letters = reorderLetters(grouped.keys.toList())
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
-                    circles = circles,
+//                    circles = circles,
                     contactsAll = contacts,
                     filteredContacts = filtered,
                     groupedByLetter = grouped,
@@ -91,7 +91,7 @@ class SocialViewBroadModel(
     }
 
     private fun displayName(c: SocialContact): String {
-        val name = c.remarkName?.takeIf { it.isNotBlank() } ?: (c.nickName?:c.userId)
+        val name = c.remarkName?.takeIf { it.isNotBlank() } ?: (c.name?:c.userId)
         return name
     }
 

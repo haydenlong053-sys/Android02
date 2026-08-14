@@ -15,6 +15,7 @@ data class SocialContact(
     val id: String,
     val userId: String,
     val nickName: String? = "",
+    val name: String? = "",
     val remarkName: String?,
     val icon: String?,
     val city: String?,
@@ -27,13 +28,14 @@ data class SocialContact(
     val registerDay: String?,
     val isvip: String?,
     val lianghao: String?,
-    val first: String? // 服务器返回的首字母备用
+    val first: String?, // 服务器返回的首字母备用
+    val zimu: String? // 服务器返回的首字母
 )
 
 data class SocialUiState(
     val isLoading: Boolean = false,
     val error: String? = null,
-    val circles: List<SocialBroadCircle> = emptyList(),
+//    val circles: List<SocialBroadCircle> = emptyList(),
     val contactsAll: List<SocialContact> = emptyList(),
     val selectedCircleTag: String? = null,
     val filteredContacts: List<SocialContact> = emptyList(),
