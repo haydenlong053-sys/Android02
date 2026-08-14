@@ -24,15 +24,15 @@ object HttpsBroadConfig {
     const val useSelfImOnly = true
     val appBaseUrl
         get():String {
-            return "$appHost2/api"
+            return "$appHost2"
         }
 
     //自研的长连接host
-    private const val MY_IM_SOCKET_HOST_FAT: String = "[{\"host\":\"95.40.9.142\", \"port\":1081}]"
+    private const val MY_IM_SOCKET_HOST_FAT: String = "[{\"host\":\"socket-test.wujie168.net\", \"port\":80}]"
     private const val MY_IM_SOCKET_HOST_RELEASE: String = "[{\"host\":\"socket.seekweb4.ai\", \"port\":80}]"
 
     //自研的短连接http的host
-    private const val MY_IM_HTTP_HOST_FAT: String = "https://im-test.seekweb4.ai/"
+    private const val MY_IM_HTTP_HOST_FAT: String = "https://im-test.wujie168.net/"
     private const val MY_IM_HTTP_HOST_FAT_IP: String = "http://95.40.9.142/"
 
     private const val MY_IM_HTTP_HOST_RELEASE: String = "https://im-prd.seekweb4.ai/"
@@ -109,7 +109,7 @@ object HttpsBroadConfig {
             }
 
             FAT_TYPE -> {
-                appHost = "https://api-fat.seekweb4.net"
+                appHost = "https://im-test.wujie168.net"
                 appHost2 = appHost
                 appImServerHost = "testim.seekweb4.ai"
                 appIcePassword = "aT3BxjPy4MRdC6@"

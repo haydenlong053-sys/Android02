@@ -25,6 +25,7 @@ import com.cboda.intelligent.base.BaseViewBroadModel
 import com.cboda.intelligent.dialog.QrdlBroadDialog
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.utils.DeviceBroadUtil
+import com.cboda.baselibrary.utils.EncryptUtil
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.OLD_QR_CODE
@@ -592,15 +593,13 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
             showToastMain(com.cboda.baselibrary.R.string.again_pwd_inconsistent)
             return
         }
-        val model = "${getDeviceBrand()} ${getDeviceModel()}"
+//        val model = "${getDeviceBrand()} ${getDeviceModel()}"
+        val jmPwd = EncryptUtil.aesEncrypt(pwd)
+        eLogD("LoginViewBroadModelClass", "jmPwd:$jmPwd")
         val param =
             mapOf(
                 "account" to account,
-                "pwd" to pwd,
-                "eqno" to getAndroidId(),
-                "clientId" to getAndroidId(),
-                "type" to 2,
-                "model" to model
+                "pwd" to jmPwd
             )
 //        val param =
 //            mapOf(

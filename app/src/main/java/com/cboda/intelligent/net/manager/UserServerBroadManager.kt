@@ -67,7 +67,7 @@ object UserServerBroadManager {
     /**
      * 注册
      */
-    fun regist(context: Context?, params: Map<String, Any>, requestUrl: String? = BroadUrl.regist, callBack: SpotsCallBroadBack<ResultBroadBean>) {
+    fun register(context: Context?, params: Map<String, Any>, requestUrl: String? = BroadUrl.regist, callBack: SpotsCallBroadBack<ResultBroadBean>) {
         context?.let { ctx ->
             OkHttpBroadHelper.getInstance().post_json(ctx, requestUrl, params, object : SpotsCallBroadBack<ResultBroadBean>(ctx) {
                 override fun onSuccess(response: Response?, t: ResultBroadBean?) {
