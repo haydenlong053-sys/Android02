@@ -26,7 +26,7 @@ public class BroadUrl {
     //设备号登录
     public static String eqLogin = IP + "eqLogin";
     //设备号注册
-    public static String regist = IP + "regist";
+    public static String regist = IP + "im/user/register";
     //文件上传
     public static String uploadFile = IP + "uploadFile";
     //多文件上传
@@ -138,7 +138,7 @@ public class BroadUrl {
     //添加、修改群定时消息
     public static String addDs = IP + "addDs";
     //账号密码登录
-    public static String accLogin = IP + "accLogin";
+    public static String accLogin = IP + "im/user/loginByPassword";
     //获取设备验证码
     public static String getAccCode = IP + "getAccCode";
     //申请注销

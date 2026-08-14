@@ -67,23 +67,23 @@ class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginVie
         binding.loginBtn.click {
             val loginAccount = binding.loginAccount.text.toString()
             val loginPwd = binding.loginPwd.text.toString()
-            if (HttpsBroadConfig.currentHostHttpUrlType > 1000) {
+//            if (HttpsBroadConfig.currentHostHttpUrlType > 1000) {
                 viewModel.pwdLogin(
                     loginAccount,
                     loginPwd
                 )
-            } else {
-                viewModel.getAccountLoginDetail(
-                    loginAccount,
-                    loginPwd
-                ).observe(this) { loginBean ->
-                    if (null != loginBean) {
-                        loginBean.loginAccount = loginAccount
-                        loginBean.loginPwd = loginPwd
-                        (activity as NewEquipmentBroadActivity).openSecurityDialog(loginBean)
-                    }
-                }
-            }
+//            } else {
+//                viewModel.getAccountLoginDetail(
+//                    loginAccount,
+//                    loginPwd
+//                ).observe(this) { loginBean ->
+//                    if (null != loginBean) {
+//                        loginBean.loginAccount = loginAccount
+//                        loginBean.loginPwd = loginPwd
+//                        (activity as NewEquipmentBroadActivity).openSecurityDialog(loginBean)
+//                    }
+//                }
+//            }
         }
         binding.oneLogin.click {
             viewModel.oneClickLogin()

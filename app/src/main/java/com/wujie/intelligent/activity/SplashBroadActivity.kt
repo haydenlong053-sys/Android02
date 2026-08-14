@@ -1,10 +1,11 @@
-package com.cboda.intelligent.activity
+package com.wujie.intelligent.activity
 
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.intelligent.R
+import com.cboda.intelligent.activity.NewEquipmentBroadActivity
 import com.cboda.intelligent.app.MyBroadApp
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.configuration.AppBroadConsts

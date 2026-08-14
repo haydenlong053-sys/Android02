@@ -20,6 +20,10 @@
 # 保留自定义 View
 -keep class com.cboda.intelligent.** { *; }
 
+# 启动页已迁至 applicationId 包名 com.wujie.intelligent
+-keep class com.wujie.intelligent.** { *; }
+-keepclassmembers class com.wujie.intelligent.** { *; }
+
 # 防止 R 资源被移除
 -keep class com.cboda.intelligent.R { *; }
 -keepclassmembers class **.R$* {

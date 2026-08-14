@@ -25,7 +25,6 @@ import com.cboda.intelligent.base.BaseViewBroadModel
 import com.cboda.intelligent.dialog.QrdlBroadDialog
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.utils.DeviceBroadUtil
-import com.cboda.baselibrary.utils.EncryptUtil
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.OLD_QR_CODE
@@ -60,6 +59,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.Response
 import java.lang.Exception
+import java.security.MessageDigest
+import java.util.Locale
 import kotlin.jvm.java
 
 open class LoginViewBroadModel : BaseViewBroadModel() {
@@ -519,26 +520,23 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
             return
         }
         val mContext = getAppContext()
-        val model = "${getDeviceBrand()} ${getDeviceModel()}"
+//        val model = "${getDeviceBrand()} ${getDeviceModel()}"
+
+        val jmPwd = hashRegisterPassword(pwd, account)
         val param =
             hashMapOf(
-                "acc" to account,
-                "pwd" to pwd,
-                "code" to code,
-                "eqno" to getAndroidId(),
-                "clientId" to getAndroidId(),
-                "type" to 2,
-                "model" to model
+                "account" to account,
+                "password" to jmPwd
             )
-        if (!TextUtils.isEmpty(payPwd)) {
-            param["paywd"] = payPwd
-        }
-        if (!TextUtils.isEmpty(googleCode)) {
-            param["googleCode"] = googleCode
-        }
-        if (!TextUtils.isEmpty(securityQuestion)) {
-            param["mbda"] = securityQuestion
-        }
+//        if (!TextUtils.isEmpty(payPwd)) {
+//            param["paywd"] = payPwd
+//        }
+//        if (!TextUtils.isEmpty(googleCode)) {
+//            param["googleCode"] = googleCode
+//        }
+//        if (!TextUtils.isEmpty(securityQuestion)) {
+//            param["mbda"] = securityQuestion
+//        }
 //        eLogD("LoginViewModelClass_pwdLoginMap", param)
         UserServerBroadManager.accLogin(
             mContext,
@@ -593,13 +591,14 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
             showToastMain(com.cboda.baselibrary.R.string.again_pwd_inconsistent)
             return
         }
-//        val model = "${getDeviceBrand()} ${getDeviceModel()}"
-        val jmPwd = EncryptUtil.aesEncrypt(pwd)
-        eLogD("LoginViewBroadModelClass", "jmPwd:$jmPwd")
+        // 注册传输：v1$ + hex(SHA-256(明文密码 + "\n" + account.trim().lowercase()))
+        val jmPwd = hashRegisterPassword(pwd, account)
+//        val jmPwd = hashRegisterPassword("Passw0rd123", "demoacct")
+//        eLogD("LoginViewBroadModelClass", "jmPwd:$jmPwd")
         val param =
             mapOf(
                 "account" to account,
-                "pwd" to jmPwd
+                "password" to jmPwd
             )
 //        val param =
 //            mapOf(
@@ -647,6 +646,21 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
 
                 }
             })
+    }
+
+    /**
+     * 注册密码传输哈希：`v1$` + hex(SHA-256(明文密码 + `\n` + account.trim().lowercase()))
+     */
+    private fun hashRegisterPassword(plainPwd: String, account: String): String {
+        val material = plainPwd + "\n" + account.trim().lowercase(Locale.ROOT)
+        val digest = MessageDigest.getInstance("SHA-256")
+            .digest(material.toByteArray(Charsets.UTF_8))
+        val hex = buildString(digest.size * 2) {
+            for (b in digest) {
+                append("%02x".format(b))
+            }
+        }
+        return "v1$$hex"
     }
 
 }

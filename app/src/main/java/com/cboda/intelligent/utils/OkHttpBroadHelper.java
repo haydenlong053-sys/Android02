@@ -236,13 +236,14 @@ public class OkHttpBroadHelper {
         String json = GsonUtils.getGson().toJson(params);
         eLogD(TAG, "http--json", json);
         if (methodType == HttpMethodType.POST) {
-            Map<String, Object> paramsAes = new HashMap<>();
-            try {
-                paramsAes.put("encrData", EncryptUtil.INSTANCE.aesEncrypt(GsonUtils.getGson().toJson(params), "AES", null, null));
-            } catch (Exception e) {
-                toLog(e, TAG);
-            }
-            RequestBody body = builderFormData(paramsAes);
+//            Map<String, Object> paramsAes = new HashMap<>();
+//            try {
+//                paramsAes.put("encrData", EncryptUtil.INSTANCE.aesEncrypt(GsonUtils.getGson().toJson(params), "AES", null, null));
+//            } catch (Exception e) {
+//                toLog(e, TAG);
+//            }
+//            RequestBody body = builderFormData(paramsAes);
+            RequestBody body = builderFormData(params);
             builder.post(body);
         } else if (methodType == HttpMethodType.GET) {
             builder.get();
