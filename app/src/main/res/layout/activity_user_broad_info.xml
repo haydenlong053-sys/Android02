@@ -136,7 +136,8 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingStart="16dp"
-                android:paddingEnd="16dp">
+                android:paddingEnd="16dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="0dp"
@@ -164,11 +165,13 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/dividerSex"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="@color/black_12" />
+                android:background="@color/black_12"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/llRegion"
@@ -180,7 +183,8 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingStart="16dp"
-                android:paddingEnd="16dp">
+                android:paddingEnd="16dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="0dp"
@@ -209,11 +213,13 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/dividerRegion"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="@color/black_12" />
+                android:background="@color/black_12"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/llProfession"
@@ -225,7 +231,8 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingStart="16dp"
-                android:paddingEnd="16dp">
+                android:paddingEnd="16dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="0dp"
@@ -254,11 +261,13 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/dividerProfession"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="@color/black_12" />
+                android:background="@color/black_12"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/llErweima"
@@ -266,7 +275,7 @@
                 android:layout_height="54dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="@color/white"
+                android:background="@drawable/shape_white_round_broad_16"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingStart="16dp"
@@ -298,11 +307,13 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/dividerErweima"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="@color/black_12" />
+                android:background="@color/black_12"
+                android:visibility="gone" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/llQianming"
@@ -312,7 +323,8 @@
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/bg_shape_white_bottom_broad_16dp"
                 android:paddingStart="16dp"
-                android:paddingEnd="16dp">
+                android:paddingEnd="16dp"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tvQianmingBefore"
@@ -354,13 +366,14 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
+                android:id="@+id/tvInterestTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/string_interest"
                 android:textColor="@color/black_65"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/ll_interest_empty"
@@ -373,7 +386,8 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingStart="16dp"
-                android:paddingEnd="16dp">
+                android:paddingEnd="16dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -407,7 +421,7 @@
                 android:background="@drawable/shape_white_round_broad_16"
                 android:nestedScrollingEnabled="false"
                 android:padding="6dp"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
 
         </LinearLayout>

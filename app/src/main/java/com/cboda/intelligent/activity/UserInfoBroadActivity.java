@@ -653,6 +653,10 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
             public void onSuccess(Response response, ResultBroadBean resultBean) {
                 dismissLoading();
                 bean = resultBean;
+                if (bean == null || bean.data == null) {
+                    ToastBroadUtil.show(getString(R.string.httperror));
+                    return;
+                }
                 oldBean = fromJson2(toJson2(bean), bean.getClass());
                 showSaveButtonUI(false);
                 setInfo();
@@ -761,14 +765,9 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
     }
 
     private void showInterestLayout() {
-        if (bean.data.memberInterestList == null || bean.data.memberInterestList.isEmpty()) {
-            mBinding.llInterestEmpty.setVisibility(View.VISIBLE);
-            mBinding.ryInterest.setVisibility(View.GONE);
-        } else {
-            mBinding.ryInterest.setVisibility(View.VISIBLE);
-            mBinding.llInterestEmpty.setVisibility(View.GONE);
-            interestAdapter.setList(bean.data.memberInterestList);
-        }
+        // 兴趣标签已屏蔽，保持隐藏
+        mBinding.llInterestEmpty.setVisibility(View.GONE);
+        mBinding.ryInterest.setVisibility(View.GONE);
     }
 
     private void showGuideTip() {

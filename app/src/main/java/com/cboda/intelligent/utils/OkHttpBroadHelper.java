@@ -500,13 +500,17 @@ public class OkHttpBroadHelper {
 
     /**
      * IM 用户接口返回 {@code {"errorCode":0,"content":{...}}} 时，展平为 ResultBroadBean 可解析形态。
-     * 字段别名：token→apptoken/imtoken，cardQrUrl→qrcode，message→msg。
+     * <ul>
+     *   <li>登录/注册：content 展平到根（token→apptoken/imtoken 等）</li>
+     *   <li>getUser 资料：再写入 {@code data}，供 UserInfoBroadActivity 使用 bean.data</li>
+     * </ul>
      */
     private String normalizeImUserResponse(String body, String url) {
         if (body == null || body.isEmpty()) {
             return body;
         }
         boolean imUserApi = url != null && url.contains("/im/user/");
+        boolean isGetUser = url != null && url.contains("/im/user/getUser");
         try {
             String trim = body.trim();
             if (!trim.startsWith("{")) {
@@ -567,11 +571,77 @@ public class OkHttpBroadHelper {
                     || flat.optString("qrcode").isEmpty())) {
                 flat.put("qrcode", cardQrUrl);
             }
+
+            // getUser 资料页依赖 ResultBroadBean.data
+            boolean isProfile = isGetUser
+                    || (!content.has("token")
+                    && (content.has("nickname") || content.has("idno") || content.has("cardQrUrl")));
+            if (isProfile) {
+                org.json.JSONObject data = new org.json.JSONObject(content.toString());
+                if (data.has("nickname")
+                        && (!data.has("name") || data.isNull("name")
+                        || data.optString("name").isEmpty())) {
+                    data.put("name", data.optString("nickname", ""));
+                }
+                String userId = data.optString("userId", "");
+                if (!userId.isEmpty()) {
+                    if (!data.has("mId") || data.isNull("mId") || data.optString("mId").isEmpty()) {
+                        data.put("mId", userId);
+                    }
+                    if (!data.has("id") || data.isNull("id") || data.optString("id").isEmpty()) {
+                        data.put("id", userId);
+                    }
+                }
+                if (!cardQrUrl.isEmpty()
+                        && (!data.has("qrcode") || data.isNull("qrcode")
+                        || data.optString("qrcode").isEmpty())) {
+                    data.put("qrcode", cardQrUrl);
+                }
+                // isVip 数字 → isvip 字符串，避免 Gson 解析 Data.isvip(String) 失败
+                if (data.has("isVip") && !data.isNull("isVip")) {
+                    data.put("isvip", normalizeVipFlag(data.opt("isVip")));
+                } else if (data.has("isvip") && !data.isNull("isvip")) {
+                    data.put("isvip", normalizeVipFlag(data.opt("isvip")));
+                }
+                // 根上若残留数字 isVip，去掉以免干扰
+                flat.remove("isVip");
+                flat.put("data", data);
+                if (!userId.isEmpty()) {
+                    flat.put("userId", userId);
+                }
+                if (!data.optString("idno").isEmpty()) {
+                    flat.put("idno", data.optString("idno"));
+                }
+                if (!data.optString("name").isEmpty()) {
+                    flat.put("name", data.optString("name"));
+                }
+                if (!data.optString("icon").isEmpty()) {
+                    flat.put("icon", data.optString("icon"));
+                }
+            }
             return flat.toString();
         } catch (Exception e) {
             toLog(e, TAG);
             return body;
         }
+    }
+
+    /** 将 isVip/isvip 统一成 "0"/"1" 字符串 */
+    private static String normalizeVipFlag(Object raw) {
+        if (raw == null || raw == org.json.JSONObject.NULL) {
+            return "0";
+        }
+        if (raw instanceof Number) {
+            return ((Number) raw).intValue() != 0 ? "1" : "0";
+        }
+        if (raw instanceof Boolean) {
+            return ((Boolean) raw) ? "1" : "0";
+        }
+        String s = String.valueOf(raw).trim();
+        if ("1".equals(s) || "true".equalsIgnoreCase(s)) {
+            return "1";
+        }
+        return "0";
     }
 
     private void callbackError(final BaseBroadCallback callback, final Response response, final Exception e) {

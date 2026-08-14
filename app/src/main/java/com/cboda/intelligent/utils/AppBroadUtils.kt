@@ -214,8 +214,9 @@ class AppBroadUtils {
         ) {
             eLogD("imLogin", "--> $uid  $myImUserToken")
 
-//            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, apptoken)
-//            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, uid)
+            // Splash / 部分旧逻辑仍读 SharePref；与 MMKV 双写，杀进程后才能保持登录态
+            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, apptoken)
+            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, uid)
             NetworkBroadConfig
             MMKVBroadUtils.saveUserAppToken(apptoken ?: "")
 //            MMKVBroadUtils.saveTxUserSign(rytoken ?: "")

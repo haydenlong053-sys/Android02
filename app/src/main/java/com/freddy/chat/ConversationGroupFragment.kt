@@ -1,6 +1,6 @@
 package com.freddy.chat
 
-/** 私群（本人创建的群）会话列表 */
+/** 群聊会话列表（合并原私群 + 公群） */
 class ConversationGroupFragment : BaseConversationSessionFragment() {
-    override val sessionCategory: ConversationSessionCategory = ConversationSessionCategory.MY_GROUP
+    override val sessionCategory: ConversationSessionCategory = ConversationSessionCategory.GROUP
 }

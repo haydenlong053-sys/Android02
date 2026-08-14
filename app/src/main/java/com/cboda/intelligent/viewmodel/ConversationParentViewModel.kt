@@ -24,20 +24,15 @@ class ConversationParentViewModel : BaseViewBroadModel() {
         ConversationSessionCategory.filter(sessions, ConversationSessionCategory.SINGLE, currentUserId())
     }
 
-    val myGroupSessions: LiveData<List<SessionItem>> = _allSessions.map { sessions ->
-        ConversationSessionCategory.filter(sessions, ConversationSessionCategory.MY_GROUP, currentUserId())
-    }
-
-    val otherGroupSessions: LiveData<List<SessionItem>> = _allSessions.map { sessions ->
-        ConversationSessionCategory.filter(sessions, ConversationSessionCategory.OTHER_GROUP, currentUserId())
+    val groupSessions: LiveData<List<SessionItem>> = _allSessions.map { sessions ->
+        ConversationSessionCategory.filter(sessions, ConversationSessionCategory.GROUP, currentUserId())
     }
 
     val singleUnreadCount: LiveData<Int> = singleSessions.map { ConversationSessionCategory.sumUnread(it) }
-    val myGroupUnreadCount: LiveData<Int> = myGroupSessions.map { ConversationSessionCategory.sumUnread(it) }
-    val otherGroupUnreadCount: LiveData<Int> = otherGroupSessions.map { ConversationSessionCategory.sumUnread(it) }
+    val groupUnreadCount: LiveData<Int> = groupSessions.map { ConversationSessionCategory.sumUnread(it) }
 
     /**
-     * 社交底栏会话未读 = 对话 + 私群 + 公群（与 Message 页顶栏三分角标之和一致，均已排除免打扰）。
+     * 社交底栏会话未读 = 对话 + 群聊（与 Message 页顶栏角标之和一致，均已排除免打扰）。
      * 底栏最终展示还需再加上「好友」通讯录角标（fris+gros）。
      */
     val totalUnreadCount: LiveData<Int> = _allSessions.map { sessions ->
@@ -45,9 +40,7 @@ class ConversationParentViewModel : BaseViewBroadModel() {
         ConversationSessionCategory.sumUnread(
             ConversationSessionCategory.filter(sessions, ConversationSessionCategory.SINGLE, uid)
         ) + ConversationSessionCategory.sumUnread(
-            ConversationSessionCategory.filter(sessions, ConversationSessionCategory.MY_GROUP, uid)
-        ) + ConversationSessionCategory.sumUnread(
-            ConversationSessionCategory.filter(sessions, ConversationSessionCategory.OTHER_GROUP, uid)
+            ConversationSessionCategory.filter(sessions, ConversationSessionCategory.GROUP, uid)
         )
     }
 
@@ -64,8 +57,7 @@ class ConversationParentViewModel : BaseViewBroadModel() {
     fun observeSessions(category: ConversationSessionCategory): LiveData<List<SessionItem>> {
         return when (category) {
             ConversationSessionCategory.SINGLE -> singleSessions
-            ConversationSessionCategory.MY_GROUP -> myGroupSessions
-            ConversationSessionCategory.OTHER_GROUP -> otherGroupSessions
+            ConversationSessionCategory.GROUP -> groupSessions
         }
     }
 

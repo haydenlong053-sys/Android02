@@ -1,18 +1,17 @@
 package com.freddy.chat
 
-import android.text.TextUtils
 import com.freddy.im.MessageType
 import com.freddy.im.http.model.im.SessionItem
 
 enum class ConversationSessionCategory {
+    /** 单聊 / 对话 */
     SINGLE,
-    MY_GROUP,
-    OTHER_GROUP;
+    /** 群聊（含原私群、公群） */
+    GROUP;
 
     fun uiModeTag(): String = when (this) {
         SINGLE -> "single"
-        MY_GROUP -> "myGroup"
-        OTHER_GROUP -> "otherGroup"
+        GROUP -> "group"
     }
 
     companion object {
@@ -32,17 +31,12 @@ enum class ConversationSessionCategory {
         fun matches(
             session: SessionItem,
             category: ConversationSessionCategory,
-            currentUserId: String?,
+            @Suppress("UNUSED_PARAMETER") currentUserId: String?,
         ): Boolean {
             val conversation = session.conversation
             return when (category) {
                 SINGLE -> conversation == MessageType.SINGLE_CHAT.msgType
-                MY_GROUP -> conversation == MessageType.GROUP_CHAT.msgType
-                    && !TextUtils.isEmpty(currentUserId)
-                    && TextUtils.equals(currentUserId, session.owerId)
-                OTHER_GROUP -> conversation == MessageType.GROUP_CHAT.msgType
-                    && (TextUtils.isEmpty(currentUserId)
-                    || !TextUtils.equals(currentUserId, session.owerId))
+                GROUP -> conversation == MessageType.GROUP_CHAT.msgType
             }
         }
 
