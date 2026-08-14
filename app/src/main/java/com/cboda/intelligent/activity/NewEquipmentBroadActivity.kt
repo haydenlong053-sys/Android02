@@ -41,11 +41,12 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
-    private val loginIndex = 1
-    private val selectLoginIndex = 0
-    private val forgetPwdIndex = 2
-    private val updatePwdIndex = 3
-    private val registeredIndex = 4
+    private val loginIndex = 0
+
+    //    private val selectLoginIndex = 0
+    private val forgetPwdIndex = 3
+    private val updatePwdIndex = 2
+    private val registeredIndex = 1
     private var isSelectLoginFragment = false
     private var loginAccount = ""
     private var updatePwdAccount = ""
@@ -62,10 +63,10 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
         setLottiePath("login_back1.json")
         val adapter = Vp2FragmentBroadAdapter(this)
         val fragments = arrayListOf<Fragment>()
-        fragments.add(SelectLoginBroadFragment())
+//        fragments.add(SelectLoginBroadFragment())
         fragments.add(LoginBroadFragment())
-        fragments.add(forgetPwdFragment)
-        fragments.add(updatePwdFragment)
+//        fragments.add(forgetPwdFragment)
+//        fragments.add(updatePwdFragment)
         fragments.add(RegisteredBroadFragment())
         adapter.setData(fragments)
         mBinding?.loginViewPager?.adapter = adapter
@@ -83,6 +84,7 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
         mBinding?.bottomTv5?.click {
             startH5Activity(this, BroadUrl.getPrivacyPolicyUrl(), getString(R.string.隐私协议))
         }
+        toLogin()
     }
 
     private fun checkIsFinish(): Boolean {
@@ -103,7 +105,7 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
             }
 
             registeredIndex -> {
-                if (isSelectLoginFragment) toSelectLogin(false) else toLogin(
+                toLogin(
                     false
                 )
                 true
@@ -180,7 +182,7 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
     }
 
     fun toSelectLogin(smoothScroll: Boolean = true) {
-        mBinding?.loginViewPager?.setCurrentItem(selectLoginIndex, smoothScroll)
+//        mBinding?.loginViewPager?.setCurrentItem(selectLoginIndex, smoothScroll)
         setBackIsShow(false)
         setLanguageIsShow(true)
         applyAuthLightChrome(false)
@@ -188,7 +190,7 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
 
     fun toLogin(smoothScroll: Boolean = true) {
         mBinding?.loginViewPager?.setCurrentItem(loginIndex, smoothScroll)
-        setBackIsShow(true)
+        setBackIsShow(false)
         setLanguageIsShow(false)
         applyAuthLightChrome(true)
     }
@@ -269,7 +271,7 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
     override fun showTransparentTopTitleLayout() = false
     override fun useViewBinding() = true
     override fun showOrHideTitleLayout() = false
-    override fun useStatusBarDarkFont() = false
+    override fun useStatusBarDarkFont() = true
     override fun showBgTopTitleLayout() = false
 
     override fun onDestroy() {

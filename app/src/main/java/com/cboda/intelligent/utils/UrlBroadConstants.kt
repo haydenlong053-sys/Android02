@@ -38,7 +38,7 @@ object UrlBroadBroadConstants {
      * 验证支付密码
      */
     const val CHECK_PAY_PASSWORD = "api/checkPayPwd"
-    const val GET_USER_INFO = "api/userInfo"
+    const val GET_USER_INFO = "im/user/getUser"
     const val SECURITY_CENTER = "api/member/security/center"
     const val SECURITY_ACCOUNT = "api/account/querySecurity"
     const val SECURITY_CENTER_FORGET_PASSWORD = "api/account/query"

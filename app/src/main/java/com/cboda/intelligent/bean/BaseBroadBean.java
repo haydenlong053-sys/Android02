@@ -8,4 +8,6 @@ public class BaseBroadBean {
     public String msg;
     public String code;
     public String content;
+    public String errorMsg;
+    public int errorCode;
 }

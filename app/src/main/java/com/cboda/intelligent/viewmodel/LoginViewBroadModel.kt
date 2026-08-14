@@ -164,7 +164,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
-                    val result = NetworkBroadRepository.postEncrypted("api/userInfo", UserInfoBean::class.java, params)
+                    val result = NetworkBroadRepository.post("im/user/getUser", UserInfoBean::class.java, params)
                     result.onSuccess { data ->
 //                        MMKVBroadUtils.saveSqlStrData(USER_LOGIN_DATA, toJson2(data))
                         RealmUtil.addUserData(data)
@@ -543,15 +543,21 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                 override fun onSuccess(response: Response?, result: String?) {
                     if (!TextUtils.isEmpty(result)) {
                         val resultBean = fromJson2(result, ResultBroadBean::class.java)
-                        if (resultBean.code == "202") {
-                            QrdlBroadDialog(
-                                mContext,
-                                { code -> pwdLogin(account, pwd, code ?: "") }, account
-                            ).show()
-                        } else if (resultBean.code == "200" && resultBean.success) {
+                        eLogD("pwdLogin", "result:$result")
+//                        if (resultBean.code == "202") {
+//                            QrdlBroadDialog(
+//                                mContext,
+//                                { code -> pwdLogin(account, pwd, code ?: "") }, account
+//                            ).show()
+//                        } else if (resultBean.code == "200" && resultBean.success) {
+//                            imLogin(resultBean, mContext)
+//                        } else if (!TextUtils.isEmpty(resultBean.msg)) {
+//                            showToastMain(resultBean.msg)
+//                        }
+                        if (resultBean.code == "200" && resultBean.success) {
                             imLogin(resultBean, mContext)
-                        } else if (!TextUtils.isEmpty(resultBean.msg)) {
-                            showToastMain(resultBean.msg)
+                        } else {
+                            showToastMain(if (!TextUtils.isEmpty(resultBean.errorMsg)) resultBean.errorMsg else getAppStr(com.cboda.baselibrary.R.string.service_error_data_null))
                         }
                     } else {
                         showToastMain(com.cboda.baselibrary.R.string.service_error_data_null)
@@ -563,7 +569,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                     code: Int,
                     e: Exception?
                 ) {
-
+                    showToastMain(R.string.httperror)
                 }
 
             })

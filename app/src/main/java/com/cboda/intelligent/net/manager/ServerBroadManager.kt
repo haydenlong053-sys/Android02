@@ -31,7 +31,7 @@ object ServerBroadManager {
         )
         OKGoBroadHelper().post(
             context,
-            "/userInfo",
+            "/im/user/getUser",
             JSONObject(map).toString(),
             CommonResultBroadBean(),
             callBack = object : OKGoBroadHelper.RequestCallBack {

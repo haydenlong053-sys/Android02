@@ -214,8 +214,8 @@ class AppBroadUtils {
         ) {
             eLogD("imLogin", "--> $uid  $myImUserToken")
 
-            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, apptoken)
-            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, uid)
+//            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, apptoken)
+//            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, uid)
             NetworkBroadConfig
             MMKVBroadUtils.saveUserAppToken(apptoken ?: "")
 //            MMKVBroadUtils.saveTxUserSign(rytoken ?: "")

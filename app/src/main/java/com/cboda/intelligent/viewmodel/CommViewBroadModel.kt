@@ -1497,7 +1497,7 @@ class CommViewBroadModel : FriendViewBroadModel() {
 
         okGoHelper.post(
             context,
-            "/userInfo",
+            "/im/user/getUser",
             JSONObject(map).toString(),
             CommonResultBroadBean(),
             showToast = false,

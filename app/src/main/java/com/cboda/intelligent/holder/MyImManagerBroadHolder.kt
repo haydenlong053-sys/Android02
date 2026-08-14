@@ -794,7 +794,7 @@ class MyImManagerBroadHolder(private val context: Context?) {
                             )
                             okGoHelper.post(
                                 context,
-                                "/userInfo",
+                                "/im/user/getUser",
                                 JSONObject(map).toString(),
                                 CommonResultBroadBean(),
                                 callBack = object : OKGoBroadHelper.RequestCallBack {
