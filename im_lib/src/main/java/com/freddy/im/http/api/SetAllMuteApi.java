@@ -14,7 +14,7 @@ public final class SetAllMuteApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/setAllMute";
+        return "im/group/setAllMute";
     }
 
     public SetAllMuteApi setGroupId(@NonNull String groupId) {

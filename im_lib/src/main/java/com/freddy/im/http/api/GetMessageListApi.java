@@ -18,7 +18,7 @@ public final class GetMessageListApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/message/getList";
+        return "im/message/getList";
     }
 
     public GetMessageListApi setMessageId(String messageId) {

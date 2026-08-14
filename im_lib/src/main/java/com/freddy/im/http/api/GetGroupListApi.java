@@ -13,7 +13,7 @@ public final class GetGroupListApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/getList";
+        return "im/group/getList";
     }
 
     public GetGroupListApi setAnchor(int anchor) {

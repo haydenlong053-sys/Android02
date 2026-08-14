@@ -15,7 +15,7 @@ public final class CallTokenApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/call/token";
+        return "im/call/token";
     }
 
     public CallTokenApi setIdentity(String identity) {

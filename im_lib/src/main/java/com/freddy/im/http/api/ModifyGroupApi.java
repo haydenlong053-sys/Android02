@@ -19,7 +19,7 @@ public final class ModifyGroupApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/modify";
+        return "im/group/modify";
     }
 
     public ModifyGroupApi setGroupId(String groupId) {

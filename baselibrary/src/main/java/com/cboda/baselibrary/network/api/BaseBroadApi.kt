@@ -264,8 +264,8 @@ interface BaseBroadApi {
     @POST
     @Headers(
         "Content-Type: application/json",
-        "X-Encrypt-Request: true",
-        "X-Decrypt-Response: true"
+        "X-Encrypt-Request: false",
+        "X-Decrypt-Response: false"
     )
     fun postListEncrypted2(
         @Url url: String,

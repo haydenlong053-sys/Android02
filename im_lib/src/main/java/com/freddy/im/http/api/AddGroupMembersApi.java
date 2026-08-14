@@ -15,7 +15,7 @@ public final class AddGroupMembersApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/addMembers";
+        return "im/group/addMembers";
     }
 
     public AddGroupMembersApi setGroupId(String groupId) {

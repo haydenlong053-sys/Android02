@@ -20,7 +20,7 @@ public final class CreateGroupApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/create";
+        return "im/group/create";
     }
 
     public CreateGroupApi setName(String name) {

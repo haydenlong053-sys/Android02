@@ -15,7 +15,7 @@ public final class GetGroupQrCodeApi implements IRequestApi {
     @Override
     public String getApi() {
         String id = groupId != null ? groupId : "";
-        return "api/im/group/getGroupQrCode/" + Uri.encode(id);
+        return "im/group/getGroupQrCode/" + Uri.encode(id);
     }
 
     public GetGroupQrCodeApi setGroupId(@NonNull String groupId) {

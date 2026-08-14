@@ -10,6 +10,6 @@ public final class SearchGroupAsstApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/searchGroupAsst";
+        return "im/group/searchGroupAsst";
     }
 }

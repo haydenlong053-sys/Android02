@@ -15,7 +15,7 @@ public final class GetAllGroupMembersApi implements IRequestApi {
     @Override
     public String getApi() {
         String id = groupId != null ? groupId : "";
-        return "api/im/group/getAllMembers/" + Uri.encode(id);
+        return "im/group/getAllMembers/" + Uri.encode(id);
     }
 
     public GetAllGroupMembersApi setGroupId(@NonNull String groupId) {

@@ -29,11 +29,12 @@ class HeaderBroadInterceptor : Interceptor {
 
 
         requestBuilder.addHeader("App-Platform", "Android")
+        requestBuilder.addHeader("clientType", "257")
         requestBuilder.addHeader("App-Version", getAppVersion(null))
         requestBuilder.addHeader("apptoken", appToken)
         requestBuilder.addHeader("token", appToken)
         //测试钱包专用 到时候要去掉
-        requestBuilder.addHeader("x-user-id", MMKVBroadUtils.getRealUserId() ?: "")
+        requestBuilder.addHeader("userId", MMKVBroadUtils.getRealUserId() ?: "")
 //        }
 
         // 添加其他通用header

@@ -19,7 +19,7 @@ public final class ReportMessageReadApi implements IRequestApi {
     @Override
     public String getApi() {
         String id = messageId != null ? messageId : "";
-        return "api/im/message/reportRead/" + Uri.encode(id);
+        return "im/message/reportRead/" + Uri.encode(id);
     }
 
     public ReportMessageReadApi setMessageId(@NonNull String messageId) {

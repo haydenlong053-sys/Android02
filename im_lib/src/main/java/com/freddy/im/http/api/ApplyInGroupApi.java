@@ -12,7 +12,7 @@ public final class ApplyInGroupApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/applyInGroup";
+        return "im/group/applyInGroup";
     }
 
     public ApplyInGroupApi setGroupId(String groupId) {

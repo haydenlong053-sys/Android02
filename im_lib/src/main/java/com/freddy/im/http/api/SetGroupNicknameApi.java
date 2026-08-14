@@ -13,7 +13,7 @@ public final class SetGroupNicknameApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/setNickname";
+        return "im/group/setNickname";
     }
 
     public SetGroupNicknameApi setGroupId(@NonNull String groupId) {

@@ -15,7 +15,7 @@ public final class GetGroupByCodeIdApi implements IRequestApi {
     @Override
     public String getApi() {
         String id = codeId != null ? codeId : "";
-        return "api/im/group/getGroupByCodeId/" + Uri.encode(id);
+        return "im/group/getGroupByCodeId/" + Uri.encode(id);
     }
 
     public GetGroupByCodeIdApi setCodeId(@NonNull String codeId) {

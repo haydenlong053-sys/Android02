@@ -12,7 +12,7 @@ public final class DisbandGroupApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/disbanded";
+        return "im/group/disbanded";
     }
 
     public DisbandGroupApi setGroupId(String groupId) {

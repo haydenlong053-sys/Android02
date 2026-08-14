@@ -176,10 +176,10 @@ object UrlBroadBroadConstants {
     const val FRIEND_CHARACTER = "api/friendship/character"
 
     //获取好友申请数量
-    const val FRIEND_APPLY_COUNT = "api/friendship/applyCount"
+    const val FRIEND_APPLY_COUNT = "im/friend/applyCount"
 
     //好友列表
-    const val FRIEND_CONTACT_LIST = "api/friendList"
+    const val FRIEND_CONTACT_LIST = "im/friend/friendList"
 
 
     //群列表

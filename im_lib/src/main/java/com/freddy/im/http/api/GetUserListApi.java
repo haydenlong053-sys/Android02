@@ -16,7 +16,7 @@ public final class GetUserListApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/user/getUserList";
+        return "im/user/getUserList";
     }
 
     public GetUserListApi setKeyword(String keyword) {

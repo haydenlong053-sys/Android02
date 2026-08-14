@@ -20,7 +20,7 @@ public final class BusiPushApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/notify/busiPush";
+        return "im/notify/busiPush";
     }
 
     public BusiPushApi setGroupId(@Nullable String groupId) {

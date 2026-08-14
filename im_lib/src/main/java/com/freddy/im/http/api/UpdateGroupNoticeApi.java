@@ -13,7 +13,7 @@ public final class UpdateGroupNoticeApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/updateGroupNotice";
+        return "im/group/updateGroupNotice";
     }
 
     public UpdateGroupNoticeApi setGroupId(String groupId) {

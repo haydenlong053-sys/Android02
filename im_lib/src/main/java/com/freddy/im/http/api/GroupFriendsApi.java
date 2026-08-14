@@ -14,7 +14,7 @@ public final class GroupFriendsApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/friend/friendList";
+        return "im/friend/friendList";
     }
 
     public GroupFriendsApi setGroupId(String groupId) {

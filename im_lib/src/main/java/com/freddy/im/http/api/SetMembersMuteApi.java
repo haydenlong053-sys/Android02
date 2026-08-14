@@ -18,7 +18,7 @@ public final class SetMembersMuteApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/setMembersMute";
+        return "im/group/setMembersMute";
     }
 
     public SetMembersMuteApi setGroupId(@NonNull String groupId) {

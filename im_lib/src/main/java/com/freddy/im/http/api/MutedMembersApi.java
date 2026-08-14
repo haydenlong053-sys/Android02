@@ -12,7 +12,7 @@ public final class MutedMembersApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/mutedMembers";
+        return "im/group/mutedMembers";
     }
 
     public MutedMembersApi setGroupId(@NonNull String groupId) {

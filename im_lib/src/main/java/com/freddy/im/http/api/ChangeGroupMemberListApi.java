@@ -17,7 +17,7 @@ public final class ChangeGroupMemberListApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/changeMemberList";
+        return "im/group/changeMemberList";
     }
 
     public ChangeGroupMemberListApi setGroupId(@NonNull String groupId) {

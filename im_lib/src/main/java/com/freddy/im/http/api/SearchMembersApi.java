@@ -13,7 +13,7 @@ public final class SearchMembersApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/searchMembers";
+        return "im/group/searchMembers";
     }
 
     public SearchMembersApi setKeyword(@NonNull String keyword) {

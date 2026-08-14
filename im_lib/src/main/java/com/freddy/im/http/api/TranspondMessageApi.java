@@ -33,7 +33,7 @@ public final class TranspondMessageApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/message/transpond";
+        return "im/message/transpond";
     }
 
     @NonNull

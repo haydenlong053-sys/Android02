@@ -13,7 +13,7 @@ public final class TransferGroupApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/transfer";
+        return "im/group/transfer";
     }
 
     public TransferGroupApi setGroupId(String groupId) {

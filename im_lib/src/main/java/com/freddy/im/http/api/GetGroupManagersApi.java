@@ -13,7 +13,7 @@ public final class GetGroupManagersApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/managers";
+        return "im/group/managers";
     }
 
     public GetGroupManagersApi setGroupId(@NonNull String groupId) {

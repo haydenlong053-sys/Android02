@@ -13,7 +13,7 @@ public final class ApproveInGroupApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/approveInGroup";
+        return "im/group/approveInGroup";
     }
 
     public ApproveInGroupApi setApplyId(String applyId) {

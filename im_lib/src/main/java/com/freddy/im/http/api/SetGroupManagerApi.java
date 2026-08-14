@@ -16,7 +16,7 @@ public final class SetGroupManagerApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/setManager";
+        return "im/group/setManager";
     }
 
     public SetGroupManagerApi setGroupId(@NonNull String groupId) {

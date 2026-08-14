@@ -17,7 +17,7 @@ public final class RepealMessageApi implements IRequestApi {
     @Override
     public String getApi() {
         String id = messageId != null ? messageId : "";
-        return "api/im/message/repeal/" + Uri.encode(id);
+        return "im/message/repeal/" + Uri.encode(id);
     }
 
     public RepealMessageApi setMessageId(@NonNull String messageId) {

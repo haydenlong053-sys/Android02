@@ -20,7 +20,7 @@ public final class GetGroupMemberListApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/memberList";
+        return "im/group/memberList";
     }
 
     public GetGroupMemberListApi setGroupId(@NonNull String groupId) {

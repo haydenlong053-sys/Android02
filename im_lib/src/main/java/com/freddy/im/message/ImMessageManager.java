@@ -207,6 +207,7 @@ public final class ImMessageManager {
             unreadCount = Math.max(unreadCount, sessionEntity.getUnreadCount());
             unPullCount = Math.max(unPullCount, sessionEntity.getUnPullCount());
         }
+        ELogUtilKt.eLogE(ELogUtilKt.APP_IM_TAG,"sessionId=="+sessionId+"---unreadCount="+unreadCount+"---unPullCount"+unPullCount);
         if (SessionSyncCursor.isCaughtUp(
                 sessionEntity,
                 sessionItem.getLastMessageId(),

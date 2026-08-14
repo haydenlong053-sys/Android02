@@ -17,7 +17,7 @@ public final class RemoveConversationApi implements IRequestApi {
     @Override
     public String getApi() {
         String id = sessionId != null ? sessionId : "";
-        return "api/im/conversation/remove/" + Uri.encode(id);
+        return "im/conversation/remove/" + Uri.encode(id);
     }
 
     public RemoveConversationApi setSessionId(@NonNull String sessionId) {

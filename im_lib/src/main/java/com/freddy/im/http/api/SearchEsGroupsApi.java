@@ -13,7 +13,7 @@ public final class SearchEsGroupsApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/searchESGroups";
+        return "im/group/searchESGroups";
     }
 
     public SearchEsGroupsApi setKeyword(String keyword) {

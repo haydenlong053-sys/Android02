@@ -17,7 +17,7 @@ public final class GetConversationListApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/conversation/getList";
+        return "im/conversation/getList";
     }
 
     public GetConversationListApi setStartTime(long startTime) {

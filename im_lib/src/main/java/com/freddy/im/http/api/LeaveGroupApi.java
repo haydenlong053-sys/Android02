@@ -12,7 +12,7 @@ public final class LeaveGroupApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/leave";
+        return "im/group/leave";
     }
 
     public LeaveGroupApi setGroupId(String groupId) {

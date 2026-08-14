@@ -15,7 +15,7 @@ public final class KickOutGroupApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/kickOut";
+        return "im/group/kickOut";
     }
 
     public KickOutGroupApi setGroupId(String groupId) {

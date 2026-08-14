@@ -16,7 +16,7 @@ public final class InviteInGroupApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/group/inviteInGroup";
+        return "im/group/inviteInGroup";
     }
 
     public InviteInGroupApi setGroupId(String groupId) {

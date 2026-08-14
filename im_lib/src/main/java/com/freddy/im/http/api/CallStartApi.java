@@ -22,7 +22,7 @@ public final class CallStartApi implements IRequestApi {
     @NonNull
     @Override
     public String getApi() {
-        return "api/im/call/start";
+        return "im/call/start";
     }
 
     public CallStartApi setToUserIds(List<String> toUserIds) {
