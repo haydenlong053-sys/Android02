@@ -34,6 +34,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.intelligent.databinding.ActivityUserBroadInfoBinding;
 import com.cboda.intelligent.dialog.pop.OpenBeautifulNumbPop;
@@ -372,7 +373,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
             }).show(getSupportFragmentManager(), "");
         }
         if (view.getId() == R.id.llErweima && bean != null && bean.data != null) {
-            new UserEwmBroadDialog(this, bean.data.qrcode,bean.data.tQrcode, bean.data.icon, bean.data.name, bean.data.idno).show();
+            new UserEwmBroadDialog(this, bean.data.qrcode, bean.data.tQrcode, bean.data.icon, bean.data.name, bean.data.idno).show();
         }
         if (view.getId() == R.id.llQianming && bean != null && bean.data != null) {
             intent = new Intent(this, QianMingBroadActivity.class);
@@ -631,6 +632,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
     private void userInfo() {
         showLoading();
         Map<String, Object> param = new HashMap<>();
+        param.put("userId", MMKVBroadUtils.Companion.getRealUserId());
         OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.userInfo, param, new BaseBroadCallback<ResultBroadBean>() {
             @Override
             public void onBeforeRequest(Request request) {

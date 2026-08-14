@@ -46,7 +46,7 @@ public class BroadUrl {
     //获取图形验证码
     public static String getCode = IP + "getCode";
     //用户信息
-    public static String userInfo = IP + "userInfo";
+    public static String userInfo = IP + "im/user/getUser";
     //外链列表
     public static String urlList = IP + "urlList";
     //完善资料

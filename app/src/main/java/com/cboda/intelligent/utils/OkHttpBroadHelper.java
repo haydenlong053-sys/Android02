@@ -15,6 +15,7 @@ import android.os.Looper;
 import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.baselibrary.network.ResBroadInterceptor;
 import com.cboda.baselibrary.network.config.NetworkBroadConfig;
+import com.cboda.baselibrary.network.interceptor.HeaderBroadInterceptor;
 import com.cboda.baselibrary.utils.EncryptUtil;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.bean.BaseBroadBean;
@@ -69,6 +70,7 @@ public class OkHttpBroadHelper {
             ResBroadInterceptor loggingInterceptor = new ResBroadInterceptor("AppHttpOkHttp");
             beforeBuilder.addInterceptor(loggingInterceptor);
         }
+        beforeBuilder.addInterceptor(new HeaderBroadInterceptor());
         mHttpClient = beforeBuilder.build();
         mHandler = new Handler(Looper.getMainLooper());
         mMap = new HashMap<>();
@@ -226,7 +228,7 @@ public class OkHttpBroadHelper {
                 .addHeader("apptoken", SharePrefBroadBroadUtil.getString(context, AppBroadConsts.APPTOKEN, ""))
                 .addHeader("Accept-Language", getAcceptLanguage())
                 .addHeader("App-Platform", "Android")
-                .addHeader("App-Version",  getAppVersion(null))
+                .addHeader("App-Version", getAppVersion(null))
                 .url(url);
         String json = GsonUtils.getGson().toJson(params);
         eLogD(TAG, "http--json", json);
@@ -252,7 +254,7 @@ public class OkHttpBroadHelper {
                 .addHeader("apptoken", SharePrefBroadBroadUtil.getString(context, AppBroadConsts.APPTOKEN, ""))
                 .addHeader("Accept-Language", getAcceptLanguage())
                 .addHeader("App-Platform", "Android")
-                .addHeader("App-Version",  getAppVersion(null))
+                .addHeader("App-Version", getAppVersion(null))
                 .url(url);
         RequestBody body = builderFiles(fileParams);
         builder.post(body);
