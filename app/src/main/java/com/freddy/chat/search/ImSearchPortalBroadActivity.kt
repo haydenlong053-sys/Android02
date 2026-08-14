@@ -3,6 +3,7 @@ package com.freddy.chat.search
 import androidx.fragment.app.Fragment
 import com.cboda.chatui.search.SearchBroadActivity2
 import com.cboda.chatui.search.SearchableBroadModule
+import com.cboda.intelligent.utils.JumpBroadUtils
 import com.freddy.chat.search.module.ImConversationSearchModule
 import com.freddy.chat.search.module.ImGroupSearchModule
 
@@ -21,7 +22,9 @@ class ImSearchPortalBroadActivity : SearchBroadActivity2() {
         userId: String,
         displayName: String?
     ): Boolean {
-        ImSearchChatLaunchDelegate.openSingleChat(fragment, userId, displayName)
+        // 与 SearchUserBroadActivity 一致：搜索结果进好友主页
+        JumpBroadUtils.startHaoYouAddActivity(this, userId, "4")
+        finish()
         return true
     }
 }
