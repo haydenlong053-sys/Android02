@@ -101,14 +101,16 @@ class OKGoBroadHelper {
                                 } else if (this == "401" || this == "201"
                                     || this == "106" || this == "1001007"
                                 ) {
-                                    ToastBroadUtils.show(baseBean.msg)
+                                    ToastBroadUtils.show(baseBean.tipMessage())
                                     exit(context)
                                 } else {
-                                    if (showToast) ToastBroadUtils.show(baseBean.msg)
+                                    if (showToast) ToastBroadUtils.show(baseBean.tipMessage())
                                     callBack?.onFail(baseBean)
                                 }
                             } ?: run {
-                                if (showToast) ToastBroadUtils.show("响应解析失败")
+                                if (showToast) ToastBroadUtils.show(
+                                    baseBean?.tipMessage()?.takeIf { it.isNotEmpty() } ?: "响应解析失败"
+                                )
                                 callBack?.onFail(baseBean)
                             }
                         }
@@ -155,18 +157,23 @@ class OKGoBroadHelper {
             }
             val errorCode = root.optInt("errorCode", -1)
             val ok = errorCode == 0
+            val errorMsg = root.optString("errorMsg", "")
             val out = JSONObject()
             out.put("errorCode", errorCode)
+            out.put("errorMsg", errorMsg)
             out.put("code", if (ok) BroadConstant.RESULT_OK else errorCode.toString())
             out.put("success", ok)
-            out.put("msg", root.optString("errorMsg", ""))
+            out.put("msg", errorMsg)
             when (val content = root.opt("content")) {
                 is JSONObject -> {
+                    normalizeFriendContentObject(content)
                     out.put("data", content)
-                    // newFriList 等：content.list → dataList，供 CommonDataListBroadBean 解析
                     val list = content.opt("list")
                     if (list is JSONArray) {
                         out.put("dataList", list)
+                    }
+                    if (content.has("count")) {
+                        out.put("count", content.opt("count"))
                     }
                 }
                 is JSONArray -> {
@@ -180,6 +187,39 @@ class OKGoBroadHelper {
         } catch (e: Exception) {
             e.toLog("OKGoHelperClass normalizeImEnvelope")
             body
+        }
+    }
+
+    /**
+     * duiInfo content 兼容：id→userId、bei↔remarkName、grade 字符串转数字、doll3d。
+     */
+    private fun normalizeFriendContentObject(content: JSONObject) {
+        val userId = content.optString("userId", "")
+        val id = content.optString("id", "")
+        if (userId.isEmpty() && id.isNotEmpty()) {
+            content.put("userId", id)
+        }
+        val bei = content.optString("bei", "")
+        val remarkName = if (content.isNull("remarkName")) "" else content.optString("remarkName", "")
+        if (bei.isEmpty() && remarkName.isNotEmpty()) {
+            content.put("bei", remarkName)
+        }
+        if (remarkName.isEmpty() && bei.isNotEmpty()) {
+            content.put("remarkName", bei)
+        }
+        // grade 可能是 "0" 字符串，转成数字避免部分路径再踩坑
+        if (content.has("grade") && !content.isNull("grade")) {
+            val gradeVal = content.opt("grade")
+            if (gradeVal is String) {
+                val num = gradeVal.toDoubleOrNull()
+                if (num != null) {
+                    content.put("grade", num)
+                }
+            }
+        }
+        // characterTagsId: null 去掉，避免非空 Int 默认值干扰
+        if (content.has("characterTagsId") && content.isNull("characterTagsId")) {
+            content.remove("characterTagsId")
         }
     }
 

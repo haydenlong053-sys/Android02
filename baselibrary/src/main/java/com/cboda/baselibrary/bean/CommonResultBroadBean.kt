@@ -29,10 +29,15 @@ class CommonResultBroadBean : BaseBroadResponse() {
         var xcxUrl: String? = null
         var icon: String? = null
         var isLiang: String? = null
-        var grade: Double? = 0.0
+        /**
+         * 信用分：duiInfo 可能返回字符串 "0"，用 Any 承接再转 Double，避免 Gson 解析失败。
+         */
+        @SerializedName("grade")
+        private var gradeRaw: Any? = null
         var characterTags: String? = null
-        var characterTagsId: Int = -1
+        var characterTagsId: Int? = null
         var remarkName: String? = null
+        /** 备注；与 remarkName 同义 */
         var bei: String? = null
         var name: String? = null
         var uid: String? = null
@@ -40,8 +45,10 @@ class CommonResultBroadBean : BaseBroadResponse() {
         var sign: String? = null
 
         var phone: String? = null
+        /** 账号，文档拼写 acount（少一个 c） */
         var acount: String? = null
         var quan: List<String>? = null
+        /** "1" 已是好友 / "0" 不是 */
         var isFri: String? = null
         var isOpenQuan: String? = null
         var isZd: String? = null
@@ -125,11 +132,21 @@ class CommonResultBroadBean : BaseBroadResponse() {
         var profession: String? = null
         var openAbsentKick: String? = null // 本群会议不参会自动踢人开关："0" / "1"
         var absentKickLimit: String? = null // 全局连续未参会次数，如 5
+        var gradeStatus: Int? = null
 
         var memberInterestList: Array<String>? = null
 
-        @SerializedName("3dDoll")
+        /** 注册天数：旧字段 3dDoll，新 duiInfo 为 doll3d */
+        @SerializedName(value = "doll3d", alternate = ["3dDoll"])
         var registerDayBean: RegisterDayBean? = null
+
+        val grade: Double?
+            get() = when (val raw = gradeRaw) {
+                null -> null
+                is Number -> raw.toDouble()
+                is String -> raw.toDoubleOrNull()
+                else -> raw.toString().toDoubleOrNull()
+            }
     }
 
     class RegisterDayBean {

@@ -169,13 +169,13 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                     ivTouxiang,
                     PixelBroadBroadUtils.dip2px(this@HaoYouPageBroadActivity, 10f)
                 )
-//                if (sex == null || sex == "0") {
-//                    ivMirrorSex.setImageResource(R.drawable.ic_mirror_broad_female)
-//                } else {
-//                    ivMirrorSex.setImageResource(if (sex == "1") R.drawable.ic_mirror_broad_male else R.drawable.ic_mirror_broad_female)
-//
-//                }
-//                ivMirrorSex.isVisible = true
+                if (sex == null || sex == "0") {
+                    ivMirrorSex.setImageResource(R.drawable.ic_mirror_broad_female)
+                } else {
+                    ivMirrorSex.setImageResource(if (sex == "1") R.drawable.ic_mirror_broad_male else R.drawable.ic_mirror_broad_female)
+
+                }
+                ivMirrorSex.isVisible = true
                 val isFriend = "1" == it.data?.isFri
                 otherLayout.isGone = otherUid == MMKVBroadUtils.getRealUserId() || !isFriend
                 findViewById<ImageView>(R.id.iv_float_more).isInvisible =

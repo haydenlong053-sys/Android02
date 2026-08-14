@@ -19,6 +19,7 @@ import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.baselibrary.utils.groupDataLiveData
+import com.cboda.baselibrary.utils.toJson2
 import com.cboda.baselibrary.utils.toLog
 import com.cboda.intelligent.bean.*
 import com.cboda.intelligent.configuration.CommonBroadConfig
@@ -73,6 +74,8 @@ class CommViewBroadModel : FriendViewBroadModel() {
             CommonResultBroadBean(),
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
+
+                    eLogD("imUser", "bean:${toJson2(bean)}")
                     if (bean is CommonResultBroadBean) {
 //                        saveUserData(bean.data)
                         RealmUtil.addUserData(bean.data)
@@ -570,9 +573,9 @@ class CommViewBroadModel : FriendViewBroadModel() {
         }
         bean.state = item.status
         //优先从接口取icon
-        val icon= if (item.icon?.isNotEmpty() == true){
+        val icon = if (item.icon?.isNotEmpty() == true) {
             item.icon
-        }else{
+        } else {
             val session = if (!TextUtils.isEmpty(item.groupId)) {
                 ImSessionRepository.getInstance().queryBySessionId(item.groupId)
             } else {
@@ -1896,7 +1899,7 @@ class CommViewBroadModel : FriendViewBroadModel() {
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBroadBean) {
-                        errorLiveData.value = ErrorBroadBean(result = state,type = "setGroupAbsentKick")
+                        errorLiveData.value = ErrorBroadBean(result = state, type = "setGroupAbsentKick")
                     }
                 }
 
