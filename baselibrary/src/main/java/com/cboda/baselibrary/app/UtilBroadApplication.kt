@@ -16,8 +16,24 @@ open class UtilBroadApplication : Application() {
         cxt = this
         initLanguage(this)
         initRealm(this)
+        initLog()
     }
 
+    private fun initLog(){
+        //        val xlog = Xlog()
+//        Log.setLogImp(xlog)
+//        val sdCard = Environment.getExternalStorageDirectory().absolutePath
+//        val logPath = "$sdCard/marssample/log"
+//        val cachePath = "${this.filesDir}/xlog"
+//        val logFileName = "stLog"
+//        if (com.cboda.baselibrary.BuildConfig.IS_DEBUG) {
+//            Log.setConsoleLogOpen(true)
+//            Log.appenderOpen(Xlog.LEVEL_DEBUG, Xlog.AppednerModeAsync, cachePath, logPath, logFileName, 0);
+//        } else {
+//            Log.setConsoleLogOpen(false)
+//            Log.appenderOpen(Xlog.LEVEL_INFO, Xlog.AppednerModeAsync, cachePath, logPath, logFileName, 0);
+//        }
+    }
 
     override fun attachBaseContext(base: Context?) {
         // Application 尚未就绪，不要走 getAppContext（会碰 lateinit cxt）

@@ -222,6 +222,19 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         composeView.setContent {
             val itemList = arrayListOf(
                 ExpandableBottomBarBroadItem(
+                    icon = painterResource(id = R.drawable.ic_home_tab_broad_mirror),
+                    selectedIcon = painterResource(id = R.drawable.ic_home_tab_mirror_broad_pre),
+                    text = stringResource(id = R.string.bottom_bar_mirror)
+                ),
+                ExpandableBottomBarBroadItem(
+                    icon = painterResource(id = R.drawable.ic_gc_tab_mirror),
+                    selectedIcon = painterResource(id = R.drawable.ic_gc_tab_mirror_pre),
+                    text = ImUiStrings.get(com.cboda.baselibrary.R.string.bottom_bar_gc)
+                )
+            )
+//            if (!HttpsBroadConfig.isReviewEnv) {
+            itemList.add(
+                ExpandableBottomBarBroadItem(
                     icon = painterResource(id = R.drawable.ic_home_tab_broad_message),
                     selectedIcon = painterResource(id = R.drawable.ic_home_tab_message_broad_pre),
                     text = stringResource(id = R.string.bottom_bar_social),
@@ -484,14 +497,14 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 //                    1001)
 //            }
 //        }
-//        setNavBarHeightListener {
-//            val bottomView = findViewById<View>(R.id.bottomView)
-//            val layoutParams = bottomView.layoutParams
-//            layoutParams.height = dp2px(12f) + it
-//            bottomView.layoutParams = layoutParams
-////            (messageFragment as MessageBroadFragment).setBottomHeight(it)
-//            gpFragment.setBottomHeight(it)
-//        }
+        setNavBarHeightListener {
+            val bottomView = findViewById<View>(R.id.bottomView)
+            val layoutParams = bottomView.layoutParams
+            layoutParams.height = dp2px(12f) + it
+            bottomView.layoutParams = layoutParams
+//            (messageFragment as MessageBroadFragment).setBottomHeight(it)
+            gpFragment.setBottomHeight(it)
+        }
 //        val oldQrCode = MMKVBroadUtils.getSqlStrData(OLD_QR_CODE, "")
         //82环境登录后不自动跳转到登录二维码页面
         if (fromType != "PushInfo2BroadActivity" && fromType != "LoginQrCodeActivity" && HttpsBroadConfig.currentHostHttpUrlType > 1000) {
@@ -854,13 +867,13 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
     private val messageFragment = MessageBroadFragment.getInstance()
 
-    //    private val gpFragment = GpFragment()
+    private val gpFragment = GpFragment()
     private fun initMyIm() {
 
 //        fragmentList.add(MirrorBroadFragment.getInstance())
 
-//        fragmentList.add(NewMirrorBroadFragment())
-//        fragmentList.add(gpFragment)
+        fragmentList.add(NewMirrorBroadFragment())
+        fragmentList.add(gpFragment)
 //        fragmentList.add(CleverBodyBroadFragment())
 //        fragmentNameList.add("faxian")
 //        if (!HttpsBroadConfig.isReviewEnv) {

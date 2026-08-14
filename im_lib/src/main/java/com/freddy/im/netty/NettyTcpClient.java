@@ -1,5 +1,7 @@
 package com.freddy.im.netty;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.text.TextUtils;
 
 import com.freddy.im.ExecutorServiceFactory;
@@ -18,6 +20,7 @@ import com.freddy.im.util.ImUtils;
 import com.google.protobuf.ByteString;
 
 import androidx.annotation.NonNull;
+
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import java.security.GeneralSecurityException;
@@ -67,9 +70,13 @@ public class NettyTcpClient implements IMSClientInterface {
 
     private MsgTimeoutTimerManager msgTimeoutTimerManager;
 
-    /** 客户端生成的 16 字节 AES 会话密钥（0x01 用 RSA 发给服务端） */
+    /**
+     * 客户端生成的 16 字节 AES 会话密钥（0x01 用 RSA 发给服务端）
+     */
     private byte[] sessionAesKey;
     private volatile boolean userChannelBound;
+
+    private String TAG = "NettyTcpClientClass";
 
     private NettyTcpClient() {
     }
@@ -168,7 +175,7 @@ public class NettyTcpClient implements IMSClientInterface {
             channel = null;
             bootstrap = null;
             sessionAesKey = null;
-            System.out.println("close");
+            eLogD(TAG, "close");
             userChannelBound = false;
         }
     }
@@ -183,12 +190,12 @@ public class NettyTcpClient implements IMSClientInterface {
         if (request == null || !request.hasHeader()) {
             return;
         }
-        if (request.getHeader().getCmd()==0x01){
-            System.out.println("2->发送 BIND_USER_VALUE 信令去绑定用户，发送 sendSignalRequest--cmd="+request.getHeader().getCmd());
-        }else if (request.getHeader().getCmd()==0x03){
-            System.out.println("准备上报前后台状态sendSignalRequest--cmd="+request.getHeader().getCmd());
-        }else {
-            System.out.println("普通发送 sendSignalRequest--cmd="+request.getHeader().getCmd()+", transportSeqId="+transportSeqId);
+        if (request.getHeader().getCmd() == 0x01) {
+            eLogD(TAG, "2->发送 BIND_USER_VALUE 信令去绑定用户，发送 sendSignalRequest--cmd=" + request.getHeader().getCmd());
+        } else if (request.getHeader().getCmd() == 0x03) {
+            eLogD(TAG, "准备上报前后台状态sendSignalRequest--cmd=" + request.getHeader().getCmd());
+        } else {
+            eLogD(TAG, "普通发送 sendSignalRequest--cmd=" + request.getHeader().getCmd() + ", transportSeqId=" + transportSeqId);
         }
 
         if (sessionAesKey == null) {
@@ -221,7 +228,7 @@ public class NettyTcpClient implements IMSClientInterface {
 //                return;
 //            }
             sessionAesKey = Aes128CbcZeroIv.randomKey16();
-            System.out.println("客户端生成的AES密钥长度=" + sessionAesKey.length);
+            eLogD(TAG, "客户端生成的AES密钥长度=" + sessionAesKey.length);
             String pem = "";
             if (mOnEventListener != null) {
                 String p = mOnEventListener.getRsaPublicKeyPem();
@@ -235,7 +242,7 @@ public class NettyTcpClient implements IMSClientInterface {
             PublicKey pub = RsaPkcs1Util.parsePublicKeyFromX509Pem(pem);
             byte[] enc = RsaPkcs1Util.encrypt(sessionAesKey, pub);
             writeTransport((byte) 0x01, (byte) 0, enc, ImUtils.nextSeqId());
-            System.out.println("1->客户端主动发送 CMD=0x01 RSA 协商，密文长度=" + enc.length);
+            eLogD(TAG, "1->客户端主动发送 CMD=0x01 RSA 协商，密文长度=" + enc.length);
         } catch (Exception e) {
             sessionAesKey = null;
             e.printStackTrace();
@@ -295,7 +302,9 @@ public class NettyTcpClient implements IMSClientInterface {
         sendUserProcessInternal(appStatus);
     }
 
-    /** IM 长连接已就绪：通道活跃、已协商 AES、用户已绑定。 */
+    /**
+     * IM 长连接已就绪：通道活跃、已协商 AES、用户已绑定。
+     */
     private boolean isImChannelReady() {
         return !isClosed
                 && userChannelBound
@@ -334,7 +343,7 @@ public class NettyTcpClient implements IMSClientInterface {
                 .setBody(ByteString.copyFrom(processSig.toByteArray()))
                 .build();
         sendSignalRequest(req, false, ImUtils.nextSeqId());
-        System.out.println("前后台状态appStatus="+appStatus);
+        eLogD(TAG, "前后台状态appStatus=" + appStatus);
     }
 
     /**
@@ -388,7 +397,7 @@ public class NettyTcpClient implements IMSClientInterface {
             return;
         }
         //todo 第五步，发送维护心跳--->0x03
-//        System.out.println("发送维护心跳--->0x03");
+//        eLogD(TAG, "发送维护心跳--->0x03");
         String uid = mOnEventListener.getUserId();
         if (uid == null || uid.isEmpty()) {
             return;
@@ -403,14 +412,14 @@ public class NettyTcpClient implements IMSClientInterface {
         int cmd = res.getHeader().getCmd();
         if (cmd == ImSignalProtos.Cmd.BIND_USER_RES_VALUE && res.getHeader().getCode() == 0) {
             //todo 第四步，用户绑定成功，im通道打通，开始维护心跳
-            System.out.println("3->协商完成，绑定用户成功，IM通道打通！！！,准备开始维护心跳");
+            eLogD(TAG, "3->协商完成，绑定用户成功，IM通道打通！！！,准备开始维护心跳");
             userChannelBound = true;
             msgTimeoutTimerManager.onResetConnected();
             addHeartbeatHandler();
             sendUserProcessInternal(appStatus);
         }
-        if (cmd == ImSignalProtos.Cmd.REPORT_USER_PROCESS_RES_VALUE){
-            System.out.println("上报前后台状态成功");
+        if (cmd == ImSignalProtos.Cmd.REPORT_USER_PROCESS_RES_VALUE) {
+            eLogD(TAG, "上报前后台状态成功");
         }
         if (cmd == ImSignalProtos.Cmd.SEND_MSG_RES_VALUE) {
             ImSignalProtos.SendMsgReq sendMsgReq = msgTimeoutTimerManager.getSendMsgReq(transportSeqId);
@@ -424,7 +433,7 @@ public class NettyTcpClient implements IMSClientInterface {
                         ImMessageManager.getInstance().onSendMsgSuccess(
                                 sendMsgReq.getClientMsgId(), smr.getMessageId());
                     }
-                    System.out.println("收到响应消息SEND_MSG_RES---getMessageId=" + smr.getMessageId());
+                    eLogD(TAG, "收到响应消息SEND_MSG_RES---getMessageId=" + smr.getMessageId());
                 } catch (InvalidProtocolBufferException ignored) {
                 }
             } else {
@@ -434,7 +443,7 @@ public class NettyTcpClient implements IMSClientInterface {
                     ImMessageManager.getInstance().onSendMsgFailed(
                             sendMsgReq.getClientMsgId(), code, errorMsg);
                 }
-                System.out.println("收到响应消息SEND_MSG_RES的服务器报错回执---code=" + res.getHeader().getCode() + " " + res.getHeader().getErrorMsg());
+                eLogD(TAG, "收到响应消息SEND_MSG_RES的服务器报错回执---code=" + res.getHeader().getCode() + " " + res.getHeader().getErrorMsg());
             }
         }
     }
@@ -535,7 +544,7 @@ public class NettyTcpClient implements IMSClientInterface {
         this.connectStatus = connectStatus;
         switch (connectStatus) {
             case IMSConfig.CONNECT_STATE_CONNECTING: {
-                System.out.println("ims连接中...");
+                eLogD(TAG, "ims连接中...");
                 if (mIMSConnectStatusCallback != null) {
                     mIMSConnectStatusCallback.onConnecting();
                 }
@@ -543,7 +552,7 @@ public class NettyTcpClient implements IMSClientInterface {
             }
 
             case IMSConfig.CONNECT_STATE_SUCCESSFUL: {
-                System.out.println(String.format("ims连接成功，host『%s』, port『%s』", currentHost, currentPort));
+                eLogD(TAG, String.format("ims连接成功，host『%s』, port『%s』", currentHost, currentPort));
                 if (mIMSConnectStatusCallback != null) {
                     mIMSConnectStatusCallback.onConnected();
                 }
@@ -554,7 +563,7 @@ public class NettyTcpClient implements IMSClientInterface {
 
             case IMSConfig.CONNECT_STATE_FAILURE:
             default: {
-                System.out.println("ims连接失败");
+                eLogD(TAG, "ims连接失败");
                 if (mIMSConnectStatusCallback != null) {
                     mIMSConnectStatusCallback.onConnectFailed();
                 }
@@ -624,7 +633,7 @@ public class NettyTcpClient implements IMSClientInterface {
             ex.printStackTrace();
         }
 //        sessionAesKey = null;
-//        System.out.println("closeChannel");
+//        eLogD(TAG, "closeChannel");
         userChannelBound = false;
     }
 
@@ -732,7 +741,7 @@ public class NettyTcpClient implements IMSClientInterface {
                     if (connectStatus != IMSConfig.CONNECT_STATE_CONNECTING) {
                         onConnectStatusCallback(IMSConfig.CONNECT_STATE_CONNECTING);
                     }
-                    System.out.println(String.format("正在进行『%s』的第『%d』次连接，当前重连延时时长为『%dms』", serverUrl, j, j * getReconnectInterval()));
+                    eLogD(TAG, String.format("正在进行『%s』的第『%d』次连接，当前重连延时时长为『%dms』", serverUrl, j, j * getReconnectInterval()));
 
                     try {
                         currentHost = address[0];
