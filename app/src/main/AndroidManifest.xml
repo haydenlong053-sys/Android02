@@ -435,7 +435,7 @@
             android:exported="false" />
 
         <activity
-            android:name="com.wujie.intelligent.activity.SplashBroadActivity"
+            android:name="com.cboda.intelligent.activity.SplashBroadActivity"
             android:exported="true"
             android:theme="@style/InitTheme">
             <intent-filter>
