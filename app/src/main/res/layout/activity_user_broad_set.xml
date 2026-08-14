@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_main_space"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -178,7 +177,8 @@
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="20dp">
+                    android:paddingHorizontal="20dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="0dp"
@@ -197,7 +197,8 @@
 
                 <View
                     style="@style/Line2"
-                    android:layout_width="match_parent" />
+                    android:layout_width="match_parent"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/llGuanyu"
@@ -211,7 +212,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/关于我们"
+                        android:text="@string/v_version"
                         android:textColor="@color/color_text0"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -228,7 +229,8 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_broad_next" />
+                        android:src="@mipmap/ic_broad_next"
+                        android:visibility="invisible" />
                 </LinearLayout>
 
                 <View
@@ -266,8 +268,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@color/bg_main1"
-                android:visibility="gone"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/llYonghu"
@@ -295,7 +297,7 @@
                 <View
                     style="@style/Line2"
                     android:layout_width="match_parent"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/llYinsi"
@@ -304,8 +306,7 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingHorizontal="20dp"
-                    android:visibility="gone"
-                    >
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="0dp"
@@ -325,8 +326,7 @@
                 <View
                     style="@style/Line2"
                     android:layout_width="match_parent"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/llThird"
@@ -370,8 +370,8 @@
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:paddingHorizontal="20dp">
+                    android:paddingHorizontal="20dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="0dp"
@@ -463,8 +463,8 @@
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:paddingHorizontal="20dp">
+                    android:paddingHorizontal="20dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="0dp"
