@@ -132,7 +132,6 @@ class ImQunGerenPageBroadActivity : BaseSimpleBroadActivity() {
                                 }
                                 if (avatarUrl.isEmpty() && !vo.headPortrait.isNullOrEmpty()) {
                                     avatarUrl = vo.headPortrait!!
-                                    ivTouxiang.loadImg(avatarUrl)
 //                                    GlideLoaderBroadHelper.loadCenterCopRoundedCornersUrl(
 //                                        this@ImQunGerenPageBroadActivity,
 //                                        avatarUrl,
@@ -143,6 +142,7 @@ class ImQunGerenPageBroadActivity : BaseSimpleBroadActivity() {
 //                                        )
 //                                    )
                                 }
+                                ivTouxiang.loadImg(avatarUrl)
                             }
                             if (selfId != null && id == selfId) {
                                 myRole = vo.role
