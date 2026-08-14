@@ -1,19 +1,18 @@
-package com.cboda.intelligent.activity
+package com.wujie.intelligent.activity
 
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.intelligent.R
+import com.cboda.intelligent.activity.NewEquipmentBroadActivity
 import com.cboda.intelligent.app.MyBroadApp
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.configuration.AppBroadConsts
 import com.cboda.intelligent.utils.AppBroadUtils
-import com.cboda.intelligent.utils.JumpBroadUtils.Companion.startMainActivity
+import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.select.picture.utils.LanguageUtil
-import com.cboda.select.picture.utils.LanguageUtil.saveAppLanguageKey
-import com.cboda.select.picture.utils.LanguageUtil.setAppLanguage
 
 class SplashBroadActivity : BaseSimpleBroadActivity() {
     override fun getLayoutId(): Int {
@@ -56,7 +55,7 @@ class SplashBroadActivity : BaseSimpleBroadActivity() {
 
 
     fun lateInitSdk() {
-        MyBroadApp.initOkGo()
+        MyBroadApp.Companion.initOkGo()
     }
 
     fun jumpAct() {
@@ -70,8 +69,8 @@ class SplashBroadActivity : BaseSimpleBroadActivity() {
     private fun ptConfig() {
         val language = LanguageUtil.getAppLanguageKey(this, true)
         if (TextUtils.isEmpty(language)) {
-            saveAppLanguageKey(LanguageUtil.ENGLISH, this)
-            setAppLanguage(LanguageUtil.ENGLISH, this@SplashBroadActivity)
+            LanguageUtil.saveAppLanguageKey(LanguageUtil.ENGLISH, this)
+            LanguageUtil.setAppLanguage(LanguageUtil.ENGLISH, this@SplashBroadActivity)
         }
 
 
@@ -96,8 +95,8 @@ class SplashBroadActivity : BaseSimpleBroadActivity() {
 //                            }
 //                        }
         } else {
-            AppBroadUtils.goLoginMyIm(MMKVBroadUtils.getUserAppToken(),MMKVBroadUtils.getRealUserId())
-            startMainActivity(this@SplashBroadActivity, "SplashBroadActivity")
+            AppBroadUtils.Companion.goLoginMyIm(MMKVBroadUtils.Companion.getUserAppToken(), MMKVBroadUtils.Companion.getRealUserId())
+            JumpBroadUtils.Companion.startMainActivity(this@SplashBroadActivity, "SplashBroadActivity")
         }
         finish()
 
