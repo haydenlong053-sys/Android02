@@ -188,14 +188,8 @@ public class OkHttpBroadHelper {
                 if (response.isSuccessful()) {
                     eLogD(TAG, "http--url", request.url().toString());
                     String resultStr = response.body().string();
-//                    String resultStrAes = "";
-//                    try {
-//                        resultStrAes = EncryptUtil.INSTANCE.aesDecrypt(resultStr, "AES", null, null);
-//                    } catch (Exception e) {
-////                        throw new RuntimeException(e);
-//                        eLogD(TAG, "http--http", "--->Exception " + e);
-//                    }
-                    String resultStrAes = resultStr;
+                    String resultStrAes = decodeResponseBody(resultStr);
+                    resultStrAes = normalizeImUserResponse(resultStrAes, request.url().toString());
                     eLogD(TAG, "http--http---", resultStrAes);
 //                    Log.d(APP_TAG,"callback.mType=="+callback.mType);
                     if (callback.mType == String.class) {
@@ -453,22 +447,24 @@ public class OkHttpBroadHelper {
                         if (callback.mType == String.class) {
 //                            Log.d(APP_TAG,"obj=="+obj);
                             callback.onSuccess(response, obj);
-                        } else if (((BaseBroadBean) obj).code.equals("200") && ((BaseBroadBean) obj).success) {
-                            callback.onSuccess(response, obj);
-                        } else if (((BaseBroadBean) obj).code.equals("401") || ((BaseBroadBean) obj).code.equals("201")) {
-                            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, "");
-                            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, "");
-                            NetworkBroadConfig.INSTANCE.updateAppToken("");
-                            ToastBroadUtil.show(((BaseBroadBean) obj).msg);
-                            AppBroadUtils.Companion.exit(context);
                         } else {
-                            ToastBroadUtil.show(((BaseBroadBean) obj).msg);
-                            BaseBroadBean baseBean = (BaseBroadBean) obj;
-                            if (baseBean.code.equals("200") && !baseBean.success) {
-                                callback.onError(response, 2, new Exception());
+                            BaseBroadBean bean = (BaseBroadBean) obj;
+                            String code = bean.code != null ? bean.code : "";
+                            if ("200".equals(code) && bean.success) {
+                                callback.onSuccess(response, obj);
+                            } else if ("401".equals(code) || "201".equals(code)) {
+                                SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, "");
+                                SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, "");
+                                NetworkBroadConfig.INSTANCE.updateAppToken("");
+                                ToastBroadUtil.show(bean.msg);
+                                AppBroadUtils.Companion.exit(context);
                             } else {
-
-                                callback.onError(response, 1, new Exception());
+                                ToastBroadUtil.show(bean.msg);
+                                if ("200".equals(code) && !bean.success) {
+                                    callback.onError(response, 2, new Exception());
+                                } else {
+                                    callback.onError(response, 1, new Exception());
+                                }
                             }
                         }
                     } catch (Exception e) {
@@ -479,6 +475,101 @@ public class OkHttpBroadHelper {
                 }
             }
         });
+    }
+
+    /**
+     * 响应体解密：明文 JSON 跳过 AES，密文走原解密逻辑。
+     */
+    private String decodeResponseBody(String body) {
+        if (body == null) {
+            return "";
+        }
+        String trim = body.trim();
+        if (trim.startsWith("{") || trim.startsWith("[")) {
+            return body;
+        }
+        try {
+            return EncryptUtil.INSTANCE.aesDecrypt(body, "AES", null, null);
+        } catch (Exception e) {
+            eLogD(TAG, "http--http", "--->Exception " + e);
+            return body;
+        }
+    }
+
+    /**
+     * IM 用户接口返回 {@code {"errorCode":0,"content":{...}}} 时，展平为 ResultBroadBean 可解析形态。
+     * 字段别名：token→apptoken/imtoken，cardQrUrl→qrcode，message→msg。
+     */
+    private String normalizeImUserResponse(String body, String url) {
+        if (body == null || body.isEmpty()) {
+            return body;
+        }
+        boolean imUserApi = url != null && url.contains("/im/user/");
+        try {
+            String trim = body.trim();
+            if (!trim.startsWith("{")) {
+                return body;
+            }
+            org.json.JSONObject root = new org.json.JSONObject(trim);
+            if (!root.has("content")) {
+                return body;
+            }
+            Object contentObj = root.opt("content");
+            if (!(contentObj instanceof org.json.JSONObject)) {
+                return body;
+            }
+            org.json.JSONObject content = (org.json.JSONObject) contentObj;
+            boolean looksLikeAuth = content.has("success") || content.has("userId")
+                    || content.has("token") || content.has("apptoken") || content.has("imtoken");
+            if (!imUserApi && !looksLikeAuth && !root.has("errorCode")) {
+                return body;
+            }
+            org.json.JSONObject flat = new org.json.JSONObject(content.toString());
+            if (root.has("errorCode")) {
+                int errorCode = root.optInt("errorCode", -1);
+                boolean ok = errorCode == 0
+                        && (!content.has("success") || content.optBoolean("success", true));
+                flat.put("success", ok);
+                flat.put("code", ok ? "200" : String.valueOf(errorCode));
+                if (root.has("errorMsg") && !root.isNull("errorMsg")) {
+                    flat.put("msg", root.optString("errorMsg", ""));
+                }
+            } else if (content.has("success")) {
+                boolean ok = content.optBoolean("success", false);
+                flat.put("success", ok);
+                flat.put("code", ok ? "200" : "500");
+            } else {
+                flat.put("success", true);
+                flat.put("code", "200");
+            }
+            if ((!flat.has("msg") || flat.isNull("msg") || flat.optString("msg").isEmpty())
+                    && content.has("message") && !content.isNull("message")) {
+                flat.put("msg", content.optString("message", ""));
+            }
+            // 新注册/登录：token → apptoken；无 imtoken 时复用 token
+            String token = content.optString("token", "");
+            if (!token.isEmpty()) {
+                if (!flat.has("apptoken") || flat.isNull("apptoken")
+                        || flat.optString("apptoken").isEmpty()) {
+                    flat.put("apptoken", token);
+                }
+                if (!flat.has("imtoken") || flat.isNull("imtoken")
+                        || flat.optString("imtoken").isEmpty()) {
+                    flat.put("imtoken", token);
+                }
+            }
+            // 名片二维码
+            String cardQrUrl = content.optString("cardQrUrl", "");
+            if (!cardQrUrl.isEmpty()
+                    && (!flat.has("qrcode") || flat.isNull("qrcode")
+                    || flat.optString("qrcode").isEmpty())) {
+                flat.put("qrcode", cardQrUrl);
+            }
+            return flat.toString();
+        } catch (Exception e) {
+            toLog(e, TAG);
+            return body;
+        }
     }
 
     private void callbackError(final BaseBroadCallback callback, final Response response, final Exception e) {

@@ -7,5 +7,5 @@ public class BaseBroadBean {
     public boolean success;//0成功 1失败
     public String msg;
     public String code;
-
+    public String content;
 }

@@ -1,7 +1,6 @@
 package com.cboda.intelligent.viewmodel
 
 import android.content.Context
-import android.content.Intent
 import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.bean.FriendBean
@@ -36,7 +35,6 @@ import com.cboda.baselibrary.utils.getAppStr
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.baselibrary.utils.toLog
 import com.cboda.intelligent.R
-import com.cboda.intelligent.activity.PushInfo2BroadActivity
 import com.cboda.intelligent.bean.ResultBroadBean
 import com.cboda.intelligent.configuration.SafeJumpBroadEnum
 import com.cboda.intelligent.dialog.pop.AuthCodeBroadPop
@@ -620,21 +618,9 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                     resultBean: ResultBroadBean?
                 ) {
                     resultBean?.let {
-//                        if (resultBean.isws == "0") {
-//                            val newIntent = Intent(mContext, PushInfo2BroadActivity::class.java)
-//                            newIntent.putExtra("apptoken", resultBean.apptoken)
-//                            newIntent.putExtra("uid", resultBean.userId)
-//                            newIntent.putExtra("userSign", resultBean.userSign)
-//                            newIntent.putExtra("imtoken", resultBean.imtoken)
-//                            newIntent.putExtra("idno", resultBean.idno)
-//                            newIntent.putExtra("qrcode", resultBean.qrcode)
-//                            newIntent.putExtra("qrCodeNew", resultBean.tQrcode2)
-//                            newIntent.putExtra("account", account)
-//                            newIntent.putExtra("pwd", pwd)
-//                            mContext.startActivity(newIntent)
-//                        } else {
-//                            imLogin(resultBean, mContext)
-//                        }
+                        // 新 IM 注册：content 已展平为 apptoken/imtoken/userId/qrcode
+                        eLogD("LoginViewBroadModelClass", "resultBean:${toJson2(resultBean)}")
+                        imLogin(resultBean, mContext)
 
                     } ?: showToastMain(com.cboda.baselibrary.R.string.service_error_token_null)
                 }

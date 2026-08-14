@@ -20,6 +20,12 @@ public class ResultBroadBean extends BaseBroadBean implements Serializable {
     public String userId;
     public String userSign;
     public String apptoken;
+    /** 新 IM 注册/登录原始 token（展平后也会写入 apptoken/imtoken） */
+    public String token;
+    /** 注册恢复码 */
+    public String recoveryCode;
+    /** 名片二维码 URL（展平后也会写入 qrcode） */
+    public String cardQrUrl;
     public String isws;
     public String url;
     public String yanzm;

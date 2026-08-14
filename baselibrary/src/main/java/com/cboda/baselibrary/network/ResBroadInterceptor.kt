@@ -42,7 +42,10 @@ class ResBroadInterceptor(private val tAG: String) : Interceptor {
             var jmReqBody = ""
             try {
                 if (!TextUtils.isEmpty(resBody)) {
-                    jmReqBody = EncryptUtil.aesDecrypt(resBody, "AES")
+                    val trimmed = resBody.trim()
+                    if (!trimmed.startsWith("{") && !trimmed.startsWith("[")) {
+                        jmReqBody = EncryptUtil.aesDecrypt(resBody, "AES")
+                    }
                 }
             } catch (e: Exception) {
 //                e.toLog(tAG)
