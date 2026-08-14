@@ -35,7 +35,7 @@ import java.util.List;
 public class UserEwmBroadDialog extends Dialog {
 
     ImageView ivQrcode;
-    RoundedImageView ivIcon;
+    ImageView ivIcon;
     FrameLayout flSave;
     TextView tvSave, tvName, tvId;
     private Context context;      // 上下文
