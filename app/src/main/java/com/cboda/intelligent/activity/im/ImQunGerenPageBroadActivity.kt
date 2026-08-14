@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import cc.shinichi.library.ImagePreview
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.loadImg
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.holder.CommanConfimBroadHolder
@@ -131,15 +132,16 @@ class ImQunGerenPageBroadActivity : BaseSimpleBroadActivity() {
                                 }
                                 if (avatarUrl.isEmpty() && !vo.headPortrait.isNullOrEmpty()) {
                                     avatarUrl = vo.headPortrait!!
-                                    GlideLoaderBroadHelper.loadCenterCopRoundedCornersUrl(
-                                        this@ImQunGerenPageBroadActivity,
-                                        avatarUrl,
-                                        ivTouxiang,
-                                        PixelBroadBroadUtils.dip2px(
-                                            this@ImQunGerenPageBroadActivity,
-                                            10f
-                                        )
-                                    )
+                                    ivTouxiang.loadImg(avatarUrl)
+//                                    GlideLoaderBroadHelper.loadCenterCopRoundedCornersUrl(
+//                                        this@ImQunGerenPageBroadActivity,
+//                                        avatarUrl,
+//                                        ivTouxiang,
+//                                        PixelBroadBroadUtils.dip2px(
+//                                            this@ImQunGerenPageBroadActivity,
+//                                            10f
+//                                        )
+//                                    )
                                 }
                             }
                             if (selfId != null && id == selfId) {
