@@ -79,6 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:paddingHorizontal="8dp"
+                    android:visibility="gone"
                     android:paddingVertical="4dp"
                     android:text="@string/bind_lianghao"
                     android:textColor="@color/white"

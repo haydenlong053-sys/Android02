@@ -745,7 +745,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
             if (HttpsBroadConfig.isReviewEnv) {
                 mBinding.mTvBindPremiumNumber.setVisibility(View.GONE);
             } else {
-                mBinding.mTvBindPremiumNumber.setVisibility(View.VISIBLE);
+//                mBinding.mTvBindPremiumNumber.setVisibility(View.VISIBLE);
             }
             mBinding.mViewPremiumNumber.setVisibility(View.GONE);
             if (mBinding.mViewAnimateNumb.isAnimating()) {
