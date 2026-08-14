@@ -34,7 +34,7 @@ class UserInfoBean : Serializable {
     var creditScoreNewInGroupDays = ""//入群变化样式所需的最短天数（配置新入群天数）
     var canSendLink = "false" //能否发送链接
 
-    @SerializedName(value = "name", alternate = ["nickname"])
+    @SerializedName("nickname")
     var name = ""//名称
 
     @SerializedName("icon")
