@@ -46,11 +46,11 @@ public class GlideBroadUtil {
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                             .into(iv);
                 } else
-                    Glide.with(context).load(url).apply(new RequestOptions().error(R.mipmap.ic_broad_defaut).placeholder(R.mipmap.ic_broad_defaut)).into(iv);
+                    Glide.with(context).load(url).apply(new RequestOptions().error(R.mipmap.ic_broad_logo).placeholder(R.mipmap.ic_broad_logo)).into(iv);
             } else
-                Glide.with(context).load(BroadUrl.WebIP + url).apply(new RequestOptions().placeholder(R.mipmap.ic_broad_defaut).dontAnimate().error(R.mipmap.ic_broad_defaut)).into(iv);
+                Glide.with(context).load(BroadUrl.WebIP + url).apply(new RequestOptions().placeholder(R.mipmap.ic_broad_logo).dontAnimate().error(R.mipmap.ic_broad_logo)).into(iv);
         } else
-            iv.setImageResource(R.mipmap.ic_broad_defaut);
+            iv.setImageResource(R.mipmap.ic_broad_logo);
 //            Picasso.get().load(R.mipmap.ic_broad_defaut).into(iv);
     }
 

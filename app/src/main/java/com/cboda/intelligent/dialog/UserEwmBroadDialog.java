@@ -56,7 +56,7 @@ public class UserEwmBroadDialog extends Dialog {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         //遍历控件id,添加点击事件
         ivQrcode = (ImageView) findViewById(R.id.ivQrcode);
-        ivIcon = (RoundedImageView) findViewById(R.id.ivIcon);
+        ivIcon = (ImageView) findViewById(R.id.ivIcon);
         tvSave = (TextView) findViewById(R.id.tvSave);
         tvName = (TextView) findViewById(R.id.tvName);
         tvId = (TextView) findViewById(R.id.tvId);
