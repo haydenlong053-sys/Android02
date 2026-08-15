@@ -147,15 +147,12 @@ class MMKVBroadUtils {
         }
 
         fun saveImPullErrToastState(toast: String?) {
-            val kv = MMKV.defaultMMKV()
-            kv.encode(IM_PULL_ERR_TOAST, toast == "1")
+            getMmKv()?.encode(IM_PULL_ERR_TOAST, toast == "1")
         }
 
         fun getImPullErrToastState(): Boolean {
-            val kv = MMKV.defaultMMKV()
-            return kv.decodeBool(IM_PULL_ERR_TOAST, true)
+            return getMmKv()?.decodeBool(IM_PULL_ERR_TOAST, false) ?: false
         }
-
 
 
         fun saveUserNiceNum(isLiang: String) {

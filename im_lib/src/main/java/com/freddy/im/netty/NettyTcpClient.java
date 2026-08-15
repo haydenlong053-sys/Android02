@@ -4,6 +4,7 @@ import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 
 import android.text.TextUtils;
 
+import com.cboda.baselibrary.utils.E;
 import com.freddy.im.ExecutorServiceFactory;
 import com.freddy.im.HeartbeatHandler;
 import com.freddy.im.IMSConfig;
@@ -446,10 +447,12 @@ public class NettyTcpClient implements IMSClientInterface {
         if (!res.hasHeader()) {
             return;
         }
+        boolean isSuccess = false;
         int cmd = res.getHeader().getCmd();
         if (cmd == ImSignalProtos.Cmd.BIND_USER_RES_VALUE && res.getHeader().getCode() == 0) {
             //todo 第四步，用户绑定成功，im通道打通，开始维护心跳
             eLogD(TAG, "3->协商完成，绑定用户成功，IM通道打通！！！,准备开始维护心跳");
+            isSuccess = true;
             userChannelBound = true;
             msgTimeoutTimerManager.onResetConnected();
             addHeartbeatHandler();
@@ -486,6 +489,9 @@ public class NettyTcpClient implements IMSClientInterface {
                 }
                 eLogD(TAG, "收到响应消息SEND_MSG_RES的服务器报错回执---code=" + res.getHeader().getCode() + " " + res.getHeader().getErrorMsg());
             }
+        }
+        if (isSuccess) {
+            E.INSTANCE.showNetToast(2);
         }
     }
 
@@ -589,6 +595,7 @@ public class NettyTcpClient implements IMSClientInterface {
                 if (mIMSConnectStatusCallback != null) {
                     mIMSConnectStatusCallback.onConnecting();
                 }
+                E.INSTANCE.showNetToast(3);
                 break;
             }
 
@@ -609,6 +616,7 @@ public class NettyTcpClient implements IMSClientInterface {
                 if (mIMSConnectStatusCallback != null) {
                     mIMSConnectStatusCallback.onConnectFailed();
                 }
+                E.INSTANCE.showNetToast(1);
                 break;
             }
         }
