@@ -264,6 +264,9 @@ class AppBroadUtils {
                 eLogD("imLogin", "restoreMyImSessionIfNeeded skip, no credentials reason=$reason")
                 return
             }
+            if (appToken.isNullOrEmpty()) {
+                eLogD("imLogin", "restoreMyImSessionIfNeeded warn, appToken empty reason=$reason")
+            }
             eLogD("imLogin", "restoreMyImSessionIfNeeded reason=$reason userId=$userId")
             goLoginMyIm(appToken, userId)
         }
@@ -278,23 +281,37 @@ class AppBroadUtils {
                 eLogD("imLogin", "goLoginMyIm skip, imToken empty")
                 return
             }
+            val hosts = HttpsBroadConfig.myImSocketHost
+            if (hosts.isNullOrEmpty()) {
+                eLogD("imLogin", "goLoginMyIm skip, im hosts empty")
+                return
+            }
+            if (apptoken.isNullOrEmpty()) {
+                eLogD("imLogin", "goLoginMyIm warn, apptoken empty, HTTP 头可能无效")
+            }
             ImAuthInvalidHandler.reset()
             val bootstrap = IMSClientBootstrap.getInstance()
-            val sameSession = bootstrap.isActive
-                    && userId == bootstrap.currentUserId
-                    && imToken == bootstrap.bindToken
-            if (!sameSession) {
-                bootstrap.init(
+            val sameSession = bootstrap.canReuseSession(userId, imToken, hosts)
+            if (sameSession) {
+                eLogD("imLogin", "goLoginMyIm reuse active session userId=$userId")
+            } else {
+                val ok = bootstrap.init(
                     userId,
                     imToken,
-                    HttpsBroadConfig.myImSocketHost,
+                    hosts,
                     IMSConfig.APP_STATUS_FOREGROUND
                 )
-            } else {
-                eLogD("imLogin", "goLoginMyIm reuse active session userId=$userId")
+                if (!ok) {
+                    eLogD("imLogin", "goLoginMyIm init failed, skip setGlobalHeaders userId=$userId")
+                    return
+                }
             }
             // EasyHttpBootstrap 重建后 mHeaders 为空，必须每次补齐
-            ImHttpConfig.setGlobalHeaders(apptoken, userId, ImSignalProtos.ClientType.ANDROID_VALUE)
+            ImHttpConfig.setGlobalHeaders(
+                apptoken.orEmpty(),
+                userId,
+                ImSignalProtos.ClientType.ANDROID_VALUE
+            )
         }
 
 
