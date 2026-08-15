@@ -1540,3 +1540,9 @@ fun getSysLast(list: List<Any?>?): Any? {
 //        byte[] original = cipher.doFinal(Base64.decode(encrypted, Base64.DEFAULT));
 //        return new String(original);
 //    }
+
+fun showIMKeyErrorToast(str: String?){
+    if (MMKVBroadUtils.getImPullErrToastState()) {
+        ToastBroadUtils.show(str)
+    }
+}

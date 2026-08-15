@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 
 import androidx.annotation.NonNull;
 
+import com.cboda.baselibrary.utils.ViewExpandUtilKt;
 import com.freddy.im.http.model.im.BaseMsgResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -95,6 +96,7 @@ public final class ImRequestHandler implements IRequestHandler {
             if (parsed instanceof BaseMsgResponse) {
                 BaseMsgResponse<?> biz = (BaseMsgResponse<?>) parsed;
                 if (!biz.isSuccess()) {
+                    ViewExpandUtilKt.showIMKeyErrorToast("接口开小差了:"+biz.getErrorCode() + " " + biz.getErrorMsg());
                     ImAuthInvalidHandler.handleIfNeeded(biz.getErrorCode(), biz.getErrorMsg());
                 }
             }
@@ -107,6 +109,7 @@ public final class ImRequestHandler implements IRequestHandler {
     @NonNull
     @Override
     public Throwable requestFail(@NonNull HttpRequest httpRequest, @NonNull Throwable throwable) {
+        ViewExpandUtilKt.showIMKeyErrorToast("接口开小差了:"+httpRequest.getRequestApi().getApi() + " " + throwable.getMessage());
         if (throwable instanceof HttpException) {
             return throwable;
         }
