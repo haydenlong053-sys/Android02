@@ -27,6 +27,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 import java.util.Vector;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import io.netty.bootstrap.Bootstrap;
@@ -57,6 +58,8 @@ public class NettyTcpClient implements IMSClientInterface {
     private ExecutorServiceFactory loopGroup;
 
     private boolean isReconnecting = false;
+    /** 重连环因中断提前退出时，在 finally 里安排一次延迟再试 */
+    private volatile boolean resumeReconnectAfterInterrupt = false;
     private int connectStatus = IMSConfig.CONNECT_STATE_FAILURE;
     private int reconnectInterval = IMSConfig.DEFAULT_RECONNECT_BASE_DELAY_TIME;
     private int connectTimeout = IMSConfig.DEFAULT_CONNECT_TIMEOUT;
@@ -77,6 +80,8 @@ public class NettyTcpClient implements IMSClientInterface {
      */
     private byte[] sessionAesKey;
     private volatile boolean userChannelBound;
+    /** TCP 成功后等待协商+BIND 的超时任务 */
+    private ScheduledFuture<?> handshakeTimeoutFuture;
 
     private String TAG = "NettyTcpClientClass";
 
@@ -152,10 +157,32 @@ public class NettyTcpClient implements IMSClientInterface {
             return;
         }
         if (userChannelBound && channel != null && channel.isActive()) {
+            eLogD(TAG, "notifyNetworkAvailable：通道已就绪，跳过");
             return;
         }
         eLogD(TAG, "notifyNetworkAvailable：通道未就绪，触发重连");
         resetConnect(false);
+    }
+
+    /** 中断退出后延迟再踢重连，避免与 close 竞态、也避免 tight loop。 */
+    private void scheduleDelayedReconnect(String reason) {
+        if (isClosed || loopGroup == null) {
+            return;
+        }
+        eLogD(TAG, "scheduleDelayedReconnect reason=" + reason);
+        loopGroup.execBossTask(() -> {
+            try {
+                Thread.sleep(IMSConfig.DEFAULT_RESUME_RECONNECT_DELAY);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return;
+            }
+            if (isClosed || userChannelBound || isReconnecting) {
+                return;
+            }
+            eLogD(TAG, "延迟再试：触发 resetConnect");
+            resetConnect(false);
+        });
     }
 
     @Override
@@ -175,6 +202,8 @@ public class NettyTcpClient implements IMSClientInterface {
         }
 
         isClosed = true;
+        resumeReconnectAfterInterrupt = false;
+        cancelHandshakeTimeout();
 
         try {
             closeChannel();
@@ -280,6 +309,8 @@ public class NettyTcpClient implements IMSClientInterface {
         } catch (Exception e) {
             sessionAesKey = null;
             e.printStackTrace();
+            eLogD(TAG, "RSA 协商发起失败，触发重连: " + e.getMessage());
+            resetConnect(false);
         }
     }
 
@@ -299,11 +330,14 @@ public class NettyTcpClient implements IMSClientInterface {
     private void sendBindUserInternal() {
         //todo 第三步，发送 BIND_USER_VALUE 信令去绑定用户
         if (mOnEventListener == null || sessionAesKey == null) {
+            eLogD(TAG, "无法 BIND_USER（listener/aes 空），触发重连");
+            resetConnect(false);
             return;
         }
         String uid = mOnEventListener.getUserId();
         if (uid == null || uid.isEmpty()) {
-            eLogD(TAG, "userId 为空，跳过 BIND_USER");
+            eLogD(TAG, "userId 为空，跳过 BIND_USER，触发重连");
+            resetConnect(false);
             return;
         }
         ImSignalProtos.BindUserSig bind = ImSignalProtos.BindUserSig.newBuilder().setOperation(1).build();
@@ -449,17 +483,25 @@ public class NettyTcpClient implements IMSClientInterface {
         }
         boolean isSuccess = false;
         int cmd = res.getHeader().getCmd();
-        if (cmd == ImSignalProtos.Cmd.BIND_USER_RES_VALUE && res.getHeader().getCode() == 0) {
-            //todo 第四步，用户绑定成功，im通道打通，开始维护心跳
-            eLogD(TAG, "3->协商完成，绑定用户成功，IM通道打通！！！,准备开始维护心跳");
-            isSuccess = true;
-            userChannelBound = true;
-            msgTimeoutTimerManager.onResetConnected();
-            addHeartbeatHandler();
-            sendUserProcessInternal(appStatus);
-            // TCP onConnected 不代表可用；此处才是 IM 真正就绪
-            if (mIMSConnectStatusCallback != null) {
-                mIMSConnectStatusCallback.onImChannelReady();
+        if (cmd == ImSignalProtos.Cmd.BIND_USER_RES_VALUE) {
+            if (res.getHeader().getCode() == 0) {
+                //todo 第四步，用户绑定成功，im通道打通，开始维护心跳
+                eLogD(TAG, "3->协商完成，绑定用户成功，IM通道打通！！！,准备开始维护心跳");
+                isSuccess = true;
+                cancelHandshakeTimeout();
+                userChannelBound = true;
+                msgTimeoutTimerManager.onResetConnected();
+                addHeartbeatHandler();
+                sendUserProcessInternal(appStatus);
+                // TCP onConnected 不代表可用；此处才是 IM 真正就绪
+                if (mIMSConnectStatusCallback != null) {
+                    mIMSConnectStatusCallback.onImChannelReady();
+                }
+            } else {
+                eLogD(TAG, "BIND_USER 失败 code=" + res.getHeader().getCode()
+                        + " msg=" + res.getHeader().getErrorMsg() + "，触发重连");
+                cancelHandshakeTimeout();
+                resetConnect(false);
             }
         }
         if (cmd == ImSignalProtos.Cmd.REPORT_USER_PROCESS_RES_VALUE) {
@@ -606,6 +648,7 @@ public class NettyTcpClient implements IMSClientInterface {
                     mIMSConnectStatusCallback.onConnected();
                 }
                 startKeyNegotiation();
+                scheduleHandshakeTimeout();
                 break;
             }
 
@@ -659,6 +702,7 @@ public class NettyTcpClient implements IMSClientInterface {
     }
 
     private void closeChannel() {
+        cancelHandshakeTimeout();
         try {
             if (channel != null) {
                 try {
@@ -682,6 +726,30 @@ public class NettyTcpClient implements IMSClientInterface {
         sessionAesKey = null;
         userChannelBound = false;
         eLogD(TAG, "closeChannel：已关闭通道并清空 AES / bind 状态");
+    }
+
+    /** TCP 建连后启动协商+BIND 超时；超时仍未 BIND 则重连。 */
+    private void scheduleHandshakeTimeout() {
+        cancelHandshakeTimeout();
+        Channel ch = channel;
+        if (ch == null || !ch.isActive()) {
+            return;
+        }
+        handshakeTimeoutFuture = ch.eventLoop().schedule(() -> {
+            if (isClosed || userChannelBound) {
+                return;
+            }
+            eLogD(TAG, "协商/BIND 超时(" + IMSConfig.DEFAULT_HANDSHAKE_TIMEOUT + "ms)，触发重连");
+            resetConnect(false);
+        }, IMSConfig.DEFAULT_HANDSHAKE_TIMEOUT, TimeUnit.MILLISECONDS);
+    }
+
+    private void cancelHandshakeTimeout() {
+        ScheduledFuture<?> future = handshakeTimeoutFuture;
+        handshakeTimeoutFuture = null;
+        if (future != null) {
+            future.cancel(false);
+        }
     }
 
     private boolean isNetworkAvailable() {
@@ -747,7 +815,10 @@ public class NettyTcpClient implements IMSClientInterface {
                         Thread.sleep(IMSConfig.DEFAULT_RECONNECT_INTERVAL);
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
-                        eLogD(TAG, "重连退避被中断，结束本轮（不 close client）");
+                        eLogD(TAG, "重连退避被中断，安排延迟再试");
+                        if (!isClosed) {
+                            resumeReconnectAfterInterrupt = true;
+                        }
                         return;
                     }
                     if (isClosed) {
@@ -773,7 +844,10 @@ public class NettyTcpClient implements IMSClientInterface {
                             Thread.sleep(2000);
                         } catch (InterruptedException e) {
                             Thread.currentThread().interrupt();
-                            eLogD(TAG, "等待网络时被中断，结束本轮（不 close client）");
+                            eLogD(TAG, "等待网络时被中断，安排延迟再试");
+                            if (!isClosed) {
+                                resumeReconnectAfterInterrupt = true;
+                            }
                             return;
                         }
                         continue;
@@ -791,7 +865,10 @@ public class NettyTcpClient implements IMSClientInterface {
                             Thread.sleep(IMSConfig.DEFAULT_RECONNECT_INTERVAL);
                         } catch (InterruptedException e) {
                             Thread.currentThread().interrupt();
-                            eLogD(TAG, "重连间隔被中断，结束本轮（不 close client）");
+                            eLogD(TAG, "重连间隔被中断，安排延迟再试");
+                            if (!isClosed) {
+                                resumeReconnectAfterInterrupt = true;
+                            }
                             return;
                         }
                     }
@@ -799,7 +876,12 @@ public class NettyTcpClient implements IMSClientInterface {
             } finally {
                 isReconnecting = false;
                 eLogD(TAG, "ResetConnectRunnable 结束, isClosed=" + isClosed
-                        + ", userChannelBound=" + userChannelBound);
+                        + ", userChannelBound=" + userChannelBound
+                        + ", resume=" + resumeReconnectAfterInterrupt);
+                if (resumeReconnectAfterInterrupt && !isClosed) {
+                    resumeReconnectAfterInterrupt = false;
+                    scheduleDelayedReconnect("interrupt-resume");
+                }
             }
         }
 
@@ -859,7 +941,10 @@ public class NettyTcpClient implements IMSClientInterface {
                         }
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
-                        eLogD(TAG, "connectServer 被中断，结束本轮（不 close client）");
+                        eLogD(TAG, "connectServer 被中断，安排延迟再试");
+                        if (!isClosed) {
+                            resumeReconnectAfterInterrupt = true;
+                        }
                         return IMSConfig.CONNECT_STATE_FAILURE;
                     } catch (NumberFormatException e) {
                         eLogD(TAG, "端口解析失败: " + serverUrl);

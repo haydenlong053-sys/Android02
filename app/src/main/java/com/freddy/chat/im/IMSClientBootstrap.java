@@ -94,6 +94,7 @@ public class IMSClientBootstrap {
         currentHosts = null;
         currentUserAvatarUrl = null;
         ImConnectStateStore.reset();
+        ImNetworkMonitor.INSTANCE.stop();
     }
 
     public boolean isActive() {
@@ -112,13 +113,22 @@ public class IMSClientBootstrap {
     }
 
     /**
-     * 同账号、同 token、同 hosts，且客户端可用 → 可复用，无需重 init。
+     * 同账号、同 token、同 hosts，且客户端未 close → 可复用，无需重 init。
+     * 若未 BIND 且未在重连中，会踢一次 {@link #resetConnect()}。
      */
     public synchronized boolean canReuseSession(String userId, String token, String hosts) {
-        return isClientUsable()
-                && TextUtils.equals(userId, currentUserId)
-                && TextUtils.equals(token, currentToken)
-                && TextUtils.equals(hosts, currentHosts);
+        if (!isClientUsable()) {
+            return false;
+        }
+        if (!TextUtils.equals(userId, currentUserId)
+                || !TextUtils.equals(token, currentToken)
+                || !TextUtils.equals(hosts, currentHosts)) {
+            return false;
+        }
+        if (!imsClient.isUserChannelBound() && !imsClient.isReconnecting()) {
+            imsClient.resetConnect(false);
+        }
+        return true;
     }
 
     /** 系统网络恢复时尝试踢醒重连（若已在重连环内则 no-op）。 */

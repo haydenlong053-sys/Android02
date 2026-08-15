@@ -32,6 +32,7 @@ import com.cboda.intelligent.configuration.AppBroadConsts
 import com.freddy.chat.MessageListActivity
 import com.freddy.chat.SessionItemIntent
 import com.freddy.chat.im.IMSClientBootstrap
+import com.freddy.chat.im.ImNetworkMonitor
 import com.freddy.im.IMSConfig
 import com.freddy.im.http.ImAuthInvalidHandler
 import com.freddy.im.http.ImHttpConfig
@@ -323,6 +324,7 @@ class AppBroadUtils {
                 userId,
                 ImSignalProtos.ClientType.ANDROID_VALUE
             )
+            ImNetworkMonitor.start()
         }
 
 
