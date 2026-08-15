@@ -6,6 +6,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isGone
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +34,7 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var tvEmpty: TextView
     private lateinit var errorContainer: View
+    private var networkBanner: View? = null
     private var sessionsEmpty: Boolean = true
 
     override fun contentLayout(): Int = R.layout.conversation_session_list_fragment
@@ -43,6 +45,7 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         progressBar = view.findViewById(R.id.progress)
         tvEmpty = view.findViewById(R.id.tv_empty)
         errorContainer = view.findViewById(R.id.conversation_list_error)
+        networkBanner = view.findViewById(R.id.network_unavailable_banner)
         view.findViewById<View>(R.id.btn_retry_conversations).setOnClickListener {
             parentViewModel.loadConversations()
         }
@@ -96,6 +99,10 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         parentViewModel.loadFailed.observe(viewLifecycleOwner) {
             applyOverlayState()
         }
+//        parentViewModel.ensureNetworkMonitor()
+//        parentViewModel.networkUnavailable.observe(viewLifecycleOwner) { unavailable ->
+        networkBanner?.isGone = true
+//        }
     }
 
     override fun updateUIMode(tag: String, selectModel: Boolean) {
@@ -195,6 +202,7 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
                     } else {
                         markSessionAsUnread(session)
                     }
+
                     2 -> confirmRemoveConversation(session)
                 }
             }
