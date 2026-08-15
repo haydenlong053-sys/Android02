@@ -11,14 +11,19 @@ import com.freddy.im.http.model.im.BaseMsgResponse;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * 自研 IM HTTP 鉴权失效（如 {@code errorCode=1001007} 无效 token）统一处理。
- * <p>
+ * 自研 IM HTTP 鉴权/权限失效统一处理：
+ * <ul>
+ *   <li>{@code 1001007} 无效 token</li>
+ *   <li>{@code 1001004} 无权操作</li>
+ * </ul>
  * 由宿主在 Application 中注册 {@link Listener}，触发 Toast + 失效重登。
  */
 public final class ImAuthInvalidHandler {
 
     private static final String TAG = "ImAuthInvalid";
 
+    /** 无权操作（与无效 token 相同：Toast + 失效重登） */
+    public static final int ERROR_NO_PERMISSION = 1001004;
     /** 无效的 token（需重新登录） */
     public static final int ERROR_INVALID_TOKEN = 1001007;
 
@@ -40,12 +45,13 @@ public final class ImAuthInvalidHandler {
         HANDLING.set(false);
     }
 
+    /** 是否走登录失效流程（无效 token / 无权操作）。 */
     public static boolean isInvalidToken(int errorCode) {
-        return errorCode == ERROR_INVALID_TOKEN;
+        return errorCode == ERROR_INVALID_TOKEN || errorCode == ERROR_NO_PERMISSION;
     }
 
     /**
-     * 业务失败时调用；若为无效 token 则回调宿主（主线程、防重复）。
+     * 业务失败时调用；若为鉴权/权限失效则回调宿主（主线程、防重复）。
      *
      * @return {@code true} 表示已识别为鉴权失效
      */
@@ -53,16 +59,17 @@ public final class ImAuthInvalidHandler {
         if (!isInvalidToken(errorCode)) {
             return false;
         }
-        Log.w(TAG, "IM token invalid errorCode=" + errorCode + " msg=" + errorMsg);
+        Log.w(TAG, "IM auth invalid errorCode=" + errorCode + " msg=" + errorMsg);
         if (!HANDLING.compareAndSet(false, true)) {
             return true;
         }
         final Listener l = listener;
+        final int code = errorCode;
         final String msg = errorMsg;
         MAIN.post(() -> {
             try {
                 if (l != null) {
-                    l.onImTokenInvalid(ERROR_INVALID_TOKEN, msg);
+                    l.onImTokenInvalid(code, msg);
                 } else {
                     Log.w(TAG, "ImAuthInvalidHandler listener 未注册");
                     HANDLING.set(false);
