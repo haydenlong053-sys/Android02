@@ -153,7 +153,7 @@ class MMKVBroadUtils {
 
         fun getImPullErrToastState(): Boolean {
             val kv = MMKV.defaultMMKV()
-            return kv.decodeBool(IM_PULL_ERR_TOAST, true)
+            return kv.decodeBool(IM_PULL_ERR_TOAST, false)
         }
 
 
