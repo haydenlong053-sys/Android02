@@ -40,6 +40,7 @@ import com.freddy.im.db.ImLocalStore
 import com.freddy.im.signal.ImSignalProtos
 import com.freddy.im.util.ImUtils
 import com.cboda.baselibrary.utils.getAppVersion
+import com.cboda.baselibrary.utils.showIMKeyErrorToast
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.WriterException
@@ -262,10 +263,12 @@ class AppBroadUtils {
             val appToken = MMKVBroadUtils.getUserAppToken()
             if (userId.isNullOrEmpty() || imToken.isNullOrEmpty()) {
                 eLogD("imLogin", "restoreMyImSessionIfNeeded skip, no credentials reason=$reason")
+                showIMKeyErrorToast("userId为空或imToken为空--restoreMyImSessionIfNeeded skip, no credentials reason=$reason")
                 return
             }
             if (appToken.isNullOrEmpty()) {
                 eLogD("imLogin", "restoreMyImSessionIfNeeded warn, appToken empty reason=$reason")
+                showIMKeyErrorToast("appToken为空--restoreMyImSessionIfNeeded skip, no credentials reason=$reason")
             }
             eLogD("imLogin", "restoreMyImSessionIfNeeded reason=$reason userId=$userId")
             goLoginMyIm(appToken, userId)
@@ -274,26 +277,33 @@ class AppBroadUtils {
         fun goLoginMyIm(apptoken: String?, userId: String?) {
             if (userId.isNullOrEmpty()) {
                 eLogD("imLogin", "goLoginMyIm skip, userId empty")
+                showIMKeyErrorToast("imLogin goLoginMyIm skip, userId empty")
+
                 return
             }
             val imToken = MMKVBroadUtils.getMyImToken()
             if (imToken.isNullOrEmpty()) {
                 eLogD("imLogin", "goLoginMyIm skip, imToken empty")
+                showIMKeyErrorToast("imLogin goLoginMyIm skip, imToken empty")
                 return
             }
             val hosts = HttpsBroadConfig.myImSocketHost
             if (hosts.isNullOrEmpty()) {
                 eLogD("imLogin", "goLoginMyIm skip, im hosts empty")
+                showIMKeyErrorToast("imLogin goLoginMyIm skip, im hosts empty")
+
                 return
             }
             if (apptoken.isNullOrEmpty()) {
                 eLogD("imLogin", "goLoginMyIm warn, apptoken empty, HTTP 头可能无效")
+                showIMKeyErrorToast("imLogin goLoginMyIm warn, apptoken empty, HTTP 头可能无效")
             }
             ImAuthInvalidHandler.reset()
             val bootstrap = IMSClientBootstrap.getInstance()
             val sameSession = bootstrap.canReuseSession(userId, imToken, hosts)
             if (sameSession) {
                 eLogD("imLogin", "goLoginMyIm reuse active session userId=$userId")
+                showIMKeyErrorToast("imLogin goLoginMyIm reuse active session userId=$userId")
             } else {
                 val ok = bootstrap.init(
                     userId,
@@ -303,6 +313,7 @@ class AppBroadUtils {
                 )
                 if (!ok) {
                     eLogD("imLogin", "goLoginMyIm init failed, skip setGlobalHeaders userId=$userId")
+                    showIMKeyErrorToast("imLogin goLoginMyIm init failed, skip setGlobalHeaders userId=$userId")
                     return
                 }
             }
