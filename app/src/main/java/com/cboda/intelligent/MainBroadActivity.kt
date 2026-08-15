@@ -341,6 +341,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                 ptConfig = it.data
                 SharePrefBroadBroadUtil.saveString(this@MainBroadActivity, "pingtaipeizhi", gson.toJson(it.data))
                 SharePrefBroadBroadUtil.saveString(this@MainBroadActivity, "pingtaimgc", ptConfig!!.mgc)
+                MMKVBroadUtils.saveImPullErrToastState(ptConfig?.imPullErrToast)
             }
         }
         viewModel?.xitongaongaoListLiveData?.observe(this) {
