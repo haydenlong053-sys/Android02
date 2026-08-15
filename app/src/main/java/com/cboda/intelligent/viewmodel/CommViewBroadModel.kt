@@ -1029,7 +1029,7 @@ class CommViewBroadModel : FriendViewBroadModel() {
 
         okGoHelper.post(
             context,
-            "/friendList",
+            "/im/friend/friendList",
             JSONObject(map).toString(),
             CommonDataListBroadBean(),
             showToast = true,
