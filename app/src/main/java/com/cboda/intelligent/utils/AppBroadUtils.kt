@@ -252,10 +252,48 @@ class AppBroadUtils {
 
         }
 
+        /**
+         * 进程被杀后直进 Main（绕过 Splash）时，从 MMKV 恢复自研长连 + EasyHttp 全局头。
+         * Application / Main 均可调用；内部走 [goLoginMyIm]，已连接同账号则只补头不重连。
+         */
+        fun restoreMyImSessionIfNeeded(reason: String = "") {
+            val userId = MMKVBroadUtils.getRealUserId()
+            val imToken = MMKVBroadUtils.getMyImToken()
+            val appToken = MMKVBroadUtils.getUserAppToken()
+            if (userId.isNullOrEmpty() || imToken.isNullOrEmpty()) {
+                eLogD("imLogin", "restoreMyImSessionIfNeeded skip, no credentials reason=$reason")
+                return
+            }
+            eLogD("imLogin", "restoreMyImSessionIfNeeded reason=$reason userId=$userId")
+            goLoginMyIm(appToken, userId)
+        }
+
         fun goLoginMyIm(apptoken: String?, userId: String?) {
-//            eLogD("EasyHttp", "setGlobalHeaders--> $userId  $apptoken")
+            if (userId.isNullOrEmpty()) {
+                eLogD("imLogin", "goLoginMyIm skip, userId empty")
+                return
+            }
+            val imToken = MMKVBroadUtils.getMyImToken()
+            if (imToken.isNullOrEmpty()) {
+                eLogD("imLogin", "goLoginMyIm skip, imToken empty")
+                return
+            }
             ImAuthInvalidHandler.reset()
-            IMSClientBootstrap.getInstance().init(userId, MMKVBroadUtils.getMyImToken(), HttpsBroadConfig.myImSocketHost, IMSConfig.APP_STATUS_FOREGROUND)
+            val bootstrap = IMSClientBootstrap.getInstance()
+            val sameSession = bootstrap.isActive
+                    && userId == bootstrap.currentUserId
+                    && imToken == bootstrap.bindToken
+            if (!sameSession) {
+                bootstrap.init(
+                    userId,
+                    imToken,
+                    HttpsBroadConfig.myImSocketHost,
+                    IMSConfig.APP_STATUS_FOREGROUND
+                )
+            } else {
+                eLogD("imLogin", "goLoginMyIm reuse active session userId=$userId")
+            }
+            // EasyHttpBootstrap 重建后 mHeaders 为空，必须每次补齐
             ImHttpConfig.setGlobalHeaders(apptoken, userId, ImSignalProtos.ClientType.ANDROID_VALUE)
         }
 
