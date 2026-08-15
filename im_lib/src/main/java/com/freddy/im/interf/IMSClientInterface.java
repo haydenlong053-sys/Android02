@@ -22,9 +22,20 @@ public interface IMSClientInterface {
 
     void resetConnect(boolean isFirst);
 
+    /**
+     * 系统网络恢复时调用：若未在重连且通道未就绪，则触发一次重连。
+     */
+    void notifyNetworkAvailable();
+
     void close();
 
     boolean isClosed();
+
+    /** BIND_USER 是否已成功（IM 业务通道可用）。 */
+    boolean isUserChannelBound();
+
+    /** 是否正在重连循环中。 */
+    boolean isReconnecting();
 
     /**
      * 发送已构造的 {@link ImSignalProtos.SignalRequest}（内部按 CMD 0x02 + AES 封装），

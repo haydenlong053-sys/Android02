@@ -93,6 +93,7 @@ public class IMSClientBootstrap {
         currentToken = null;
         currentHosts = null;
         currentUserAvatarUrl = null;
+        ImConnectStateStore.reset();
     }
 
     public boolean isActive() {
@@ -106,6 +107,10 @@ public class IMSClientBootstrap {
         return isActive && imsClient != null && !imsClient.isClosed();
     }
 
+    public synchronized boolean isImChannelReady() {
+        return isClientUsable() && imsClient.isUserChannelBound();
+    }
+
     /**
      * 同账号、同 token、同 hosts，且客户端可用 → 可复用，无需重 init。
      */
@@ -114,6 +119,19 @@ public class IMSClientBootstrap {
                 && TextUtils.equals(userId, currentUserId)
                 && TextUtils.equals(token, currentToken)
                 && TextUtils.equals(hosts, currentHosts);
+    }
+
+    /** 系统网络恢复时尝试踢醒重连（若已在重连环内则 no-op）。 */
+    public synchronized void notifyNetworkAvailable() {
+        if (imsClient != null && !imsClient.isClosed()) {
+            imsClient.notifyNetworkAvailable();
+        }
+    }
+
+    public synchronized void resetConnect() {
+        if (imsClient != null && !imsClient.isClosed()) {
+            imsClient.resetConnect(false);
+        }
     }
 
     public String getBindToken() {

@@ -67,8 +67,9 @@ public class SeekWeb4SignalInboundHandler extends SimpleChannelInboundHandler<Se
             try {
 //                System.out.println("去AES 解密信令: cmd:" + p.getCmd());
                 body = Aes128CbcZeroIv.decrypt(body, imsClient.getSessionAesKey());
-            } catch (GeneralSecurityException e) {
+                        } catch (GeneralSecurityException e) {
                 System.err.println("AES 解密失败: " + e.getMessage());
+                // 密钥可能已失效，关通道走重连（会清空 sessionAesKey）
                 ctx.close();
                 return;
             }
