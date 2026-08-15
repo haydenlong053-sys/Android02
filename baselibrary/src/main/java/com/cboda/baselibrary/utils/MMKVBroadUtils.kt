@@ -57,6 +57,7 @@ class MMKVBroadUtils {
         const val USER_NAME_KEY = "username"
 
         const val USER_VIP_KEY = "userVip"
+        const val IM_PULL_ERR_TOAST = "imPullErrToast"
 
         const val USER_NICE_NUMBER_KEY = "userNiceNumberKey"
 
@@ -144,6 +145,17 @@ class MMKVBroadUtils {
             val kv = MMKV.defaultMMKV()
             return kv.decodeBool(USER_VIP_KEY, false)
         }
+
+        fun saveImPullErrToastState(toast: String?) {
+            val kv = MMKV.defaultMMKV()
+            kv.encode(IM_PULL_ERR_TOAST, toast == "1")
+        }
+
+        fun getImPullErrToastState(): Boolean {
+            val kv = MMKV.defaultMMKV()
+            return kv.decodeBool(IM_PULL_ERR_TOAST, true)
+        }
+
 
 
         fun saveUserNiceNum(isLiang: String) {

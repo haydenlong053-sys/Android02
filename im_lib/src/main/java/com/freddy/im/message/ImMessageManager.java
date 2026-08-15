@@ -207,7 +207,9 @@ public final class ImMessageManager {
             unreadCount = Math.max(unreadCount, sessionEntity.getUnreadCount());
             unPullCount = Math.max(unPullCount, sessionEntity.getUnPullCount());
         }
-        if (SessionSyncCursor.isCaughtUp(
+        //进聊天页兜底补拉一次
+        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"incrementUnread=="+incrementUnread);
+        if (!incrementUnread && SessionSyncCursor.isCaughtUp(
                 sessionEntity,
                 sessionItem.getLastMessageId(),
                 unreadCount,
