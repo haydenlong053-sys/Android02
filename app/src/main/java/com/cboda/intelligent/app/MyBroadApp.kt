@@ -182,6 +182,8 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener, ImAuthInva
         ProcessLifecycleOwner.get().lifecycle.addObserver(ImAppLifecycleObserver())
         // 自研 IM HTTP errorCode=1001007 无效 token → Toast + 失效重登
         ImAuthInvalidHandler.setListener(this)
+        // 进程被杀后直进 Main 会绕过 Splash：此处从 MMKV 恢复长连 + EasyHttp 头
+        AppBroadUtils.restoreMyImSessionIfNeeded("Application.initOriginalIm")
     }
 
     private val clearUserDataListener = Observer<Boolean> { _ ->

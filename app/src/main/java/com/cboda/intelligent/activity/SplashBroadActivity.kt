@@ -96,7 +96,7 @@ class SplashBroadActivity : BaseSimpleBroadActivity() {
 //                            }
 //                        }
         } else {
-            AppBroadUtils.goLoginMyIm(MMKVBroadUtils.getUserAppToken(),MMKVBroadUtils.getRealUserId())
+//            AppBroadUtils.goLoginMyIm(MMKVBroadUtils.getUserAppToken(),MMKVBroadUtils.getRealUserId())
             startMainActivity(this@SplashBroadActivity, "SplashBroadActivity")
         }
         finish()
