@@ -499,7 +499,7 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
                         if (jumpSource == ScanJumpBroadEnum.Login.sourceType
                             && !TextUtils.equals(resultBean.eqno, DeviceBroadUtil.getAndroidId(this@ScanActivity))
                         ) {
-                            EventBus.getDefault().post(AppBroadEvent(AppEventBroadCode.EVENT_NEW_MACHINE_CHECK, resultBean))
+//                            EventBus.getDefault().post(AppBroadEvent(AppEventBroadCode.EVENT_NEW_MACHINE_CHECK, resultBean))
                         } else {
                             AppBroadUtils.imLogin(
                                 this@ScanActivity,

@@ -27,6 +27,7 @@ import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.utils.DeviceBroadUtil
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.APP_TOKEN
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.OLD_QR_CODE
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.USER_LOGIN_DATA
 import com.cboda.baselibrary.utils.RealmUtil
@@ -235,8 +236,8 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                 try {
                     val result = NetworkBroadRepository.postEncryptedFlat2("api/idLogin", params)
                     result.onSuccess { map ->
-                        if (!TextUtils.isEmpty(map?.get("apptoken")?.toString() ?: "") && !TextUtils.isEmpty(map?.get("userId")?.toString() ?: "") && !TextUtils.isEmpty(map?.get("imtoken")?.toString() ?: "")) {
-                            AppBroadUtils.imLogin(getAppContext(null), map?.get("apptoken")?.toString(), map?.get("userId")?.toString(), map?.get("imtoken")?.toString(), "ScanBroadActivity")
+                        if (!TextUtils.isEmpty(map?.get(APP_TOKEN)?.toString() ?: "") && !TextUtils.isEmpty(map?.get("userId")?.toString() ?: "") && !TextUtils.isEmpty(map?.get("imtoken")?.toString() ?: "")) {
+                            AppBroadUtils.imLogin(getAppContext(null), map?.get(APP_TOKEN)?.toString(), map?.get("userId")?.toString(), map?.get("imtoken")?.toString(), "ScanBroadActivity")
                         } else {
                             showToastMain(errMsg)
                         }
@@ -624,7 +625,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                     resultBean?.let {
                         if (resultBean.isws == "0") {
                             val newIntent = Intent(mContext, PushInfo2BroadActivity::class.java)
-                            newIntent.putExtra("apptoken", resultBean.apptoken)
+                            newIntent.putExtra(APP_TOKEN, resultBean.apptoken)
                             newIntent.putExtra("uid", resultBean.userId)
                             newIntent.putExtra("userSign", resultBean.userSign)
                             newIntent.putExtra("imtoken", resultBean.imtoken)

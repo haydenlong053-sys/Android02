@@ -46,6 +46,7 @@ import com.blankj.utilcode.util.ActivityUtils.addActivityLifecycleCallbacks
 import com.blankj.utilcode.util.Utils
 import com.cboda.baselibrary.utils.CrashFactory
 import com.cboda.baselibrary.utils.DeviceBroadUtil
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.APP_TOKEN
 import com.cboda.baselibrary.utils.getAppVersion
 import com.cboda.baselibrary.utils.activityResumeLiveData
 import com.cboda.chatui.conversation.message.viewholder.MeetEndMessageContentViewBroadHolder
@@ -103,7 +104,7 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener, ImAuthInva
             builder.connectTimeout(180000, TimeUnit.MILLISECONDS)
             builder.readTimeout(180000, TimeUnit.MILLISECONDS)
             val headers = HttpHeaders()
-            headers.put("apptoken", BroadConstant.getAppToken() ?: "")
+            headers.put(APP_TOKEN, BroadConstant.getAppToken() ?: "")
             headers.put("sensorNo", DeviceBroadUtil.getAndroidId(mContext))
             headers.put("App-Platform", "Android")
             headers.put("App-Version", getAppVersion(null))
@@ -250,11 +251,12 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener, ImAuthInva
     private fun initNetworkBroadConfig() {
         NetworkBroadConfig.init(UrlBroadBroadConstants.HOST + "/")
         NetworkBroadConfig.updateAppToken(
-            SharePrefBroadBroadUtil.getString(
-                this,
-                AppBroadConsts.APPTOKEN,
-                ""
-            )
+//            SharePrefBroadBroadUtil.getString(
+//                this,
+//                AppBroadConsts.APPTOKEN,
+//                ""
+//            )
+            MMKVBroadUtils.getUserAppToken()
         )
     }
 
@@ -328,7 +330,7 @@ class MyBroadApp : UtilBroadApplication(), OnConnectToServerListener, ImAuthInva
             val myImUserToken = MMKVBroadUtils.getMyImToken()
             if (!HttpsBroadConfig.useSelfImOnly
                 && userId?.isNotEmpty() == true
-                && myImUserToken?.isNotEmpty() == true
+                && myImUserToken.isNotEmpty() == true
             ) {
                 //需要注意token跟clientId是强依赖的，一定要调用getClientId获取到clientId，然后用这个clientId获取token，这样connect才能成功，如果随便使用一个clientId获取到的token将无法链接成功。
                 //另外不能多次connect，如果需要切换用户请先disconnect，然后3秒钟之后再connect（如果是用户手动登录可以不用等，因为用户操作很难3秒完成，如果程序自动切换请等3秒）

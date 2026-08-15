@@ -214,10 +214,10 @@ class AppBroadUtils {
         ) {
             eLogD("imLogin", "--> $uid  $myImUserToken")
 
-            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, apptoken)
+//            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, apptoken)
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, uid)
             NetworkBroadConfig
-            MMKVBroadUtils.saveUserAppToken(apptoken ?: "")
+            MMKVBroadUtils.saveUserAppToken(apptoken)
 //            MMKVBroadUtils.saveTxUserSign(rytoken ?: "")
             MMKVBroadUtils.saveRealUserId(uid ?: "")
             MMKVBroadUtils.saveMyImToken(myImUserToken ?: "")
@@ -325,7 +325,8 @@ class AppBroadUtils {
                 ChatManager.Instance().disconnect(true, false)
             }
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, "")
-            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, "")
+//            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, "")
+            MMKVBroadUtils.saveUserAppToken("")
             NetworkBroadConfig.updateAppToken("")
 //            EventBus.getDefault().post(
 //                MeetingFloatBroadService.MeetingEvent(

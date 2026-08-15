@@ -116,6 +116,7 @@ public class NettyTcpClient implements IMSClientInterface {
     @Override
     public void resetConnect(boolean isFirst) {
         if (!isFirst) {
+            eLogD(TAG, "resetConnect 开始重连, isReconnecting=" + isReconnecting + ", isClosed=" + isClosed);
             try {
                 Thread.sleep(IMSConfig.DEFAULT_RECONNECT_INTERVAL);
             } catch (InterruptedException e) {
@@ -127,11 +128,14 @@ public class NettyTcpClient implements IMSClientInterface {
             synchronized (this) {
                 if (!isClosed && !isReconnecting) {
                     isReconnecting = true;
+                    eLogD(TAG, "resetConnect 进入重连任务, isFirst=" + isFirst);
                     onConnectStatusCallback(IMSConfig.CONNECT_STATE_CONNECTING);
                     closeChannel();
                     loopGroup.execBossTask(new ResetConnectRunnable(isFirst));
                 }
             }
+        } else if (!isFirst) {
+            eLogD(TAG, "resetConnect 跳过：isClosed=" + isClosed + ", isReconnecting=" + isReconnecting);
         }
     }
 
@@ -395,12 +399,16 @@ public class NettyTcpClient implements IMSClientInterface {
 
     public void sendHeartbeatSignal() {
         if (!userChannelBound || sessionAesKey == null || mOnEventListener == null) {
+            eLogD(TAG, "发送心跳跳过：bound=" + userChannelBound
+                    + ", hasAes=" + (sessionAesKey != null)
+                    + ", hasListener=" + (mOnEventListener != null));
             return;
         }
         //todo 第五步，发送维护心跳--->0x03
-//        eLogD(TAG, "发送维护心跳--->0x03");
+        eLogD(TAG, "发送维护心跳--->0x03");
         String uid = mOnEventListener.getUserId();
         if (uid == null || uid.isEmpty()) {
+            eLogD(TAG, "发送心跳跳过：userId 为空");
             return;
         }
         writeTransport((byte) 0x03, (byte) 0, SeekWeb4Packet.EMPTY_BODY, 0);
