@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.cboda.baselibrary.utils.imsConnectLiveData
 import com.cboda.chatui.widget.ProgressBroadFragment
 import com.cboda.intelligent.R
 import com.cboda.intelligent.utils.JumpBroadUtils
@@ -99,10 +100,15 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         parentViewModel.loadFailed.observe(viewLifecycleOwner) {
             applyOverlayState()
         }
-//        parentViewModel.ensureNetworkMonitor()
-//        parentViewModel.networkUnavailable.observe(viewLifecycleOwner) { unavailable ->
-        networkBanner?.isGone = true
-//        }
+        networkBanner?.alpha = 1f
+        imsConnectLiveData.observe(this) { type ->
+            networkBanner?.post {
+                when (type) {
+                    1 -> networkBanner?.isGone = false
+                    2 -> networkBanner?.isGone = true
+                }
+            }
+        }
     }
 
     override fun updateUIMode(tag: String, selectModel: Boolean) {
