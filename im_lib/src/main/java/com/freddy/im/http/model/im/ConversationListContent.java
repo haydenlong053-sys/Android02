@@ -20,6 +20,10 @@ public class ConversationListContent {
         return sessionList;
     }
 
+    public void setSessionList(List<SessionItem> sessionList) {
+        this.sessionList = sessionList;
+    }
+
     public int getTotal() {
         return total;
     }
