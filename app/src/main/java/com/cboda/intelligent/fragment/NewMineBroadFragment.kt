@@ -2,12 +2,15 @@ package com.cboda.intelligent.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.zipLogFiles
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.HyzxBroadActivity
 import com.cboda.intelligent.activity.IssueBroadActivity
@@ -26,6 +29,7 @@ import com.cboda.intelligent.utils.OkHttpBroadHelper
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.utils.showGuidePasswordTip
+import com.cboda.intelligent.utils.showToastMain
 import com.cboda.intelligent.viewmodel.MineViewModel
 import com.freddy.chat.IMTestMainActivity
 import okhttp3.Request
@@ -88,6 +92,17 @@ class NewMineBroadFragment : BaseBroadFragment<FragmentNewMineBinding, MineViewM
         }
         binding.itemSettings.click {
             startActivity(Intent(requireContext(), UserSetBroadActivity::class.java))
+        }
+
+        binding.itemUploadLog.click {
+            val logPath = zipLogFiles()
+            eLogD("NewMineBroadFragmentClass", "logPath:$logPath")
+            viewModel.postFile(logPath) { netUrl, _ ->
+                if (!TextUtils.isEmpty(netUrl)) {
+                    eLogD("NewMineBroadFragmentClass", "netUrl:$netUrl")
+                    showToastMain(com.cboda.baselibrary.R.string.post_log_success)
+                }
+            }
         }
     }
 
