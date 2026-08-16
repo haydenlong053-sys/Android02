@@ -8,7 +8,8 @@ import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.Base64;
 
-import com.google.gson.Gson;
+
+import com.blankj.utilcode.util.GsonUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -103,7 +104,7 @@ public class FavoriteBroadItem {
                     imageMessageContent.getThumbnail().compress(Bitmap.CompressFormat.PNG, 100, out);
                     String thumb = Base64.encodeToString(out.toByteArray(), Base64.NO_WRAP);
                     data.put("thumb", thumb);
-                    item.data = new Gson().toJson(data);
+                    item.data = GsonUtils.getGson().toJson(data);
                 }
                 break;
             case MessageContentBroadType.ContentType_Video:
@@ -116,7 +117,7 @@ public class FavoriteBroadItem {
                     data.put("thumb", thumb);
                     //  TODO add duration to videoMessageContent
                     data.put("duration", 0);
-                    item.data = new Gson().toJson(data);
+                    item.data = GsonUtils.getGson().toJson(data);
                 }
                 break;
             case MessageContentBroadType.ContentType_File:
@@ -124,7 +125,7 @@ public class FavoriteBroadItem {
                 item.url = fileMessageContent.remoteUrl;
                 item.title = fileMessageContent.getName();
                 data.put("size", fileMessageContent.getSize());
-                item.data = new Gson().toJson(data);
+                item.data = GsonUtils.getGson().toJson(data);
                 break;
 
             case MessageContentBroadType.ContentType_Composite_Message:
@@ -146,7 +147,7 @@ public class FavoriteBroadItem {
                 SoundMessageContent soundMessageContent = (SoundMessageContent) message.content;
                 item.url = soundMessageContent.remoteUrl;
                 data.put("duration", soundMessageContent.getDuration());
-                item.data = new Gson().toJson(data);
+                item.data = GsonUtils.getGson().toJson(data);
                 break;
             case MessageContentBroadType.ContentType_Link:
                 LinkMessageContent linkMessageContent = (LinkMessageContent) message.content;

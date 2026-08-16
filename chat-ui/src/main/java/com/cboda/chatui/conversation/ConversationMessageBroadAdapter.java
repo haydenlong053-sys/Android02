@@ -40,6 +40,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.cboda.baselibrary.bean.FriendBean;
 import com.cboda.baselibrary.bean.GlobalBroadInfo;
@@ -53,7 +54,6 @@ import com.cboda.baselibrary.utils.RealmUtil;
 import com.cboda.baselibrary.view.AppRoundBroadImage;
 import com.cboda.baselibrary.widge.VpGradeView;
 import com.cboda.chatui.third.utils.TimeBroadBroadUtils;
-import com.google.gson.Gson;
 import com.cboda.select.picture.utils.ToastBroadUtils;
 
 import java.lang.reflect.Constructor;
@@ -653,7 +653,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
         return methods;
     }
 
-    private Gson gson = new Gson();
+//    private Gson gson = new Gson();
     private IMCommonBroadResult imCommonResult;
     private ChatPopBroadMenu mChatPopMenu;
     protected List<ChatPopBroadMenu.ChatPopMenuAction> mPopActions = new ArrayList<>();
@@ -681,7 +681,7 @@ public class ConversationMessageBroadAdapter extends RecyclerView.Adapter<Recycl
                 String pingtaipeizhi = SharePrefBroadBroadUtil.getString(v.getContext(), "pingtaipeizhi", "");
                 eLogD("野火长按配置", "--> " + pingtaipeizhi);
                 if (!TextUtils.isEmpty(pingtaipeizhi)) {
-                    imCommonResult = gson.fromJson(pingtaipeizhi, IMCommonBroadResult.class);
+                    imCommonResult = GsonUtils.getGson().fromJson(pingtaipeizhi, IMCommonBroadResult.class);
                 }
                 int position = viewHolder.getAdapterPosition();
                 UiBroadMessage message = getItem(position);

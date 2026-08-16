@@ -22,7 +22,6 @@
 //import com.cboda.chatui.bridge.MyBroadEvent
 //import com.cboda.baselibrary.common.MyEventCodeEnum
 //import cn.wildfirechat.message.MeetingInviteMessageContent
-//import com.google.gson.Gson
 //import com.cboda.intelligent.base.BaseSimpleBroadActivity
 //import com.cboda.intelligent.compose.*
 //import com.cboda.intelligent.utils.ToastBroadUtil

@@ -12,7 +12,6 @@ import com.cboda.chatui.annotation.EnableContextBroadMenu;
 import com.cboda.chatui.annotation.MessageContentBroadType;
 import com.cboda.chatui.conversation.ConversationBroadFragment;
 import com.cboda.chatui.conversation.message.model.UiBroadMessage;
-import com.google.gson.Gson;
 
 import cn.wildfirechat.message.MeetStartMessageContent;
 

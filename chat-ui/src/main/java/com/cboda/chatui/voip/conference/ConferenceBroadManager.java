@@ -11,7 +11,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.blankj.utilcode.util.GsonUtils;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
@@ -487,30 +487,30 @@ public class ConferenceBroadManager implements OnReceiveMessageListener {
     }
 
     public void addHistory(ConferenceBroadInfo conferenceInfo, long durationMS) {
-        Gson gson = new Gson();
+//        Gson gson = new Gson();
         conferenceInfo.setEndTime(conferenceInfo.getStartTime() * 1000 + durationMS);
         SharedPreferences sp = context.getSharedPreferences("conf_history", Context.MODE_PRIVATE);
         String historyConfListStr = sp.getString("historyConfList", null);
         ArrayList<ConferenceBroadInfo> historyConfList = new ArrayList<>();
         if (historyConfListStr != null) {
-            historyConfList = gson.fromJson(historyConfListStr, new TypeToken<List<ConferenceBroadInfo>>() {
+            historyConfList = GsonUtils.getGson().fromJson(historyConfListStr, new TypeToken<List<ConferenceBroadInfo>>() {
             }.getType());
         }
         historyConfList.add(conferenceInfo);
         if (historyConfList.size() > 50) {
             historyConfList.remove(0);
         }
-        historyConfListStr = gson.toJson(historyConfList);
+        historyConfListStr = GsonUtils.getGson().toJson(historyConfList);
         sp.edit().putString("historyConfList", historyConfListStr).commit();
     }
 
     public List<ConferenceBroadInfo> getHistoryConference() {
-        Gson gson = new Gson();
+//        Gson gson = new Gson();
         SharedPreferences sp = context.getSharedPreferences("conf_history", Context.MODE_PRIVATE);
         String historyConfListStr = sp.getString("historyConfList", null);
         ArrayList<ConferenceBroadInfo> historyConfList = new ArrayList<>();
         if (historyConfListStr != null) {
-            historyConfList = gson.fromJson(historyConfListStr, new TypeToken<List<ConferenceBroadInfo>>() {
+            historyConfList = GsonUtils.getGson().fromJson(historyConfListStr, new TypeToken<List<ConferenceBroadInfo>>() {
             }.getType());
         }
         Collections.reverse(historyConfList);

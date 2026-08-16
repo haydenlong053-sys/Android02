@@ -19,7 +19,6 @@
 //import com.cboda.baselibrary.event.AppEventBroadCode;
 //import com.cboda.baselibrary.network.config.NetworkBroadConfig;
 //import com.cboda.intelligent.databinding.ActivityBroadEquipmentBinding;
-//import com.google.gson.Gson;
 //import com.cboda.intelligent.R;
 //import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 //import com.cboda.intelligent.dialog.QrdlBroadDialog;

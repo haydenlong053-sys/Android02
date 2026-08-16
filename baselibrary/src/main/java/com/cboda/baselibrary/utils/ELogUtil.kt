@@ -1,8 +1,10 @@
 package com.cboda.baselibrary.utils
 
 
-import android.util.Log
+import android.annotation.SuppressLint
+import android.content.Context
 import com.cboda.baselibrary.BuildConfig
+import com.cboda.baselibrary.utils.log.XLogCore
 import java.io.IOException
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -19,19 +21,40 @@ fun getIsDebug(): Boolean = BuildConfig.IS_DEBUG
 //    mIsDebug = isDebug
 //}
 
+
+@SuppressLint("StaticFieldLeak")
+private val mLog = XLogCore.getInstance()
+
+// application进入 onCreate 时调用
+fun logAppCreate(context: Context?) {
+    mLog.onAppCreate(context, if (getIsDebug()) XLogCore.XLogModel.MODEL_DEBUG else XLogCore.XLogModel.MODEL_RELEASE)
+}
+
+// application进入 onLowMemory 时调用
+fun logAppTrimMemory() {
+    mLog.onAppTrimMemory()
+}
+
+// 日志文件在 未进行压缩时 ，存储于App内部存储 /data/data/包名/files/xlog 路径下。
+// 日志文件 进行压缩后 ，存储到Sdcard存储 /sdcard/Android/data/包名/file/zip_log 路径下。
+fun zipLogFiles(): String {
+    return mLog.zipLogFiles()
+}
+
+
 fun eLogV(vararg msg: Any?) {
     eLogV(eLogTag, msg)
 }
 
 
 fun eLogV(tag: String?, vararg msgS: Any?) {
-    if (getIsDebug()) {
-        msgS?.also {
-            for (msg in msgS) {
-                log2(tag, getMsgFormat(tag, msg), 1)
-            }
+//    if (getIsDebug()) {
+    msgS?.also {
+        for (msg in msgS) {
+            log2(tag, getMsgFormat(tag, msg), 1)
         }
     }
+//    }
 }
 
 
@@ -40,24 +63,24 @@ fun eLogD(vararg msg: Any?) {
 }
 
 fun eLogD(tag: String?, vararg msgS: Any?) {
-    if (getIsDebug()) {
-        msgS?.also {
-            for (msg in msgS) {
-                log2(tag, getMsgFormat(tag, msg), 2)
-            }
+//    if (getIsDebug()) {
+    msgS?.also {
+        for (msg in msgS) {
+            log2(tag, getMsgFormat(tag, msg), 2)
         }
     }
+//    }
 }
 
 //唯有debug模式才写入文件
 fun eLogDebugFile(tag: String?, vararg msgS: Any?) {
-    if (getIsDebug()) {
-        msgS?.also {
-            for (msg in msgS) {
-                log2(tag, getMsgFormat(tag, msg), 7)
-            }
+//    if (getIsDebug()) {
+    msgS?.also {
+        for (msg in msgS) {
+            log2(tag, getMsgFormat(tag, msg), 7)
         }
     }
+//    }
 }
 
 //任何模式都写入文件
@@ -74,20 +97,20 @@ fun eLogI(vararg msg: Any?) {
 }
 
 fun eLogI(tag: String?, vararg msgS: Any?) {
-    if (getIsDebug()) {
-        msgS?.also {
-            for (msg in msgS) {
-                log2(tag, getMsgFormat(tag, msg), 3)
-            }
+//    if (getIsDebug()) {
+    msgS?.also {
+        for (msg in msgS) {
+            log2(tag, getMsgFormat(tag, msg), 3)
         }
     }
+//    }
 }
 
 
 fun okGoLog(tag: String?, msg: String) {
-    if (getIsDebug()) {
-        log2(tag, msg, 4)
-    }
+//    if (getIsDebug()) {
+    log2(tag, msg, 4)
+//    }
 }
 
 fun eLogW(vararg msg: Any?) {
@@ -95,13 +118,13 @@ fun eLogW(vararg msg: Any?) {
 }
 
 fun eLogW(tag: String?, vararg msgS: Any?) {
-    if (getIsDebug()) {
-        msgS?.also {
-            for (msg in msgS) {
-                log2(tag, getMsgFormat(tag, msg), 4)
-            }
+//    if (getIsDebug()) {
+    msgS?.also {
+        for (msg in msgS) {
+            log2(tag, getMsgFormat(tag, msg), 4)
         }
     }
+//    }
 }
 
 fun eLogWtf(vararg msg: Any?) {
@@ -109,13 +132,13 @@ fun eLogWtf(vararg msg: Any?) {
 }
 
 fun eLogWtf(tag: String?, vararg msgS: Any?) {
-    if (getIsDebug()) {
-        msgS?.also {
-            for (msg in msgS) {
-                log2(tag, getMsgFormat(tag, msg), 5)
-            }
+//    if (getIsDebug()) {
+    msgS?.also {
+        for (msg in msgS) {
+            log2(tag, getMsgFormat(tag, msg), 5)
         }
     }
+//    }
 }
 
 fun eLogE(vararg msg: Any?) {
@@ -124,50 +147,51 @@ fun eLogE(vararg msg: Any?) {
 
 
 fun eLogE(tag: String?, vararg msgS: Any?) {
-    if (getIsDebug()) {
-        msgS?.also {
-            for (msg in msgS) {
-                log2(tag, getMsgFormat(tag, msg), 0)
-            }
+//    if (getIsDebug()) {
+    msgS?.also {
+        for (msg in msgS) {
+            log2(tag, getMsgFormat(tag, msg), 0)
         }
     }
+//    }
 }
 
 private fun log3(tag: String?, msg: String, type: Int) {
-    if (getIsDebug()) {
-        when (type) {
-            0 -> {
-                Log.e(tag ?: eLogTag, msg)
-            }
+//    if (getIsDebug()) {
+    when (type) {
+        0 -> {
+            mLog.e(tag ?: eLogTag, msg)
+        }
 
-            1 -> {
-                Log.v(tag ?: eLogTag, msg)
-            }
+        1 -> {
+            mLog.v(tag ?: eLogTag, msg)
+        }
 
-            3 -> {
-                Log.i(tag ?: eLogTag, msg)
-            }
+        3 -> {
+            mLog.i(tag ?: eLogTag, msg)
+        }
 
-            4 -> {
-                Log.w(tag ?: eLogTag, msg)
-            }
+        4 -> {
+            mLog.w(tag ?: eLogTag, msg)
+        }
 
-            5 -> {
-                Log.wtf(tag ?: eLogTag, msg)
-            }
+        5 -> {
+//                mLog.wtf(tag ?: eLogTag, msg)
+            mLog.w(tag ?: eLogTag, msg)
+        }
 
-            2, 6, 7 -> {
-                Log.d(tag ?: eLogTag, msg)
-                if (type == 7) {
-                    crashReportLog("$tag:$msg")
-                } else if (type == 6) {
-                    crashReportLog("$tag:$msg")
-                }
+        2, 6, 7 -> {
+            mLog.d(tag ?: eLogTag, msg)
+            if (type == 7) {
+                crashReportLog("$tag:$msg")
+            } else if (type == 6) {
+                crashReportLog("$tag:$msg")
             }
         }
-    } else if (type == 6) {
-        crashReportLog("$tag:$msg")
     }
+//    } else if (type == 6) {
+//        crashReportLog("$tag:$msg")
+//    }
 }
 
 private fun log2(tag: String?, msg: String, type: Int) {
@@ -228,37 +252,37 @@ private fun getFunctionName(): String? {
 fun Exception.toLog() = this.toLog(null)
 fun Exception.toLog(tag: String?) = this.toLog(tag, true)
 fun Exception.toLog(tag: String?, canPush: Boolean = true): String {
-    return if (getIsDebug()) {
-        val sw = StringWriter()
-        this.printStackTrace(PrintWriter(sw, true))
-        val errorStr = sw.toString()
-        sw.close()
-        tag?.also { eLogD(tag, errorStr) }
-        if (canPush && !getIsDebug()) {
-            crashReportLog("$tag:$errorStr")
-        }
-        errorStr
-    } else {
-        ""
+//    return if (getIsDebug()) {
+    val sw = StringWriter()
+    this.printStackTrace(PrintWriter(sw, true))
+    val errorStr = sw.toString()
+    sw.close()
+    tag?.also { eLogD(tag, errorStr) }
+    if (canPush && !getIsDebug()) {
+        crashReportLog("$tag:$errorStr")
     }
+    return errorStr
+//    } else {
+//        ""
+//    }
 }
 
 fun Throwable.toLog() = this.toLog(null)
 fun Throwable.toLog(tag: String?) = this.toLog(tag, true)
 fun Throwable.toLog(tag: String?, canPush: Boolean = true): String {
-    return if (getIsDebug()) {
-        val sw = StringWriter()
-        this.printStackTrace(PrintWriter(sw, true))
-        val errorStr = sw.toString()
-        sw.close()
-        tag?.also { eLogD(tag, errorStr) }
-        if (canPush && !getIsDebug()) {
-           crashReportLog("$tag:$errorStr")
-        }
-        errorStr
-    } else {
-        ""
+//   return if (getIsDebug()) {
+    val sw = StringWriter()
+    this.printStackTrace(PrintWriter(sw, true))
+    val errorStr = sw.toString()
+    sw.close()
+    tag?.also { eLogD(tag, errorStr) }
+    if (canPush && !getIsDebug()) {
+        crashReportLog("$tag:$errorStr")
     }
+    return errorStr
+//    } else {
+//        ""
+//    }
 }
 
 

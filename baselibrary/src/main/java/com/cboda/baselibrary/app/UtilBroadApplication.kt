@@ -3,6 +3,8 @@ package com.cboda.baselibrary.app
 import android.app.Application
 import android.content.Context
 import com.cboda.baselibrary.utils.RealmUtil.initRealm
+import com.cboda.baselibrary.utils.logAppCreate
+import com.cboda.baselibrary.utils.logAppTrimMemory
 import com.cboda.select.picture.utils.LanguageUtil.getLanguageContext
 import com.cboda.select.picture.utils.LanguageUtil.initLanguage
 
@@ -14,12 +16,18 @@ open class UtilBroadApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         cxt = this
+        logAppCreate(this)
         initLanguage(this)
         initRealm(this)
         initLog()
     }
 
-    private fun initLog(){
+    override fun onLowMemory() {
+        super.onLowMemory()
+        logAppTrimMemory()
+    }
+
+    private fun initLog() {
         //        val xlog = Xlog()
 //        Log.setLogImp(xlog)
 //        val sdCard = Environment.getExternalStorageDirectory().absolutePath

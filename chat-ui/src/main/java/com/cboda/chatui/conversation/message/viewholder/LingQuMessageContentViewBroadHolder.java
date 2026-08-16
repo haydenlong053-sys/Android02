@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
 
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.EnableContextBroadMenu;
@@ -23,7 +22,6 @@ import cn.wildfirechat.remote.ChatManager;
 public class LingQuMessageContentViewBroadHolder extends NotificationMessageContentViewBroadHolder {
 
     private TextView tvContent;
-    private Gson gson = new Gson();
 
     public LingQuMessageContentViewBroadHolder(ConversationBroadFragment fragment, RecyclerView.Adapter adapter, View itemView) {
         super(fragment, adapter, itemView);

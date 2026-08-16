@@ -6,29 +6,31 @@ import android.widget.TextView;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.EnableContextBroadMenu;
 import com.cboda.chatui.annotation.MessageContentBroadType;
 import com.cboda.chatui.bridge.MyCommonBroadBridge;
 import com.cboda.chatui.conversation.ConversationBroadFragment;
 import com.cboda.chatui.conversation.message.model.UiBroadMessage;
+
 import cn.wildfirechat.message.ZhuanZhangMessageContent;
 import cn.wildfirechat.message.core.MessageDirection;
+
 import com.cboda.baselibrary.common.BridgeImEnum;
 
 @MessageContentBroadType(ZhuanZhangMessageContent.class)
 @EnableContextBroadMenu
 public class ZhuanZhangMessageContentViewBroadHolder extends NormalMessageContentViewBroadHolder {
 
-    private AppCompatImageView hongbaoBg,hongbaoyijingBg;
+    private AppCompatImageView hongbaoBg, hongbaoyijingBg;
     private View yilingqu, hongbaoTopBg;
     private TextView tvyilinghongbaodesc, tvlingqu;
-    private Gson gson = new Gson();
+
 
     public ZhuanZhangMessageContentViewBroadHolder(ConversationBroadFragment fragment, RecyclerView.Adapter adapter, View itemView) {
         super(fragment, adapter, itemView);
@@ -52,12 +54,12 @@ public class ZhuanZhangMessageContentViewBroadHolder extends NormalMessageConten
                 if (message != null) {
                     ZhuanZhangMessageContent zhuanzhangMessage = (ZhuanZhangMessageContent) message.message.content;
                     Map<String, String> hashMap = new HashMap<>();
-                    hashMap.put("type","2001");
-                    hashMap.put("zhuanzhangId",zhuanzhangMessage.zhuanzhangId);
-                    hashMap.put("price",zhuanzhangMessage.price);
-                    hashMap.put("hongbaoDesc",zhuanzhangMessage.hongbaoDesc);
-                    hashMap.put("lingquStatus","1");
-                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.RECEIVE_TRANSFER.getValue(), zhuanzhangMessage.zhuanzhangId + "|" + message.message.messageUid, gson.toJson(hashMap), message);
+                    hashMap.put("type", "2001");
+                    hashMap.put("zhuanzhangId", zhuanzhangMessage.zhuanzhangId);
+                    hashMap.put("price", zhuanzhangMessage.price);
+                    hashMap.put("hongbaoDesc", zhuanzhangMessage.hongbaoDesc);
+                    hashMap.put("lingquStatus", "1");
+                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.RECEIVE_TRANSFER.getValue(), zhuanzhangMessage.zhuanzhangId + "|" + message.message.messageUid, GsonUtils.getGson().toJson(hashMap), message);
                 }
             }
         });

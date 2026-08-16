@@ -10,8 +10,8 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.ViewModelProvider
 import com.cboda.chatui.conversation.message.model.UiBroadMessage
 import cn.wildfirechat.message.HongBaoMessageContent
+import com.blankj.utilcode.util.GsonUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
-import com.google.gson.Gson
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseDialogBroadFragment
 import com.cboda.baselibrary.bean.CommonResultBroadBean
@@ -130,7 +130,7 @@ class LingQunHongBaoDialogBroadFragment : BaseDialogBroadFragment() {
             dismiss()
         }
     }
-    private var gson = Gson()
+    private var gson = GsonUtils.getGson()
     private lateinit var ivClose: ImageView
     private lateinit var tvnicheng: TextView
     private lateinit var tvname: TextView

@@ -13,11 +13,11 @@ import cn.wildfirechat.message.ZhuanZhangMessageContent
 import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.SendMessageCallback
-import com.google.gson.Gson
+import com.blankj.utilcode.util.GsonUtils
 import com.cboda.intelligent.utils.AppBroadUtils
 
 class SendCustomBroadMsg {
-    private val gson = Gson()
+    private val gson = GsonUtils.getGson()
 
 
     fun sendMyImMingPian(
