@@ -230,7 +230,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         initMagicIndicator()
 
 
-        initNoticeMsg()
+//        initNoticeMsg()
 
     }
 
