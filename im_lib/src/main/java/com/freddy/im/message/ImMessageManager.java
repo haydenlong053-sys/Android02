@@ -1,5 +1,7 @@
 package com.freddy.im.message;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -16,13 +18,20 @@ import com.freddy.im.db.repository.ImSessionRepository;
 import com.freddy.im.http.GroupDetailFetcher;
 import com.freddy.im.http.ImMessageHttpExample;
 import com.freddy.im.http.model.im.ImMessageItem;
+import com.freddy.im.http.model.im.MessageListContent;
 import com.freddy.im.http.model.im.SessionItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 消息 ID 解析、按锚点拉取消息列表等能力统一入口，可供 SDK 内部与宿主层调用。
@@ -37,13 +46,39 @@ public final class ImMessageManager {
     /** 文件助手会话前缀（服务端 sessionId / messageId 形如 {@code FILE_ASST:...}，拉消息会报错，客户端直接跳过） */
     public static final String FILE_ASSISTANT_SESSION_PREFIX = "FILE_ASST";
 
-    /** 会话列表同步后，除当前聊天页外最多并发补拉的会话数。 */
-    private static final int MAX_BACKGROUND_UNREAD_SYNC = 1000;
+    /** 后台补拉并发上限（当前打开的聊天会话不受此限）。串行避免与 UI 抢 CPU/IO。 */
+    private static final int MAX_BACKGROUND_UNREAD_SYNC = 1;
+
+    /** 单次会话列表同步后，后台补拉队列上限（按未读/未拉优先）。 */
+    private static final int MAX_BACKGROUND_SYNC_QUEUE = 200;
+
+    /** 会话列表展示后再延迟启动后台补拉，让首屏交互先完成。 */
+    private static final long BACKGROUND_SYNC_START_DELAY_MS = 3000L;
 
     private static final ImMessageManager INSTANCE = new ImMessageManager();
 
+    /** 拉消息 HTTP 回调处理线程（低优先级），尽快离开 EasyHttp 主线程。 */
+    private static final ExecutorService PULL_CALLBACK_EXECUTOR = Executors.newSingleThreadExecutor(r -> {
+        Thread t = new Thread(r, "im-msg-pull");
+        t.setDaemon(true);
+        t.setPriority(Thread.NORM_PRIORITY - 1);
+        return t;
+    });
+
+    private static final Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());
+
     /** 同会话只保留一条 getList 链；新请求合并 listener 并标记 dirty。 */
     private final ConcurrentHashMap<String, SessionPullState> pullStates = new ConcurrentHashMap<>();
+
+    /** 后台补拉等待队列（跨会话限流）。 */
+    private final ConcurrentLinkedQueue<SessionItem> backgroundSyncQueue = new ConcurrentLinkedQueue<>();
+
+    private final Set<String> backgroundQueuedOrRunning = ConcurrentHashMap.newKeySet();
+
+    private final AtomicInteger backgroundSyncInFlight = new AtomicInteger(0);
+
+    @Nullable
+    private volatile Runnable pendingBackgroundSyncStart;
 
     @Nullable
     private volatile OnOutgoingMessageListener outgoingMessageListener;
@@ -122,15 +157,60 @@ public final class ImMessageManager {
     }
 
     /**
-     * 会话列表拉取成功后：优先当前聊天会话，其余限流补拉未读/未拉取消息。
+     * 会话列表拉取成功后：当前聊天会话立即补拉；其余延后 + 限流补拉。
      * <p>
      * getList 已写入服务端 unreadCount，此处只补消息正文，<b>不再累加未读</b>。
+     * 预览/未读仍会通知 UI，由列表 payload 局部刷新。
      */
-            public void syncUnreadMessagesForSessions(@Nullable List<SessionItem> sessions) {
+    public void syncUnreadMessagesForSessions(@Nullable List<SessionItem> sessions) {
         if (sessions == null || sessions.isEmpty()) {
             return;
         }
+        final List<SessionItem> snapshot = new ArrayList<>(sessions.size());
+        for (SessionItem item : sessions) {
+            if (item != null) {
+                snapshot.add(item);
+            }
+        }
+        if (snapshot.isEmpty()) {
+            return;
+        }
+        // 当前聊天：立刻补拉，不拖到延迟窗口
         ImDbExecutor.runRead(() -> {
+            for (SessionItem sessionItem : snapshot) {
+                if (sessionItem == null) {
+                    continue;
+                }
+                String sessionId = sessionItem.getSessionId();
+                if (TextUtils.isEmpty(sessionId) || isFileAssistantSession(sessionId)) {
+                    continue;
+                }
+                if (sessionItem.getUnPullCount() <= 0 && sessionItem.getUnreadCount() <= 0) {
+                    continue;
+                }
+                if (ImActiveChatSession.isActive(sessionId)) {
+                    fetchNewMessageListBySessionIdOnRealmThread(sessionItem, null, false, null);
+                    break;
+                }
+            }
+        });
+        // 取消尚未启动的上一轮延迟补拉，避免重复风暴
+        Runnable previous = pendingBackgroundSyncStart;
+        if (previous != null) {
+            MAIN_HANDLER.removeCallbacks(previous);
+            pendingBackgroundSyncStart = null;
+        }
+        Runnable start = () -> {
+            pendingBackgroundSyncStart = null;
+            startBackgroundUnreadSync(snapshot);
+        };
+        pendingBackgroundSyncStart = start;
+        MAIN_HANDLER.postDelayed(start, BACKGROUND_SYNC_START_DELAY_MS);
+    }
+
+    private void startBackgroundUnreadSync(@NonNull List<SessionItem> sessions) {
+        ImDbExecutor.runRead(() -> {
+            List<SessionItem> backgroundCandidates = new ArrayList<>();
             for (SessionItem sessionItem : sessions) {
                 if (sessionItem == null) {
                     continue;
@@ -142,9 +222,77 @@ public final class ImMessageManager {
                 if (sessionItem.getUnPullCount() <= 0 && sessionItem.getUnreadCount() <= 0) {
                     continue;
                 }
-                fetchNewMessageListBySessionIdOnRealmThread(sessionItem, null, false);
+                if (ImActiveChatSession.isActive(sessionId)) {
+                    continue;
+                }
+                backgroundCandidates.add(sessionItem);
             }
+            if (backgroundCandidates.isEmpty()) {
+                return;
+            }
+            Collections.sort(backgroundCandidates, BACKGROUND_SYNC_PRIORITY);
+            int queued = 0;
+            for (SessionItem item : backgroundCandidates) {
+                if (queued >= MAX_BACKGROUND_SYNC_QUEUE) {
+                    break;
+                }
+                if (enqueueBackgroundSync(item)) {
+                    queued++;
+                }
+            }
+            ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,
+                    "background unread sync queued=" + queued
+                            + " concurrentMax=" + MAX_BACKGROUND_UNREAD_SYNC);
+            pumpBackgroundSync();
         });
+    }
+
+    private static final Comparator<SessionItem> BACKGROUND_SYNC_PRIORITY =
+            (a, b) -> Integer.compare(backgroundNeedScore(b), backgroundNeedScore(a));
+
+    private static int backgroundNeedScore(@Nullable SessionItem item) {
+        if (item == null) {
+            return 0;
+        }
+        return Math.max(0, item.getUnPullCount()) + Math.max(0, item.getUnreadCount());
+    }
+
+    /** @return true 若新入队 */
+    private boolean enqueueBackgroundSync(@NonNull SessionItem item) {
+        String sessionId = item.getSessionId();
+        if (TextUtils.isEmpty(sessionId) || !backgroundQueuedOrRunning.add(sessionId)) {
+            return false;
+        }
+        backgroundSyncQueue.offer(item);
+        return true;
+    }
+
+    private void pumpBackgroundSync() {
+        while (true) {
+            int inFlight = backgroundSyncInFlight.get();
+            if (inFlight >= MAX_BACKGROUND_UNREAD_SYNC) {
+                return;
+            }
+            SessionItem next = backgroundSyncQueue.poll();
+            if (next == null) {
+                return;
+            }
+            if (!backgroundSyncInFlight.compareAndSet(inFlight, inFlight + 1)) {
+                backgroundSyncQueue.offer(next);
+                continue;
+            }
+            final String sessionId = next.getSessionId();
+            final SessionItem toFetch = next;
+            ImDbExecutor.runRead(() -> fetchNewMessageListBySessionIdOnRealmThread(
+                    toFetch,
+                    null,
+                    false,
+                    () -> {
+                        backgroundQueuedOrRunning.remove(sessionId);
+                        backgroundSyncInFlight.decrementAndGet();
+                        pumpBackgroundSync();
+                    }));
+        }
     }
 
     private void fetchNewMessageListOnRealmThread(@NonNull String msgId,
@@ -206,15 +354,19 @@ public final class ImMessageManager {
 
     private void fetchNewMessageListBySessionIdOnRealmThread(@NonNull SessionItem sessionItem,
                                                               @Nullable OnNewMessageListListener listener) {
-        fetchNewMessageListBySessionIdOnRealmThread(sessionItem, listener, true);
+        fetchNewMessageListBySessionIdOnRealmThread(sessionItem, listener, true, null);
     }
 
     private void fetchNewMessageListBySessionIdOnRealmThread(@NonNull SessionItem sessionItem,
                                                               @Nullable OnNewMessageListListener listener,
-                                                              boolean incrementUnread) {
+                                                              boolean incrementUnread,
+                                                              @Nullable Runnable onChainFullyDone) {
         String sessionId = sessionItem.getSessionId();
         if (TextUtils.isEmpty(sessionId) || isFileAssistantSession(sessionId)) {
             ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG, "跳过文件助手拉消息 sessionId=" + sessionId);
+            if (onChainFullyDone != null) {
+                onChainFullyDone.run();
+            }
             return;
         }
         SessionEntity sessionEntity = ImSessionRepository.getInstance().queryEntityBySessionId(sessionId);
@@ -225,12 +377,15 @@ public final class ImMessageManager {
             unPullCount = Math.max(unPullCount, sessionEntity.getUnPullCount());
         }
         //进聊天页兜底补拉一次
-        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"incrementUnread=="+incrementUnread);
+        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG, "incrementUnread==" + incrementUnread);
         if (!incrementUnread && SessionSyncCursor.isCaughtUp(
                 sessionEntity,
                 sessionItem.getLastMessageId(),
                 unreadCount,
                 unPullCount)) {
+            if (onChainFullyDone != null) {
+                onChainFullyDone.run();
+            }
             return;
         }
         String syncAnchor = ImLocalStore.resolveMessageSyncAnchor(sessionId);
@@ -243,7 +398,7 @@ public final class ImMessageManager {
             queryMsgId = syncAnchor;
         }
 
-        beginOrCoalescePull(sessionId, queryMsgId, anchor, 3, listener, incrementUnread);
+        beginOrCoalescePull(sessionId, queryMsgId, anchor, 3, listener, incrementUnread, onChainFullyDone);
     }
 
     /**
@@ -255,11 +410,24 @@ public final class ImMessageManager {
                                      int op,
                                      @Nullable OnNewMessageListListener listener,
                                      boolean incrementUnread) {
+        beginOrCoalescePull(sessionId, queryMsgId, anchor, op, listener, incrementUnread, null);
+    }
+
+    private void beginOrCoalescePull(@NonNull String sessionId,
+                                     @NonNull String queryMsgId,
+                                     int anchor,
+                                     int op,
+                                     @Nullable OnNewMessageListListener listener,
+                                     boolean incrementUnread,
+                                     @Nullable Runnable onChainFullyDone) {
         if (isFileAssistantSession(sessionId) || isFileAssistantSession(queryMsgId)) {
             ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG, "跳过文件助手 getList sessionId=" + sessionId);
+            if (onChainFullyDone != null) {
+                onChainFullyDone.run();
+            }
             return;
         }
-        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"---拉2-"+"000"+"--groupid="+sessionId);
+        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG, "---拉2-000--groupid=" + sessionId);
         SessionPullState state = pullStates.computeIfAbsent(sessionId, k -> new SessionPullState());
         synchronized (state) {
             state.mergeListener(listener);
@@ -267,51 +435,65 @@ public final class ImMessageManager {
                 // 任一请求需要本地 +N，则本链保留累加（避免 getList 补拉与推送合并后漏计）
                 state.incrementUnread = state.incrementUnread || incrementUnread;
                 state.dirty = true;
+                // 已有在飞链：不另占后台槽，立刻释放本次槽位
+                if (onChainFullyDone != null) {
+                    onChainFullyDone.run();
+                }
                 return;
             }
             state.inFlight = true;
             state.dirty = false;
             state.incrementUnread = incrementUnread;
+            state.onChainFullyDone = onChainFullyDone;
         }
         requestMessageListPageByPage(sessionId, queryMsgId, anchor, op);
     }
 
     /**
-     * 分页边拉边落库边回调，避免万人群积压时整链结束才刷新聊天页。
+     * 分页边拉边落库；后台补拉静默写库不刷会话列表。HTTP 回调立即切到低优先级线程，避免占主线程。
      */
     private void requestMessageListPageByPage(@NonNull String sessionId,
                                               @NonNull String queryMsgId,
                                               int anchor,
                                               int op) {
-        ImMessageHttpExample.requestGetMessageList(queryMsgId, anchor, op, content -> {
-            List<ImMessageItem> page = content.getMsgList();
-            if (page == null || page.isEmpty()) {
-                onPullChainFinished(sessionId, true);
-                return;
+        ImMessageHttpExample.requestGetMessageList(queryMsgId, anchor, op, content ->
+                PULL_CALLBACK_EXECUTOR.execute(() -> handleMessageListPage(sessionId, queryMsgId, op, content)),
+                () -> PULL_CALLBACK_EXECUTOR.execute(() -> onPullChainFinished(sessionId, false)));
+    }
+
+    private void handleMessageListPage(@NonNull String sessionId,
+                                       @NonNull String queryMsgId,
+                                       int op,
+                                       @NonNull MessageListContent content) {
+        List<ImMessageItem> page = content.getMsgList();
+        if (page == null || page.isEmpty()) {
+            onPullChainFinished(sessionId, true);
+            return;
+        }
+        List<AppMessage> batch = ImMessageMapper.toAppMessageList(page);
+        boolean incrementUnread = true;
+        SessionPullState state = pullStates.get(sessionId);
+        if (state != null) {
+            synchronized (state) {
+                incrementUnread = state.incrementUnread;
             }
-            List<AppMessage> batch = ImMessageMapper.toAppMessageList(page);
-            boolean incrementUnread = true;
-            SessionPullState state = pullStates.get(sessionId);
-            if (state != null) {
-                synchronized (state) {
-                    incrementUnread = state.incrementUnread;
-                }
-            }
-            ImLocalStore.saveMessagesThen(batch, () -> {
-                dispatchPageToListener(sessionId, batch);
-                if (content.isHasNextPage()) {
-                    ImMessageItem tail = page.get(page.size() - 1);
-                    String nextMsgId = tail.getMessageId();
-                    if (TextUtils.isEmpty(nextMsgId) || nextMsgId.equals(queryMsgId)) {
-                        onPullChainFinished(sessionId, true);
-                        return;
-                    }
-                    requestMessageListPageByPage(sessionId, nextMsgId, 1, op);
-                } else {
+        }
+        // 后台补拉也通知预览/未读；列表用 Diff payload 局部刷新，不重绑头像
+        boolean notifySessionPreview = true;
+        ImLocalStore.saveMessagesThen(batch, () -> {
+            dispatchPageToListener(sessionId, batch);
+            if (content.isHasNextPage()) {
+                ImMessageItem tail = page.get(page.size() - 1);
+                String nextMsgId = tail.getMessageId();
+                if (TextUtils.isEmpty(nextMsgId) || nextMsgId.equals(queryMsgId)) {
                     onPullChainFinished(sessionId, true);
+                    return;
                 }
-            }, incrementUnread);
-        }, () -> onPullChainFinished(sessionId, false));
+                requestMessageListPageByPage(sessionId, nextMsgId, 1, op);
+            } else {
+                onPullChainFinished(sessionId, true);
+            }
+        }, incrementUnread, notifySessionPreview);
     }
 
     private void dispatchPageToListener(@NonNull String sessionId, @NonNull List<AppMessage> batch) {
@@ -339,17 +521,27 @@ public final class ImMessageManager {
             return;
         }
         boolean restart;
+        Runnable done;
         synchronized (state) {
             restart = state.dirty;
             state.dirty = false;
             if (!restart) {
                 state.inFlight = false;
                 state.listener = null;
+                done = state.onChainFullyDone;
+                state.onChainFullyDone = null;
                 pullStates.remove(sessionId, state);
-                return;
+            } else {
+                done = null;
+                // dirty：保持 inFlight，从最新水位再拉一轮（合并推送期间抬高的缺口）
+                state.inFlight = true;
             }
-            // dirty：保持 inFlight，从最新水位再拉一轮（合并推送期间抬高的缺口）
-            state.inFlight = true;
+        }
+        if (!restart) {
+            if (done != null) {
+                done.run();
+            }
+            return;
         }
         ImDbExecutor.runRead(() -> {
             String syncAnchor = ImLocalStore.resolveMessageSyncAnchor(sessionId);
@@ -427,6 +619,9 @@ public final class ImMessageManager {
         boolean incrementUnread;
         @Nullable
         OnNewMessageListListener listener;
+        /** 整条分页链彻底结束（含 dirty 重启）时回调，用于释放后台并发槽。 */
+        @Nullable
+        Runnable onChainFullyDone;
 
         void mergeListener(@Nullable OnNewMessageListListener more) {
             if (more == null) {

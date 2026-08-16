@@ -72,12 +72,28 @@ public final class ImMessageRepository {
     public void insertOrUpdateBatchThen(@Nullable List<AppMessage> messages,
                                         @Nullable Runnable afterSuccess,
                                         boolean incrementUnread) {
+        insertOrUpdateBatchThen(messages, afterSuccess, incrementUnread, true);
+    }
+
+    /**
+     * @param notifySessionPreview {@code false}：后台静默补拉，不刷会话列表 UI。
+     */
+    public void insertOrUpdateBatchThen(@Nullable List<AppMessage> messages,
+                                        @Nullable Runnable afterSuccess,
+                                        boolean incrementUnread,
+                                        boolean notifySessionPreview) {
         if (messages == null || messages.isEmpty() || !ImRealm.isUserBound()) {
+            if (afterSuccess != null) {
+                afterSuccess.run();
+            }
             return;
         }
         final List<AppMessage> snapshot = snapshotMessages(messages);
         final List<MessageEntity> entities = buildUpsertEntities(snapshot);
         if (entities.isEmpty()) {
+            if (afterSuccess != null) {
+                afterSuccess.run();
+            }
             return;
         }
         final Runnable callback = afterSuccess;
@@ -90,7 +106,7 @@ public final class ImMessageRepository {
             realm.insertOrUpdate(entities);
             sessionUpdates.addAll(SessionLastMessageSync.applyInTransaction(
                     realm, snapshot, prefetched, unreadDelta));
-        }, callback);
+        }, callback, notifySessionPreview);
     }
 
     /**

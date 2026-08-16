@@ -75,7 +75,7 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
 
 
         parentViewModel.observeSessions(sessionCategory).observe(viewLifecycleOwner) { sessions ->
-            if (!shouldEnrichSessionDisplay()) {
+            if (!shouldEnrichSessionDisplay() || !needsDisplayEnrich(sessions)) {
                 renderSessions(sessions)
                 return@observe
             }
@@ -119,6 +119,16 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
     }
 
     protected open fun shouldEnrichSessionDisplay(): Boolean = false
+
+    /** 仅缺昵称/头像时再 enrich，未读/预览局部更新不走头像查询。 */
+    private fun needsDisplayEnrich(sessions: List<SessionItem>?): Boolean {
+        if (sessions.isNullOrEmpty()) {
+            return false
+        }
+        return sessions.any { item ->
+            item.sessionName.isNullOrBlank() || item.icon.isNullOrBlank()
+        }
+    }
 
     private fun collectDisplayInfoUpdates(
         original: List<SessionItem>?,
@@ -219,7 +229,7 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
     private fun markSessionAsRead(session: SessionItem) {
         val sessionId = session.sessionId ?: return
         session.unreadCount = 0
-        parentViewModel.mergeSessions(listOf(session))
+        parentViewModel.mergeSessionsImmediate(listOf(session))
         ImLocalStore.clearSessionUnread(sessionId)
         val lastMessageId = session.lastMessageId
         if (!TextUtils.isEmpty(lastMessageId)) {
@@ -231,7 +241,7 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
     private fun markSessionAsUnread(session: SessionItem) {
         val sessionId = session.sessionId ?: return
         session.unreadCount = 1
-        parentViewModel.mergeSessions(listOf(session))
+        parentViewModel.mergeSessionsImmediate(listOf(session))
         ImLocalStore.markSessionUnread(sessionId, 1)
     }
 

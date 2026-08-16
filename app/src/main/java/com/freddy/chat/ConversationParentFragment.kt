@@ -21,7 +21,7 @@ class ConversationParentFragment : BaseBroadFragment<ConversationParentFragmentB
 
     override fun onCEvent(topic: String?, msgCode: Int, resultCode: Int, obj: Any?) {
         if (Events.NOTIFY_CONVERSATION_LIST == topic) {
-            getServiceConversationList {}
+            // 会话拉取由 MainBroadActivity → ConversationParentViewModel 统一处理，避免重复 getList
             return
         }
         if (Events.SESSION_LIST_UPDATED == topic && obj is MutableList<*>) {

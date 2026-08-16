@@ -2,8 +2,6 @@ package com.freddy.chat.im;
 
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 
-import com.freddy.chat.event.CEventCenter;
-import com.freddy.chat.event.Events;
 import com.freddy.im.listener.IMSConnectStatusCallback;
 
 /**
@@ -30,8 +28,8 @@ public class IMSConnectStatusListener implements IMSConnectStatusCallback {
     public void onImChannelReady() {
         eLogD(TAG, "onImChannelReady");
         ImConnectStateStore.markImChannelReady();
-        // 重连/首连就绪后拉会话，补齐断线期间变更
-        CEventCenter.dispatchEvent(Events.NOTIFY_CONVERSATION_LIST, 0, 0, "im_channel_ready");
+        // 经 MessageProcessor 防抖，避免与其它入口短时间重复拉会话
+        MessageProcessor.getInstance().notifyConversationList();
     }
 
     @Override

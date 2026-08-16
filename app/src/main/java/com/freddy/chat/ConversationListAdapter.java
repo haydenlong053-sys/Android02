@@ -1,5 +1,7 @@
 package com.freddy.chat;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -16,7 +18,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.widge.VpGradeView;
 import com.cboda.intelligent.R;
 import com.freddy.chat.mention.AtMentionChecker;
@@ -27,10 +28,12 @@ import com.freddy.im.http.model.im.SessionItem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * 主会话列表 {@link ConversationListFragment} 专用。
- * 转发选会话请使用 {@link com.freddy.chat.forward.ForwardConversationListAdapter}。
+ * 主会话列表：未读/预览用 payload 局部刷新；DiffUtil 在后台计算，避免主线程卡顿。
  */
 public final class ConversationListAdapter extends RecyclerView.Adapter<ConversationListAdapter.VH> {
 
@@ -42,7 +45,23 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         boolean onSessionLongClick(SessionItem sessionItem);
     }
 
+    /** 仅未读角标。 */
+    private static final Object PAYLOAD_UNREAD = new Object();
+    /** 未读 + 最近消息预览（不含头像/昵称）。 */
+    private static final Object PAYLOAD_PREVIEW = new Object();
+
+    private static final ExecutorService DIFF_EXECUTOR = Executors.newSingleThreadExecutor(r -> {
+        Thread t = new Thread(r, "session-list-diff");
+        t.setDaemon(true);
+        t.setPriority(Thread.NORM_PRIORITY - 1);
+        return t;
+    });
+
+    private static final Handler MAIN = new Handler(Looper.getMainLooper());
+
     private final List<SessionItem> items = new ArrayList<>();
+    private final AtomicInteger dataGeneration = new AtomicInteger(0);
+
     @Nullable
     private String currentUserId;
     @Nullable
@@ -68,10 +87,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
             next.addAll(sessionList);
         }
         sortSessions(next);
-        DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new SessionDiffCallback(items, next), true);
-        items.clear();
-        items.addAll(next);
-        diff.dispatchUpdatesTo(this);
+        submitListAsync(next);
     }
 
     /**
@@ -91,8 +107,6 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         }
         return false;
     }
-
-    private static final Object PAYLOAD_UNREAD = new Object();
 
     /**
      * 仅清除指定会话未读角标，避免整表刷新闪烁。
@@ -116,7 +130,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
     }
 
     /**
-     * 合并/更新部分会话（群变更、拉取列表等），按置顶与最近消息时间排序。
+     * 合并/更新部分会话；排序变化时走 Diff，预览/未读变化走 payload。
      */
     public void mergeSessions(@Nullable List<SessionItem> updates) {
         if (updates == null || updates.isEmpty()) {
@@ -141,10 +155,25 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
             }
         }
         sortSessions(next);
-        DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new SessionDiffCallback(items, next), true);
-        items.clear();
-        items.addAll(next);
-        diff.dispatchUpdatesTo(this);
+        submitListAsync(next);
+    }
+
+    private void submitListAsync(@NonNull List<SessionItem> next) {
+        final int gen = dataGeneration.incrementAndGet();
+        final List<SessionItem> oldSnapshot = new ArrayList<>(items);
+        final List<SessionItem> newSnapshot = new ArrayList<>(next);
+        DIFF_EXECUTOR.execute(() -> {
+            DiffUtil.DiffResult diff = DiffUtil.calculateDiff(
+                    new SessionDiffCallback(oldSnapshot, newSnapshot), false);
+            MAIN.post(() -> {
+                if (gen != dataGeneration.get()) {
+                    return;
+                }
+                items.clear();
+                items.addAll(newSnapshot);
+                diff.dispatchUpdatesTo(ConversationListAdapter.this);
+            });
+        });
     }
 
     private static void sortSessions(@NonNull List<SessionItem> list) {
@@ -169,14 +198,24 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
     public void onBindViewHolder(@NonNull VH holder, int position, @NonNull List<Object> payloads) {
         if (!payloads.isEmpty()) {
             boolean unreadOnly = false;
+            boolean previewOnly = false;
             for (Object payload : payloads) {
                 if (payload == PAYLOAD_UNREAD) {
                     unreadOnly = true;
+                } else if (payload == PAYLOAD_PREVIEW) {
+                    previewOnly = true;
+                } else {
+                    unreadOnly = false;
+                    previewOnly = false;
                     break;
                 }
             }
-            if (unreadOnly) {
-                bindUnread(holder, items.get(position));
+            if (previewOnly || unreadOnly) {
+                SessionItem s = items.get(position);
+                if (previewOnly) {
+                    bindPreview(holder, s);
+                }
+                bindUnread(holder, s);
                 return;
             }
         }
@@ -186,7 +225,6 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
         SessionItem s = items.get(position);
-//        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"getSessionId="+s.getSessionId()+"------"+"getCreateTime="+s.getCreateTime());
         String name = WeChatUiHelper.resolveSessionListDisplayName(s, currentUserId);
         String displayName = name.isEmpty()
                 ? holder.itemView.getContext().getString(com.cboda.baselibrary.R.string.conversation_name_fallback)
@@ -195,17 +233,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         MessageAvatarBinder.bindSessionListAvatar(holder.avatar, s, currentUserId);
         MessageAvatarBinder.bindSessionRegisterDay(holder.tvRegisterDay, s, currentUserId);
 
-        holder.tvSubtitle.setText(buildSubtitle(holder, s));
-        if (WeChatUiHelper.isVoiceSessionPreview(s)) {
-            holder.ivPreviewType.setVisibility(View.VISIBLE);
-            holder.ivPreviewType.setImageResource(R.drawable.ic_msg_voice);
-        } else if (WeChatUiHelper.isImageSessionPreview(s)) {
-            holder.ivPreviewType.setVisibility(View.VISIBLE);
-            holder.ivPreviewType.setImageResource(R.drawable.ic_msg_image);
-        } else {
-            holder.ivPreviewType.setVisibility(View.GONE);
-        }
-
+        bindPreview(holder, s);
         bindUnread(holder, s);
 
         holder.itemView.setBackgroundResource(
@@ -222,6 +250,19 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
             }
             return false;
         });
+    }
+
+    private void bindPreview(@NonNull VH holder, @NonNull SessionItem s) {
+        holder.tvSubtitle.setText(buildSubtitle(holder, s));
+        if (WeChatUiHelper.isVoiceSessionPreview(s)) {
+            holder.ivPreviewType.setVisibility(View.VISIBLE);
+            holder.ivPreviewType.setImageResource(R.drawable.ic_msg_voice);
+        } else if (WeChatUiHelper.isImageSessionPreview(s)) {
+            holder.ivPreviewType.setVisibility(View.VISIBLE);
+            holder.ivPreviewType.setImageResource(R.drawable.ic_msg_image);
+        } else {
+            holder.ivPreviewType.setVisibility(View.GONE);
+        }
     }
 
     private static void bindUnread(@NonNull VH holder, @NonNull SessionItem s) {
@@ -265,6 +306,27 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         return items.size();
     }
 
+    private static boolean sameIdentityFields(@NonNull SessionItem a, @NonNull SessionItem b) {
+        return a.getTopNum() == b.getTopNum()
+                && a.getCreateTime() == b.getCreateTime()
+                && TextUtils.equals(a.getSessionName(), b.getSessionName())
+                && TextUtils.equals(a.getIcon(), b.getIcon())
+                && TextUtils.equals(a.getUsername(), b.getUsername())
+                && Objects.equals(a.getOppositeUserId(), b.getOppositeUserId());
+    }
+
+    private static boolean samePreviewFields(@NonNull SessionItem a, @NonNull SessionItem b) {
+        return a.getUnreadCount() == b.getUnreadCount()
+                && a.isMuteNotify() == b.isMuteNotify()
+                && a.getLastMessageTime() == b.getLastMessageTime()
+                && a.getLastMessageStatus() == b.getLastMessageStatus()
+                && a.getLastMsgType() == b.getLastMsgType()
+                && TextUtils.equals(a.getLastMessageId(), b.getLastMessageId())
+                && TextUtils.equals(a.getLastMessageContent(), b.getLastMessageContent())
+                && TextUtils.equals(a.getLastContentType(), b.getLastContentType())
+                && TextUtils.equals(a.getLastCustomInfo(), b.getLastCustomInfo());
+    }
+
     private static final class SessionDiffCallback extends DiffUtil.Callback {
         @NonNull
         private final List<SessionItem> oldList;
@@ -288,65 +350,39 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
 
         @Override
         public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-            if (null == oldList || null == newList || oldList.size() <= oldItemPosition || newList.size() <= newItemPosition) {
-                return false;
-            } else {
-                SessionItem oldItem = oldList.get(oldItemPosition);
-                SessionItem newItem = newList.get(newItemPosition);
-                return TextUtils.equals(oldItem.getSessionId(), newItem.getSessionId());
-            }
+            SessionItem oldItem = oldList.get(oldItemPosition);
+            SessionItem newItem = newList.get(newItemPosition);
+            return TextUtils.equals(oldItem.getSessionId(), newItem.getSessionId());
         }
 
         @Override
         public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-            if (null == oldList || null == newList || oldList.size() <= oldItemPosition || newList.size() <= newItemPosition) {
-                return false;
-            } else {
-                SessionItem a = oldList.get(oldItemPosition);
-                SessionItem b = newList.get(newItemPosition);
-                return a.getUnreadCount() == b.getUnreadCount()
-                        && a.getTopNum() == b.getTopNum()
-                        && a.getLastMessageTime() == b.getLastMessageTime()
-                        && a.getLastMessageStatus() == b.getLastMessageStatus()
-                        && a.getLastMsgType() == b.getLastMsgType()
-                        && a.isMuteNotify() == b.isMuteNotify()
-                        && a.getCreateTime() == b.getCreateTime()
-                        && TextUtils.equals(a.getSessionName(), b.getSessionName())
-                        && TextUtils.equals(a.getIcon(), b.getIcon())
-                        && TextUtils.equals(a.getUsername(), b.getUsername())
-                        && TextUtils.equals(a.getLastMessageId(), b.getLastMessageId())
-                        && TextUtils.equals(a.getLastMessageContent(), b.getLastMessageContent())
-                        && TextUtils.equals(a.getLastContentType(), b.getLastContentType())
-                        && TextUtils.equals(a.getLastCustomInfo(), b.getLastCustomInfo())
-                        && Objects.equals(a.getOppositeUserId(), b.getOppositeUserId());
-            }
+            SessionItem a = oldList.get(oldItemPosition);
+            SessionItem b = newList.get(newItemPosition);
+            return sameIdentityFields(a, b) && samePreviewFields(a, b);
         }
 
         @Nullable
         @Override
         public Object getChangePayload(int oldItemPosition, int newItemPosition) {
-            if (null == oldList || null == newList || oldList.size() <= oldItemPosition || newList.size() <= newItemPosition) {
-                return super.getChangePayload(oldItemPosition, newItemPosition);
-            } else {
-                SessionItem a = oldList.get(oldItemPosition);
-                SessionItem b = newList.get(newItemPosition);
-                boolean onlyUnread = a.getUnreadCount() != b.getUnreadCount()
-                        && a.getTopNum() == b.getTopNum()
-                        && a.getLastMessageTime() == b.getLastMessageTime()
-                        && a.getLastMessageStatus() == b.getLastMessageStatus()
-                        && a.getLastMsgType() == b.getLastMsgType()
-                        && a.isMuteNotify() == b.isMuteNotify()
-                        && a.getCreateTime() == b.getCreateTime()
-                        && TextUtils.equals(a.getSessionName(), b.getSessionName())
-                        && TextUtils.equals(a.getIcon(), b.getIcon())
-                        && TextUtils.equals(a.getUsername(), b.getUsername())
-                        && TextUtils.equals(a.getLastMessageId(), b.getLastMessageId())
-                        && TextUtils.equals(a.getLastMessageContent(), b.getLastMessageContent())
-                        && TextUtils.equals(a.getLastContentType(), b.getLastContentType())
-                        && TextUtils.equals(a.getLastCustomInfo(), b.getLastCustomInfo())
-                        && Objects.equals(a.getOppositeUserId(), b.getOppositeUserId());
-                return onlyUnread ? PAYLOAD_UNREAD : null;
+            SessionItem a = oldList.get(oldItemPosition);
+            SessionItem b = newList.get(newItemPosition);
+            if (!sameIdentityFields(a, b)) {
+                return null;
             }
+            if (samePreviewFields(a, b)) {
+                return null;
+            }
+            boolean onlyUnread = a.getUnreadCount() != b.getUnreadCount()
+                    && a.isMuteNotify() == b.isMuteNotify()
+                    && a.getLastMessageTime() == b.getLastMessageTime()
+                    && a.getLastMessageStatus() == b.getLastMessageStatus()
+                    && a.getLastMsgType() == b.getLastMsgType()
+                    && TextUtils.equals(a.getLastMessageId(), b.getLastMessageId())
+                    && TextUtils.equals(a.getLastMessageContent(), b.getLastMessageContent())
+                    && TextUtils.equals(a.getLastContentType(), b.getLastContentType())
+                    && TextUtils.equals(a.getLastCustomInfo(), b.getLastCustomInfo());
+            return onlyUnread ? PAYLOAD_UNREAD : PAYLOAD_PREVIEW;
         }
     }
 
