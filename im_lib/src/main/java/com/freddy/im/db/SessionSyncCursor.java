@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.cboda.baselibrary.utils.ELogUtilKt;
+import com.cboda.baselibrary.utils.ViewExpandUtilKt;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.db.entity.MessageEntity;
 import com.freddy.im.db.entity.SessionEntity;
@@ -64,6 +66,20 @@ public final class SessionSyncCursor {
                 .equalTo("sessionId", sessionId)
                 .findFirst();
         if (session != null && !TextUtils.isEmpty(session.getSyncedMaxMsgId())) {
+            //判断是否为正确格式的有效游标
+            int count = 0;
+            for (int i = 0; i < session.getSyncedMaxMsgId().length(); i++) {
+                if (session.getSyncedMaxMsgId().charAt(i) == '-') {
+                    count++;
+                }
+            }
+            if (count != 1){
+                ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"sessionId="+sessionId+" 出现本地异常游标："+session.getSyncedMaxMsgId());
+                ViewExpandUtilKt.showIMKeyErrorToast(sessionId+"游标开小差了"+session.getSyncedMaxMsgId());
+                session.setSyncedMaxMsgId("");
+                session.setSyncedMaxSequence(0L);
+                return "";
+            }
             return session.getSyncedMaxMsgId();
         }
         MessageEntity localMax = realm.where(MessageEntity.class)
@@ -71,6 +87,19 @@ public final class SessionSyncCursor {
                 .sort("sequenceId", Sort.DESCENDING)
                 .findFirst();
         if (localMax != null && !TextUtils.isEmpty(localMax.getMsgId())) {
+            //判断是否为正确格式的有效游标
+            int count = 0;
+            for (int i = 0; i < localMax.getMsgId().length(); i++) {
+                if (localMax.getMsgId().charAt(i) == '-') {
+                    count++;
+                }
+            }
+            if (count != 1){
+                ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"sessionId="+sessionId+" 出现本地异常游标："+localMax.getMsgId());
+                ViewExpandUtilKt.showIMKeyErrorToast(sessionId+"游标开小差了"+localMax.getMsgId());
+                localMax.setMsgId("");
+                return "";
+            }
             return localMax.getMsgId();
         }
         return null;
