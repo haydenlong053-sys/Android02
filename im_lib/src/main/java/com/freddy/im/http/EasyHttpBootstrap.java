@@ -28,7 +28,7 @@ public final class EasyHttpBootstrap {
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS);
         if (getIsDebug()) {
-            ResBroadInterceptor loggingInterceptor = new ResBroadInterceptor("AppEasyHttp");
+            ResBroadInterceptor loggingInterceptor = new ResBroadInterceptor("AppHttpEasy", false);
             okHttpClientBuilder.addInterceptor(loggingInterceptor);
         }
         OkHttpClient okHttpClient = okHttpClientBuilder.build();

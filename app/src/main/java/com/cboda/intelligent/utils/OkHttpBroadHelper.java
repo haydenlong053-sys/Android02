@@ -68,7 +68,7 @@ public class OkHttpBroadHelper {
                 .readTimeout(60, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(false);
         if (getIsDebug()) {
-            ResBroadInterceptor loggingInterceptor = new ResBroadInterceptor("AppHttpOkHttp");
+            ResBroadInterceptor loggingInterceptor = new ResBroadInterceptor("AppHttpOkHttp", true);
             beforeBuilder.addInterceptor(loggingInterceptor);
         }
         mHttpClient = beforeBuilder.build();
