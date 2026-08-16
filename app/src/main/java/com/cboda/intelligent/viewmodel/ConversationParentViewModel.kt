@@ -13,6 +13,9 @@ import com.freddy.im.http.ImMessageHttpExample
 import com.freddy.im.http.model.im.ConversationListContent
 import com.freddy.im.http.model.im.SessionItem
 import com.freddy.im.listener.OnHttpImListener
+import android.os.Handler
+import android.os.Looper
+import java.util.LinkedHashMap
 import java.util.concurrent.atomic.AtomicBoolean
 
 class ConversationParentViewModel : BaseViewBroadModel() {
@@ -53,6 +56,17 @@ class ConversationParentViewModel : BaseViewBroadModel() {
 
     /** 防止 Main / 重试 / 信令同时触发重复 getList。 */
     private val requestInFlight = AtomicBoolean(false)
+
+    /** 合并 SESSION_LIST_UPDATED，避免短时间多次 DiffUtil。 */
+    private val mergeHandler = Handler(Looper.getMainLooper())
+    private val pendingMergeById = LinkedHashMap<String, SessionItem>()
+    private val flushPendingMerge = Runnable {
+        val batch = ArrayList(pendingMergeById.values)
+        pendingMergeById.clear()
+        if (batch.isNotEmpty()) {
+            mergeSessionsNow(batch)
+        }
+    }
 
     fun observeSessions(category: ConversationSessionCategory): LiveData<List<SessionItem>> {
         return when (category) {
@@ -121,10 +135,36 @@ class ConversationParentViewModel : BaseViewBroadModel() {
         }
     }
 
+    /**
+     * 立即刷新待合并的会话（进入聊天清未读等需要即时反馈的场景）。
+     */
+    fun mergeSessionsImmediate(updates: List<SessionItem>?) {
+        if (updates.isNullOrEmpty()) {
+            return
+        }
+        mergeHandler.removeCallbacks(flushPendingMerge)
+        for (update in updates) {
+            val id = update.sessionId ?: continue
+            if (id.isEmpty()) continue
+            pendingMergeById[id] = update
+        }
+        flushPendingMerge.run()
+    }
+
     fun mergeSessions(updates: List<SessionItem>?) {
         if (updates.isNullOrEmpty()) {
             return
         }
+        for (update in updates) {
+            val id = update.sessionId ?: continue
+            if (id.isEmpty()) continue
+            pendingMergeById[id] = update
+        }
+        mergeHandler.removeCallbacks(flushPendingMerge)
+        mergeHandler.postDelayed(flushPendingMerge, 200L)
+    }
+
+    private fun mergeSessionsNow(updates: List<SessionItem>) {
         val current = _allSessions.value?.toMutableList() ?: mutableListOf()
         for (update in updates) {
             if (update.sessionId.isNullOrEmpty()) {
@@ -202,6 +242,12 @@ class ConversationParentViewModel : BaseViewBroadModel() {
             )
             ?: emptyList()
         _allSessions.postValue(sorted)
+    }
+
+    override fun onCleared() {
+        mergeHandler.removeCallbacks(flushPendingMerge)
+        pendingMergeById.clear()
+        super.onCleared()
     }
 
     private fun currentUserId(): String? = IMSClientBootstrap.getInstance().currentUserId

@@ -178,6 +178,7 @@
     <string name="mine_safe_center">安全中心</string>
     <string name="mine_faq">常见问题</string>
     <string name="mine_system_settings">系统设置</string>
+    <string name="mine_upload_log">上传日志</string>
     <string name="msg_group_members">群成员</string>
     <string name="msg_group_services">群内服务</string>
     <string name="msg_personal_settings">个人设置</string>

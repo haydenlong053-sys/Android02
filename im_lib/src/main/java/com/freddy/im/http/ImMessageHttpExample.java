@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.HttpsBroadConfig;
+import com.freddy.im.db.ImDbExecutor;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.api.CreateGroupApi;
 import com.freddy.im.http.api.FileUploadApi;
@@ -201,12 +202,22 @@ public final class ImMessageHttpExample {
     }
 
     /**
-     * 会话列表成功后：用本地已有最近消息摘要回填（不再串 {@code getLastMsg}），再回调并落库、同步未读。
+     * 会话列表成功后：在 Realm 线程用本地摘要回填（避免 EasyHttp 主线程同步查库卡顿），
+     * 再回主线程回调并落库、限流同步未读。
      */
     private static void finishConversationList(@NonNull ConversationListContent content,
                                                @NonNull OnHttpImListener<ConversationListContent> callback) {
-        SessionLastMsgMerge.applyFromLocal(content.getSessionList());
-        dispatchConversationListReady(content, callback);
+        List<SessionItem> raw = content.getSessionList();
+        if (raw == null || raw.isEmpty() || !ImLocalStore.isReady()) {
+            dispatchConversationListReady(content, callback);
+            return;
+        }
+        // 拷贝列表引用即可：applyFromLocal 就地改字段；须在 im-realm 线程查库
+        ImDbExecutor.runRead(() -> {
+            SessionLastMsgMerge.applyFromLocal(content.getSessionList());
+            android.os.Handler main = new android.os.Handler(android.os.Looper.getMainLooper());
+            main.post(() -> dispatchConversationListReady(content, callback));
+        });
     }
 
     private static void dispatchConversationListReady(@NonNull ConversationListContent content,

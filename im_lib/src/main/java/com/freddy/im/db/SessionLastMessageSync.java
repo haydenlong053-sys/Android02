@@ -51,6 +51,16 @@ public final class SessionLastMessageSync {
     public static void runWriteWithSessionSync(@NonNull List<AppMessage> messages,
                                                @NonNull WriteWithSessionSyncCallback writeCallback,
                                                @Nullable Runnable afterWrite) {
+        runWriteWithSessionSync(messages, writeCallback, afterWrite, true);
+    }
+
+    /**
+     * @param notifySessionPreview {@code false}：只落库更新会话摘要，不向 UI 广播（后台补拉正文用）。
+     */
+    public static void runWriteWithSessionSync(@NonNull List<AppMessage> messages,
+                                               @NonNull WriteWithSessionSyncCallback writeCallback,
+                                               @Nullable Runnable afterWrite,
+                                               boolean notifySessionPreview) {
         if (messages.isEmpty() || !ImRealm.isUserBound()) {
             if (afterWrite != null) {
                 afterWrite.run();
@@ -66,7 +76,9 @@ public final class SessionLastMessageSync {
             } finally {
                 realm.close();
             }
-            ImLocalStore.dispatchSessionPreviewUpdated(sessionUpdates);
+            if (notifySessionPreview) {
+                ImLocalStore.dispatchSessionPreviewUpdated(sessionUpdates);
+            }
             if (afterWrite != null) {
                 afterWrite.run();
             }

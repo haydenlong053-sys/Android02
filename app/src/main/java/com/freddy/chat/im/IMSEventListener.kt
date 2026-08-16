@@ -72,8 +72,8 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
         }
         val cmd = res?.header?.cmd
         if (cmd == ImSignalProtos.Cmd.BIND_USER_RES_VALUE && res.header.code == 0) {
-            //todo 第五步，连接成功刷新会话列表
-            MessageProcessor.getInstance().notifyConversationList()
+            // 通道就绪统一由 IMSConnectStatusListener.onImChannelReady 拉会话，避免与此处重复风暴
+            eLogD(tAG, "BIND_USER_RES ok, conversation refresh deferred to onImChannelReady")
         }
     }
 
