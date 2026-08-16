@@ -256,16 +256,16 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     var hasMeetInfoInvoke: (QuickMeetInfoBean) -> Unit = {}
     fun queryMeetInfo(groupIdNo: String, liveStatus: String = "active") {
-        groupId = groupIdNo
-        activity.lifecycleScope.launch {
-            viewModel?.goQuickMeetInfo(groupIdNo, liveStatus)?.observe(activity) {
-                if (it.list?.isNotEmpty() == true && it.token != null) {
-                    hasMeetInfoInvoke.invoke(it)
-                    meetChannelBean = it.list!![0]
-                    meetChannelBean?.token = it.token
-                }
-            }
-        }
+//        groupId = groupIdNo
+//        activity.lifecycleScope.launch {
+//            viewModel?.goQuickMeetInfo(groupIdNo, liveStatus)?.observe(activity) {
+//                if (it.list?.isNotEmpty() == true && it.token != null) {
+//                    hasMeetInfoInvoke.invoke(it)
+//                    meetChannelBean = it.list!![0]
+//                    meetChannelBean?.token = it.token
+//                }
+//            }
+//        }
 
     }
 

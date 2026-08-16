@@ -44,7 +44,7 @@ class ImGroupQrCodeDialog(
     private fun bindGroupInfo() {
         val vo = groupVo ?: return
         loadGroupImg(binding.groupImg, groupId, vo.icon)
-        val idno = vo.busiExt?.idno ?: ""
+        val idno = vo.busiExt?.idno?:groupId
         binding.groupId.text = "${getAppStr(com.cboda.baselibrary.R.string.msg_group_id, context)}$idno"
         binding.groupName.text = vo.name ?: ""
     }
