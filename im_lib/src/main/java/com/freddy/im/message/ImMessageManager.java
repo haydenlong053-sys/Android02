@@ -34,6 +34,9 @@ public final class ImMessageManager {
      */
     public static final long INVALID_SEQUENCE = 0L;
 
+    /** 文件助手会话前缀（服务端 sessionId / messageId 形如 {@code FILE_ASST:...}，拉消息会报错，客户端直接跳过） */
+    public static final String FILE_ASSISTANT_SESSION_PREFIX = "FILE_ASST";
+
     /** 会话列表同步后，除当前聊天页外最多并发补拉的会话数。 */
     private static final int MAX_BACKGROUND_UNREAD_SYNC = 1000;
 
@@ -70,6 +73,13 @@ public final class ImMessageManager {
             return null;
         }
         return messageId.substring(0, lastDash);
+    }
+
+    /** 是否文件助手会话（sessionId 或 messageId 以 {@code FILE_ASST} 开头）。 */
+    public static boolean isFileAssistantSession(@Nullable String sessionIdOrMessageId) {
+        return sessionIdOrMessageId != null
+                && sessionIdOrMessageId.regionMatches(true, 0, FILE_ASSISTANT_SESSION_PREFIX, 0,
+                FILE_ASSISTANT_SESSION_PREFIX.length());
     }
 
     /**
@@ -116,7 +126,7 @@ public final class ImMessageManager {
      * <p>
      * getList 已写入服务端 unreadCount，此处只补消息正文，<b>不再累加未读</b>。
      */
-    public void syncUnreadMessagesForSessions(@Nullable List<SessionItem> sessions) {
+            public void syncUnreadMessagesForSessions(@Nullable List<SessionItem> sessions) {
         if (sessions == null || sessions.isEmpty()) {
             return;
         }
@@ -125,12 +135,11 @@ public final class ImMessageManager {
                 if (sessionItem == null) {
                     continue;
                 }
-                if (sessionItem.getUnPullCount() <= 0 && sessionItem.getUnreadCount() <= 0) {
+                String sessionId = sessionItem.getSessionId();
+                if (TextUtils.isEmpty(sessionId) || isFileAssistantSession(sessionId)) {
                     continue;
                 }
-
-                String sessionId = sessionItem.getSessionId();
-                if (TextUtils.isEmpty(sessionId)) {
+                if (sessionItem.getUnPullCount() <= 0 && sessionItem.getUnreadCount() <= 0) {
                     continue;
                 }
                 fetchNewMessageListBySessionIdOnRealmThread(sessionItem, null, false);
@@ -140,6 +149,10 @@ public final class ImMessageManager {
 
     private void fetchNewMessageListOnRealmThread(@NonNull String msgId,
                                                   @Nullable OnNewMessageListListener listener) {
+        if (isFileAssistantSession(msgId)) {
+            ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG, "跳过文件助手拉消息 msgId=" + msgId);
+            return;
+        }
         String sessionId = extractConversationAnchor(msgId);
         if (TextUtils.isEmpty(sessionId)) {
             return;
@@ -200,6 +213,10 @@ public final class ImMessageManager {
                                                               @Nullable OnNewMessageListListener listener,
                                                               boolean incrementUnread) {
         String sessionId = sessionItem.getSessionId();
+        if (TextUtils.isEmpty(sessionId) || isFileAssistantSession(sessionId)) {
+            ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG, "跳过文件助手拉消息 sessionId=" + sessionId);
+            return;
+        }
         SessionEntity sessionEntity = ImSessionRepository.getInstance().queryEntityBySessionId(sessionId);
         int unreadCount = sessionItem.getUnreadCount();
         int unPullCount = sessionItem.getUnPullCount();
@@ -207,8 +224,9 @@ public final class ImMessageManager {
             unreadCount = Math.max(unreadCount, sessionEntity.getUnreadCount());
             unPullCount = Math.max(unPullCount, sessionEntity.getUnPullCount());
         }
-        ELogUtilKt.eLogE(ELogUtilKt.APP_IM_TAG,"sessionId=="+sessionId+"---unreadCount="+unreadCount+"---unPullCount"+unPullCount);
-        if (SessionSyncCursor.isCaughtUp(
+        //进聊天页兜底补拉一次
+        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"incrementUnread=="+incrementUnread);
+        if (!incrementUnread && SessionSyncCursor.isCaughtUp(
                 sessionEntity,
                 sessionItem.getLastMessageId(),
                 unreadCount,
@@ -237,6 +255,10 @@ public final class ImMessageManager {
                                      int op,
                                      @Nullable OnNewMessageListListener listener,
                                      boolean incrementUnread) {
+        if (isFileAssistantSession(sessionId) || isFileAssistantSession(queryMsgId)) {
+            ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG, "跳过文件助手 getList sessionId=" + sessionId);
+            return;
+        }
         ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"---拉2-"+"000"+"--groupid="+sessionId);
         SessionPullState state = pullStates.computeIfAbsent(sessionId, k -> new SessionPullState());
         synchronized (state) {

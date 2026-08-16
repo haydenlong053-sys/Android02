@@ -1,10 +1,10 @@
 package com.cboda.intelligent.utils
 
-import com.google.gson.Gson
+import com.blankj.utilcode.util.GsonUtils
 import com.google.gson.reflect.TypeToken
 
 object GsonBroadUtil {
-    private val gson = Gson()
+    private val gson = GsonUtils.getGson()
 
     /**
      * 将JSON字符串转换为List

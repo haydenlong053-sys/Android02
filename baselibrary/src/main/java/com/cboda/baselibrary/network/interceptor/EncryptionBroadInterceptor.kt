@@ -1,8 +1,8 @@
 package com.cboda.baselibrary.network.interceptor
 
+import com.blankj.utilcode.util.GsonUtils
 import com.cboda.baselibrary.utils.EncryptUtil
 import com.cboda.baselibrary.utils.eLogD
-import com.google.gson.Gson
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -22,7 +22,7 @@ class EncryptionBroadInterceptor : Interceptor {
         private const val ENCRYPT_DATA_KEY = "encrData"
     }
 
-    private val gson = Gson()
+    private val gson = GsonUtils.getGson()
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {

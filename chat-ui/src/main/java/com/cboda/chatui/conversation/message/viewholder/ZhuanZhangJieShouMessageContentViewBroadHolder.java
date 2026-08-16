@@ -6,11 +6,11 @@ import android.widget.TextView;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.chatui.R;
 import com.cboda.chatui.annotation.EnableContextBroadMenu;
 import com.cboda.chatui.annotation.MessageContentBroadType;
@@ -28,7 +28,6 @@ public class ZhuanZhangJieShouMessageContentViewBroadHolder extends NormalMessag
     private AppCompatImageView hongbaoBg,hongbaoyijingBg;
     private View yilingqu, hongbaoTopBg;
     private TextView tvyilinghongbaodesc, tvlingqu;
-    private Gson gson = new Gson();
 
     public ZhuanZhangJieShouMessageContentViewBroadHolder(ConversationBroadFragment fragment, RecyclerView.Adapter adapter, View itemView) {
         super(fragment, adapter, itemView);
@@ -57,7 +56,7 @@ public class ZhuanZhangJieShouMessageContentViewBroadHolder extends NormalMessag
                     hashMap.put("price",zhuanzhangMessage.price);
                     hashMap.put("hongbaoDesc",zhuanzhangMessage.hongbaoDesc);
                     hashMap.put("lingquStatus","1");
-                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.ACCEPT_RECEIVE_TRANSFER.getValue(), zhuanzhangMessage.zhuanzhangId + "|" + message.message.messageUid, gson.toJson(hashMap), message);
+                    MyCommonBroadBridge.getInstance().setMyBridgeMethod(v.getContext(), BridgeImEnum.ACCEPT_RECEIVE_TRANSFER.getValue(), zhuanzhangMessage.zhuanzhangId + "|" + message.message.messageUid,  GsonUtils.getGson().toJson(hashMap), message);
                 }
             }
         });

@@ -328,6 +328,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                 ptConfig = it.data
                 SharePrefBroadBroadUtil.saveString(this@MainBroadActivity, "pingtaipeizhi", gson.toJson(it.data))
                 SharePrefBroadBroadUtil.saveString(this@MainBroadActivity, "pingtaimgc", ptConfig!!.mgc)
+                MMKVBroadUtils.saveImPullErrToastState(ptConfig?.imPullErrToast)
             }
         }
         viewModel?.xitongaongaoListLiveData?.observe(this) {
@@ -763,6 +764,8 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
         if (HttpsBroadConfig.useSelfImOnly) {
             eLogD("MainActivityClass", "useSelfImOnly=true，跳过等野火 ClientService，直接挂 Tab")
+            // 双保险：杀进程直进 Main 时 Application 已恢复；此处再补一次（已连接则只补 HTTP 头）
+            AppBroadUtils.restoreMyImSessionIfNeeded("MainBroadActivity.afterViews")
             if (!isInitialized) {
                 initMyIm()
                 isInitialized = true

@@ -38,7 +38,6 @@ import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean;
 import com.cboda.chatui.quickmeet.plugin.PluginLayout;
 import com.cboda.chatui.quickmeet.plugin.impl.MeetPlugin;
 import com.cboda.chatui.utils.E;
-import com.google.gson.Gson;
 import com.cboda.chatemoji.EmotionBroadEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -109,7 +108,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         }
     }
 
-    private Gson gson = GsonUtils.getGson();
+//    private Gson gson = GsonUtils.getGson();
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMsgReceive(MyBroadEvent myImEvent) {
@@ -122,7 +121,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         } else if (MyEventCodeEnum.RELOAD_FORWARD_MESSAGE.getValue().equals(myImEvent.type)) {
             conversationBroadFragment.reloadZhuanFaMessage();
         } else if (MyEventCodeEnum.GROUP_DETAILS.getValue().equals(myImEvent.type)) {
-            QunBroadXiangqing qunXiangqing = gson.fromJson(myImEvent.params1, QunBroadXiangqing.class);
+            QunBroadXiangqing qunXiangqing = GsonUtils.getGson().fromJson(myImEvent.params1, QunBroadXiangqing.class);
             if (qunXiangqing != null && !TextUtils.isEmpty(qunXiangqing.getGonggao())) {
                 conversationBroadFragment.qungonggaoBroad.setVisibility(View.VISIBLE);
                 conversationBroadFragment.gonggaoxinxiBroad.setText(getString(R.string.group_announcement_prefix) + qunXiangqing.getGonggao());
@@ -168,7 +167,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
             }
 
         } else if (MyEventCodeEnum.USER_INFO.getValue().equals(myImEvent.type)) {
-            UserInfoBean yoinghu = gson.fromJson(myImEvent.params1, UserInfoBean.class);
+            UserInfoBean yoinghu = GsonUtils.getGson().fromJson(myImEvent.params1, UserInfoBean.class);
             if (yoinghu != null && !TextUtils.isEmpty(yoinghu.getChatImg())) {
                 conversationBroadFragment.setConversationBackgroundImage(yoinghu.getChatImg());
             }
@@ -220,7 +219,7 @@ public class ConversationBroadActivity extends WfcBaseBroadActivity {
         } else if (MyEventCodeEnum.MEETING_ROOM.getValue().equals(myImEvent.type)) {
             String json = myImEvent.params1;
             MeetingInviteMessageContent inviteMessageContent =
-                    new Gson().fromJson(json, MeetingInviteMessageContent.class);
+                    GsonUtils.getGson().fromJson(json, MeetingInviteMessageContent.class);
             if (inviteMessageContent != null && conversationBroadFragment != null) {
                 conversationBroadFragment.messageBroadViewModel.sendMessage(conversationBroad, inviteMessageContent, false);
             }

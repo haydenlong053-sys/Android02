@@ -96,26 +96,7 @@ class SplashBroadActivity : BaseSimpleBroadActivity() {
 //                            }
 //                        }
         } else {
-            val uid = MMKVBroadUtils.getRealUserId()
-                ?.takeIf { it.isNotEmpty() }
-                ?: SharePrefBroadBroadUtil.getString(this@SplashBroadActivity, AppBroadConsts.UID, "")
-            val token = MMKVBroadUtils.getUserAppToken()
-                ?.takeIf { it.isNotEmpty() }
-                ?: SharePrefBroadBroadUtil.getString(this@SplashBroadActivity, AppBroadConsts.APPTOKEN, "")
-            // 兼容旧版本只写了 MMKV、或只写了 SharePref 的登录态
-            if (!TextUtils.isEmpty(uid) && TextUtils.isEmpty(SharePrefBroadBroadUtil.getString(this@SplashBroadActivity, AppBroadConsts.UID, ""))) {
-                SharePrefBroadBroadUtil.saveString(this@SplashBroadActivity, AppBroadConsts.UID, uid)
-            }
-            if (!TextUtils.isEmpty(token) && TextUtils.isEmpty(SharePrefBroadBroadUtil.getString(this@SplashBroadActivity, AppBroadConsts.APPTOKEN, ""))) {
-                SharePrefBroadBroadUtil.saveString(this@SplashBroadActivity, AppBroadConsts.APPTOKEN, token)
-            }
-            if (!TextUtils.isEmpty(uid) && TextUtils.isEmpty(MMKVBroadUtils.getRealUserId())) {
-                MMKVBroadUtils.saveRealUserId(uid)
-            }
-            if (!TextUtils.isEmpty(token) && TextUtils.isEmpty(MMKVBroadUtils.getUserAppToken())) {
-                MMKVBroadUtils.saveUserAppToken(token)
-            }
-            AppBroadUtils.goLoginMyIm(token, uid)
+//            AppBroadUtils.goLoginMyIm(MMKVBroadUtils.getUserAppToken(),MMKVBroadUtils.getRealUserId())
             JumpBroadUtils.startMainActivity(this@SplashBroadActivity, "SplashBroadActivity")
         }
         finish()

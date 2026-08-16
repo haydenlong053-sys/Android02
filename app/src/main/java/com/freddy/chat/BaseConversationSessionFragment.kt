@@ -6,10 +6,12 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isGone
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.cboda.baselibrary.utils.imsConnectLiveData
 import com.cboda.chatui.widget.ProgressBroadFragment
 import com.cboda.intelligent.R
 import com.cboda.intelligent.utils.JumpBroadUtils
@@ -33,6 +35,7 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var tvEmpty: TextView
     private lateinit var errorContainer: View
+    private var networkBanner: View? = null
     private var sessionsEmpty: Boolean = true
 
     override fun contentLayout(): Int = R.layout.conversation_session_list_fragment
@@ -43,6 +46,7 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         progressBar = view.findViewById(R.id.progress)
         tvEmpty = view.findViewById(R.id.tv_empty)
         errorContainer = view.findViewById(R.id.conversation_list_error)
+        networkBanner = view.findViewById(R.id.network_unavailable_banner)
         view.findViewById<View>(R.id.btn_retry_conversations).setOnClickListener {
             parentViewModel.loadConversations()
         }
@@ -95,6 +99,15 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         }
         parentViewModel.loadFailed.observe(viewLifecycleOwner) {
             applyOverlayState()
+        }
+        networkBanner?.alpha = 1f
+        imsConnectLiveData.observe(this) { type ->
+            networkBanner?.post {
+                when (type) {
+                    1 -> networkBanner?.isGone = false
+                    2 -> networkBanner?.isGone = true
+                }
+            }
         }
     }
 
@@ -195,6 +208,7 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
                     } else {
                         markSessionAsUnread(session)
                     }
+
                     2 -> confirmRemoveConversation(session)
                 }
             }

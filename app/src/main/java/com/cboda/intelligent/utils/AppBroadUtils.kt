@@ -32,6 +32,7 @@ import com.cboda.intelligent.configuration.AppBroadConsts
 import com.freddy.chat.MessageListActivity
 import com.freddy.chat.SessionItemIntent
 import com.freddy.chat.im.IMSClientBootstrap
+import com.freddy.chat.im.ImNetworkMonitor
 import com.freddy.im.IMSConfig
 import com.freddy.im.http.ImAuthInvalidHandler
 import com.freddy.im.http.ImHttpConfig
@@ -40,6 +41,7 @@ import com.freddy.im.db.ImLocalStore
 import com.freddy.im.signal.ImSignalProtos
 import com.freddy.im.util.ImUtils
 import com.cboda.baselibrary.utils.getAppVersion
+import com.cboda.baselibrary.utils.showIMKeyErrorToast
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.WriterException
@@ -214,11 +216,9 @@ class AppBroadUtils {
         ) {
             eLogD("imLogin", "--> $uid  $myImUserToken")
 
-            // Splash / 部分旧逻辑仍读 SharePref；与 MMKV 双写，杀进程后才能保持登录态
-            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, apptoken)
+//            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, apptoken)
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, uid)
-            NetworkBroadConfig
-            MMKVBroadUtils.saveUserAppToken(apptoken ?: "")
+            MMKVBroadUtils.saveUserAppToken(apptoken)
 //            MMKVBroadUtils.saveTxUserSign(rytoken ?: "")
             MMKVBroadUtils.saveRealUserId(uid ?: "")
             MMKVBroadUtils.saveMyImToken(myImUserToken ?: "")
@@ -253,11 +253,77 @@ class AppBroadUtils {
 
         }
 
+        /**
+         * 进程被杀后直进 Main（绕过 Splash）时，从 MMKV 恢复自研长连 + EasyHttp 全局头。
+         * Application / Main 均可调用；内部走 [goLoginMyIm]，已连接同账号则只补头不重连。
+         */
+        fun restoreMyImSessionIfNeeded(reason: String = "") {
+            val userId = MMKVBroadUtils.getRealUserId()
+            val imToken = MMKVBroadUtils.getMyImToken()
+            val appToken = MMKVBroadUtils.getUserAppToken()
+            if (userId.isNullOrEmpty() || imToken.isNullOrEmpty()) {
+                eLogD("imLogin", "restoreMyImSessionIfNeeded skip, no credentials reason=$reason")
+                showIMKeyErrorToast("userId为空或imToken为空--restoreMyImSessionIfNeeded skip, no credentials reason=$reason")
+                return
+            }
+            if (appToken.isNullOrEmpty()) {
+                eLogD("imLogin", "restoreMyImSessionIfNeeded warn, appToken empty reason=$reason")
+                showIMKeyErrorToast("appToken为空--restoreMyImSessionIfNeeded skip, no credentials reason=$reason")
+            }
+            eLogD("imLogin", "restoreMyImSessionIfNeeded reason=$reason userId=$userId")
+            goLoginMyIm(appToken, userId)
+        }
+
         fun goLoginMyIm(apptoken: String?, userId: String?) {
-//            eLogD("EasyHttp", "setGlobalHeaders--> $userId  $apptoken")
+            if (userId.isNullOrEmpty()) {
+                eLogD("imLogin", "goLoginMyIm skip, userId empty")
+                showIMKeyErrorToast("imLogin goLoginMyIm skip, userId empty")
+
+                return
+            }
+            val imToken = MMKVBroadUtils.getMyImToken()
+            if (imToken.isNullOrEmpty()) {
+                eLogD("imLogin", "goLoginMyIm skip, imToken empty")
+                showIMKeyErrorToast("imLogin goLoginMyIm skip, imToken empty")
+                return
+            }
+            val hosts = HttpsBroadConfig.myImSocketHost
+            if (hosts.isNullOrEmpty()) {
+                eLogD("imLogin", "goLoginMyIm skip, im hosts empty")
+                showIMKeyErrorToast("imLogin goLoginMyIm skip, im hosts empty")
+
+                return
+            }
+            if (apptoken.isNullOrEmpty()) {
+                eLogD("imLogin", "goLoginMyIm warn, apptoken empty, HTTP 头可能无效")
+                showIMKeyErrorToast("imLogin goLoginMyIm warn, apptoken empty, HTTP 头可能无效")
+            }
             ImAuthInvalidHandler.reset()
-            IMSClientBootstrap.getInstance().init(userId, MMKVBroadUtils.getMyImToken(), HttpsBroadConfig.myImSocketHost, IMSConfig.APP_STATUS_FOREGROUND)
-            ImHttpConfig.setGlobalHeaders(apptoken, userId, ImSignalProtos.ClientType.ANDROID_VALUE)
+            val bootstrap = IMSClientBootstrap.getInstance()
+            val sameSession = bootstrap.canReuseSession(userId, imToken, hosts)
+            if (sameSession) {
+                eLogD("imLogin", "goLoginMyIm reuse active session userId=$userId")
+                showIMKeyErrorToast("imLogin goLoginMyIm reuse active session userId=$userId")
+            } else {
+                val ok = bootstrap.init(
+                    userId,
+                    imToken,
+                    hosts,
+                    IMSConfig.APP_STATUS_FOREGROUND
+                )
+                if (!ok) {
+                    eLogD("imLogin", "goLoginMyIm init failed, skip setGlobalHeaders userId=$userId")
+                    showIMKeyErrorToast("imLogin goLoginMyIm init failed, skip setGlobalHeaders userId=$userId")
+                    return
+                }
+            }
+            // EasyHttpBootstrap 重建后 mHeaders 为空，必须每次补齐
+            ImHttpConfig.setGlobalHeaders(
+                apptoken.orEmpty(),
+                userId,
+                ImSignalProtos.ClientType.ANDROID_VALUE
+            )
+            ImNetworkMonitor.start()
         }
 
 
@@ -326,7 +392,8 @@ class AppBroadUtils {
                 ChatManager.Instance().disconnect(true, false)
             }
             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, "")
-            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, "")
+//            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, "")
+            MMKVBroadUtils.saveUserAppToken("")
             NetworkBroadConfig.updateAppToken("")
 //            EventBus.getDefault().post(
 //                MeetingFloatBroadService.MeetingEvent(

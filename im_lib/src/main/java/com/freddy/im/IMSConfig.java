@@ -31,6 +31,10 @@ public class IMSConfig {
     public static final int DEFAULT_HEARTBEAT_INTERVAL_FOREGROUND = 10 * 1000;
     // 默认应用在后台时心跳消息间隔时长
     public static final int DEFAULT_HEARTBEAT_INTERVAL_BACKGROUND = 30 * 1000;
+    /** TCP 连通后，RSA 协商 + BIND_USER 总超时（超时则重连） */
+    public static final int DEFAULT_HANDSHAKE_TIMEOUT = 15 * 1000;
+    /** 重连环被中断退出后，延迟再踢一次重连 */
+    public static final int DEFAULT_RESUME_RECONNECT_DELAY = 3 * 1000;
     /** 应用在后台；与 {@link com.freddy.im.signal.ImSignalProtos.UserProcessSig} {@code processState} 一致 */
     public static final int APP_STATUS_BACKGROUND = 0;
     /** 应用在前台；与 {@link com.freddy.im.signal.ImSignalProtos.UserProcessSig} {@code processState} 一致 */

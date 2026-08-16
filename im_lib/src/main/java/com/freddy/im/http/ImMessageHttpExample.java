@@ -50,6 +50,7 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -99,6 +100,13 @@ public final class ImMessageHttpExample {
                                              int op,
                                              @Nullable OnHttpImListener<MessageListContent> callBack,
                                              @Nullable Runnable onFail) {
+        if (ImMessageManager.isFileAssistantSession(messageId)) {
+            Log.w(MY_TAG, "跳过文件助手 getList messageId=" + messageId);
+            if (callBack != null) {
+                callBack.onHttpImSuccess(MessageListContent.empty());
+            }
+            return;
+        }
         EasyHttp.post(ApplicationLifecycle.getInstance())
                 .api(new GetMessageListApi()
                         .setMessageId(messageId)
@@ -204,6 +212,17 @@ public final class ImMessageHttpExample {
     private static void dispatchConversationListReady(@NonNull ConversationListContent content,
                                                       @NonNull OnHttpImListener<ConversationListContent> callback) {
         List<SessionItem> sessionList = content.getSessionList();
+        if (sessionList != null && !sessionList.isEmpty()) {
+            List<SessionItem> filtered = new ArrayList<>(sessionList.size());
+            for (SessionItem item : sessionList) {
+                if (item == null || ImMessageManager.isFileAssistantSession(item.getSessionId())) {
+                    continue;
+                }
+                filtered.add(item);
+            }
+            content.setSessionList(filtered);
+            sessionList = filtered;
+        }
         callback.onHttpImSuccess(content);
         if (sessionList != null && !sessionList.isEmpty()) {
             ImLocalStore.saveSessions(sessionList);

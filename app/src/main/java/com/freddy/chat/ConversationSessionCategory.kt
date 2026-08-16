@@ -2,6 +2,7 @@ package com.freddy.chat
 
 import com.freddy.im.MessageType
 import com.freddy.im.http.model.im.SessionItem
+import com.freddy.im.message.ImMessageManager
 
 enum class ConversationSessionCategory {
     /** 单聊 / 对话 */
@@ -24,7 +25,10 @@ enum class ConversationSessionCategory {
                 return emptyList()
             }
             return sessions
-                .filter { matches(it, category, currentUserId) }
+                .filter {
+                    !ImMessageManager.isFileAssistantSession(it.sessionId)
+                        && matches(it, category, currentUserId)
+                }
                 .sortedByDescending { it.lastMessageTime }
         }
 

@@ -1,5 +1,7 @@
 package com.freddy.im;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import com.freddy.im.netty.NettyTcpClient;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -12,6 +14,8 @@ import io.netty.handler.timeout.IdleStateEvent;
  */
 public class HeartbeatHandler extends ChannelInboundHandlerAdapter {
 
+    private static final String TAG = "HeartbeatHandler";
+
     private final NettyTcpClient imsClient;
 
     public HeartbeatHandler(NettyTcpClient imsClient) {
@@ -21,12 +25,13 @@ public class HeartbeatHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
         super.userEventTriggered(ctx, evt);
-//        System.out.println("维护心跳---->"+evt);
         if (evt instanceof IdleStateEvent) {
             IdleState state = ((IdleStateEvent) evt).state();
             if (state == IdleState.WRITER_IDLE) {
+                eLogD(TAG, "写空闲，发送心跳 PING(0x03)");
                 imsClient.getLoopGroup().execWorkTask(() -> imsClient.sendHeartbeatSignal());
             } else if (state == IdleState.READER_IDLE) {
+                eLogD(TAG, "读空闲超时，触发心跳重连");
                 imsClient.resetConnect(false);
             }
         }

@@ -1,5 +1,6 @@
 package com.freddy.chat;
 
+import static com.cboda.baselibrary.utils.BaseLiveDataEventKt.imsConnectLiveData;
 import static com.cboda.baselibrary.utils.ELogUtilKt.APP_IM_TAG;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.GsonUtilsKt.fromJson2;
@@ -22,10 +23,12 @@ import android.widget.TextView;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.cboda.baselibrary.bean.DanmakuItem;
 import com.cboda.baselibrary.bean.FriendBean;
 import com.cboda.baselibrary.bean.UserInfoBean;
@@ -33,6 +36,7 @@ import com.cboda.baselibrary.common.BridgeImEnum;
 import com.cboda.baselibrary.common.MyEventCodeEnum;
 import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.cboda.baselibrary.utils.BaseLiveDataEventKt;
+import com.cboda.baselibrary.utils.E;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.baselibrary.utils.RealmUtil;
@@ -92,7 +96,7 @@ public class MessageListActivity extends BaseSimple2BroadActivity
     private boolean isInitialized = false;
     private MessageListFragment messageListFragment;
     private View pageTitleLeftIcon;
-    private View pageTitleRightIcon, mIvBack2, rightView;
+    private View pageTitleRightIcon, mIvBack2, rightView, networkBanner;
     private View titleGradeAndTimeBroad;
     private TextView pageTitle;
     public MeetPlugin meetPlugin;
@@ -143,8 +147,27 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         initData();
         getSupportFragmentManager().executePendingTransactions();
         initGroupMeetIfNeeded();
+        int imsConType = E.INSTANCE.getImsConType();
+        if (imsConType == 1 && null != networkBanner) {
+            networkBanner.setVisibility(View.VISIBLE);
+        }
+        initListener();
     }
 
+
+    private void initListener() {
+        imsConnectLiveData.observe(this, type -> {
+            if (null != networkBanner) {
+                ThreadUtils.getMainHandler().post(() -> {
+                    if (type == 1) {
+                        networkBanner.setVisibility(View.VISIBLE);
+                    } else if (type == 2) {
+                        networkBanner.setVisibility(View.GONE);
+                    }
+                });
+            }
+        });
+    }
 
     @Override
     public boolean isShouldHideInput(@Nullable View v, @NonNull MotionEvent event) {
@@ -171,7 +194,7 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         pageTitleRightIcon = findViewById(com.cboda.chatui.R.id.page_title_right_icon);
         mIvBack2 = findViewById(com.cboda.chatui.R.id.mIvBack2);
         rightView = findViewById(com.cboda.chatui.R.id.rightView);
-
+        networkBanner = findViewById(R.id.network_unavailable_banner);
         pageTitleRightIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -635,7 +658,9 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         fetchMutedMembersOnly(sessionItem.getSessionId());
     }
 
-    /** 会话内商城入口：对齐野火 shopIv，由 {@link GroupBusiExt#getIsshop()} 控制显隐。 */
+    /**
+     * 会话内商城入口：对齐野火 shopIv，由 {@link GroupBusiExt#getIsshop()} 控制显隐。
+     */
     private void applyShopEntryFromBusiExt(@Nullable GroupBusiExt busiExt) {
         if (shopIv == null) {
             return;
@@ -794,7 +819,7 @@ public class MessageListActivity extends BaseSimple2BroadActivity
             mIvBack2.setVisibility(View.GONE);
             rightView.setVisibility(View.VISIBLE);
         } else {
-            eLogD(APP_IM_TAG,"duiinfo===="+sessionItem.getOppositeUserId());
+            eLogD(APP_IM_TAG, "duiinfo====" + sessionItem.getOppositeUserId());
             MyCommonBroadBridge.getInstance().setMyBridgeMethod(MessageListActivity.this, BridgeImEnum.GET_USER_DATA.getValue(), sessionItem.getOppositeUserId(), "", null);
             RealmUtil.INSTANCE.findUserData(sessionItem.getOppositeUserId(), new Function1<FriendBean, Unit>() {
                 @Override

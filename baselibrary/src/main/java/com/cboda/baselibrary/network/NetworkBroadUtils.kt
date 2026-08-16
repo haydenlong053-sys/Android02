@@ -9,7 +9,6 @@ import com.cboda.baselibrary.network.model.NetworkListBroadResponse
 import com.cboda.baselibrary.network.model.NetworkListBroadResponse2
 import com.cboda.baselibrary.network.model.NetworkBroadResponse
 import com.cboda.baselibrary.utils.eLogD
-import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody

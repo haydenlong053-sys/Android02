@@ -140,6 +140,7 @@ class CommonResultBroadBean : BaseBroadResponse() {
         var openAbsentKick: String? = null // 本群会议不参会自动踢人开关："0" / "1"
         var absentKickLimit: String? = null // 全局连续未参会次数，如 5
         var gradeStatus: Int? = null
+        var imPullErrToast: String? = null // 展示吐司开关
 
         var memberInterestList: Array<String>? = null
 

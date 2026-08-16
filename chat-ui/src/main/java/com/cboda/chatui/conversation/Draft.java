@@ -11,11 +11,11 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.chatui.conversation.mention.Mention;
 import com.cboda.chatui.conversation.mention.MentionBroadSpan;
 import cn.wildfirechat.model.QuoteInfo;
@@ -83,7 +83,7 @@ public class Draft {
         }
         Draft draft =  null;
         try {
-            draft = new Gson().fromJson(json, Draft.class);
+            draft = GsonUtils.getGson().fromJson(json, Draft.class);
         }catch (Exception e){
             eLogD("Draft", e.getMessage());
             // fallback
@@ -102,7 +102,7 @@ public class Draft {
             return null;
         }
         Draft draft = toDraft(content, emojiCount, quoteInfo);
-        return new Gson().toJson(draft);
+        return GsonUtils.getGson().toJson(draft);
     }
 
     public static CharSequence parseDraft(String draftJson) {

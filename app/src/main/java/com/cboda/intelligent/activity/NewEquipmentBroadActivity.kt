@@ -16,6 +16,7 @@ import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
 import com.cboda.baselibrary.network.config.NetworkBroadConfig.updateAppToken
 import com.cboda.baselibrary.utils.DeviceBroadUtil
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener
 import com.cboda.baselibrary.utils.Vp2FragmentBroadAdapter
 import com.cboda.baselibrary.utils.eLogD
@@ -246,21 +247,24 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun receiveEventMsg(eventBusBean: AppBroadEvent<Any?>) {
-        if (eventBusBean.eventCode == AppEventBroadCode.EVENT_NEW_MACHINE_CHECK && eventBusBean.data != null) {
-            val resultBean = eventBusBean.data as ResultBroadBean?
-            SharePrefBroadBroadUtil.saveString(this, AppBroadConsts.APPTOKEN, resultBean!!.apptoken)
-            updateAppToken(resultBean.apptoken)
-            val authWayPop = AuthWayBroadPop(this, SafeJumpBroadEnum.LoginNewMachine.sourceType, true)
-            authWayPop.transferInvoke = {
-                imLogin(
-                    this@NewEquipmentBroadActivity,
-                    resultBean.apptoken,
-                    resultBean.userId,
-                    resultBean.imtoken, "NewEquipmentBroadActivity"
-                )
-            }
-            authWayPop.showPopupWindow()
-        }
+//        if (eventBusBean.eventCode == AppEventBroadCode.EVENT_NEW_MACHINE_CHECK && eventBusBean.data != null) {
+//            val resultBean = eventBusBean.data as ResultBroadBean?
+////            SharePrefBroadBroadUtil.saveString(this, AppBroadConsts.APPTOKEN, resultBean!!.apptoken)
+////            updateAppToken(resultBean.apptoken)
+//            val appToken = resultBean?.apptoken ?: ""
+//            MMKVBroadUtils.saveUserAppToken(appToken)
+//            updateAppToken(appToken)
+//            val authWayPop = AuthWayBroadPop(this, SafeJumpBroadEnum.LoginNewMachine.sourceType, true)
+//            authWayPop.transferInvoke = {
+//                imLogin(
+//                    this@NewEquipmentBroadActivity,
+//                    appToken,
+//                    resultBean?.userId,
+//                    resultBean?.imtoken, "NewEquipmentBroadActivity"
+//                )
+//            }
+//            authWayPop.showPopupWindow()
+//        }
     }
 
 

@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
-import com.google.gson.Gson;
+import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
 import com.cboda.intelligent.bean.BaseBroadBean;
@@ -117,7 +117,7 @@ public class ZxzhBroadActivity extends BaseSimpleBroadActivity implements View.O
         OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.zhuxiao, param, new SpotsCallBroadBack<String>(this) {
             @Override
             public void onSuccess(Response response, String result) {
-                BaseBroadBean bean = new Gson().fromJson(result, BaseBroadBean.class);
+                BaseBroadBean bean = GsonUtils.getGson().fromJson(result, BaseBroadBean.class);
                 if (bean.code.equals("200") && bean.success) {
                     finish();
                 } else {

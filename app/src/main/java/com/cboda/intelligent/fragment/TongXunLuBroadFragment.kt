@@ -11,8 +11,9 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
+import com.blankj.utilcode.util.GsonUtils
+import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.chatui.contact.ContactListBroadFragment
-import com.google.gson.Gson
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.cboda.intelligent.R
@@ -26,14 +27,14 @@ import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 
-class TongXunLuBroadFragment:BaseLazyBroadFragment() {
+class TongXunLuBroadFragment : BaseLazyBroadFragment() {
 
     private lateinit var fl: FrameLayout
     private lateinit var ivsousuo: AppCompatImageView
     private lateinit var ivAdd: AppCompatImageView
     private lateinit var hometool:
             View
-    private  lateinit var  ivMore: ComposeView
+    private lateinit var ivMore: ComposeView
 
 
     companion object {
@@ -41,6 +42,7 @@ class TongXunLuBroadFragment:BaseLazyBroadFragment() {
             return TongXunLuBroadFragment()
         }
     }
+
     private var viewModel: CommViewBroadModel? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,16 +62,16 @@ class TongXunLuBroadFragment:BaseLazyBroadFragment() {
         hometool?.layoutParams = linearParams
 
         viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
-        viewModel?.haoyouListLiveData?.observe(viewLifecycleOwner){
+        viewModel?.haoyouListLiveData?.observe(viewLifecycleOwner) {
             it.dataList?.apply {
-                contactListFragment?.setFriendData(gson.toJson(it))
+                contactListFragment?.setFriendData(GsonUtils.getGson().toJson(it))
             }
         }
         contactListFragment = ContactListBroadFragment()
         addFragment(contactListFragment!!)
     }
 
-    private var gson = Gson()
+    //    private var gson = Gson()
     override fun loadData() {
 
         ivAdd?.setOnClickListener {
@@ -80,9 +82,11 @@ class TongXunLuBroadFragment:BaseLazyBroadFragment() {
                         "faqiqun" -> {
                             JumpBroadUtils.startCreateQunActivity(context)
                         }
+
                         "tianjia" -> {
                             JumpBroadUtils.startSearchUserActivity(context)
                         }
+
                         "saoyisao" -> {
                             val isGranted = XXPermissions.isGranted(activity!!, Permission.CAMERA)
                             if (isGranted) {
@@ -141,6 +145,7 @@ class TongXunLuBroadFragment:BaseLazyBroadFragment() {
 //        }
 
     }
+
     private var contactListFragment: ContactListBroadFragment? = null
 
 
@@ -158,21 +163,24 @@ class TongXunLuBroadFragment:BaseLazyBroadFragment() {
                         0 -> { // 搜索
                             JumpBroadUtils.startSearchActivity(context)
                         }
+
                         1 -> { // 建群聊
                             JumpBroadUtils.startCreateQunActivity(context)
                         }
+
                         2 -> { // 加好友
                             JumpBroadUtils.startSearchUserActivity(context)
                         }
+
                         3 -> { // 扫一扫
-                            val isGranted = XXPermissions.isGranted(activity!!, Permission.CAMERA)
+                            val isGranted = XXPermissions.isGranted(getAppContext(activity), Permission.CAMERA)
                             if (isGranted) {
                                 saoyisao()
                             } else {
                                 val holder3 = CommanConfimBroadHolder(
                                     activity,
                                     "温馨提示",
-                                    "${AppBroadUtils.getAppName(activity!!)}需要相机权限,是否请求权限?",
+                                    "${AppBroadUtils.getAppName(getAppContext(activity))}需要相机权限,是否请求权限?",
                                     "同意",
                                     "拒绝"
                                 )
@@ -199,22 +207,22 @@ class TongXunLuBroadFragment:BaseLazyBroadFragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel?.gethaoyoulist(context,"")
+        viewModel?.gethaoyoulist(context, "")
     }
 
-    fun reflushTongxunlu(){
-        viewModel?.gethaoyoulist(context,"")
+    fun reflushTongxunlu() {
+        viewModel?.gethaoyoulist(context, "")
     }
 
-    fun updateShuLiang(xinepngy:Long,qunshu:Long){
-        contactListFragment?.updateShuLiang(xinepngy,qunshu)
+    fun updateShuLiang(xinepngy: Long, qunshu: Long) {
+        contactListFragment?.updateShuLiang(xinepngy, qunshu)
     }
 
     private fun saoyisao() {
 //        val intent = Intent(context, ScanBroadActivity::class.java)
 //        intent.putExtra("jumpSource",ScanJumpBroadEnum.Contacts.sourceType)
 //        startActivity(intent)
-        JumpBroadUtils.startScanAct(ScanJumpBroadEnum.Contacts.sourceType,context)
+        JumpBroadUtils.startScanAct(ScanJumpBroadEnum.Contacts.sourceType, context)
     }
 
     private fun addFragment(targetFragment: Fragment) {

@@ -508,4 +508,6 @@
     <string name="confirm_modify_pwd">确认修改</string>
     <string name="new_app_name">wujie</string>
 
+
+    <string name="im_network_unavailable_tip">当前无法连接网络，可检查网络设置是否正常。</string>
 </resources>

@@ -29,7 +29,6 @@ import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.baselibrary.bean.GlobalFriendListBroadBean;
 import com.cboda.baselibrary.common.UrlBroadConstants;
 import com.cboda.baselibrary.network.NetworkBroadUtils;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.jetbrains.annotations.NotNull;

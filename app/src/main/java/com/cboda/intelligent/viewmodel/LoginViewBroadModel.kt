@@ -237,8 +237,8 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                 try {
                     val result = NetworkBroadRepository.postEncryptedFlat2("api/idLogin", params)
                     result.onSuccess { map ->
-                        if (!TextUtils.isEmpty(map?.get("apptoken")?.toString() ?: "") && !TextUtils.isEmpty(map?.get("userId")?.toString() ?: "") && !TextUtils.isEmpty(map?.get("imtoken")?.toString() ?: "")) {
-                            AppBroadUtils.imLogin(getAppContext(null), map?.get("apptoken")?.toString(), map?.get("userId")?.toString(), map?.get("imtoken")?.toString(), "ScanBroadActivity")
+                        if (!TextUtils.isEmpty(map?.get(APP_TOKEN)?.toString() ?: "") && !TextUtils.isEmpty(map?.get("userId")?.toString() ?: "") && !TextUtils.isEmpty(map?.get("imtoken")?.toString() ?: "")) {
+                            AppBroadUtils.imLogin(getAppContext(null), map?.get(APP_TOKEN)?.toString(), map?.get("userId")?.toString(), map?.get("imtoken")?.toString(), "ScanBroadActivity")
                         } else {
                             showToastMain(errMsg)
                         }

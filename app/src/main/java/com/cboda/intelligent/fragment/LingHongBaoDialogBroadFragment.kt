@@ -8,8 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.ViewModelProvider
+import com.blankj.utilcode.util.GsonUtils
 import com.cboda.baselibrary.toast.ToastBroadUtils
-import com.google.gson.Gson
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseDialogBroadFragment
 import com.cboda.intelligent.bean.HongBaoBroadBiangeng
@@ -96,7 +96,7 @@ class LingHongBaoDialogBroadFragment : BaseDialogBroadFragment() {
         }
     }
 
-    private var gson = Gson()
+    private var gson = GsonUtils.getGson()
     private lateinit var ivClose: ImageView
     private lateinit var tvnicheng: TextView
     private lateinit var tvname: TextView

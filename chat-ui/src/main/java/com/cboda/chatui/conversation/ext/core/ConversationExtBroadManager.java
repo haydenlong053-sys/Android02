@@ -26,7 +26,6 @@ import com.cboda.chatui.conversation.ext.ShootBroadExt;
 import com.cboda.chatui.conversation.ext.UserCardBroadExt;
 import com.cboda.chatui.conversation.ext.VoipBroadExt;
 import com.cboda.chatui.utils.SharePrefBroadBroadUtil;
-import com.google.gson.Gson;
 
 import cn.wildfirechat.model.Conversation;
 
@@ -50,7 +49,6 @@ public class ConversationExtBroadManager {
         return instance;
     }
 
-    private Gson gson = GsonUtils.getGson();
     private IMCommonBroadResult imCommonResult;
 
     private void init() {
@@ -58,7 +56,7 @@ public class ConversationExtBroadManager {
         String pingtaipeizhi = SharePrefBroadBroadUtil.getString(context, "pingtaipeizhi", "");
         eLogD("野火", "红包转账配置--> " + pingtaipeizhi);
         if (!TextUtils.isEmpty(pingtaipeizhi)) {
-            imCommonResult = gson.fromJson(pingtaipeizhi, IMCommonBroadResult.class);
+            imCommonResult = GsonUtils.getGson().fromJson(pingtaipeizhi, IMCommonBroadResult.class);
         }
         registerExt(ImageBroadExt.class);
         registerExt(ShootBroadExt.class);

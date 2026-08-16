@@ -28,6 +28,9 @@ public class IMSClientBootstrap {
     private boolean isActive;
     private String currentUserId;
     private String currentToken;
+    /** 最近一次成功 init 时使用的 hosts 原文，用于环境切换判断。 */
+    @Nullable
+    private String currentHosts;
     @Nullable
     private String currentUserAvatarUrl = "";
     private final String defaultAvatarUrl = "https://d2ixzsnmawz3gt.cloudfront.net/file/app/icon.jpg";
@@ -39,15 +42,22 @@ public class IMSClientBootstrap {
         return INSTANCE;
     }
 
-    public synchronized void init(String userId, String token, String hosts, int appStatus) {
+    /**
+     * @return 是否成功拉起长连（hosts 非法时返回 false，且不破坏已有会话）
+     */
+    public synchronized boolean init(String userId, String token, String hosts, int appStatus) {
         if (TextUtils.isEmpty(userId)) {
             System.out.println("init IMSClientBootstrap error, userId is empty");
-            return;
+            return false;
+        }
+        if (TextUtils.isEmpty(token)) {
+            System.out.println("init IMSClientBootstrap error, token is empty");
+            return false;
         }
         Vector<String> serverUrlList = convertHosts(hosts);
         if (serverUrlList == null || serverUrlList.isEmpty()) {
             System.out.println("init IMSClientBootstrap error, ims hosts is null");
-            return;
+            return false;
         }
 
         if (imsClient != null) {
@@ -60,11 +70,13 @@ public class IMSClientBootstrap {
         isActive = true;
         this.currentUserId = userId;
         this.currentToken = token;
+        this.currentHosts = hosts;
         this.currentUserAvatarUrl = null;
         System.out.println("init IMSClientBootstrap, userId=" + userId + ", servers=" + hosts);
         imsClient = IMSClientFactory.getIMSClient();
         updateAppStatus(appStatus);
         imsClient.init(serverUrlList, new IMSEventListener(userId, token), new IMSConnectStatusListener());
+        return true;
     }
 
     /**
@@ -79,15 +91,66 @@ public class IMSClientBootstrap {
         isActive = false;
         currentUserId = null;
         currentToken = null;
+        currentHosts = null;
         currentUserAvatarUrl = null;
+        ImConnectStateStore.reset();
+        ImNetworkMonitor.INSTANCE.stop();
     }
 
     public boolean isActive() {
         return isActive;
     }
 
+    /**
+     * 长连客户端仍可用：已激活且未 close（断网重连中仍视为可用，由 Netty 内部重连）。
+     */
+    public synchronized boolean isClientUsable() {
+        return isActive && imsClient != null && !imsClient.isClosed();
+    }
+
+    public synchronized boolean isImChannelReady() {
+        return isClientUsable() && imsClient.isUserChannelBound();
+    }
+
+    /**
+     * 同账号、同 token、同 hosts，且客户端未 close → 可复用，无需重 init。
+     * 若未 BIND 且未在重连中，会踢一次 {@link #resetConnect()}。
+     */
+    public synchronized boolean canReuseSession(String userId, String token, String hosts) {
+        if (!isClientUsable()) {
+            return false;
+        }
+        if (!TextUtils.equals(userId, currentUserId)
+                || !TextUtils.equals(token, currentToken)
+                || !TextUtils.equals(hosts, currentHosts)) {
+            return false;
+        }
+        if (!imsClient.isUserChannelBound() && !imsClient.isReconnecting()) {
+            imsClient.resetConnect(false);
+        }
+        return true;
+    }
+
+    /** 系统网络恢复时尝试踢醒重连（若已在重连环内则 no-op）。 */
+    public synchronized void notifyNetworkAvailable() {
+        if (imsClient != null && !imsClient.isClosed()) {
+            imsClient.notifyNetworkAvailable();
+        }
+    }
+
+    public synchronized void resetConnect() {
+        if (imsClient != null && !imsClient.isClosed()) {
+            imsClient.resetConnect(false);
+        }
+    }
+
     public String getBindToken() {
         return currentToken;
+    }
+
+    @Nullable
+    public String getBindHosts() {
+        return currentHosts;
     }
 
     public String getCurrentUserId() {
@@ -96,7 +159,7 @@ public class IMSClientBootstrap {
 
     @Nullable
     public String getCurrentUserAvatarUrl() {
-        return currentUserAvatarUrl==null?defaultAvatarUrl:currentUserAvatarUrl;
+        return currentUserAvatarUrl == null ? defaultAvatarUrl : currentUserAvatarUrl;
     }
 
     public void setCurrentUserAvatarUrl(@Nullable String avatarUrl) {

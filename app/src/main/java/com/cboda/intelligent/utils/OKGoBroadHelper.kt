@@ -1,8 +1,8 @@
 package com.cboda.intelligent.utils
 
 import android.content.Context
+import com.blankj.utilcode.util.GsonUtils
 import com.cboda.baselibrary.toast.ToastBroadUtils
-import com.google.gson.Gson
 import com.cboda.intelligent.bean.AddMeetingTimeBroadBean
 import com.cboda.baselibrary.bean.BaseBroadResponse
 import com.cboda.intelligent.bean.BaseBroadResponse2
@@ -266,7 +266,7 @@ class OKGoBroadHelper {
                                     when (bean) {
 
                                         is MeetingDetailBroadBean -> {
-                                            val fromJson = Gson().fromJson(
+                                            val fromJson = GsonUtils.getGson().fromJson(
                                                 body,
                                                 MeetingDetailBroadBean::class.java
                                             )
@@ -274,7 +274,7 @@ class OKGoBroadHelper {
                                         }
 
                                         is CreateRoomBroadBean -> {
-                                            val fromJson = Gson().fromJson(
+                                            val fromJson = GsonUtils.getGson().fromJson(
                                                 body,
                                                 CreateRoomBroadBean::class.java
                                             )
@@ -282,7 +282,7 @@ class OKGoBroadHelper {
                                         }
 
                                         is AddMeetingTimeBroadBean -> {
-                                            val fromJson = Gson().fromJson(
+                                            val fromJson = GsonUtils.getGson().fromJson(
                                                 body,
                                                 AddMeetingTimeBroadBean::class.java
                                             )
@@ -290,7 +290,7 @@ class OKGoBroadHelper {
                                         }
 
                                         is UniqueRoomBroadBean -> {
-                                            val fromJson = Gson().fromJson(
+                                            val fromJson = GsonUtils.getGson().fromJson(
                                                 body,
                                                 UniqueRoomBroadBean::class.java
                                             )
@@ -303,7 +303,7 @@ class OKGoBroadHelper {
                                         }
 
                                         is UpdateRoomBroadBean -> {
-                                            val fromJson = Gson().fromJson(
+                                            val fromJson = GsonUtils.getGson().fromJson(
                                                 body,
                                                 UpdateRoomBroadBean::class.java
                                             )
@@ -311,7 +311,7 @@ class OKGoBroadHelper {
                                         }
 
                                         is GroupMeetingBroadBean -> {
-                                            val fromJson = Gson().fromJson(
+                                            val fromJson = GsonUtils.getGson().fromJson(
                                                 body,
                                                 GroupMeetingBroadBean::class.java
                                             )
@@ -323,7 +323,7 @@ class OKGoBroadHelper {
                                         }
 
                                         is KickListBroadBean -> {
-                                            val commonDataListBean = Gson().fromJson(
+                                            val commonDataListBean = GsonUtils.getGson().fromJson(
                                                 body,
                                                 KickListBroadBean::class.java
                                             )
@@ -401,7 +401,7 @@ class OKGoBroadHelper {
                                     when (bean) {
 
                                         is CreateRoomBroadBean -> {
-                                            val fromJson = Gson().fromJson(
+                                            val fromJson = GsonUtils.getGson().fromJson(
                                                 body,
                                                 CreateRoomBroadBean::class.java
                                             )
@@ -409,7 +409,7 @@ class OKGoBroadHelper {
                                         }
 
                                         is UniqueRoomBroadBean -> {
-                                            val fromJson = Gson().fromJson(
+                                            val fromJson = GsonUtils.getGson().fromJson(
                                                 body,
                                                 UniqueRoomBroadBean::class.java
                                             )
@@ -422,7 +422,7 @@ class OKGoBroadHelper {
                                         }
 
                                         is UpdateRoomBroadBean -> {
-                                            val fromJson = Gson().fromJson(
+                                            val fromJson = GsonUtils.getGson().fromJson(
                                                 body,
                                                 UpdateRoomBroadBean::class.java
                                             )
@@ -430,7 +430,7 @@ class OKGoBroadHelper {
                                         }
 
                                         is GroupMeetingBroadBean -> {
-                                            val fromJson = Gson().fromJson(
+                                            val fromJson = GsonUtils.getGson().fromJson(
                                                 body,
                                                 GroupMeetingBroadBean::class.java
                                             )
@@ -442,7 +442,7 @@ class OKGoBroadHelper {
                                         }
 
                                         is KickListBroadBean -> {
-                                            val commonDataListBean = Gson().fromJson(
+                                            val commonDataListBean = GsonUtils.getGson().fromJson(
                                                 body,
                                                 KickListBroadBean::class.java
                                             )
