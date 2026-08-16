@@ -56,6 +56,8 @@ public final class SessionSyncCursor {
 
     /**
      * 解析增量拉取锚点 messageId：优先 syncedMax，否则本地可见最大条（不用会话摘要 lastMessageId）。
+     * <p>
+     * 只读：发现异常游标时不得改 managed 对象（调用方常在 {@code runRead} 中），清理走写事务异步排队。
      */
     @Nullable
     public static String resolveAnchorMsgId(@NonNull Realm realm, @NonNull String sessionId) {
@@ -66,43 +68,70 @@ public final class SessionSyncCursor {
                 .equalTo("sessionId", sessionId)
                 .findFirst();
         if (session != null && !TextUtils.isEmpty(session.getSyncedMaxMsgId())) {
-            //判断是否为正确格式的有效游标
-            int count = 0;
-            for (int i = 0; i < session.getSyncedMaxMsgId().length(); i++) {
-                if (session.getSyncedMaxMsgId().charAt(i) == '-') {
-                    count++;
-                }
-            }
-            if (count != 1){
-                ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"sessionId="+sessionId+" 出现本地异常游标："+session.getSyncedMaxMsgId());
-                ViewExpandUtilKt.showIMKeyErrorToast(sessionId+"游标开小差了"+session.getSyncedMaxMsgId());
-                session.setSyncedMaxMsgId("");
-                session.setSyncedMaxSequence(0L);
+            String syncedMax = session.getSyncedMaxMsgId();
+            if (!isValidAnchorMsgIdFormat(syncedMax)) {
+                ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,
+                        "sessionId=" + sessionId + " 出现本地异常游标：" + syncedMax);
+                ViewExpandUtilKt.showIMKeyErrorToast(sessionId + "游标开小差了" + syncedMax);
+                scheduleClearInvalidSessionCursor(sessionId);
                 return "";
             }
-            return session.getSyncedMaxMsgId();
+            return syncedMax;
         }
         MessageEntity localMax = realm.where(MessageEntity.class)
                 .equalTo("sessionId", sessionId)
                 .sort("sequenceId", Sort.DESCENDING)
                 .findFirst();
         if (localMax != null && !TextUtils.isEmpty(localMax.getMsgId())) {
-            //判断是否为正确格式的有效游标
-            int count = 0;
-            for (int i = 0; i < localMax.getMsgId().length(); i++) {
-                if (localMax.getMsgId().charAt(i) == '-') {
-                    count++;
-                }
-            }
-            if (count != 1){
-                ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"sessionId="+sessionId+" 出现本地异常游标："+localMax.getMsgId());
-                ViewExpandUtilKt.showIMKeyErrorToast(sessionId+"游标开小差了"+localMax.getMsgId());
-                localMax.setMsgId("");
+            String msgId = localMax.getMsgId();
+            if (!isValidAnchorMsgIdFormat(msgId)) {
+                ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,
+                        "sessionId=" + sessionId + " 出现本地异常游标：" + msgId);
+                ViewExpandUtilKt.showIMKeyErrorToast(sessionId + "游标开小差了" + msgId);
+                // 不改 MessageEntity.msgId，避免读路径写库 / 损坏消息主键
                 return "";
             }
-            return localMax.getMsgId();
+            return msgId;
         }
         return null;
+    }
+
+    /** messageId 形如 {@code sessionId-seq}，有且仅有一个 '-'。 */
+    private static boolean isValidAnchorMsgIdFormat(@Nullable String msgId) {
+        if (TextUtils.isEmpty(msgId)) {
+            return false;
+        }
+        int dashCount = 0;
+        for (int i = 0; i < msgId.length(); i++) {
+            if (msgId.charAt(i) == '-') {
+                dashCount++;
+            }
+        }
+        return dashCount == 1;
+    }
+
+    /** 异步写事务清空异常会话水位（不可在 resolve 读路径直接 set managed）。 */
+    private static void scheduleClearInvalidSessionCursor(@NonNull String sessionId) {
+        ImDbExecutor.runWrite(() -> {
+            Realm realm = ImRealm.getRealm();
+            try {
+                realm.executeTransaction(r -> {
+                    SessionEntity s = r.where(SessionEntity.class)
+                            .equalTo("sessionId", sessionId)
+                            .findFirst();
+                    if (s == null) {
+                        return;
+                    }
+                    String cur = s.getSyncedMaxMsgId();
+                    if (!TextUtils.isEmpty(cur) && !isValidAnchorMsgIdFormat(cur)) {
+                        s.setSyncedMaxMsgId("");
+                        s.setSyncedMaxSequence(0L);
+                    }
+                });
+            } finally {
+                realm.close();
+            }
+        });
     }
 
     /**
