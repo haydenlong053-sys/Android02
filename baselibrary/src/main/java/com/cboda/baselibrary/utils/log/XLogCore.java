@@ -189,25 +189,42 @@ public class XLogCore {
             return "";
         }
         if (TextUtils.isEmpty(mLogFileDir)) {
+            // 可能尚未异步 load 完，现场补目录
+            mLogFileDir = XLogStoreUtil.getLogFileDir(mContext);
+            mLogFilingDir = XLogStoreUtil.getLogFilingDir(mContext);
+        }
+        if (TextUtils.isEmpty(mLogFileDir)) {
             Log.e(XLogConfig.XLOG_TAG, "mLogFileDir isEmpty");
             return "";
         }
 
-        String logFileDir = mLogFileDir;
-        //
-        if (!TextUtils.isEmpty(logFileDir)) {
-            // 当前时间作为 zip文件 的文件名称
-            final String desZipFilePath = XLogStoreUtil.genDesZipFilePath(mContext);
-            File desZipFile = new File(desZipFilePath);
-            // 内部缓存路径下 log 文件的缓存路径
-            List<String> srcFilePaths = new ArrayList<String>();
-            srcFilePaths.add(logFileDir);
-            // 压缩文件
-            boolean flag = ZipFileUtil.exportZipFromPaths(srcFilePaths, desZipFile);
-            // 压缩成功，则返回对应的文件存储路径
-            if (flag) {
-                return desZipFilePath;
+        // 压缩前落盘，避免当前正在写的 log 未 flush 导致 zip 缺文件/缺内容
+        synchronized (mLockObj) {
+            try {
+                if (mCurrLogFileStream != null) {
+                    mCurrLogFileStream.flush();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            // 临时关闭再压，压完由下次写日志重新打开
+            closeFileStream();
+        }
+
+        String logFileDir = mLogFileDir;
+        File logDir = new File(logFileDir);
+        if (!logDir.exists() || !logDir.isDirectory()) {
+            Log.e(XLogConfig.XLOG_TAG, "log dir not exists: " + logFileDir);
+            return "";
+        }
+
+        final String desZipFilePath = XLogStoreUtil.genDesZipFilePath(mContext);
+        File desZipFile = new File(desZipFilePath);
+        List<String> srcFilePaths = new ArrayList<String>();
+        srcFilePaths.add(logFileDir);
+        boolean flag = ZipFileUtil.exportZipFromPaths(srcFilePaths, desZipFile, logDir);
+        if (flag) {
+            return desZipFilePath;
         }
         return "";
     }
@@ -750,11 +767,18 @@ public class XLogCore {
         /**
          * 多个文件的压缩
          *
-         * @param filePaths 文件列表
+         * @param filePaths 文件列表（目录会递归收集）
          * @param destZip   压缩后文件 例:abc.zip
          * @return
          */
         public static boolean exportZipFromPaths(List<String> filePaths, File destZip) {
+            return exportZipFromPaths(filePaths, destZip, null);
+        }
+
+        /**
+         * @param baseDir 用于生成相对 ZipEntry 名；为 null 时用文件名（避免绝对路径导致解压看不到文件）
+         */
+        public static boolean exportZipFromPaths(List<String> filePaths, File destZip, File baseDir) {
             // 空判断
             if (filePaths == null || filePaths.isEmpty() || destZip == null) {
                 return false;
@@ -766,7 +790,7 @@ public class XLogCore {
                 exportFiles(exportFiles, filePaths.get(i));
             }
             // 压缩文件
-            return exportZipFromFiles(exportFiles, destZip);
+            return exportZipFromFiles(exportFiles, destZip, baseDir);
         }
 
         /**
@@ -818,49 +842,77 @@ public class XLogCore {
          * @return
          */
         private static boolean exportZipFromFiles(List<File> list, File destZip) {
+            return exportZipFromFiles(list, destZip, null);
+        }
+
+        private static boolean exportZipFromFiles(List<File> list, File destZip, File baseDir) {
             // 空判断
             if (list == null || list.isEmpty() || destZip == null) {
+                Log.e(XLogConfig.XLOG_TAG, "exportZip empty list or dest");
                 return false;
             }
             InputStream input = null;
             ZipOutputStream zipOut = null;
             //
             try {
+                // 先确保父目录存在（原先 createNewFile 在 mkdir 之前，父目录不存在时会建失败）
+                File parent = destZip.getParentFile();
+                if (parent != null && !parent.exists()) {
+                    if (!parent.mkdirs()) {
+                        Log.e(XLogConfig.XLOG_TAG, "mkdirs failed: " + parent.getAbsolutePath());
+                        return false;
+                    }
+                }
                 // 压缩文件存在，则删除
                 if (destZip.exists()) {
                     destZip.delete();
                 }
-                // 创建压缩文件
-                try {
-                    destZip.createNewFile();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-                // 创建文件目录
-                if (!destZip.getParentFile().exists()) {
-                    destZip.getParentFile().mkdir();
-                }
-                // 压缩文件流
+                // 压缩文件流（由 FOS 创建文件）
                 zipOut = new ZipOutputStream(new FileOutputStream(destZip));
                 //
                 File file = null;
                 byte[] buf = new byte[4096];
                 //
+                String basePath = null;
+                if (baseDir != null) {
+                    basePath = baseDir.getCanonicalPath();
+                    if (!basePath.endsWith(File.separator)) {
+                        basePath = basePath + File.separator;
+                    }
+                }
+                int entryCount = 0;
                 int length = list.size();
                 for (int i = 0; i < length; i++) {
                     file = list.get(i);
-                    if (!file.isDirectory()) {
-                        input = new FileInputStream(file);
-                        zipOut.putNextEntry(new ZipEntry(file.getParentFile().getAbsolutePath() + File.separator + file.getName()));
-                        int readCount = 0;
-                        while ((readCount = input.read(buf)) > 0) {
-                            zipOut.write(buf, 0, readCount);
-                        }
-                        zipOut.closeEntry();
-                        input.close();
+                    if (file == null || !file.isFile() || file.length() < 0) {
+                        continue;
                     }
+                    String entryName = buildRelativeEntryName(file, basePath);
+                    if (TextUtils.isEmpty(entryName)) {
+                        entryName = file.getName();
+                    }
+                    input = new FileInputStream(file);
+                    zipOut.putNextEntry(new ZipEntry(entryName));
+                    int readCount = 0;
+                    while ((readCount = input.read(buf)) > 0) {
+                        zipOut.write(buf, 0, readCount);
+                    }
+                    zipOut.closeEntry();
+                    input.close();
+                    input = null;
+                    entryCount++;
                 }
+                zipOut.finish();
                 zipOut.close();
+                zipOut = null;
+                if (entryCount == 0) {
+                    Log.e(XLogConfig.XLOG_TAG, "zip has 0 entries, src count=" + list.size());
+                    if (destZip.exists()) {
+                        destZip.delete();
+                    }
+                    return false;
+                }
+                Log.i(XLogConfig.XLOG_TAG, "zip ok entries=" + entryCount + " -> " + destZip.getAbsolutePath());
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -876,6 +928,28 @@ public class XLogCore {
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
+            }
+        }
+
+        /**
+         * Zip 条目用相对路径；绝对路径在多数解压工具里会被当成非法/隐藏，表现为「压缩包里没有文件」。
+         */
+        private static String buildRelativeEntryName(File file, String basePathWithSep) {
+            try {
+                String path = file.getCanonicalPath();
+                if (!TextUtils.isEmpty(basePathWithSep) && path.startsWith(basePathWithSep)) {
+                    String relative = path.substring(basePathWithSep.length());
+                    // zip 内统一用 /
+                    return relative.replace(File.separatorChar, '/');
+                }
+                // 无 base 时：父目录名/文件名，例如 xlog/xlog_xxx.txt 或 filing/xlog_xxx.txt
+                File parent = file.getParentFile();
+                if (parent != null) {
+                    return parent.getName() + "/" + file.getName();
+                }
+                return file.getName();
+            } catch (IOException e) {
+                return file.getName();
             }
         }
     }

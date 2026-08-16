@@ -4,10 +4,13 @@ package com.cboda.baselibrary.utils
 import android.annotation.SuppressLint
 import android.content.Context
 import com.cboda.baselibrary.BuildConfig
+import com.cboda.baselibrary.utils.TimeBroadBroadUtils.formatTimestamp
+import com.cboda.baselibrary.utils.TimeBroadBroadUtils.getNowTime
 import com.cboda.baselibrary.utils.log.XLogCore
 import java.io.IOException
 import java.io.PrintWriter
 import java.io.StringWriter
+import kotlin.plus
 
 private const val eLogTag = "ELogClass"
 const val APP_TAG = "APP_WEB4"
@@ -221,11 +224,19 @@ private fun log2(tag: String?, msg: String, type: Int) {
 }
 
 private fun getMsgFormatInt(msg: Int): String {
-    return msg.toString() + " ;" + getFunctionName()
+    return msg.toString() + " ;" + getMsgTime() + getFunctionName()
 }
 
 private fun getMsgFormatString(msg: String? = null): String {
-    return msg + " ;" + getFunctionName()
+    return msg + " ;" + getMsgTime() + getFunctionName()
+}
+
+private fun getMsgTime(): String {
+    return try {
+        TimeBroadBroadUtils.now() + " ;"
+    } catch (_: Exception) {
+        getNowTime().toString()
+    }
 }
 
 private fun getFunctionName(): String? {
