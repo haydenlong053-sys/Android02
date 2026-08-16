@@ -33,7 +33,7 @@ public final class EasyHttpBootstrap {
         }
         OkHttpClient okHttpClient = okHttpClientBuilder.build();
         EasyConfig.with(okHttpClient)
-                .setLogEnabled(false)
+                .setLogEnabled(getIsDebug())
                 .setServer(new RequestServer())
                 .setHandler(new ImRequestHandler(app))
                 .into();
