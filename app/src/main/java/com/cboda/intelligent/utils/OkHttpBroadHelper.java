@@ -192,19 +192,9 @@ public class OkHttpBroadHelper {
                 if (response.isSuccessful()) {
                     eLogD(TAG, "http--url", request.url().toString());
                     String resultStr = response.body().string();
-
-
-//                    String resultStrAes = decodeResponseBody(resultStr);
-//                    resultStrAes = normalizeImUserResponse(resultStrAes, request.url().toString());
-
-
-                    String resultStrAes = "";
-                    try {
-                        resultStrAes = EncryptUtil.INSTANCE.aesDecrypt(resultStr, "AES", null, null);
-                    } catch (Exception e) {
-//                        throw new RuntimeException(e);
-                        eLogD(TAG, "http--http", "--->Exception " + e);
-                    }
+                    // 明文 JSON 跳过 AES；IM 的 content/errorCode 信封展平后再 Gson
+                    String resultStrAes = decodeResponseBody(resultStr);
+                    resultStrAes = normalizeImUserResponse(resultStrAes, request.url().toString());
                     eLogD(TAG, "http--http---", resultStrAes);
 //                    Log.d(APP_TAG,"callback.mType=="+callback.mType);
                     if (callback.mType == String.class) {
@@ -480,7 +470,8 @@ public class OkHttpBroadHelper {
                             if ("200".equals(code) && bean.success) {
                                 callback.onSuccess(response, obj);
                             } else if ("401".equals(code) || "201".equals(code)) {
-                                SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, "");
+//                                SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, "");
+                                MMKVBroadUtils.Companion.saveUserAppToken("");
                                 SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, "");
                                 NetworkBroadConfig.INSTANCE.updateAppToken("");
                                 ToastBroadUtil.show(tip);
@@ -523,7 +514,9 @@ public class OkHttpBroadHelper {
         }
     }
 
-    /** 业务提示：优先 msg，其次 errorMsg。 */
+    /**
+     * 业务提示：优先 msg，其次 errorMsg。
+     */
     private static String resolveBizMessage(BaseBroadBean bean) {
         if (bean == null) {
             return "";
@@ -550,8 +543,8 @@ public class OkHttpBroadHelper {
             return body;
         }
         boolean imUserApi = url != null && url.contains("/im/user/");
-            boolean isGetUser = url != null && url.contains("/im/user/getUser");
-            boolean isDuiInfo = url != null && url.contains("/im/friend/duiInfo");
+        boolean isGetUser = url != null && url.contains("/im/user/getUser");
+        boolean isDuiInfo = url != null && url.contains("/im/friend/duiInfo");
         try {
             String trim = body.trim();
             if (!trim.startsWith("{")) {
@@ -681,7 +674,9 @@ public class OkHttpBroadHelper {
         }
     }
 
-    /** 将 isVip/isvip 统一成 "0"/"1" 字符串 */
+    /**
+     * 将 isVip/isvip 统一成 "0"/"1" 字符串
+     */
     private static String normalizeVipFlag(Object raw) {
         if (raw == null || raw == org.json.JSONObject.NULL) {
             return "0";

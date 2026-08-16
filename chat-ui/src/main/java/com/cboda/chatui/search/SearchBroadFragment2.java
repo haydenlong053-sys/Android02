@@ -155,13 +155,13 @@ public class SearchBroadFragment2 extends Fragment {
             return result;
         }
         try {
-            Gson gson = GsonUtils.getGson();
-            String json = gson.toJson(data);
+//            Gson gson = GsonUtils.getGson();
+            String json = GsonUtils.getGson().toJson(data);
             if (TextUtils.isEmpty(json) || "null".equals(json)) {
                 return result;
             }
             if (json.trim().startsWith("[")) {
-                List<GlobalFriendListBroadBean> list = gson.fromJson(json,
+                List<GlobalFriendListBroadBean> list = GsonUtils.getGson().fromJson(json,
                         new TypeToken<List<GlobalFriendListBroadBean>>() {
                         }.getType());
                 if (list != null) {
@@ -169,10 +169,10 @@ public class SearchBroadFragment2 extends Fragment {
                 }
                 return result;
             }
-            com.google.gson.JsonObject obj = gson.fromJson(json, com.google.gson.JsonObject.class);
+            com.google.gson.JsonObject obj = GsonUtils.getGson().fromJson(json, com.google.gson.JsonObject.class);
             if (obj != null) {
                 if (obj.has("userList") && obj.get("userList").isJsonArray()) {
-                    List<GlobalFriendListBroadBean> list = gson.fromJson(obj.get("userList"),
+                    List<GlobalFriendListBroadBean> list = GsonUtils.getGson().fromJson(obj.get("userList"),
                             new TypeToken<List<GlobalFriendListBroadBean>>() {
                             }.getType());
                     if (list != null) {
@@ -181,7 +181,7 @@ public class SearchBroadFragment2 extends Fragment {
                     return result;
                 }
                 if (obj.has("list") && obj.get("list").isJsonArray()) {
-                    List<GlobalFriendListBroadBean> list = gson.fromJson(obj.get("list"),
+                    List<GlobalFriendListBroadBean> list = GsonUtils.getGson().fromJson(obj.get("list"),
                             new TypeToken<List<GlobalFriendListBroadBean>>() {
                             }.getType());
                     if (list != null) {
@@ -189,7 +189,7 @@ public class SearchBroadFragment2 extends Fragment {
                     }
                     return result;
                 }
-                GlobalFriendListBroadBean bean = gson.fromJson(obj, GlobalFriendListBroadBean.class);
+                GlobalFriendListBroadBean bean = GsonUtils.getGson().fromJson(obj, GlobalFriendListBroadBean.class);
                 if (bean != null) {
                     if (TextUtils.isEmpty(bean.getUserId()) && !TextUtils.isEmpty(bean.getId())) {
                         bean.setUserId(bean.getId());
