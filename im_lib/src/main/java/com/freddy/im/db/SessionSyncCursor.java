@@ -10,7 +10,6 @@ import com.cboda.baselibrary.utils.ViewExpandUtilKt;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.db.entity.MessageEntity;
 import com.freddy.im.db.entity.SessionEntity;
-import com.freddy.im.db.mapper.MessageRealmMapper;
 import com.freddy.im.message.ImMessageManager;
 
 import java.util.LinkedHashMap;
@@ -48,7 +47,8 @@ public final class SessionSyncCursor {
     private static void advanceInTransaction(@NonNull Realm realm,
                                              @NonNull List<AppMessage> messages,
                                              boolean requireContiguous) {
-        Map<String, AppMessage> latestBySession = pickLatestPerSession(messages);
+        // 先筛合法服务端 msgId，再按会话取最大 seq 推进一次（避免 UUID 盖过有效消息，且同会话 O(1) 查 Session）
+        Map<String, AppMessage> latestBySession = pickLatestValidServerMsgPerSession(messages);
         for (Map.Entry<String, AppMessage> entry : latestBySession.entrySet()) {
             advanceSessionInTransaction(realm, entry.getKey(), entry.getValue(), requireContiguous);
         }
@@ -96,18 +96,30 @@ public final class SessionSyncCursor {
         return null;
     }
 
-    /** messageId 形如 {@code sessionId-seq}，有且仅有一个 '-'。 */
+    /** messageId 形如 {@code sessionId-seq}：有且仅有一个 '-'，且 '-' 后为非负整数。 */
     private static boolean isValidAnchorMsgIdFormat(@Nullable String msgId) {
         if (TextUtils.isEmpty(msgId)) {
             return false;
         }
-        int dashCount = 0;
-        for (int i = 0; i < msgId.length(); i++) {
-            if (msgId.charAt(i) == '-') {
-                dashCount++;
-            }
+        int dash = msgId.indexOf('-');
+        if (dash <= 0 || dash != msgId.lastIndexOf('-') || dash >= msgId.length() - 1) {
+            return false;
         }
-        return dashCount == 1;
+        return ImMessageManager.extractTrailingSequence(msgId) != ImMessageManager.INVALID_SEQUENCE;
+    }
+
+    /**
+     * 同步水位只能用服务端 messageId，禁止 clientMsgId/UUID 回退。
+     * 可选校验前缀与 sessionId 一致（sessionId 含 '-' 的极少见情况仅做 seq 格式校验）。
+     */
+    private static boolean isValidServerSyncMsgId(@Nullable String msgId, @Nullable String sessionId) {
+        if (!isValidAnchorMsgIdFormat(msgId)) {
+            return false;
+        }
+        if (TextUtils.isEmpty(sessionId) || sessionId.indexOf('-') >= 0) {
+            return true;
+        }
+        return msgId.startsWith(sessionId + "-");
     }
 
     /** 异步写事务清空异常会话水位（不可在 resolve 读路径直接 set managed）。 */
@@ -193,11 +205,27 @@ public final class SessionSyncCursor {
         if (session == null) {
             return;
         }
-        long candidateSeq = effectiveSequence(message);
+        // 仅服务端 msgId 可抬水位；禁止 resolve 到 clientMsgId/UUID（发送中消息常见）
+        String candidateMsgId = message.getMsgId();
+        if (!isValidServerSyncMsgId(candidateMsgId, sessionId)) {
+            return;
+        }
+        // 已损坏的水位（如 UUID）先清掉，否则伪 seq 会挡住后续真实推进
+        String currentMsgId = session.getSyncedMaxMsgId();
+        long currentSeq = session.getSyncedMaxSequence();
+        if (!TextUtils.isEmpty(currentMsgId) && !isValidAnchorMsgIdFormat(currentMsgId)) {
+            ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,
+                    "sessionId=" + sessionId + " 清理异常水位游标：" + currentMsgId);
+            session.setSyncedMaxMsgId("");
+            session.setSyncedMaxSequence(0L);
+            currentSeq = 0L;
+        }
+        long candidateSeq = message.getSequenceId() > 0L
+                ? message.getSequenceId()
+                : ImMessageManager.extractTrailingSequence(candidateMsgId);
         if (candidateSeq == ImMessageManager.INVALID_SEQUENCE) {
             return;
         }
-        long currentSeq = session.getSyncedMaxSequence();
         if (candidateSeq <= currentSeq) {
             return;
         }
@@ -205,16 +233,17 @@ public final class SessionSyncCursor {
         if (requireContiguous && candidateSeq != currentSeq + 1) {
             return;
         }
-        String candidateMsgId = resolveMsgId(message);
-        if (TextUtils.isEmpty(candidateMsgId)) {
-            return;
-        }
         session.setSyncedMaxSequence(candidateSeq);
         session.setSyncedMaxMsgId(candidateMsgId);
     }
 
+    /**
+     * 仅纳入合法服务端 messageId 的消息，按会话保留 sequence 最大的一条。
+     * 发送中 UUID / 空 msgId 直接跳过，不会参与水位竞选。
+     */
     @NonNull
-    private static Map<String, AppMessage> pickLatestPerSession(@NonNull List<AppMessage> messages) {
+    private static Map<String, AppMessage> pickLatestValidServerMsgPerSession(
+            @NonNull List<AppMessage> messages) {
         Map<String, AppMessage> map = new LinkedHashMap<>();
         for (AppMessage message : messages) {
             if (message == null) {
@@ -224,40 +253,38 @@ public final class SessionSyncCursor {
             if (TextUtils.isEmpty(sessionId)) {
                 continue;
             }
+            if (!isValidServerSyncMsgId(message.getMsgId(), sessionId)) {
+                continue;
+            }
             AppMessage existing = map.get(sessionId);
-            if (existing == null || isNewerMessage(message, existing)) {
+            if (existing == null || syncSequence(message) > syncSequence(existing)) {
                 map.put(sessionId, message);
             }
         }
         return map;
     }
 
-    private static boolean isNewerMessage(@NonNull AppMessage candidate, @NonNull AppMessage current) {
-        return effectiveSequence(candidate) > effectiveSequence(current);
-    }
-
-    private static long effectiveSequence(@NonNull AppMessage message) {
+    /** 水位竞选用 seq：优先字段，否则从已校验的服务端 msgId 解析。 */
+    private static long syncSequence(@NonNull AppMessage message) {
         if (message.getSequenceId() > 0L) {
             return message.getSequenceId();
         }
-        String id = resolveMsgId(message);
-        return ImMessageManager.extractTrailingSequence(id);
+        return ImMessageManager.extractTrailingSequence(message.getMsgId());
     }
 
-    @Nullable
-    private static String resolveMsgId(@NonNull AppMessage message) {
-        if (!TextUtils.isEmpty(message.getMsgId())) {
-            return message.getMsgId();
-        }
-        return MessageRealmMapper.clientMsgIdForPersist(message);
-    }
-
+    /**
+     * 解析会话 id：优先 conversationId；否则仅从服务端 msgId 拆锚点。
+     * 禁止用 clientMsgId/UUID 回退，避免 extractConversationAnchor 得到假 sessionId。
+     */
     @Nullable
     private static String resolveSessionId(@NonNull AppMessage message) {
         if (!TextUtils.isEmpty(message.getConversationId())) {
             return message.getConversationId();
         }
-        String anchor = resolveMsgId(message);
-        return ImMessageManager.extractConversationAnchor(anchor);
+        String msgId = message.getMsgId();
+        if (TextUtils.isEmpty(msgId)) {
+            return null;
+        }
+        return ImMessageManager.extractConversationAnchor(msgId);
     }
 }
