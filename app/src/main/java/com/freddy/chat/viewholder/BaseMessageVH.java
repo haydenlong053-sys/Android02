@@ -140,10 +140,15 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         }
         avatarLeft.setVisibility(View.VISIBLE);
         avatarRight.setVisibility(View.GONE);
-        String avatarUrl = member != null && !TextUtils.isEmpty(member.getHeadPortrait())
-                ? member.getHeadPortrait()
-                : context.peerAvatarUrl;
-        MessageAvatarBinder.bindAvatar(avatarLeft, avatarUrl, member, context.isGroupChat, senderId);
+        if (context.isGroupChat){
+            String avatarUrl = member != null && !TextUtils.isEmpty(member.getHeadPortrait())
+                    ? member.getHeadPortrait():"";
+            MessageAvatarBinder.bindAvatar(avatarLeft, avatarUrl, member, true, senderId);
+        }else {
+            String avatarUrl = context.peerAvatarUrl;
+            MessageAvatarBinder.bindAvatar(avatarLeft, avatarUrl, member, false, senderId);
+        }
+
         bindAvatarMentionLongClick(context, sentByMe, member, senderId);
         bindAvatarClick(context, senderId);
         alignMessageColumn(Gravity.START);
