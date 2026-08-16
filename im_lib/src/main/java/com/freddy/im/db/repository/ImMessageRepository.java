@@ -112,7 +112,7 @@ public final class ImMessageRepository {
                             realm,
                             Collections.singletonList(snapshot),
                             prefetched,
-                            Collections.emptyMap()));
+                            Collections.emptyMap(),true));
                 },
                 callback);
     }
