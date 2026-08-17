@@ -535,7 +535,7 @@ public class OkHttpBroadHelper {
      * <ul>
      *   <li>登录/注册：content 展平到根（token→apptoken/imtoken 等）</li>
      *   <li>失败且 content 为 null：仍映射 errorCode/errorMsg → code/msg，便于弹窗</li>
-     *   <li>getUser 资料：再写入 {@code data}，供 UserInfoBroadActivity 使用 bean.data</li>
+     *   <li>getUser / updateProfile.profile / duiInfo：再写入 {@code data}，供资料页使用 bean.data</li>
      * </ul>
      */
     private String normalizeImUserResponse(String body, String url) {
@@ -544,6 +544,7 @@ public class OkHttpBroadHelper {
         }
         boolean imUserApi = url != null && url.contains("/im/user/");
         boolean isGetUser = url != null && url.contains("/im/user/getUser");
+        boolean isUpdateProfile = url != null && url.contains("/im/user/updateProfile");
         boolean isDuiInfo = url != null && url.contains("/im/friend/duiInfo");
         try {
             String trim = body.trim();
@@ -572,6 +573,13 @@ public class OkHttpBroadHelper {
                 return flat.toString();
             }
             org.json.JSONObject content = (org.json.JSONObject) contentObj;
+            // updateProfile：content = { success, profile:{...} } → 用 profile 当资料体
+            if (isUpdateProfile && content.has("profile") && content.opt("profile") instanceof org.json.JSONObject) {
+                org.json.JSONObject profile = content.optJSONObject("profile");
+                org.json.JSONObject wrapped = new org.json.JSONObject(profile.toString());
+                wrapped.put("success", content.optBoolean("success", true));
+                content = wrapped;
+            }
             boolean looksLikeAuth = content.has("success") || content.has("userId")
                     || content.has("token") || content.has("apptoken") || content.has("imtoken");
             if (!imUserApi && !looksLikeAuth && !root.has("errorCode")) {
@@ -619,17 +627,32 @@ public class OkHttpBroadHelper {
                 flat.put("qrcode", cardQrUrl);
             }
 
-            // getUser 资料页依赖 ResultBroadBean.data
-            boolean isProfile = isGetUser || isDuiInfo
+            // getUser / updateProfile.profile / duiInfo 资料页依赖 ResultBroadBean.data
+            boolean isProfile = isGetUser || isUpdateProfile || isDuiInfo
                     || (!content.has("token")
                     && (content.has("nickname") || content.has("idno")
-                    || content.has("cardQrUrl") || content.has("isFri")));
+                    || content.has("cardQrUrl") || content.has("isFri")
+                    || content.has("icon")));
             if (isProfile) {
                 org.json.JSONObject data = new org.json.JSONObject(content.toString());
                 if (data.has("nickname")
                         && (!data.has("name") || data.isNull("name")
                         || data.optString("name").isEmpty())) {
                     data.put("name", data.optString("nickname", ""));
+                }
+                // updateProfile 请求用 avatar，响应用 icon；本地统一 icon
+                String avatar = data.optString("avatar", "");
+                if (!avatar.isEmpty()
+                        && (!data.has("icon") || data.isNull("icon")
+                        || data.optString("icon").isEmpty())) {
+                    data.put("icon", avatar);
+                }
+                // sex 可能是数字，Data.sex 为 String
+                if (data.has("sex") && !data.isNull("sex")) {
+                    Object sexVal = data.opt("sex");
+                    if (sexVal instanceof Number) {
+                        data.put("sex", String.valueOf(((Number) sexVal).intValue()));
+                    }
                 }
                 String userId = data.optString("userId", "");
                 if (!userId.isEmpty()) {

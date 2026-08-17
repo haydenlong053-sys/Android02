@@ -54,6 +54,8 @@ class NewMineBroadFragment : BaseBroadFragment<FragmentNewMineBinding, MineViewM
 
     override fun onResume() {
         super.onResume()
+        // 先刷本地缓存（资料页已 write MMKV），再拉 getUser 校正
+        bindUserProfileFromCache()
         fetchUserInfo()
     }
 
@@ -109,6 +111,10 @@ class NewMineBroadFragment : BaseBroadFragment<FragmentNewMineBinding, MineViewM
     private fun fetchUserInfo() {
         if (!isAdded || activity == null) return
         val params = HashMap<String, Any>()
+        val userId = MMKVBroadUtils.getRealUserId()
+        if (!userId.isNullOrEmpty()) {
+            params["userId"] = userId
+        }
         OkHttpBroadHelper.getInstance().post_json(
             requireActivity(),
             BroadUrl.userInfo,

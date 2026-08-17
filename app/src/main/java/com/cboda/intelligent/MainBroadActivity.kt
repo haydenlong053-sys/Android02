@@ -661,7 +661,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             SharePrefBroadBroadUtil.saveString(this@MainBroadActivity, "autofanyi", data.autoTranslation)
             MMKVBroadUtils.saveUserVip(data.isVip)
             MMKVBroadUtils.saveSqlStrData(LOGIN_USER_DATA, toJson2(data))
-            viewModel?.getKfInfo(this@MainBroadActivity, data.aiRobotId)
+//            viewModel?.getKfInfo(this@MainBroadActivity, data.aiRobotId)
             // 新群邀请角标唯一数据源：userInfo.gros
             MMKVBroadUtils.saveContactBadgeCounts(data.fris, data.gros)
             refreshContactBadgeFromCache()
