@@ -10,6 +10,7 @@ import androidx.core.view.isGone
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.getIsDebug
 import com.cboda.baselibrary.utils.zipLogFiles
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.HyzxBroadActivity
@@ -28,6 +29,7 @@ import com.cboda.intelligent.utils.BaseBroadCallback
 import com.cboda.intelligent.utils.OkHttpBroadHelper
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.intelligent.utils.click
+import com.cboda.intelligent.utils.copyToClipboard
 import com.cboda.intelligent.utils.showGuidePasswordTip
 import com.cboda.intelligent.utils.showToastMain
 import com.cboda.intelligent.viewmodel.MineViewModel
@@ -100,6 +102,9 @@ class NewMineBroadFragment : BaseBroadFragment<FragmentNewMineBinding, MineViewM
             viewModel.postFile(logPath) { netUrl, _ ->
                 if (!TextUtils.isEmpty(netUrl)) {
                     eLogD("NewMineBroadFragmentClass", "netUrl:$netUrl")
+                    if (getIsDebug()) {
+                        copyToClipboard(binding.itemUploadLog.context, netUrl)
+                    }
                     showToastMain(com.cboda.baselibrary.R.string.post_log_success)
                 }
             }
