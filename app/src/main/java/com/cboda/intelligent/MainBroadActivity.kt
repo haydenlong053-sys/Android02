@@ -675,8 +675,13 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             MMKVBroadUtils.saveUserVip(data.isVip)
             MMKVBroadUtils.saveSqlStrData(LOGIN_USER_DATA, toJson2(data))
             viewModel?.getKfInfo(this@MainBroadActivity, data.aiRobotId)
-            // 新群邀请角标唯一数据源：userInfo.gros
             MMKVBroadUtils.saveContactBadgeCounts(data.fris, data.gros)
+            // 通用「消息提醒」开关：供响铃/震动本地判断
+            MMKVBroadUtils.saveMsgReminderEnabled(data.isMsgtx)
+//            try {
+//                ChatManager.Instance().setGlobalSilent(data.isMsgtx == "0", null)
+//            } catch (_: Exception) {
+//            }
             refreshContactBadgeFromCache()
 
             IMSClientBootstrap.getInstance().currentUserAvatarUrl = data.userImg

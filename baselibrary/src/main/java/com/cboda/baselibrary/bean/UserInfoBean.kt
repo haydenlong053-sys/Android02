@@ -79,6 +79,8 @@ class UserInfoBean : Serializable {
 
     var isLiang = ""//是否为靓号
 
+    /** 通用「消息提醒」："1"开 / "0"关 */
+    var isMsgtx = ""
 
     @SerializedName("memberInterestList")
     var memberInterestList: Array<String>? = null //标签

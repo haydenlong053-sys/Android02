@@ -86,6 +86,9 @@ class MMKVBroadUtils {
         /** userInfo.gros：新群邀请未处理数（自研角标唯一数据源） */
         const val KEY_NEW_GROUP_INVITE_COUNT = "key_new_group_invite_count"
 
+        /** 通用设置「消息提醒」开关（userInfo.isMsgtx："1"开 / "0"关，默认开） */
+        const val KEY_MSG_REMINDER_ENABLED = "key_msg_reminder_enabled"
+
         const val KEY_GROUP_LIST_DATA = "key_group_list_data"
 
         const val KEY_GROUP_DATE_LIST_DATA = "key_group_date_list_data"
@@ -645,6 +648,20 @@ class MMKVBroadUtils {
         fun saveContactBadgeCounts(fris: Long, gros: Long) {
             saveSqlLongData(KEY_NEW_FRIEND_APPLY_COUNT, fris.coerceAtLeast(0L))
             saveSqlLongData(KEY_NEW_GROUP_INVITE_COUNT, gros.coerceAtLeast(0L))
+        }
+
+        /**
+         * 缓存通用「消息提醒」开关。
+         * @param isMsgtx 服务端字段："1"/空=开启，"0"=关闭
+         */
+        fun saveMsgReminderEnabled(isMsgtx: String?) {
+            val enabled = isMsgtx.isNullOrEmpty() || isMsgtx == "1"
+            getMmKv()?.encode(KEY_MSG_REMINDER_ENABLED, enabled)
+        }
+
+        /** 消息提醒是否开启（默认 true，与通用页默认态一致）。 */
+        fun isMsgReminderEnabled(): Boolean {
+            return getMmKv()?.decodeBool(KEY_MSG_REMINDER_ENABLED, true) ?: true
         }
 
         fun getNewFriendApplyCount(): Long {

@@ -21,6 +21,11 @@ class TiXingBroadUtils {
         //野火消息提醒（声音+震动）
         fun imMsgReminder(context: Context?) {
             try {
+                // 通用设置「消息提醒」关闭时不响铃、不震动
+                if (!MMKVBroadUtils.isMsgReminderEnabled()) {
+                    eLogD("TiXingBroadUtilsClass", "消息提醒已关闭，跳过声音/震动")
+                    return
+                }
                 val isCallingState = MeetCallManager.getInstance().isCallingState()
                 eLogD("TiXingBroadUtilsClass", "收到信息：$isCallingState")
                 if (!isCallingState) {
