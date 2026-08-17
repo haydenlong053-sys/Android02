@@ -26,8 +26,10 @@ import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.http.model.im.SessionItem;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -49,6 +51,8 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
     private static final Object PAYLOAD_UNREAD = new Object();
     /** 未读 + 最近消息预览（不含头像/昵称）。 */
     private static final Object PAYLOAD_PREVIEW = new Object();
+    /** 仅勾选状态。 */
+    private static final Object PAYLOAD_SELECT = new Object();
 
     private static final ExecutorService DIFF_EXECUTOR = Executors.newSingleThreadExecutor(r -> {
         Thread t = new Thread(r, "session-list-diff");
@@ -60,7 +64,9 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
     private static final Handler MAIN = new Handler(Looper.getMainLooper());
 
     private final List<SessionItem> items = new ArrayList<>();
+    private final Set<String> selectedSessionIds = new HashSet<>();
     private final AtomicInteger dataGeneration = new AtomicInteger(0);
+    private boolean isSelectMode = false;
 
     @Nullable
     private String currentUserId;
@@ -79,6 +85,79 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
 
     public void setOnSessionLongClickListener(@Nullable OnSessionLongClickListener listener) {
         this.onSessionLongClickListener = listener;
+    }
+
+    public boolean isSelectMode() {
+        return isSelectMode;
+    }
+
+    /** 进入/退出多选管理模式（对齐野火 ConversationListBroadAdapter#updateSelectMode）。 */
+    public void updateSelectMode(boolean selectMode) {
+        this.isSelectMode = selectMode;
+        notifyDataSetChanged();
+    }
+
+    @NonNull
+    public List<SessionItem> getData() {
+        return items;
+    }
+
+    @NonNull
+    public List<SessionItem> getSelectInfos() {
+        List<SessionItem> result = new ArrayList<>();
+        for (SessionItem item : items) {
+            if (item == null) {
+                continue;
+            }
+            String id = item.getSessionId();
+            if (id != null && selectedSessionIds.contains(id)) {
+                result.add(item);
+            }
+        }
+        return result;
+    }
+
+    public void selectAll() {
+        selectedSessionIds.clear();
+        for (SessionItem item : items) {
+            if (item != null && !TextUtils.isEmpty(item.getSessionId())) {
+                selectedSessionIds.add(item.getSessionId());
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void closeSelect() {
+        selectedSessionIds.clear();
+        notifyDataSetChanged();
+    }
+
+    public void cancelSelectAll() {
+        closeSelect();
+    }
+
+    /**
+     * 切换单项选中状态。
+     *
+     * @return 当前是否已选中
+     */
+    public boolean toggleSelect(@Nullable SessionItem item, int position) {
+        if (item == null || TextUtils.isEmpty(item.getSessionId())) {
+            return false;
+        }
+        String id = item.getSessionId();
+        boolean selected;
+        if (selectedSessionIds.contains(id)) {
+            selectedSessionIds.remove(id);
+            selected = false;
+        } else {
+            selectedSessionIds.add(id);
+            selected = true;
+        }
+        if (position >= 0 && position < items.size()) {
+            notifyItemChanged(position, PAYLOAD_SELECT);
+        }
+        return selected;
     }
 
     public void setNewData(@Nullable List<SessionItem> sessionList) {
@@ -199,16 +278,25 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         if (!payloads.isEmpty()) {
             boolean unreadOnly = false;
             boolean previewOnly = false;
+            boolean selectOnly = false;
             for (Object payload : payloads) {
                 if (payload == PAYLOAD_UNREAD) {
                     unreadOnly = true;
                 } else if (payload == PAYLOAD_PREVIEW) {
                     previewOnly = true;
+                } else if (payload == PAYLOAD_SELECT) {
+                    selectOnly = true;
                 } else {
                     unreadOnly = false;
                     previewOnly = false;
+                    selectOnly = false;
                     break;
                 }
+            }
+            if (selectOnly && !unreadOnly && !previewOnly) {
+                SessionItem s = items.get(position);
+                bindSelect(holder, s);
+                return;
             }
             if (previewOnly || unreadOnly) {
                 SessionItem s = items.get(position);
@@ -235,6 +323,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
 
         bindPreview(holder, s);
         bindUnread(holder, s);
+        bindSelect(holder, s);
 
         holder.itemView.setBackgroundResource(
                 s.getTopNum() > 0 ? R.drawable.bg_item_pinned : R.drawable.bg_item_white);
@@ -245,11 +334,30 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
             }
         });
         holder.itemView.setOnLongClickListener(v -> {
+            if (isSelectMode) {
+                return false;
+            }
             if (onSessionLongClickListener != null) {
                 return onSessionLongClickListener.onSessionLongClick(s);
             }
             return false;
         });
+    }
+
+    private void bindSelect(@NonNull VH holder, @NonNull SessionItem s) {
+        if (holder.ivCheck == null) {
+            return;
+        }
+        if (!isSelectMode) {
+            holder.ivCheck.setVisibility(View.GONE);
+            return;
+        }
+        holder.ivCheck.setVisibility(View.VISIBLE);
+        boolean selected = s.getSessionId() != null && selectedSessionIds.contains(s.getSessionId());
+        holder.ivCheck.setImageResource(
+                selected
+                        ? com.cboda.chatui.R.mipmap.ic_check_cnv_broad_select
+                        : com.cboda.chatui.R.mipmap.ic_check_cnv_broad_normal);
     }
 
     private void bindPreview(@NonNull VH holder, @NonNull SessionItem s) {
@@ -387,6 +495,8 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
     }
 
     static final class VH extends RecyclerView.ViewHolder {
+        @Nullable
+        final ImageView ivCheck;
         final VpGradeView avatar;
         final TextView tvName;
         final TextView tvRegisterDay;
@@ -397,6 +507,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
 
         VH(@NonNull View itemView) {
             super(itemView);
+            ivCheck = itemView.findViewById(R.id.iv_check_cnv);
             avatar = itemView.findViewById(R.id.avatar);
             tvName = itemView.findViewById(R.id.tv_name);
             tvRegisterDay = itemView.findViewById(R.id.tv_register_day);

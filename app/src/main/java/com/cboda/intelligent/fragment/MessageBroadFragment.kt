@@ -460,10 +460,12 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
                 }
                 isManagerClick = false
                 uiViewModel.updateBottomState(false)
+                viewPager.isUserInputEnabled = true
             }, toDelete = {
                 uiViewModel.deleteSelected()
                 isManagerClick = false
                 uiViewModel.updateBottomState(false)
+                viewPager.isUserInputEnabled = true
             })
         }
         ivManager.setContent {
