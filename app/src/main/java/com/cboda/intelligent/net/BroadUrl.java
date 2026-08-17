@@ -31,8 +31,8 @@ public class BroadUrl {
     public static String uploadFile = IP + "uploadFile";
     //多文件上传
     public static String uploadFiles = IP + "uploadFiles";
-    //修改资料
-    public static String editUserinfo = IP + "editUserinfo";
+    //修改个人资料 POST /im/user/updateProfile（nickname / avatar / sex / sign）
+    public static String editUserinfo = IP + "im/user/updateProfile";
     //账号密码登陆
     public static String zhLogin = IP + "zhLogin";
     //手机号密码登陆

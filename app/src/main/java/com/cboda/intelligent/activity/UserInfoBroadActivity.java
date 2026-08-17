@@ -55,6 +55,7 @@ import com.cboda.select.picture.entity.LocalMedia;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.adapter.InterestBroadAdapter;
 import com.cboda.intelligent.base.BaseSimpleBroadActivity;
+import com.cboda.intelligent.bean.ActionRefreshBroadEvent;
 import com.cboda.intelligent.dialog.UserEwmBroadDialog;
 import com.cboda.intelligent.bean.ResultBroadBean;
 import com.cboda.intelligent.dialog.NormalBroadDialog;
@@ -78,6 +79,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.greenrobot.eventbus.EventBus;
 
 import com.cboda.chatui.user.UserViewBroadModel;
 
@@ -385,49 +388,66 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
         }
     }
 
-    private void updateToIM(String iconUrl, String name) {
-        List<ModifyMyInfoEntry> entries = new ArrayList<>();
-        entries.add(new ModifyMyInfoEntry(ModifyMyInfoType.Modify_Portrait, iconUrl));
-        entries.add(new ModifyMyInfoEntry(ModifyMyInfoType.Modify_DisplayName, name));
-        userViewModel.modifyMyInfo(entries).observe(this, booleanOperateResult -> {
-            if (booleanOperateResult.isSuccess()) {
-                finish();
-            } else {
-                ToastBroadUtil.show(getString(R.string.update_info_to_chat_server_failed) + booleanOperateResult.getErrorCode());
-            }
-
-
-        });
-
-
-    }
 
     /**
-     * 修改资料
+     * 修改个人资料 → POST im/user/updateProfile
+     * 仅传文档字段：nickname / avatar / sex / sign（局部更新，null 表示不改）
      */
     private void editUserinfo() {
         if (bean != null && bean.data != null) {
             Map<String, Object> param = new HashMap<>();
-            param.put("icon", bean.data.icon);
-            param.put("name", bean.data.name);
-            param.put("sex", bean.data.sex);
-            param.put("sign", bean.data.sign);
-            if (bean.data.city != null) {
-                param.put("city", bean.data.city);
+            if (!TextUtils.isEmpty(bean.data.name)) {
+                param.put("nickname", bean.data.name.trim());
             }
-            if (bean.data.profession != null) {
-                param.put("profession", bean.data.profession);
+            if (!TextUtils.isEmpty(bean.data.icon)) {
+                param.put("avatar", bean.data.icon);
             }
-            if (bean.data.memberInterestList != null) {
-                param.put("memberInterestList", bean.data.memberInterestList);
+            if (!TextUtils.isEmpty(bean.data.sex)) {
+                try {
+                    param.put("sex", Integer.parseInt(bean.data.sex.trim()));
+                } catch (NumberFormatException e) {
+                    param.put("sex", 0);
+                }
+            }
+            // 签名允许空串表示清空；未改动时仍随保存一并提交当前值
+            param.put("sign", bean.data.sign != null ? bean.data.sign : "");
+            if (param.isEmpty()) {
+                ToastBroadUtil.show("没有需要修改的内容");
+                return;
             }
             OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.editUserinfo, param, new SpotsCallBroadBack<ResultBroadBean>(this) {
 
                 @Override
                 public void onSuccess(Response response, ResultBroadBean resultBean) {
                     ToastBroadUtil.show(resultBean.msg);
+                    if (resultBean.data != null) {
+                        if (!TextUtils.isEmpty(resultBean.data.name)) {
+                            bean.data.name = resultBean.data.name;
+                        }
+                        if (!TextUtils.isEmpty(resultBean.data.icon)) {
+                            bean.data.icon = resultBean.data.icon;
+                        }
+                        if (!TextUtils.isEmpty(resultBean.data.sex)) {
+                            bean.data.sex = resultBean.data.sex;
+                        }
+                        if (resultBean.data.sign != null) {
+                            bean.data.sign = resultBean.data.sign;
+                        }
+                        oldBean = fromJson2(toJson2(bean), ResultBroadBean.class);
+                        setInfo();
+                    }
+                    // 同步本地缓存，供「我的」页 onResume / 缓存绑定立刻刷新昵称头像
+                    if (bean != null && bean.data != null) {
+                        if (!TextUtils.isEmpty(bean.data.name)) {
+                            MMKVBroadUtils.Companion.saveUserName(bean.data.name);
+                        }
+                        if (!TextUtils.isEmpty(bean.data.icon)) {
+                            MMKVBroadUtils.Companion.saveUserImg(bean.data.icon);
+                        }
+                    }
+                    EventBus.getDefault().post(new ActionRefreshBroadEvent());
                     showSaveButtonUI(false);
-                    updateToIM(bean.data.icon, bean.data.name);
+                    finish();
 
                 }
 
