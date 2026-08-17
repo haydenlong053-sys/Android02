@@ -501,8 +501,8 @@ private fun rememberDefaultMorePopItems(): List<MorePopBroadItem> {
         MorePopBroadItem(
             icon = painterResource(R.mipmap.ic_pop_add_broad_contact),
             label = stringResource(R.string.add_friend)
-        ),
-        MorePopBroadItem(icon = painterResource(R.mipmap.ic_pop_broad_scan), label = stringResource(R.string.扫一扫))
+        )
+//        , MorePopBroadItem(icon = painterResource(R.mipmap.ic_pop_broad_scan), label = stringResource(R.string.扫一扫))
     )
 }
 
