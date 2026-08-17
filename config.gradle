@@ -1,6 +1,7 @@
 ext {
     libsinfo = [
             applicationId    : "com.lxs.qixun",
+//            applicationId    : "com.cboda.intelligent",
             minSdk           : 29,
             compileSdk       : 36,
             versionCode      : 102,
