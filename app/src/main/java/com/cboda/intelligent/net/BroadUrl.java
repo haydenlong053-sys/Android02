@@ -27,10 +27,29 @@ public class BroadUrl {
     public static String eqLogin = IP + "eqLogin";
     //设备号注册
     public static String regist = IP + "im/user/register";
-    //文件上传
-    public static String uploadFile = IP + "uploadFile";
-    //多文件上传
-    public static String uploadFiles = IP + "uploadFiles";
+    /** POST /filehub/upload（§7.1.0，独立 OSS 域名） */
+    public static String uploadFile() {
+        return joinOssUrl("filehub/upload");
+    }
+
+    /** POST /filehub/batchUpload（§7.2.0，独立 OSS 域名） */
+    public static String uploadFiles() {
+        return joinOssUrl("filehub/batchUpload");
+    }
+
+    private static String joinOssUrl(String path) {
+        String host = HttpsBroadConfig.myImOssHost;
+        if (host == null || host.isEmpty()) {
+            host = HttpsBroadConfig.INSTANCE.getAppBaseUrl();
+        }
+        if (!host.endsWith("/")) {
+            host = host + "/";
+        }
+        if (path.startsWith("/")) {
+            path = path.substring(1);
+        }
+        return host + path;
+    }
     //修改个人资料 POST /im/user/updateProfile（nickname / avatar / sex / sign）
     public static String editUserinfo = IP + "im/user/updateProfile";
     //账号密码登陆

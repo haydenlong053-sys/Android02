@@ -184,6 +184,12 @@ object UrlBroadBroadConstants {
     /** 修改个人资料 POST im/user/updateProfile，body: nickname/avatar/sex/sign（null=不改） */
     const val USER_UPDATE_PROFILE = "im/user/updateProfile"
 
+    /** 单文件上传 POST filehub/upload（独立 OSS 域名） */
+    const val FILEHUB_UPLOAD = "filehub/upload"
+
+    /** 批量文件上传 POST filehub/batchUpload（独立 OSS 域名） */
+    const val FILEHUB_BATCH_UPLOAD = "filehub/batchUpload"
+
     /** 对方资料 / 名片页 POST im/friend/duiInfo，body: friendUserId */
     const val FRIEND_DUI_INFO = "im/friend/duiInfo"
 

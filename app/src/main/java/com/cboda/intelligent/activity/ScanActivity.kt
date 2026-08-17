@@ -316,6 +316,7 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
     private fun handleResult(con: String) {
         try {
             // 自研群二维码：https://.../api/im/group/getGroupByCodeId/{codeId}?type=1
+            //https://im-test.wujie168.net/QC/00d4b14e9e9d491bb26560de0fdb4133?type=3
             if (ImGroupQrCodeHelper.isGetGroupByCodeIdUrl(con)) {
                 if (jumpSource == ScanJumpBroadEnum.Login.sourceType) {
                     ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code_type))

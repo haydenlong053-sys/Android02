@@ -192,8 +192,9 @@ public class OkHttpBroadHelper {
                 if (response.isSuccessful()) {
                     eLogD(TAG, "http--url", request.url().toString());
                     String resultStr = response.body().string();
-                    // 明文 JSON 跳过 AES；IM 的 content/errorCode 信封展平后再 Gson
+                    // 明文 JSON 跳过 AES；filehub / IM 信封展平后再 Gson
                     String resultStrAes = decodeResponseBody(resultStr);
+                    resultStrAes = normalizeFilehubResponse(resultStrAes, request.url().toString());
                     resultStrAes = normalizeImUserResponse(resultStrAes, request.url().toString());
                     eLogD(TAG, "http--http---", resultStrAes);
 //                    Log.d(APP_TAG,"callback.mType=="+callback.mType);
@@ -260,7 +261,9 @@ public class OkHttpBroadHelper {
                 .addHeader("App-Platform", "Android")
                 .addHeader("App-Version", getAppVersion(null))
                 .url(url);
-        RequestBody body = builderFiles(fileParams);
+        RequestBody body = isFilehubUrl(url)
+                ? builderFilehubMultipart(url, fileParams)
+                : builderFiles(fileParams);
         builder.post(body);
         return builder.build();
     }
@@ -530,6 +533,152 @@ public class OkHttpBroadHelper {
         return "";
     }
 
+    private static boolean isFilehubUrl(String url) {
+        return url != null && url.contains("/filehub/");
+    }
+
+    /**
+     * filehub：7.1.0 part 名 {@code file} + JSON {@code param}；7.2.0 part 名 {@code files} + JSON {@code param}。
+     * 批量不传 fileHash（避免秒传把多文件收成同一 url）。
+     */
+    private MultipartBody builderFilehubMultipart(String url, Map<String, List<File>> fileParams) {
+        boolean batch = url != null && url.contains("/filehub/batchUpload");
+        String partName = batch ? "files" : "file";
+        MultipartBody.Builder requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        File firstFile = null;
+        int fileCount = 0;
+        if (fileParams != null) {
+            for (Map.Entry<String, List<File>> entry : fileParams.entrySet()) {
+                List<File> files = entry.getValue();
+                if (files == null) {
+                    continue;
+                }
+                for (File file : files) {
+                    if (file == null || !file.isFile()) {
+                        continue;
+                    }
+                    if (firstFile == null) {
+                        firstFile = file;
+                    }
+                    fileCount++;
+                    RequestBody body = RequestBody.create(MediaType.parse(guessFileMimeType(file)), file);
+                    requestBody.addFormDataPart(partName, file.getName(), body);
+                }
+            }
+        }
+        org.json.JSONObject param = new org.json.JSONObject();
+        try {
+            if (!batch && fileCount == 1) {
+                String hash = com.freddy.im.util.FileHashUtil.md5Hex(firstFile);
+                if (hash != null && !hash.isEmpty()) {
+                    param.put("fileHash", hash);
+                }
+            }
+        } catch (Exception ignored) {
+        }
+        RequestBody paramBody = RequestBody.create(
+                MediaType.parse("application/json; charset=utf-8"),
+                param.toString());
+        requestBody.addFormDataPart("param", null, paramBody);
+        return requestBody.build();
+    }
+
+    private static String guessFileMimeType(File file) {
+        String name = file.getName().toLowerCase();
+        if (name.endsWith(".png")) {
+            return "image/png";
+        }
+        if (name.endsWith(".jpg") || name.endsWith(".jpeg")) {
+            return "image/jpeg";
+        }
+        if (name.endsWith(".gif")) {
+            return "image/gif";
+        }
+        if (name.endsWith(".webp")) {
+            return "image/webp";
+        }
+        if (name.endsWith(".mp4")) {
+            return "video/mp4";
+        }
+        if (name.endsWith(".mov")) {
+            return "video/quicktime";
+        }
+        if (name.endsWith(".3gp")) {
+            return "video/3gpp";
+        }
+        if (name.endsWith(".pdf")) {
+            return "application/pdf";
+        }
+        return "application/octet-stream";
+    }
+
+    /**
+     * filehub 信封展平为旧上传接口形态：{@code url} / {@code urls} + code/success/msg。
+     */
+    private String normalizeFilehubResponse(String body, String url) {
+        if (body == null || body.isEmpty() || !isFilehubUrl(url)) {
+            return body;
+        }
+        try {
+            String trim = body.trim();
+            if (!trim.startsWith("{")) {
+                return body;
+            }
+            org.json.JSONObject root = new org.json.JSONObject(trim);
+            java.util.List<String> urls = new java.util.ArrayList<>();
+            collectFilehubUrls(root.opt("content"), urls);
+            if (urls.isEmpty()) {
+                collectFilehubUrls(root.opt("data"), urls);
+            }
+            int errorCode = root.has("errorCode") ? root.optInt("errorCode", -1) : root.optInt("code", -1);
+            boolean ok = errorCode == 0;
+            String errorMsg = root.optString("errorMsg", "");
+            if (errorMsg.isEmpty()) {
+                errorMsg = root.optString("msg", "");
+            }
+            org.json.JSONObject flat = new org.json.JSONObject();
+            flat.put("success", ok);
+            flat.put("code", ok ? "200" : String.valueOf(errorCode));
+            flat.put("msg", errorMsg);
+            if (!urls.isEmpty()) {
+                flat.put("url", urls.get(0));
+                org.json.JSONArray arr = new org.json.JSONArray();
+                for (String item : urls) {
+                    arr.put(item);
+                }
+                flat.put("urls", arr);
+            }
+            return flat.toString();
+        } catch (Exception e) {
+            toLog(e, TAG);
+            return body;
+        }
+    }
+
+    private static void collectFilehubUrls(Object node, java.util.List<String> out) {
+        if (node == null || node == org.json.JSONObject.NULL) {
+            return;
+        }
+        if (node instanceof org.json.JSONObject) {
+            String itemUrl = ((org.json.JSONObject) node).optString("url", "");
+            if (!itemUrl.isEmpty()) {
+                out.add(itemUrl);
+            }
+            return;
+        }
+        if (node instanceof org.json.JSONArray) {
+            org.json.JSONArray arr = (org.json.JSONArray) node;
+            for (int i = 0; i < arr.length(); i++) {
+                collectFilehubUrls(arr.opt(i), out);
+            }
+        }
+    }
+
+    /** 供 OkGo 等其它上传路径展平 filehub 信封。 */
+    public static String flattenFilehubResponse(String body, String url) {
+        return getInstance().normalizeFilehubResponse(body, url);
+    }
+
     /**
      * IM 用户接口返回 {@code {"errorCode":0,"content":{...}}} 时，展平为 ResultBroadBean 可解析形态。
      * <ul>
@@ -539,7 +688,7 @@ public class OkHttpBroadHelper {
      * </ul>
      */
     private String normalizeImUserResponse(String body, String url) {
-        if (body == null || body.isEmpty()) {
+        if (body == null || body.isEmpty() || isFilehubUrl(url)) {
             return body;
         }
         boolean imUserApi = url != null && url.contains("/im/user/");

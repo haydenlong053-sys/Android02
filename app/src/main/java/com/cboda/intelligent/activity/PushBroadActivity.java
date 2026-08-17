@@ -292,7 +292,7 @@ public class PushBroadActivity extends BaseSimpleBroadActivity implements View.O
                         if (!ListBroadUtil.isEmpty(file)) {
                             files.put("file", file);
                         }
-                        OkHttpBroadHelper.getInstance().post_file(PushBroadActivity.this, BroadUrl.uploadFile, files, new SpotsCallBroadBack<ResultBroadBean>(PushBroadActivity.this) {
+                        OkHttpBroadHelper.getInstance().post_file(PushBroadActivity.this, BroadUrl.uploadFile(), files, new SpotsCallBroadBack<ResultBroadBean>(PushBroadActivity.this) {
                             @Override
                             public void onSuccess(Response response, ResultBroadBean resultBean) {
                                 images.clear();
@@ -328,7 +328,7 @@ public class PushBroadActivity extends BaseSimpleBroadActivity implements View.O
         Map<String, List<File>> files = new HashMap<>();
         if (!ListBroadUtil.isEmpty(file))
             files.put("files", file);
-        OkHttpBroadHelper.getInstance().post_file(this, BroadUrl.uploadFiles, files, new SpotsCallBroadBack<ResultBroadBean>(this) {
+        OkHttpBroadHelper.getInstance().post_file(this, BroadUrl.uploadFiles(), files, new SpotsCallBroadBack<ResultBroadBean>(this) {
             @Override
             public void onSuccess(Response response, ResultBroadBean resultBean) {
                 images.addAll(resultBean.urls);

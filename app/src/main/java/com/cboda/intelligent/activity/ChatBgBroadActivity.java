@@ -186,7 +186,7 @@ public class ChatBgBroadActivity extends BaseSimpleBroadActivity {
         Map<String, List<File>> files = new HashMap<>();
         if (!ListBroadUtil.isEmpty(file))
             files.put("files", file);
-        OkHttpBroadHelper.getInstance().post_file(this, BroadUrl.uploadFiles, files, new SpotsCallBroadBack<ResultBroadBean>(this) {
+        OkHttpBroadHelper.getInstance().post_file(this, BroadUrl.uploadFiles(), files, new SpotsCallBroadBack<ResultBroadBean>(this) {
             @Override
             public void onSuccess(Response response, ResultBroadBean resultBean) {
                 editUserinfo(resultBean.urls.get(0));
