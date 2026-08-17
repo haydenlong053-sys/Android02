@@ -513,4 +513,5 @@
     <string name="im_network_unavailable_tip">当前无法连接网络，可检查网络设置是否正常。</string>
 
     <string name="post_log_success">上传日志成功</string>
+    <string name="pwd_length_six">密码长度至少6位</string>
 </resources>

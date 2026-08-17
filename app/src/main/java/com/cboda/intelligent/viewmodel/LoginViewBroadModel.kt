@@ -520,6 +520,10 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
             showToastMain(R.string.please_enter_password)
             return
         }
+        if (pwd.trim().length < 6) {
+            showToastMain(com.cboda.baselibrary.R.string.pwd_length_six)
+            return
+        }
         val mContext = getAppContext()
 //        val model = "${getDeviceBrand()} ${getDeviceModel()}"
 
@@ -596,6 +600,10 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
         }
         if (pwd != secondPwd) {
             showToastMain(com.cboda.baselibrary.R.string.again_pwd_inconsistent)
+            return
+        }
+        if (pwd.trim().length < 6) {
+            showToastMain(com.cboda.baselibrary.R.string.pwd_length_six)
             return
         }
         // 注册传输：v1$ + hex(SHA-256(明文密码 + "\n" + account.trim().lowercase()))
