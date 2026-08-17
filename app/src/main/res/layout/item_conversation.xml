@@ -22,6 +22,17 @@
         android:paddingEnd="@dimen/wechat_list_item_padding_h"
         android:paddingBottom="@dimen/wechat_list_item_padding_v">
 
+        <!-- 多选勾选框（管理模式下显示） -->
+        <ImageView
+            android:id="@+id/iv_check"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="12dp"
+            android:contentDescription="@null"
+            android:src="@mipmap/ic_check_cnv_broad_normal"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
         <!-- 头像 + 群天数角标（对齐野火会话列表 VpGradeView） -->
         <com.cboda.baselibrary.widge.VpGradeView
             android:id="@+id/avatar"

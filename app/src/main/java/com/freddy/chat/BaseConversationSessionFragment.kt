@@ -1,5 +1,7 @@
 package com.freddy.chat
 
+import android.os.Handler
+import android.os.Looper
 import android.text.TextUtils
 import android.view.View
 import android.widget.ProgressBar
@@ -11,6 +13,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import cn.wildfirechat.viewmodel.HomeUIViewModel
+import cn.wildfirechat.viewmodel.SocialAction
 import com.cboda.baselibrary.utils.imsConnectLiveData
 import com.cboda.chatui.widget.ProgressBroadFragment
 import com.cboda.intelligent.R
@@ -29,6 +33,7 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
     protected abstract val sessionCategory: ConversationSessionCategory
 
     private val parentViewModel: ConversationParentViewModel by activityViewModels()
+    private val uiViewModel: HomeUIViewModel by activityViewModels()
     private lateinit var adapter: ConversationListAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefresh: SwipeRefreshLayout
@@ -37,6 +42,8 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
     private lateinit var errorContainer: View
     private var networkBanner: View? = null
     private var sessionsEmpty: Boolean = true
+    private var isSelectMode: Boolean = false
+    private val mainHandler = Handler(Looper.getMainLooper())
 
     override fun contentLayout(): Int = R.layout.conversation_session_list_fragment
 
@@ -54,11 +61,20 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         adapter = ConversationListAdapter().apply {
             setCurrentUserId(IMSClientBootstrap.getInstance().currentUserId)
             setOnSessionClickListener { session ->
-                // 先跳转，再静默清未读，避免进页前整表刷新闪烁
-                JumpBroadUtils.startChatMsgActivity(session, requireContext())
-                clearUnreadAfterEnterChat(session)
+                if (isSelectMode) {
+                    val position = findPositionBySessionId(session.sessionId)
+                    toggleSelect(session, position)
+                    syncBottomBtnState()
+                } else {
+                    // 先跳转，再静默清未读，避免进页前整表刷新闪烁
+                    JumpBroadUtils.startChatMsgActivity(session, requireContext())
+                    clearUnreadAfterEnterChat(session)
+                }
             }
             setOnSessionLongClickListener { session ->
+                if (isSelectMode) {
+                    return@setOnSessionLongClickListener true
+                }
                 showSessionActions(session)
                 true
             }
@@ -109,13 +125,133 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
                 }
             }
         }
+
+        // 对齐野火：底部管理栏事件只由当前可见 Tab 消费
+        uiViewModel.actionEventLiveData.observe(viewLifecycleOwner) { action ->
+            if (action == null || !isResumed || adapter.itemCount == 0) {
+                return@observe
+            }
+            when (action) {
+                is SocialAction.SelectAll -> {
+                    adapter.selectAll()
+                    syncBottomBtnState()
+                }
+                is SocialAction.CancelSelectAll -> {
+                    adapter.cancelSelectAll()
+                    uiViewModel.updateBottomBtnState(false, true, false)
+                }
+                is SocialAction.MarkAllAsRead -> {
+                    changeOnlyThisMode(false)
+                    adapter.selectAll()
+                    clearUnreadForSelected()
+                }
+                is SocialAction.MarkSingleAsRead -> {
+                    changeOnlyThisMode(false)
+                    clearUnreadForSelected()
+                }
+                is SocialAction.DeleteSelected -> {
+                    changeOnlyThisMode(false)
+                    deleteSelectedConversations()
+                }
+                is SocialAction.CloseSelect -> {
+                    adapter.closeSelect()
+                    uiViewModel.updateBottomBtnState(false, true, false)
+                }
+            }
+        }
     }
 
     override fun updateUIMode(tag: String, selectModel: Boolean) {
         if (tag != sessionCategory.uiModeTag()) {
             return
         }
-        // 自研 IM 会话列表暂不支持多选管理模式，后续可在此扩展。
+        changeOnlyThisMode(selectModel)
+        if (selectModel) {
+            uiViewModel.updateBottomBtnState(false, true, false)
+        }
+    }
+
+    private fun changeOnlyThisMode(selectModel: Boolean) {
+        isSelectMode = selectModel
+        adapter.updateSelectMode(selectModel)
+    }
+
+    private fun syncBottomBtnState() {
+        val total = adapter.itemCount
+        val selected = adapter.selectedCount
+        val isSelectAll = total > 0 && selected == total
+        val isAllRead = isSelectAll || selected == 0
+        val enableDelete = selected > 0
+        uiViewModel.updateBottomBtnState(isSelectAll, isAllRead, enableDelete)
+    }
+
+    private fun clearUnreadForSelected() {
+        val selected = adapter.selectInfos
+        for (session in selected) {
+            markSessionAsRead(session)
+        }
+        mainHandler.postDelayed({ uiViewModel.closeSelect() }, 200L)
+    }
+
+    private fun deleteSelectedConversations() {
+        val selected = adapter.selectInfos
+        if (selected.isEmpty()) {
+            mainHandler.postDelayed({ uiViewModel.closeSelect() }, 200L)
+            return
+        }
+        progressBar.visibility = View.VISIBLE
+        val remaining = java.util.concurrent.atomic.AtomicInteger(selected.size)
+        for (session in selected) {
+            val sessionId = session.sessionId
+            if (TextUtils.isEmpty(sessionId)) {
+                if (remaining.decrementAndGet() <= 0) {
+                    finishBatchDelete()
+                }
+                continue
+            }
+            ImMessageHttpExample.requestRemoveConversation(
+                sessionId,
+                {
+                    ImLocalStore.removeSessionCompletely(sessionId) {
+                        if (!isAdded) {
+                            return@removeSessionCompletely
+                        }
+                        requireActivity().runOnUiThread {
+                            parentViewModel.removeSession(sessionId)
+                            if (remaining.decrementAndGet() <= 0) {
+                                finishBatchDelete()
+                            }
+                        }
+                    }
+                },
+                {
+                    ImLocalStore.removeSessionCompletely(sessionId) {
+                        if (!isAdded) {
+                            return@removeSessionCompletely
+                        }
+                        requireActivity().runOnUiThread {
+                            parentViewModel.removeSession(sessionId)
+                            if (remaining.decrementAndGet() <= 0) {
+                                finishBatchDelete()
+                            }
+                        }
+                    }
+                },
+            )
+        }
+    }
+
+    private fun finishBatchDelete() {
+        if (!isAdded) {
+            return
+        }
+        progressBar.visibility = View.GONE
+        Toast.makeText(
+            requireContext(),
+            com.cboda.baselibrary.R.string.remove_conversation_success,
+            Toast.LENGTH_SHORT,
+        ).show()
+        mainHandler.postDelayed({ uiViewModel.closeSelect() }, 200L)
     }
 
     protected open fun shouldEnrichSessionDisplay(): Boolean = false

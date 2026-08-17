@@ -179,8 +179,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 ivMirrorSex.isVisible = true
                 val isFriend = "1" == it.data?.isFri
                 otherLayout.isGone = otherUid == MMKVBroadUtils.getRealUserId() || !isFriend
-                findViewById<ImageView>(R.id.iv_float_more).isInvisible =
-                    otherUid == MMKVBroadUtils.getRealUserId() || !isFriend
+                findViewById<ImageView>(R.id.iv_float_more).isGone = true
                 findViewById<TextView>(R.id.addFriend).isGone =
                     isFriend || otherUid == MMKVBroadUtils.getRealUserId()
                 val daysTv = findViewById<TextView>(R.id.daysTv)

@@ -539,7 +539,8 @@
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="53dp"
-                                android:background="@color/bg_main">
+                                android:background="@color/bg_main"
+                                android:visibility="gone">
 
                                 <TextView
                                     android:id="@+id/qianming"
@@ -575,14 +576,16 @@
                             <View
                                 style="@style/Line2"
                                 android:layout_width="match_parent"
-                                android:layout_marginStart="20dp" />
+                                android:layout_marginStart="20dp"
+                                android:visibility="gone" />
 
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:id="@+id/beizhulay"
                                 android:layout_width="match_parent"
                                 android:layout_height="53dp"
-                                android:background="@color/bg_main">
+                                android:background="@color/bg_main"
+                                android:visibility="gone">
 
                                 <TextView
                                     android:id="@+id/beizhu"
@@ -628,7 +631,8 @@
                             <View
                                 style="@style/Line2"
                                 android:layout_width="match_parent"
-                                android:layout_marginStart="20dp" />
+                                android:layout_marginStart="20dp"
+                                android:visibility="gone" />
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:id="@+id/qingkong"
@@ -832,10 +836,10 @@
         android:layout_marginEnd="16dp"
         android:scaleType="fitXY"
         android:src="@mipmap/ic_float_broad_more"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/mViewBack"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="@dimen/dp_0"
