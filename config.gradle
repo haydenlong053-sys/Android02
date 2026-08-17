@@ -1,6 +1,6 @@
 ext {
     libsinfo = [
-            applicationId    : "com.tencent.qixun",
+            applicationId    : "com.lxs.qixun",
             minSdk           : 29,
             compileSdk       : 36,
             versionCode      : 102,
