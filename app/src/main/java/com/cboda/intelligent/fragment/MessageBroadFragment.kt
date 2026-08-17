@@ -311,10 +311,13 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
     }
 
     private fun updateBadges() {
-        badgeCounts[0] = anyToInt(singleCount)
-        badgeCounts[1] = anyToInt(groupCount)
-        badgeCounts[2] = anyToInt(socialCount)
-        indicatorAdapt?.notifyDataSetChanged()
+        indicatorAdapt?.updateBadgeCounts(
+            intArrayOf(
+                anyToInt(singleCount),
+                anyToInt(groupCount),
+                anyToInt(socialCount),
+            )
+        )
     }
 
     private fun observeConversationBadges() {
