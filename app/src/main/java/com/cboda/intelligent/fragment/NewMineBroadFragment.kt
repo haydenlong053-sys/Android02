@@ -99,15 +99,7 @@ class NewMineBroadFragment : BaseBroadFragment<FragmentNewMineBinding, MineViewM
         binding.itemUploadLog.click {
             val logPath = zipLogFiles()
             eLogD("NewMineBroadFragmentClass", "logPath:$logPath")
-            viewModel.postFile(logPath) { netUrl, _ ->
-                if (!TextUtils.isEmpty(netUrl)) {
-                    eLogD("NewMineBroadFragmentClass", "netUrl:$netUrl")
-                    if (getIsDebug()) {
-                        copyToClipboard(binding.itemUploadLog.context, netUrl)
-                    }
-                    showToastMain(com.cboda.baselibrary.R.string.post_log_success)
-                }
-            }
+            viewModel.postFile(logPath)
         }
     }
 

@@ -34,12 +34,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
 // 复制内容到剪切板
-fun copyToClipboard(context: Context, text: String?) {
+fun copyToClipboard(context: Context, text: String?, canToast: Boolean = true) {
     if (text?.isNotEmpty() == true) {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("label", text)
         clipboard.setPrimaryClip(clip)
-        ToastBroadUtil.show(context.getString(R.string.复制成功))
+        if (canToast) {
+            showToastMain(context.getString(R.string.复制成功))
+        }
     }
 
 }

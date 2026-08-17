@@ -30,6 +30,7 @@ private val mLog = XLogCore.getInstance()
 
 // application进入 onCreate 时调用
 fun logAppCreate(context: Context?) {
+//    mLog.onAppCreate(context, XLogCore.XLogModel.MODEL_RELEASE)
     mLog.onAppCreate(context, if (getIsDebug()) XLogCore.XLogModel.MODEL_DEBUG else XLogCore.XLogModel.MODEL_RELEASE)
 }
 
