@@ -1,20 +1,25 @@
 package com.cboda.intelligent.repository
 
-import android.text.TextUtils
-import com.cboda.baselibrary.bean.FriendBean
+import com.cboda.baselibrary.bean.SocialBroadCircle
+import com.cboda.baselibrary.bean.SocialContact
+import com.cboda.baselibrary.bean.SocialFriendRequest
+import com.cboda.baselibrary.event.UnreadCountBroadEvent
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
-import com.cboda.intelligent.utils.UrlBroadBroadConstants
-import com.cboda.baselibrary.bean.SocialBroadCircle
-import com.cboda.baselibrary.bean.SocialContact
-import com.cboda.baselibrary.bean.SocialFriendRequest
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.RealmUtil
+import com.cboda.intelligent.utils.UrlBroadBroadConstants
+import com.freddy.im.http.ImGroupHttpExample
+import com.freddy.im.http.model.im.GroupApplyInfoRes
+import com.freddy.im.listener.OnHttpImListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import org.greenrobot.eventbus.EventBus
+import kotlin.coroutines.resume
 
 class SocialBroadRepository {
 
@@ -112,6 +117,8 @@ class SocialBroadRepository {
             )
             result.onSuccess {
                 applyCount = it?.count ?: 0
+                MMKVBroadUtils.saveNewFriendApplyCount(applyCount.toLong())
+                notifyContactBadgeChanged()
             }.onFailure { code, message ->
                 applyCount = 0
             }.onError {
@@ -122,8 +129,54 @@ class SocialBroadRepository {
         }
     }
 
-    suspend fun fetchNewGroupInviteCount(): Int {
-        // 仅以 api/userInfo.gros 本地缓存为计数值
-        return MMKVBroadUtils.getNewGroupInviteCount().toInt()
+    /**
+     * 新群邀请角标：对齐好友申请，以 [ImGroupHttpExample.requestSearchGroupAsst] 待审数为准。
+     * （im/user/getUser 通常不带 gros，不能再当唯一数据源。）
+     */
+    suspend fun fetchNewGroupInviteCount(): Int = withContext(Dispatchers.IO) {
+        val count = suspendCancellableCoroutine { cont ->
+            ImGroupHttpExample.requestSearchGroupAsst(
+                object : OnHttpImListener<List<GroupApplyInfoRes>> {
+                    override fun onHttpImSuccess(result: List<GroupApplyInfoRes>) {
+                        var pending = 0
+                        for (item in result) {
+                            if (isPendingGroupInvite(item)) {
+                                pending++
+                            }
+                        }
+                        if (cont.isActive) {
+                            cont.resume(pending)
+                        }
+                    }
+                },
+                {
+                    if (cont.isActive) {
+                        cont.resume(MMKVBroadUtils.getNewGroupInviteCount().toInt())
+                    }
+                },
+            )
+        }
+        MMKVBroadUtils.saveNewGroupInviteCount(count.toLong())
+        notifyContactBadgeChanged()
+        count
+    }
+
+    private fun isPendingGroupInvite(item: GroupApplyInfoRes): Boolean {
+        // status：0 待审；type：approve=待我审批（新群邀请入口）
+        val status = item.status?.trim().orEmpty()
+        if (status != "0") {
+            return false
+        }
+        val type = item.type?.trim().orEmpty()
+        return type.isEmpty() || type.equals("approve", ignoreCase = true)
+    }
+
+    private fun notifyContactBadgeChanged() {
+        EventBus.getDefault().post(
+            UnreadCountBroadEvent(
+                null, null, null, null, null, null,
+                MMKVBroadUtils.getContactBadgeTotal().toString(),
+            ),
+        )
     }
 }

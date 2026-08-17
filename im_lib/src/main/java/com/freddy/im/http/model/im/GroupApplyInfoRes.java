@@ -14,7 +14,8 @@ public class GroupApplyInfoRes {
     private String applicant;
     private String companyId;
     private String approvedBy;
-    private String status;
+    /** 兼容 JSON 数字 / 字符串 */
+    private Object status;
     private long applyTime;
     private Long updateTime;
     private String groupName;
@@ -44,7 +45,17 @@ public class GroupApplyInfoRes {
     }
 
     public String getStatus() {
-        return status;
+        if (status == null) {
+            return null;
+        }
+        if (status instanceof Number) {
+            return String.valueOf(((Number) status).intValue());
+        }
+        String s = String.valueOf(status).trim();
+        if (s.endsWith(".0")) {
+            s = s.substring(0, s.length() - 2);
+        }
+        return s;
     }
 
     public long getApplyTime() {

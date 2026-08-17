@@ -80,9 +80,9 @@ public final class MessageMenuPolicy {
                 || MessageType.MessageContentType.isText(type);
     }
 
-    /** 对齐野火长按「收藏」：文本 / 图片 / 视频 / 语音（需有可收藏内容）。 */
+    /** 长按「收藏」入口已隐藏；保留方法供后续恢复。 */
     public static boolean canCollect(@NonNull AppMessage message) {
-        return !TextUtils.isEmpty(com.freddy.chat.collect.MessageCollectHelper.buildCollectParams(message));
+        return false;
     }
 
     public static boolean canMultiSelect(@NonNull AppMessage message) {

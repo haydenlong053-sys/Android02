@@ -647,6 +647,16 @@ class MMKVBroadUtils {
             saveSqlLongData(KEY_NEW_GROUP_INVITE_COUNT, gros.coerceAtLeast(0L))
         }
 
+        /** 仅更新新朋友申请未处理数。 */
+        fun saveNewFriendApplyCount(fris: Long) {
+            saveSqlLongData(KEY_NEW_FRIEND_APPLY_COUNT, fris.coerceAtLeast(0L))
+        }
+
+        /** 仅更新新群邀请未处理数（searchGroupAsst 待审数）。 */
+        fun saveNewGroupInviteCount(gros: Long) {
+            saveSqlLongData(KEY_NEW_GROUP_INVITE_COUNT, gros.coerceAtLeast(0L))
+        }
+
         fun getNewFriendApplyCount(): Long {
             return getSqlLongData(KEY_NEW_FRIEND_APPLY_COUNT, 0L).coerceAtLeast(0L)
         }

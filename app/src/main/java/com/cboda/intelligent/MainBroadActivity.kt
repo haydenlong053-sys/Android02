@@ -662,8 +662,13 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             MMKVBroadUtils.saveUserVip(data.isVip)
             MMKVBroadUtils.saveSqlStrData(LOGIN_USER_DATA, toJson2(data))
 //            viewModel?.getKfInfo(this@MainBroadActivity, data.aiRobotId)
-            // 新群邀请角标唯一数据源：userInfo.gros
-            MMKVBroadUtils.saveContactBadgeCounts(data.fris, data.gros)
+            // im/user/getUser 常不带/不可靠返回 gros；群邀请角标由 searchGroupAsst 写入，勿用 0 覆盖
+            if (data.fris > 0L) {
+                MMKVBroadUtils.saveNewFriendApplyCount(data.fris)
+            }
+            if (data.gros > 0L) {
+                MMKVBroadUtils.saveNewGroupInviteCount(data.gros)
+            }
             refreshContactBadgeFromCache()
 
             IMSClientBootstrap.getInstance().currentUserAvatarUrl = data.userImg
