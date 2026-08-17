@@ -647,11 +647,16 @@ public class MessageListActivity extends BaseSimple2BroadActivity
         }
         groupMuteFetched = true;
         groupAllMute = group.isAllMute();
-        // 写入 GroupVo.createTime，供会话列表群天数角标展示
+        // 写入 createTime / renameCount，供会话列表群天数与改名次数展示
         SessionItem merged = GroupVoSessionMapper.toSessionItem(
                 group, sessionItem, sessionItem.getSessionId(), false);
-        if (merged.getCreateTime() > 0L) {
-            sessionItem.setCreateTime(merged.getCreateTime());
+        if (merged.getCreateTime() > 0L || merged.getRenameCount() != null) {
+            if (merged.getCreateTime() > 0L) {
+                sessionItem.setCreateTime(merged.getCreateTime());
+            }
+            if (merged.getRenameCount() != null) {
+                sessionItem.setRenameCount(merged.getRenameCount());
+            }
             ImLocalStore.saveSessions(Collections.singletonList(merged));
         }
         applyShopEntryFromBusiExt(group.getBusiExt());

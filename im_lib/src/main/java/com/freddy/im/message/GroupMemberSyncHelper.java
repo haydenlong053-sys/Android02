@@ -175,7 +175,8 @@ public final class GroupMemberSyncHelper {
         SessionItem existing = ImSessionRepository.getInstance().queryBySessionId(groupId);
         SessionItem item = GroupVoSessionMapper.toSessionItem(
                 group, existing, groupId, applyRemoteMemChgTime);
-        ImLocalStore.saveSessionsThen(Collections.singletonList(item), null);
+        ImLocalStore.saveSessionsThen(Collections.singletonList(item),
+                () -> ImLocalStore.dispatchSessionPreviewUpdated(Collections.singletonList(item)));
     }
 
     private static void finishMemberSync(@NonNull String groupId,

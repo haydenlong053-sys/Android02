@@ -117,21 +117,26 @@ class ConversationParentViewModel : BaseViewBroadModel() {
     }
 
     /**
-     * 群会话缺 createTime 时拉 im/group/detail（GroupVo.createTime）写入会话库并刷新角标。
+     * 群会话缺 createTime / renameCount 时拉 im/group/detail，写入会话库并刷新列表。
      */
     private fun ensureGroupCreateTimes(sessions: List<SessionItem>?) {
         if (sessions.isNullOrEmpty()) {
             return
         }
         val missingIds = sessions
-            .filter { MessageType.isGroupChat(it.conversation) && it.createTime <= 0L }
+            .filter {
+                MessageType.isGroupChat(it.conversation)
+                    && (it.createTime <= 0L || it.renameCount == null)
+            }
             .mapNotNull { it.sessionId?.takeIf { id -> id.isNotBlank() } }
             .distinct()
         if (missingIds.isEmpty()) {
             return
         }
         GroupDetailFetcher.fetchSessionItems(missingIds) { map ->
-            val updates = ArrayList(map.values.filter { it.createTime > 0L })
+            val updates = ArrayList(
+                map.values.filter { it.createTime > 0L || it.renameCount != null },
+            )
             if (updates.isEmpty()) {
                 return@fetchSessionItems
             }

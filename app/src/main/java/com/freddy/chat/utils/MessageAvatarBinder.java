@@ -151,7 +151,7 @@ public final class MessageAvatarBinder {
 
     /**
      * 会话列表群聊改名次数（对齐野火 {@code nameTimeTv}：「改名 N 次」）。
-     * 未同步到改名次数时按 0 展示。
+     * 未同步或次数为 0 时不展示。
      */
     public static void bindSessionRenameCount(@NonNull TextView renameCountTv,
                                               @Nullable SessionItem session) {
@@ -159,12 +159,16 @@ public final class MessageAvatarBinder {
             renameCountTv.setVisibility(View.GONE);
             return;
         }
-        int count = session.getRenameCount() != null ? session.getRenameCount() : 0;
+        Integer renameCount = session.getRenameCount();
+        if (renameCount == null || renameCount <= 0) {
+            renameCountTv.setVisibility(View.GONE);
+            return;
+        }
         renameCountTv.setVisibility(View.VISIBLE);
         renameCountTv.setText(
                 renameCountTv.getContext().getString(R.string.rename)
                         + "\u00A0"
-                        + count
+                        + renameCount
                         + "\u00A0"
                         + renameCountTv.getContext().getString(R.string.times_unit));
     }

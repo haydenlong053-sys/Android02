@@ -40,6 +40,10 @@ public final class SessionLastMsgMerge {
             if (item.getCreateTime() <= 0L && local.getCreateTime() > 0L) {
                 item.setCreateTime(local.getCreateTime());
             }
+            // getList 通常不带 renameCount；回填本地群改名次数
+            if (item.getRenameCount() == null && local.getRenameCount() != null) {
+                item.setRenameCount(local.getRenameCount());
+            }
             // getList 未读为 0 时保留本地角标，避免冲掉推送已累加的未读
             if (item.getUnreadCount() <= 0 && local.getUnreadCount() > 0) {
                 item.setUnreadCount(local.getUnreadCount());
