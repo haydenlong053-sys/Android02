@@ -106,6 +106,22 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     tools:text="[语音]" />
+
+                <!-- 群聊改名次数（对齐野火 nameTimeTv） -->
+                <com.hjq.shape.view.ShapeTextView
+                    android:id="@+id/tv_rename_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:paddingHorizontal="4dp"
+                    android:paddingVertical="1dp"
+                    android:textColor="#3B47DD"
+                    android:textSize="11sp"
+                    android:visibility="gone"
+                    app:shape_radius="4dp"
+                    app:shape_solidColor="#1F3B47DD"
+                    tools:text="改名 3 次"
+                    tools:visibility="visible" />
             </LinearLayout>
         </LinearLayout>
 

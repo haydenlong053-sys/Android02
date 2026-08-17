@@ -16,6 +16,8 @@ public class GroupVo implements java.io.Serializable {
     private String creator;
     /** 群创建时间（毫秒） */
     private long createTime;
+    /** 群改名次数（对齐业务侧 renameCount） */
+    private int renameCount;
     private String icon;
     private int memCount;
     /** 群成员变更时间（毫秒）；用于与本地比对后决定是否全量同步成员 */
@@ -82,6 +84,14 @@ public class GroupVo implements java.io.Serializable {
 
     public void setCreateTime(long createTime) {
         this.createTime = createTime;
+    }
+
+    public int getRenameCount() {
+        return renameCount;
+    }
+
+    public void setRenameCount(int renameCount) {
+        this.renameCount = renameCount;
     }
 
     public String getIcon() {

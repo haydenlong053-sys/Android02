@@ -29,6 +29,7 @@ public final class SessionRealmMapper {
         entity.setUsername(item.getUsername());
         entity.setConversation(item.getConversation());
         entity.setCreateTime(item.getCreateTime());
+        entity.setRenameCount(item.getRenameCount() != null ? item.getRenameCount() : -1);
         entity.setIcon(item.getIcon());
         entity.setMemCount(item.getMemCount());
         entity.setMemChgTime(item.getMemChgTime());
@@ -121,6 +122,10 @@ public final class SessionRealmMapper {
             if (item.getCreateTime() <= 0L && existing.getCreateTime() > 0L) {
                 entity.setCreateTime(existing.getCreateTime());
             }
+            // getList 通常不带 renameCount；保留本地（群详情写入）的改名次数
+            if (item.getRenameCount() == null && existing.getRenameCount() >= 0) {
+                entity.setRenameCount(existing.getRenameCount());
+            }
             // getList 未读为 0 时保留本地角标，避免被冲成 0 后再靠补拉「假对齐」或漏显
             if (item.getUnreadCount() <= 0 && existing.getUnreadCount() > 0) {
                 entity.setUnreadCount(existing.getUnreadCount());
@@ -145,6 +150,7 @@ public final class SessionRealmMapper {
         item.setUsername(entity.getUsername());
         item.setConversation(entity.getConversation());
         item.setCreateTime(entity.getCreateTime());
+        item.setRenameCount(entity.getRenameCount() >= 0 ? entity.getRenameCount() : null);
         item.setIcon(entity.getIcon());
         item.setMemCount(entity.getMemCount());
         item.setMemChgTime(entity.getMemChgTime());

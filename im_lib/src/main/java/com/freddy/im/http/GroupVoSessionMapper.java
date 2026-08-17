@@ -63,6 +63,8 @@ public final class GroupVoSessionMapper {
         } else if (existing != null) {
             item.setCreateTime(existing.getCreateTime());
         }
+        // 群改名次数：群详情带 renameCount
+        item.setRenameCount(group.getRenameCount());
 
         if (existing != null) {
             item.setUsername(existing.getUsername());

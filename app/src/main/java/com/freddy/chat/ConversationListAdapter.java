@@ -320,6 +320,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         holder.tvName.setText(displayName);
         MessageAvatarBinder.bindSessionListAvatar(holder.avatar, s, currentUserId);
         MessageAvatarBinder.bindSessionRegisterDay(holder.tvRegisterDay, s, currentUserId);
+        MessageAvatarBinder.bindSessionRenameCount(holder.tvRenameCount, s);
 
         bindPreview(holder, s);
         bindUnread(holder, s);
@@ -417,6 +418,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
     private static boolean sameIdentityFields(@NonNull SessionItem a, @NonNull SessionItem b) {
         return a.getTopNum() == b.getTopNum()
                 && a.getCreateTime() == b.getCreateTime()
+                && Objects.equals(a.getRenameCount(), b.getRenameCount())
                 && TextUtils.equals(a.getSessionName(), b.getSessionName())
                 && TextUtils.equals(a.getIcon(), b.getIcon())
                 && TextUtils.equals(a.getUsername(), b.getUsername())
@@ -502,6 +504,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         final TextView tvRegisterDay;
         final ImageView ivPreviewType;
         final TextView tvSubtitle;
+        final TextView tvRenameCount;
         final TextView tvUnread;
         final View muteDot;
 
@@ -513,6 +516,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
             tvRegisterDay = itemView.findViewById(R.id.tv_register_day);
             ivPreviewType = itemView.findViewById(R.id.iv_preview_type);
             tvSubtitle = itemView.findViewById(R.id.tv_subtitle);
+            tvRenameCount = itemView.findViewById(R.id.tv_rename_count);
             tvUnread = itemView.findViewById(R.id.tv_unread);
             muteDot = itemView.findViewById(R.id.v_mute_dot);
         }
