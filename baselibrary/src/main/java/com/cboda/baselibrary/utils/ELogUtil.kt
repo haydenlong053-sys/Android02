@@ -200,25 +200,25 @@ private fun log3(tag: String?, msg: String, type: Int) {
 
 private fun log2(tag: String?, msg: String, type: Int) {
 //    if (getIsDebug()) {
-        val segmentSize = 1024 * 2
-        val segmentSize2 = 1024 * 2 * 80
-        val length = msg.length
-        when {
-            length <= segmentSize -> {
-                log3(tag, msg, type)
-            }
-
-            length <= segmentSize2 -> {
-                val message = msg.substring(0, segmentSize)
-                log3(tag, message, type)
-                val message2 = msg.substring(segmentSize)
-                log2(tag, "\t\t$message2", type)
-            }
-
-            else -> {
-                log3(tag, msg, type)
-            }
+    val segmentSize = 1024 * 2
+    val segmentSize2 = 1024 * 2 * 80
+    val length = msg.length
+    when {
+        length <= segmentSize -> {
+            log3(tag, msg, type)
         }
+
+        length <= segmentSize2 -> {
+            val message = msg.substring(0, segmentSize)
+            log3(tag, message, type)
+            val message2 = msg.substring(segmentSize)
+            log2(tag, "\t\t$message2", type)
+        }
+
+        else -> {
+            log3(tag, msg, type)
+        }
+    }
 //    } else {
 //        log3(tag, msg, type)
 //    }
@@ -264,45 +264,45 @@ private fun getFunctionName(): String? {
 fun Exception.toLog() = this.toLog(null)
 fun Exception.toLog(tag: String?) = this.toLog(tag, true)
 fun Exception.toLog(tag: String?, canPush: Boolean = true): String {
-//    return if (getIsDebug()) {
-    try {
-        val sw = StringWriter()
-        this.printStackTrace(PrintWriter(sw, true))
-        val errorStr = sw.toString()
-        sw.close()
-        tag?.also { eLogD(tag, errorStr) }
-        if (canPush && !getIsDebug()) {
-            crashReportLog("$tag:$errorStr")
+    return if (getIsDebug()) {
+        try {
+            val sw = StringWriter()
+            this.printStackTrace(PrintWriter(sw, true))
+            val errorStr = sw.toString()
+            sw.close()
+            tag?.also { eLogD(tag, errorStr) }
+            if (canPush && !getIsDebug()) {
+                crashReportLog("$tag:$errorStr")
+            }
+            return errorStr
+        } catch (e: Exception) {
+            e.message ?: "Exception"
         }
-        return errorStr
-    } catch (e: Exception) {
-        return e.message ?: "Exception"
+    } else {
+        this.message ?: "Exception"
     }
-//    } else {
-//        ""
-//    }
 }
 
 fun Throwable.toLog() = this.toLog(null)
 fun Throwable.toLog(tag: String?) = this.toLog(tag, true)
 fun Throwable.toLog(tag: String?, canPush: Boolean = true): String {
-//   return if (getIsDebug()) {
-    try {
-        val sw = StringWriter()
-        this.printStackTrace(PrintWriter(sw, true))
-        val errorStr = sw.toString()
-        sw.close()
-        tag?.also { eLogD(tag, errorStr) }
-        if (canPush && !getIsDebug()) {
-            crashReportLog("$tag:$errorStr")
+    return if (getIsDebug()) {
+        try {
+            val sw = StringWriter()
+            this.printStackTrace(PrintWriter(sw, true))
+            val errorStr = sw.toString()
+            sw.close()
+            tag?.also { eLogD(tag, errorStr) }
+            if (canPush && !getIsDebug()) {
+                crashReportLog("$tag:$errorStr")
+            }
+            errorStr
+        } catch (e: Exception) {
+            e.message ?: "Exception"
         }
-        return errorStr
-    } catch (e: Exception) {
-        return e.message ?: "Exception"
+    } else {
+        this.message ?: "Exception"
     }
-//    } else {
-//        ""
-//    }
 }
 
 

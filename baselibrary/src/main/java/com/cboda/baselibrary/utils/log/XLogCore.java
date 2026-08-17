@@ -7,6 +7,7 @@ import android.util.Log;
 
 import androidx.annotation.IntDef;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -15,12 +16,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -59,14 +65,33 @@ public class XLogCore {
         private static final int SHOW_LOG_FILE = 0x10; // 输出到文件
 
         /**
-         * 单线程池（用于异步写文件）
+         * 单线程写盘：队列有界，积压时丢最旧写任务，避免拖垮主线程/内存。
          */
-        private static ExecutorService mExecutorService = Executors.newFixedThreadPool(1);
+        private static final ExecutorService mExecutorService = new ThreadPoolExecutor(
+                1,
+                1,
+                30L,
+                TimeUnit.SECONDS,
+                new LinkedBlockingQueue<>(8),
+                r -> {
+                    Thread t = new Thread(r, "xlog-writer");
+                    t.setPriority(Thread.NORM_PRIORITY - 1);
+                    return t;
+                },
+                new ThreadPoolExecutor.DiscardOldestPolicy()
+        );
 
-        /**
-         * 日志压缩后的文件夹名称
-         */
-        // 压缩后的缓存文件 文件夹名称
+        /** 待写日志行上限；满则丢最旧行 */
+        private static final int PENDING_LINE_CAP = 2000;
+        /** 内存缓冲后再刷盘 */
+        private static final int BUFFER_SIZE = 32 * 1024;
+        /** 累计写入多少字节后 flush 一次 */
+        private static final int FLUSH_BYTES = 64 * 1024;
+        /** 单次批量最多写多少行，避免长时间占锁 */
+        private static final int BATCH_MAX_LINES = 128;
+        private static final byte[] CRLF = "\r\n".getBytes(StandardCharsets.UTF_8);
+
+        /** 日志压缩后的文件夹名称 */
         private static final String XLOG_ZIP_DIR = "xlog_zip";
     }
 
@@ -102,7 +127,12 @@ public class XLogCore {
 
     private Context mContext;
     // 文件读写锁
-    private Object mLockObj = new Object();
+    private final Object mLockObj = new Object();
+    // 待写入行（调用线程入队，写线程批量落盘）
+    private final LinkedBlockingQueue<String> mPendingLines =
+            new LinkedBlockingQueue<>(XLogConfig.PENDING_LINE_CAP);
+    private final AtomicBoolean mWriteScheduled = new AtomicBoolean(false);
+    private final AtomicInteger mBytesSinceFlush = new AtomicInteger(0);
     // 日志打印级别
     private final int mLogPrintLevel = Log.VERBOSE;
     //
@@ -169,7 +199,11 @@ public class XLogCore {
      * application进入 onTrimMemory 时调用
      */
     public void onAppTrimMemory() {
-        closeFileStream();
+        scheduleWritePending();
+        synchronized (mLockObj) {
+            flushStreamLocked();
+            closeFileStream();
+        }
     }
 
 
@@ -199,14 +233,12 @@ public class XLogCore {
         }
 
         // 压缩前落盘，避免当前正在写的 log 未 flush 导致 zip 缺文件/缺内容
+        // 先尽量排空待写队列
+        for (int i = 0; i < 20 && !mPendingLines.isEmpty(); i++) {
+            writePendingBatch();
+        }
         synchronized (mLockObj) {
-            try {
-                if (mCurrLogFileStream != null) {
-                    mCurrLogFileStream.flush();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            flushStreamLocked();
             // 临时关闭再压，压完由下次写日志重新打开
             closeFileStream();
         }
@@ -309,19 +341,126 @@ public class XLogCore {
         if ((xLogModel & XLogConfig.SHOW_LOG_CONSOLE) != 0) {
             logToConsole(tagFromUser, msgFromUser, throwable, logPrintLevel);
         }
-        // 输出到文件
+        // 输出到文件：入队后批量刷盘（不每条 flush，不每条起写任务）
         if ((xLogModel & XLogConfig.SHOW_LOG_FILE) != 0) {
-            //
-            final String tagFromUser2File = tagFromUser;
-            final String msgFromUser2File = msgFromUser;
-            final Throwable throwable2File = throwable;
-            try {
-                if (XLogConfig.mExecutorService != null) {
-                    XLogConfig.mExecutorService.submit(() -> XLogCore.this.logToFile(tagFromUser2File, msgFromUser2File, throwable2File));
+            enqueueFileLog(getFileLogMsg(tagFromUser, msgFromUser, throwable));
+        }
+    }
+
+    /**
+     * 调用线程只做入队；写线程批量落盘。队列满时丢最旧行，避免积压卡顿。
+     */
+    private void enqueueFileLog(String line) {
+        if (TextUtils.isEmpty(line)) {
+            return;
+        }
+        if (!mPendingLines.offer(line)) {
+            mPendingLines.poll();
+            mPendingLines.offer(line);
+        }
+        scheduleWritePending();
+    }
+
+    private void scheduleWritePending() {
+        if (!mWriteScheduled.compareAndSet(false, true)) {
+            return;
+        }
+        try {
+            XLogConfig.mExecutorService.execute(() -> {
+                try {
+                    writePendingBatch();
+                } finally {
+                    mWriteScheduled.set(false);
+                    if (!mPendingLines.isEmpty()) {
+                        scheduleWritePending();
+                    }
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            });
+        } catch (Exception e) {
+            mWriteScheduled.set(false);
+            e.printStackTrace();
+        }
+    }
+
+    /** 批量写入待落盘日志；写完不一定立刻 flush。 */
+    private void writePendingBatch() {
+        if (mContext == null) {
+            mPendingLines.clear();
+            return;
+        }
+        synchronized (mLockObj) {
+            if (mCurrLogFileInfo == null) {
+                // 目录尚未就绪：短暂等待，由上层 finally 再调度，避免空转打满 CPU
+                try {
+                    Thread.sleep(40L);
+                } catch (InterruptedException ignored) {
+                    Thread.currentThread().interrupt();
+                }
+                return;
             }
+            int written = 0;
+            String line;
+            while (written < XLogConfig.BATCH_MAX_LINES
+                    && (line = mPendingLines.poll()) != null) {
+                if (!writeOneLineLocked(line)) {
+                    mPendingLines.offer(line);
+                    break;
+                }
+                written++;
+            }
+            if (mBytesSinceFlush.get() >= XLogConfig.FLUSH_BYTES) {
+                flushStreamLocked();
+            }
+        }
+    }
+
+    /** @return false 表示本次写入失败 */
+    private boolean writeOneLineLocked(String printLogInfo) {
+        try {
+            byte[] d = printLogInfo.getBytes(StandardCharsets.UTF_8);
+            String logFilePath = XLogStoreUtil.getLogFilePath(mContext, mCurrLogFileInfo.xLogName);
+            File logFile = new File(logFilePath);
+
+            if (mCurrLogFileInfo.xLogSize > XLogConfig.XLOG_FILE_MAXSIZE) {
+                flushStreamLocked();
+                closeFileStream();
+                String logFilingPath = XLogStoreUtil.getLogFilingPath(mContext, mCurrLogFileInfo.xLogName);
+                File logFilingFile = new File(logFilingPath);
+                //noinspection ResultOfMethodCallIgnored
+                logFile.renameTo(logFilingFile);
+                resetLogFileInfo();
+                logFilePath = XLogStoreUtil.getLogFilePath(mContext, mCurrLogFileInfo.xLogName);
+                logFile = new File(logFilePath);
+            }
+
+            if (mCurrLogFileStream == null) {
+                FileOutputStream fos = logFile.exists()
+                        ? new FileOutputStream(logFile, true)
+                        : new FileOutputStream(logFile);
+                mCurrLogFileStream = new BufferedOutputStream(fos, XLogConfig.BUFFER_SIZE);
+            }
+
+            mCurrLogFileStream.write(d);
+            mCurrLogFileStream.write(XLogConfig.CRLF);
+            long add = d.length + XLogConfig.CRLF.length;
+            mCurrLogFileInfo.xLogSize += add;
+            mBytesSinceFlush.addAndGet((int) add);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            closeFileStream();
+            return false;
+        }
+    }
+
+    private void flushStreamLocked() {
+        try {
+            if (mCurrLogFileStream != null) {
+                mCurrLogFileStream.flush();
+            }
+            mBytesSinceFlush.set(0);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -417,68 +556,11 @@ public class XLogCore {
 
 
     /**
-     * 将log打到文件日志
-     *
-     * @param tagFromUser
-     * @param msgFromUser
+     * @deprecated 已改为 {@link #enqueueFileLog(String)} 批量写入，保留空实现避免旧调用编译失败。
      */
+    @Deprecated
     private void logToFile(String tagFromUser, String msgFromUser, Throwable throwable) {
-        // 路径空
-        if (mContext == null) {
-            Log.e(XLogConfig.XLOG_TAG, "context need init");
-            return;
-        }
-        synchronized (mLockObj) {
-            // 要写入文件的日志信息
-            String printLogInfo = getFileLogMsg(tagFromUser, msgFromUser, throwable);
-            try {
-                // 待输入的数据
-                byte[] d = printLogInfo.getBytes("utf-8");
-                //
-                // Log文件的缓存路径 /data/data/%packetname%/files/xlog_yyyyMMdd_HHmmss.txt
-                String logFilePath = XLogStoreUtil.getLogFilePath(mContext, mCurrLogFileInfo.xLogName);
-                File logFile = new File(logFilePath);
-
-                /**
-                 * 文件归档
-                 */
-                if (mCurrLogFileInfo.xLogSize > XLogConfig.XLOG_FILE_MAXSIZE) {
-                    // 文件归档
-                    String logFilingPath = XLogStoreUtil.getLogFilingPath(mContext, mCurrLogFileInfo.xLogName);
-                    File logFilingFile = new File(logFilingPath);
-                    logFile.renameTo(logFilingFile);
-                    /**
-                     * 生成新的文件路径
-                     */
-                    resetLogFileInfo();
-                    /**
-                     * 向新文件路径中写入数据
-                     */
-                    logToFile(tagFromUser, msgFromUser, throwable);
-                    return;
-                }
-                /**
-                 * 创建文件IO流
-                 */
-                if (mCurrLogFileStream == null) {
-                    // 文件存在
-                    if (logFile.exists()) {
-                        mCurrLogFileStream = new FileOutputStream(logFile, true);
-                    } else {
-                        mCurrLogFileStream = new FileOutputStream(logFile);
-                    }
-                }
-                /**
-                 * 写入日志
-                 */
-                mCurrLogFileStream.write(d);
-                mCurrLogFileStream.write("\r\n".getBytes());
-                mCurrLogFileStream.flush();
-                mCurrLogFileInfo.xLogSize += d.length;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        enqueueFileLog(getFileLogMsg(tagFromUser, msgFromUser, throwable));
     }
 
     /**
@@ -542,9 +624,14 @@ public class XLogCore {
         // 关闭文件流
         try {
             if (mCurrLogFileStream != null) {
+                try {
+                    mCurrLogFileStream.flush();
+                } catch (Exception ignored) {
+                }
                 mCurrLogFileStream.close();
                 mCurrLogFileStream = null;
             }
+            mBytesSinceFlush.set(0);
         } catch (Exception e) {
             e.printStackTrace();
         }
