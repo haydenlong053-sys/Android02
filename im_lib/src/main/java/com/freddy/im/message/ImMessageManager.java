@@ -303,10 +303,12 @@ public final class ImMessageManager {
         }
         String sessionId = extractConversationAnchor(msgId);
         if (TextUtils.isEmpty(sessionId)) {
+            ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG, "走进TextUtils.isEmpty(sessionId)=" + sessionId);
             return;
         }
         SessionItem localSession = ImSessionRepository.getInstance().queryBySessionId(sessionId);
         if (localSession != null) {
+            ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG, "走进proceedFetchNewMessageList--localSession.getSessionId=" + localSession.getSessionId()+"  msgId="+msgId);
             proceedFetchNewMessageList(msgId, listener, true);
             return;
         }
@@ -338,6 +340,7 @@ public final class ImMessageManager {
         }
         String syncAnchor = ImLocalStore.resolveMessageSyncAnchor(sessionId);
         if (SessionSyncCursor.isPushAlreadySynced(syncAnchor, msgId)) {
+            ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG, "SessionSyncCursor.isPushAlreadySynced()--syncAnchor=" + syncAnchor+"  msgId="+msgId);
             return;
         }
         String queryMsgId;
@@ -427,7 +430,7 @@ public final class ImMessageManager {
             }
             return;
         }
-        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG, "---拉2-000--groupid=" + sessionId);
+        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG, "---拉2-000--groupid=" + sessionId+" 拉消息的真实游标queryMsgId="+queryMsgId);
         SessionPullState state = pullStates.computeIfAbsent(sessionId, k -> new SessionPullState());
         synchronized (state) {
             state.mergeListener(listener);

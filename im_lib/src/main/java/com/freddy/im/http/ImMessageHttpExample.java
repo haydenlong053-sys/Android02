@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.cboda.baselibrary.toast.ToastBroadUtils;
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.freddy.im.db.ImDbExecutor;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.api.CreateGroupApi;
@@ -100,12 +101,13 @@ public final class ImMessageHttpExample {
                                              @Nullable OnHttpImListener<MessageListContent> callBack,
                                              @Nullable Runnable onFail) {
         if (ImMessageManager.isFileAssistantSession(messageId)) {
-            Log.w(MY_TAG, "跳过文件助手 getList messageId=" + messageId);
+            ELogUtilKt.eLogW(MY_TAG, "跳过文件助手 getList messageId=" + messageId);
             if (callBack != null) {
                 callBack.onHttpImSuccess(MessageListContent.empty());
             }
             return;
         }
+        ELogUtilKt.eLogW(MY_TAG, "发起拉取新消息im/message/getList的接口----messageId=" + messageId+"  anchor="+anchor);
         EasyHttp.post(ApplicationLifecycle.getInstance())
                 .api(new GetMessageListApi()
                         .setMessageId(messageId)
@@ -116,7 +118,7 @@ public final class ImMessageHttpExample {
                     @Override
                     public void onHttpSuccess(@NonNull BaseMsgResponse<MessageListContent> result) {
                         if (!result.isSuccess()) {
-                            Log.e(MY_TAG, "业务错误: " + result.getErrorCode() + " " + result.getErrorMsg());
+                            ELogUtilKt.eLogE(MY_TAG, "业务错误: " + result.getErrorCode() + " " + result.getErrorMsg());
                             if (onFail != null) {
                                 onFail.run();
                             }
@@ -124,7 +126,7 @@ public final class ImMessageHttpExample {
                         }
                         MessageListContent c = result.getContent();
                         if (c == null) {
-                            Log.e(MY_TAG, "content 为空或无消息");
+                            ELogUtilKt.eLogE(MY_TAG, "content 为空或无消息");
                             if (callBack != null) {
                                 callBack.onHttpImSuccess(MessageListContent.empty());
                             }
@@ -137,7 +139,7 @@ public final class ImMessageHttpExample {
 
                     @Override
                     public void onHttpFail(@NonNull Throwable throwable) {
-                        Log.e(MY_TAG, "请求失败: " + throwable.getMessage());
+                        ELogUtilKt.eLogE(MY_TAG, "请求失败: " + throwable.getMessage());
                         if (onFail != null) {
                             onFail.run();
                         }
