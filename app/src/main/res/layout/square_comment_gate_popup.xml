@@ -132,16 +132,17 @@
             app:layout_constraintTop_toTopOf="@id/gateVipIcon" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/gateVipDesc"
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_12"
             android:layout_marginTop="@dimen/dp_4"
-            android:text="@string/square_comment_gate_vip_desc"
             android:textColor="@color/black_45"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/gateVipIcon"
-            app:layout_constraintTop_toBottomOf="@id/gateVipTitle" />
+            app:layout_constraintTop_toBottomOf="@id/gateVipTitle"
+            tools:text="VIP members only" />
     </com.hjq.shape.layout.ShapeConstraintLayout>
 
     <com.hjq.shape.layout.ShapeConstraintLayout

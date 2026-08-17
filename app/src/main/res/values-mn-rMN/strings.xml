@@ -435,7 +435,7 @@
     <string name="contact_avatar">Холбоо барих аватар</string>
 
     <string name="vip_member">VIP гишүүн</string>
-    <string name="app_vip_member">wujie VIP гишүүн</string>
+    <string name="app_vip_member">%1$s VIP гишүүн</string>
     <string name="open_vip_privilege">Гишүүнчлэлийг нээж, онцгой эрх ашиглах</string>
     <string name="open_now">Одоо нээ</string>
     <string name="personal_assets">Хувийн хөрөнгө</string>
@@ -494,7 +494,7 @@
     <string name="circle_work">Ажлын тойрог</string>
     <string name="circle_public_relations">Олон нийтийн харилцааны тойрог</string>
     <string name="累计获得">Нийт Олсон</string>
-    <string name="welcome_to_app">wujie-д тавтай морилно уу</string>
+    <string name="welcome_to_app">%1$s-д тавтай морилно уу</string>
     <string name="app_cannot_transfer_to_self">Та өөртөө шилжүүлэг хийж болохгүй!</string>
     <string name="app_transfer_address_format_error">Шилжүүлэг хаягийн формат буруу!</string>
     <string name="app_withdraw_address_format_error">Татан авалтын хаягийн формат буруу!</string>

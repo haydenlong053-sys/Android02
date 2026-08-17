@@ -432,7 +432,7 @@
     <string name="contact_avatar">อวตารผู้ติดต่อ</string>
 
     <string name="vip_member">สมาชิก VIP</string>
-    <string name="app_vip_member">สมาชิก VIP wujie</string>
+    <string name="app_vip_member">สมาชิก VIP %1$s</string>
     <string name="open_vip_privilege">เปิดสมาชิกภาพและเพลิดเพลินกับสิทธิพิเศษ</string>
     <string name="open_now">เปิดทันที</string>
     <string name="personal_assets">สินทรัพย์ส่วนบุคคล</string>
@@ -491,7 +491,7 @@
     <string name="circle_work">วงงาน</string>
     <string name="circle_public_relations">วงประชาสัมพันธ์</string>
     <string name="累计获得">รวมที่ได้รับ</string>
-    <string name="welcome_to_app">ยินดีต้อนรับสู่ wujie</string>
+    <string name="welcome_to_app">ยินดีต้อนรับสู่ %1$s</string>
     <string name="app_cannot_transfer_to_self">คุณไม่สามารถโอนให้ตัวเองได้!</string>
     <string name="app_transfer_address_format_error">รูปแบบที่อยู่โอนเงินไม่ถูกต้อง!</string>
     <string name="app_withdraw_address_format_error">รูปแบบที่อยู่ถอนเงินไม่ถูกต้อง!</string>

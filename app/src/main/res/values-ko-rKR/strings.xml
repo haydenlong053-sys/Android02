@@ -432,7 +432,7 @@
     <string name="contact_avatar">연락처 아바타</string>
 
     <string name="vip_member">VIP 회원</string>
-    <string name="app_vip_member">wujie VIP 회원</string>
+    <string name="app_vip_member">%1$s VIP 회원</string>
     <string name="open_vip_privilege">회원을 열고 특별한 특권을 누리세요</string>
     <string name="open_now">지금 바로 개통</string>
     <string name="personal_assets">개인 자산</string>
@@ -490,7 +490,7 @@
     <string name="circle_work">직장 서클</string>
     <string name="circle_public_relations">PR 서클</string>
     <string name="累计获得">누적 획득</string>
-    <string name="welcome_to_app">wujie에 오신 것을 환영합니다</string>
+    <string name="welcome_to_app">%1$s에 오신 것을 환영합니다</string>
     <string name="app_cannot_transfer_to_self">자기 자신에게 송금할 수 없습니다!</string>
     <string name="app_transfer_address_format_error">송금 주소 형식이 잘못되었습니다!</string>
     <string name="app_withdraw_address_format_error">출금 주소 형식이 잘못되었습니다!</string>

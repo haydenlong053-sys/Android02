@@ -434,7 +434,7 @@
     <string name="contact_avatar">Avatar kontak</string>
 
     <string name="vip_member">Anggota VIP</string>
-    <string name="app_vip_member">Anggota VIP wujie</string>
+    <string name="app_vip_member">Anggota VIP %1$s</string>
     <string name="open_vip_privilege">Bukak keanggotaan lan nikmati hak istimewa eksklusif</string>
     <string name="open_now">Bukak saiki</string>
     <string name="personal_assets">Aset pribadi</string>
@@ -493,7 +493,7 @@
     <string name="circle_work">Lingkaran Kerja</string>
     <string name="circle_public_relations">Lingkaran Hubungan Masyarakat</string>
     <string name="累计获得">Total Diperoleh</string>
-    <string name="welcome_to_app">Sugeng rawuh ing wujie</string>
+    <string name="welcome_to_app">Sugeng rawuh ing %1$s</string>
     <string name="app_cannot_transfer_to_self">Sampeyan ora bisa transfer menyang awake dhewe!</string>
     <string name="app_transfer_address_format_error">Format alamat transfer salah!</string>
     <string name="app_withdraw_address_format_error">Format alamat penarikan salah!</string>

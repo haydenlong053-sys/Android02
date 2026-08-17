@@ -1336,6 +1336,12 @@ fun TextView.initBold(style: Int) {
 
 fun getAppStr(@StringRes res: Int, context: Context? = null): String = getAppContext(context).getString(res)
 
+/** 用 [R.string.new_app_name_use] 填充带 `%1$s` 的文案（品牌名统一入口）。 */
+fun getAppNamedStr(@StringRes res: Int, context: Context? = null): String {
+    val ctx = getAppContext(context)
+    return ctx.getString(res, ctx.getString(R.string.new_app_name_use))
+}
+
 fun showCommonTip(
     @StringRes title: Int = R.string.wenxintishi,
     @StringRes content: Int,

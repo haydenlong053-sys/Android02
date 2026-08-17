@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.databinding.SquareReportExplanationActivityBinding
+import com.cboda.baselibrary.utils.getAppNamedStr
 
 class SquareReportExplanationActivity : BaseSimple2BroadActivity() {
 
@@ -19,6 +20,7 @@ class SquareReportExplanationActivity : BaseSimple2BroadActivity() {
 
     private fun initView() {
         mBinding?.closeView?.setOnClickListener { finish() }
+        mBinding?.contentTv?.text = getAppNamedStr(com.cboda.baselibrary.R.string.square_report_explanation_content, this)
     }
 
     override fun getViewBindingClass() = SquareReportExplanationActivityBinding::class.java

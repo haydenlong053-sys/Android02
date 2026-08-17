@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.cboda.baselibrary.utils.getAppNamedStr
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.bean.SquareHotConfigBean
@@ -54,7 +55,7 @@ class SquareExplanationActivity : BaseSimple2BroadActivity() {
         binding.auditTitle.text = auditRule?.title?.takeIf { it.isNotBlank() }
             ?: getString(com.cboda.baselibrary.R.string.square_publish_rules_audit_title)
         binding.auditContent.text = auditRule?.content?.takeIf { it.isNotBlank() }
-            ?: getString(com.cboda.baselibrary.R.string.square_publish_rules_audit_content)
+            ?: getAppNamedStr(com.cboda.baselibrary.R.string.square_publish_rules_audit_content, this)
     }
 
     override fun getViewBindingClass() = SquareExplanationActivityBinding::class.java

@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
+import com.cboda.baselibrary.utils.getAppNamedStr
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.bean.ActionEventBroadBean
@@ -39,6 +40,8 @@ class GoogleAuthStep1BroadActivity : BaseSimple2BroadActivity() {
         setRootBgColor(R.color.white)
         EventBus.getDefault().register(this)
         getToolbarTitle()?.text = getResources().getString(R.string.mine_google_auth)
+        (binding as? ActivityAuthBroadStep1Binding)?.mTvDes4?.text =
+            getAppNamedStr(R.string.mine_google_auth_des_4, this)
         initListener()
         initData()
     }

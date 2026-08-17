@@ -439,7 +439,7 @@
     <string name="contact_avatar">رابطہ اوتار</string>
 
     <string name="vip_member">VIP رکن</string>
-    <string name="app_vip_member">wujie VIP رکن</string>
+    <string name="app_vip_member">%1$s VIP رکن</string>
     <string name="open_vip_privilege">رکنیت کھولیں اور خصوصی مراعات سے لطف اندوز ہوں</string>
     <string name="open_now">ابھی کھولیں</string>
     <string name="personal_assets">ذاتی اثاثے</string>
@@ -498,7 +498,7 @@
     <string name="circle_work">کام کا حلقہ</string>
     <string name="circle_public_relations">عوامی تعلقات کا حلقہ</string>
     <string name="累计获得">کل حاصل شدہ</string>
-    <string name="welcome_to_app">wujie میں خوش آمدید</string>
+    <string name="welcome_to_app">%1$s میں خوش آمدید</string>
     <string name="app_cannot_transfer_to_self">آپ اپنے آپ کو ٹرانسفر نہیں کر سکتے!</string>
     <string name="app_transfer_address_format_error">ٹرانسفر ایڈریس کی شکل غلط ہے!</string>
     <string name="app_withdraw_address_format_error">واپسی ایڈریس کی شکل غلط ہے!</string>

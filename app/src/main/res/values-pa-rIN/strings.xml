@@ -436,7 +436,7 @@
     <string name="contact_avatar">ਸੰਪਰਕ ਅਵਤਾਰ</string>
 
     <string name="vip_member">VIP ਮੈਂਬਰ</string>
-    <string name="app_vip_member">wujie VIP ਮੈਂਬਰ</string>
+    <string name="app_vip_member">%1$s VIP ਮੈਂਬਰ</string>
     <string name="open_vip_privilege">ਮੈਂਬਰਸ਼ਿਪ ਖੋਲ੍ਹੋ ਅਤੇ ਵਿਸ਼ੇਸ਼ ਅਧਿਕਾਰਾਂ ਦਾ ਆਨੰਦ ਲਓ</string>
     <string name="open_now">ਹੁਣੇ ਖੋਲ੍ਹੋ</string>
     <string name="personal_assets">ਨਿੱਜੀ ਸੰਪਤੀ</string>
@@ -495,7 +495,7 @@
     <string name="circle_work">ਕੰਮ ਦਾ ਚੱਕਰ</string>
     <string name="circle_public_relations">ਜਨਤਕ ਸੰਬੰਧ ਚੱਕਰ</string>
     <string name="累计获得">ਕੁੱਲ ਪ੍ਰਾਪਤ</string>
-    <string name="welcome_to_app">wujie ਵਿੱਚ ਜੀ ਆਇਆਂ ਨੂੰ</string>
+    <string name="welcome_to_app">%1$s ਵਿੱਚ ਜੀ ਆਇਆਂ ਨੂੰ</string>
     <string name="app_cannot_transfer_to_self">ਤੁਸੀਂ ਆਪਣੇ ਆਪ ਨੂੰ ਟ੍ਰਾਂਸਫਰ ਨਹੀਂ ਕਰ ਸਕਦੇ!</string>
     <string name="app_transfer_address_format_error">ਟ੍ਰਾਂਸਫਰ ਪਤਾ ਫਾਰਮੈਟ ਗਲਤ!</string>
     <string name="app_withdraw_address_format_error">ਨਿਕਾਸੀ ਪਤਾ ਫਾਰਮੈਟ ਗਲਤ!</string>

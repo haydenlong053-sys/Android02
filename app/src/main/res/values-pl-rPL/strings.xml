@@ -36,7 +36,7 @@
     <string name="contact_avatar">Avatar kontaktu</string>
 
     <string name="vip_member">Członek VIP</string>
-    <string name="app_vip_member">Członek VIP wujie</string>
+    <string name="app_vip_member">Członek VIP %1$s</string>
     <string name="open_vip_privilege">Otwórz członkostwo i ciesz się ekskluzywnymi przywilejami</string>
     <string name="open_now">Otwórz teraz</string>
     <string name="personal_assets">Aktywa osobiste</string>
@@ -95,7 +95,7 @@
     <string name="circle_work">Krąg Pracy</string>
     <string name="circle_public_relations">Krąg Relacji Publicznych</string>
     <string name="累计获得">Łącznie Uzyskane</string>
-    <string name="welcome_to_app">Witamy w wujie</string>
+    <string name="welcome_to_app">Witamy w %1$s</string>
     <string name="app_cannot_transfer_to_self">Nie możesz przelać do siebie!</string>
     <string name="app_transfer_address_format_error">Nieprawidłowy format adresu przelewu!</string>
     <string name="app_withdraw_address_format_error">Nieprawidłowy format adresu wypłaty!</string>

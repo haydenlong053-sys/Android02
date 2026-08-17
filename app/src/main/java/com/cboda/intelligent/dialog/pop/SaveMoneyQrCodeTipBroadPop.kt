@@ -8,6 +8,7 @@ import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.king.zxing.util.CodeUtils
+import com.cboda.baselibrary.utils.getAppNamedStr
 import com.cboda.intelligent.R
 import com.cboda.intelligent.configuration.CommonBroadConfig
 import com.cboda.intelligent.databinding.DialogPopSaveMoneyBroadQrcodeBinding
@@ -32,6 +33,7 @@ class SaveMoneyQrCodeTipBroadPop(val context: Context,val qrCodeString: String?)
 
     override fun onViewCreated(contentView: View) {
         super.onViewCreated(contentView)
+        binding.mTvDes2.text = getAppNamedStr(R.string.mine_transfer_des1, context)
         initData()
         binding.mLlGoogleAuthCopy.setOnClickListener {
             copyToClipboard(context, binding.mTvCopyDes.text.toString())

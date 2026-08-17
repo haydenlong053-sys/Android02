@@ -431,7 +431,7 @@
     <string name="contact_avatar">Avatar de contacto</string>
 
     <string name="vip_member">Miembro VIP</string>
-    <string name="app_vip_member">Miembro VIP wujie</string>
+    <string name="app_vip_member">Miembro VIP %1$s</string>
     <string name="open_vip_privilege">Abre la membresía y disfruta de privilegios exclusivos</string>
     <string name="open_now">Abrir ahora</string>
     <string name="personal_assets">Activos personales</string>
@@ -489,7 +489,7 @@
     <string name="circle_work">Círculo de Trabajo</string>
     <string name="circle_public_relations">Círculo de Relaciones Públicas</string>
     <string name="累计获得">Total Obtenido</string>
-    <string name="welcome_to_app">Bienvenido a wujie</string>
+    <string name="welcome_to_app">Bienvenido a %1$s</string>
     <string name="app_cannot_transfer_to_self">¡No puede transferir a sí mismo!</string>
     <string name="app_transfer_address_format_error">¡Formato de dirección de transferencia inválido!</string>
     <string name="app_withdraw_address_format_error">¡Formato de dirección de retiro inválido!</string>

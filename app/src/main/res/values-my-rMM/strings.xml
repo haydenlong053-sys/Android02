@@ -435,7 +435,7 @@
     <string name="contact_avatar">ဆက်သွယ်ရမည့်ပုံ</string>
 
     <string name="vip_member">VIP အဖွဲ့ဝင်</string>
-    <string name="app_vip_member">wujie VIP အဖွဲ့ဝင်</string>
+    <string name="app_vip_member">%1$s VIP အဖွဲ့ဝင်</string>
     <string name="open_vip_privilege">အဖွဲ့ဝင်ဖွင့်ပြီး အထူးအခွင့်အရေးများကို ခံစားပါ</string>
     <string name="open_now">ယခုဖွင့်ပါ</string>
     <string name="personal_assets">ကိုယ်ပိုင်ပိုင်ဆိုင်မှု</string>
@@ -494,7 +494,7 @@
     <string name="circle_work">အလုပ်စက်ဝိုင်း</string>
     <string name="circle_public_relations">ပြည်သူ့ဆက်ဆံရေး စက်ဝိုင်း</string>
     <string name="累计获得">စုစုပေါင်း ရရှိထားသော</string>
-    <string name="welcome_to_app">wujie သို့ ကြိုဆိုပါသည်</string>
+    <string name="welcome_to_app">%1$s သို့ ကြိုဆိုပါသည်</string>
     <string name="app_cannot_transfer_to_self">သင့်ကိုယ်သင် ငွေလွှဲ၍ မရပါ!</string>
     <string name="app_transfer_address_format_error">ငွေလွှဲလိပ်စာ ဖော်မတ် မမှန်ကန်ပါ!</string>
     <string name="app_withdraw_address_format_error">ငွေထုတ်လိပ်စာ ဖော်မတ် မမှန်ကန်ပါ!</string>

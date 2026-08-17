@@ -18,6 +18,7 @@ import com.cboda.intelligent.utils.BitmapBroadUtils1
 import com.cboda.intelligent.utils.GlideBroadUtil
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.cboda.baselibrary.bean.UserInfoBroadModel
+import com.cboda.baselibrary.utils.getAppNamedStr
 import com.cboda.baselibrary.utils.loadImg
 import com.king.zxing.util.CodeUtils
 import razerdp.basepopup.BasePopupWindow
@@ -37,6 +38,7 @@ class UserQrCodeTipBroadPop(val context: Context, val userInfo: UserInfoBean?) :
 
     override fun onViewCreated(contentView: View) {
         super.onViewCreated(contentView)
+        binding.mTvDes2.text = getAppNamedStr(R.string.user_qrcode_add_friend, context)
         GlideBroadUtil.setHeadImag(context, userInfo?.userImg, binding.mIvIcon)
         if (userInfo != null && !TextUtils.isEmpty(userInfo.businessQrCode)) {
             binding.mIvQrCodeAuth.loadImg(CodeUtils.createQRCode(userInfo.businessQrCode, dp2px(260f)), null)

@@ -30,6 +30,10 @@ class RegisteredBroadFragment : BaseBroadFragment<RegisteredBroadFragmentBinding
     @SuppressLint("SetTextI18n")
     override fun initView() {
         super.initView()
+        binding.title2.text = getString(
+            com.cboda.baselibrary.R.string.register_welcome_subtitle,
+            getString(com.cboda.baselibrary.R.string.new_app_name_use),
+        )
         binding.loginAccount.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)
         binding.loginPwd.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)
         binding.updatePwd.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)

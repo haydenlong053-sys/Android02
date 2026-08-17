@@ -434,7 +434,7 @@
     <string name="contact_avatar">I-avatar yoxhumana</string>
 
     <string name="vip_member">Ilungu le-VIP</string>
-    <string name="app_vip_member">Ilungu le-VIP wujie</string>
+    <string name="app_vip_member">Ilungu le-VIP %1$s</string>
     <string name="open_vip_privilege">Vula ubulungu bamukele izimfanelo ezikhethekile</string>
     <string name="open_now">Vula manje</string>
     <string name="personal_assets">Impahla yomuntu</string>
@@ -493,7 +493,7 @@
     <string name="circle_work">Isiyingi Somsebenzi</string>
     <string name="circle_public_relations">Isiyingi Sobudlelwano Bomphakathi</string>
     <string name="累计获得">Isamba Esitholakele</string>
-    <string name="welcome_to_app">Siyakwamukela ku-wujie</string>
+    <string name="welcome_to_app">Siyakwamukela ku-%1$s</string>
     <string name="app_cannot_transfer_to_self">Awukwazi ukudlulisa kuwe ngokwakho!</string>
     <string name="app_transfer_address_format_error">Ifomathi yekheli lokudlulisa ayilungile!</string>
     <string name="app_withdraw_address_format_error">Ifomathi yekheli lokukhipha ayilungile!</string>

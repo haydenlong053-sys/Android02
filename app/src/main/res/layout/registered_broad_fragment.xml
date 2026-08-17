@@ -55,12 +55,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="@string/register_welcome_subtitle"
             android:textColor="#999999"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+            app:layout_constraintTop_toBottomOf="@id/title"
+            tools:text="创建账号，开启您的App之旅" />
 
         <!-- 助记词：保留业务字段，浅色卡片展示 -->
         <com.hjq.shape.view.ShapeTextView

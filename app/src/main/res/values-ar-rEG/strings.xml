@@ -431,7 +431,7 @@
     <string name="contact_avatar">صورة رمزية للاتصال</string>
 
     <string name="vip_member">عضو VIP</string>
-    <string name="wujie_vip_member">عضو VIP wujie</string>
+    <string name="wujie_vip_member">عضو VIP %1$s</string>
     <string name="open_vip_privilege">افتح العضوية واستمتع بامتيازات حصرية</string>
     <string name="open_now">افتح الآن</string>
     <string name="personal_assets">الأصول الشخصية</string>
@@ -489,7 +489,7 @@
     <string name="circle_work">دائرة العمل</string>
     <string name="circle_public_relations">دائرة العلاقات العامة</string>
     <string name="累计获得">إجمالي المكتسب</string>
-    <string name="welcome_to_wujie">مرحباً بك في wujie</string>
+    <string name="welcome_to_wujie">مرحباً بك في %1$s</string>
     <string name="app_cannot_transfer_to_self">لا يمكنك التحويل إلى نفسك!</string>
     <string name="app_transfer_address_format_error">تنسيق عنوان التحويل غير صحيح!</string>
     <string name="app_withdraw_address_format_error">تنسيق عنوان السحب غير صحيح!</string>

@@ -13,7 +13,7 @@ import java.io.StringWriter
 import kotlin.plus
 
 private const val eLogTag = "ELogClass"
-const val APP_TAG = "APP_WUJIE"
+const val APP_TAG = "APP_TENCENT"
 const val APP_IM_TAG = "APP_IM"
 
 //private var mIsDebug = false

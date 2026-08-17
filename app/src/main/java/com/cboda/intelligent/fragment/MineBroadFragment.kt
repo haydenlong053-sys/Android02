@@ -239,10 +239,15 @@ private fun VipBanner(isVip: Boolean, vipExpireText: String) {
             )
             Spacer(Modifier.width(8.dp))
             Column(modifier = Modifier.weight(1f)) {
+                val appName = stringResource(com.cboda.baselibrary.R.string.new_app_name_use)
                 Text(
-                    text = if (isVip && !HttpsBroadConfig.isReviewEnv) stringResource(R.string.app_vip_member) else if (!HttpsBroadConfig.isReviewEnv) stringResource(R.string.open_vip_privilege) else stringResource(
-                        com.cboda.baselibrary.R.string.welcome_to_seek_four
-                    ),
+                    text = if (isVip && !HttpsBroadConfig.isReviewEnv) {
+                        stringResource(R.string.app_vip_member, appName)
+                    } else if (!HttpsBroadConfig.isReviewEnv) {
+                        stringResource(R.string.open_vip_privilege)
+                    } else {
+                        stringResource(com.cboda.baselibrary.R.string.welcome_to_seek_four, appName)
+                    },
                     color = Color(0xFFFFD3A9),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold

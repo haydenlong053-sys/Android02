@@ -432,7 +432,7 @@
     <string name="contact_avatar">連絡先のアバター</string>
 
     <string name="vip_member">VIP会員</string>
-    <string name="app_vip_member">wujie VIP会員</string>
+    <string name="app_vip_member">%1$s VIP会員</string>
     <string name="open_vip_privilege">会員を開いて、特別な特権を享受</string>
     <string name="open_now">今すぐ開通</string>
     <string name="personal_assets">個人資産</string>
@@ -490,7 +490,7 @@
     <string name="circle_work">仕事のサークル</string>
     <string name="circle_public_relations">PRサークル</string>
     <string name="累计获得">累計獲得</string>
-    <string name="welcome_to_app">wujieへようこそ</string>
+    <string name="welcome_to_app">%1$sへようこそ</string>
     <string name="app_cannot_transfer_to_self">自分宛に送金できません!</string>
     <string name="app_transfer_address_format_error">送金アドレス形式が正しくありません!</string>
     <string name="app_withdraw_address_format_error">出金アドレス形式が正しくありません!</string>

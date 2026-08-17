@@ -10,6 +10,7 @@ import com.blankj.utilcode.util.SizeUtils
 import com.cboda.baselibrary.popup.BaseBottomBroadPop
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.getAppColor
+import com.cboda.baselibrary.utils.getAppNamedStr
 import com.cboda.intelligent.R
 import com.cboda.intelligent.databinding.SquareCommentGatePopupBinding
 import com.cboda.intelligent.utils.SquareCommentGateBroadHelper
@@ -40,6 +41,7 @@ class SquareCommentGatePopup(
         }
         normalizeSelection()
         setupSeekBar()
+        binding.gateVipDesc.text = getAppNamedStr(com.cboda.baselibrary.R.string.square_comment_gate_vip_desc, context)
         refreshOptionUi()
         binding.commentGateBack.click { dismiss() }
         binding.gateEveryoneOption.click { toggleType(SquareCommentGateBroadHelper.GATE_TYPE_EVERYONE) }

@@ -170,7 +170,7 @@
     <!-- Mine page (new) -->
     <string name="mine_vip_limited_offer">會員限時特惠</string>
     <string name="mine_open_now">立即開通</string>
-    <string name="mine_app_vip_member">wujie VIP會員</string>
+    <string name="mine_app_vip_member">%1$s VIP會員</string>
     <string name="mine_assets">資產</string>
     <string name="mine_square">廣場</string>
     <string name="mine_customer_service">客服</string>
@@ -483,4 +483,6 @@
     <string name="group_apply_action_failed">操作失敗，請稍後再試</string>
     <string name="my_groups">我的群聊</string>
     <string name="menu_group_info">群聊資訊</string>
+    <string name="new_app_name">启讯</string>
+    <string name="new_app_name_use">启讯</string>
 </resources>
