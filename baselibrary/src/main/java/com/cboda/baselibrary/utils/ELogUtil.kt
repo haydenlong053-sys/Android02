@@ -199,7 +199,7 @@ private fun log3(tag: String?, msg: String, type: Int) {
 }
 
 private fun log2(tag: String?, msg: String, type: Int) {
-    if (getIsDebug()) {
+//    if (getIsDebug()) {
         val segmentSize = 1024 * 2
         val segmentSize2 = 1024 * 2 * 80
         val length = msg.length
@@ -219,9 +219,9 @@ private fun log2(tag: String?, msg: String, type: Int) {
                 log3(tag, msg, type)
             }
         }
-    } else {
-        log3(tag, msg, type)
-    }
+//    } else {
+//        log3(tag, msg, type)
+//    }
 }
 
 private fun getMsgFormatInt(msg: Int): String {
@@ -265,15 +265,19 @@ fun Exception.toLog() = this.toLog(null)
 fun Exception.toLog(tag: String?) = this.toLog(tag, true)
 fun Exception.toLog(tag: String?, canPush: Boolean = true): String {
 //    return if (getIsDebug()) {
-    val sw = StringWriter()
-    this.printStackTrace(PrintWriter(sw, true))
-    val errorStr = sw.toString()
-    sw.close()
-    tag?.also { eLogD(tag, errorStr) }
-    if (canPush && !getIsDebug()) {
-        crashReportLog("$tag:$errorStr")
+    try {
+        val sw = StringWriter()
+        this.printStackTrace(PrintWriter(sw, true))
+        val errorStr = sw.toString()
+        sw.close()
+        tag?.also { eLogD(tag, errorStr) }
+        if (canPush && !getIsDebug()) {
+            crashReportLog("$tag:$errorStr")
+        }
+        return errorStr
+    } catch (e: Exception) {
+        return e.message ?: "Exception"
     }
-    return errorStr
 //    } else {
 //        ""
 //    }
@@ -283,15 +287,19 @@ fun Throwable.toLog() = this.toLog(null)
 fun Throwable.toLog(tag: String?) = this.toLog(tag, true)
 fun Throwable.toLog(tag: String?, canPush: Boolean = true): String {
 //   return if (getIsDebug()) {
-    val sw = StringWriter()
-    this.printStackTrace(PrintWriter(sw, true))
-    val errorStr = sw.toString()
-    sw.close()
-    tag?.also { eLogD(tag, errorStr) }
-    if (canPush && !getIsDebug()) {
-        crashReportLog("$tag:$errorStr")
+    try {
+        val sw = StringWriter()
+        this.printStackTrace(PrintWriter(sw, true))
+        val errorStr = sw.toString()
+        sw.close()
+        tag?.also { eLogD(tag, errorStr) }
+        if (canPush && !getIsDebug()) {
+            crashReportLog("$tag:$errorStr")
+        }
+        return errorStr
+    } catch (e: Exception) {
+        return e.message ?: "Exception"
     }
-    return errorStr
 //    } else {
 //        ""
 //    }
