@@ -3,17 +3,21 @@
     <item>
         <shape android:shape="rectangle">
             <gradient
-                android:endColor="#000000"
-                android:startColor="#000000" />
+                android:endColor="#ffffff"
+                android:startColor="#ffffff" />
         </shape>
     </item>
 
-    <!-- 顶部 -->
-    <item>
+    <!-- width/height 约束 item 区域；bitmap 必须 gravity=fill 才会缩放到 100dp。
+         gravity=center 会按 png 固有像素绘制（ic_broad_logo 为 1254px，远大于 100dp）。
+         scaleType 不是 layer-list bitmap 的合法属性，会被忽略。 -->
+    <item
+        android:width="@dimen/dp_100"
+        android:height="@dimen/dp_100"
+        android:gravity="center">
         <bitmap
             android:gravity="fill"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/ic_broad_splash" />
+            android:src="@mipmap/ic_broad_logo" />
     </item>
 
 </layer-list>
