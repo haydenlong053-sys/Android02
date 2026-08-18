@@ -225,11 +225,11 @@ private fun log2(tag: String?, msg: String, type: Int) {
 }
 
 private fun getMsgFormatInt(msg: Int): String {
-    return msg.toString() + " ;" + getMsgTime() + getFunctionName()
+    return getMsgFormatString(msg.toString())
 }
 
 private fun getMsgFormatString(msg: String? = null): String {
-    return msg + " ;" + getMsgTime() + getFunctionName()
+    return msg + " ;" + if (getIsDebug()) getFunctionName() else getMsgTime()
 }
 
 private fun getMsgTime(): String {
