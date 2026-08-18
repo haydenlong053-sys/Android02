@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_marginEnd="5dp"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <ImageView
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <com.cboda.baselibrary.view.AppRoundBroadImage
             android:id="@+id/ivTouxiang"
             android:layout_width="46dp"
-            android:layout_height="46dp"
-           />
+            android:layout_height="46dp" />
+
         <TextView
             android:id="@+id/tvname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="100dp"
             android:layout_marginTop="5dp"
             android:ellipsize="end"
             android:gravity="start"
+            android:maxWidth="100dp"
             android:maxLines="1"
             android:textColor="@color/color_text0"
             android:textSize="14sp"
