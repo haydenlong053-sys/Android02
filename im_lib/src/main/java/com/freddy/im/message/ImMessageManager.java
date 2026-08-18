@@ -590,14 +590,14 @@ public final class ImMessageManager {
     }
 
     /**
-     * 发送失败（服务端错误回执或超时重发用尽）：更新本地发送状态并通知宿主刷新单条消息。
+     * 发送失败（服务端错误回执或发送超时）：更新本地发送状态并通知宿主刷新单条消息。
      */
     public void onSendMsgFailed(@NonNull String clientMsgId) {
         onSendMsgFailed(clientMsgId, -1, null);
     }
 
     /**
-     * 发送失败（服务端错误回执或超时重发用尽）：更新本地发送状态并通知宿主刷新单条消息。
+     * 发送失败（服务端错误回执或发送超时）：更新本地发送状态并通知宿主刷新单条消息。
      */
     public void onSendMsgFailed(@NonNull String clientMsgId, int errorCode, @Nullable String errorMsg) {
         if (TextUtils.isEmpty(clientMsgId)) {

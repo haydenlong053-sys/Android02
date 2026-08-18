@@ -13,8 +13,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * 发送超时重发：按固定间隔重发同一条 {@link ImSignalProtos.SignalRequest}，
- * 重发时复用首次发送的传输层 seqId，以便与下行 0x82 回包中的 seqId 对齐。
+ * 发送超时：入队后等待 {@link IMSConfig#DEFAULT_SEND_TIMEOUT_MS}，
+ * 未收到成功回执则停止发送并标记失败，由用户点击重新发送。
  */
 public class MsgTimeoutTimer {
 
@@ -22,27 +22,18 @@ public class MsgTimeoutTimer {
     private final ImSignalProtos.SignalRequest request;
     private final int transportSeqId;
     private final Timer timer = new Timer();
-    private int resendCount;
 
     public MsgTimeoutTimer(IMSClientInterface imsClient, ImSignalProtos.SignalRequest request, int transportSeqId) {
         this.imsClient = imsClient;
         this.request = request;
         this.transportSeqId = transportSeqId;
-        int configured = imsClient.getResendCount();
-        this.resendCount = configured <= 0 ? 3 : configured;
-        long interval = imsClient.getResendInterval() <= 0 ? 8000 : imsClient.getResendInterval();
-        timer.scheduleAtFixedRate(new TimerTask() {
+        long timeoutMs = IMSConfig.DEFAULT_SEND_TIMEOUT_MS;
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (resendCount <= 0) {
-                    timer.cancel();
-                    onResendExhausted();
-                    return;
-                }
-                resendCount--;
-                imsClient.sendSignalRequest(MsgTimeoutTimer.this.request, false, MsgTimeoutTimer.this.transportSeqId);
+                onSendTimeout();
             }
-        }, interval, interval);
+        }, timeoutMs);
     }
 
     public void cancel() {
@@ -57,8 +48,8 @@ public class MsgTimeoutTimer {
         imsClient.sendSignalRequest(request, false, transportSeqId);
     }
 
-    /** 超时重发次数用尽：移除队列并标记本地发送失败。 */
-    private void onResendExhausted() {
+    /** 发送超时：移除队列并标记本地发送失败，不再自动重发。 */
+    private void onSendTimeout() {
         imsClient.getMsgTimeoutTimerManager().remove(transportSeqId);
         String clientMsgId = parseClientMsgId(request);
         if (TextUtils.isEmpty(clientMsgId)) {
@@ -68,7 +59,7 @@ public class MsgTimeoutTimer {
     }
 
     @Nullable
-    private static String parseClientMsgId(@Nullable ImSignalProtos.SignalRequest request) {
+    public static String parseClientMsgId(@Nullable ImSignalProtos.SignalRequest request) {
         if (request == null || !request.hasBody()) {
             return null;
         }

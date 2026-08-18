@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 以传输层 SeekWeb4 请求头中的 seqId 为唯一键，管理发送超时重发。
+ * 以传输层 SeekWeb4 请求头中的 seqId 为唯一键，管理发送超时（超时后失败，不自动重发）。
  */
 public class MsgTimeoutTimerManager {
 

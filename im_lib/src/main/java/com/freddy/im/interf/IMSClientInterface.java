@@ -46,7 +46,7 @@ public interface IMSClientInterface {
     }
 
     /**
-     * 发送 SignalRequest，并指定传输层包头 seqId（超时重发需与首次发送使用同一 seqId，以便与下行 0x82 对应）。
+     * 发送 SignalRequest，并指定传输层包头 seqId（超时队列与下行 0x82 回包按同一 seqId 对齐）。
      */
     void sendSignalRequest(ImSignalProtos.SignalRequest request, boolean isJoinTimeoutManager, int transportSeqId);
 

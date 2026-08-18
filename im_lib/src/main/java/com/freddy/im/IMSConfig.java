@@ -23,10 +23,12 @@ public class IMSConfig {
     public static final int DEFAULT_RECONNECT_COUNT = 3;
     // 默认重连起始延时时长，重连规则：最大n次，每次延时n * 起始延时时长，重连次数达到n次后，重置
     public static final int DEFAULT_RECONNECT_BASE_DELAY_TIME = 3 * 1000;
-    // 默认消息发送失败重发次数
+    // 默认消息发送失败重发次数（已停用自动重发，仅兼容旧接口）
     public static final int DEFAULT_RESEND_COUNT = 3;
-    // 默认消息重发间隔时长
+    // 默认消息重发间隔时长（已停用自动重发，仅兼容旧接口）
     public static final int DEFAULT_RESEND_INTERVAL = 8 * 1000;
+    /** 普通消息发送超时：超时后停止发送并标失败，由用户点击重新发送 */
+    public static final int DEFAULT_SEND_TIMEOUT_MS = 20 * 1000;
     // 默认应用在前台时心跳消息间隔时长
     public static final int DEFAULT_HEARTBEAT_INTERVAL_FOREGROUND = 10 * 1000;
     // 默认应用在后台时心跳消息间隔时长

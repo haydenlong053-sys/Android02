@@ -329,22 +329,29 @@ public final class ImMessageRepository {
         final long now = System.currentTimeMillis();
         ImDbExecutor.runWrite(() -> {
             Realm realm = ImRealm.getRealm();
+            final boolean[] applied = {false};
             try {
                 realm.executeTransaction(r -> {
                     MessageEntity entity = r.where(MessageEntity.class)
                             .equalTo("clientMsgId", id)
                             .findFirst();
-                    if (entity != null) {
-                        entity.setSendStatus(sendStatus);
-                        if (sendStatus == IMSConfig.SEND_STATUS_SENDING){
-                            entity.setTimestamp(now);
-                        }
+                    if (entity == null) {
+                        return;
                     }
+                    if (sendStatus == IMSConfig.SEND_STATUS_FAILED
+                            && entity.getSendStatus() != IMSConfig.SEND_STATUS_SENDING) {
+                        return;
+                    }
+                    entity.setSendStatus(sendStatus);
+                    if (sendStatus == IMSConfig.SEND_STATUS_SENDING) {
+                        entity.setTimestamp(now);
+                    }
+                    applied[0] = true;
                 });
             } finally {
                 realm.close();
             }
-            if (onUpdated != null) {
+            if (onUpdated != null && applied[0]) {
                 AppMessage updated = queryAppMessageByClientMsgId(id);
                 if (updated != null) {
                     onUpdated.onUpdated(updated);
