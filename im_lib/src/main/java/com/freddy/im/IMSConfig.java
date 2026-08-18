@@ -28,7 +28,7 @@ public class IMSConfig {
     // 默认消息重发间隔时长（已停用自动重发，仅兼容旧接口）
     public static final int DEFAULT_RESEND_INTERVAL = 8 * 1000;
     /** 普通消息发送超时：超时后停止发送并标失败，由用户点击重新发送 */
-    public static final int DEFAULT_SEND_TIMEOUT_MS = 20 * 1000;
+    public static final int DEFAULT_SEND_TIMEOUT_MS = 60 * 1000;
     // 默认应用在前台时心跳消息间隔时长
     public static final int DEFAULT_HEARTBEAT_INTERVAL_FOREGROUND = 10 * 1000;
     // 默认应用在后台时心跳消息间隔时长

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.freddy.im.IMSConfig;
+import com.freddy.im.OutgoingSendTimeout;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.bean.ImMessageMapper;
 import com.freddy.im.db.entity.MessageEntity;
@@ -78,7 +79,12 @@ public final class MessageRealmMapper {
         message.setExtra(entity.getExtra());
         message.setContent(entity.getContent());
         message.setSequenceId(entity.getSequenceId());
-        message.setSendStatus(entity.getSendStatus());
+        int sendStatus = entity.getSendStatus();
+        if (sendStatus == IMSConfig.SEND_STATUS_SENDING
+                && OutgoingSendTimeout.isTimedOut(entity.getTimestamp())) {
+            sendStatus = IMSConfig.SEND_STATUS_FAILED;
+        }
+        message.setSendStatus(sendStatus);
         message.setReadPersonCount(entity.getReadPersonCount());
         message.setStatus(entity.getStatus());
         return message;
