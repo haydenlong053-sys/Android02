@@ -65,6 +65,8 @@ public class IMSClientBootstrap {
             imsClient = null;
         }
 
+        // 先挂发送状态监听，再开库恢复超时中的消息
+        MessageProcessor.getInstance();
         ImLocalStore.openForUser(userId);
 
         isActive = true;

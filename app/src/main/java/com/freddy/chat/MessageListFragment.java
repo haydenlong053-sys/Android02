@@ -554,6 +554,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
     private void loadLocalMessages() {
         ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"focusMsgId==="+focusMsgId);
+        ImMessageManager.getInstance().recoverOutgoingSendingTimeouts();
         if (!TextUtils.isEmpty(focusMsgId)) {
             loadMessagesForFocus(focusMsgId);
             return;

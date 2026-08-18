@@ -8,12 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.cboda.baselibrary.utils.ELogUtilKt;
+import com.freddy.im.OutgoingSendTimeout;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.bean.ImMessageMapper;
 import com.freddy.im.db.ImDbExecutor;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.db.SessionSyncCursor;
 import com.freddy.im.db.entity.SessionEntity;
+import com.freddy.im.db.repository.ImMessageRepository;
 import com.freddy.im.db.repository.ImSessionRepository;
 import com.freddy.im.http.GroupDetailFetcher;
 import com.freddy.im.http.ImMessageHttpExample;
@@ -82,6 +84,9 @@ public final class ImMessageManager {
 
     @Nullable
     private volatile OnOutgoingMessageListener outgoingMessageListener;
+
+    /** 进程被杀后，按落库时间继续倒计时发送超时。 */
+    private final ConcurrentHashMap<String, Runnable> outgoingSendTimeoutWatches = new ConcurrentHashMap<>();
 
     /** 宿主注册：无显式 listener 时，当前聊天会话仍能收到分页落库回调。 */
     @Nullable
@@ -575,12 +580,66 @@ public final class ImMessageManager {
     }
 
     /**
+     * 进程恢复：把库里仍为发送中的消息按落库时间超时失败，或继续倒计时。
+     */
+    public void recoverOutgoingSendingTimeouts() {
+        if (!ImLocalStore.isReady()) {
+            return;
+        }
+        ImLocalStore.recoverOutgoingSendingTimeouts(
+                updated -> {
+                    OnOutgoingMessageListener listener = outgoingMessageListener;
+                    if (listener != null) {
+                        listener.onOutgoingMessageUpdated(updated);
+                    }
+                },
+                pending -> {
+                    for (ImMessageRepository.OutgoingSendingRef ref : pending) {
+                        watchOutgoingSendTimeout(ref.clientMsgId, ref.timestamp);
+                    }
+                });
+    }
+
+    public void cancelOutgoingSendTimeout(@Nullable String clientMsgId) {
+        if (TextUtils.isEmpty(clientMsgId)) {
+            return;
+        }
+        Runnable watch = outgoingSendTimeoutWatches.remove(clientMsgId);
+        if (watch != null) {
+            MAIN_HANDLER.removeCallbacks(watch);
+        }
+    }
+
+    public void cancelAllOutgoingSendTimeouts() {
+        for (Runnable watch : outgoingSendTimeoutWatches.values()) {
+            MAIN_HANDLER.removeCallbacks(watch);
+        }
+        outgoingSendTimeoutWatches.clear();
+    }
+
+    private void watchOutgoingSendTimeout(@NonNull String clientMsgId, long timestamp) {
+        cancelOutgoingSendTimeout(clientMsgId);
+        long remainingMs = OutgoingSendTimeout.remainingMs(timestamp);
+        if (remainingMs <= 0L) {
+            onSendMsgFailed(clientMsgId, -1, null, false);
+            return;
+        }
+        Runnable watch = () -> {
+            outgoingSendTimeoutWatches.remove(clientMsgId);
+            onSendMsgFailed(clientMsgId, -1, null, false);
+        };
+        outgoingSendTimeoutWatches.put(clientMsgId, watch);
+        MAIN_HANDLER.postDelayed(watch, remainingMs);
+    }
+
+    /**
      * 发送消息成功回包：更新本地 {@code msgId}、发送状态，并通知宿主刷新单条消息。
      */
     public void onSendMsgSuccess(@NonNull String clientMsgId, @NonNull String serverMsgId) {
         if (TextUtils.isEmpty(clientMsgId) || TextUtils.isEmpty(serverMsgId)) {
             return;
         }
+        cancelOutgoingSendTimeout(clientMsgId);
         ImLocalStore.markOutgoingSendSuccess(clientMsgId, serverMsgId, updated -> {
             OnOutgoingMessageListener listener = outgoingMessageListener;
             if (listener != null) {
@@ -590,25 +649,33 @@ public final class ImMessageManager {
     }
 
     /**
-     * 发送失败（服务端错误回执或超时重发用尽）：更新本地发送状态并通知宿主刷新单条消息。
+     * 发送失败（服务端错误回执或发送超时）：更新本地发送状态并通知宿主刷新单条消息。
      */
     public void onSendMsgFailed(@NonNull String clientMsgId) {
-        onSendMsgFailed(clientMsgId, -1, null);
+        onSendMsgFailed(clientMsgId, -1, null, true);
     }
 
     /**
-     * 发送失败（服务端错误回执或超时重发用尽）：更新本地发送状态并通知宿主刷新单条消息。
+     * 发送失败（服务端错误回执或发送超时）：更新本地发送状态并通知宿主刷新单条消息。
      */
     public void onSendMsgFailed(@NonNull String clientMsgId, int errorCode, @Nullable String errorMsg) {
+        onSendMsgFailed(clientMsgId, errorCode, errorMsg, true);
+    }
+
+    private void onSendMsgFailed(@NonNull String clientMsgId,
+                                 int errorCode,
+                                 @Nullable String errorMsg,
+                                 boolean notifyBizError) {
         if (TextUtils.isEmpty(clientMsgId)) {
             return;
         }
+        cancelOutgoingSendTimeout(clientMsgId);
         ImLocalStore.markOutgoingSendFailed(clientMsgId, updated -> {
             OnOutgoingMessageListener listener = outgoingMessageListener;
             if (listener != null && updated != null) {
                 listener.onOutgoingMessageUpdated(updated);
             }
-            if (listener != null) {
+            if (notifyBizError && listener != null) {
                 listener.onSendBizError(errorCode, errorMsg);
             }
         });

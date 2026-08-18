@@ -89,6 +89,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/dp_10"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:visibility="gone"
                     tools:visibility="visible">
 

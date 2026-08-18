@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.freddy.im.IMSConfig;
+import com.freddy.im.OutgoingSendTimeout;
 import com.freddy.im.MessageType;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.bean.ImConversationSearchResult;
@@ -316,7 +317,83 @@ public final class ImMessageRepository {
      */
     public void markOutgoingResending(@Nullable String clientMsgId,
                                       @Nullable OnMessageUpdatedCallback onUpdated) {
+        ImMessageManager.getInstance().cancelOutgoingSendTimeout(clientMsgId);
         updateOutgoingSendStatus(clientMsgId, IMSConfig.SEND_STATUS_SENDING, onUpdated);
+    }
+
+    /** 进程恢复：仍为发送中的外发消息（含 clientMsgId 与落库时间）。 */
+    public static final class OutgoingSendingRef {
+        @NonNull
+        public final String clientMsgId;
+        public final long timestamp;
+
+        OutgoingSendingRef(@NonNull String clientMsgId, long timestamp) {
+            this.clientMsgId = clientMsgId;
+            this.timestamp = timestamp;
+        }
+    }
+
+    public interface OnPendingSendingTimeoutCallback {
+        void onPending(@NonNull List<OutgoingSendingRef> pending);
+    }
+
+    /**
+     * 进程被杀后恢复：已超过发送超时的标失败；未超时的交给 {@code onPending} 继续倒计时。
+     */
+    public void recoverOutgoingSendingTimeouts(@Nullable OnMessageUpdatedCallback onExpiredUpdated,
+                                               @Nullable OnPendingSendingTimeoutCallback onPending) {
+        if (!ImRealm.isUserBound()) {
+            return;
+        }
+        ImDbExecutor.runWrite(() -> {
+            Realm realm = ImRealm.getRealm();
+            List<String> expiredIds = new ArrayList<>();
+            List<OutgoingSendingRef> pending = new ArrayList<>();
+            try {
+                RealmResults<MessageEntity> sending = realm.where(MessageEntity.class)
+                        .equalTo("sendStatus", IMSConfig.SEND_STATUS_SENDING)
+                        .findAll();
+                for (MessageEntity entity : sending) {
+                    if (entity == null || TextUtils.isEmpty(entity.getClientMsgId())) {
+                        continue;
+                    }
+                    String id = entity.getClientMsgId();
+                    long timestamp = entity.getTimestamp();
+                    if (OutgoingSendTimeout.isTimedOut(timestamp)) {
+                        expiredIds.add(id);
+                    } else {
+                        pending.add(new OutgoingSendingRef(id, timestamp));
+                    }
+                }
+                if (!expiredIds.isEmpty()) {
+                    realm.executeTransaction(r -> {
+                        for (String id : expiredIds) {
+                            MessageEntity entity = r.where(MessageEntity.class)
+                                    .equalTo("clientMsgId", id)
+                                    .findFirst();
+                            if (entity != null
+                                    && entity.getSendStatus() == IMSConfig.SEND_STATUS_SENDING
+                                    && OutgoingSendTimeout.isTimedOut(entity.getTimestamp())) {
+                                entity.setSendStatus(IMSConfig.SEND_STATUS_FAILED);
+                            }
+                        }
+                    });
+                }
+            } finally {
+                realm.close();
+            }
+            if (onExpiredUpdated != null) {
+                for (String id : expiredIds) {
+                    AppMessage updated = queryAppMessageByClientMsgId(id);
+                    if (updated != null) {
+                        onExpiredUpdated.onUpdated(updated);
+                    }
+                }
+            }
+            if (onPending != null && !pending.isEmpty()) {
+                onPending.onPending(pending);
+            }
+        });
     }
 
     private void updateOutgoingSendStatus(@Nullable String clientMsgId,
@@ -329,22 +406,29 @@ public final class ImMessageRepository {
         final long now = System.currentTimeMillis();
         ImDbExecutor.runWrite(() -> {
             Realm realm = ImRealm.getRealm();
+            final boolean[] applied = {false};
             try {
                 realm.executeTransaction(r -> {
                     MessageEntity entity = r.where(MessageEntity.class)
                             .equalTo("clientMsgId", id)
                             .findFirst();
-                    if (entity != null) {
-                        entity.setSendStatus(sendStatus);
-                        if (sendStatus == IMSConfig.SEND_STATUS_SENDING){
-                            entity.setTimestamp(now);
-                        }
+                    if (entity == null) {
+                        return;
                     }
+                    if (sendStatus == IMSConfig.SEND_STATUS_FAILED
+                            && entity.getSendStatus() != IMSConfig.SEND_STATUS_SENDING) {
+                        return;
+                    }
+                    entity.setSendStatus(sendStatus);
+                    if (sendStatus == IMSConfig.SEND_STATUS_SENDING) {
+                        entity.setTimestamp(now);
+                    }
+                    applied[0] = true;
                 });
             } finally {
                 realm.close();
             }
-            if (onUpdated != null) {
+            if (onUpdated != null && applied[0]) {
                 AppMessage updated = queryAppMessageByClientMsgId(id);
                 if (updated != null) {
                     onUpdated.onUpdated(updated);

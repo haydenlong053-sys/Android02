@@ -38,6 +38,7 @@ import com.freddy.im.http.ImAuthInvalidHandler
 import com.freddy.im.http.ImHttpConfig
 import com.freddy.im.http.model.im.SessionItem
 import com.freddy.im.db.ImLocalStore
+import com.freddy.im.message.ImMessageManager
 import com.freddy.im.signal.ImSignalProtos
 import com.freddy.im.util.ImUtils
 import com.cboda.baselibrary.utils.getAppVersion
@@ -305,6 +306,7 @@ class AppBroadUtils {
             if (sameSession) {
                 eLogD("imLogin", "goLoginMyIm reuse active session userId=$userId")
                 showIMKeyErrorToast("imLogin goLoginMyIm reuse active session userId=$userId")
+                ImMessageManager.getInstance().recoverOutgoingSendingTimeouts()
             } else {
                 val ok = bootstrap.init(
                     userId,

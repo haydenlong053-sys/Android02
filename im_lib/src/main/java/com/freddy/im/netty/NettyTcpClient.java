@@ -9,6 +9,7 @@ import com.freddy.im.ExecutorServiceFactory;
 import com.freddy.im.HeartbeatHandler;
 import com.freddy.im.IMSConfig;
 import com.freddy.im.MsgDispatcher;
+import com.freddy.im.MsgTimeoutTimer;
 import com.freddy.im.MsgTimeoutTimerManager;
 import com.freddy.im.message.ImMessageManager;
 import com.freddy.im.crypto.Aes128CbcZeroIv;
@@ -261,6 +262,9 @@ public class NettyTcpClient implements IMSClientInterface {
             eLogD(TAG, "普通发送 sendSignalRequest--cmd=" + request.getHeader().getCmd() + ", transportSeqId=" + transportSeqId);
         }
 
+        if (isJoinTimeoutManager) {
+            msgTimeoutTimerManager.add(transportSeqId, request);
+        }
         if (sessionAesKey == null) {
             eLogD(TAG, "尚未协商 AES，无法发送 SignalRequest");
             return;
@@ -268,12 +272,18 @@ public class NettyTcpClient implements IMSClientInterface {
         try {
             byte[] plain = request.toByteArray();
             byte[] enc = Aes128CbcZeroIv.encrypt(plain, sessionAesKey);
-            if (isJoinTimeoutManager) {
-                msgTimeoutTimerManager.add(transportSeqId, request);
-            }
             writeTransport((byte) 0x02, (byte) 0, enc, transportSeqId);
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
+            failJoinedSend(transportSeqId, request);
+        }
+    }
+
+    private void failJoinedSend(int transportSeqId, ImSignalProtos.SignalRequest request) {
+        msgTimeoutTimerManager.remove(transportSeqId);
+        String clientMsgId = MsgTimeoutTimer.parseClientMsgId(request);
+        if (!TextUtils.isEmpty(clientMsgId)) {
+            ImMessageManager.getInstance().onSendMsgFailed(clientMsgId);
         }
     }
 
