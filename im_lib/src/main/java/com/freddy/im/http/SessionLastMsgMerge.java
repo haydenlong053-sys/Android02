@@ -33,6 +33,22 @@ public final class SessionLastMsgMerge {
             if (local == null) {
                 continue;
             }
+            // getList 可能缺 conversation / owerId，不回填则群进不了私群/公群
+            if (item.getConversation() <= 0 && local.getConversation() > 0) {
+                item.setConversation(local.getConversation());
+            }
+            if (TextUtils.isEmpty(item.getOwerId()) && !TextUtils.isEmpty(local.getOwerId())) {
+                item.setOwerId(local.getOwerId());
+            }
+            if (item.getMemCount() <= 0 && local.getMemCount() > 0) {
+                item.setMemCount(local.getMemCount());
+            }
+            if (TextUtils.isEmpty(item.getSessionName()) && !TextUtils.isEmpty(local.getSessionName())) {
+                item.setSessionName(local.getSessionName());
+            }
+            if (TextUtils.isEmpty(item.getIcon()) && !TextUtils.isEmpty(local.getIcon())) {
+                item.setIcon(local.getIcon());
+            }
             if (item.getMuteNotify() == null) {
                 item.setMuteNotify(local.isMuteNotify());
             }

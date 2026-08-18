@@ -6,7 +6,6 @@ import androidx.lifecycle.map
 import com.cboda.intelligent.base.BaseViewBroadModel
 import com.freddy.chat.ConversationSessionCategory
 import com.freddy.chat.im.IMSClientBootstrap
-import com.freddy.im.MessageType
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.http.GroupDetailFetcher
 import com.freddy.im.http.ImMessageHttpExample
@@ -19,6 +18,10 @@ import java.util.LinkedHashMap
 import java.util.concurrent.atomic.AtomicBoolean
 
 class ConversationParentViewModel : BaseViewBroadModel() {
+
+    /** 与 LiveData 同步的内存快照；postValue 异步到达前 merge 仍能读到最新列表。 */
+    @Volatile
+    private var publishedSnapshot: List<SessionItem> = emptyList()
 
     private val _allSessions = MutableLiveData<List<SessionItem>>(emptyList())
     val allSessions: LiveData<List<SessionItem>> = _allSessions
@@ -88,10 +91,22 @@ class ConversationParentViewModel : BaseViewBroadModel() {
             return
         }
         ImLocalStore.loadSessions { cached ->
-            if (!cached.isNullOrEmpty()) {
-                publishSessions(cached)
-                ensureGroupCreateTimes(cached)
+            if (cached.isNullOrEmpty()) {
+                return@loadSessions
             }
+            if (publishedSnapshot.isEmpty()) {
+                publishSessions(cached)
+            } else {
+                val existingIds = publishedSnapshot.mapNotNull { it.sessionId }.toHashSet()
+                val extras = cached.filter { item ->
+                    val id = item.sessionId
+                    !id.isNullOrEmpty() && !existingIds.contains(id)
+                }
+                if (extras.isNotEmpty()) {
+                    mergeSessionsNow(extras)
+                }
+            }
+            ensureGroupCreateTimes(cached)
         }
         _loadFailed.postValue(false)
         _loading.postValue(true)
@@ -104,7 +119,7 @@ class ConversationParentViewModel : BaseViewBroadModel() {
                     _loadFailed.postValue(false)
                     _loading.postValue(false)
                     val list = content.getSessionList()
-                    publishSessions(list)
+                    publishRemoteSessions(list)
                     ensureGroupCreateTimes(list)
                 }
             },
@@ -117,17 +132,14 @@ class ConversationParentViewModel : BaseViewBroadModel() {
     }
 
     /**
-     * 群会话缺 createTime / renameCount 时拉 im/group/detail，写入会话库并刷新列表。
+     * 群会话缺 createTime / renameCount / 群主时拉 im/group/detail，写入会话库并刷新列表。
      */
     private fun ensureGroupCreateTimes(sessions: List<SessionItem>?) {
         if (sessions.isNullOrEmpty()) {
             return
         }
         val missingIds = sessions
-            .filter {
-                MessageType.isGroupChat(it.conversation)
-                    && (it.createTime <= 0L || it.renameCount == null)
-            }
+            .filter { needsGroupDetailBackfill(it) }
             .mapNotNull { it.sessionId?.takeIf { id -> id.isNotBlank() } }
             .distinct()
         if (missingIds.isEmpty()) {
@@ -135,7 +147,12 @@ class ConversationParentViewModel : BaseViewBroadModel() {
         }
         GroupDetailFetcher.fetchSessionItems(missingIds) { map ->
             val updates = ArrayList(
-                map.values.filter { it.createTime > 0L || it.renameCount != null },
+                map.values.filter {
+                    it.createTime > 0L
+                        || it.renameCount != null
+                        || !it.owerId.isNullOrBlank()
+                        || it.conversation > 0
+                },
             )
             if (updates.isEmpty()) {
                 return@fetchSessionItems
@@ -178,7 +195,7 @@ class ConversationParentViewModel : BaseViewBroadModel() {
     }
 
     private fun mergeSessionsNow(updates: List<SessionItem>) {
-        val current = _allSessions.value?.toMutableList() ?: mutableListOf()
+        val current = publishedSnapshot.toMutableList()
         for (update in updates) {
             if (update.sessionId.isNullOrEmpty()) {
                 continue
@@ -200,7 +217,10 @@ class ConversationParentViewModel : BaseViewBroadModel() {
         if (updates.isNullOrEmpty()) {
             return
         }
-        val current = _allSessions.value ?: return
+        val current = publishedSnapshot
+        if (current.isEmpty()) {
+            return
+        }
         for (update in updates) {
             val sessionId = update.sessionId ?: continue
             val target = current.firstOrNull { it.sessionId == sessionId } ?: continue
@@ -224,7 +244,7 @@ class ConversationParentViewModel : BaseViewBroadModel() {
         if (sessionId.isNullOrEmpty()) {
             return
         }
-        val current = _allSessions.value?.toMutableList() ?: return
+        val current = publishedSnapshot.toMutableList()
         val index = current.indexOfFirst { it.sessionId == sessionId }
         if (index < 0) {
             return
@@ -232,17 +252,58 @@ class ConversationParentViewModel : BaseViewBroadModel() {
         val item = current[index]
         // Adapter 可能已就地清零同一引用；仍需 post，以便底栏/Tab 未读 LiveData 重算
         item.unreadCount = 0
-        _allSessions.value = ArrayList(current)
+        publishSessions(current)
     }
 
     fun removeSession(sessionId: String?) {
         if (sessionId.isNullOrEmpty()) {
             return
         }
-        val filtered = _allSessions.value
-            ?.filter { it.sessionId != sessionId }
-            ?: emptyList()
-        _allSessions.postValue(filtered)
+        val filtered = publishedSnapshot.filter { it.sessionId != sessionId }
+        publishSessions(filtered)
+    }
+
+    /**
+     * 服务端列表与当前内存并集：getList 缺条或空列表时，不把本地已有群/会话冲掉。
+     */
+    private fun publishRemoteSessions(remote: List<SessionItem>?) {
+        if (remote.isNullOrEmpty()) {
+            if (publishedSnapshot.isEmpty()) {
+                publishSessions(emptyList())
+            }
+            return
+        }
+        val current = publishedSnapshot
+        if (current.isEmpty()) {
+            publishSessions(remote)
+            return
+        }
+        val remoteIds = HashSet<String>(remote.size)
+        for (item in remote) {
+            val id = item.sessionId
+            if (!id.isNullOrEmpty()) {
+                remoteIds.add(id)
+            }
+        }
+        val extras = current.filter { item ->
+            val id = item.sessionId
+            !id.isNullOrEmpty() && !remoteIds.contains(id)
+        }
+        if (extras.isEmpty()) {
+            publishSessions(remote)
+        } else {
+            publishSessions(remote + extras)
+        }
+    }
+
+    private fun needsGroupDetailBackfill(session: SessionItem): Boolean {
+        if (!ConversationSessionCategory.isGroupSession(session)) {
+            return false
+        }
+        return session.createTime <= 0L
+            || session.renameCount == null
+            || session.owerId.isNullOrBlank()
+            || session.conversation <= 0
     }
 
     private fun publishSessions(sessions: List<SessionItem>?) {
@@ -254,6 +315,7 @@ class ConversationParentViewModel : BaseViewBroadModel() {
                     .thenByDescending { it.lastMessageTime },
             )
             ?: emptyList()
+        publishedSnapshot = sorted
         _allSessions.postValue(sorted)
     }
 

@@ -85,6 +85,10 @@ public final class SessionRealmMapper {
             if (TextUtils.isEmpty(item.getOppositeUserId()) && !TextUtils.isEmpty(existing.getOppositeUserId())) {
                 entity.setOppositeUserId(existing.getOppositeUserId());
             }
+            // getList 可能把 conversation 写成 0，冲掉本地 PAIR/MULTI 后三个 Tab 都看不到
+            if (item.getConversation() <= 0 && existing.getConversation() > 0) {
+                entity.setConversation(existing.getConversation());
+            }
             // getList 常缺 owerId；保留本地群主，避免私群/公群 Tab 错乱
             if (TextUtils.isEmpty(item.getOwerId()) && !TextUtils.isEmpty(existing.getOwerId())) {
                 entity.setOwerId(existing.getOwerId());
