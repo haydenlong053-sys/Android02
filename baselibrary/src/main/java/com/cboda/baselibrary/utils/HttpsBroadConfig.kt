@@ -29,13 +29,13 @@ object HttpsBroadConfig {
 
     //自研的长连接host
     private const val MY_IM_SOCKET_HOST_FAT: String = "[{\"host\":\"socket-test.wujie168.net\", \"port\":80}]"
-    private const val MY_IM_SOCKET_HOST_RELEASE: String = "[{\"host\":\"socket.seekweb4.ai\", \"port\":80}]"
+    private const val MY_IM_SOCKET_HOST_RELEASE: String = "[{\"host\":\"socket.wujie168.net\", \"port\":80}]"
 
     //自研的短连接http的host
     private const val MY_IM_HTTP_HOST_FAT: String = "https://im-test.wujie168.net/"
     private const val MY_IM_HTTP_HOST_FAT_IP: String = "http://95.40.9.142/"
 
-    private const val MY_IM_HTTP_HOST_RELEASE: String = "https://im-prd.seekweb4.ai/"
+    private const val MY_IM_HTTP_HOST_RELEASE: String = "https://Im.wujie168.net/"
 
     /** filehub 上传独立域名（与 im-api 分离） */
     private const val MY_IM_OSS_HOST_FAT: String = "https://oss-test.wujie168.net/"
@@ -105,8 +105,9 @@ object HttpsBroadConfig {
                 myImOssHost = MY_IM_OSS_HOST_RELEASE
             }
 
+
             HONGKONG_TYPE -> {
-                appHost = "https://api.seekweb4.ai"
+                appHost = "https://Im.wujie168.net"
                 appHost2 = appHost
                 appImServerHost = "im.seekweb4.ai"
                 appIcePassword = "aT3BxjPy4MRdC6@"
