@@ -4,9 +4,12 @@ import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.base.BaseViewModel
 import com.cboda.baselibrary.bean.SocialContact
 import com.cboda.baselibrary.bean.SocialUiState
+import com.cboda.baselibrary.event.UnreadCountBroadEvent
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.chatui.utils.PinyinBroadUtils
 import com.cboda.intelligent.repository.SocialBroadRepository
+import org.greenrobot.eventbus.EventBus
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,6 +52,17 @@ class SocialViewBroadModel(
                     indexLetters = letters,
                     newFriendCount = newFriendCount,
                     newGroupInviteCount = newGroupInviteCount
+                )
+                EventBus.getDefault().post(
+                    UnreadCountBroadEvent(
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        MMKVBroadUtils.getContactBadgeTotal().toString()
+                    )
                 )
             } catch (t: Throwable) {
                 t.printStackTrace()
