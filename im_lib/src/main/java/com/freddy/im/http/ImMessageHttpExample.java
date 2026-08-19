@@ -648,7 +648,7 @@ public final class ImMessageHttpExample {
                         return;
                     }
                     String text = resp.body().string();
-                    Log.d("zhanglong","批量文件上传成功--》"+text);
+                    Log.d(MY_TAG,"批量文件上传成功--》"+text);
                     Type listType = TypeToken.getParameterized(List.class, UploadRes.class).getType();
                     Type responseType = TypeToken.getParameterized(BaseMsgResponse.class, listType).getType();
                     BaseMsgResponse<List<UploadRes>> result = GSON.fromJson(text, responseType);
