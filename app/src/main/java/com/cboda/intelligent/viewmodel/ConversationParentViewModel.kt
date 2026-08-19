@@ -64,6 +64,18 @@ class ConversationParentViewModel : BaseViewBroadModel() {
     private val _loadFailed = MutableLiveData(false)
     val loadFailed: LiveData<Boolean> = _loadFailed
 
+    /** 首次网络拉取已完成（成功或失败），此前禁用下拉刷新。 */
+    private val _initialLoadCompleted = MutableLiveData(false)
+    val initialLoadCompleted: LiveData<Boolean> = _initialLoadCompleted
+
+    /** 当前可见的会话 Tab；null 表示不在会话 Tab（如好友页）。 */
+    private val _activeConversationTab = MutableLiveData<ConversationSessionCategory?>(ConversationSessionCategory.SINGLE)
+    val activeConversationTab: LiveData<ConversationSessionCategory?> = _activeConversationTab
+
+    /** 用户下拉刷新发起方；其它 Tab 不展示刷新动画。 */
+    private val _pullRefreshInitiator = MutableLiveData<ConversationSessionCategory?>(null)
+    val pullRefreshInitiator: LiveData<ConversationSessionCategory?> = _pullRefreshInitiator
+
     /** 防止 Main / 重试 / 信令同时触发重复 getList。 */
     private val requestInFlight = AtomicBoolean(false)
 
@@ -86,12 +98,30 @@ class ConversationParentViewModel : BaseViewBroadModel() {
         }
     }
 
-    fun loadConversations() {
+    fun setActiveConversationTab(category: ConversationSessionCategory?) {
+        _activeConversationTab.value = category
+    }
+
+    /**
+     * @param fromPullRefresh 用户下拉刷新
+     * @param initiator 发起刷新的 Tab；数据仍写入共享 _allSessions
+     * @return 是否成功发起请求（false 表示已有请求进行中，不重复刷新）
+     */
+    fun loadConversations(
+        fromPullRefresh: Boolean = false,
+        initiator: ConversationSessionCategory? = null,
+    ): Boolean {
         if (!requestInFlight.compareAndSet(false, true)) {
-            return
+            if (fromPullRefresh) {
+                _pullRefreshInitiator.postValue(null)
+            }
+            return false
         }
         _loadFailed.postValue(false)
         _loading.postValue(true)
+        if (fromPullRefresh && initiator != null) {
+            _pullRefreshInitiator.postValue(initiator)
+        }
         ImLocalStore.loadSessions { cached ->
             val hasLocal = !cached.isNullOrEmpty()
             if (hasLocal) {
@@ -114,9 +144,7 @@ class ConversationParentViewModel : BaseViewBroadModel() {
                 0,
                 object : OnHttpImListener<ConversationListContent> {
                     override fun onHttpImSuccess(content: ConversationListContent) {
-                        requestInFlight.set(false)
-                        _loadFailed.postValue(false)
-                        _loading.postValue(false)
+                        finishConversationLoad(success = true)
                         val list = content.sessionList
                         if (content.isIncremental) {
                             if (!list.isNullOrEmpty()) {
@@ -129,12 +157,19 @@ class ConversationParentViewModel : BaseViewBroadModel() {
                     }
                 },
                 {
-                    requestInFlight.set(false)
-                    _loading.postValue(false)
-                    _loadFailed.postValue(true)
+                    finishConversationLoad(success = false)
                 },
             )
         }
+        return true
+    }
+
+    private fun finishConversationLoad(success: Boolean) {
+        requestInFlight.set(false)
+        _initialLoadCompleted.postValue(true)
+        _pullRefreshInitiator.postValue(null)
+        _loading.postValue(false)
+        _loadFailed.postValue(!success)
     }
 
     /**

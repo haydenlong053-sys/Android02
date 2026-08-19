@@ -79,8 +79,7 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         // 关闭默认换页动画，减轻局部刷新时的视觉跳动
         recyclerView.itemAnimator = null
 
-        // 禁用下拉刷新；会话数据由 ViewModel 主动拉取 / 信令更新
-        swipeRefresh.isEnabled = false
+        setupSwipeRefresh()
 
         observeManagerActions()
 
@@ -106,9 +105,20 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         }
         parentViewModel.loading.observe(viewLifecycleOwner) {
             applyOverlayState()
+            updatePullRefreshIndicator()
         }
         parentViewModel.loadFailed.observe(viewLifecycleOwner) {
             applyOverlayState()
+        }
+        parentViewModel.initialLoadCompleted.observe(viewLifecycleOwner) {
+            updateSwipeRefreshEnabled()
+        }
+        parentViewModel.activeConversationTab.observe(viewLifecycleOwner) {
+            updateSwipeRefreshEnabled()
+            updatePullRefreshIndicator()
+        }
+        parentViewModel.pullRefreshInitiator.observe(viewLifecycleOwner) {
+            updatePullRefreshIndicator()
         }
         networkBanner?.alpha = 1f
         imsConnectLiveData.observe(this) { type ->
@@ -119,6 +129,43 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateSwipeRefreshEnabled()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        swipeRefresh.isEnabled = false
+        swipeRefresh.isRefreshing = false
+    }
+
+    private fun setupSwipeRefresh() {
+        swipeRefresh.isEnabled = false
+        swipeRefresh.setOnRefreshListener {
+            val started = parentViewModel.loadConversations(
+                fromPullRefresh = true,
+                initiator = sessionCategory,
+            )
+            if (!started) {
+                swipeRefresh.isRefreshing = false
+            }
+        }
+    }
+
+    /** 首次加载完成且为当前 Tab 时才允许下拉；数据共用，刷新动画仅发起 Tab 展示。 */
+    private fun updateSwipeRefreshEnabled() {
+        val initialDone = parentViewModel.initialLoadCompleted.value == true
+        val isActiveTab = parentViewModel.activeConversationTab.value == sessionCategory
+        swipeRefresh.isEnabled = initialDone && isActiveTab && isResumed
+    }
+
+    private fun updatePullRefreshIndicator() {
+        val loading = parentViewModel.loading.value == true
+        val initiator = parentViewModel.pullRefreshInitiator.value
+        swipeRefresh.isRefreshing = loading && initiator == sessionCategory
     }
 
     /** 监听左上角管理栏：全选 / 全已读 / 删除（对齐野火 Conversation*BroadFragment）。 */

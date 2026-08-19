@@ -80,6 +80,7 @@ import com.cboda.intelligent.widge.ImgIndicatorBroadAdapter
 import com.cboda.select.picture.utils.LanguageUtil
 import com.freddy.chat.ConversationGroupFragment
 import com.freddy.chat.ConversationOtherGroupFragment
+import com.freddy.chat.ConversationSessionCategory
 import com.freddy.chat.ConversationSingleFragment
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.badge.BadgePagerTitleView
 import org.greenrobot.eventbus.EventBus
@@ -313,6 +314,22 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         magicIndicator.navigator = commonNavigator
         bindIndicatorAndViewPager(
             magicIndicator, viewPager, indicatorAdapt, magicIndicatorNeedOnPageScrolled = true
+        ) { type, position, _, _, _ ->
+            if (type == 1 && position != null) {
+                updateActiveConversationTab(position)
+            }
+        }
+        updateActiveConversationTab(viewPager.currentItem)
+    }
+
+    private fun updateActiveConversationTab(position: Int) {
+        conversationViewModel.setActiveConversationTab(
+            when (position) {
+                0 -> ConversationSessionCategory.SINGLE
+                1 -> ConversationSessionCategory.MY_GROUP
+                2 -> ConversationSessionCategory.OTHER_GROUP
+                else -> null
+            }
         )
     }
 
