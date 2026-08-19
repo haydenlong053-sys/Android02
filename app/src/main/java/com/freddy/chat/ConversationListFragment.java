@@ -140,10 +140,21 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
         tvEmpty.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
 
-        ImMessageHttpExample.requestGetConversationList(0, 0, new OnHttpImListener<ConversationListContent>() {
+        ImMessageHttpExample.requestGetConversationList(new OnHttpImListener<ConversationListContent>() {
             @Override
             public void onHttpImSuccess(@NonNull ConversationListContent content) {
-                runOnUiThreadSafe(() -> finishLoadConversationList(content.getSessionList(), false));
+                runOnUiThreadSafe(() -> {
+                    if (content.isIncremental()) {
+                        List<SessionItem> list = content.getSessionList();
+                        if (list != null && !list.isEmpty()) {
+                            finishLoadConversationList(list, false);
+                        } else {
+                            progressBar.setVisibility(View.GONE);
+                        }
+                        return;
+                    }
+                    finishLoadConversationList(content.getSessionList(), false);
+                });
             }
         }, () -> runOnUiThreadSafe(() -> finishLoadConversationList(null, true)));
     }

@@ -7,7 +7,8 @@ import com.hjq.http.config.IRequestApi;
 /**
  * POST {@code im/conversation/getList}：获取用户会话列表（已按活跃度排序）。
  * <p>
- * 请求体：{@code startTime}、{@code anchor}；鉴权头由 {@link com.freddy.im.http.ImHttpConfig} 配置。
+ * 请求体：{@code startTime}（0 全量，否则为上次响应 {@code syncTime}）、{@code anchor}；
+ * 鉴权头由 {@link com.freddy.im.http.ImHttpConfig} 配置。
  */
 public final class GetConversationListApi implements IRequestApi {
 

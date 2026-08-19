@@ -71,7 +71,7 @@ import okhttp3.Response;
  * IM HTTP 示例：
  * <ul>
  *   <li>POST {@code im/message/getList}</li>
- *   <li>POST {@code im/conversation/getList}（{@code startTime}、{@code anchor}；头由 {@link ImHttpConfig} 注入）</li>
+ *   <li>POST {@code im/conversation/getList}（{@code startTime}=0 全量，否则为上次 {@code syncTime}；头由 {@link ImHttpConfig} 注入）</li>
  *   <li>GET {@code im/message/reportRead/{messageId}}</li>
  *   <li>GET {@code im/conversation/remove/{sessionId}}</li>
  *   <li>POST {@code im/group/create}</li>
@@ -150,6 +150,34 @@ public final class ImMessageHttpExample {
 
     /**
      * POST {@code im/conversation/getList}：拉取会话列表。
+     * {@code startTime} 由本地水位解析：0 全量，否则为上次成功的 {@code syncTime}。
+     */
+    public static void requestGetConversationList(@NonNull OnHttpImListener<ConversationListContent> callback) {
+        requestGetConversationList(false, 0, callback, null);
+    }
+
+    /**
+     * 同 {@link #requestGetConversationList(OnHttpImListener)}；
+     * {@code onRequestTerminal} 仅在业务失败、content 为空或网络失败时调用，便于关闭 loading。
+     */
+    public static void requestGetConversationList(@NonNull OnHttpImListener<ConversationListContent> callback,
+                                                  @Nullable Runnable onRequestTerminal) {
+        requestGetConversationList(false, 0, callback, onRequestTerminal);
+    }
+
+    /**
+     * {@code forceFull=true} 时 {@code startTime=0} 拉全量（本地会话为空时使用）。
+     */
+    public static void requestGetConversationList(boolean forceFull,
+                                                  int anchor,
+                                                  @NonNull OnHttpImListener<ConversationListContent> callback,
+                                                  @Nullable Runnable onRequestTerminal) {
+        long startTime = forceFull ? 0L : ConversationListSyncStore.resolveStartTime();
+        requestGetConversationList(startTime, anchor, callback, onRequestTerminal);
+    }
+
+    /**
+     * 指定 {@code startTime} 拉取；一般请走 {@link #requestGetConversationList(boolean, int, OnHttpImListener, Runnable)}。
      */
     public static void requestGetConversationList(long startTime,
                                                   int anchor,
@@ -158,13 +186,13 @@ public final class ImMessageHttpExample {
     }
 
     /**
-     * 同 {@link #(long, int, OnHttpImListener)}；
-     * {@code onRequestTerminal} 仅在业务失败、content 为空或网络失败时调用，便于关闭 loading。
+     * 同 {@link #requestGetConversationList(long, int, OnHttpImListener)}。
      */
     public static void requestGetConversationList(long startTime,
                                                   int anchor,
                                                   @NonNull OnHttpImListener<ConversationListContent> callback,
                                                   @Nullable Runnable onRequestTerminal) {
+        ELogUtilKt.eLogD(MY_TAG, "conversation getList startTime=" + startTime + " anchor=" + anchor);
         EasyHttp.post(ApplicationLifecycle.getInstance())
                 .api(new GetConversationListApi()
                         .setStartTime(startTime)
@@ -189,7 +217,7 @@ public final class ImMessageHttpExample {
                             }
                             return;
                         }
-                        finishConversationList(c, callback);
+                        finishConversationList(c, startTime, callback);
                     }
 
                     @Override
@@ -207,21 +235,23 @@ public final class ImMessageHttpExample {
      * 再回主线程回调并落库、限流同步未读。
      */
     private static void finishConversationList(@NonNull ConversationListContent content,
+                                               long startTime,
                                                @NonNull OnHttpImListener<ConversationListContent> callback) {
         List<SessionItem> raw = content.getSessionList();
         if (raw == null || raw.isEmpty() || !ImLocalStore.isReady()) {
-            dispatchConversationListReady(content, callback);
+            dispatchConversationListReady(content, startTime, callback);
             return;
         }
         // 拷贝列表引用即可：applyFromLocal 就地改字段；须在 im-realm 线程查库
         ImDbExecutor.runRead(() -> {
             SessionLastMsgMerge.applyFromLocal(content.getSessionList());
             android.os.Handler main = new android.os.Handler(android.os.Looper.getMainLooper());
-            main.post(() -> dispatchConversationListReady(content, callback));
+            main.post(() -> dispatchConversationListReady(content, startTime, callback));
         });
     }
 
     private static void dispatchConversationListReady(@NonNull ConversationListContent content,
+                                                      long startTime,
                                                       @NonNull OnHttpImListener<ConversationListContent> callback) {
         List<SessionItem> sessionList = content.getSessionList();
         if (sessionList != null && !sessionList.isEmpty()) {
@@ -235,6 +265,12 @@ public final class ImMessageHttpExample {
             content.setSessionList(filtered);
             sessionList = filtered;
         }
+        boolean fullSync = startTime <= 0L;
+        content.setIncremental(!fullSync);
+        ConversationListSyncStore.saveSyncTime(content.getSyncTime(), fullSync);
+        ELogUtilKt.eLogD(MY_TAG, "conversation getList done incremental=" + content.isIncremental()
+                + " syncTime=" + content.getSyncTime()
+                + " size=" + (sessionList == null ? 0 : sessionList.size()));
         callback.onHttpImSuccess(content);
         if (sessionList != null && !sessionList.isEmpty()) {
             ImLocalStore.saveSessions(sessionList);
