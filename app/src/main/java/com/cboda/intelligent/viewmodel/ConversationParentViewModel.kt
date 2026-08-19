@@ -19,6 +19,10 @@ import java.util.LinkedHashMap
 import java.util.concurrent.atomic.AtomicBoolean
 
 class ConversationParentViewModel : BaseViewBroadModel() {
+    /** 与 LiveData 同步的内存快照；postValue 异步到达前 merge 仍能读到最新列表。 */
+    @Volatile
+    private var publishedSnapshot: List<SessionItem> = emptyList()
+
 
     private val _allSessions = MutableLiveData<List<SessionItem>>(emptyList())
     val allSessions: LiveData<List<SessionItem>> = _allSessions
@@ -79,34 +83,88 @@ class ConversationParentViewModel : BaseViewBroadModel() {
         if (!requestInFlight.compareAndSet(false, true)) {
             return
         }
-        ImLocalStore.loadSessions { cached ->
-            if (!cached.isNullOrEmpty()) {
-                publishSessions(cached)
-                ensureGroupCreateTimes(cached)
-            }
-        }
         _loadFailed.postValue(false)
         _loading.postValue(true)
-        ImMessageHttpExample.requestGetConversationList(
-            0,
-            0,
-            object : OnHttpImListener<ConversationListContent> {
-                override fun onHttpImSuccess(content: ConversationListContent) {
-                    requestInFlight.set(false)
-                    _loadFailed.postValue(false)
-                    _loading.postValue(false)
-                    val list = content.getSessionList()
-                    publishSessions(list)
-                    ensureGroupCreateTimes(list)
+        ImLocalStore.loadSessions { cached ->
+            val hasLocal = !cached.isNullOrEmpty()
+            if (hasLocal) {
+                if (publishedSnapshot.isEmpty()) {
+                    publishSessions(cached)
+                } else {
+                    val existingIds = publishedSnapshot.mapNotNull { it.sessionId }.toHashSet()
+                    val extras = cached.filter { item ->
+                        val id = item.sessionId
+                        !id.isNullOrEmpty() && !existingIds.contains(id)
+                    }
+                    if (extras.isNotEmpty()) {
+                        mergeSessionsNow(extras)
+                    }
                 }
-            },
-            {
-                requestInFlight.set(false)
-                _loading.postValue(false)
-                _loadFailed.postValue(true)
-            },
-        )
+                ensureGroupCreateTimes(cached)
+            }
+            ImMessageHttpExample.requestGetConversationList(
+                !hasLocal,
+                0,
+                object : OnHttpImListener<ConversationListContent> {
+                    override fun onHttpImSuccess(content: ConversationListContent) {
+                        requestInFlight.set(false)
+                        _loadFailed.postValue(false)
+                        _loading.postValue(false)
+                        val list = content.sessionList
+                        if (content.isIncremental) {
+                            if (!list.isNullOrEmpty()) {
+                                mergeSessionsNow(list)
+                            }
+                        } else {
+                            publishRemoteSessions(list)
+                        }
+                        ensureGroupCreateTimes(list)
+                    }
+                },
+                {
+                    requestInFlight.set(false)
+                    _loading.postValue(false)
+                    _loadFailed.postValue(true)
+                },
+            )
+        }
     }
+
+    /**
+     * 全量 getList：以服务端列表为主，并保留本地多出的会话（缺条时不冲掉）。
+     * 增量走 [mergeSessionsNow]，空增量不动列表。
+     */
+    private fun publishRemoteSessions(remote: List<SessionItem>?) {
+        if (remote.isNullOrEmpty()) {
+            if (publishedSnapshot.isEmpty()) {
+                publishSessions(emptyList())
+            }
+            return
+        }
+        val current = publishedSnapshot
+        if (current.isEmpty()) {
+            publishSessions(remote)
+            return
+        }
+        val remoteIds = HashSet<String>(remote.size)
+        for (item in remote) {
+            val id = item.sessionId
+            if (!id.isNullOrEmpty()) {
+                remoteIds.add(id)
+            }
+        }
+        val extras = current.filter { item ->
+            val id = item.sessionId
+            !id.isNullOrEmpty() && !remoteIds.contains(id)
+        }
+        if (extras.isEmpty()) {
+            publishSessions(remote)
+        } else {
+            publishSessions(remote + extras)
+        }
+    }
+
+
 
     /**
      * 群会话缺 createTime 时拉 im/group/detail（GroupVo.createTime）写入会话库并刷新角标。
