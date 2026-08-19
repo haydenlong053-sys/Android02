@@ -40,7 +40,9 @@ import com.cboda.intelligent.R;
 
 /**
  * 会话列表 Fragment，可嵌入宿主 Activity 或通过 {@link ConversationListActivity} 展示。
+ * 废弃
  */
+@Deprecated
 public class ConversationListFragment extends Fragment implements I_CEventListener {
 
     private static final String[] EVENTS = {

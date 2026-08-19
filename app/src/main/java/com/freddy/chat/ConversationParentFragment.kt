@@ -47,9 +47,9 @@ class ConversationParentFragment : BaseBroadFragment<ConversationParentFragmentB
         ImLocalStore.loadSessions(OnLoadCallback { callBack.invoke(it) })
     }
 
-    private fun getServiceConversationList(callBack: (List<SessionItem>?) -> Unit) {
-        ImMessageHttpExample.requestGetConversationList(0, 0, { content -> callBack.invoke(content.sessionList) }, { callBack.invoke(null) })
-    }
+//    private fun getServiceConversationList(callBack: (List<SessionItem>?) -> Unit) {
+//        ImMessageHttpExample.requestGetConversationList(0, 0, { content -> callBack.invoke(content.sessionList) }, { callBack.invoke(null) })
+//    }
 
 
     override fun onCreateViewBinding(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?) = ConversationParentFragmentBinding.inflate(inflater, parent, false)

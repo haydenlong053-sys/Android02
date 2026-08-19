@@ -125,7 +125,6 @@ import com.cboda.intelligent.viewmodel.NewMirrorViewBroadModel
 import com.cboda.intelligent.viewmodel.VersionUpdateViewBroadModel
 import com.cboda.intelligent.widge.CustomClickBroadView
 import com.cboda.intelligent.widge.MyUnreadCountTextBroadView
-import com.freddy.chat.ConversationListFragment
 import com.freddy.chat.event.CEventCenter
 import com.freddy.chat.event.Events
 import com.freddy.chat.event.I_CEventListener
