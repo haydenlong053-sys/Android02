@@ -3,6 +3,7 @@ package com.cboda.intelligent
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.text.TextUtils
 import android.view.View
 import android.view.WindowManager
@@ -184,6 +185,10 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         Events.SESSION_LIST_UPDATED,
         Events.SESSION_REMOVED,
     )
+
+    /** 与 MessageProcessor.notifyConversationList 对齐，避免 onResume 与信令连打 getList。 */
+    private val loadConversationsDebounceMs = 1500L
+    private var lastLoadConversationsElapsed = 0L
 
     override fun getLayoutId(): Int {
         return R.layout.main_activity
@@ -648,6 +653,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         getUserInfo()
         eLogD(this.javaClass.simpleName, "getGroupInfos672")
         conversationListViewModel?.reloadConversationUnreadStatus()
+        loadConversationsDebounced()
 //        checkOrder()
     }
 
@@ -963,11 +969,24 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         }, 2000L)
     }
 
-    /** 自研 IM：会话列表与未读统一在此拉取；三个会话 Tab 通过 activityViewModels 共享同一份数据。 */
+    /** 自研 IM：底栏未读；三个会话 Tab 通过 activityViewModels 共享同一份数据。getList 在 onResume 兜底。 */
     private fun observeImUnreadCount() {
         conversationParentViewModel.totalUnreadCount.observe(this) { total ->
             xiaoxiUnreadCount = (total ?: 0).coerceAtLeast(0).toString()
         }
+    }
+
+    /**
+     * 回前台 / 信令刷新会话列表；1.5s 节流，避免 onResume 与 NOTIFY_CONVERSATION_LIST 连打。
+     */
+    private fun loadConversationsDebounced() {
+        val now = SystemClock.elapsedRealtime()
+        if (lastLoadConversationsElapsed > 0L
+            && now - lastLoadConversationsElapsed < loadConversationsDebounceMs
+        ) {
+            return
+        }
+        lastLoadConversationsElapsed = now
         conversationParentViewModel.loadConversations()
     }
 
@@ -998,7 +1017,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
     override fun onCEvent(topic: String?, msgCode: Int, resultCode: Int, obj: Any?) {
         when (topic) {
-            Events.NOTIFY_CONVERSATION_LIST -> conversationParentViewModel.loadConversations()
+            Events.NOTIFY_CONVERSATION_LIST -> loadConversationsDebounced()
             Events.SESSION_LIST_UPDATED -> {
                 @Suppress("UNCHECKED_CAST")
                 val updated = obj as? List<SessionItem> ?: return

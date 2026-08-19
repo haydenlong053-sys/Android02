@@ -90,45 +90,51 @@ class ConversationParentViewModel : BaseViewBroadModel() {
         if (!requestInFlight.compareAndSet(false, true)) {
             return
         }
-        ImLocalStore.loadSessions { cached ->
-            if (cached.isNullOrEmpty()) {
-                return@loadSessions
-            }
-            if (publishedSnapshot.isEmpty()) {
-                publishSessions(cached)
-            } else {
-                val existingIds = publishedSnapshot.mapNotNull { it.sessionId }.toHashSet()
-                val extras = cached.filter { item ->
-                    val id = item.sessionId
-                    !id.isNullOrEmpty() && !existingIds.contains(id)
-                }
-                if (extras.isNotEmpty()) {
-                    mergeSessionsNow(extras)
-                }
-            }
-            ensureGroupCreateTimes(cached)
-        }
         _loadFailed.postValue(false)
         _loading.postValue(true)
-        ImMessageHttpExample.requestGetConversationList(
-            0,
-            0,
-            object : OnHttpImListener<ConversationListContent> {
-                override fun onHttpImSuccess(content: ConversationListContent) {
-                    requestInFlight.set(false)
-                    _loadFailed.postValue(false)
-                    _loading.postValue(false)
-                    val list = content.getSessionList()
-                    publishRemoteSessions(list)
-                    ensureGroupCreateTimes(list)
+        ImLocalStore.loadSessions { cached ->
+            val hasLocal = !cached.isNullOrEmpty()
+            if (hasLocal) {
+                if (publishedSnapshot.isEmpty()) {
+                    publishSessions(cached)
+                } else {
+                    val existingIds = publishedSnapshot.mapNotNull { it.sessionId }.toHashSet()
+                    val extras = cached.filter { item ->
+                        val id = item.sessionId
+                        !id.isNullOrEmpty() && !existingIds.contains(id)
+                    }
+                    if (extras.isNotEmpty()) {
+                        mergeSessionsNow(extras)
+                    }
                 }
-            },
-            {
-                requestInFlight.set(false)
-                _loading.postValue(false)
-                _loadFailed.postValue(true)
-            },
-        )
+                ensureGroupCreateTimes(cached)
+            }
+            ImMessageHttpExample.requestGetConversationList(
+                !hasLocal,
+                0,
+                object : OnHttpImListener<ConversationListContent> {
+                    override fun onHttpImSuccess(content: ConversationListContent) {
+                        requestInFlight.set(false)
+                        _loadFailed.postValue(false)
+                        _loading.postValue(false)
+                        val list = content.sessionList
+                        if (content.isIncremental) {
+                            if (!list.isNullOrEmpty()) {
+                                mergeSessionsNow(list)
+                            }
+                        } else {
+                            publishRemoteSessions(list)
+                        }
+                        ensureGroupCreateTimes(list)
+                    }
+                },
+                {
+                    requestInFlight.set(false)
+                    _loading.postValue(false)
+                    _loadFailed.postValue(true)
+                },
+            )
+        }
     }
 
     /**
@@ -264,7 +270,8 @@ class ConversationParentViewModel : BaseViewBroadModel() {
     }
 
     /**
-     * 服务端列表与当前内存并集：getList 缺条或空列表时，不把本地已有群/会话冲掉。
+     * 全量 getList：以服务端列表为主，并保留本地多出的会话（缺条时不冲掉）。
+     * 增量走 [mergeSessionsNow]，空增量不动列表。
      */
     private fun publishRemoteSessions(remote: List<SessionItem>?) {
         if (remote.isNullOrEmpty()) {
