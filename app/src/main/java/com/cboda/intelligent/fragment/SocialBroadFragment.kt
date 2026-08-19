@@ -125,8 +125,8 @@ class SocialFragment : Fragment() {
     fun onAppEventReceiver(event: AppBroadEvent<*>?) {
         val eventCode = event?.eventCode
         if (eventCode == AppEventBroadCode.EVENT_REFRESH_CONTACT) {
-            eLogD("SocialFragment", "收到刷新列表的事件通知")
-            viewModel.refresh()
+            eLogD("SocialFragment", "收到刷新角标的事件通知")
+            viewModel.refreshBadgesOnly()
         }
 
     }

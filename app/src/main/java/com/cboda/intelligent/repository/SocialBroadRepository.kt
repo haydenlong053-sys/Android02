@@ -107,28 +107,23 @@ class SocialBroadRepository {
     }
 
 
-    // 角标数量（示例：实际应调用后端或SDK）
     suspend fun fetchNewFriendCount(): Int {
         val params = HashMap<String, String>()
+        val cached = MMKVBroadUtils.getNewFriendApplyCount().toInt()
         return withContext(Dispatchers.IO) {
-            var applyCount = 0
+            var applyCount = cached
             val result = NetworkBroadRepository.postEncrypted(
                 UrlBroadBroadConstants.FRIEND_APPLY_COUNT,
                 SocialFriendRequest::class.java, params
             )
             result.onSuccess {
-                applyCount = it?.count ?: 0
-                MMKVBroadUtils.saveContactBadgeCounts(
-                    applyCount.toLong(),
-                    MMKVBroadUtils.getNewGroupInviteCount()
-                )
-            }.onFailure { code, message ->
-                applyCount = 0
+                applyCount = it?.count ?: cached
+            }.onFailure { _, _ ->
+                applyCount = cached
             }.onError {
-                applyCount = 0
+                applyCount = cached
             }
             applyCount
-
         }
     }
 
@@ -147,12 +142,7 @@ class SocialBroadRepository {
                     object : OnHttpImListener<List<GroupApplyInfoRes>> {
                         override fun onHttpImSuccess(result: List<GroupApplyInfoRes>) {
                             if (!cont.isActive) return
-                            val count = result.count { it.status == "0" }
-                            MMKVBroadUtils.saveContactBadgeCounts(
-                                MMKVBroadUtils.getNewFriendApplyCount(),
-                                count.toLong()
-                            )
-                            cont.resume(count)
+                            cont.resume(result.count { it.status == "0" })
                         }
                     },
                     {
