@@ -31,6 +31,7 @@
                 app:riv_oval="true"
                 />
             <com.hjq.shape.view.ShapeTextView
+                android:id="@+id/mTvGrade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:shape_solidColor="@color/color_7A66FA"
@@ -38,8 +39,8 @@
                 android:paddingVertical="1dp"
                 android:paddingHorizontal="8dp"
                 android:textColor="@color/white"
-                android:text="78分"
-                android:textSize="10sp"
+                tools:text="78分"
+                android:textSize="11sp"
                 app:layout_constraintStart_toStartOf="@id/ivTouxiang"
                 app:layout_constraintEnd_toEndOf="@id/ivTouxiang"
                 app:layout_constraintTop_toTopOf="@id/ivTouxiang"
@@ -119,6 +120,7 @@
                     />
 
                 <com.hjq.shape.view.ShapeTextView
+                    android:id="@+id/mTvJoinGroupDay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
@@ -131,7 +133,7 @@
                     app:shape_strokeWidth="0.5dp"
                     android:paddingVertical="4dp"
                     android:paddingHorizontal="8dp"
-                    android:text="入群:100天"
+                    tools:text="入群:100天"
                     app:shape_radius="10dp"
                     android:layout_marginStart="8dp"
                     />
@@ -159,98 +161,193 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <View
-            style="@style/Line2"
-            android:layout_width="match_parent"
-            android:layout_marginTop="20dp" />
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/shezhijinyan"
-            android:layout_width="match_parent"
-            android:layout_height="62dp"
-            android:gravity="center_vertical"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="10dp"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@string/shezhijinyan"
-                android:textColor="@color/color_text0"
-                android:textSize="15sp" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:scaleType="centerInside"
-                android:src="@mipmap/ic_broad_next" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="9dp" />
-
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/gongnenglay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/bg_main1"
-        android:orientation="vertical"
-        android:visibility="gone"
-        tools:visibility="visible">
-
         <TextView
-            android:id="@+id/yichubenqun"
             android:layout_width="match_parent"
-            android:layout_height="62dp"
-            android:gravity="center"
-            android:text="@string/yichubenqun"
-            android:textColor="#FF5145"
-            android:textSize="15sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#09F3F3F3" />
-
-        <TextView
-            android:id="@+id/chehuishifenzhong"
-            android:layout_width="match_parent"
-            android:layout_height="62dp"
-            android:gravity="center"
-            android:text="@string/chehuishifenzhongfayan"
-            android:textColor="#FF5145"
-            android:textSize="15sp"
-            android:visibility="gone"
-            tools:visibility="gone"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="@string/qunguanli"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="@dimen/dp_17"
+            android:textColor="@color/black_65"
             />
+        
+        <com.hjq.shape.layout.ShapeLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="118dp"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp">
+            <com.hjq.shape.layout.ShapeLinearLayout
+                android:id="@+id/shezhijinyan"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                app:shape_radius="@dimen/dp_12"
+                app:shape_solidColor="@color/white"
+                android:gravity="center_horizontal"
+                android:layout_marginEnd="@dimen/dp_12"
+                >
+                <com.hjq.shape.layout.ShapeFrameLayout
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    app:shape="oval"
+                    app:shape_solidColor="@color/color_F7F8FA"
+                    android:layout_marginTop="16dp"
+                    >
+                    <ImageView
+                        android:layout_width="@dimen/dp_24"
+                        android:layout_height="@dimen/dp_24"
+                        android:src="@mipmap/ic_g_mute"
+                        android:layout_gravity="center"
+                        />
+                </com.hjq.shape.layout.ShapeFrameLayout>
 
-        <View
-            style="@style/Line2"
-            android:layout_width="match_parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/shezhijinyan"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="禁止在群内发言"
+                    android:textColor="@color/black_65"
+                    android:layout_marginTop="2dp"
+                    android:textSize="11sp"
+                    />
+
+
+
+            </com.hjq.shape.layout.ShapeLinearLayout>
+
+            <com.hjq.shape.layout.ShapeLinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                app:shape_radius="@dimen/dp_12"
+                app:shape_solidColor="@color/white"
+                android:gravity="center_horizontal"
+                android:layout_marginEnd="@dimen/dp_12"
+                android:visibility="gone"
+                tools:visibility="visible"
+                >
+                <com.hjq.shape.layout.ShapeFrameLayout
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    app:shape="oval"
+                    app:shape_solidColor="@color/color_F7F8FA"
+                    android:layout_marginTop="16dp"
+                    >
+                    <ImageView
+                        android:layout_width="@dimen/dp_24"
+                        android:layout_height="@dimen/dp_24"
+                        android:src="@mipmap/ic_g_fank"
+                        android:layout_gravity="center"
+                        />
+                </com.hjq.shape.layout.ShapeFrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="撤回发言"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="撤回10分钟内发言"
+                    android:textColor="@color/black_65"
+                    android:layout_marginTop="2dp"
+                    android:textSize="11sp"
+                    />
+
+
+
+            </com.hjq.shape.layout.ShapeLinearLayout>
+
+            <com.hjq.shape.layout.ShapeLinearLayout
+                android:id="@+id/yichubenqun"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                app:shape_radius="@dimen/dp_12"
+                app:shape_solidColor="@color/white"
+                android:gravity="center_horizontal"
+                >
+                <com.hjq.shape.layout.ShapeFrameLayout
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    app:shape="oval"
+                    app:shape_solidColor="@color/color_F7F8FA"
+                    android:layout_marginTop="16dp"
+                    >
+                    <ImageView
+                        android:layout_width="@dimen/dp_24"
+                        android:layout_height="@dimen/dp_24"
+                        android:src="@mipmap/ic_g_bank"
+                        android:layout_gravity="center"
+                        />
+                </com.hjq.shape.layout.ShapeFrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/yichubenqun"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="移出后无法查看消息"
+                    android:textColor="@color/black_65"
+                    android:layout_marginTop="2dp"
+                    android:textSize="11sp"
+                    />
+
+
+
+            </com.hjq.shape.layout.ShapeLinearLayout>
+            
+        </com.hjq.shape.layout.ShapeLinearLayout>
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
     <TextView
         android:id="@+id/tianjiadaotongxun"
         android:layout_width="match_parent"
-        android:layout_height="62dp"
-        android:background="@color/bg_main1"
+        android:layout_height="55dp"
+        android:background="@drawable/bg_rect_white_broad_16dp"
+        android:layout_margin="16dp"
         android:gravity="center"
         android:text="@string/tianjiadaotongxun"
-        android:textColor="#7A7BF8"
-        android:textSize="15sp"
+        android:textColor="@color/color_3B47DD"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:visibility="gone"
         tools:visibility="visible" />
 </LinearLayout>

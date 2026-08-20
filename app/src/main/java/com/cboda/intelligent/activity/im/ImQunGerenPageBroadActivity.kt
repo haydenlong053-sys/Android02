@@ -13,14 +13,12 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
-import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.holder.CommanConfimBroadHolder
-import com.cboda.intelligent.utils.GlideLoaderBroadHelper
 import com.cboda.intelligent.utils.JumpBroadUtils
-import com.cboda.intelligent.utils.PixelBroadBroadUtils
 import com.cboda.intelligent.utils.StringBroadUtils
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.freddy.chat.im.IMSClientBootstrap
+import com.freddy.chat.utils.WeChatUiHelper
 import com.freddy.im.group.GroupRole
 import com.freddy.im.http.ImGroupHttpExample
 import com.freddy.im.http.model.im.GroupUserVo
@@ -50,6 +48,8 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
     private lateinit var tvnicheng: TextView
     private lateinit var ivxingbie: ImageView
     private lateinit var ivTouxiang: ImageView
+    private lateinit var mTvGrade: TextView
+    private lateinit var mTvJoinGroupDay: TextView
 
     override fun getLayoutId(): Int = R.layout.activity_qun_ge_broad_ren_page
 
@@ -73,6 +73,8 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
         gongnenglay = findViewById(R.id.gongnenglay)
         shezhijinyan = findViewById(R.id.shezhijinyan)
         tianjiadaotongxun = findViewById(R.id.tianjiadaotongxun)
+        mTvGrade = findViewById(R.id.mTvGrade)
+        mTvJoinGroupDay = findViewById(R.id.mTvJoinGroupDay)
         findViewById<android.view.View>(R.id.chehuishifenzhong)?.isVisible = false
 
         commViewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
@@ -83,6 +85,8 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
                 ivxingbie.setImageResource(
                     if (sex == "1") R.mipmap.ic_msg_icon_boy else R.mipmap.ic_msg_icon_girl
                 )
+                mTvGrade.text="${this.grade}分"
+
                 applyActionVisibility()
             }
         }
@@ -124,6 +128,7 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
             qunId,
             ids.toList(),
             object : OnHttpImListener<List<GroupUserVo>> {
+                @SuppressLint("SetTextI18n")
                 override fun onHttpImSuccess(result: List<GroupUserVo>) {
                     runOnUiThread {
                         val selfId = currentUserId
@@ -139,6 +144,9 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
                                     avatarUrl = vo.headPortrait!!
                                     ivTouxiang.loadImg(avatarUrl)
                                 }
+                                val fromCreateTime = groupDaysFromCreateTime(vo.joinTime)
+                                mTvJoinGroupDay.isVisible =(fromCreateTime>0)
+                                mTvJoinGroupDay.text="入群:${fromCreateTime}天"
                             }
                             if (selfId != null && id == selfId) {
                                 myRole = vo.role
@@ -209,4 +217,20 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
             }
         })
     }
+
+    /**
+     * 由 GroupVo/会话 createTime 计算入群天数；无效或不足 1 天返回 null（不展示）。
+     */
+    private fun groupDaysFromCreateTime(createTime: Long): Int {
+        val millis = WeChatUiHelper.normalizeToMillis(createTime)
+        if (millis <= 0L) {
+            return 0
+        }
+        val days = (System.currentTimeMillis() - millis) / (24L * 60L * 60L * 1000L)
+        if (days <= 0L) {
+            return 0
+        }
+        return days.toInt()
+    }
+
 }
