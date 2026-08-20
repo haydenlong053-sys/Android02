@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.view.isGone
+import androidx.core.widget.ImageViewCompat
 import androidx.viewbinding.ViewBinding
 import com.cboda.baselibrary.utils.getAppColor
 import com.gyf.immersionbar.ImmersionBar
@@ -486,5 +487,11 @@ abstract class BaseSimpleBroadActivity : BaseActivity() {
 
     open fun showBgTopTitleLayout(): Boolean {
         return false
+    }
+
+    protected fun clearBackTint(){
+        backIcon?.let {
+            ImageViewCompat.setImageTintList(backIcon, null)
+        }
     }
 }

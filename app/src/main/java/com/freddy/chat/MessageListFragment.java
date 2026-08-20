@@ -271,8 +271,12 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                         sessionItem, IMSClientBootstrap.getInstance().getCurrentUserId()),
                 this::resendFailedMessage);
         adapter.setMessageActions(this);
-        adapter.setPortraitClickListener(userId ->
-                JumpBroadUtils.Companion.startHaoYouAddActivity(requireContext(), userId, "2"));
+        adapter.setPortraitClickListener(userId ->{
+            if (isGroupChat){
+                JumpBroadUtils.Companion.startImQunGerenPageActivity(requireContext(), sessionId, userId);
+            }else {
+                JumpBroadUtils.Companion.startHaoYouAddActivity(requireContext(), userId, "2");
+            }});
         if (isGroupChat) {
             adapter.setMentionMemberListener((userId, displayName) -> {
                 if (inputPanel != null) {
