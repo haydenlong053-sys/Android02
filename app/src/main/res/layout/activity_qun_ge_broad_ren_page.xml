@@ -162,25 +162,26 @@
 
 
         <TextView
+            android:id="@+id/mTvManageDes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:text="@string/qunguanli"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:layout_marginStart="@dimen/dp_17"
             android:textColor="@color/black_65"
             />
         
         <com.hjq.shape.layout.ShapeLinearLayout
             android:layout_width="match_parent"
-            android:layout_height="118dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp">
             <com.hjq.shape.layout.ShapeLinearLayout
                 android:id="@+id/shezhijinyan"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="118dp"
                 android:orientation="vertical"
                 android:layout_weight="1"
                 app:shape_radius="@dimen/dp_12"
@@ -230,7 +231,7 @@
 
             <com.hjq.shape.layout.ShapeLinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="118dp"
                 android:orientation="vertical"
                 android:layout_weight="1"
                 app:shape_radius="@dimen/dp_12"
@@ -283,7 +284,7 @@
             <com.hjq.shape.layout.ShapeLinearLayout
                 android:id="@+id/yichubenqun"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="118dp"
                 android:orientation="vertical"
                 android:layout_weight="1"
                 app:shape_radius="@dimen/dp_12"

@@ -2,6 +2,7 @@ package com.cboda.intelligent.activity.im
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
@@ -40,9 +41,8 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
 
     private var commViewModel: CommViewBroadModel? = null
 
-    private lateinit var yichubenqun: TextView
-    private lateinit var gongnenglay: LinearLayoutCompat
-    private lateinit var shezhijinyan: LinearLayoutCompat
+    private lateinit var yichubenqun: View
+    private lateinit var shezhijinyan: View
     private lateinit var tianjiadaotongxun: TextView
     private lateinit var tvname: TextView
     private lateinit var tvnicheng: TextView
@@ -50,6 +50,7 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
     private lateinit var ivTouxiang: ImageView
     private lateinit var mTvGrade: TextView
     private lateinit var mTvJoinGroupDay: TextView
+    private lateinit var mTvManageDes: TextView
 
     override fun getLayoutId(): Int = R.layout.activity_qun_ge_broad_ren_page
 
@@ -70,12 +71,11 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
         tvnicheng = findViewById(R.id.tvnicheng)
         ivxingbie = findViewById(R.id.ivxingbie)
         yichubenqun = findViewById(R.id.yichubenqun)
-        gongnenglay = findViewById(R.id.gongnenglay)
         shezhijinyan = findViewById(R.id.shezhijinyan)
         tianjiadaotongxun = findViewById(R.id.tianjiadaotongxun)
         mTvGrade = findViewById(R.id.mTvGrade)
         mTvJoinGroupDay = findViewById(R.id.mTvJoinGroupDay)
-        findViewById<android.view.View>(R.id.chehuishifenzhong)?.isVisible = false
+        mTvManageDes = findViewById(R.id.mTvManageDes)
 
         commViewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
         commViewModel?.imUserLiveData?.observe(this) { bean ->
@@ -182,7 +182,8 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
             || uid == MMKVBroadUtils.getRealUserId()
         val manage = canManageTarget()
         shezhijinyan.isVisible = manage
-        gongnenglay.isVisible = manage
+        yichubenqun.isVisible = manage
+        mTvManageDes.isVisible = manage
         tianjiadaotongxun.isVisible = !self && !isFriend
     }
 
