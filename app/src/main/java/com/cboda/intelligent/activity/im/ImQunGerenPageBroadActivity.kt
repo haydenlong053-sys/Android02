@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import cc.shinichi.library.ImagePreview
@@ -51,6 +51,11 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
     private lateinit var mTvGrade: TextView
     private lateinit var mTvJoinGroupDay: TextView
     private lateinit var mTvManageDes: TextView
+    private lateinit var mViewSetManger: View
+    private lateinit var mTvMangerDes: TextView
+    private lateinit var mScChangeManger: SwitchCompat
+    private lateinit var changeMangerView: View
+    private var managerRequestInFlight = false
 
     override fun getLayoutId(): Int = R.layout.activity_qun_ge_broad_ren_page
 
@@ -76,6 +81,12 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
         mTvGrade = findViewById(R.id.mTvGrade)
         mTvJoinGroupDay = findViewById(R.id.mTvJoinGroupDay)
         mTvManageDes = findViewById(R.id.mTvManageDes)
+        mViewSetManger = findViewById(R.id.mViewSetManger)
+        mTvMangerDes = findViewById(R.id.mTvMangerDes)
+        mScChangeManger = findViewById(R.id.mScChangeManger)
+        changeMangerView = findViewById(R.id.changeMangerView)
+        mScChangeManger.isClickable = false
+        changeMangerView.setOnClickListener { onManagerSwitchClicked() }
 
         commViewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
         commViewModel?.imUserLiveData?.observe(this) { bean ->
@@ -177,14 +188,66 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
         }
     }
 
+    /** 仅群主可对非群主成员设/撤管理员（对齐群详情「群管理员」入口权限）。 */
+    private fun canSetManager(): Boolean {
+        if (uid == IMSClientBootstrap.getInstance().currentUserId) return false
+        if (uid == MMKVBroadUtils.getRealUserId()) return false
+        return myRole == GroupRole.OWNER && targetRole != GroupRole.OWNER
+    }
+
+    private fun applyManagerSwitchUi() {
+        val isAdmin = targetRole == GroupRole.ADMIN
+        mTvMangerDes.setText(
+            if (isAdmin) R.string.group_cancel_manager else R.string.group_set_as_manager
+        )
+        mScChangeManger.isChecked = isAdmin
+    }
+
     private fun applyActionVisibility() {
         val self = uid == IMSClientBootstrap.getInstance().currentUserId
             || uid == MMKVBroadUtils.getRealUserId()
         val manage = canManageTarget()
+        val setManager = canSetManager()
         shezhijinyan.isVisible = manage
         yichubenqun.isVisible = manage
-        mTvManageDes.isVisible = manage
+        mTvManageDes.isVisible = manage || setManager
+        mViewSetManger.isVisible = setManager
+        if (setManager) {
+            applyManagerSwitchUi()
+        }
         tianjiadaotongxun.isVisible = !self && !isFriend
+    }
+
+    private fun onManagerSwitchClicked() {
+        if (managerRequestInFlight || !canSetManager()) return
+        doSetGroupManager(targetRole != GroupRole.ADMIN)
+    }
+
+    private fun doSetGroupManager(setAsManager: Boolean) {
+        managerRequestInFlight = true
+        ImGroupHttpExample.requestSetGroupManager(
+            qunId,
+            listOf(uid),
+            setAsManager,
+            object : OnHttpImListener<String> {
+                override fun onHttpImSuccess(result: String) {
+                    runOnUiThread {
+                        managerRequestInFlight = false
+                        targetRole = if (setAsManager) GroupRole.ADMIN else GroupRole.MEMBER
+                        member?.role = targetRole
+                        applyManagerSwitchUi()
+                        ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_apply_action_success))
+                    }
+                }
+            },
+            {
+                runOnUiThread {
+                    managerRequestInFlight = false
+                    applyManagerSwitchUi()
+                    ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_apply_action_failed))
+                }
+            },
+        )
     }
 
     private fun confirmKick() {
