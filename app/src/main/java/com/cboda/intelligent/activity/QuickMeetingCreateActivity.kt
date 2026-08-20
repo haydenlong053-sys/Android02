@@ -99,15 +99,15 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
     private fun joinCreatedMeet(meetBean: QuickDetailMeetBean) {
         // 会议开启：默认全员禁言，并记录开会前禁言态以便结束后恢复
         // 快照必须以 IM 群会话 ID 为主 key；channelId 作别名，避免自动结束 ID 不一致漏恢复
-        val muteGroupId = groupId.takeIf { it.isNotEmpty() }
-            ?: meetBean.groupIdNo?.takeIf { it.isNotEmpty() }
-            ?: meetBean.channelId?.takeIf { it.isNotEmpty() }
-            ?: ""
-        MeetGroupMuteHelper.onMeetStarted(
-            muteGroupId,
-            meetBean.groupIdNo,
-            meetBean.channelId,
-        )
+//        val muteGroupId = groupId.takeIf { it.isNotEmpty() }
+//            ?: meetBean.groupIdNo?.takeIf { it.isNotEmpty() }
+//            ?: meetBean.channelId?.takeIf { it.isNotEmpty() }
+//            ?: ""
+//        MeetGroupMuteHelper.onMeetStarted(
+//            muteGroupId,
+//            meetBean.groupIdNo,
+//            meetBean.channelId,
+//        )
         MeetCallManager.getInstance().callMeetAction(
             CallDirect.CALLER,
             meetBean.channelId ?: groupId,

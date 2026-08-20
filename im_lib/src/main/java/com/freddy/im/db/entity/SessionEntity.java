@@ -14,6 +14,8 @@ public class SessionEntity extends RealmObject {
     private String username;
     private int conversation;
     private long createTime;
+    /** 群改名次数；-1 表示尚未从群详情同步 */
+    private int renameCount = -1;
     private String icon;
     private int memCount;
     /** 群成员变更时间（毫秒，来自群详情 memChgTime） */
@@ -89,6 +91,14 @@ public class SessionEntity extends RealmObject {
 
     public void setCreateTime(long createTime) {
         this.createTime = createTime;
+    }
+
+    public int getRenameCount() {
+        return renameCount;
+    }
+
+    public void setRenameCount(int renameCount) {
+        this.renameCount = renameCount;
     }
 
     public String getIcon() {

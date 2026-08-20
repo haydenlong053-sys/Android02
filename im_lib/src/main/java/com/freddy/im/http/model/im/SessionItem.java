@@ -15,6 +15,11 @@ public class SessionItem implements Serializable {
     private String username;
     private int conversation;
     private long createTime;
+    /**
+     * 群改名次数；{@code null} 表示尚未从群详情同步（getList 通常不带该字段）。
+     */
+    @Nullable
+    private Integer renameCount;
     private String icon;
     private int memCount;
     /** 群成员变更时间（来自群详情 {@code memChgTime}，毫秒） */
@@ -95,6 +100,15 @@ public class SessionItem implements Serializable {
 
     public void setCreateTime(long createTime) {
         this.createTime = createTime;
+    }
+
+    @Nullable
+    public Integer getRenameCount() {
+        return renameCount;
+    }
+
+    public void setRenameCount(@Nullable Integer renameCount) {
+        this.renameCount = renameCount;
     }
 
     public void setIcon(String icon) {

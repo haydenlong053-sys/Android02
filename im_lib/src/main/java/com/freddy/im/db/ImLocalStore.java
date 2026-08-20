@@ -18,8 +18,11 @@ import com.freddy.im.db.repository.ImSessionRepository;
 import com.freddy.im.group.GroupRole;
 import com.freddy.im.http.model.im.GroupMemberItem;
 import com.freddy.im.http.model.im.SessionItem;
+import com.freddy.im.message.ImActiveChatSession;
+import com.freddy.im.message.ImMessageManager;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import java.util.ArrayList;
@@ -33,6 +36,16 @@ import java.util.List;
 public final class ImLocalStore {
 
     private static final Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());
+
+    /** 非前台会话摘要刷新节流：合并连发更新，仍保持近实时。 */
+    private static final long SESSION_PREVIEW_THROTTLE_MS = 200L;
+
+    private static final Object PREVIEW_LOCK = new Object();
+
+    /** sessionId → 最新 SessionItem，节流合并。 */
+    private static final Map<String, SessionItem> pendingPreviewBySessionId = new LinkedHashMap<>();
+
+    private static final Runnable FLUSH_PENDING_PREVIEW = ImLocalStore::flushPendingSessionPreview;
 
     @Nullable
     private static volatile OnSessionPreviewUpdatedListener sessionPreviewUpdatedListener;
@@ -113,8 +126,51 @@ public final class ImLocalStore {
         if (listener == null) {
             return;
         }
-        final List<SessionItem> copy = new ArrayList<>(sessions);
-        MAIN_HANDLER.post(() -> listener.onSessionPreviewUpdated(copy));
+        List<SessionItem> immediate = null;
+        synchronized (PREVIEW_LOCK) {
+            for (SessionItem item : sessions) {
+                if (item == null || TextUtils.isEmpty(item.getSessionId())) {
+                    continue;
+                }
+                // 当前打开的聊天会话：立即刷新，保证聊天页预览/未读及时
+                if (ImActiveChatSession.isActive(item.getSessionId())) {
+                    if (immediate == null) {
+                        immediate = new ArrayList<>();
+                    }
+                    immediate.add(item);
+                } else {
+                    pendingPreviewBySessionId.put(item.getSessionId(), item);
+                }
+            }
+            if (!pendingPreviewBySessionId.isEmpty()) {
+                MAIN_HANDLER.removeCallbacks(FLUSH_PENDING_PREVIEW);
+                MAIN_HANDLER.postDelayed(FLUSH_PENDING_PREVIEW, SESSION_PREVIEW_THROTTLE_MS);
+            }
+        }
+        if (immediate != null && !immediate.isEmpty()) {
+            final List<SessionItem> copy = new ArrayList<>(immediate);
+            MAIN_HANDLER.post(() -> {
+                OnSessionPreviewUpdatedListener l = sessionPreviewUpdatedListener;
+                if (l != null) {
+                    l.onSessionPreviewUpdated(copy);
+                }
+            });
+        }
+    }
+
+    private static void flushPendingSessionPreview() {
+        List<SessionItem> batch;
+        synchronized (PREVIEW_LOCK) {
+            if (pendingPreviewBySessionId.isEmpty()) {
+                return;
+            }
+            batch = new ArrayList<>(pendingPreviewBySessionId.values());
+            pendingPreviewBySessionId.clear();
+        }
+        OnSessionPreviewUpdatedListener listener = sessionPreviewUpdatedListener;
+        if (listener != null && !batch.isEmpty()) {
+            listener.onSessionPreviewUpdated(batch);
+        }
     }
 
     /**
@@ -129,12 +185,14 @@ public final class ImLocalStore {
      */
     public static void openForUser(@NonNull String userId) {
         ImRealm.openForUser(userId);
+        ImMessageManager.getInstance().recoverOutgoingSendingTimeouts();
     }
 
     /**
      * 登出：关闭当前用户库。
      */
     public static void closeForUser() {
+        ImMessageManager.getInstance().cancelAllOutgoingSendTimeouts();
         ImRealm.closeForUser();
     }
 
@@ -170,7 +228,19 @@ public final class ImLocalStore {
     public static void saveMessagesThen(@Nullable List<AppMessage> messages,
                                         @Nullable Runnable afterCommit,
                                         boolean incrementUnread) {
-        ImMessageRepository.getInstance().insertOrUpdateBatchThen(messages, afterCommit, incrementUnread);
+        // 始终通知会话预览/未读；列表侧用 payload 局部刷新，避免卡顿
+        saveMessagesThen(messages, afterCommit, incrementUnread, true);
+    }
+
+    /**
+     * @param notifySessionPreview {@code false}：只写库，不广播会话预览更新。
+     */
+    public static void saveMessagesThen(@Nullable List<AppMessage> messages,
+                                        @Nullable Runnable afterCommit,
+                                        boolean incrementUnread,
+                                        boolean notifySessionPreview) {
+        ImMessageRepository.getInstance()
+                .insertOrUpdateBatchThen(messages, afterCommit, incrementUnread, notifySessionPreview);
     }
 
 
@@ -201,6 +271,15 @@ public final class ImLocalStore {
     public static void markOutgoingResending(@Nullable String clientMsgId,
                                              @Nullable ImMessageRepository.OnMessageUpdatedCallback onUpdated) {
         ImMessageRepository.getInstance().markOutgoingResending(clientMsgId, onUpdated);
+    }
+
+    /**
+     * 进程被杀后恢复发送超时：已超时的标失败，未超时的继续倒计时。
+     */
+    public static void recoverOutgoingSendingTimeouts(
+            @Nullable ImMessageRepository.OnMessageUpdatedCallback onExpiredUpdated,
+            @Nullable ImMessageRepository.OnPendingSendingTimeoutCallback onPending) {
+        ImMessageRepository.getInstance().recoverOutgoingSendingTimeouts(onExpiredUpdated, onPending);
     }
 
     /** 批量删除本地消息；删到会话最后一条时重算摘要。 */

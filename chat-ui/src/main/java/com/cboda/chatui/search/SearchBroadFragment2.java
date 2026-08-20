@@ -28,7 +28,6 @@ import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.baselibrary.bean.GlobalFriendListBroadBean;
 import com.cboda.baselibrary.common.UrlBroadConstants;
 import com.cboda.baselibrary.network.NetworkBroadUtils;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.jetbrains.annotations.NotNull;
@@ -146,9 +145,9 @@ public class SearchBroadFragment2 extends Fragment {
                                 if (myFriendAdapter != null) {
                                     try {
                                         if (list != null && !list.isEmpty()) {
-                                            Gson gson = GsonUtils.getGson();
-                                            String jsonStr = gson.toJson(list);
-                                            List<GlobalFriendListBroadBean> friendList = gson.fromJson(jsonStr, new TypeToken<List<GlobalFriendListBroadBean>>() {
+//                                            Gson gson = GsonUtils.getGson();
+                                            String jsonStr = GsonUtils.getGson().toJson(list);
+                                            List<GlobalFriendListBroadBean> friendList = GsonUtils.getGson().fromJson(jsonStr, new TypeToken<List<GlobalFriendListBroadBean>>() {
                                             }.getType());
                                             myFriendAdapter.updateData(friendList, mKeyword);
                                         } else {

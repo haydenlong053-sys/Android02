@@ -28,14 +28,19 @@ object HttpsBroadConfig {
         }
 
     //自研的长连接host
-    const val MY_IM_SOCKET_HOST_FAT: String = "[{\"host\":\"95.40.9.142\", \"port\":1081}]"
-    const val MY_IM_SOCKET_HOST_RELEASE: String = "[{\"host\":\"socket.seekweb4.ai\", \"port\":80}]"
+    private const val MY_IM_SOCKET_HOST_FAT: String = "[{\"host\":\"95.40.9.142\", \"port\":1081}]"
+    private const val MY_IM_SOCKET_HOST_RELEASE: String = "[{\"host\":\"socket.seekweb4.ai\", \"port\":80}]"
+
     //自研的短连接http的host
-    const val MY_IM_HTTP_HOST_FAT: String = "https://im-test.seekweb4.ai/"
-    const val MY_IM_HTTP_HOST_FAT_IP: String = "http://95.40.9.142/"
-    const val MY_IM_HTTP_HOST_RELEASE: String = "https://im-prd.seekweb4.ai/"
+    private const val MY_IM_HTTP_HOST_FAT: String = "https://im-test.seekweb4.ai/"
+    private const val MY_IM_HTTP_HOST_FAT_IP: String = "http://95.40.9.142/"
+
+    private const val MY_IM_HTTP_HOST_RELEASE: String = "https://im-prd.seekweb4.ai/"
+
+    //   private const val MY_IM_HTTP_HOST_RELEASE: String = "http://18.163.110.184/"
     @JvmField
     var myImSocketHost = MY_IM_SOCKET_HOST_RELEASE
+
     @JvmField
     var myImHttpsHost = MY_IM_HTTP_HOST_RELEASE
 
@@ -54,6 +59,7 @@ object HttpsBroadConfig {
 
     @JvmField
     var appWebHost = "https://app.seekweb4.net" //协议默认用美区
+
     private val netItems = arrayListOf(
         "82\nhttp://119.45.9.228:82",
         "https\nhttps://api.seekweb4.net",

@@ -41,38 +41,39 @@ public final class MeetGroupMuteHelper {
      * @param aliasIds  可选别名（如 channelId），同样写入快照便于结束时命中
      */
     public static void onMeetStarted(@Nullable String groupId, @Nullable String... aliasIds) {
-        if (TextUtils.isEmpty(groupId)) {
-            return;
-        }
-        final String gid = groupId;
-        final String[] aliases = aliasIds;
-        // 已有快照说明本端已处理过本场会议，避免重复覆盖会前状态
-        if (hasSnapshot(gid) || hasAnySnapshot(aliases)) {
-            ELogUtilKt.eLogD(TAG, "onMeetStarted skip, snapshot exists groupId=" + gid);
-            saveUnderAliases(gid, aliases, loadMuted(firstSnapshotKey(gid, aliases)));
-            setAllMute(gid, true);
-            return;
-        }
-        ImGroupHttpExample.requestGetGroupDetail(
-                gid,
-                new OnHttpImListener<GroupVo>() {
-                    @Override
-                    public void onHttpImSuccess(GroupVo group) {
-                        boolean prevMuted = group != null && group.isAllMute();
-                        saveUnderAliases(gid, aliases, prevMuted);
-                        ELogUtilKt.eLogD(TAG, "onMeetStarted saved prevMuted=" + prevMuted
-                                + " groupId=" + gid);
-                        if (!prevMuted) {
-                            setAllMute(gid, true);
-                        }
-                    }
-                },
-                () -> {
-                    // 拉详情失败：按未禁言处理并强制开会禁言，结束时解禁
-                    ELogUtilKt.eLogD(TAG, "onMeetStarted getDetail fail, assume unmuted groupId=" + gid);
-                    saveUnderAliases(gid, aliases, false);
-                    setAllMute(gid, true);
-                });
+        ELogUtilKt.eLogD(TAG, "onMeetStarted no-op (no auto mute) groupId=" + groupId);
+//        if (TextUtils.isEmpty(groupId)) {
+//            return;
+//        }
+//        final String gid = groupId;
+//        final String[] aliases = aliasIds;
+//        // 已有快照说明本端已处理过本场会议，避免重复覆盖会前状态
+//        if (hasSnapshot(gid) || hasAnySnapshot(aliases)) {
+//            ELogUtilKt.eLogD(TAG, "onMeetStarted skip, snapshot exists groupId=" + gid);
+//            saveUnderAliases(gid, aliases, loadMuted(firstSnapshotKey(gid, aliases)));
+//            setAllMute(gid, true);
+//            return;
+//        }
+//        ImGroupHttpExample.requestGetGroupDetail(
+//                gid,
+//                new OnHttpImListener<GroupVo>() {
+//                    @Override
+//                    public void onHttpImSuccess(GroupVo group) {
+//                        boolean prevMuted = group != null && group.isAllMute();
+//                        saveUnderAliases(gid, aliases, prevMuted);
+//                        ELogUtilKt.eLogD(TAG, "onMeetStarted saved prevMuted=" + prevMuted
+//                                + " groupId=" + gid);
+//                        if (!prevMuted) {
+//                            setAllMute(gid, true);
+//                        }
+//                    }
+//                },
+//                () -> {
+//                    // 拉详情失败：按未禁言处理并强制开会禁言，结束时解禁
+//                    ELogUtilKt.eLogD(TAG, "onMeetStarted getDetail fail, assume unmuted groupId=" + gid);
+//                    saveUnderAliases(gid, aliases, false);
+//                    setAllMute(gid, true);
+//                });
     }
 
     /** 会议结束信令 / 解散成功后调用。会前无禁言则解禁，会前已禁言则保持。 */

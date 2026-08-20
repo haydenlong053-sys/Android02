@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.cboda.baselibrary.toast.ToastBroadUtils;
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.freddy.im.http.api.AddGroupMembersApi;
 import com.freddy.im.http.api.ApplyInGroupApi;
 import com.freddy.im.http.api.ApproveInGroupApi;
@@ -114,27 +115,28 @@ public final class ImGroupHttpExample {
                 .request(getListener("getGroupDetail", callback, onFail, true, GroupVo.class));
     }
 
-    public static void requestGetGroupMemberList(@NonNull String groupId,
-                                                 @Nullable Integer anchor,
-                                                 int count,
-                                                 @NonNull OnHttpImListener<GroupMemberListContent> callback,
-                                                 @Nullable Runnable onFail) {
-        if (TextUtils.isEmpty(groupId)) {
-            if (onFail != null) {
-                onFail.run();
-            }
-            return;
-        }
-        GetGroupMemberListApi api = new GetGroupMemberListApi().setGroupId(groupId).setCount(count);
-        if (anchor != null) {
-            api.setAnchor(anchor);
-        }
-
-//        Log.d("zhanglong", "getResumeActivity==" + ImUtilKt.getResumeActivity());
-        EasyHttp.post(ImUtilKt.getResumeActivity() != null ? ImUtilKt.getResumeActivity() : ApplicationLifecycle.getInstance())
-                .api(api)
-                .request(postListener("memberList", callback, onFail, true, GroupMemberListContent.class));
-    }
+//    @Deprecated
+//    public static void requestGetGroupMemberList(@NonNull String groupId,
+//                                                 @Nullable Integer anchor,
+//                                                 int count,
+//                                                 @NonNull OnHttpImListener<GroupMemberListContent> callback,
+//                                                 @Nullable Runnable onFail) {
+//        if (TextUtils.isEmpty(groupId)) {
+//            if (onFail != null) {
+//                onFail.run();
+//            }
+//            return;
+//        }
+//        GetGroupMemberListApi api = new GetGroupMemberListApi().setGroupId(groupId).setCount(count);
+//        if (anchor != null) {
+//            api.setAnchor(anchor);
+//        }
+//
+//        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG, "getResumeActivity==" + ImUtilKt.getResumeActivity());
+//        EasyHttp.post(ImUtilKt.getResumeActivity() != null ? ImUtilKt.getResumeActivity() : ApplicationLifecycle.getInstance())
+//                .api(api)
+//                .request(postListener("memberList", callback, onFail, true, GroupMemberListContent.class));
+//    }
 
     /**
      * POST {@code /im/group/changeMemberList}：按 {@code since} 拉取成员增量（含 {@code delFlag}）。

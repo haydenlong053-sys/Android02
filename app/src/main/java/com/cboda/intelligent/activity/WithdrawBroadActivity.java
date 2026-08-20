@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
+import com.blankj.utilcode.util.GsonUtils;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
@@ -163,7 +163,7 @@ public class WithdrawBroadActivity extends BaseSimpleBroadActivity implements Vi
         Map<String, Object> param = new HashMap<>();
         param.put("money", etMoney.getText().toString());
         param.put("img", icon);
-        param.put("info", new Gson().toJson(listBeans));
+        param.put("info", GsonUtils.getGson().toJson(listBeans));
         param.put("paypwd", paypwd);
         OkHttpBroadHelper.getInstance().post_json(this, BroadUrl.tixian, param, new SpotsCallBroadBack<ResultBroadBean>(this) {
             @Override

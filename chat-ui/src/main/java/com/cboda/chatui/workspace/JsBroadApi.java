@@ -14,8 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.gson.Gson;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.chatui.WfcWebViewBroadActivity;
 import com.cboda.chatui.contact.pick.PickContactBroadActivity;
 import cn.wildfirechat.model.UserInfo;
@@ -201,7 +200,7 @@ public class JsBroadApi {
             if (result instanceof JSONObject || result instanceof String) {
                 object.put("data", result);
             } else {
-                object.put("data", new Gson().toJson(result));
+                object.put("data", GsonUtils.getGson().toJson(result));
             }
             object.put("code", code);
         } catch (JSONException e) {

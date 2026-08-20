@@ -4,6 +4,7 @@ package com.cboda.intelligent.utils;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.ELogUtilKt.getIsDebug;
 import static com.cboda.baselibrary.utils.ELogUtilKt.toLog;
+import static com.cboda.baselibrary.utils.MMKVBroadUtils.APP_TOKEN;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.getAppVersion;
 
 import android.content.Context;
@@ -16,6 +17,7 @@ import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.baselibrary.network.ResBroadInterceptor;
 import com.cboda.baselibrary.network.config.NetworkBroadConfig;
 import com.cboda.baselibrary.utils.EncryptUtil;
+import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.bean.BaseBroadBean;
 import com.cboda.intelligent.configuration.AppBroadConsts;
@@ -66,7 +68,7 @@ public class OkHttpBroadHelper {
                 .readTimeout(60, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(false);
         if (getIsDebug()) {
-            ResBroadInterceptor loggingInterceptor = new ResBroadInterceptor("AppHttpOkHttp");
+            ResBroadInterceptor loggingInterceptor = new ResBroadInterceptor("AppHttpOkHttp", true);
             beforeBuilder.addInterceptor(loggingInterceptor);
         }
         mHttpClient = beforeBuilder.build();
@@ -227,11 +229,12 @@ public class OkHttpBroadHelper {
      */
     private Request buildRequest(String url, HttpMethodType methodType, Map<String, Object> params) {
         eLogD(TAG, "buildRequest: " + url);
+//        String token=
         Request.Builder builder = new Request.Builder()
-                .addHeader("apptoken", SharePrefBroadBroadUtil.getString(context, AppBroadConsts.APPTOKEN, ""))
+                .addHeader(APP_TOKEN, MMKVBroadUtils.Companion.getUserAppToken())
                 .addHeader("Accept-Language", getAcceptLanguage())
                 .addHeader("App-Platform", "Android")
-                .addHeader("App-Version",  getAppVersion(null))
+                .addHeader("App-Version", getAppVersion(null))
                 .url(url);
         String json = GsonUtils.getGson().toJson(params);
         eLogD(TAG, "http--json", json);
@@ -253,10 +256,10 @@ public class OkHttpBroadHelper {
     private Request buildFiles(String url, Map<String, List<File>> fileParams) {
         eLogD(TAG, "buildFiles: " + url);
         Request.Builder builder = new Request.Builder()
-                .addHeader("apptoken", SharePrefBroadBroadUtil.getString(context, AppBroadConsts.APPTOKEN, ""))
+                .addHeader(APP_TOKEN, MMKVBroadUtils.Companion.getUserAppToken())
                 .addHeader("Accept-Language", getAcceptLanguage())
                 .addHeader("App-Platform", "Android")
-                .addHeader("App-Version",  getAppVersion(null))
+                .addHeader("App-Version", getAppVersion(null))
                 .url(url);
         RequestBody body = builderFiles(fileParams);
         builder.post(body);
@@ -426,7 +429,8 @@ public class OkHttpBroadHelper {
                     } else if (((BaseBroadBean) obj).code.equals("200") && ((BaseBroadBean) obj).success) {
                         callback.onSuccess(response, obj);
                     } else if (((BaseBroadBean) obj).code.equals("401")) {
-                        SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, "");
+//                        SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, "");
+                        MMKVBroadUtils.Companion.saveUserAppToken("");
                         NetworkBroadConfig.INSTANCE.updateAppToken("");
                         SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, "");
                         ToastBroadUtil.show(((BaseBroadBean) obj).msg);
@@ -454,7 +458,8 @@ public class OkHttpBroadHelper {
                         } else if (((BaseBroadBean) obj).code.equals("200") && ((BaseBroadBean) obj).success) {
                             callback.onSuccess(response, obj);
                         } else if (((BaseBroadBean) obj).code.equals("401") || ((BaseBroadBean) obj).code.equals("201")) {
-                            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, "");
+//                            SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.APPTOKEN, "");
+                            MMKVBroadUtils.Companion.saveUserAppToken("");
                             SharePrefBroadBroadUtil.saveString(context, AppBroadConsts.UID, "");
                             NetworkBroadConfig.INSTANCE.updateAppToken("");
                             ToastBroadUtil.show(((BaseBroadBean) obj).msg);

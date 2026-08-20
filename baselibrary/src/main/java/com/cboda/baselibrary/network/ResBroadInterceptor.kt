@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit
 /**
  * 功能：仅仅只是打印响应结果
  */
-class ResBroadInterceptor(private val tAG: String) : Interceptor {
+class ResBroadInterceptor(private val tAG: String, private val canEncrypt: Boolean = true) : Interceptor {
 
     companion object {
         /** 日志仅预览响应/请求体前 8KB，避免大 body + 并发请求导致 OOM */
@@ -41,7 +41,7 @@ class ResBroadInterceptor(private val tAG: String) : Interceptor {
             }
             var jmReqBody = ""
             try {
-                if (!TextUtils.isEmpty(resBody)) {
+                if (!TextUtils.isEmpty(resBody) && canEncrypt) {
                     jmReqBody = EncryptUtil.aesDecrypt(resBody, "AES")
                 }
             } catch (e: Exception) {
@@ -79,7 +79,11 @@ class ResBroadInterceptor(private val tAG: String) : Interceptor {
             if (!TextUtils.isEmpty(reqBody)) {
                 if (reqBody.contains("encrData")) {
                     val encryptionData = JSONObject(reqBody).getString("encrData")
-                    jmReqBody = EncryptUtil.aesDecrypt(encryptionData, "AES")
+                    jmReqBody = if (canEncrypt) {
+                        EncryptUtil.aesDecrypt(encryptionData, "AES")
+                    } else {
+                        encryptionData
+                    }
                 }
             }
         } catch (e: Exception) {

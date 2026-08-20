@@ -127,6 +127,11 @@ public class WfcNotificationBroadManager {
             return;
         }
 
+        // 业务侧「消息提醒」开关（isMsgtx）本地缓存
+        if (!com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.isMsgReminderEnabled()) {
+            return;
+        }
+
         if (ChatManager.Instance().isMuteNotificationWhenPcOnline()) {
             for (PCOnlineInfo onlineInfo : ChatManager.Instance().getPCOnlineInfos()) {
                 if (onlineInfo.isOnline()) {

@@ -46,6 +46,7 @@ import com.cboda.baselibrary.utils.openH5InImToken
 import com.cboda.baselibrary.utils.openH5InMetaMask
 import com.cboda.baselibrary.utils.openH5InTokenPocket
 import com.cboda.baselibrary.utils.showCommonStrTip
+import com.cboda.baselibrary.utils.zipLogFiles
 import com.cboda.intelligent.bean.PaymentMethodBroadBean
 import com.cboda.intelligent.bean.PaymentMethodDefaults.IM_TOKEN
 import com.cboda.intelligent.bean.PaymentMethodDefaults.META_MASK

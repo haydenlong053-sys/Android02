@@ -1,7 +1,7 @@
 package com.cboda.baselibrary.utils
 
-import com.cboda.baselibrary.bean.GlobalSmallGroupBroadBean
 import com.blankj.utilcode.util.GsonUtils
+import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken
 
@@ -85,10 +85,14 @@ fun <T> fromListJson2(key: String?, classOfT: Class<T>): ArrayList<T> {
 
 fun gsonFormat(json: String): String {
     return try {
-        // 先解析再输出，自动格式化
+        // 先解析再 pretty 输出，避免一行堆在一起
         val jsonElement = JsonParser().parse(json)
-        GsonUtils.getGson().toJson(jsonElement)
-    } catch (e: Exception) {
+        if (getIsDebug()) {
+            GsonBuilder().setPrettyPrinting().create().toJson(jsonElement)
+        } else {
+            GsonUtils.getGson().toJson(jsonElement)
+        }
+    } catch (_: Exception) {
         json // 格式错误时返回原字符串
     }
 }

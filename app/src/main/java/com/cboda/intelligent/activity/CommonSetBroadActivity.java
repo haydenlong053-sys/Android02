@@ -117,8 +117,12 @@ public class CommonSetBroadActivity extends BaseSimpleBroadActivity implements V
 
         if (view.getId() == R.id.imXiaoxi){
             if (bean.data.isMsgtx.equals("0")) {
+                MMKVBroadUtils.Companion.saveMsgReminderEnabled("1");
+                ChatManager.Instance().setGlobalSilent(false, null);
                 editUserinfo("", "", "1", "");
             } else {
+                MMKVBroadUtils.Companion.saveMsgReminderEnabled("0");
+                ChatManager.Instance().setGlobalSilent(true, null);
                 editUserinfo("", "", "0", "");
             }
         }
@@ -217,7 +221,9 @@ public class CommonSetBroadActivity extends BaseSimpleBroadActivity implements V
                 if (StringBroadUtil.isEmpty(bean.data.isMsgtx)) {
                     bean.data.isMsgtx = "1";
                 }
-
+                // 同步本地缓存，供新消息响铃/震动判断
+                MMKVBroadUtils.Companion.saveMsgReminderEnabled(bean.data.isMsgtx);
+                ChatManager.Instance().setGlobalSilent("0".equals(bean.data.isMsgtx), null);
 
                 if (resultBean.data.isAddYz.equals("0")) {
                     imHoayou.setImageResource(R.mipmap.ic_broad_guan);

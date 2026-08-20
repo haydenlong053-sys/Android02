@@ -3,6 +3,7 @@ package com.cboda.intelligent.activity;
 import static com.blankj.utilcode.util.SizeUtils.dp2px;
 import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
 import static com.cboda.baselibrary.utils.GlideUtilsKt.loadImg;
+import static com.cboda.baselibrary.utils.MMKVBroadUtils.APP_TOKEN;
 import static com.cboda.select.picture.config.PictureConfig.CHOOSE_REQUEST;
 
 import android.content.Intent;
@@ -121,7 +122,7 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userSign = getIntent().getStringExtra("userSign");
-        apptoken = getIntent().getStringExtra("apptoken");
+        apptoken = getIntent().getStringExtra(APP_TOKEN);
         uid = getIntent().getStringExtra("uid");
         imtoken = getIntent().getStringExtra("imtoken");
         idno = getIntent().getStringExtra("idno");
@@ -147,8 +148,8 @@ public class PushInfo2BroadActivity extends BaseSimpleBroadActivity implements V
 
         etName.setText(account);
         etPsw.setText(pwd);
-        SharePrefBroadBroadUtil.saveString(PushInfo2BroadActivity.this, AppBroadConsts.APPTOKEN, apptoken);
-
+//        SharePrefBroadBroadUtil.saveString(PushInfo2BroadActivity.this, AppBroadConsts.APPTOKEN, apptoken);
+        MMKVBroadUtils.Companion.saveUserAppToken(apptoken);
         setQrcodeData();
 
         tvName.setText(getString(R.string.user_prefix) + idno);

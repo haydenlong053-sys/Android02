@@ -22,9 +22,20 @@ public interface IMSClientInterface {
 
     void resetConnect(boolean isFirst);
 
+    /**
+     * 系统网络恢复时调用：若未在重连且通道未就绪，则触发一次重连。
+     */
+    void notifyNetworkAvailable();
+
     void close();
 
     boolean isClosed();
+
+    /** BIND_USER 是否已成功（IM 业务通道可用）。 */
+    boolean isUserChannelBound();
+
+    /** 是否正在重连循环中。 */
+    boolean isReconnecting();
 
     /**
      * 发送已构造的 {@link ImSignalProtos.SignalRequest}（内部按 CMD 0x02 + AES 封装），
@@ -35,7 +46,7 @@ public interface IMSClientInterface {
     }
 
     /**
-     * 发送 SignalRequest，并指定传输层包头 seqId（超时重发需与首次发送使用同一 seqId，以便与下行 0x82 对应）。
+     * 发送 SignalRequest，并指定传输层包头 seqId（超时队列与下行 0x82 回包按同一 seqId 对齐）。
      */
     void sendSignalRequest(ImSignalProtos.SignalRequest request, boolean isJoinTimeoutManager, int transportSeqId);
 

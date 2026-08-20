@@ -51,6 +51,16 @@ public final class SessionLastMessageSync {
     public static void runWriteWithSessionSync(@NonNull List<AppMessage> messages,
                                                @NonNull WriteWithSessionSyncCallback writeCallback,
                                                @Nullable Runnable afterWrite) {
+        runWriteWithSessionSync(messages, writeCallback, afterWrite, true);
+    }
+
+    /**
+     * @param notifySessionPreview {@code false}：只落库更新会话摘要，不向 UI 广播（后台补拉正文用）。
+     */
+    public static void runWriteWithSessionSync(@NonNull List<AppMessage> messages,
+                                               @NonNull WriteWithSessionSyncCallback writeCallback,
+                                               @Nullable Runnable afterWrite,
+                                               boolean notifySessionPreview) {
         if (messages.isEmpty() || !ImRealm.isUserBound()) {
             if (afterWrite != null) {
                 afterWrite.run();
@@ -66,7 +76,9 @@ public final class SessionLastMessageSync {
             } finally {
                 realm.close();
             }
-            ImLocalStore.dispatchSessionPreviewUpdated(sessionUpdates);
+            if (notifySessionPreview) {
+                ImLocalStore.dispatchSessionPreviewUpdated(sessionUpdates);
+            }
             if (afterWrite != null) {
                 afterWrite.run();
             }
@@ -223,19 +235,33 @@ public final class SessionLastMessageSync {
         return SessionRealmMapper.toSessionItem(realm.copyFromRealm(session));
     }
 
-    @NonNull
-    public static List<SessionItem> applyInTransaction(@NonNull Realm realm,
-                                                       @NonNull List<AppMessage> messages,
-                                                       @NonNull Map<String, SessionItem> prefetchedGroupSessions) {
-        return applyInTransaction(realm, messages, prefetchedGroupSessions,
-                countUnreadDeltaForNewMessages(realm, messages));
-    }
+//    @NonNull
+//    public static List<SessionItem> applyInTransaction(@NonNull Realm realm,
+//                                                       @NonNull List<AppMessage> messages,
+//                                                       @NonNull Map<String, SessionItem> prefetchedGroupSessions) {
+//        return applyInTransaction(realm, messages, prefetchedGroupSessions,
+//                countUnreadDeltaForNewMessages(realm, messages));
+//    }
 
     @NonNull
     public static List<SessionItem> applyInTransaction(@NonNull Realm realm,
                                                        @NonNull List<AppMessage> messages,
                                                        @NonNull Map<String, SessionItem> prefetchedGroupSessions,
                                                        @NonNull Map<String, Integer> unreadDeltaBySession) {
+        return applyInTransaction(realm, messages, prefetchedGroupSessions, unreadDeltaBySession, false);
+    }
+
+    /**
+     * 同 {@link #applyInTransaction(Realm, List, Map, Map)}，可指定 syncedMax 推进策略。
+     *
+     * @param requireContiguousAdvance {@code true}：仅连续（seq == syncedMax+1）才推进，供发送成功回包使用
+     */
+    @NonNull
+    public static List<SessionItem> applyInTransaction(@NonNull Realm realm,
+                                                       @NonNull List<AppMessage> messages,
+                                                       @NonNull Map<String, SessionItem> prefetchedGroupSessions,
+                                                       @NonNull Map<String, Integer> unreadDeltaBySession,
+                                                       boolean requireContiguousAdvance) {
         Map<String, AppMessage> latestBySession = pickLatestPerSession(messages);
         Set<String> sessionIds = new LinkedHashSet<>();
         sessionIds.addAll(latestBySession.keySet());
@@ -253,7 +279,11 @@ public final class SessionLastMessageSync {
                 updated.add(item);
             }
         }
-        SessionSyncCursor.advanceInTransaction(realm, messages);
+        if (requireContiguousAdvance) {
+            SessionSyncCursor.advanceIfContiguousInTransaction(realm, messages);
+        } else {
+            SessionSyncCursor.advanceInTransaction(realm, messages);
+        }
         return updated;
     }
 

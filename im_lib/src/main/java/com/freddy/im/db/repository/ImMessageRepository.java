@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.freddy.im.IMSConfig;
+import com.freddy.im.OutgoingSendTimeout;
 import com.freddy.im.MessageType;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.bean.ImConversationSearchResult;
@@ -72,12 +73,28 @@ public final class ImMessageRepository {
     public void insertOrUpdateBatchThen(@Nullable List<AppMessage> messages,
                                         @Nullable Runnable afterSuccess,
                                         boolean incrementUnread) {
+        insertOrUpdateBatchThen(messages, afterSuccess, incrementUnread, true);
+    }
+
+    /**
+     * @param notifySessionPreview {@code false}：后台静默补拉，不刷会话列表 UI。
+     */
+    public void insertOrUpdateBatchThen(@Nullable List<AppMessage> messages,
+                                        @Nullable Runnable afterSuccess,
+                                        boolean incrementUnread,
+                                        boolean notifySessionPreview) {
         if (messages == null || messages.isEmpty() || !ImRealm.isUserBound()) {
+            if (afterSuccess != null) {
+                afterSuccess.run();
+            }
             return;
         }
         final List<AppMessage> snapshot = snapshotMessages(messages);
         final List<MessageEntity> entities = buildUpsertEntities(snapshot);
         if (entities.isEmpty()) {
+            if (afterSuccess != null) {
+                afterSuccess.run();
+            }
             return;
         }
         final Runnable callback = afterSuccess;
@@ -90,7 +107,7 @@ public final class ImMessageRepository {
             realm.insertOrUpdate(entities);
             sessionUpdates.addAll(SessionLastMessageSync.applyInTransaction(
                     realm, snapshot, prefetched, unreadDelta));
-        }, callback);
+        }, callback, notifySessionPreview);
     }
 
     /**
@@ -112,7 +129,7 @@ public final class ImMessageRepository {
                             realm,
                             Collections.singletonList(snapshot),
                             prefetched,
-                            Collections.emptyMap()));
+                            Collections.emptyMap(),true));
                 },
                 callback);
     }
@@ -198,6 +215,7 @@ public final class ImMessageRepository {
 
     /**
      * 发送成功：按 {@code clientMsgId} 更新服务端 {@code msgId} 与发送状态，并同步会话最近一条。
+     * syncedMax 仅在 serverSeq 与当前水位连续（+1）时推进。
      */
     public void markOutgoingSendSuccess(@NonNull String clientMsgId,
                                         @NonNull String serverMsgId,
@@ -213,6 +231,7 @@ public final class ImMessageRepository {
                 return;
             }
             AppMessage basis = MessageRealmMapper.toAppMessage(peek);
+            final boolean[] reportReadIfContiguous = {false};
             SessionLastMessageSync.runWriteWithSessionSync(
                     Collections.singletonList(basis),
                     (realm, prefetched, sessionUpdates) -> {
@@ -227,15 +246,22 @@ public final class ImMessageRepository {
                         long sequence = ImMessageManager.extractTrailingSequence(serverMsgId);
                         if (sequence != ImMessageManager.INVALID_SEQUENCE) {
                             entity.setSequenceId(sequence);
+                            reportReadIfContiguous[0] = isContiguousWithPreviousServerMsg(
+                                    realm, entity.getSessionId(), clientMsgId, sequence);
                         }
                         AppMessage updated = MessageRealmMapper.toAppMessage(entity);
+                        // 发送成功：仅连续（serverSeq == syncedMax+1）才抬水位，跳跃不推进以免漏拉
                         sessionUpdates.addAll(SessionLastMessageSync.applyInTransaction(
                                 realm,
                                 Collections.singletonList(updated),
                                 prefetched,
-                                Collections.emptyMap()));
+                                Collections.emptyMap(),
+                                true));
                     },
                     () -> {
+                        if (reportReadIfContiguous[0]) {
+                            ImMessageManager.getInstance().reportMessageRead(serverMsgId);
+                        }
                         AppMessage updated = queryAppMessageByClientMsgId(clientMsgId);
                         if (onUpdated != null && updated != null) {
                             onUpdated.onUpdated(updated);
@@ -297,7 +323,83 @@ public final class ImMessageRepository {
      */
     public void markOutgoingResending(@Nullable String clientMsgId,
                                       @Nullable OnMessageUpdatedCallback onUpdated) {
+        ImMessageManager.getInstance().cancelOutgoingSendTimeout(clientMsgId);
         updateOutgoingSendStatus(clientMsgId, IMSConfig.SEND_STATUS_SENDING, onUpdated);
+    }
+
+    /** 进程恢复：仍为发送中的外发消息（含 clientMsgId 与落库时间）。 */
+    public static final class OutgoingSendingRef {
+        @NonNull
+        public final String clientMsgId;
+        public final long timestamp;
+
+        OutgoingSendingRef(@NonNull String clientMsgId, long timestamp) {
+            this.clientMsgId = clientMsgId;
+            this.timestamp = timestamp;
+        }
+    }
+
+    public interface OnPendingSendingTimeoutCallback {
+        void onPending(@NonNull List<OutgoingSendingRef> pending);
+    }
+
+    /**
+     * 进程被杀后恢复：已超过发送超时的标失败；未超时的交给 {@code onPending} 继续倒计时。
+     */
+    public void recoverOutgoingSendingTimeouts(@Nullable OnMessageUpdatedCallback onExpiredUpdated,
+                                               @Nullable OnPendingSendingTimeoutCallback onPending) {
+        if (!ImRealm.isUserBound()) {
+            return;
+        }
+        ImDbExecutor.runWrite(() -> {
+            Realm realm = ImRealm.getRealm();
+            List<String> expiredIds = new ArrayList<>();
+            List<OutgoingSendingRef> pending = new ArrayList<>();
+            try {
+                RealmResults<MessageEntity> sending = realm.where(MessageEntity.class)
+                        .equalTo("sendStatus", IMSConfig.SEND_STATUS_SENDING)
+                        .findAll();
+                for (MessageEntity entity : sending) {
+                    if (entity == null || TextUtils.isEmpty(entity.getClientMsgId())) {
+                        continue;
+                    }
+                    String id = entity.getClientMsgId();
+                    long timestamp = entity.getTimestamp();
+                    if (OutgoingSendTimeout.isTimedOut(timestamp)) {
+                        expiredIds.add(id);
+                    } else {
+                        pending.add(new OutgoingSendingRef(id, timestamp));
+                    }
+                }
+                if (!expiredIds.isEmpty()) {
+                    realm.executeTransaction(r -> {
+                        for (String id : expiredIds) {
+                            MessageEntity entity = r.where(MessageEntity.class)
+                                    .equalTo("clientMsgId", id)
+                                    .findFirst();
+                            if (entity != null
+                                    && entity.getSendStatus() == IMSConfig.SEND_STATUS_SENDING
+                                    && OutgoingSendTimeout.isTimedOut(entity.getTimestamp())) {
+                                entity.setSendStatus(IMSConfig.SEND_STATUS_FAILED);
+                            }
+                        }
+                    });
+                }
+            } finally {
+                realm.close();
+            }
+            if (onExpiredUpdated != null) {
+                for (String id : expiredIds) {
+                    AppMessage updated = queryAppMessageByClientMsgId(id);
+                    if (updated != null) {
+                        onExpiredUpdated.onUpdated(updated);
+                    }
+                }
+            }
+            if (onPending != null && !pending.isEmpty()) {
+                onPending.onPending(pending);
+            }
+        });
     }
 
     private void updateOutgoingSendStatus(@Nullable String clientMsgId,
@@ -310,22 +412,29 @@ public final class ImMessageRepository {
         final long now = System.currentTimeMillis();
         ImDbExecutor.runWrite(() -> {
             Realm realm = ImRealm.getRealm();
+            final boolean[] applied = {false};
             try {
                 realm.executeTransaction(r -> {
                     MessageEntity entity = r.where(MessageEntity.class)
                             .equalTo("clientMsgId", id)
                             .findFirst();
-                    if (entity != null) {
-                        entity.setSendStatus(sendStatus);
-                        if (sendStatus == IMSConfig.SEND_STATUS_SENDING){
-                            entity.setTimestamp(now);
-                        }
+                    if (entity == null) {
+                        return;
                     }
+                    if (sendStatus == IMSConfig.SEND_STATUS_FAILED
+                            && entity.getSendStatus() != IMSConfig.SEND_STATUS_SENDING) {
+                        return;
+                    }
+                    entity.setSendStatus(sendStatus);
+                    if (sendStatus == IMSConfig.SEND_STATUS_SENDING) {
+                        entity.setTimestamp(now);
+                    }
+                    applied[0] = true;
                 });
             } finally {
                 realm.close();
             }
-            if (onUpdated != null) {
+            if (onUpdated != null && applied[0]) {
                 AppMessage updated = queryAppMessageByClientMsgId(id);
                 if (updated != null) {
                     onUpdated.onUpdated(updated);
@@ -352,6 +461,37 @@ public final class ImMessageRepository {
         } finally {
             realm.close();
         }
+    }
+
+    /**
+     * 己方回包 seq 是否与会话内上一条有效服务端消息连续（prevSeq + 1）。
+     * 连续则需再 reportRead，把已读水位推到本条。
+     */
+    private static boolean isContiguousWithPreviousServerMsg(@NonNull Realm realm,
+                                                             @Nullable String sessionId,
+                                                             @NonNull String clientMsgId,
+                                                             long currentSeq) {
+        if (TextUtils.isEmpty(sessionId)
+                || currentSeq <= ImMessageManager.INVALID_SEQUENCE
+                || ImMessageManager.isFileAssistantSession(sessionId)) {
+            return false;
+        }
+        MessageEntity prev = realm.where(MessageEntity.class)
+                .equalTo("sessionId", sessionId)
+                .notEqualTo("clientMsgId", clientMsgId)
+                .greaterThan("sequenceId", ImMessageManager.INVALID_SEQUENCE)
+                .lessThan("sequenceId", currentSeq)
+                .sort("sequenceId", Sort.DESCENDING)
+                .findFirst();
+        if (prev == null) {
+            return false;
+        }
+        long prevSeq = prev.getSequenceId();
+        if (prevSeq + 1L != currentSeq) {
+            return false;
+        }
+        long msgIdSeq = ImMessageManager.extractTrailingSequence(prev.getMsgId());
+        return msgIdSeq == prevSeq;
     }
 
     @Nullable

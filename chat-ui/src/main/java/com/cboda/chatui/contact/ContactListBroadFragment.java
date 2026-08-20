@@ -15,12 +15,12 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.blankj.utilcode.util.GsonUtils;
 import com.cboda.chatui.R;
 import com.cboda.chatui.bridge.FriendDataListBroadBean;
 import com.cboda.chatui.bridge.MyCommonBroadBridge;
@@ -89,10 +89,10 @@ public class ContactListBroadFragment extends BaseUserListBroadFragment implemen
         }
     }
 
-    private Gson gson = new Gson();
+//    private Gson gson = new Gson();
     public void setFriendData(String json){
         eLogD("野火","通讯录好友数据--> "+json);
-        FriendDataListBroadBean friendDataListBean = gson.fromJson(json, FriendDataListBroadBean.class);
+        FriendDataListBroadBean friendDataListBean = GsonUtils.getGson().fromJson(json, FriendDataListBroadBean.class);
         if (friendDataListBean != null && friendDataListBean.getDataList() != null){
             List<UIUserBroadInfo> userInfos = new ArrayList<>();
             for (int i = 0; i < friendDataListBean.getDataList().size(); i++) {

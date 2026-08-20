@@ -50,7 +50,8 @@ val meetPreEndTipMsgLiveData: BusLiveBroadData<String> by lazy(LazyThreadSafetyM
 val groupDataLiveData: BusLiveBroadData<CommonResultBroadBean> = LiveDataBroadBroadBus.getInstance().with("groupDataUpdate")
 
 
-
-
 @JvmField
 val activityResumeLiveData: BusLiveBroadData<Boolean> = LiveDataBroadBroadBus.getInstance().with("appResumedListener")
+
+@JvmField
+val imsConnectLiveData: BusLiveBroadData<Int> = LiveDataBroadBroadBus.getInstance().with("appImsConnectListener")

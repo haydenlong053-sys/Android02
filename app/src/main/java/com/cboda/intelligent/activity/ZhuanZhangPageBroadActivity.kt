@@ -6,8 +6,8 @@ import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import com.blankj.utilcode.util.GsonUtils
 import com.cboda.chatui.bridge.MyBroadEvent
-import com.google.gson.Gson
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.bean.ZhuanZhangBroadBiangeng
@@ -21,7 +21,7 @@ class ZhuanZhangPageBroadActivity:BaseSimpleBroadActivity() {
     private var viewModel: CommViewBroadModel? = null
     private var messageUid = ""
     private var payload = ""
-    private var gson = Gson()
+    private val gson = GsonUtils.getGson()
 
     private var mprice = ""
     private lateinit var tvPhoneLogin: TextView

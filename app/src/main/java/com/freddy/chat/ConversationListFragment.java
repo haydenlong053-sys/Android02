@@ -40,7 +40,9 @@ import com.cboda.intelligent.R;
 
 /**
  * 会话列表 Fragment，可嵌入宿主 Activity 或通过 {@link ConversationListActivity} 展示。
+ * 废弃
  */
+@Deprecated
 public class ConversationListFragment extends Fragment implements I_CEventListener {
 
     private static final String[] EVENTS = {
@@ -138,10 +140,21 @@ public class ConversationListFragment extends Fragment implements I_CEventListen
         tvEmpty.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
 
-        ImMessageHttpExample.requestGetConversationList(0, 0, new OnHttpImListener<ConversationListContent>() {
+        ImMessageHttpExample.requestGetConversationList(new OnHttpImListener<ConversationListContent>() {
             @Override
             public void onHttpImSuccess(@NonNull ConversationListContent content) {
-                runOnUiThreadSafe(() -> finishLoadConversationList(content.getSessionList(), false));
+                runOnUiThreadSafe(() -> {
+                    if (content.isIncremental()) {
+                        List<SessionItem> list = content.getSessionList();
+                        if (list != null && !list.isEmpty()) {
+                            finishLoadConversationList(list, false);
+                        } else {
+                            progressBar.setVisibility(View.GONE);
+                        }
+                        return;
+                    }
+                    finishLoadConversationList(content.getSessionList(), false);
+                });
             }
         }, () -> runOnUiThreadSafe(() -> finishLoadConversationList(null, true)));
     }

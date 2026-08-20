@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.cboda.baselibrary.toast.ToastBroadUtils;
+import com.cboda.baselibrary.utils.ELogUtilKt;
+import com.freddy.im.db.ImDbExecutor;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.api.CreateGroupApi;
 import com.freddy.im.http.api.FileUploadApi;
@@ -48,6 +50,7 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -66,7 +69,7 @@ import okhttp3.Response;
  * IM HTTP 示例：
  * <ul>
  *   <li>POST {@code im/message/getList}</li>
- *   <li>POST {@code im/conversation/getList}（{@code startTime}、{@code anchor}；头由 {@link ImHttpConfig} 注入）</li>
+ *   <li>POST {@code im/conversation/getList}（{@code startTime}=0 全量，否则为上次 {@code syncTime}；头由 {@link ImHttpConfig} 注入）</li>
  *   <li>GET {@code im/message/reportRead/{messageId}}</li>
  *   <li>GET {@code im/conversation/remove/{sessionId}}</li>
  *   <li>POST {@code im/group/create}</li>
@@ -97,6 +100,14 @@ public final class ImMessageHttpExample {
                                              int op,
                                              @Nullable OnHttpImListener<MessageListContent> callBack,
                                              @Nullable Runnable onFail) {
+        if (ImMessageManager.isFileAssistantSession(messageId)) {
+            ELogUtilKt.eLogW(MY_TAG, "跳过文件助手 getList messageId=" + messageId);
+            if (callBack != null) {
+                callBack.onHttpImSuccess(MessageListContent.empty());
+            }
+            return;
+        }
+        ELogUtilKt.eLogW(MY_TAG, "发起拉取新消息im/message/getList的接口----messageId=" + messageId+"  anchor="+anchor);
         EasyHttp.post(ApplicationLifecycle.getInstance())
                 .api(new GetMessageListApi()
                         .setMessageId(messageId)
@@ -107,7 +118,7 @@ public final class ImMessageHttpExample {
                     @Override
                     public void onHttpSuccess(@NonNull BaseMsgResponse<MessageListContent> result) {
                         if (!result.isSuccess()) {
-                            Log.e(MY_TAG, "业务错误: " + result.getErrorCode() + " " + result.getErrorMsg());
+                            ELogUtilKt.eLogE(MY_TAG, "业务错误: " + result.getErrorCode() + " " + result.getErrorMsg());
                             if (onFail != null) {
                                 onFail.run();
                             }
@@ -115,7 +126,7 @@ public final class ImMessageHttpExample {
                         }
                         MessageListContent c = result.getContent();
                         if (c == null) {
-                            Log.e(MY_TAG, "content 为空或无消息");
+                            ELogUtilKt.eLogE(MY_TAG, "content 为空或无消息");
                             if (callBack != null) {
                                 callBack.onHttpImSuccess(MessageListContent.empty());
                             }
@@ -128,7 +139,7 @@ public final class ImMessageHttpExample {
 
                     @Override
                     public void onHttpFail(@NonNull Throwable throwable) {
-                        Log.e(MY_TAG, "请求失败: " + throwable.getMessage());
+                        ELogUtilKt.eLogE(MY_TAG, "请求失败: " + throwable.getMessage());
                         if (onFail != null) {
                             onFail.run();
                         }
@@ -138,6 +149,34 @@ public final class ImMessageHttpExample {
 
     /**
      * POST {@code im/conversation/getList}：拉取会话列表。
+     * {@code startTime} 由本地水位解析：0 全量，否则为上次成功的 {@code syncTime}。
+     */
+    public static void requestGetConversationList(@NonNull OnHttpImListener<ConversationListContent> callback) {
+        requestGetConversationList(false, 0, callback, null);
+    }
+
+    /**
+     * 同 {@link #requestGetConversationList(OnHttpImListener)}；
+     * {@code onRequestTerminal} 仅在业务失败、content 为空或网络失败时调用，便于关闭 loading。
+     */
+    public static void requestGetConversationList(@NonNull OnHttpImListener<ConversationListContent> callback,
+                                                  @Nullable Runnable onRequestTerminal) {
+        requestGetConversationList(false, 0, callback, onRequestTerminal);
+    }
+
+    /**
+     * {@code forceFull=true} 时 {@code startTime=0} 拉全量（本地会话为空时使用）。
+     */
+    public static void requestGetConversationList(boolean forceFull,
+                                                  int anchor,
+                                                  @NonNull OnHttpImListener<ConversationListContent> callback,
+                                                  @Nullable Runnable onRequestTerminal) {
+        long startTime = forceFull ? 0L : ConversationListSyncStore.resolveStartTime();
+        requestGetConversationList(startTime, anchor, callback, onRequestTerminal);
+    }
+
+    /**
+     * 指定 {@code startTime} 拉取；一般请走 {@link #requestGetConversationList(boolean, int, OnHttpImListener, Runnable)}。
      */
     public static void requestGetConversationList(long startTime,
                                                   int anchor,
@@ -146,13 +185,13 @@ public final class ImMessageHttpExample {
     }
 
     /**
-     * 同 {@link #(long, int, OnHttpImListener)}；
-     * {@code onRequestTerminal} 仅在业务失败、content 为空或网络失败时调用，便于关闭 loading。
+     * 同 {@link #requestGetConversationList(long, int, OnHttpImListener)}。
      */
     public static void requestGetConversationList(long startTime,
                                                   int anchor,
                                                   @NonNull OnHttpImListener<ConversationListContent> callback,
                                                   @Nullable Runnable onRequestTerminal) {
+        ELogUtilKt.eLogD(MY_TAG, "conversation getList startTime=" + startTime + " anchor=" + anchor);
         EasyHttp.post(ApplicationLifecycle.getInstance())
                 .api(new GetConversationListApi()
                         .setStartTime(startTime)
@@ -177,7 +216,7 @@ public final class ImMessageHttpExample {
                             }
                             return;
                         }
-                        finishConversationList(c, callback);
+                        finishConversationList(c, startTime, callback);
                     }
 
                     @Override
@@ -191,17 +230,46 @@ public final class ImMessageHttpExample {
     }
 
     /**
-     * 会话列表成功后：用本地已有最近消息摘要回填（不再串 {@code getLastMsg}），再回调并落库、同步未读。
+     * 会话列表成功后：在 Realm 线程用本地摘要回填（避免 EasyHttp 主线程同步查库卡顿），
+     * 再回主线程回调并落库、限流同步未读。
      */
     private static void finishConversationList(@NonNull ConversationListContent content,
+                                               long startTime,
                                                @NonNull OnHttpImListener<ConversationListContent> callback) {
-        SessionLastMsgMerge.applyFromLocal(content.getSessionList());
-        dispatchConversationListReady(content, callback);
+        List<SessionItem> raw = content.getSessionList();
+        if (raw == null || raw.isEmpty() || !ImLocalStore.isReady()) {
+            dispatchConversationListReady(content, startTime, callback);
+            return;
+        }
+        // 拷贝列表引用即可：applyFromLocal 就地改字段；须在 im-realm 线程查库
+        ImDbExecutor.runRead(() -> {
+            SessionLastMsgMerge.applyFromLocal(content.getSessionList());
+            android.os.Handler main = new android.os.Handler(android.os.Looper.getMainLooper());
+            main.post(() -> dispatchConversationListReady(content, startTime, callback));
+        });
     }
 
     private static void dispatchConversationListReady(@NonNull ConversationListContent content,
+                                                      long startTime,
                                                       @NonNull OnHttpImListener<ConversationListContent> callback) {
         List<SessionItem> sessionList = content.getSessionList();
+        if (sessionList != null && !sessionList.isEmpty()) {
+            List<SessionItem> filtered = new ArrayList<>(sessionList.size());
+            for (SessionItem item : sessionList) {
+                if (item == null || ImMessageManager.isFileAssistantSession(item.getSessionId())) {
+                    continue;
+                }
+                filtered.add(item);
+            }
+            content.setSessionList(filtered);
+            sessionList = filtered;
+        }
+        boolean fullSync = startTime <= 0L;
+        content.setIncremental(!fullSync);
+        ConversationListSyncStore.saveSyncTime(content.getSyncTime(), fullSync);
+        ELogUtilKt.eLogD(MY_TAG, "conversation getList done incremental=" + content.isIncremental()
+                + " syncTime=" + content.getSyncTime()
+                + " size=" + (sessionList == null ? 0 : sessionList.size()));
         callback.onHttpImSuccess(content);
         if (sessionList != null && !sessionList.isEmpty()) {
             ImLocalStore.saveSessions(sessionList);
@@ -616,7 +684,7 @@ public final class ImMessageHttpExample {
                         return;
                     }
                     String text = resp.body().string();
-                    Log.d("zhanglong","批量文件上传成功--》"+text);
+                    Log.d(MY_TAG,"批量文件上传成功--》"+text);
                     Type listType = TypeToken.getParameterized(List.class, UploadRes.class).getType();
                     Type responseType = TypeToken.getParameterized(BaseMsgResponse.class, listType).getType();
                     BaseMsgResponse<List<UploadRes>> result = GSON.fromJson(text, responseType);

@@ -1,8 +1,8 @@
 package com.cboda.intelligent.net.manager
 
 import android.content.Context
+import com.blankj.utilcode.util.GsonUtils
 import com.cboda.baselibrary.network.model.NetworkBroadResponse
-import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.cboda.intelligent.bean.AddMeetingTimeBroadBean
 import com.cboda.baselibrary.bean.BaseBroadResponse
@@ -63,7 +63,7 @@ object ServerBroadManager {
                     if (baseBean?.code == "200") {
                         val type = object : TypeToken<NetworkBroadResponse<MeetingData>>() {}.type
                         val roomBean =
-                            Gson().fromJson<NetworkBroadResponse<MeetingData>>(body, type)
+                            GsonUtils.getGson().fromJson<NetworkBroadResponse<MeetingData>>(body, type)
                         roomBean.data?.let {
                              completion.invoke(it)
                         }
@@ -91,7 +91,7 @@ object ServerBroadManager {
             "allMic" to allMic,
             "allMute" to allMute
         )
-        OKGoBroadHelper().postNoAes(context, UrlBroadBroadConstants.HOST + UrlBroadBroadConstants.UPDATE_MEETING_INFO, Gson().toJson(map),
+        OKGoBroadHelper().postNoAes(context, UrlBroadBroadConstants.HOST + UrlBroadBroadConstants.UPDATE_MEETING_INFO, GsonUtils.getGson().toJson(map),
             UpdateRoomBroadBean(), callBack = object :
                 OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
@@ -116,7 +116,7 @@ object ServerBroadManager {
             "roomId" to roomId,
             "status" to state,
         )
-        OKGoBroadHelper().postNoAes(context, UrlBroadBroadConstants.HOST + UrlBroadBroadConstants.UPDATE_MEETING_INFO, Gson().toJson(map),
+        OKGoBroadHelper().postNoAes(context, UrlBroadBroadConstants.HOST + UrlBroadBroadConstants.UPDATE_MEETING_INFO, GsonUtils.getGson().toJson(map),
             UpdateRoomBroadBean(), callBack = object :
                 OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
@@ -190,7 +190,7 @@ object ServerBroadManager {
             "meetingTime" to meetingTime,
             "groupId" to groupId,
         )
-          OKGoBroadHelper().postNoAes(context,UrlBroadBroadConstants.HOST+"/"+UrlBroadBroadConstants.ADD_MEETING_TIME,Gson().toJson(map),
+          OKGoBroadHelper().postNoAes(context,UrlBroadBroadConstants.HOST+"/"+UrlBroadBroadConstants.ADD_MEETING_TIME,GsonUtils.getGson().toJson(map),
               AddMeetingTimeBroadBean(),
               callBack = object :OKGoBroadHelper.RequestCallBack{
                   override fun onSuccess(bean: BaseBroadResponse?) {

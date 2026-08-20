@@ -10,11 +10,17 @@ import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.baselibrary.bean.SocialBroadCircle
 import com.cboda.baselibrary.bean.SocialContact
 import com.cboda.baselibrary.bean.SocialFriendRequest
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.RealmUtil
+import com.freddy.im.http.ImGroupHttpExample
+import com.freddy.im.http.model.im.GroupApplyInfoRes
+import com.freddy.im.listener.OnHttpImListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.resume
 
 class SocialBroadRepository {
 
@@ -101,29 +107,50 @@ class SocialBroadRepository {
     }
 
 
-    // 角标数量（示例：实际应调用后端或SDK）
     suspend fun fetchNewFriendCount(): Int {
         val params = HashMap<String, String>()
+        val cached = MMKVBroadUtils.getNewFriendApplyCount().toInt()
         return withContext(Dispatchers.IO) {
-            var applyCount = 0
+            var applyCount = cached
             val result = NetworkBroadRepository.postEncrypted(
                 UrlBroadBroadConstants.FRIEND_APPLY_COUNT,
                 SocialFriendRequest::class.java, params
             )
             result.onSuccess {
-                applyCount = it?.count ?: 0
-            }.onFailure { code, message ->
-                applyCount = 0
+                applyCount = it?.count ?: cached
+            }.onFailure { _, _ ->
+                applyCount = cached
             }.onError {
-                applyCount = 0
+                applyCount = cached
             }
             applyCount
-
         }
     }
 
     suspend fun fetchNewGroupInviteCount(): Int {
-        // 仅以 api/userInfo.gros 本地缓存为计数值
+        if (HttpsBroadConfig.useSelfImOnly) {
+            return fetchSelfImPendingGroupInviteCount()
+        }
         return MMKVBroadUtils.getNewGroupInviteCount().toInt()
     }
+
+    /** 自研 IM：与入群邀请列表同源，统计 status=0 的待处理条数。 */
+    private suspend fun fetchSelfImPendingGroupInviteCount(): Int =
+        withContext(Dispatchers.IO) {
+            suspendCancellableCoroutine { cont ->
+                ImGroupHttpExample.requestSearchGroupAsst(
+                    object : OnHttpImListener<List<GroupApplyInfoRes>> {
+                        override fun onHttpImSuccess(result: List<GroupApplyInfoRes>) {
+                            if (!cont.isActive) return
+                            cont.resume(result.count { it.status == "0" })
+                        }
+                    },
+                    {
+                        if (cont.isActive) {
+                            cont.resume(MMKVBroadUtils.getNewGroupInviteCount().toInt())
+                        }
+                    }
+                )
+            }
+        }
 }

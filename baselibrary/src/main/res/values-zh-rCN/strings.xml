@@ -178,6 +178,7 @@
     <string name="mine_safe_center">安全中心</string>
     <string name="mine_faq">常见问题</string>
     <string name="mine_system_settings">系统设置</string>
+    <string name="mine_upload_log">上传日志</string>
     <string name="msg_group_members">群成员</string>
     <string name="msg_group_services">群内服务</string>
     <string name="msg_personal_settings">个人设置</string>
@@ -363,7 +364,7 @@
     <string name="main_select_user_hint">选择账号登录</string>
     <string name="avatar_content_desc">头像</string>
     <string name="conversation_list_empty">暂无会话</string>
-    <string name="conversation_list_load_failed">加载失败</string>
+    <string name="conversation_list_load_failed">加载失败（网络异常）</string>
     <string name="conversation_list_retry">重试</string>
     <string name="conversation_list_title">会话列表</string>
     <string name="open_conversation_list">会话列表</string>

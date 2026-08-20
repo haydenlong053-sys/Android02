@@ -10,7 +10,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
-import com.google.gson.Gson;
+import com.blankj.utilcode.util.GsonUtils;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.File;
@@ -76,7 +76,7 @@ public class OKHttpBroadHelper {
 //        Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
     }
 
-    private static Gson gson = new Gson();
+//    private static Gson gson = new Gson();
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     public static <T> void get(final String url, Map<String, String> params, final Callback<T> callback) {
@@ -113,7 +113,7 @@ public class OKHttpBroadHelper {
 
     public static <T> void post(final String url, Object param, final Callback<T> callback) {
         //RequestBody body = RequestBody.create(JSON, gson.toJson(param));
-        RequestBody body = RequestBody.create(JSON, param == null ? "" : gson.toJson(param));
+        RequestBody body = RequestBody.create(JSON, param == null ? "" : GsonUtils.getGson().toJson(param));
         final Request request = new Request.Builder()
             .url(url)
             .post(body)
@@ -136,7 +136,7 @@ public class OKHttpBroadHelper {
     }
 
     public static <T> void put(final String url, Map<String, String> param, final Callback<T> callback) {
-        RequestBody body = RequestBody.create(JSON, gson.toJson(param));
+        RequestBody body = RequestBody.create(JSON, GsonUtils.getGson().toJson(param));
         final Request request = new Request.Builder()
             .url(url)
             .put(body)
@@ -230,14 +230,14 @@ public class OKHttpBroadHelper {
             try {
                 StatusBroadResult statusResult;
                 if (type instanceof Class && type.equals(StatusBroadResult.class)) {
-                    statusResult = gson.fromJson(response.body().string(), StatusBroadResult.class);
+                    statusResult = GsonUtils.getGson().fromJson(response.body().string(), StatusBroadResult.class);
                     if (statusResult.isSuccess()) {
                         callback.onSuccess((T) statusResult);
                     } else {
                         callback.onFailure(statusResult.getCode(), statusResult.getMessage());
                     }
                 } else {
-                    ResultBroadWrapper<T> wrapper = gson.fromJson(response.body().string(), new ResultType(type));
+                    ResultBroadWrapper<T> wrapper = GsonUtils.getGson().fromJson(response.body().string(), new ResultType(type));
                     if (wrapper == null) {
                         callback.onFailure(-1, "response is null");
                         return;

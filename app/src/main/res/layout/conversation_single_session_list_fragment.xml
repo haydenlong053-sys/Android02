@@ -9,6 +9,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <include layout="@layout/layout_im_network_unavailable_banner" />
+
         <!-- 对齐野火 ConversationSingleBroadFragment：首栏系统公告 -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mRvHead"

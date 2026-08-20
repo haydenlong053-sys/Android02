@@ -1,7 +1,10 @@
 package com.freddy.im.http;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.getIsDebug;
+
 import android.app.Application;
 
+import com.cboda.baselibrary.network.ResBroadInterceptor;
 import com.freddy.im.BuildConfig;
 import com.freddy.im.db.ImLocalStore;
 import com.hjq.http.EasyConfig;
@@ -20,13 +23,17 @@ public final class EasyHttpBootstrap {
 
     public static void init(Application app) {
         ImLocalStore.init(app);
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+        OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .build();
+                .writeTimeout(30, TimeUnit.SECONDS);
+        if (getIsDebug()) {
+            ResBroadInterceptor loggingInterceptor = new ResBroadInterceptor("AppHttpEasy", false);
+            okHttpClientBuilder.addInterceptor(loggingInterceptor);
+        }
+        OkHttpClient okHttpClient = okHttpClientBuilder.build();
         EasyConfig.with(okHttpClient)
-                .setLogEnabled(BuildConfig.DEBUG)
+                .setLogEnabled(getIsDebug())
                 .setServer(new RequestServer())
                 .setHandler(new ImRequestHandler(app))
                 .into();

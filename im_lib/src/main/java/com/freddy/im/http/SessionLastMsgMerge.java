@@ -33,12 +33,32 @@ public final class SessionLastMsgMerge {
             if (local == null) {
                 continue;
             }
+            // getList 可能缺 conversation / owerId，不回填则群进不了私群/公群
+            if (item.getConversation() <= 0 && local.getConversation() > 0) {
+                item.setConversation(local.getConversation());
+            }
+            if (TextUtils.isEmpty(item.getOwerId()) && !TextUtils.isEmpty(local.getOwerId())) {
+                item.setOwerId(local.getOwerId());
+            }
+            if (item.getMemCount() <= 0 && local.getMemCount() > 0) {
+                item.setMemCount(local.getMemCount());
+            }
+            if (TextUtils.isEmpty(item.getSessionName()) && !TextUtils.isEmpty(local.getSessionName())) {
+                item.setSessionName(local.getSessionName());
+            }
+            if (TextUtils.isEmpty(item.getIcon()) && !TextUtils.isEmpty(local.getIcon())) {
+                item.setIcon(local.getIcon());
+            }
             if (item.getMuteNotify() == null) {
                 item.setMuteNotify(local.isMuteNotify());
             }
             // getList 通常不带 createTime；回填本地（GroupVo 群详情写入）供群天数展示
             if (item.getCreateTime() <= 0L && local.getCreateTime() > 0L) {
                 item.setCreateTime(local.getCreateTime());
+            }
+            // getList 通常不带 renameCount；回填本地群改名次数
+            if (item.getRenameCount() == null && local.getRenameCount() != null) {
+                item.setRenameCount(local.getRenameCount());
             }
             // getList 未读为 0 时保留本地角标，避免冲掉推送已累加的未读
             if (item.getUnreadCount() <= 0 && local.getUnreadCount() > 0) {

@@ -18,7 +18,7 @@ public final class ImRealm {
 
     private static final String DB_NAME_PREFIX = "im_sdk_";
     private static final String DB_NAME_SUFFIX = ".realm";
-    private static final long SCHEMA_VERSION = 2L;
+    private static final long SCHEMA_VERSION = 3L;
 
     private static volatile Context appContext;
     private static volatile boolean sdkInitialized;

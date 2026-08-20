@@ -380,7 +380,7 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
                                     AppBroadUtils.goChat(this@ScanActivity, commonResultBean.groupId, "1", null)
                                     finish()
                                 } else {
-                                    ToastBroadUtil.show(getString(R.string.scan_applied_waiting_group_owner))
+                                    ToastBroadUtil.show(commonResultBean?.msg ?: getString(R.string.scan_applied_waiting_group_owner))
                                     finish()
                                 }
                             }
@@ -499,7 +499,7 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
                         if (jumpSource == ScanJumpBroadEnum.Login.sourceType
                             && !TextUtils.equals(resultBean.eqno, DeviceBroadUtil.getAndroidId(this@ScanActivity))
                         ) {
-                            EventBus.getDefault().post(AppBroadEvent(AppEventBroadCode.EVENT_NEW_MACHINE_CHECK, resultBean))
+//                            EventBus.getDefault().post(AppBroadEvent(AppEventBroadCode.EVENT_NEW_MACHINE_CHECK, resultBean))
                         } else {
                             AppBroadUtils.imLogin(
                                 this@ScanActivity,

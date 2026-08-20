@@ -41,6 +41,10 @@ public final class ImMsgReminder {
         if (messages == null || messages.isEmpty()) {
             return;
         }
+        // 通用设置「消息提醒」关闭：不响铃不震动
+        if (!MMKVBroadUtils.Companion.isMsgReminderEnabled()) {
+            return;
+        }
         if (MeetCallManager.getInstance().isCallingState() || CallActivity.isInCall()) {
             return;
         }

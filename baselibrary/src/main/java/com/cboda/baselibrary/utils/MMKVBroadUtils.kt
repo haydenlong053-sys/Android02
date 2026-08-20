@@ -25,6 +25,7 @@ import kotlin.collections.get
  */
 class MMKVBroadUtils {
     companion object {
+        const val APP_TOKEN = "apptoken"
         const val LOGIN_USER_DATA = "loginUserData"
         const val OLD_QR_CODE = "oldQrCode"
         const val DEVICE_BRAND = "deviceBrand"
@@ -56,6 +57,7 @@ class MMKVBroadUtils {
         const val USER_NAME_KEY = "username"
 
         const val USER_VIP_KEY = "userVip"
+        const val IM_PULL_ERR_TOAST = "imPullErrToast"
 
         const val USER_NICE_NUMBER_KEY = "userNiceNumberKey"
 
@@ -80,8 +82,12 @@ class MMKVBroadUtils {
 
         /** userInfo.fris：新朋友申请未处理数 */
         const val KEY_NEW_FRIEND_APPLY_COUNT = "key_new_friend_apply_count"
+
         /** userInfo.gros：新群邀请未处理数（自研角标唯一数据源） */
         const val KEY_NEW_GROUP_INVITE_COUNT = "key_new_group_invite_count"
+
+        /** 通用设置「消息提醒」开关（userInfo.isMsgtx："1"开 / "0"关，默认开） */
+        const val KEY_MSG_REMINDER_ENABLED = "key_msg_reminder_enabled"
 
         const val KEY_GROUP_LIST_DATA = "key_group_list_data"
 
@@ -115,9 +121,10 @@ class MMKVBroadUtils {
             kv.remove(SEARCH_KEY + BroadConstant.getAppToken())
         }
 
-        fun saveUserAppToken(appToken: String) {
-            val kv = MMKV.defaultMMKV()
-            kv.encode(USER_ID_KEY, appToken)
+        fun saveUserAppToken(appToken: String?) {
+//            val kv = MMKV.defaultMMKV()
+//            kv.encode(USER_ID_KEY, appToken)
+            saveSqlStrData(USER_ID_KEY, appToken)
         }
 
 
@@ -142,6 +149,14 @@ class MMKVBroadUtils {
             return kv.decodeBool(USER_VIP_KEY, false)
         }
 
+        fun saveImPullErrToastState(toast: String?) {
+            getMmKv()?.encode(IM_PULL_ERR_TOAST, toast == "1")
+        }
+
+        fun getImPullErrToastState(): Boolean {
+            return getMmKv()?.decodeBool(IM_PULL_ERR_TOAST, false) ?: false
+        }
+
 
         fun saveUserNiceNum(isLiang: String) {
             val kv = MMKV.defaultMMKV()
@@ -164,9 +179,8 @@ class MMKVBroadUtils {
         }
 
 
-        fun getUserAppToken(): String? {
-            val kv = MMKV.defaultMMKV()
-            return kv.decodeString(USER_ID_KEY)
+        fun getUserAppToken(): String {
+            return getSqlStrData(USER_ID_KEY)
         }
 
         fun saveKeFuId(userId: String) {
@@ -222,18 +236,19 @@ class MMKVBroadUtils {
         }
 
         fun saveMyImToken(txUserSign: String) {
-            val kv = MMKV.defaultMMKV()
-            kv.encode(MY_IM_USER_TOKEN, txUserSign)
+//            val kv = MMKV.defaultMMKV()
+//            kv.encode(MY_IM_USER_TOKEN, txUserSign)
+            saveSqlStrData(MY_IM_USER_TOKEN, txUserSign)
         }
 
-        fun getMyImToken(): String? {
-            val kv = MMKV.defaultMMKV()
-            return kv.decodeString(MY_IM_USER_TOKEN)
+        fun getMyImToken(): String {
+//            val kv = MMKV.defaultMMKV()
+//            return kv.decodeString(MY_IM_USER_TOKEN)
+            return getSqlStrData(MY_IM_USER_TOKEN)
         }
 
         fun clearMyImToken() {
-            val kv = MMKV.defaultMMKV()
-            kv.remove(MY_IM_USER_TOKEN)
+            getMmKv()?.remove(MY_IM_USER_TOKEN)
         }
 
 
@@ -259,8 +274,8 @@ class MMKVBroadUtils {
 
 
         fun clearUserId() {
-            val kv = MMKV.defaultMMKV()
-            kv.remove(USER_ID_KEY)
+//            val kv = MMKV.defaultMMKV()
+//            kv.remove(USER_ID_KEY)
         }
 
         fun clearRealUserId() {
@@ -466,7 +481,7 @@ class MMKVBroadUtils {
             }
         }
 
-       @Deprecated("废弃")
+        @Deprecated("废弃")
         private fun saveGroupData(map: HashMap<String, GlobalSmallGroupBroadBean>, id: String?, name: String?, renameCount: Int?, icon: String?) {
             val bean = map[id]
             if (bean != null) {
@@ -633,6 +648,20 @@ class MMKVBroadUtils {
         fun saveContactBadgeCounts(fris: Long, gros: Long) {
             saveSqlLongData(KEY_NEW_FRIEND_APPLY_COUNT, fris.coerceAtLeast(0L))
             saveSqlLongData(KEY_NEW_GROUP_INVITE_COUNT, gros.coerceAtLeast(0L))
+        }
+
+        /**
+         * 缓存通用「消息提醒」开关。
+         * @param isMsgtx 服务端字段："1"/空=开启，"0"=关闭
+         */
+        fun saveMsgReminderEnabled(isMsgtx: String?) {
+            val enabled = isMsgtx.isNullOrEmpty() || isMsgtx == "1"
+            getMmKv()?.encode(KEY_MSG_REMINDER_ENABLED, enabled)
+        }
+
+        /** 消息提醒是否开启（默认 true，与通用页默认态一致）。 */
+        fun isMsgReminderEnabled(): Boolean {
+            return getMmKv()?.decodeBool(KEY_MSG_REMINDER_ENABLED, true) ?: true
         }
 
         fun getNewFriendApplyCount(): Long {

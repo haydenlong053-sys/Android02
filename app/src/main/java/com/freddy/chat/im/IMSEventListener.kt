@@ -2,6 +2,7 @@ package com.freddy.chat.im
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
@@ -71,8 +72,8 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
         }
         val cmd = res?.header?.cmd
         if (cmd == ImSignalProtos.Cmd.BIND_USER_RES_VALUE && res.header.code == 0) {
-            //todo 第五步，连接成功刷新会话列表
-            MessageProcessor.getInstance().notifyConversationList()
+            // 通道就绪统一由 IMSConnectStatusListener.onImChannelReady 拉会话，避免与此处重复风暴
+            eLogD(tAG, "BIND_USER_RES ok, conversation refresh deferred to onImChannelReady")
         }
     }
 
@@ -555,10 +556,18 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
 
     override fun isNetworkAvailable(): Boolean {
         val cm = UtilBroadApplication.cxt.getSystemService(Context.CONNECTIVITY_SERVICE)
-        return if (cm is ConnectivityManager) {
+        if (cm !is ConnectivityManager) {
+            return false
+        }
+        return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            val network = cm.activeNetwork ?: return false
+            val caps = cm.getNetworkCapabilities(network) ?: return false
+            caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+        } else {
+            @Suppress("DEPRECATION")
             val info = cm.activeNetworkInfo
             info != null && info.isConnected
-        } else false
+        }
     }
 
     override fun getReconnectInterval(): Int {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="NetworkSecurityConfig,AcceptsUserCertificates">
+    <!--        <domain includeSubdomains="false">18.163.110.184</domain>-->
     <!--    /*** 用于抓包 ***/-->
     <base-config cleartextTrafficPermitted="false">
         <trust-anchors>
@@ -15,8 +16,8 @@
 </network-security-config>
 
     <!--    /*** 截止抓包 ***/-->
-<!--    <domain-config cleartextTrafficPermitted="true">-->
-<!--        <domain includeSubdomains="true">127.0.0.1</domain>-->
-<!--    </domain-config>-->
-<!--    <base-config cleartextTrafficPermitted="true" />-->
-<!--</network-security-config>-->
+    <!--    <domain-config cleartextTrafficPermitted="true">-->
+    <!--        <domain includeSubdomains="true">127.0.0.1</domain>-->
+    <!--    </domain-config>-->
+    <!--    <base-config cleartextTrafficPermitted="true" />-->
+    <!--</network-security-config>-->

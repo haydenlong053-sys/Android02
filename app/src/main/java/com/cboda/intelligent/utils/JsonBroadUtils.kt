@@ -1,14 +1,14 @@
 package com.cboda.intelligent.utils
 
+import com.blankj.utilcode.util.GsonUtils
 import com.cboda.baselibrary.bean.BaseBroadResponse
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.bean.CommonResultBroadBean
-import com.google.gson.Gson
 import com.cboda.intelligent.bean.*
 
 class JsonBroadUtils {
     companion object {
-        private val gson = Gson()
+        private val gson = GsonUtils.getGson()
         fun getSuccessJsonBean(json: String?): BaseBroadResponse? {
             var bean: BaseBroadResponse? = null
             json?.apply {
@@ -32,7 +32,6 @@ class JsonBroadUtils {
             }
             return bean
         }
-
 
 
         fun getNoResultBean(json: String?): NoResultBroadBean? {
@@ -103,11 +102,10 @@ class JsonBroadUtils {
         /**
          * 基础格式检查
          */
-         fun isBasicJsonFormat(text: String): Boolean {
+        fun isBasicJsonFormat(text: String): Boolean {
             return text.startsWith("{") && text.endsWith("}") ||
                     text.startsWith("[") && text.endsWith("]")
         }
-
 
 
     }

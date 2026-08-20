@@ -23,6 +23,9 @@ import com.freddy.im.signal.ImSignalProtos;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
+
+import android.os.SystemClock;
 
 /**
  * <p>@ProjectName:     NettyChat</p>
@@ -35,6 +38,11 @@ import java.util.List;
 public class MessageProcessor implements IMessageProcessor {
 
     private static final String TAG = MessageProcessor.class.getSimpleName();
+
+    /** BIND 与 onImChannelReady 等短时间重复触发时合并为一次拉会话。 */
+    private static final long NOTIFY_CONVERSATION_DEBOUNCE_MS = 1500L;
+
+    private final AtomicLong lastNotifyConversationElapsed = new AtomicLong(0L);
 
     private MessageProcessor() {
         ImMessageManager.getInstance().setOnOutgoingMessageListener(
@@ -116,6 +124,13 @@ public class MessageProcessor implements IMessageProcessor {
 
     @Override
     public void notifyConversationList() {
+        long now = SystemClock.elapsedRealtime();
+        long last = lastNotifyConversationElapsed.get();
+        if (last > 0L && now - last < NOTIFY_CONVERSATION_DEBOUNCE_MS) {
+            Log.d(TAG, "notifyConversationList debounce skip");
+            return;
+        }
+        lastNotifyConversationElapsed.set(now);
         CThreadPoolExecutor.runInBackground(new Runnable() {
 
             @Override

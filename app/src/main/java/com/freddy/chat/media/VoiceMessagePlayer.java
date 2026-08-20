@@ -1,9 +1,15 @@
 package com.freddy.chat.media;
 
 import android.media.MediaPlayer;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.cboda.baselibrary.utils.ELogUtilKt;
 
 /**
  * 自研 IM 语音消息播放，交互对齐野火单例播放。
@@ -15,6 +21,9 @@ public final class VoiceMessagePlayer {
     }
 
     private static final VoiceMessagePlayer INSTANCE = new VoiceMessagePlayer();
+    private static final Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());
+    private static final String TAG = "VoiceMessagePlayer";
+    private static final long PREPARE_TIMEOUT_MS = 10_000L;
 
     @Nullable
     private MediaPlayer mediaPlayer;
@@ -22,6 +31,8 @@ public final class VoiceMessagePlayer {
     private String playingClientMsgId;
     @Nullable
     private Listener listener;
+    @Nullable
+    private Runnable pendingPrepareTimeout;
 
     private VoiceMessagePlayer() {
     }
@@ -53,15 +64,27 @@ public final class VoiceMessagePlayer {
             player.setDataSource(localPath);
             player.setOnCompletionListener(mp -> stopInternal(true));
             player.setOnErrorListener((mp, what, extra) -> {
+                ELogUtilKt.eLogE(TAG, "play error what=" + what + " extra=" + extra + " path=" + localPath);
                 stopInternal(true);
                 return true;
             });
-            player.prepare();
-            player.start();
             mediaPlayer = player;
             playingClientMsgId = clientMsgId;
             notifyChanged();
-        } catch (Exception ignored) {
+            player.setOnPreparedListener(mp -> {
+                clearPrepareTimeout();
+                try {
+                    mp.start();
+                } catch (Exception ignored) {
+                    ELogUtilKt.eLogE(TAG, "start failed path=" + localPath);
+                    stopInternal(true);
+                }
+            });
+            // 避免在主线程执行阻塞式 prepare() 引发点击 ANR
+            schedulePrepareTimeout(player, clientMsgId, localPath);
+            player.prepareAsync();
+        } catch (Exception e) {
+            ELogUtilKt.eLogE(TAG, "play init failed path=" + localPath, e);
             stopInternal(true);
         }
     }
@@ -71,6 +94,7 @@ public final class VoiceMessagePlayer {
     }
 
     private void stopInternal(boolean notify) {
+        clearPrepareTimeout();
         MediaPlayer player = mediaPlayer;
         mediaPlayer = null;
         playingClientMsgId = null;
@@ -89,9 +113,37 @@ public final class VoiceMessagePlayer {
         }
     }
 
-    private void notifyChanged() {
-        if (listener != null) {
-            listener.onPlayingMessageChanged(playingClientMsgId);
+    private void schedulePrepareTimeout(@NonNull MediaPlayer expectedPlayer,
+                                        @NonNull String expectedClientMsgId,
+                                        @NonNull String path) {
+        clearPrepareTimeout();
+        Runnable timeoutTask = () -> {
+            if (mediaPlayer != expectedPlayer) {
+                return;
+            }
+            if (!expectedClientMsgId.equals(playingClientMsgId)) {
+                return;
+            }
+            Log.e(TAG, "prepareAsync timeout path=" + path + " clientMsgId=" + expectedClientMsgId);
+            stopInternal(true);
+        };
+        pendingPrepareTimeout = timeoutTask;
+        MAIN_HANDLER.postDelayed(timeoutTask, PREPARE_TIMEOUT_MS);
+    }
+
+    private void clearPrepareTimeout() {
+        Runnable timeoutTask = pendingPrepareTimeout;
+        if (timeoutTask != null) {
+            MAIN_HANDLER.removeCallbacks(timeoutTask);
+            pendingPrepareTimeout = null;
         }
+    }
+
+    private void notifyChanged() {
+        Listener l = listener;
+        if (l == null) {
+            return;
+        }
+        MAIN_HANDLER.post(() -> l.onPlayingMessageChanged(playingClientMsgId));
     }
 }

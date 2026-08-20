@@ -176,6 +176,7 @@
     <string name="mine_safe_center">Security Center</string>
     <string name="mine_faq">FAQ</string>
     <string name="mine_system_settings">System Settings</string>
+    <string name="mine_upload_log">Upload Logs</string>
     <string name="msg_group_members">Group Members</string>
     <string name="msg_group_services">Group Services</string>
     <string name="msg_personal_settings">Personal Settings</string>
@@ -378,7 +379,7 @@
     <string name="main_select_user_hint">Select an account to log in</string>
     <string name="avatar_content_desc">Avatar</string>
     <string name="conversation_list_empty">No conversations</string>
-    <string name="conversation_list_load_failed">Failed to load conversations</string>
+    <string name="conversation_list_load_failed">Load failed (network error)</string>
     <string name="conversation_list_retry">Retry</string>
     <string name="conversation_list_title">Conversations</string>
     <string name="open_conversation_list">Conversations</string>
@@ -497,4 +498,8 @@
     <string name="group_apply_action_failed">Action failed. Please try again later</string>
     <string name="my_groups">My groups</string>
     <string name="menu_group_info">Group info</string>
+
+    <string name="im_network_unavailable_tip">当前无法连接网络，可检查网络设置是否正常。</string>
+
+    <string name="post_log_success">上传日志成功</string>
 </resources>

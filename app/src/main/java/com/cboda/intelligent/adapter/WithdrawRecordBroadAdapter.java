@@ -1,5 +1,6 @@
 package com.cboda.intelligent.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
+import com.blankj.utilcode.util.GsonUtils;
 import com.google.gson.reflect.TypeToken;
 import com.cboda.intelligent.R;
 import com.cboda.select.picture.entity.DataListBroadBean;
@@ -30,10 +31,12 @@ public class WithdrawRecordBroadAdapter extends RecyclerView.Adapter<WithdrawRec
     private Context context;
     private List<DataListBroadBean> list;
     private WithdrawRecordItemBroadAdapter withdrawRecordItemAdapter;
+
     public WithdrawRecordBroadAdapter(Context context, List<DataListBroadBean> list) {
         this.context = context;
         this.list = list;
     }
+
     @Override
     public WithdrawRecordBroadAdapter.MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_withdraw_broad_record, parent, false);
@@ -41,10 +44,11 @@ public class WithdrawRecordBroadAdapter extends RecyclerView.Adapter<WithdrawRec
     }
 
     @Override
-    public void onBindViewHolder(WithdrawRecordBroadAdapter.MyHolder holder, final int position) {
+    public void onBindViewHolder(WithdrawRecordBroadAdapter.MyHolder holder, @SuppressLint("RecyclerView") final int position) {
         // 定义类型
-        Type userListType = new TypeToken<List<DataListBroadBean>>() {}.getType();
-        List<DataListBroadBean> listBeans = (List<DataListBroadBean>) new Gson().fromJson(list.get(position).info,userListType);
+        Type userListType = new TypeToken<List<DataListBroadBean>>() {
+        }.getType();
+        List<DataListBroadBean> listBeans = (List<DataListBroadBean>) GsonUtils.getGson().fromJson(list.get(position).info, userListType);
 
         withdrawRecordItemAdapter = new WithdrawRecordItemBroadAdapter(context, listBeans);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
@@ -58,7 +62,7 @@ public class WithdrawRecordBroadAdapter extends RecyclerView.Adapter<WithdrawRec
         holder.tvTitle.setText(list.get(position).title);
         holder.tvTime.setText(list.get(position).time);
         holder.tvPingzhengTitle.setText(list.get(position).tutitle);
-        holder.tvPrice.setText(context.getResources().getString(R.string.人民币)+list.get(position).money);
+        holder.tvPrice.setText(context.getResources().getString(R.string.人民币) + list.get(position).money);
         holder.imPingzheng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,9 +74,9 @@ public class WithdrawRecordBroadAdapter extends RecyclerView.Adapter<WithdrawRec
                         .start();
             }
         });
-        if (list.get(position).isChecked){
+        if (list.get(position).isChecked) {
             holder.llZhankai.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             holder.llZhankai.setVisibility(View.GONE);
         }
         holder.llButton.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +106,7 @@ public class WithdrawRecordBroadAdapter extends RecyclerView.Adapter<WithdrawRec
         TextView tvPingzhengTitle;
         ImageView imPingzheng;
         RecyclerView ryItem;
+
         public MyHolder(View itemView) {
             super(itemView);
             llButton = itemView.findViewById(R.id.llButton);
@@ -114,6 +119,7 @@ public class WithdrawRecordBroadAdapter extends RecyclerView.Adapter<WithdrawRec
             llZhankai = itemView.findViewById(R.id.llZhankai);
         }
     }
+
     private WithdrawRecordBroadAdapter.OnItemClickListener onItemClickListener;
 
     public void setOnItemClickListener(WithdrawRecordBroadAdapter.OnItemClickListener onItemClickListener) {

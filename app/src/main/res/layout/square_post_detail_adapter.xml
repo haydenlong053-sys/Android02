@@ -85,6 +85,8 @@
         android:layout_marginTop="@dimen/dp_10"
         android:lineSpacingExtra="@dimen/dp_2"
         android:textColor="@color/black"
+        android:textColorHighlight="#D7DBE1"
+        android:textIsSelectable="true"
         android:textSize="@dimen/sp_14"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -22,7 +22,8 @@ import com.cboda.baselibrary.view.magicindicator.buildins.commonnavigator.indica
 class BadgeIndicatorAdapter : CommonNavigatorBroadAdapter {
     private val mTitles: IntArray?
     private val badgeNums: IntArray?
-//    private var mListener: OnIndicatorItemClickListener? = null
+    /** 已挂载的标题 View；角标只改数字，避免 notifyDataSetChanged 整栏重建。 */
+    private val titleViews: Array<CustomBadgePagerTitleView?>
 
     @ColorInt
     private var mSelectedColor: Int
@@ -35,7 +36,6 @@ class BadgeIndicatorAdapter : CommonNavigatorBroadAdapter {
     private val mMinScale = 1.0f
     private val textSize: Int
     private var isEnableScaleAnim = true
-//    private var magicItemWidth: Float = 0f
 
     constructor(
         context: Context,
@@ -45,6 +45,7 @@ class BadgeIndicatorAdapter : CommonNavigatorBroadAdapter {
     ) {
         mTitles = titles
         badgeNums = mBadges
+        titleViews = arrayOfNulls(titles?.size ?: 0)
         mSelectedColor = getAppColor(context, com.cboda.baselibrary.R.color.color_2563EB)
         mNormalColor = getAppColor(context, com.cboda.baselibrary.R.color.color_94A3B8)
         mIndicatorColor = ArrayList()
@@ -66,6 +67,29 @@ class BadgeIndicatorAdapter : CommonNavigatorBroadAdapter {
         mIndicatorColor = indicatorColor
     }
 
+    /**
+     * 仅更新角标数字，不触发 Navigator 整栏重建。
+     * @return 是否有数字变化
+     */
+    fun updateBadgeCounts(counts: IntArray?): Boolean {
+        val badges = badgeNums ?: return false
+        if (counts == null || counts.isEmpty()) {
+            return false
+        }
+        var changed = false
+        val n = minOf(badges.size, counts.size)
+        for (i in 0 until n) {
+            val next = counts[i].coerceAtLeast(0)
+            if (badges[i] == next) {
+                continue
+            }
+            badges[i] = next
+            titleViews.getOrNull(i)?.setBadgeCount(next)
+            changed = true
+        }
+        return changed
+    }
+
     override fun getCount(): Int {
         return mTitles?.size ?: 0
     }
@@ -76,6 +100,9 @@ class BadgeIndicatorAdapter : CommonNavigatorBroadAdapter {
         pagerTitleView.setBadgeCount(badgeNums!![index])
         pagerTitleView.setOnClickListener {
             indicatorItemOnTabClick(index)
+        }
+        if (index in titleViews.indices) {
+            titleViews[index] = pagerTitleView
         }
         return pagerTitleView
     }

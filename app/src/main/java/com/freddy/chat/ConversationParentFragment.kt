@@ -21,7 +21,7 @@ class ConversationParentFragment : BaseBroadFragment<ConversationParentFragmentB
 
     override fun onCEvent(topic: String?, msgCode: Int, resultCode: Int, obj: Any?) {
         if (Events.NOTIFY_CONVERSATION_LIST == topic) {
-            getServiceConversationList {}
+            // 会话拉取由 MainBroadActivity → ConversationParentViewModel 统一处理，避免重复 getList
             return
         }
         if (Events.SESSION_LIST_UPDATED == topic && obj is MutableList<*>) {
@@ -47,9 +47,9 @@ class ConversationParentFragment : BaseBroadFragment<ConversationParentFragmentB
         ImLocalStore.loadSessions(OnLoadCallback { callBack.invoke(it) })
     }
 
-    private fun getServiceConversationList(callBack: (List<SessionItem>?) -> Unit) {
-        ImMessageHttpExample.requestGetConversationList(0, 0, { content -> callBack.invoke(content.sessionList) }, { callBack.invoke(null) })
-    }
+//    private fun getServiceConversationList(callBack: (List<SessionItem>?) -> Unit) {
+//        ImMessageHttpExample.requestGetConversationList(0, 0, { content -> callBack.invoke(content.sessionList) }, { callBack.invoke(null) })
+//    }
 
 
     override fun onCreateViewBinding(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?) = ConversationParentFragmentBinding.inflate(inflater, parent, false)

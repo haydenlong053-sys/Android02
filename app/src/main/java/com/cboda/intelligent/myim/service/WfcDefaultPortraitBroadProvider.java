@@ -9,8 +9,6 @@ import static com.cboda.baselibrary.utils.GsonUtilsKt.toJson2;
 
 import android.net.Uri;
 import android.text.TextUtils;
-
-import com.google.gson.Gson;
 import com.cboda.intelligent.service.AppBroadService;
 
 import org.json.JSONArray;

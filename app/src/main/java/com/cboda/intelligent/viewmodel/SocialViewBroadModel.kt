@@ -4,15 +4,19 @@ import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.base.BaseViewModel
 import com.cboda.baselibrary.bean.SocialContact
 import com.cboda.baselibrary.bean.SocialUiState
+import com.cboda.baselibrary.event.UnreadCountBroadEvent
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.chatui.utils.PinyinBroadUtils
 import com.cboda.intelligent.repository.SocialBroadRepository
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
 
 class SocialViewBroadModel(
     private val repository: SocialBroadRepository = SocialBroadRepository()
@@ -22,20 +26,21 @@ class SocialViewBroadModel(
     val uiState: StateFlow<SocialUiState> = _uiState.asStateFlow()
 
     private var overlayJob: Job? = null
+    private var refreshJob: Job? = null
+    private var lastPostedBadgeTotal: Long? = null
 
     init {
         refresh()
     }
 
     fun refresh() {
-        viewModelScope.launch {
+        refreshJob?.cancel()
+        refreshJob = viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
             try {
-
                 val circles = repository.fetchFriendshipCharacter()
                 val contacts = repository.fetchFriendShipList()
-                val newFriendCount = repository.fetchNewFriendCount()
-                val newGroupInviteCount = repository.fetchNewGroupInviteCount()
+                val badgeCounts = fetchBadgeCounts()
                 val selected = _uiState.value.selectedCircleTag
                 val filtered = filterContacts(selected, contacts)
                 val grouped = groupByInitial(filtered)
@@ -47,14 +52,66 @@ class SocialViewBroadModel(
                     filteredContacts = filtered,
                     groupedByLetter = grouped,
                     indexLetters = letters,
-                    newFriendCount = newFriendCount,
-                    newGroupInviteCount = newGroupInviteCount
+                    newFriendCount = badgeCounts.first,
+                    newGroupInviteCount = badgeCounts.second
                 )
+            } catch (t: CancellationException) {
+                throw t
             } catch (t: Throwable) {
                 t.printStackTrace()
-                eLogD("SocialViewBroadModel","错误:${t.message}")
+                eLogD("SocialViewBroadModel", "错误:${t.message}")
                 _uiState.value = _uiState.value.copy(isLoading = false, error = t.message)
             }
+        }
+    }
+
+    /** 仅刷新角标，避免 userInfo 触发的全量刷新导致列表/角标闪烁。 */
+    fun refreshBadgesOnly() {
+        refreshJob?.cancel()
+        refreshJob = viewModelScope.launch {
+            try {
+                val badgeCounts = fetchBadgeCounts()
+                _uiState.value = _uiState.value.copy(
+                    newFriendCount = badgeCounts.first,
+                    newGroupInviteCount = badgeCounts.second
+                )
+            } catch (t: CancellationException) {
+                throw t
+            } catch (t: Throwable) {
+                eLogD("SocialViewBroadModel", "角标刷新失败:${t.message}")
+            }
+        }
+    }
+
+    private suspend fun fetchBadgeCounts(): Pair<Int, Int> {
+        val previous = _uiState.value
+        val newFriendCount = runCatching { repository.fetchNewFriendCount() }
+            .getOrElse { previous.newFriendCount }
+        val newGroupInviteCount = runCatching { repository.fetchNewGroupInviteCount() }
+            .getOrElse { previous.newGroupInviteCount }
+        persistAndNotifyBadges(newFriendCount, newGroupInviteCount)
+        return newFriendCount to newGroupInviteCount
+    }
+
+    private fun persistAndNotifyBadges(newFriendCount: Int, newGroupInviteCount: Int) {
+        MMKVBroadUtils.saveContactBadgeCounts(
+            newFriendCount.toLong(),
+            newGroupInviteCount.toLong()
+        )
+        val total = MMKVBroadUtils.getContactBadgeTotal()
+        if (lastPostedBadgeTotal != total) {
+            lastPostedBadgeTotal = total
+            EventBus.getDefault().post(
+                UnreadCountBroadEvent(
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    total.toString()
+                )
+            )
         }
     }
 
@@ -91,7 +148,7 @@ class SocialViewBroadModel(
     }
 
     private fun displayName(c: SocialContact): String {
-        val name = c.remarkName?.takeIf { it.isNotBlank() } ?: (c.nickName?:c.userId)
+        val name = c.remarkName?.takeIf { it.isNotBlank() } ?: (c.nickName ?: c.userId)
         return name
     }
 

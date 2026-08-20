@@ -93,6 +93,8 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     private final MessageReadUiState readUiState = new MessageReadUiState();
     @NonNull
     private final VoiceMessagePlayer voiceMessagePlayer = VoiceMessagePlayer.getInstance();
+    @Nullable
+    private String lastPlayingClientMsgId;
 
     public MessageListAdapter(boolean isGroupChat,
                               @Nullable String peerAvatarUrl,
@@ -108,7 +110,11 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
         this.peerUserId = peerUserId;
         this.peerDisplayName = peerDisplayName;
         this.retryListener = retryListener;
-        voiceMessagePlayer.setListener(clientMsgId -> notifyDataSetChanged());
+        voiceMessagePlayer.setListener(clientMsgId -> {
+            notifyVoiceItemChanged(lastPlayingClientMsgId);
+            notifyVoiceItemChanged(clientMsgId);
+            lastPlayingClientMsgId = clientMsgId;
+        });
     }
 
     public void setMessageActions(@Nullable MessageListActions messageActions) {
@@ -210,6 +216,23 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     public void release() {
         voiceMessagePlayer.setListener(null);
         voiceMessagePlayer.stop();
+        lastPlayingClientMsgId = null;
+    }
+
+    private void notifyVoiceItemChanged(@Nullable String clientMsgId) {
+        if (TextUtils.isEmpty(clientMsgId)) {
+            return;
+        }
+        for (int i = 0; i < items.size(); i++) {
+            AppMessage message = items.get(i);
+            if (message == null || !WeChatUiHelper.isVoiceMessage(message.getMsgContentType())) {
+                continue;
+            }
+            if (clientMsgId.equals(message.getClientMsgId())) {
+                notifyItemChanged(i);
+                return;
+            }
+        }
     }
 
     public void setGroupMembers(@Nullable Map<String, GroupMemberItem> members) {
