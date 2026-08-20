@@ -94,6 +94,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
     }
 
     private val uiViewModel: HomeUIViewModel by activityViewModels()
+
     /** 与 MainBroadActivity 共享；列表请求只在 Activity 发起，此处仅消费角标数据。 */
     private val conversationViewModel: ConversationParentViewModel by activityViewModels()
 
@@ -213,7 +214,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
 
         ivkefu?.setOnClickListener {
 //            MMKVBroadUtils.getKeFuId()?.let { it1 -> AppBroadUtils.goChat(context, it1, "") }
-            MMKVBroadUtils.getKeFuId()?.let { it1 -> AppBroadUtils.goChatP2p( it1, "", context) }
+            MMKVBroadUtils.getKeFuId()?.let { it1 -> AppBroadUtils.goChatP2p(it1, "", context) }
         }
         conversationSingleFragment = ConversationSingleFragment()
         fragments.add(conversationSingleFragment!!)
@@ -231,7 +232,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         vp2FragmentAdapter.setData(fragments)
         viewPager.adapter = vp2FragmentAdapter
         // 仅保留相邻页，避免启动补拉时四个 Tab 同时 DiffUtil/头像绑定打满主线程
-        viewPager.offscreenPageLimit = 1
+        viewPager.offscreenPageLimit = fragments.size
         viewPager.isUserInputEnabled = true
         initMagicIndicator()
 
@@ -562,7 +563,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
 //        val intent = Intent(context, ScanBroadActivity::class.java)
 //        intent.putExtra("jumpSource", ScanJumpBroadEnum.Message.sourceType)
 //        startActivity(intent)
-        JumpBroadUtils.startScanAct(ScanJumpBroadEnum.Message.sourceType,context)
+        JumpBroadUtils.startScanAct(ScanJumpBroadEnum.Message.sourceType, context)
     }
 
 //    private fun addFragment(targetFragment: Fragment) {

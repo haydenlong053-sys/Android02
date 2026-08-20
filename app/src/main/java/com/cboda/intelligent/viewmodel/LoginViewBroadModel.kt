@@ -159,8 +159,9 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
         return liveData
     }
 
+    private val userInfoLiveData = SingleLiveBroadData<UserInfoBean>()
+
     fun getUserInfo(): SingleLiveBroadData<UserInfoBean> {
-        val liveData = SingleLiveBroadData<UserInfoBean>()
         val params = HashMap<String, Any>()
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -170,7 +171,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
 //                        MMKVBroadUtils.saveSqlStrData(USER_LOGIN_DATA, toJson2(data))
                         RealmUtil.addUserData(data)
                         data?.let {
-                            liveData.postValue(data)
+                            userInfoLiveData.postValue(data)
                         }
                     }.onFailure { _, msg ->
                         showToastMain(msg)
@@ -181,7 +182,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                 }
             }
         }
-        return liveData
+        return userInfoLiveData
     }
 
 

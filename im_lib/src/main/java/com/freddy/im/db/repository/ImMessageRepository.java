@@ -231,6 +231,7 @@ public final class ImMessageRepository {
                 return;
             }
             AppMessage basis = MessageRealmMapper.toAppMessage(peek);
+            final boolean[] reportReadIfContiguous = {false};
             SessionLastMessageSync.runWriteWithSessionSync(
                     Collections.singletonList(basis),
                     (realm, prefetched, sessionUpdates) -> {
@@ -245,6 +246,8 @@ public final class ImMessageRepository {
                         long sequence = ImMessageManager.extractTrailingSequence(serverMsgId);
                         if (sequence != ImMessageManager.INVALID_SEQUENCE) {
                             entity.setSequenceId(sequence);
+                            reportReadIfContiguous[0] = isContiguousWithPreviousServerMsg(
+                                    realm, entity.getSessionId(), clientMsgId, sequence);
                         }
                         AppMessage updated = MessageRealmMapper.toAppMessage(entity);
                         // 发送成功：仅连续（serverSeq == syncedMax+1）才抬水位，跳跃不推进以免漏拉
@@ -256,6 +259,9 @@ public final class ImMessageRepository {
                                 true));
                     },
                     () -> {
+                        if (reportReadIfContiguous[0]) {
+                            ImMessageManager.getInstance().reportMessageRead(serverMsgId);
+                        }
                         AppMessage updated = queryAppMessageByClientMsgId(clientMsgId);
                         if (onUpdated != null && updated != null) {
                             onUpdated.onUpdated(updated);
@@ -455,6 +461,37 @@ public final class ImMessageRepository {
         } finally {
             realm.close();
         }
+    }
+
+    /**
+     * 己方回包 seq 是否与会话内上一条有效服务端消息连续（prevSeq + 1）。
+     * 连续则需再 reportRead，把已读水位推到本条。
+     */
+    private static boolean isContiguousWithPreviousServerMsg(@NonNull Realm realm,
+                                                             @Nullable String sessionId,
+                                                             @NonNull String clientMsgId,
+                                                             long currentSeq) {
+        if (TextUtils.isEmpty(sessionId)
+                || currentSeq <= ImMessageManager.INVALID_SEQUENCE
+                || ImMessageManager.isFileAssistantSession(sessionId)) {
+            return false;
+        }
+        MessageEntity prev = realm.where(MessageEntity.class)
+                .equalTo("sessionId", sessionId)
+                .notEqualTo("clientMsgId", clientMsgId)
+                .greaterThan("sequenceId", ImMessageManager.INVALID_SEQUENCE)
+                .lessThan("sequenceId", currentSeq)
+                .sort("sequenceId", Sort.DESCENDING)
+                .findFirst();
+        if (prev == null) {
+            return false;
+        }
+        long prevSeq = prev.getSequenceId();
+        if (prevSeq + 1L != currentSeq) {
+            return false;
+        }
+        long msgIdSeq = ImMessageManager.extractTrailingSequence(prev.getMsgId());
+        return msgIdSeq == prevSeq;
     }
 
     @Nullable

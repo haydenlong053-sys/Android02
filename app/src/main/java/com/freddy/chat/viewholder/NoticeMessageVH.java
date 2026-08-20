@@ -33,7 +33,7 @@ public final class NoticeMessageVH extends BaseMessageVH {
     }
 
     public void bind(@NonNull AppMessage message, int position, @NonNull MessageViewHolderContext context) {
-        ELogUtilKt.eLogD("zhanglong", "系统消息卡getContent--->" + message.getContent());
+        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG, "系统消息卡getContent--->" + message.getContent());
         boolean sentByMe = message.isSender(context.currentUserId);
         int layoutRes = sentByMe
                 ? R.layout.conversation_item_msg_notice_broad_send

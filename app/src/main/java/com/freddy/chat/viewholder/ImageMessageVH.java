@@ -32,7 +32,7 @@ public final class ImageMessageVH extends BaseMessageVH {
     }
 
     public void bind(@NonNull AppMessage message, int position, @NonNull MessageViewHolderContext context) {
-        ELogUtilKt.eLogD("zhanglong", "图片消息getContent--->" + message.getContent());
+        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG, "图片消息getContent--->" + message.getContent());
         bindCommon(message, position, context);
         boolean meetingImage = MessageType.MessageContentType.isMeetingImage(message.getMsgContentType());
         if (meetingImage) {

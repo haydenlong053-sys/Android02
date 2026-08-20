@@ -7,7 +7,9 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.cboda.baselibrary.toast.ToastBroadUtils;
 import com.cboda.baselibrary.utils.ELogUtilKt;
+import com.cboda.baselibrary.utils.ViewExpandUtilKt;
 import com.freddy.im.OutgoingSendTimeout;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.bean.ImMessageMapper;
@@ -400,6 +402,11 @@ public final class ImMessageManager {
         String queryMsgId;
         int anchor = 1;
         if (TextUtils.isEmpty(syncAnchor)) {
+            if (TextUtils.isEmpty(sessionItem.getSelfReadPosition())){
+                ELogUtilKt.eLogE(ELogUtilKt.APP_IM_TAG,"空的syncAnchor，取拉消息sessionItem.getSelfReadPosition()="+sessionItem.getSelfReadPosition());
+//                ViewExpandUtilKt.showIMKeyErrorToast("拉消息sessionItem.getSelfReadPosition()="+sessionItem.getSelfReadPosition());
+                return;
+            }
             queryMsgId = sessionId + "-" + sessionItem.getSelfReadPosition();
             anchor = 0;
         } else {

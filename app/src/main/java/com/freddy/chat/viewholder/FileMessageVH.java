@@ -34,7 +34,7 @@ public final class FileMessageVH extends BaseMessageVH {
     }
 
     public void bind(@NonNull AppMessage message, int position, @NonNull MessageViewHolderContext context) {
-        ELogUtilKt.eLogD("zhanglong", "文件消息getContent--->" + message.getContent());
+        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG, "文件消息getContent--->" + message.getContent());
         bindCommon(message, position, context);
         boolean sentByMe = message.isSender(context.currentUserId);
         applyWhiteBubbleBackground(fileRoot, sentByMe);

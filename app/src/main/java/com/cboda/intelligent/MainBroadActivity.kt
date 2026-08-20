@@ -3,6 +3,7 @@ package com.cboda.intelligent
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.text.TextUtils
 import android.view.View
 import android.view.WindowManager
@@ -125,7 +126,6 @@ import com.cboda.intelligent.viewmodel.NewMirrorViewBroadModel
 import com.cboda.intelligent.viewmodel.VersionUpdateViewBroadModel
 import com.cboda.intelligent.widge.CustomClickBroadView
 import com.cboda.intelligent.widge.MyUnreadCountTextBroadView
-import com.freddy.chat.ConversationListFragment
 import com.freddy.chat.event.CEventCenter
 import com.freddy.chat.event.Events
 import com.freddy.chat.event.I_CEventListener
@@ -185,6 +185,10 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         Events.SESSION_LIST_UPDATED,
         Events.SESSION_REMOVED,
     )
+
+    /** 与 MessageProcessor.notifyConversationList 对齐，避免 onResume 与信令连打 getList。 */
+    private val loadConversationsDebounceMs = 1500L
+    private var lastLoadConversationsElapsed = 0L
 
     override fun getLayoutId(): Int {
         return R.layout.main_activity
@@ -336,6 +340,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
 
         viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
+        viewModel?.getUserInfo()?.observe(this) { onUserInfoUpdated(it) }
         viewModel?.pintaiLiveData?.observe(this) {
             it.data?.apply {
                 ptConfig = it.data
@@ -646,69 +651,77 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         super.onResume()
         viewModel?.getconfig(this)
 //        viewModel?.getUserInfo(this, "")
-        getUserInfo()
+        requestUserInfo()
         eLogD(this.javaClass.simpleName, "getGroupInfos672")
         conversationListViewModel?.reloadConversationUnreadStatus()
+        loadConversationsDebounced()
 //        checkOrder()
     }
 
 
-    private fun getUserInfo() {
-        viewModel?.getUserInfo()?.observe(this@MainBroadActivity) { data ->
-            currentLoginUser = data
-            CrashFactory.crashLoad.crashU(this@MainBroadActivity, data.realityId, data.deviceId)
-            val crashId = if (data.realityId == data.showId) data.realityId else "${data.realityId},${data.showId}"
-            crashReportLog("LA:$crashId,${getAllEnDeviceId(this@MainBroadActivity)}")
+    private fun requestUserInfo() {
+        viewModel?.getUserInfo()
+    }
+
+    private fun onUserInfoUpdated(data: UserInfoBean) {
+        currentLoginUser = data
+        CrashFactory.crashLoad.crashU(this@MainBroadActivity, data.realityId, data.deviceId)
+        val crashId = if (data.realityId == data.showId) data.realityId else "${data.realityId},${data.showId}"
+        crashReportLog("LA:$crashId,${getAllEnDeviceId(this@MainBroadActivity)}")
 //            MMKVBroadUtils.saveSqlStrData(USER_LOGIN_DATA, toJson2(data))
-            RealmUtil.addUserData(data)
-            MMKVBroadUtils.saveUserImg(data.userImg)
-            MMKVBroadUtils.saveKeFuId(data.aiRobotId)
-            MMKVBroadUtils.saveUserName(data.name)
-            MMKVBroadUtils.saveUserNiceNum(data.isLiang)
-            MMKVBroadUtils.saveUserMId(data.realityId)
-            MMKVBroadUtils.saveSqlStrData(USER_SEND_LINK, data.canSendLink)
-            MMKVBroadUtils.saveSqlStrData(USER_CREDIT_SCORE_NEW_USER_DAYS, data.creditScoreNewUserDays)
-            MMKVBroadUtils.saveNewInGroupDays(anyToInt(data.creditScoreNewInGroupDays))
-            val registrationDayScoreInt = anyToInt(data.registerDayBean?.registrationDayScore.toString())
-            MMKVBroadUtils.saveSqlStrData(USER_REGISTRATION_DAY_SCORE, registrationDayScoreInt.toString())
-            SharePrefBroadBroadUtil.saveString(this@MainBroadActivity, "autofanyi", data.autoTranslation)
-            MMKVBroadUtils.saveUserVip(data.isVip)
-            MMKVBroadUtils.saveSqlStrData(LOGIN_USER_DATA, toJson2(data))
-            viewModel?.getKfInfo(this@MainBroadActivity, data.aiRobotId)
+        RealmUtil.addUserData(data)
+        MMKVBroadUtils.saveUserImg(data.userImg)
+        MMKVBroadUtils.saveKeFuId(data.aiRobotId)
+        MMKVBroadUtils.saveUserName(data.name)
+        MMKVBroadUtils.saveUserNiceNum(data.isLiang)
+        MMKVBroadUtils.saveUserMId(data.realityId)
+        MMKVBroadUtils.saveSqlStrData(USER_SEND_LINK, data.canSendLink)
+        MMKVBroadUtils.saveSqlStrData(USER_CREDIT_SCORE_NEW_USER_DAYS, data.creditScoreNewUserDays)
+        MMKVBroadUtils.saveNewInGroupDays(anyToInt(data.creditScoreNewInGroupDays))
+        val registrationDayScoreInt = anyToInt(data.registerDayBean?.registrationDayScore.toString())
+        MMKVBroadUtils.saveSqlStrData(USER_REGISTRATION_DAY_SCORE, registrationDayScoreInt.toString())
+        SharePrefBroadBroadUtil.saveString(this@MainBroadActivity, "autofanyi", data.autoTranslation)
+        MMKVBroadUtils.saveUserVip(data.isVip)
+        MMKVBroadUtils.saveSqlStrData(LOGIN_USER_DATA, toJson2(data))
+        viewModel?.getKfInfo(this@MainBroadActivity, data.aiRobotId)
+        if (HttpsBroadConfig.useSelfImOnly) {
+            // 自研 IM 角标由好友页专用接口维护，避免 userInfo.gros 覆盖为 0
+            refreshContactBadgeFromCache()
+        } else {
             MMKVBroadUtils.saveContactBadgeCounts(data.fris, data.gros)
-            // 通用「消息提醒」开关：供响铃/震动本地判断
-            MMKVBroadUtils.saveMsgReminderEnabled(data.isMsgtx)
+            refreshContactBadgeFromCache()
+            EventBus.getDefault().post(
+                AppBroadEvent(AppEventBroadCode.EVENT_REFRESH_CONTACT, true)
+            )
+        }
+        // 通用「消息提醒」开关：供响铃/震动本地判断
+        MMKVBroadUtils.saveMsgReminderEnabled(data.isMsgtx)
 //            try {
 //                ChatManager.Instance().setGlobalSilent(data.isMsgtx == "0", null)
 //            } catch (_: Exception) {
 //            }
-            refreshContactBadgeFromCache()
 
-            IMSClientBootstrap.getInstance().currentUserAvatarUrl = data.userImg
-            eLogD("看看未读", "main$tongxunluUnreadCount")
-            EventBus.getDefault().post(
-                UnreadCountBroadEvent(
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    tongxunluUnreadCount
-                )
+        IMSClientBootstrap.getInstance().currentUserAvatarUrl = data.userImg
+        eLogD("看看未读", "main$tongxunluUnreadCount")
+        EventBus.getDefault().post(
+            UnreadCountBroadEvent(
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                tongxunluUnreadCount
             )
-            EventBus.getDefault().post(
-                AppBroadEvent(AppEventBroadCode.EVENT_REFRESH_CONTACT, true)
-            )
-            // useSelfImOnly 时未 connect，ChatManager.userId 为空，modifyMyInfo 会 NPE
-            if (!HttpsBroadConfig.useSelfImOnly) {
-                val entry = ModifyMyInfoEntry(ModifyMyInfoType.Modify_DisplayName, data.name)
-                val entry1 = ModifyMyInfoEntry(ModifyMyInfoType.Modify_Portrait, data.userImg)
-                userViewModel?.modifyMyInfo(listOf(entry, entry1))
-                    ?.observe(this@MainBroadActivity) { it1 ->
-                        AppBroadUtils.debug("野火", "修改用户信息---> ${it1.isSuccess}")
-                    }
-            }
+        )
+        // useSelfImOnly 时未 connect，ChatManager.userId 为空，modifyMyInfo 会 NPE
+        if (!HttpsBroadConfig.useSelfImOnly) {
+            val entry = ModifyMyInfoEntry(ModifyMyInfoType.Modify_DisplayName, data.name)
+            val entry1 = ModifyMyInfoEntry(ModifyMyInfoType.Modify_Portrait, data.userImg)
+            userViewModel?.modifyMyInfo(listOf(entry, entry1))
+                ?.observe(this@MainBroadActivity) { it1 ->
+                    AppBroadUtils.debug("野火", "修改用户信息---> ${it1.isSuccess}")
+                }
         }
     }
 
@@ -931,7 +944,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
         userViewModel = ViewModelProvider(this)[UserViewBroadModel::class.java]
 //        viewModel?.getUserInfo(this, "")
-        getUserInfo()
+        requestUserInfo()
         conversationListViewModel = ViewModelProvider(
             this, ConversationListViewModelBroadFactory(
                 listOf(
@@ -964,11 +977,24 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         }, 2000L)
     }
 
-    /** 自研 IM：会话列表与未读统一在此拉取；三个会话 Tab 通过 activityViewModels 共享同一份数据。 */
+    /** 自研 IM：底栏未读；三个会话 Tab 通过 activityViewModels 共享同一份数据。getList 在 onResume 兜底。 */
     private fun observeImUnreadCount() {
         conversationParentViewModel.totalUnreadCount.observe(this) { total ->
             xiaoxiUnreadCount = (total ?: 0).coerceAtLeast(0).toString()
         }
+    }
+
+    /**
+     * 回前台 / 信令刷新会话列表；1.5s 节流，避免 onResume 与 NOTIFY_CONVERSATION_LIST 连打。
+     */
+    private fun loadConversationsDebounced() {
+        val now = SystemClock.elapsedRealtime()
+        if (lastLoadConversationsElapsed > 0L
+            && now - lastLoadConversationsElapsed < loadConversationsDebounceMs
+        ) {
+            return
+        }
+        lastLoadConversationsElapsed = now
         conversationParentViewModel.loadConversations()
     }
 
@@ -999,7 +1025,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
     override fun onCEvent(topic: String?, msgCode: Int, resultCode: Int, obj: Any?) {
         when (topic) {
-            Events.NOTIFY_CONVERSATION_LIST -> conversationParentViewModel.loadConversations()
+            Events.NOTIFY_CONVERSATION_LIST -> loadConversationsDebounced()
             Events.SESSION_LIST_UPDATED -> {
                 @Suppress("UNCHECKED_CAST")
                 val updated = obj as? List<SessionItem> ?: return

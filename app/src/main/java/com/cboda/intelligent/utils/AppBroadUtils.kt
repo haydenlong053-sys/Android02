@@ -297,15 +297,15 @@ class AppBroadUtils {
                 return
             }
             if (apptoken.isNullOrEmpty()) {
-                eLogD("imLogin", "goLoginMyIm warn, apptoken empty, HTTP 头可能无效")
-                showIMKeyErrorToast("imLogin goLoginMyIm warn, apptoken empty, HTTP 头可能无效")
+                eLogD("imLogin", "goLoginMyIm warn, apptoken empty, 为空")
+                showIMKeyErrorToast("imLogin goLoginMyIm warn, apptoken empty, 为空")
             }
             ImAuthInvalidHandler.reset()
             val bootstrap = IMSClientBootstrap.getInstance()
             val sameSession = bootstrap.canReuseSession(userId, imToken, hosts)
             if (sameSession) {
                 eLogD("imLogin", "goLoginMyIm reuse active session userId=$userId")
-                showIMKeyErrorToast("imLogin goLoginMyIm reuse active session userId=$userId")
+//                showIMKeyErrorToast("imLogin goLoginMyIm reuse active session userId=$userId")
                 ImMessageManager.getInstance().recoverOutgoingSendingTimeouts()
             } else {
                 val ok = bootstrap.init(
