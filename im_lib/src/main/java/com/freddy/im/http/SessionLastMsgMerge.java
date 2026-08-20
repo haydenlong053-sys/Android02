@@ -4,13 +4,14 @@ import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
+import com.freddy.im.db.SessionLastMessageSync;
 import com.freddy.im.db.repository.ImSessionRepository;
 import com.freddy.im.http.model.im.SessionItem;
 
 import java.util.List;
 
 /**
- * 会话列表最近消息字段合并：从本地库回填（不再依赖 {@code getLastMsg}）。
+ * 会话列表最近消息字段合并：优先用本地消息表最后一条，其次会话表摘要。
  */
 public final class SessionLastMsgMerge {
 
@@ -18,8 +19,8 @@ public final class SessionLastMsgMerge {
     }
 
     /**
-     * {@code getList} 通常不带 last*：用本地会话摘要回填，保证列表首屏有预览。
-     * 同时回填缺省的 muteNotify，避免刷新冲掉本地免打扰。
+     * {@code getList} 回填：展示字段用本地会话补全；
+     * <b>消息预览 last* 优先取消息表最后一条</b>（与聊天页消息列表同源）。
      */
     public static void applyFromLocal(@Nullable List<SessionItem> sessions) {
         if (sessions == null || sessions.isEmpty()) {
@@ -30,41 +31,42 @@ public final class SessionLastMsgMerge {
                 continue;
             }
             SessionItem local = ImSessionRepository.getInstance().queryBySessionId(item.getSessionId());
-            if (local == null) {
+            if (local != null) {
+                // getList 可能缺 conversation / owerId，不回填则群进不了私群/公群
+                if (item.getConversation() <= 0 && local.getConversation() > 0) {
+                    item.setConversation(local.getConversation());
+                }
+                if (TextUtils.isEmpty(item.getOwerId()) && !TextUtils.isEmpty(local.getOwerId())) {
+                    item.setOwerId(local.getOwerId());
+                }
+                if (item.getMemCount() <= 0 && local.getMemCount() > 0) {
+                    item.setMemCount(local.getMemCount());
+                }
+                if (TextUtils.isEmpty(item.getSessionName()) && !TextUtils.isEmpty(local.getSessionName())) {
+                    item.setSessionName(local.getSessionName());
+                }
+                if (TextUtils.isEmpty(item.getIcon()) && !TextUtils.isEmpty(local.getIcon())) {
+                    item.setIcon(local.getIcon());
+                }
+                if (item.getMuteNotify() == null) {
+                    item.setMuteNotify(local.isMuteNotify());
+                }
+                if (item.getCreateTime() <= 0L && local.getCreateTime() > 0L) {
+                    item.setCreateTime(local.getCreateTime());
+                }
+                if (item.getRenameCount() == null && local.getRenameCount() != null) {
+                    item.setRenameCount(local.getRenameCount());
+                }
+                if (item.getUnreadCount() <= 0 && local.getUnreadCount() > 0) {
+                    item.setUnreadCount(local.getUnreadCount());
+                }
+            }
+            // 1) 有本地消息：一律用消息表最后一条
+            if (SessionLastMessageSync.applyLatestMessagePreviewToItem(item)) {
                 continue;
             }
-            // getList 可能缺 conversation / owerId，不回填则群进不了私群/公群
-            if (item.getConversation() <= 0 && local.getConversation() > 0) {
-                item.setConversation(local.getConversation());
-            }
-            if (TextUtils.isEmpty(item.getOwerId()) && !TextUtils.isEmpty(local.getOwerId())) {
-                item.setOwerId(local.getOwerId());
-            }
-            if (item.getMemCount() <= 0 && local.getMemCount() > 0) {
-                item.setMemCount(local.getMemCount());
-            }
-            if (TextUtils.isEmpty(item.getSessionName()) && !TextUtils.isEmpty(local.getSessionName())) {
-                item.setSessionName(local.getSessionName());
-            }
-            if (TextUtils.isEmpty(item.getIcon()) && !TextUtils.isEmpty(local.getIcon())) {
-                item.setIcon(local.getIcon());
-            }
-            if (item.getMuteNotify() == null) {
-                item.setMuteNotify(local.isMuteNotify());
-            }
-            // getList 通常不带 createTime；回填本地（GroupVo 群详情写入）供群天数展示
-            if (item.getCreateTime() <= 0L && local.getCreateTime() > 0L) {
-                item.setCreateTime(local.getCreateTime());
-            }
-            // getList 通常不带 renameCount；回填本地群改名次数
-            if (item.getRenameCount() == null && local.getRenameCount() != null) {
-                item.setRenameCount(local.getRenameCount());
-            }
-            // getList 未读为 0 时保留本地角标，避免冲掉推送已累加的未读
-            if (item.getUnreadCount() <= 0 && local.getUnreadCount() > 0) {
-                item.setUnreadCount(local.getUnreadCount());
-            }
-            if (!TextUtils.isEmpty(item.getLastMessageId())) {
+            // 2) 无本地消息且 getList 未带 last*：回退会话表摘要
+            if (local == null || !TextUtils.isEmpty(item.getLastMessageId())) {
                 continue;
             }
             if (!TextUtils.isEmpty(local.getLastMessageId())) {

@@ -466,7 +466,10 @@ public final class ImLocalStore {
 
     @NonNull
     public static List<SessionItem> loadSessions() {
-        return ImSessionRepository.getInstance().queryAllAsDto();
+        List<SessionItem> list = ImSessionRepository.getInstance().queryAllAsDto();
+        // 列表预览与聊天页一致：取消息表最后一条
+        SessionLastMessageSync.applyLatestMessagePreviewToItems(list);
+        return list;
     }
 
     /** 后台读库，结果在主线程 {@link OnLoadCallback#onLoaded}。 */

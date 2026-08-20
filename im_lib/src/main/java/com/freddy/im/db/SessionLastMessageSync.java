@@ -10,6 +10,7 @@ import com.freddy.im.db.entity.MessageEntity;
 import com.freddy.im.db.entity.SessionEntity;
 import com.freddy.im.db.mapper.MessageRealmMapper;
 import com.freddy.im.db.mapper.SessionRealmMapper;
+import com.freddy.im.db.repository.ImMessageRepository;
 import com.freddy.im.db.repository.ImSessionRepository;
 import com.freddy.im.http.GroupDetailFetcher;
 import com.freddy.im.http.model.im.SessionItem;
@@ -402,6 +403,64 @@ public final class SessionLastMessageSync {
         entity.setLastMsgType(0);
         entity.setLastMessageStatus(0);
         entity.setLastMessageTime(0L);
+    }
+
+    /**
+     * 会话列表预览：用本地消息表「最后一条」覆盖 SessionItem 的 last*（与聊天页消息列表同源）。
+     * 无本地消息时保持原 last* 不变。
+     */
+    public static void applyLatestMessagePreviewToItems(@Nullable List<SessionItem> sessions) {
+        if (sessions == null || sessions.isEmpty()) {
+            return;
+        }
+        for (SessionItem item : sessions) {
+            applyLatestMessagePreviewToItem(item);
+        }
+    }
+
+    /**
+     * 单会话：取消息表按时间最新一条，写入 last*。
+     *
+     * @return true 若已用消息表记录覆盖
+     */
+    public static boolean applyLatestMessagePreviewToItem(@Nullable SessionItem item) {
+        if (item == null || TextUtils.isEmpty(item.getSessionId()) || !ImRealm.isUserBound()) {
+            return false;
+        }
+        List<AppMessage> page = ImMessageRepository.getInstance()
+                .queryLatestPageBySessionId(item.getSessionId(), 1);
+        if (page.isEmpty()) {
+            return false;
+        }
+        // queryLatestPage 返回升序一页，limit=1 时唯一元素即最新
+        fillLastMessageFieldsOntoItem(item, page.get(0));
+        return true;
+    }
+
+    /** 将消息记录写到 SessionItem 的 last*（与 {@link #fillLastMessageFields} 规则一致）。 */
+    public static void fillLastMessageFieldsOntoItem(@NonNull SessionItem item,
+                                                     @NonNull AppMessage message) {
+        String msgId = !TextUtils.isEmpty(message.getMsgId())
+                ? message.getMsgId()
+                : message.getClientMsgId();
+        item.setLastMessageId(msgId);
+        item.setLastMessageStatus(message.getStatus());
+        if (MessageRepealHelper.isRecalled(message)) {
+            item.setLastMessageContent(MessageRepealHelper.buildRecallContent(message.getFromId()));
+        } else {
+            item.setLastMessageContent(previewContent(message));
+        }
+        item.setLastContentType(String.valueOf(message.getMsgContentType()));
+        item.setLastCustomInfo(message.getCustomInfo());
+        item.setLastMsgType(message.getMsgType());
+        item.setLastMessageTime(message.getTimestamp());
+        long seq = message.getSequenceId();
+        if (seq <= 0L && !TextUtils.isEmpty(msgId)) {
+            seq = ImMessageManager.extractTrailingSequence(msgId);
+        }
+        if (seq > 0L && message.getTimestamp() <= 0L) {
+            item.setLastMessageTime(seq);
+        }
     }
 
     private static void fillLastMessageFields(@NonNull SessionEntity entity, @NonNull AppMessage message) {

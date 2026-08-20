@@ -243,6 +243,17 @@ class ConversationParentViewModel : BaseViewBroadModel() {
             }
             val index = current.indexOfFirst { it.sessionId == update.sessionId }
             if (index >= 0) {
+                val existing = current[index]
+                // 群详情等更新常不带 last*：保留现有预览，避免冲掉消息表已同步的内容
+                if (update.lastMessageId.isNullOrEmpty() && !existing.lastMessageId.isNullOrEmpty()) {
+                    update.lastMessageId = existing.lastMessageId
+                    update.lastMessageContent = existing.lastMessageContent
+                    update.lastContentType = existing.lastContentType
+                    update.lastCustomInfo = existing.lastCustomInfo
+                    update.lastMsgType = existing.lastMsgType
+                    update.lastMessageStatus = existing.lastMessageStatus
+                    update.lastMessageTime = existing.lastMessageTime
+                }
                 current[index] = update
             } else {
                 current.add(0, update)
