@@ -2,11 +2,13 @@ package com.freddy.im.http;
 
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.freddy.im.db.SessionLastMessageSync;
 import com.freddy.im.db.repository.ImSessionRepository;
 import com.freddy.im.http.model.im.SessionItem;
+import com.freddy.im.message.ImMessageManager;
 
 import java.util.List;
 
@@ -32,7 +34,6 @@ public final class SessionLastMsgMerge {
             }
             SessionItem local = ImSessionRepository.getInstance().queryBySessionId(item.getSessionId());
             if (local != null) {
-                // getList 可能缺 conversation / owerId，不回填则群进不了私群/公群
                 if (item.getConversation() <= 0 && local.getConversation() > 0) {
                     item.setConversation(local.getConversation());
                 }
@@ -61,31 +62,81 @@ public final class SessionLastMsgMerge {
                     item.setUnreadCount(local.getUnreadCount());
                 }
             }
-            // 1) 有本地消息：一律用消息表最后一条
             if (SessionLastMessageSync.applyLatestMessagePreviewToItem(item)) {
                 continue;
             }
-            // 2) 无本地消息且 getList 未带 last*：回退会话表摘要
             if (local == null || !TextUtils.isEmpty(item.getLastMessageId())) {
                 continue;
             }
-            if (!TextUtils.isEmpty(local.getLastMessageId())) {
-                item.setLastMessageId(local.getLastMessageId());
-            }
-            if (!TextUtils.isEmpty(local.getLastMessageContent())) {
-                item.setLastMessageContent(local.getLastMessageContent());
-            }
-            if (!TextUtils.isEmpty(local.getLastContentType())) {
-                item.setLastContentType(local.getLastContentType());
-            }
-            if (!TextUtils.isEmpty(local.getLastCustomInfo())) {
-                item.setLastCustomInfo(local.getLastCustomInfo());
-            }
-            item.setLastMsgType(local.getLastMsgType());
-            item.setLastMessageStatus(local.getLastMessageStatus());
-            if (local.getLastMessageTime() > 0) {
-                item.setLastMessageTime(local.getLastMessageTime());
-            }
+            copyLastMsgFields(item, local);
+        }
+    }
+
+    /**
+     * 将 {@code candidate} 与 {@code target} 的 last* 比较：若 candidate 更新则写到 target。
+     * 用于内存合并 / 节流队列，避免旧摘要覆盖新预览。
+     */
+    public static void preferNewerLastMsgOnto(@NonNull SessionItem target, @Nullable SessionItem candidate) {
+        if (candidate == null) {
+            return;
+        }
+        if (TextUtils.isEmpty(target.getLastMessageId())) {
+            copyLastMsgFields(target, candidate);
+            return;
+        }
+        if (TextUtils.isEmpty(candidate.getLastMessageId())) {
+            return;
+        }
+        if (isLastMsgNewer(
+                candidate.getLastMessageId(),
+                candidate.getLastMessageTime(),
+                target.getLastMessageId(),
+                target.getLastMessageTime())) {
+            copyLastMsgFields(target, candidate);
+        }
+    }
+
+    /**
+     * @return true 若 candidate 的 last* 比 baseline 更新（优先 seq，其次 time）
+     */
+    public static boolean isLastMsgNewer(@Nullable String candidateId,
+                                         long candidateTime,
+                                         @Nullable String baselineId,
+                                         long baselineTime) {
+        long candSeq = ImMessageManager.extractTrailingSequence(candidateId);
+        long baseSeq = ImMessageManager.extractTrailingSequence(baselineId);
+        if (candSeq > 0L && baseSeq > 0L) {
+            return candSeq > baseSeq;
+        }
+        if (candidateTime > 0L && baselineTime > 0L && candidateTime != baselineTime) {
+            return candidateTime > baselineTime;
+        }
+        if (TextUtils.isEmpty(baselineId) && !TextUtils.isEmpty(candidateId)) {
+            return true;
+        }
+        if (candSeq > baseSeq) {
+            return true;
+        }
+        return candidateTime > baselineTime;
+    }
+
+    private static void copyLastMsgFields(@NonNull SessionItem target, @NonNull SessionItem source) {
+        if (!TextUtils.isEmpty(source.getLastMessageId())) {
+            target.setLastMessageId(source.getLastMessageId());
+        }
+        if (!TextUtils.isEmpty(source.getLastMessageContent())) {
+            target.setLastMessageContent(source.getLastMessageContent());
+        }
+        if (!TextUtils.isEmpty(source.getLastContentType())) {
+            target.setLastContentType(source.getLastContentType());
+        }
+        if (!TextUtils.isEmpty(source.getLastCustomInfo())) {
+            target.setLastCustomInfo(source.getLastCustomInfo());
+        }
+        target.setLastMsgType(source.getLastMsgType());
+        target.setLastMessageStatus(source.getLastMessageStatus());
+        if (source.getLastMessageTime() > 0) {
+            target.setLastMessageTime(source.getLastMessageTime());
         }
     }
 }

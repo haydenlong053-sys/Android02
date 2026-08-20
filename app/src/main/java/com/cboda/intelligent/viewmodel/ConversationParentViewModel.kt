@@ -9,6 +9,7 @@ import com.freddy.chat.im.IMSClientBootstrap
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.http.GroupDetailFetcher
 import com.freddy.im.http.ImMessageHttpExample
+import com.freddy.im.http.SessionLastMsgMerge
 import com.freddy.im.http.model.im.ConversationListContent
 import com.freddy.im.http.model.im.SessionItem
 import com.freddy.im.listener.OnHttpImListener
@@ -244,16 +245,8 @@ class ConversationParentViewModel : BaseViewBroadModel() {
             val index = current.indexOfFirst { it.sessionId == update.sessionId }
             if (index >= 0) {
                 val existing = current[index]
-                // 群详情等更新常不带 last*：保留现有预览，避免冲掉消息表已同步的内容
-                if (update.lastMessageId.isNullOrEmpty() && !existing.lastMessageId.isNullOrEmpty()) {
-                    update.lastMessageId = existing.lastMessageId
-                    update.lastMessageContent = existing.lastMessageContent
-                    update.lastContentType = existing.lastContentType
-                    update.lastCustomInfo = existing.lastCustomInfo
-                    update.lastMsgType = existing.lastMsgType
-                    update.lastMessageStatus = existing.lastMessageStatus
-                    update.lastMessageTime = existing.lastMessageTime
-                }
+                // 以 update 为主（未读等），但 last* 保留较新一侧，避免 clearUnread/getList 旧摘要回刷
+                SessionLastMsgMerge.preferNewerLastMsgOnto(update, existing)
                 current[index] = update
             } else {
                 current.add(0, update)
@@ -330,6 +323,11 @@ class ConversationParentViewModel : BaseViewBroadModel() {
         if (current.isEmpty()) {
             publishSessions(remote)
             return
+        }
+        val currentById = current.associateBy { it.sessionId.orEmpty() }
+        for (item in remote) {
+            val id = item.sessionId ?: continue
+            SessionLastMsgMerge.preferNewerLastMsgOnto(item, currentById[id])
         }
         val remoteIds = HashSet<String>(remote.size)
         for (item in remote) {

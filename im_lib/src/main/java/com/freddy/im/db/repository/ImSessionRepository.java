@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.freddy.im.db.SessionLastMessageSync;
 import com.freddy.im.db.SessionSyncCursor;
 import com.freddy.im.db.ImDbExecutor;
 import com.freddy.im.db.ImLocalStore;
@@ -124,6 +125,8 @@ public final class ImSessionRepository {
                             .findFirst();
                     if (entity != null) {
                         entity.setUnreadCount(count);
+                        // 进出聊天会反复 clearUnread；顺带用消息表最后一条校准 last*，避免旧摘要刷回列表
+                        SessionLastMessageSync.syncLastMsgFromMessageTableInTransaction(r, entity);
                         updated.add(SessionRealmMapper.toSessionItem(r.copyFromRealm(entity)));
                     }
                 });

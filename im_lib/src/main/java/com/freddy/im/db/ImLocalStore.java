@@ -16,6 +16,7 @@ import com.freddy.im.db.repository.ImGroupMemberRepository;
 import com.freddy.im.db.repository.ImMessageRepository;
 import com.freddy.im.db.repository.ImSessionRepository;
 import com.freddy.im.group.GroupRole;
+import com.freddy.im.http.SessionLastMsgMerge;
 import com.freddy.im.http.model.im.GroupMemberItem;
 import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.message.ImActiveChatSession;
@@ -139,6 +140,11 @@ public final class ImLocalStore {
                     }
                     immediate.add(item);
                 } else {
+                    SessionItem pending = pendingPreviewBySessionId.get(item.getSessionId());
+                    if (pending != null) {
+                        // 节流窗口内多次更新：保留较新 last*，避免旧 clearUnread 压过新消息摘要
+                        SessionLastMsgMerge.preferNewerLastMsgOnto(item, pending);
+                    }
                     pendingPreviewBySessionId.put(item.getSessionId(), item);
                 }
             }

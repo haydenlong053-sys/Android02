@@ -437,6 +437,27 @@ public final class SessionLastMessageSync {
         return true;
     }
 
+    /**
+     * 写事务内：用消息表最后一条校准会话实体 last*（与聊天页同源）。
+     * 进出聊天 clearUnread 等场景会广播整份 SessionItem，必须先校准避免旧摘要回刷列表。
+     */
+    public static void syncLastMsgFromMessageTableInTransaction(@NonNull Realm realm,
+                                                                @NonNull SessionEntity entity) {
+        String sessionId = entity.getSessionId();
+        if (TextUtils.isEmpty(sessionId)) {
+            return;
+        }
+        MessageEntity latest = realm.where(MessageEntity.class)
+                .equalTo("sessionId", sessionId)
+                .sort(new String[]{"timestamp", "sequenceId"},
+                        new Sort[]{Sort.DESCENDING, Sort.DESCENDING})
+                .findFirst();
+        if (latest == null) {
+            return;
+        }
+        fillLastMessageFields(entity, MessageRealmMapper.toAppMessage(latest));
+    }
+
     /** 将消息记录写到 SessionItem 的 last*（与 {@link #fillLastMessageFields} 规则一致）。 */
     public static void fillLastMessageFieldsOntoItem(@NonNull SessionItem item,
                                                      @NonNull AppMessage message) {

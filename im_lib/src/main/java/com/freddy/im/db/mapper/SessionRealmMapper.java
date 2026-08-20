@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.freddy.im.db.entity.SessionEntity;
 import com.freddy.im.http.ImGsonHelper;
+import com.freddy.im.http.SessionLastMsgMerge;
 import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.http.model.im.SessionPermission;
 import com.freddy.im.message.ImMessageManager;
@@ -97,8 +98,14 @@ public final class SessionRealmMapper {
             if (item.getMemChgTime() <= 0L && existing.getMemChgTime() > 0L) {
                 entity.setMemChgTime(existing.getMemChgTime());
             }
-            // getList 通常不带 last*；空则保留本地摘要，避免刷新冲掉会话预览
-            if (TextUtils.isEmpty(item.getLastMessageId())) {
+            // getList 通常不带 last*；空或本地更新时保留本地摘要，避免冲掉推送/聊天页已更新预览
+            boolean keepLocalLast = TextUtils.isEmpty(item.getLastMessageId())
+                    || SessionLastMsgMerge.isLastMsgNewer(
+                    existing.getLastMessageId(),
+                    existing.getLastMessageTime(),
+                    item.getLastMessageId(),
+                    item.getLastMessageTime());
+            if (keepLocalLast) {
                 if (!TextUtils.isEmpty(existing.getLastMessageId())) {
                     entity.setLastMessageId(existing.getLastMessageId());
                 }
