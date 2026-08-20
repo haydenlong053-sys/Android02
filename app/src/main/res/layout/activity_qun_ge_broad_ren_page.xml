@@ -389,6 +389,56 @@
                 android:layout_height="match_parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/pengyouquanlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rect_white_broad_16dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            >
+
+            <TextView
+                android:id="@+id/pengyouquan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/朋友圈"
+                android:textColor="@color/color_text0"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="87dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pengyouquan"
+                app:layout_constraintWidth_default="wrap" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:src="@mipmap/ic_set_broad_more"
+                app:layout_constraintBottom_toBottomOf="@id/pengyouquan"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/pengyouquan" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
@@ -405,6 +455,108 @@
             android:textStyle="bold"
             android:visibility="gone"
             tools:visibility="visible" />
+
+        <com.hjq.shape.layout.ShapeLinearLayout
+            android:id="@+id/mViewFriendActions"
+            android:layout_width="match_parent"
+            android:layout_height="81dp"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+            <com.hjq.shape.layout.ShapeLinearLayout
+                android:id="@+id/mViewChat"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                app:shape_radius="@dimen/dp_12"
+                app:shape_solidColor="@color/white"
+                android:gravity="center"
+                android:layout_marginEnd="@dimen/dp_12"
+
+                >
+                <ImageView
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:src="@mipmap/ic_g_chat"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="启动对话"
+                    android:textColor="@color/color_3B47DD"
+                    android:layout_marginTop="8dp"
+                    android:textSize="12sp" />
+
+
+            </com.hjq.shape.layout.ShapeLinearLayout>
+            <com.hjq.shape.layout.ShapeLinearLayout
+                android:id="@+id/mViewCall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                app:shape_radius="@dimen/dp_12"
+                app:shape_solidColor="@color/white"
+                android:gravity="center"
+                android:layout_marginEnd="@dimen/dp_12"
+
+                >
+                <ImageView
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:src="@mipmap/ic_g_call"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="语音聊天"
+                    android:textColor="@color/color_3B47DD"
+                    android:layout_marginTop="8dp"
+                    android:textSize="12sp" />
+
+
+            </com.hjq.shape.layout.ShapeLinearLayout>
+            <com.hjq.shape.layout.ShapeLinearLayout
+                android:id="@+id/mViewMore"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                app:shape_radius="@dimen/dp_12"
+                app:shape_solidColor="@color/white"
+                android:gravity="center"
+                android:layout_marginEnd="@dimen/dp_12"
+
+                >
+                <ImageView
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:src="@mipmap/ic_g_more"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="更多操作"
+                    android:textColor="@color/color_3B47DD"
+                    android:layout_marginTop="8dp"
+                    android:textSize="12sp" />
+
+
+            </com.hjq.shape.layout.ShapeLinearLayout>
+
+
+
+        </com.hjq.shape.layout.ShapeLinearLayout>
+
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
 
