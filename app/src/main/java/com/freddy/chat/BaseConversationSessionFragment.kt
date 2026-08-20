@@ -159,7 +159,9 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
     private fun updateSwipeRefreshEnabled() {
         val initialDone = parentViewModel.initialLoadCompleted.value == true
         val isActiveTab = parentViewModel.activeConversationTab.value == sessionCategory
-        swipeRefresh.isEnabled = initialDone && isActiveTab && isResumed
+//        swipeRefresh.isEnabled = initialDone && isActiveTab && isResumed
+        //禁止下来刷新
+        swipeRefresh.isEnabled = false
     }
 
     private fun updatePullRefreshIndicator() {
