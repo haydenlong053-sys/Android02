@@ -90,7 +90,7 @@ fun gsonFormat(json: String): String {
         if (getIsDebug()) {
             GsonBuilder().setPrettyPrinting().create().toJson(jsonElement)
         } else {
-            GsonUtils.getGson().toJson(jsonElement)
+            toJson2(jsonElement)
         }
     } catch (_: Exception) {
         json // 格式错误时返回原字符串

@@ -229,7 +229,7 @@ private fun getMsgFormatInt(msg: Int): String {
 }
 
 private fun getMsgFormatString(msg: String? = null): String {
-    return msg + " ;" + getMsgTime() + getFunctionName()
+    return msg + " ;" + if (getIsDebug()) getFunctionName() else getMsgTime()
 }
 
 private fun getMsgTime(): String {
