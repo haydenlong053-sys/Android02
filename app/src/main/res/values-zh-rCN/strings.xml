@@ -199,6 +199,8 @@
     <string name="chehuishifenzhongfayantips">确定撤回十分钟内发言并移出本群吗？</string>
     <string name="qunzhushenfen">群主</string>
     <string name="qunguanlishenfen">管理员</string>
+    <string name="group_set_as_manager">设为管理员</string>
+    <string name="group_cancel_manager">取消管理员</string>
     <string name="set_circle_tags">设置圈子标签</string>
     <string name="设备自动注册登录">设备自动注册登录</string>
     <string name="是否根据手机设备号注册账号并登录">是否根据手机设备号注册账号并登录</string>

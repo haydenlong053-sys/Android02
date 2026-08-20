@@ -46,8 +46,8 @@ class QunGerenPageBroadActivity : BaseSimpleBroadActivity() {
         tvnicheng = findViewById(R.id.tvnicheng)
         shezhijinyan = findViewById(R.id.shezhijinyan)
         yichubenqun = findViewById(R.id.yichubenqun)
-        chehuishifenzhong = findViewById(R.id.chehuishifenzhong)
-        gongnenglay = findViewById(R.id.gongnenglay)
+//        chehuishifenzhong = findViewById(R.id.chehuishifenzhong)
+//        gongnenglay = findViewById(R.id.gongnenglay)
         tianjiadaotongxun = findViewById(R.id.tianjiadaotongxun)
     }
 

@@ -200,6 +200,8 @@
     <string name="chehuishifenzhongfayantips">Are you sure you want to revoke messages within ten minutes and remove from group?</string>
     <string name="qunzhushenfen">Owner</string>
     <string name="qunguanlishenfen">Admin</string>
+    <string name="group_set_as_manager">Set as admin</string>
+    <string name="group_cancel_manager">Remove admin</string>
     <string name="set_circle_tags">Set circle tags</string>
     <string name="设备自动注册登录">Auto register and login with device</string>
     <string name="是否根据手机设备号注册账号并登录">Register and login account based on phone device number?</string>
