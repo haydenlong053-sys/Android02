@@ -82,8 +82,8 @@ public final class MessageMenuPolicy {
     }
 
     /**
-     * 对齐野火长按「收藏」：文本 / 图片 / 视频（需有可收藏内容）。
-     * 图片、视频须已有远端 http(s) {@code url}，避免收藏仅含 localUrl 的草稿。
+     * 对齐野火长按「收藏」：文本 / 图片 / 视频 / 文件（需有可收藏内容）。
+     * 图片、视频、文件须已有远端 http(s) {@code url}，避免收藏仅含 localUrl 的草稿。
      */
     public static boolean canCollect(@NonNull AppMessage message) {
         if (TextUtils.isEmpty(com.freddy.chat.collect.MessageCollectHelper.buildCollectParams(message))) {
@@ -91,7 +91,8 @@ public final class MessageMenuPolicy {
         }
         int type = message.getMsgContentType();
         if (MessageContentFormatter.isImageMessage(type)
-                || MessageContentFormatter.isVideoMessage(type)) {
+                || MessageContentFormatter.isVideoMessage(type)
+                || MessageContentFormatter.isFileMessage(type)) {
             return MediaMessageContentUtil.hasRemoteUrl(message.getContent());
         }
         return true;

@@ -84,6 +84,8 @@ public final class CollectMessageFactory {
                 return MessageType.MessageContentType.VIDEO.getMsgContentType();
             case CollectContentParser.TYPE_VOICE:
                 return MessageType.MessageContentType.VOICE.getMsgContentType();
+            case CollectContentParser.TYPE_FILE:
+                return MessageType.MessageContentType.FILE.getMsgContentType();
             default:
                 return 0;
         }
@@ -105,6 +107,8 @@ public final class CollectMessageFactory {
                 return wrapVideoUrl(info, miao);
             case CollectContentParser.TYPE_VOICE:
                 return wrapVoiceUrl(info, miao);
+            case CollectContentParser.TYPE_FILE:
+                return wrapFileUrl(info);
             default:
                 return "";
         }
@@ -152,6 +156,23 @@ public final class CollectMessageFactory {
             }
         }
         body.put("duration", duration);
+        return AppGson.get().toJson(body);
+    }
+
+    @NonNull
+    private static String wrapFileUrl(@NonNull String url) {
+        Map<String, Object> body = new LinkedHashMap<>(2);
+        String name = url;
+        int slash = url.lastIndexOf('/');
+        if (slash >= 0 && slash < url.length() - 1) {
+            name = url.substring(slash + 1);
+        }
+        int query = name.indexOf('?');
+        if (query >= 0) {
+            name = name.substring(0, query);
+        }
+        body.put("msg", name);
+        body.put(MediaMessageContentUtil.KEY_URL, url);
         return AppGson.get().toJson(body);
     }
 }

@@ -19,6 +19,8 @@ public final class CollectContentParser {
     public static final String TYPE_VIDEO = "3";
     public static final String TYPE_VOICE = "4";
     public static final String TYPE_LOCATION = "5";
+    /** 文件消息（自研 contentType=300）。 */
+    public static final String TYPE_FILE = "6";
 
     private CollectContentParser() {
     }
@@ -31,6 +33,9 @@ public final class CollectContentParser {
         if (TYPE_TEXT.equals(collectType) || TYPE_LOCATION.equals(collectType)) {
             String plain = MessageContentFormatter.extractPlainText(info);
             return !TextUtils.isEmpty(plain) ? plain : info.trim();
+        }
+        if (TYPE_FILE.equals(collectType)) {
+            return MediaMessageContentUtil.resolveFileName(info);
         }
         return info.trim();
     }
@@ -65,6 +70,25 @@ public final class CollectContentParser {
         return "";
     }
 
+    @NonNull
+    public static String resolveFileName(@Nullable String collectType, @Nullable String info) {
+        if (!TYPE_FILE.equals(collectType) || TextUtils.isEmpty(info)) {
+            return "";
+        }
+        String name = MediaMessageContentUtil.resolveFileName(info);
+        if (!TextUtils.isEmpty(name)) {
+            return name;
+        }
+        return isHttpUrl(info) ? fileNameFromUrl(info.trim()) : "";
+    }
+
+    public static long resolveFileSizeBytes(@Nullable String collectType, @Nullable String info) {
+        if (!TYPE_FILE.equals(collectType) || TextUtils.isEmpty(info)) {
+            return 0L;
+        }
+        return MediaMessageContentUtil.resolveFileSizeBytes(info, false);
+    }
+
     public static int resolveVoiceDurationSec(@Nullable String collectType,
                                               @Nullable String info,
                                               @Nullable String miao) {
@@ -88,11 +112,12 @@ public final class CollectContentParser {
         return TYPE_TEXT.equals(collectType)
                 || TYPE_IMAGE.equals(collectType)
                 || TYPE_VIDEO.equals(collectType)
-                || TYPE_VOICE.equals(collectType);
+                || TYPE_VOICE.equals(collectType)
+                || TYPE_FILE.equals(collectType);
     }
 
     /**
-     * 图片 / 视频 / 语音转发或发送前须有可用远端地址（自研 JSON 的 {@code url}，或野火纯 http URL）。
+     * 图片 / 视频 / 语音 / 文件转发或发送前须有可用远端地址（自研 JSON 的 {@code url}，或野火纯 http URL）。
      * 文本等非媒体类型直接通过。
      */
     public static boolean hasSendableRemoteUrl(@Nullable String collectType, @Nullable String info) {
@@ -101,7 +126,8 @@ public final class CollectContentParser {
         }
         if (!TYPE_IMAGE.equals(collectType)
                 && !TYPE_VIDEO.equals(collectType)
-                && !TYPE_VOICE.equals(collectType)) {
+                && !TYPE_VOICE.equals(collectType)
+                && !TYPE_FILE.equals(collectType)) {
             return false;
         }
         if (TextUtils.isEmpty(info) || "null".equalsIgnoreCase(info.trim())) {
@@ -132,5 +158,13 @@ public final class CollectContentParser {
     private static boolean isHttpUrl(@NonNull String raw) {
         String trimmed = raw.trim();
         return trimmed.startsWith("http://") || trimmed.startsWith("https://");
+    }
+
+    @NonNull
+    private static String fileNameFromUrl(@NonNull String url) {
+        int slash = url.lastIndexOf('/');
+        String name = slash >= 0 ? url.substring(slash + 1) : url;
+        int query = name.indexOf('?');
+        return query >= 0 ? name.substring(0, query) : name;
     }
 }
