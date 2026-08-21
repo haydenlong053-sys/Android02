@@ -233,7 +233,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         vp2FragmentAdapter.setData(fragments)
         viewPager.adapter = vp2FragmentAdapter
         // 仅保留相邻页，避免启动补拉时四个 Tab 同时 DiffUtil/头像绑定打满主线程
-        viewPager.offscreenPageLimit = fragments.size
+        viewPager.offscreenPageLimit = 1
         viewPager.isUserInputEnabled = true
         initMagicIndicator()
 
