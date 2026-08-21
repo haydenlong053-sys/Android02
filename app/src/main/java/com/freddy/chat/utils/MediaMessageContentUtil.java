@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.freddy.im.message.MessageContentFormatter;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -165,13 +166,47 @@ public final class MediaMessageContentUtil {
     }
 
     public static boolean hasRemoteUrl(@Nullable String contentJson) {
-        String url = resolveRemoteUrl(contentJson);
-        return !TextUtils.isEmpty(url)
-                && (url.startsWith("http://") || url.startsWith("https://"));
+        return isHttpUrl(resolveRemoteUrl(contentJson));
+    }
+
+    /** 视频远端封面 {@code coverUrl} 是否为可用 http(s) 地址。 */
+    public static boolean hasRemoteCoverUrl(@Nullable String contentJson) {
+        JsonObject obj = parseObject(contentJson);
+        if (obj == null) {
+            return false;
+        }
+        return isHttpUrl(readString(obj, KEY_COVER_URL));
+    }
+
+    /**
+     * 发信令前校验：图/语音/文件须有远端 {@code url}；视频还须有远端 {@code coverUrl}。
+     * 非媒体类型直接通过。
+     */
+    public static boolean isMediaReadyForTransmit(int msgContentType, @Nullable String contentJson) {
+        boolean media = MessageContentFormatter.isImageMessage(msgContentType)
+                || MessageContentFormatter.isVoiceMessage(msgContentType)
+                || MessageContentFormatter.isFileMessage(msgContentType)
+                || MessageContentFormatter.isVideoMessage(msgContentType);
+        if (!media) {
+            return true;
+        }
+        if (!hasRemoteUrl(contentJson)) {
+            return false;
+        }
+        //没封面图，暂时也放行
+//        if (MessageContentFormatter.isVideoMessage(msgContentType)) {
+//            return hasRemoteCoverUrl(contentJson);
+//        }
+        return true;
     }
 
     public static boolean isUsableLocalFile(@Nullable String path) {
         return isUsableLocalPath(path);
+    }
+
+    private static boolean isHttpUrl(@Nullable String url) {
+        return !TextUtils.isEmpty(url)
+                && (url.startsWith("http://") || url.startsWith("https://"));
     }
 
     public static int resolveVideoWidth(@Nullable String contentJson) {
