@@ -12,6 +12,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getIsDebug
 import com.cboda.baselibrary.utils.zipLogFiles
+import com.cboda.intelligent.MainBroadActivity
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.HyzxBroadActivity
 import com.cboda.intelligent.activity.IssueBroadActivity
@@ -76,6 +77,9 @@ class NewMineBroadFragment : BaseBroadFragment<FragmentNewMineBinding, MineViewM
             MMKVBroadUtils.getKeFuId()?.let { keFuId ->
                 AppBroadUtils.goChatP2p(keFuId, "", context)
             }
+        }
+        binding.layoutViewSquare?.click {
+            (activity as? MainBroadActivity)?.switchToSquareTab()
         }
 
         binding.itemFavorite.click {
