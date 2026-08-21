@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.chat.utils.MediaMessageContentUtil;
 import com.freddy.im.MessageType;
 import com.freddy.im.bean.AppMessage;
@@ -16,11 +15,6 @@ import com.freddy.im.message.MessageContentFormatter;
  */
 public final class MessageCollectHelper {
 
-    private static final String TYPE_TEXT = "1";
-    private static final String TYPE_IMAGE = "2";
-    private static final String TYPE_VIDEO = "3";
-    private static final String TYPE_VOICE = "4";
-
     private MessageCollectHelper() {
     }
 
@@ -30,25 +24,24 @@ public final class MessageCollectHelper {
     @Nullable
     public static String buildCollectParams(@NonNull AppMessage message) {
         int type = message.getMsgContentType();
-        String contentJson =message.getContent();
+        String contentJson = message.getContent();
         if (TextUtils.isEmpty(contentJson)) {
             return null;
         }
         if (MessageType.MessageContentType.isText(type)) {
-            return contentJson + "|" + TYPE_TEXT;
+            return contentJson + "|" + CollectContentParser.TYPE_TEXT;
         }
         if (MessageContentFormatter.isImageMessage(type)) {
-            return contentJson + "|" + TYPE_IMAGE;
+            return contentJson + "|" + CollectContentParser.TYPE_IMAGE;
         }
         if (MessageContentFormatter.isVideoMessage(type)) {
             int duration = MediaMessageContentUtil.resolveVoiceDurationSec(message.getContent());
-            return contentJson + "|" + TYPE_VIDEO + "|" + duration;
+            return contentJson + "|" + CollectContentParser.TYPE_VIDEO + "|" + duration;
         }
-        //语音类消息不开启收藏
-//        if (MessageContentFormatter.isVoiceMessage(type)) {
-//            int duration = MediaMessageContentUtil.resolveVoiceDurationSec(message.getContent());
-//            return contentJson + "|" + TYPE_VOICE + "|" + duration;
-//        }
+        if (MessageContentFormatter.isFileMessage(type)) {
+            return contentJson + "|" + CollectContentParser.TYPE_FILE;
+        }
+        // 语音类消息暂不开启收藏
         return null;
     }
 }

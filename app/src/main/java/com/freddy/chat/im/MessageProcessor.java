@@ -6,6 +6,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.cboda.baselibrary.toast.ToastBroadUtils;
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.freddy.chat.event.CEventCenter;
 import com.freddy.chat.event.Events;
 import com.freddy.chat.event.GroupMuteUpdateEvent;
@@ -14,6 +16,7 @@ import com.freddy.chat.event.MessageReadStateEvent;
 import com.freddy.chat.event.MessageRepealEvent;
 import com.freddy.chat.utils.CThreadPoolExecutor;
 import com.freddy.chat.utils.ImMsgReminder;
+import com.freddy.chat.utils.MediaMessageContentUtil;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.model.im.SessionItem;
@@ -300,13 +303,26 @@ public class MessageProcessor implements IMessageProcessor {
             return;
         }
         CThreadPoolExecutor.runInBackground(() -> {
+            if (!MediaMessageContentUtil.isMediaReadyForTransmit(
+                    message.getMsgContentType(), message.getContent())) {
+                ELogUtilKt.eLogE(TAG, "拒绝发送未上传完成的媒体消息 clientMsgId="
+                        + message.getClientMsgId()
+                        + " contentType=" + message.getMsgContentType()
+                        + " content=" + message.getContent());
+                ImLocalStore.markOutgoingSendFailed(message.getClientMsgId(), updated -> {
+                    if (updated != null) {
+                        dispatchOutgoingUpdated(updated);
+                    }
+                });
+                return;
+            }
             boolean isActive = IMSClientBootstrap.getInstance().isActive();
             if (isActive) {
                 ImSignalProtos.SignalRequest req = MessageBuilder.buildSendMsgSignalRequest(message,
                         IMSClientBootstrap.getInstance().getBindToken());
                 IMSClientBootstrap.getInstance().sendSignalRequest(req, true);
             } else {
-                Log.e(TAG, "发送消息失败");
+                ELogUtilKt.eLogE(TAG, "发送消息失败");
                 ImLocalStore.markOutgoingSendFailed(message.getClientMsgId(), updated -> {
                     if (updated != null) {
                         dispatchOutgoingUpdated(updated);

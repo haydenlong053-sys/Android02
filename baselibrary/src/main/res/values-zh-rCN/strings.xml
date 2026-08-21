@@ -375,6 +375,7 @@
     <string name="message_forward_search_hint">搜索</string>
     <string name="message_forward_success">转发成功</string>
     <string name="message_forward_failed">转发失败</string>
+    <string name="message_forward_media_url_empty">媒体地址为空或无效，无法转发</string>
     <string name="message_collect_failed">收藏失败</string>
     <string name="message_recall_failed">撤回失败</string>
     <string name="message_delete_confirm">确定删除选中的消息吗？</string>
@@ -391,7 +392,8 @@
     <string name="picture_upload_failed">图片上传失败</string>
     <string name="video_pick_failed">未选择视频</string>
     <string name="video_path_invalid">视频路径无效</string>
-    <string name="video_upload_failed">视频上传失败</string>
+    <string name="video_upload_failed">视频上传开小差了</string>
+    <string name="video_upload_rejected_too_large">服务器已拒收,上传文件太大了,超过了最大限制</string>
     <string name="video_cover_failed">无法生成视频封面</string>
     <string name="video_preview_failed">视频无法播放</string>
     <string name="message_read_peer">已读</string>

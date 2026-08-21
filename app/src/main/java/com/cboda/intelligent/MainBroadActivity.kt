@@ -859,6 +859,15 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
     }
 
+    /**
+     * 切换到底部导航「广场」Tab（与点击底部栏广场一致，对应 [gpFragment] 下标 1）。
+     */
+    fun switchToSquareTab() {
+        if (!::viewPager.isInitialized) return
+        val squareIndex = fragmentList.indexOf(gpFragment).takeIf { it >= 0 } ?: 1
+        viewPager.setCurrentItem(squareIndex, false)
+    }
+
     private var userViewModel: UserViewBroadModel? = null
     private val fragmentList = arrayListOf<Fragment>()
 

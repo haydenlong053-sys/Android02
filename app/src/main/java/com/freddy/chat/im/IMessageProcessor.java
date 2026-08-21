@@ -80,12 +80,16 @@ public interface IMessageProcessor {
 
     /**
      * 落库并刷新 UI；{@code transmitImmediately=false} 时仅本地展示，待上传完成后再 {@link #transmitOutgoingMessage}。
+     * 媒体消息（图/语音/文件/视频）在 {@link #transmitOutgoingMessage} 内会校验远端 URL，未就绪则拒绝发信令并标失败。
      */
     void sendMsg(@NonNull AppMessage message,
                  @Nullable Runnable onUiAfterOutgoingPersisted,
                  boolean transmitImmediately);
 
-    /** 上传完成后发送 IM 信令（消息需已落库）。 */
+    /**
+     * 上传完成后发送 IM 信令（消息需已落库）。
+     * 媒体消息若缺少可用的远端 http(s) {@code url}（视频还需 {@code coverUrl}），不会发出并标为发送失败。
+     */
     void transmitOutgoingMessage(@NonNull AppMessage message);
 
     /** 单聊 0x0207：对方已读游标推进。 */

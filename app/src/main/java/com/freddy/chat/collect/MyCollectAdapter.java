@@ -15,9 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
+import com.cboda.chatui.utils.FileBroadUtils;
 import com.cboda.intelligent.R;
 import com.cboda.intelligent.utils.GlideBroadUtil;
 import com.cboda.select.picture.entity.DataListBroadBean;
+import com.freddy.im.util.ImUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
@@ -51,6 +53,7 @@ public class MyCollectAdapter extends RecyclerView.Adapter<MyCollectAdapter.MyHo
         holder.tvContent.setVisibility(View.GONE);
         holder.rlVideo.setVisibility(View.GONE);
         holder.llVoice.setVisibility(View.GONE);
+        holder.llFile.setVisibility(View.GONE);
 
         holder.tvName.setText(item.name);
         holder.tvTime.setText(item.time);
@@ -75,6 +78,19 @@ public class MyCollectAdapter extends RecyclerView.Adapter<MyCollectAdapter.MyHo
                 holder.llVoice.setVisibility(View.VISIBLE);
                 int sec = CollectContentParser.resolveVoiceDurationSec(type, info, item.miao);
                 holder.tvVoiceTime.setText(sec + "s");
+                break;
+            case CollectContentParser.TYPE_FILE:
+                holder.llFile.setVisibility(View.VISIBLE);
+                String fileName = CollectContentParser.resolveFileName(type, info);
+                holder.tvFileName.setText(fileName);
+                long sizeBytes = CollectContentParser.resolveFileSizeBytes(type, info);
+                if (sizeBytes > 0L) {
+                    holder.tvFileSize.setVisibility(View.VISIBLE);
+                    holder.tvFileSize.setText(ImUtils.getShowFileSize(sizeBytes));
+                } else {
+                    holder.tvFileSize.setVisibility(View.GONE);
+                }
+                holder.ivFileIcon.setImageResource(FileBroadUtils.getFileTypeImageResId(fileName));
                 break;
             default:
                 if (!TextUtils.isEmpty(info)) {
@@ -128,9 +144,13 @@ public class MyCollectAdapter extends RecyclerView.Adapter<MyCollectAdapter.MyHo
         final TextView tvVoiceTime;
         final TextView tvName;
         final TextView tvTime;
+        final TextView tvFileName;
+        final TextView tvFileSize;
         final RelativeLayout rlVideo;
+        final View llFile;
         final RoundedImageView riImage;
         final ImageView imVideo;
+        final ImageView ivFileIcon;
         final ImageView mIvShare;
         final ImageView mIvDel;
         final LinearLayout llVoice;
@@ -143,6 +163,10 @@ public class MyCollectAdapter extends RecyclerView.Adapter<MyCollectAdapter.MyHo
             imVideo = itemView.findViewById(R.id.imVideo);
             llVoice = itemView.findViewById(R.id.llVoice);
             tvVoiceTime = itemView.findViewById(R.id.tvVoiceTime);
+            llFile = itemView.findViewById(R.id.llFile);
+            ivFileIcon = itemView.findViewById(R.id.ivFileIcon);
+            tvFileName = itemView.findViewById(R.id.tvFileName);
+            tvFileSize = itemView.findViewById(R.id.tvFileSize);
             tvName = itemView.findViewById(R.id.tvName);
             tvTime = itemView.findViewById(R.id.tvTime);
             mIvShare = itemView.findViewById(R.id.mIvShare);
