@@ -80,7 +80,11 @@ import okhttp3.Response;
 public final class ImMessageHttpExample {
 
     public static final String MY_TAG = "https_resp";
+    /** 文件服务器约定：视频最大 200MB。 */
+    private static final long MAX_VIDEO_UPLOAD_BYTES = 200L * 1024L * 1024L;
     private static final Gson GSON = ImGsonHelper.getGson();
+    private static final android.os.Handler MAIN_HANDLER =
+            new android.os.Handler(android.os.Looper.getMainLooper());
 
     private ImMessageHttpExample() {
     }
@@ -630,16 +634,19 @@ public final class ImMessageHttpExample {
                                         @NonNull OnHttpImListener<VideoBatchUploadResult> callback,
                                         @Nullable Runnable onFail) {
         if (!coverFile.isFile() || !videoFile.isFile()) {
-            if (onFail != null) {
-                onFail.run();
-            }
+            failVideoBatchUpload(onFail, "封面或视频地址不存在");
             return;
         }
         if (coverFile.getAbsolutePath().equals(videoFile.getAbsolutePath())) {
             ELogUtilKt.eLogE(MY_TAG, "filehub/batchUpload 封面与视频为同一路径");
-            if (onFail != null) {
-                onFail.run();
-            }
+            failVideoBatchUpload(onFail, "封面与视频为同一路径");
+            return;
+        }
+        long videoBytes = videoFile.length();
+        if (videoBytes > MAX_VIDEO_UPLOAD_BYTES) {
+            ELogUtilKt.eLogE(MY_TAG, "filehub/batchUpload reject oversize videoBytes=" + videoBytes
+                    + " max=" + MAX_VIDEO_UPLOAD_BYTES);
+            failVideoBatchUpload(onFail, com.cboda.baselibrary.R.string.video_upload_rejected_too_large);
             return;
         }
         // 批量上传勿传 fileHash：param 里只有一个 hash，填视频 MD5 时服务端会按该 hash 去重，
@@ -667,7 +674,6 @@ public final class ImMessageHttpExample {
 
         Request request = requestBuilder.build();
         long coverBytes = coverFile.length();
-        long videoBytes = videoFile.length();
         ELogUtilKt.eLogI(MY_TAG, "filehub/batchUpload START cover=" + coverFile.getName()
                 + "(" + coverBytes + "B) video=" + videoFile.getName()
                 + "(" + videoBytes + "B) url=" + request.url());
@@ -681,9 +687,7 @@ public final class ImMessageHttpExample {
                         + " videoBytes=" + videoBytes
                         + " err=" + e.getClass().getSimpleName()
                         + ": " + e.getMessage());
-                if (onFail != null) {
-                    onFail.run();
-                }
+                failVideoBatchUpload(onFail, "filehub/batchUpload服务器开小差了:"+e.getMessage());
             }
 
             @Override
@@ -692,12 +696,10 @@ public final class ImMessageHttpExample {
                     if (!resp.isSuccessful() || resp.body() == null) {
                         ELogUtilKt.eLogE(MY_TAG, "filehub/batchUpload HTTP " + resp.code()
                                 + " videoBytes=" + videoBytes);
-                        if (resp.code() ==413){
-                            ToastBroadUtils.show("服务器已拒收,上传文件太大了,超过了最大限制");
-                        }
-                        if (onFail != null) {
-                            onFail.run();
-                        }
+                        int toastRes = resp.code() == 413
+                                ? com.cboda.baselibrary.R.string.video_upload_rejected_too_large
+                                : com.cboda.baselibrary.R.string.video_upload_failed;
+                        failVideoBatchUpload(onFail, toastRes);
                         return;
                     }
                     String text = resp.body().string();
@@ -711,35 +713,46 @@ public final class ImMessageHttpExample {
                             ImAuthInvalidHandler.handleIfNeeded(result);
                         }
                         ELogUtilKt.eLogE(MY_TAG, "filehub/batchUpload 业务错误");
-                        if (onFail != null) {
-                            onFail.run();
-                        }
+                        failVideoBatchUpload(onFail, com.cboda.baselibrary.R.string.video_upload_failed);
                         return;
                     }
                     List<UploadRes> uploads = result.getContent();
                     if (uploads == null || uploads.size() < 2) {
                         ELogUtilKt.eLogE(MY_TAG, "filehub/batchUpload content 数量不足");
-                        if (onFail != null) {
-                            onFail.run();
-                        }
+                        failVideoBatchUpload(onFail, "filehub/batchUploadcontent 数量不足");
                         return;
                     }
                     String coverUrl = pickCoverUrlFromBatch(uploads);
                     String videoUrl = pickVideoUrlFromBatch(uploads);
                     if (TextUtils.isEmpty(videoUrl)) {
                         ELogUtilKt.eLogE(MY_TAG, "filehub/batchUpload 视频 url 为空");
-                        if (onFail != null) {
-                            onFail.run();
-                        }
+                        failVideoBatchUpload(onFail, "filehub/batchUpload视频 url 为空");
                         return;
                     }
                     deliverVideoBatchResult(coverFile, groupId, coverUrl, videoUrl, callback, onFail);
                 } catch (Exception e) {
                     ELogUtilKt.eLogE(MY_TAG, "filehub/batchUpload 解析失败: " + e.getMessage());
-                    if (onFail != null) {
-                        onFail.run();
-                    }
+                    failVideoBatchUpload(onFail, "filehub/batchUpload解析开小差了: " + e.getMessage());
                 }
+            }
+        });
+    }
+
+    /** Toast 后回调 onFail（消息页只做标失败，避免重复 Toast）。 */
+    private static void failVideoBatchUpload(@Nullable Runnable onFail, int toastResId) {
+        MAIN_HANDLER.post(() -> {
+            ToastBroadUtils.show(toastResId);
+            if (onFail != null) {
+                onFail.run();
+            }
+        });
+    }
+    /** Toast 后回调 onFail（消息页只做标失败，避免重复 Toast）。 */
+    private static void failVideoBatchUpload(@Nullable Runnable onFail, String toast) {
+        MAIN_HANDLER.post(() -> {
+            ToastBroadUtils.show(toast);
+            if (onFail != null) {
+                onFail.run();
             }
         });
     }
@@ -804,7 +817,7 @@ public final class ImMessageHttpExample {
                 callback.onHttpImSuccess(new VideoBatchUploadResult(
                         TextUtils.isEmpty(fixedCover) ? coverUrl : fixedCover, videoUrl));
             }
-        }, onFail);
+        }, () -> failVideoBatchUpload(onFail, com.cboda.baselibrary.R.string.video_upload_failed));
     }
 
     private static boolean isVideoResourceUrl(@Nullable String url) {

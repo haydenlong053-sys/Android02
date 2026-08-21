@@ -393,6 +393,7 @@
     <string name="video_pick_failed">No video selected</string>
     <string name="video_path_invalid">Invalid video path</string>
     <string name="video_upload_failed">Failed to upload video</string>
+    <string name="video_upload_rejected_too_large">Upload rejected: file exceeds the maximum size limit</string>
     <string name="video_cover_failed">Failed to generate video cover</string>
     <string name="video_preview_failed">Unable to play video</string>
     <string name="message_read_peer">Read</string>

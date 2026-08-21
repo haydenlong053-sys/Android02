@@ -914,7 +914,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                     }
                 },
                 () -> runOnUiThreadSafe(() ->
-                        onMediaUploadFailed(message.getClientMsgId(), com.cboda.baselibrary.R.string.video_upload_failed)));
+                        onVideoBatchUploadFailed(message.getClientMsgId())));
     }
 
     private void onVideoBatchUploadSuccess(@NonNull AppMessage message,
@@ -1013,12 +1013,19 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     }
 
     private void onMediaUploadFailed(@Nullable String clientMsgId, int toastResId) {
-        Toast.makeText(requireContext(), toastResId, Toast.LENGTH_SHORT).show();
+        if (toastResId != 0) {
+            Toast.makeText(requireContext(), toastResId, Toast.LENGTH_SHORT).show();
+        }
         ImLocalStore.markOutgoingSendFailed(clientMsgId, updated -> {
             if (updated != null) {
                 runOnUiThreadSafe(() -> adapter.updateMessage(updated));
             }
         });
+    }
+
+    /** 视频 batchUpload 已在 HTTP 层 Toast，此处只标失败。 */
+    private void onVideoBatchUploadFailed(@Nullable String clientMsgId) {
+        onMediaUploadFailed(clientMsgId, 0);
     }
 
     //
@@ -1141,7 +1148,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                     }
                 },
                 () -> runOnUiThreadSafe(() ->
-                        onMediaUploadFailed(message.getClientMsgId(), com.cboda.baselibrary.R.string.video_upload_failed)));
+                        onVideoBatchUploadFailed(message.getClientMsgId())));
     }
 
     private void retryMediaUpload(@NonNull AppMessage message,

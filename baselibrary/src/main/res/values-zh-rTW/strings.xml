@@ -392,6 +392,7 @@
     <string name="video_pick_failed">未選擇影片</string>
     <string name="video_path_invalid">影片路徑無效</string>
     <string name="video_upload_failed">影片上傳失敗</string>
+    <string name="video_upload_rejected_too_large">伺服器已拒收，上傳檔案太大，超過了最大限制</string>
     <string name="video_cover_failed">無法產生影片封面</string>
     <string name="video_preview_failed">影片無法播放</string>
     <string name="message_read_peer">已讀</string>

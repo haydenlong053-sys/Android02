@@ -391,7 +391,8 @@
     <string name="picture_upload_failed">图片上传失败</string>
     <string name="video_pick_failed">未选择视频</string>
     <string name="video_path_invalid">视频路径无效</string>
-    <string name="video_upload_failed">视频上传失败</string>
+    <string name="video_upload_failed">视频上传开小差了</string>
+    <string name="video_upload_rejected_too_large">服务器已拒收,上传文件太大了,超过了最大限制</string>
     <string name="video_cover_failed">无法生成视频封面</string>
     <string name="video_preview_failed">视频无法播放</string>
     <string name="message_read_peer">已读</string>
