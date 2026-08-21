@@ -390,6 +390,7 @@
     <string name="message_forward_search_hint">Search</string>
     <string name="message_forward_success">Forwarded</string>
     <string name="message_forward_failed">Failed to forward</string>
+    <string name="message_forward_media_url_empty">Media URL is missing, cannot forward</string>
     <string name="message_collect_failed">Failed to save</string>
     <string name="message_recall_failed">Failed to recall</string>
     <string name="message_delete_confirm">Delete the selected messages?</string>

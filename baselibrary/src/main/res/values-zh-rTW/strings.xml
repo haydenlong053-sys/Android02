@@ -375,6 +375,7 @@
     <string name="message_forward_search_hint">搜尋</string>
     <string name="message_forward_success">轉發成功</string>
     <string name="message_forward_failed">轉發失敗</string>
+    <string name="message_forward_media_url_empty">媒體地址無效，無法轉發</string>
     <string name="message_collect_failed">收藏失敗</string>
     <string name="message_recall_failed">撤回失敗</string>
     <string name="message_delete_confirm">確定刪除選中的訊息嗎？</string>

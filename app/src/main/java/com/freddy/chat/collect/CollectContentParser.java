@@ -91,6 +91,28 @@ public final class CollectContentParser {
                 || TYPE_VOICE.equals(collectType);
     }
 
+    /**
+     * 图片 / 视频 / 语音转发或发送前须有可用远端地址（自研 JSON 的 {@code url}，或野火纯 http URL）。
+     * 文本等非媒体类型直接通过。
+     */
+    public static boolean hasSendableRemoteUrl(@Nullable String collectType, @Nullable String info) {
+        if (TYPE_TEXT.equals(collectType) || TYPE_LOCATION.equals(collectType)) {
+            return true;
+        }
+        if (!TYPE_IMAGE.equals(collectType)
+                && !TYPE_VIDEO.equals(collectType)
+                && !TYPE_VOICE.equals(collectType)) {
+            return false;
+        }
+        if (TextUtils.isEmpty(info) || "null".equalsIgnoreCase(info.trim())) {
+            return false;
+        }
+        if (MediaMessageContentUtil.hasRemoteUrl(info)) {
+            return true;
+        }
+        return isHttpUrl(info);
+    }
+
     /** {@code info} 是否为 JSON 对象字符串（自研收藏 content 格式）。 */
     public static boolean isJsonObjectInfo(@Nullable String info) {
         if (TextUtils.isEmpty(info) || "null".equalsIgnoreCase(info.trim())) {
