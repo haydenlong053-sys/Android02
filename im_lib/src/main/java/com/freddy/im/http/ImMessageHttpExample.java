@@ -593,6 +593,8 @@ public final class ImMessageHttpExample {
                         if (!result.isSuccess()) {
                             Log.e(MY_TAG, "filehub/upload 业务错误: errorCode=" + result.getErrorCode()
                                     + " msg=" + result.getErrorMsg());
+//                            ToastBroadUtils.show("文件上传开小差了: errorCode=" + result.getErrorCode()
+//                                    + " msg=" + result.getErrorMsg());
                             if (onFail != null) {
                                 onFail.run();
                             }
@@ -634,7 +636,7 @@ public final class ImMessageHttpExample {
             return;
         }
         if (coverFile.getAbsolutePath().equals(videoFile.getAbsolutePath())) {
-            Log.e(MY_TAG, "filehub/batchUpload 封面与视频为同一路径");
+            ELogUtilKt.eLogE(MY_TAG, "filehub/batchUpload 封面与视频为同一路径");
             if (onFail != null) {
                 onFail.run();
             }
@@ -663,11 +665,22 @@ public final class ImMessageHttpExample {
                 .post(multipartBody);
         applyGlobalHeaders(requestBuilder);
 
-        OkHttpClient client = EasyConfig.getInstance().getClient();
-        client.newCall(requestBuilder.build()).enqueue(new Callback() {
+        Request request = requestBuilder.build();
+        long coverBytes = coverFile.length();
+        long videoBytes = videoFile.length();
+        ELogUtilKt.eLogI(MY_TAG, "filehub/batchUpload START cover=" + coverFile.getName()
+                + "(" + coverBytes + "B) video=" + videoFile.getName()
+                + "(" + videoBytes + "B) url=" + request.url());
+
+        OkHttpClient client = EasyHttpBootstrap.getMediaUploadClient();
+        client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e(MY_TAG, "filehub/batchUpload 请求失败: " + e.getMessage());
+                ELogUtilKt.eLogE(MY_TAG, "filehub/batchUpload FAIL canceled=" + call.isCanceled()
+                        + " coverBytes=" + coverBytes
+                        + " videoBytes=" + videoBytes
+                        + " err=" + e.getClass().getSimpleName()
+                        + ": " + e.getMessage());
                 if (onFail != null) {
                     onFail.run();
                 }
@@ -677,14 +690,19 @@ public final class ImMessageHttpExample {
             public void onResponse(@NonNull Call call, @NonNull Response response) {
                 try (Response resp = response) {
                     if (!resp.isSuccessful() || resp.body() == null) {
-                        Log.e(MY_TAG, "filehub/batchUpload HTTP " + resp.code());
+                        ELogUtilKt.eLogE(MY_TAG, "filehub/batchUpload HTTP " + resp.code()
+                                + " videoBytes=" + videoBytes);
+                        if (resp.code() ==413){
+                            ToastBroadUtils.show("服务器已拒收,上传文件太大了,超过了最大限制");
+                        }
                         if (onFail != null) {
                             onFail.run();
                         }
                         return;
                     }
                     String text = resp.body().string();
-                    Log.d(MY_TAG,"批量文件上传成功--》"+text);
+                    ELogUtilKt.eLogD(MY_TAG, "filehub/batchUpload OK videoBytes=" + videoBytes
+                            + " body=" + text);
                     Type listType = TypeToken.getParameterized(List.class, UploadRes.class).getType();
                     Type responseType = TypeToken.getParameterized(BaseMsgResponse.class, listType).getType();
                     BaseMsgResponse<List<UploadRes>> result = GSON.fromJson(text, responseType);
@@ -692,7 +710,7 @@ public final class ImMessageHttpExample {
                         if (result != null) {
                             ImAuthInvalidHandler.handleIfNeeded(result);
                         }
-                        Log.e(MY_TAG, "filehub/batchUpload 业务错误");
+                        ELogUtilKt.eLogE(MY_TAG, "filehub/batchUpload 业务错误");
                         if (onFail != null) {
                             onFail.run();
                         }
@@ -700,7 +718,7 @@ public final class ImMessageHttpExample {
                     }
                     List<UploadRes> uploads = result.getContent();
                     if (uploads == null || uploads.size() < 2) {
-                        Log.e(MY_TAG, "filehub/batchUpload content 数量不足");
+                        ELogUtilKt.eLogE(MY_TAG, "filehub/batchUpload content 数量不足");
                         if (onFail != null) {
                             onFail.run();
                         }
@@ -709,7 +727,7 @@ public final class ImMessageHttpExample {
                     String coverUrl = pickCoverUrlFromBatch(uploads);
                     String videoUrl = pickVideoUrlFromBatch(uploads);
                     if (TextUtils.isEmpty(videoUrl)) {
-                        Log.e(MY_TAG, "filehub/batchUpload 视频 url 为空");
+                        ELogUtilKt.eLogE(MY_TAG, "filehub/batchUpload 视频 url 为空");
                         if (onFail != null) {
                             onFail.run();
                         }
@@ -717,7 +735,7 @@ public final class ImMessageHttpExample {
                     }
                     deliverVideoBatchResult(coverFile, groupId, coverUrl, videoUrl, callback, onFail);
                 } catch (Exception e) {
-                    Log.e(MY_TAG, "filehub/batchUpload 解析失败: " + e.getMessage());
+                    ELogUtilKt.eLogE(MY_TAG, "filehub/batchUpload 解析失败: " + e.getMessage());
                     if (onFail != null) {
                         onFail.run();
                     }
@@ -778,7 +796,7 @@ public final class ImMessageHttpExample {
             callback.onHttpImSuccess(new VideoBatchUploadResult(coverUrl, videoUrl));
             return;
         }
-        Log.w(MY_TAG, "filehub/batchUpload 封面位返回了视频地址，改用单文件上传补传封面");
+        ELogUtilKt.eLogW(MY_TAG, "filehub/batchUpload 封面位返回了视频地址，改用单文件上传补传封面");
         uploadFile(coverFile, groupId, new OnHttpImListener<UploadRes>() {
             @Override
             public void onHttpImSuccess(@NonNull UploadRes coverUpload) {

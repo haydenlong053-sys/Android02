@@ -1021,11 +1021,13 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         });
     }
 
+    //
     private void resendFailedMessage(@NonNull AppMessage message) {
         String currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
         if (!message.isSender(currentUserId)) {
             return;
         }
+
         ImLocalStore.markOutgoingResending(message.getClientMsgId(), updated -> {
             AppMessage toResend = updated != null ? updated : message;
             runOnUiThreadSafe(() -> {
