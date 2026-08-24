@@ -13,6 +13,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.PRICE_DUALX
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.intelligent.bean.GroupBlacklistItem
+import com.cboda.intelligent.bean.GroupBlacklistPageBean
 import com.cboda.intelligent.bean.GroupJoinPayPriceBean
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.utils.dismissLoading
@@ -327,22 +328,26 @@ class ImQunInfoViewModel : BaseViewModel() {
         return liveData
     }
 
-    /** 拉取群黑名单人数（{@code api/groupBlacklist}）。 */
+    /** 拉取群黑名单人数（{@code api/groupBlacklist}，取 data.count）。 */
     suspend fun fetchGroupBlacklistCount(groupId: String): SingleLiveBroadData<Int> {
         val liveData = SingleLiveBroadData<Int>()
         if (groupId.isEmpty()) {
             liveData.postValue(0)
             return liveData
         }
-        val params = hashMapOf<String, Any?>("id" to groupId)
+        val params = hashMapOf<String, Any?>(
+            "id" to groupId,
+            "pageNo" to 1,
+            "pageSize" to 1,
+        )
         withContext(Dispatchers.IO) {
             try {
-                NetworkBroadRepository.postEncryptedList2(
+                NetworkBroadRepository.postEncrypted2(
                     UrlBroadBroadConstants.GROUP_BLACKLIST,
-                    GroupBlacklistItem::class.java,
+                    GroupBlacklistPageBean::class.java,
                     params,
                 ).onSuccess { data ->
-                    val total = data?.totalCount ?: 0
+                    val total = data?.count ?: 0
                     val size = data?.list?.size ?: 0
                     liveData.postValue(if (total > 0) total else size)
                 }.onFailure { _, _ ->

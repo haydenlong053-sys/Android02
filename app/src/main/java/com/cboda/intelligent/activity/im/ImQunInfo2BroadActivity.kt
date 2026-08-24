@@ -611,7 +611,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         }
         groupBlacklistEntry.setOnClickListener {
             if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
-            ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_blacklist_coming_soon))
+            JumpBroadUtils.startImGroupBlacklistActivity(this, qunId)
         }
         groupJoinPaySwitchView.setOnClickListener {
             if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
