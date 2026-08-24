@@ -785,22 +785,28 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         return value
     }
 
+    private var ustHs: String? = ""
     private fun refreshJoinPayUsdApprox() {
         val amount = etGroupJoinPayPrice.text?.toString()?.trim().orEmpty()
         if (amount.isEmpty()) {
             tvGroupJoinPayUsd.text = ""
             return
         }
-        lifecycleScope.launch {
-            viewModel?.convertJoinPayUsd(amount)
-                ?.observe(this@ImQunInfo2BroadActivity) { usd ->
-                    tvGroupJoinPayUsd.text = if (usd.isNullOrBlank()) {
-                        ""
-                    } else {
-                        getString(com.cboda.baselibrary.R.string.group_join_pay_usd_approx, usd)
+        if (TextUtils.isEmpty(ustHs)) {
+            lifecycleScope.launch {
+                viewModel?.convertJoinPayUsd("1")
+                    ?.observe(this@ImQunInfo2BroadActivity) { usd ->
+                        ustHs = usd
+                        refreshJoinPayUsdApprox(amount)
                     }
-                }
+            }
+        } else {
+            refreshJoinPayUsdApprox(amount)
         }
+    }
+
+    private fun refreshJoinPayUsdApprox(amount: String) {
+        tvGroupJoinPayUsd.text = getString(com.cboda.baselibrary.R.string.group_join_pay_usd_approx, mul(amount, ustHs))
     }
 
     /**
