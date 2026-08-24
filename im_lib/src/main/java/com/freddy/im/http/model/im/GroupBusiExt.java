@@ -92,6 +92,17 @@ public class GroupBusiExt implements java.io.Serializable {
      */
     private String showShop;
 
+    private String openJoinPay;
+
+
+    public String getOpenJoinPay() {
+        return openJoinPay;
+    }
+
+    public void setOpenJoinPay(String openJoinPay) {
+        this.openJoinPay = openJoinPay;
+    }
+
     public String getJoinPayFeeRate() {
         return joinPayFeeRate;
     }
