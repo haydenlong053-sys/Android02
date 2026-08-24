@@ -410,7 +410,8 @@ class ImQunInfoViewModel : BaseViewModel() {
                     val cur = _state.value
                     val vo = cur?.groupVo
                     if (vo != null) {
-                        vo.openJoinPay = if (enabled) 1 else 0
+                        vo.openJoinPay = if (enabled) "1" else "0"
+                        vo.ensureBusiExt().openJoinPay = if (enabled) "1" else "0"
                         vo.joinPayPrice = normalizedPrice
                         _state.postValue(cur.copy(groupVo = vo))
                     }

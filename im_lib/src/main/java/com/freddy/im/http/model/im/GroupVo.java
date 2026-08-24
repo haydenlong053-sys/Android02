@@ -30,8 +30,8 @@ public class GroupVo implements java.io.Serializable {
     private List<String> managerIds;
     private int allowMemberInvite;
     private int joinNeedVerify;
-    /** 入群收费开关：0 关 / 1 开 */
-    private int openJoinPay;
+    /** 入群收费开关："0" 关 / "1" 开 */
+    private String openJoinPay;
     /** 入群费用（DUALX） */
     private String joinPayPrice;
     private String joinPayMode;
@@ -158,11 +158,11 @@ public class GroupVo implements java.io.Serializable {
         this.joinNeedVerify = joinNeedVerify;
     }
 
-    public int getOpenJoinPay() {
+    public String getOpenJoinPay() {
         return openJoinPay;
     }
 
-    public void setOpenJoinPay(int openJoinPay) {
+    public void setOpenJoinPay(String openJoinPay) {
         this.openJoinPay = openJoinPay;
     }
 
