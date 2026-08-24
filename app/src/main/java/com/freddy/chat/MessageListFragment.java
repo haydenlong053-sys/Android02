@@ -909,7 +909,8 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                 new OnHttpImListener<VideoBatchUploadResult>() {
                     @Override
                     public void onHttpImSuccess(@NonNull VideoBatchUploadResult result) {
-//                        ELogUtilKt.eLogE(ELogUtilKt.APP_IM_TAG,"Thread.currentThread()="+Thread.currentThread().getName()+" 是否依附"+isAdded());
+//                        ELogUtilKt.eLogE(ELogUtilKt.APP_IM_TAG,"Thread.currentThread()="+Thread.currentThread().getName()+" MessageListFragment是否依附"+isAdded());
+//                        onVideoBatchUploadSuccess(message, duration, localPath, localCoverPath, dw, dh, result);
                         runOnUiThreadSafe(() -> onVideoBatchUploadSuccess(
                                 message, duration, localPath, localCoverPath, dw, dh, result));
                     }
