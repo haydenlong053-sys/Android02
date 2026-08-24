@@ -167,6 +167,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private lateinit var tvGroupJoinPayFeeTip: TextView
     private lateinit var btnGroupJoinPaySave: TextView
     private var suppressJoinPayPriceWatcher = false
+
     /** 服务端是否已开启群收费；仅已持久化开启时，手动关闭才调 setGroupJoinPay。 */
     private var joinPayPersistedOpen = false
 
@@ -428,24 +429,49 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
     private fun bindJoinPayUi(vo: GroupVo) {
         val enabled = vo.openJoinPay == 1
+        joinPayPersistedOpen = enabled
         groupJoinPaySwitch.isChecked = enabled
         groupJoinPayDetail.isVisible = enabled
-        val price = vo.joinPayPrice?.takeIf { it.isNotBlank() } ?: ""
-        suppressJoinPayPriceWatcher = true
-        if (etGroupJoinPayPrice.text?.toString() != price) {
-            etGroupJoinPayPrice.setText(price)
-            if (price.isNotEmpty()) {
-                etGroupJoinPayPrice.setSelection(price.length)
-            }
-        }
-        suppressJoinPayPriceWatcher = false
-        eLogD("joinPayFeeRate2", vo.busiExt.joinPayFeeRate)
         tvGroupJoinPayFeeTip.text = getString(
             com.cboda.baselibrary.R.string.group_join_pay_fee_tip,
-            formatJoinPayFeeRate(vo.busiExt.joinPayFeeRate),
+            formatJoinPayFeeRate(vo.busiExt?.joinPayFeeRate),
         )
+        loadGroupJoinPayPrice()
         if (enabled) {
             refreshJoinPayUsdApprox()
+        }
+    }
+
+    /** 已设置过的入群费用通过 {@code api/getGroupJoinPayPrice} 回填，取 priceDualx。 */
+    private fun loadGroupJoinPayPrice() {
+        if (!GroupRole.isOwnerOrAdmin(myRole) || qunId.isEmpty()) {
+            return
+        }
+        lifecycleScope.launch {
+            viewModel?.fetchGroupJoinPayPrice(qunId)
+                ?.observe(this@ImQunInfo2BroadActivity) { bean ->
+                    bean ?: return@observe
+                    val value = bean.priceDualx?.takeIf { it.isNotBlank() }
+                    if (!value.isNullOrBlank()) {
+                        suppressJoinPayPriceWatcher = true
+                        if (etGroupJoinPayPrice.text?.toString() != value) {
+                            etGroupJoinPayPrice.setText(value)
+                            etGroupJoinPayPrice.setSelection(value.length)
+                        }
+                        suppressJoinPayPriceWatcher = false
+                        groupVo?.joinPayPrice = value
+                    }
+                    bean.feeRate?.takeIf { it.isNotBlank() }?.let { rate ->
+                        groupVo?.ensureBusiExt()?.joinPayFeeRate = rate
+                        tvGroupJoinPayFeeTip.text = getString(
+                            com.cboda.baselibrary.R.string.group_join_pay_fee_tip,
+                            formatJoinPayFeeRate(rate),
+                        )
+                    }
+                    if (groupJoinPaySwitch.isChecked) {
+                        refreshJoinPayUsdApprox()
+                    }
+                }
         }
     }
 

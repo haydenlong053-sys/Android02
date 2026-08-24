@@ -13,6 +13,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.PRICE_DUALX
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.intelligent.bean.GroupBlacklistItem
+import com.cboda.intelligent.bean.GroupJoinPayPriceBean
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.utils.dismissLoading
 import com.cboda.intelligent.utils.showLoading
@@ -351,6 +352,34 @@ class ImQunInfoViewModel : BaseViewModel() {
                 }
             } catch (_: Exception) {
                 liveData.postValue(0)
+            }
+        }
+        return liveData
+    }
+
+    /** 查询群已设置的入群收费价格（{@code api/getGroupJoinPayPrice}，扁平响应取 priceDualx）。 */
+    suspend fun fetchGroupJoinPayPrice(groupId: String): SingleLiveBroadData<GroupJoinPayPriceBean?> {
+        val liveData = SingleLiveBroadData<GroupJoinPayPriceBean?>()
+        if (groupId.isEmpty()) {
+            liveData.postValue(null)
+            return liveData
+        }
+        val params = hashMapOf<String, Any?>("id" to groupId)
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkBroadRepository.postEncryptedFlat2(
+                    UrlBroadBroadConstants.GET_GROUP_JOIN_PAY_PRICE,
+                    GroupJoinPayPriceBean::class.java,
+                    params,
+                ).onSuccess { data ->
+                    liveData.postValue(data)
+                }.onFailure { _, _ ->
+                    liveData.postValue(null)
+                }.onError {
+                    liveData.postValue(null)
+                }
+            } catch (_: Exception) {
+                liveData.postValue(null)
             }
         }
         return liveData

@@ -235,6 +235,8 @@ object UrlBroadBroadConstants {
     const val GROUP_BLACKLIST = "api/groupBlacklist"
     /** 群收费开关及设置价格 */
     const val SET_GROUP_JOIN_PAY = "api/setGroupJoinPay"
+    /** 查询群已设置的入群收费价格 */
+    const val GET_GROUP_JOIN_PAY_PRICE = "api/getGroupJoinPayPrice"
 
     const val CREDIT_CREDITCONSTITUTELIST = "api/credit/creditConstituteList" // 查询信用构成列表
     const val CREDIT_GETLOGPAGE = "api/credit/getLogPage" // 信用分记录分页
