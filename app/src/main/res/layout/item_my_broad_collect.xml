@@ -85,7 +85,7 @@
         app:shape_bottomRightRadius="@dimen/dp_12"
         app:shape_solidColor="@color/color_F7F8FA"
         app:shape_topRightRadius="@dimen/dp_12"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/dp_16"
