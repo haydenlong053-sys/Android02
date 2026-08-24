@@ -498,6 +498,17 @@
     <string name="group_apply_reject">Reject</string>
     <string name="group_apply_action_success">Done</string>
     <string name="group_apply_action_failed">Action failed. Please try again later</string>
+    <string name="group_blacklist_title">Group blacklist</string>
+    <string name="group_blacklist_desc">Blacklisted users cannot join this group again</string>
+    <string name="group_blacklist_count">%1$d people</string>
+    <string name="group_blacklist_coming_soon">Coming soon</string>
+    <string name="group_join_pay_title">Enable group fee</string>
+    <string name="group_join_pay_desc">Once enabled, members must pay to join the group</string>
+    <string name="group_join_pay_fee_label">Join fee (DUALX)</string>
+    <string name="group_join_pay_usd_approx">≈$%1$s USD</string>
+    <string name="group_join_pay_fee_tip">The platform will charge a %1$s%% service fee. The remaining amount will be transferred to the group owner\'s DUALX account.</string>
+    <string name="group_join_pay_price_invalid">Minimum join fee is 1 DUALX</string>
+    <string name="group_join_pay_save_success">Saved</string>
     <string name="my_groups">My groups</string>
     <string name="menu_group_info">Group info</string>
 

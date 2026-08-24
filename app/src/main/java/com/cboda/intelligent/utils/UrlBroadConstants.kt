@@ -231,6 +231,10 @@ object UrlBroadBroadConstants {
     const val SET_GROUP_SHOP = "api/setGroupShop"
     /** 修改群信息/开关（对齐野火 {@code /editGroup}，如 openQyyq / openQyyz / openQzts） */
     const val EDIT_GROUP = "api/editGroup"
+    /** 群黑名单列表 */
+    const val GROUP_BLACKLIST = "api/groupBlacklist"
+    /** 群收费开关及设置价格 */
+    const val SET_GROUP_JOIN_PAY = "api/setGroupJoinPay"
 
     const val CREDIT_CREDITCONSTITUTELIST = "api/credit/creditConstituteList" // 查询信用构成列表
     const val CREDIT_GETLOGPAGE = "api/credit/getLogPage" // 信用分记录分页

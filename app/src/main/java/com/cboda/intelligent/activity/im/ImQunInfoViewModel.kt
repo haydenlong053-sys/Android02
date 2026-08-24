@@ -3,12 +3,16 @@ package com.cboda.intelligent.activity.im
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.cboda.baselibrary.base.BaseViewModel
+import com.cboda.baselibrary.bean.PriceConversion
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
+import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.PRICE_DUALX
 import com.cboda.baselibrary.utils.anyToInt
+import com.cboda.intelligent.bean.GroupBlacklistItem
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.utils.dismissLoading
 import com.cboda.intelligent.utils.showLoading
@@ -26,6 +30,8 @@ import com.freddy.im.listener.OnHttpImListener
 import com.freddy.im.message.ImGroupMemberChangeManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.concurrent.atomic.AtomicInteger
 
 data class ImGroupInfoUiState(
@@ -318,6 +324,134 @@ class ImQunInfoViewModel : BaseViewModel() {
             }
         }
         return liveData
+    }
+
+    /** 拉取群黑名单人数（{@code api/groupBlacklist}）。 */
+    suspend fun fetchGroupBlacklistCount(groupId: String): SingleLiveBroadData<Int> {
+        val liveData = SingleLiveBroadData<Int>()
+        if (groupId.isEmpty()) {
+            liveData.postValue(0)
+            return liveData
+        }
+        val params = hashMapOf<String, Any?>("id" to groupId)
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkBroadRepository.postEncryptedList2(
+                    UrlBroadBroadConstants.GROUP_BLACKLIST,
+                    GroupBlacklistItem::class.java,
+                    params,
+                ).onSuccess { data ->
+                    val total = data?.totalCount ?: 0
+                    val size = data?.list?.size ?: 0
+                    liveData.postValue(if (total > 0) total else size)
+                }.onFailure { _, _ ->
+                    liveData.postValue(0)
+                }.onError {
+                    liveData.postValue(0)
+                }
+            } catch (_: Exception) {
+                liveData.postValue(0)
+            }
+        }
+        return liveData
+    }
+
+    /** 设置群收费开关/价格（{@code api/setGroupJoinPay}）。 */
+    suspend fun setGroupJoinPay(
+        groupId: String,
+        enabled: Boolean,
+        price: String,
+    ): SingleLiveBroadData<Boolean> {
+        showLoading()
+        val liveData = SingleLiveBroadData<Boolean>()
+        val normalizedPrice = price.trim().ifEmpty { "1" }
+        val params = hashMapOf<String, Any?>(
+            "id" to groupId,
+            "state" to if (enabled) "1" else "0",
+            "price" to normalizedPrice,
+        )
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadBroadConstants.SET_GROUP_JOIN_PAY,
+                    Any::class.java,
+                    params,
+                ).onSuccess {
+                    dismissLoading()
+                    val cur = _state.value
+                    val vo = cur?.groupVo
+                    if (vo != null) {
+                        vo.openJoinPay = if (enabled) 1 else 0
+                        vo.joinPayPrice = normalizedPrice
+                        _state.postValue(cur.copy(groupVo = vo))
+                    }
+                    liveData.postValue(true)
+                }.onFailure { _, message ->
+                    dismissLoading()
+                    showToastMain(message)
+                    liveData.postValue(false)
+                }.onError {
+                    dismissLoading()
+                    liveData.postValue(false)
+                }
+            } catch (_: Exception) {
+                dismissLoading()
+                liveData.postValue(false)
+            }
+        }
+        return liveData
+    }
+
+    /** DUALX 金额换算约合 USD（{@code api/wallet/pay/convertOdicPrice}）。 */
+    suspend fun convertJoinPayUsd(amount: String): SingleLiveBroadData<String?> {
+        val liveData = SingleLiveBroadData<String?>()
+        val amountBd = amount.trim().toBigDecimalOrNull()
+        if (amountBd == null || amountBd <= BigDecimal.ZERO) {
+            liveData.postValue(null)
+            return liveData
+        }
+        val params = hashMapOf<String, Any?>("amount" to amount.trim())
+        withContext(Dispatchers.IO) {
+            try {
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadBroadConstants.GET_ACTIVATE_PRICE,
+                    PriceConversion::class.java,
+                    params,
+                ).onSuccess { data ->
+                    val usdt = data?.priceUsdt?.takeIf { it.isNotBlank() }
+                    if (!usdt.isNullOrBlank()) {
+                        liveData.postValue(formatUsd(usdt))
+                        return@onSuccess
+                    }
+                    val odic = data?.priceOdic?.takeIf { it.isNotBlank() }
+                    if (!odic.isNullOrBlank() && amountBd.compareTo(BigDecimal.ONE) == 0) {
+                        MMKVBroadUtils.saveSqlStrData(PRICE_DUALX, odic)
+                    }
+                    liveData.postValue(approxUsdFromCache(amountBd))
+                }.onFailure { _, _ ->
+                    liveData.postValue(approxUsdFromCache(amountBd))
+                }.onError {
+                    liveData.postValue(approxUsdFromCache(amountBd))
+                }
+            } catch (_: Exception) {
+                liveData.postValue(approxUsdFromCache(amountBd))
+            }
+        }
+        return liveData
+    }
+
+    private fun approxUsdFromCache(amount: BigDecimal): String? {
+        val rate = MMKVBroadUtils.getSqlStrData(PRICE_DUALX).toBigDecimalOrNull() ?: return null
+        if (rate <= BigDecimal.ZERO) return null
+        return formatUsd(amount.multiply(rate).toPlainString())
+    }
+
+    private fun formatUsd(raw: String): String {
+        return try {
+            BigDecimal(raw).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString()
+        } catch (_: Exception) {
+            raw
+        }
     }
 
     companion object {

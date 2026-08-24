@@ -30,6 +30,14 @@ public class GroupVo implements java.io.Serializable {
     private List<String> managerIds;
     private int allowMemberInvite;
     private int joinNeedVerify;
+    /** 入群收费开关：0 关 / 1 开 */
+    private int openJoinPay;
+    /** 入群费用（DUALX） */
+    private String joinPayPrice;
+    private String joinPayMode;
+
+    /** 群黑名单人数 */
+    private int blackListCount;
     /** 业务扩展（缺席踢人、商城、群规模 gsize 等） */
     private GroupBusiExt busiExt;
 
@@ -148,6 +156,40 @@ public class GroupVo implements java.io.Serializable {
 
     public void setJoinNeedVerify(int joinNeedVerify) {
         this.joinNeedVerify = joinNeedVerify;
+    }
+
+    public int getOpenJoinPay() {
+        return openJoinPay;
+    }
+
+    public void setOpenJoinPay(int openJoinPay) {
+        this.openJoinPay = openJoinPay;
+    }
+
+    public String getJoinPayPrice() {
+        return joinPayPrice;
+    }
+
+    public void setJoinPayPrice(String joinPayPrice) {
+        this.joinPayPrice = joinPayPrice;
+    }
+
+    public String getJoinPayMode() {
+        return joinPayMode;
+    }
+
+    public void setJoinPayMode(String joinPayMode) {
+        this.joinPayMode = joinPayMode;
+    }
+
+
+
+    public int getBlackListCount() {
+        return blackListCount;
+    }
+
+    public void setBlackListCount(int blackListCount) {
+        this.blackListCount = blackListCount;
     }
 
     public GroupBusiExt getBusiExt() {

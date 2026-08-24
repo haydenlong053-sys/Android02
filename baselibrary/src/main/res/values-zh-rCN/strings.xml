@@ -483,6 +483,17 @@
     <string name="group_apply_reject">拒绝</string>
     <string name="group_apply_action_success">操作成功</string>
     <string name="group_apply_action_failed">操作失败,请稍后再试</string>
+    <string name="group_blacklist_title">群黑名单</string>
+    <string name="group_blacklist_desc">加入黑名单的用户无法再次加入本群</string>
+    <string name="group_blacklist_count">%1$d人</string>
+    <string name="group_blacklist_coming_soon">敬请期待</string>
+    <string name="group_join_pay_title">开启群收费</string>
+    <string name="group_join_pay_desc">开启后，成员需要支付费用才能加入群聊</string>
+    <string name="group_join_pay_fee_label">入群费用(DUALX)</string>
+    <string name="group_join_pay_usd_approx">≈$%1$s USD</string>
+    <string name="group_join_pay_fee_tip">平台将收取 %1$s%% 服务费，剩余金额将自动转入群主 DUALX 平台账户。</string>
+    <string name="group_join_pay_price_invalid">入群费用最低为 1 DUALX</string>
+    <string name="group_join_pay_save_success">保存成功</string>
     <string name="my_groups">我的群聊</string>
     <string name="menu_group_info">群聊信息</string>
 </resources>
