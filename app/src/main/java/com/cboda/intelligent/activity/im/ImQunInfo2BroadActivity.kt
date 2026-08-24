@@ -167,6 +167,8 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private lateinit var tvGroupJoinPayFeeTip: TextView
     private lateinit var btnGroupJoinPaySave: TextView
     private var suppressJoinPayPriceWatcher = false
+    /** 服务端是否已开启群收费；仅已持久化开启时，手动关闭才调 setGroupJoinPay。 */
+    private var joinPayPersistedOpen = false
 
     override fun getLayoutId(): Int = R.layout.activity_qun_broad_info2
 
@@ -718,53 +720,71 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         }
     }
 
+    /**
+     * 群收费开关：
+     * - 打开：仅本地展开，不调接口；需已有合法价格（≥1），否则提示。
+     * - 关闭：仅当服务端已开启（已保存）时调 setGroupJoinPay(state=0)；本地打开未保存再关不调。
+     */
     private fun toggleGroupJoinPay(enabled: Boolean) {
-        val price = resolveJoinPayPrice(requireMin = enabled)
-        if (enabled && price == null) {
-            ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_join_pay_price_invalid))
+        if (enabled) {
+            openGroupJoinPayLocally()
             return
         }
-        val submitPrice = price ?: "1"
-        groupJoinPayDetail.isVisible = enabled
-        if (enabled) {
-            if (etGroupJoinPayPrice.text.isNullOrBlank()) {
-                suppressJoinPayPriceWatcher = true
-                etGroupJoinPayPrice.setText(submitPrice)
-                etGroupJoinPayPrice.setSelection(submitPrice.length)
-                suppressJoinPayPriceWatcher = false
-            }
-            refreshJoinPayUsdApprox()
+        closeGroupJoinPay()
+    }
+
+    private fun openGroupJoinPayLocally() {
+        // 打开仅本地展开，不调接口；无价格时仍展开便于填写，并提示最低 1 DUALX
+        groupJoinPaySwitch.isChecked = true
+        groupJoinPayDetail.isVisible = true
+//        val price = resolveJoinPayPrice(requireMin = true)
+//        if (price == null) {
+//            ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_join_pay_price_invalid))
+//            return
+//        }
+        refreshJoinPayUsdApprox()
+    }
+
+    private fun closeGroupJoinPay() {
+        // 未持久化开启：仅收起本地 UI，避免重复调关闭接口
+        if (!joinPayPersistedOpen) {
+            groupJoinPaySwitch.isChecked = false
+            groupJoinPayDetail.isVisible = false
+            return
         }
+        val price = resolveJoinPayPrice(requireMin = false) ?: "1"
         lifecycleScope.launch {
-            viewModel?.setGroupJoinPay(qunId, enabled, submitPrice)
+            viewModel?.setGroupJoinPay(qunId, enabled = false, price)
                 ?.observe(this@ImQunInfo2BroadActivity) { ok ->
                     if (ok == true) {
-                        groupJoinPaySwitch.isChecked = enabled
-                        groupJoinPayDetail.isVisible = enabled
-                        groupVo?.apply {
-                            openJoinPay = if (enabled) 1 else 0
-                            joinPayPrice = submitPrice
-                        }
-                    } else {
-                        groupJoinPaySwitch.isChecked = !enabled
-                        groupJoinPayDetail.isVisible = !enabled
+                        joinPayPersistedOpen = false
+                        groupJoinPaySwitch.isChecked = false
+                        groupJoinPayDetail.isVisible = false
+                        groupVo?.openJoinPay = 0
                     }
                 }
         }
     }
 
+    /** 开启后点保存：setGroupJoinPay(state=1, price)。 */
     private fun saveGroupJoinPayPrice() {
+        if (!groupJoinPaySwitch.isChecked) {
+            return
+        }
         val price = resolveJoinPayPrice(requireMin = true)
         if (price == null) {
             ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_join_pay_price_invalid))
             return
         }
-        val enabled = groupJoinPaySwitch.isChecked
         lifecycleScope.launch {
-            viewModel?.setGroupJoinPay(qunId, enabled, price)
+            viewModel?.setGroupJoinPay(qunId, enabled = true, price)
                 ?.observe(this@ImQunInfo2BroadActivity) { ok ->
                     if (ok == true) {
-                        groupVo?.joinPayPrice = price
+                        joinPayPersistedOpen = true
+                        groupVo?.apply {
+                            openJoinPay = 1
+                            joinPayPrice = price
+                        }
                         ToastBroadUtils.show(
                             getString(com.cboda.baselibrary.R.string.group_join_pay_save_success),
                         )
@@ -774,15 +794,19 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         }
     }
 
-    /** @return 合法价格字符串；requireMin 时低于 1 返回 null */
+    /**
+     * @param requireMin true：必须已输入且 ≥1；false：空则回落 "1"（关闭接口用）。
+     */
     private fun resolveJoinPayPrice(requireMin: Boolean): String? {
         val raw = etGroupJoinPayPrice.text?.toString()?.trim().orEmpty()
-        val value = raw.ifEmpty { "1" }
-        val amount = value.toBigDecimalOrNull() ?: return if (requireMin) null else "1"
+        if (raw.isEmpty()) {
+            return if (requireMin) null else "1"
+        }
+        val amount = raw.toBigDecimalOrNull() ?: return null
         if (requireMin && amount < java.math.BigDecimal.ONE) {
             return null
         }
-        return value
+        return raw
     }
 
     private var ustHs: String? = ""
@@ -806,7 +830,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     }
 
     private fun refreshJoinPayUsdApprox(amount: String) {
-        tvGroupJoinPayUsd.text = getString(com.cboda.baselibrary.R.string.group_join_pay_usd_approx, mul(amount, ustHs))
+        tvGroupJoinPayUsd.text = getString(com.cboda.baselibrary.R.string.group_join_pay_usd_approx, mul(amount, ustHs).toString())
     }
 
     /**
