@@ -109,7 +109,7 @@ class ImGroupBlacklistViewModel : BaseViewModel() {
         val liveData = SingleLiveBroadData<Boolean>()
         val params = hashMapOf<String, Any?>(
             "id" to groupId,
-            "uid" to uid,
+            "uids" to uid,
         )
         withContext(Dispatchers.IO) {
             try {
