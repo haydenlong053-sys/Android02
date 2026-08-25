@@ -55,12 +55,12 @@ public class ImUtils {
      */
     private static String sessionIdWithOppositeUserId(String a,String b) {
         // 先比较长度（短的在前）
-        if (a.length() < b.length()) {
-            return a + "!" + b;
-        }
-        if (a.length() > b.length()) {
-            return b + "!" + a;
-        }
+//        if (a.length() < b.length()) {
+//            return a + "!" + b;
+//        }
+//        if (a.length() > b.length()) {
+//            return b + "!" + a;
+//        }
 
         // 长度相同，按字符串大小（字典序，小的在前）
         int cmp = a.compareTo(b);
