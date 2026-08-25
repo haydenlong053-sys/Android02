@@ -7,49 +7,109 @@ package com.freddy.im.http.model.im;
  */
 @SuppressWarnings("unused")
 public class GroupBusiExt implements java.io.Serializable {
-
-    /** 群内禁止加好友："0" / "1" */
+    /**
+     * 手续费率，如 0.01 表示 1%
+     */
+    private String joinPayFeeRate;
+    /**
+     * 群内禁止加好友："0" / "1"
+     */
     private String openQysl;
-    /** 本群会议缺席自动移出："0" / "1" */
+    /**
+     * 本群会议缺席自动移出："0" / "1"
+     */
     private String openAbsentKick;
-    /** 置顶（业务侧） */
+    /**
+     * 置顶（业务侧）
+     */
     private String isZd;
-    /** 自动翻译相关时间 */
+    /**
+     * 自动翻译相关时间
+     */
     private String fantime;
-    /** 可否发红包 */
+    /**
+     * 可否发红包
+     */
     private String openQzhb;
     /**
      * 群规模档位：{@code "1"} 未升到最高（约 1000 人）；其它已最高档（约 10000 人）。
      */
     private String gsize;
-    /** 敏感词相关 */
+    /**
+     * 敏感词相关
+     */
     private String openMgc;
-    /** 连续缺席次数阈值（全局/平台配置） */
+    /**
+     * 连续缺席次数阈值（全局/平台配置）
+     */
     private Integer absentKickLimit;
-    /** 群号展示 id */
+    /**
+     * 群号展示 id
+     */
     private String idno;
-    /** 等级/价格相关 */
+    /**
+     * 等级/价格相关
+     */
     private Long gradePrice;
-    /** 商城链接 */
+    /**
+     * 商城链接
+     */
     private String shopLink;
-    /** 商业功能开关："0" / "1"；null/空表示不展示入口 */
+    /**
+     * 商业功能开关："0" / "1"；null/空表示不展示入口
+     */
     private String isshop;
-    /** 群员邀请好友进群："0" / "1" */
+    /**
+     * 群员邀请好友进群："0" / "1"
+     */
     private String openQyyq;
-    /** 仅群主及管理员可推送名片："0" / "1" */
+    /**
+     * 仅群主及管理员可推送名片："0" / "1"
+     */
     private String openQzts;
-    /** 群员进群邀请校验："0" / "1" */
+    /**
+     * 群员进群邀请校验："0" / "1"
+     */
     private String openQyyz;
-    /** 群员入群邀请管理验证："0" / "1" */
+    /**
+     * 群员入群邀请管理验证："0" / "1"
+     */
     private String openQygl;
-    /** 商城相关时间 */
+    /**
+     * 商城相关时间
+     */
     private String shoptime;
-    /** 普通成员仅可见群主及管理员："0" / "1" */
+    /**
+     * 普通成员仅可见群主及管理员："0" / "1"
+     */
     private String openQykj;
-    /** 发言间隔（秒） */
+    /**
+     * 发言间隔（秒）
+     */
     private int jiange;
-    /** 会话内商城入口是否展示，通常与 {@link #isshop} 同步 */
+    /**
+     * 会话内商城入口是否展示，通常与 {@link #isshop} 同步
+     */
     private String showShop;
+
+    private String openJoinPay;
+
+
+    public String getOpenJoinPay() {
+        return openJoinPay;
+    }
+
+    public void setOpenJoinPay(String openJoinPay) {
+        this.openJoinPay = openJoinPay;
+    }
+
+    public String getJoinPayFeeRate() {
+        return joinPayFeeRate;
+    }
+
+    public void setJoinPayFeeRate(String joinPayFeeRate) {
+        this.joinPayFeeRate = joinPayFeeRate;
+    }
 
     public String getOpenQysl() {
         return openQysl;

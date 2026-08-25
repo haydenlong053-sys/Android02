@@ -34,6 +34,7 @@ import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.groupDataLiveData
 import com.cboda.baselibrary.utils.loadImg
+import com.cboda.baselibrary.utils.mul
 import com.cboda.baselibrary.utils.showAbsentKickTip
 import com.cboda.chatui.bridge.MyBroadEvent
 import com.cboda.intelligent.R
@@ -156,6 +157,20 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private var jiangetime = 0
     private var suppressSpeakIntervalWatcher = false
 
+    private lateinit var groupBlacklistEntry: View
+    private lateinit var tvGroupBlackCount: TextView
+    private lateinit var groupJoinPaySwitch: SwitchCompat
+    private lateinit var groupJoinPaySwitchView: View
+    private lateinit var groupJoinPayDetail: View
+    private lateinit var etGroupJoinPayPrice: EditText
+    private lateinit var tvGroupJoinPayUsd: TextView
+    private lateinit var tvGroupJoinPayFeeTip: TextView
+    private lateinit var btnGroupJoinPaySave: TextView
+    private var suppressJoinPayPriceWatcher = false
+
+    /** 服务端是否已开启群收费；仅已持久化开启时，手动关闭才调 setGroupJoinPay。 */
+    private var joinPayPersistedOpen = false
+
     override fun getLayoutId(): Int = R.layout.activity_qun_broad_info2
 
     override fun showOrHideTitleLayout(): Boolean = false
@@ -225,6 +240,17 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         jianhao = findViewById(R.id.jianhao)
         jiahao = findViewById(R.id.jiahao)
         tvjiangeshi = findViewById(R.id.tvjiangeshi)
+        groupBlacklistEntry = findViewById(R.id.groupBlacklistEntry)
+        tvGroupBlackCount = findViewById(R.id.tvGroupBlackCount)
+        groupJoinPaySwitch = findViewById(R.id.groupJoinPaySwitch)
+        groupJoinPaySwitchView = findViewById(R.id.groupJoinPaySwitchView)
+        groupJoinPayDetail = findViewById(R.id.groupJoinPayDetail)
+        etGroupJoinPayPrice = findViewById(R.id.etGroupJoinPayPrice)
+        tvGroupJoinPayUsd = findViewById(R.id.tvGroupJoinPayUsd)
+        tvGroupJoinPayFeeTip = findViewById(R.id.tvGroupJoinPayFeeTip)
+        btnGroupJoinPaySave = findViewById(R.id.btnGroupJoinPaySave)
+        groupJoinPaySwitch.isClickable = false
+        groupJoinPaySwitch.isFocusable = false
     }
 
     private fun hideSwitchRow(anchorViewId: Int, ancestorLevel: Int = 1) {
@@ -335,9 +361,9 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         val name = vo.name ?: ""
         mTvGroupName.text = name
         qunmingceng.text = name
-        if (vo.busiExt?.idno?.isNotEmpty() == true){
+        if (vo.busiExt?.idno?.isNotEmpty() == true) {
             qunid.text = "${getString(com.cboda.baselibrary.R.string.msg_group_id)}${vo.busiExt?.idno}"
-        }else{
+        } else {
             qunid.text = "${getString(com.cboda.baselibrary.R.string.msg_group_id)}${vo.id ?: qunId}"
         }
 
@@ -372,7 +398,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             mTvNoticeDes.text = state.noticeContent
         }
         val isOpenGroupInviteFunc = (vo.allowMemberInvite == 1)
-        mAdapter?.setList(ImGroupMemberUiMapper.buildGridItems(state.members, myRole,isOpenGroupInviteFunc))
+        mAdapter?.setList(ImGroupMemberUiMapper.buildGridItems(state.members, myRole, isOpenGroupInviteFunc))
 
         mScAbsentKick.isChecked = vo.busiExt?.openAbsentKick == "1"
         val limit = vo.busiExt?.absentKickLimit?.toString()?.takeIf { it.isNotBlank() } ?: "5"
@@ -397,6 +423,91 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         kejianguanli.isChecked = busi?.openQykj == "1"
         jiangetime = (busi?.jiange ?: 0).coerceAtLeast(0)
         syncSpeakIntervalInput(jiangetime)
+        bindJoinPayUi(vo)
+        loadGroupBlacklistCount(vo.blackListCount)
+    }
+
+    private fun bindJoinPayUi(vo: GroupVo) {
+        // 开关以 openJoinPay == "1" 为准（群详情 / 价格查询接口）
+        applyJoinPaySwitch(isJoinPayOpen(vo.busiExt?.openJoinPay))
+        tvGroupJoinPayFeeTip.text = getString(
+            com.cboda.baselibrary.R.string.group_join_pay_fee_tip,
+            formatJoinPayFeeRate(vo.busiExt?.joinPayFeeRate),
+        )
+        loadGroupJoinPayPrice()
+    }
+
+    private fun isJoinPayOpen(flag: String?): Boolean = flag == "1"
+
+    private fun applyJoinPaySwitch(enabled: Boolean) {
+        joinPayPersistedOpen = enabled
+        groupJoinPaySwitch.isChecked = enabled
+        groupJoinPayDetail.isVisible = enabled
+        if (enabled) {
+            refreshJoinPayUsdApprox()
+        }
+    }
+
+    /** 已设置过的入群费用通过 {@code api/getGroupJoinPayPrice} 回填，取 priceDualx；开关取 openJoinPay。 */
+    private fun loadGroupJoinPayPrice() {
+        if (!GroupRole.isOwnerOrAdmin(myRole) || qunId.isEmpty()) {
+            return
+        }
+        lifecycleScope.launch {
+            viewModel?.fetchGroupJoinPayPrice(qunId)
+                ?.observe(this@ImQunInfo2BroadActivity) { bean ->
+                    bean ?: return@observe
+                    if (bean.openJoinPay != null) {
+                        val enabled = isJoinPayOpen(bean.openJoinPay)
+                        applyJoinPaySwitch(enabled)
+                        groupVo?.openJoinPay = bean.openJoinPay
+                        groupVo?.ensureBusiExt()?.openJoinPay = bean.openJoinPay
+                    }
+                    val value = bean.priceDualx?.takeIf { it.isNotBlank() }
+                    if (!value.isNullOrBlank()) {
+                        suppressJoinPayPriceWatcher = true
+                        if (etGroupJoinPayPrice.text?.toString() != value) {
+                            etGroupJoinPayPrice.setText(value)
+                            etGroupJoinPayPrice.setSelection(value.length)
+                        }
+                        suppressJoinPayPriceWatcher = false
+                        groupVo?.joinPayPrice = value
+                    }
+                    bean.feeRate?.takeIf { it.isNotBlank() }?.let { rate ->
+                        groupVo?.ensureBusiExt()?.joinPayFeeRate = rate
+                        tvGroupJoinPayFeeTip.text = getString(
+                            com.cboda.baselibrary.R.string.group_join_pay_fee_tip,
+                            formatJoinPayFeeRate(rate),
+                        )
+                    }
+                    if (groupJoinPaySwitch.isChecked) {
+                        refreshJoinPayUsdApprox()
+                    }
+                }
+        }
+    }
+
+    private fun formatJoinPayFeeRate(feeRate: String?): String {
+        return anyToInt(mul(feeRate, 100)).toString()
+    }
+
+    private fun loadGroupBlacklistCount(fallbackCount: Int = 0) {
+        tvGroupBlackCount.text = getString(
+            com.cboda.baselibrary.R.string.group_blacklist_count,
+            fallbackCount.coerceAtLeast(0),
+        )
+        if (!GroupRole.isOwnerOrAdmin(myRole) || qunId.isEmpty()) {
+            return
+        }
+        lifecycleScope.launch {
+            viewModel?.fetchGroupBlacklistCount(qunId)
+                ?.observe(this@ImQunInfo2BroadActivity) { count ->
+                    tvGroupBlackCount.text = getString(
+                        com.cboda.baselibrary.R.string.group_blacklist_count,
+                        count ?: fallbackCount.coerceAtLeast(0),
+                    )
+                }
+        }
     }
 
     /** 商业功能开关入口：isshop 为空不展示；有值则展示，1=开 / 0=关。 */
@@ -497,6 +608,22 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         }
         mTvLookRule.setOnClickListener {
             JumpBroadUtils.startAbsentKickRulesActivity(this)
+        }
+        groupBlacklistEntry.setOnClickListener {
+            if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
+            JumpBroadUtils.startImGroupBlacklistActivity(this, qunId)
+        }
+        groupJoinPaySwitchView.setOnClickListener {
+            if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
+            toggleGroupJoinPay(!groupJoinPaySwitch.isChecked)
+        }
+        btnGroupJoinPaySave.setOnClickListener {
+            if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
+            saveGroupJoinPayPrice()
+        }
+        etGroupJoinPayPrice.doAfterTextChanged {
+            if (suppressJoinPayPriceWatcher) return@doAfterTextChanged
+            refreshJoinPayUsdApprox()
         }
         wodequnnicheng.setOnClickListener {
             JumpBroadUtils.startImQunNichengActivity(
@@ -629,6 +756,121 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                     groupVo?.let { ImQunInfoViewModel.applyEditGroupField(it, key, newValue) }
                 }
         }
+    }
+
+    /**
+     * 群收费开关：
+     * - 打开：仅本地展开，不调接口；需已有合法价格（≥1），否则提示。
+     * - 关闭：仅当服务端已开启（已保存）时调 setGroupJoinPay(state=0)；本地打开未保存再关不调。
+     */
+    private fun toggleGroupJoinPay(enabled: Boolean) {
+        if (enabled) {
+            openGroupJoinPayLocally()
+            return
+        }
+        closeGroupJoinPay()
+    }
+
+    private fun openGroupJoinPayLocally() {
+        // 打开仅本地展开，不调接口；无价格时仍展开便于填写，并提示最低 1 DUALX
+        groupJoinPaySwitch.isChecked = true
+        groupJoinPayDetail.isVisible = true
+//        val price = resolveJoinPayPrice(requireMin = true)
+//        if (price == null) {
+//            ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_join_pay_price_invalid))
+//            return
+//        }
+        refreshJoinPayUsdApprox()
+    }
+
+    private fun closeGroupJoinPay() {
+        // 未持久化开启：仅收起本地 UI，避免重复调关闭接口
+        if (!joinPayPersistedOpen) {
+            groupJoinPaySwitch.isChecked = false
+            groupJoinPayDetail.isVisible = false
+            return
+        }
+        val price = resolveJoinPayPrice(requireMin = false) ?: "1"
+        lifecycleScope.launch {
+            viewModel?.setGroupJoinPay(qunId, enabled = false, price)
+                ?.observe(this@ImQunInfo2BroadActivity) { ok ->
+                    if (ok == true) {
+                        joinPayPersistedOpen = false
+                        groupJoinPaySwitch.isChecked = false
+                        groupJoinPayDetail.isVisible = false
+                        groupVo?.openJoinPay = "0"
+                        groupVo?.ensureBusiExt()?.openJoinPay = "0"
+                    }
+                }
+        }
+    }
+
+    /** 开启后点保存：setGroupJoinPay(state=1, price)。 */
+    private fun saveGroupJoinPayPrice() {
+        if (!groupJoinPaySwitch.isChecked) {
+            return
+        }
+        val price = resolveJoinPayPrice(requireMin = true)
+        if (price == null) {
+            ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_join_pay_price_invalid))
+            return
+        }
+        lifecycleScope.launch {
+            viewModel?.setGroupJoinPay(qunId, enabled = true, price)
+                ?.observe(this@ImQunInfo2BroadActivity) { ok ->
+                    if (ok == true) {
+                        joinPayPersistedOpen = true
+                        groupVo?.apply {
+                            openJoinPay = "1"
+                            joinPayPrice = price
+                            ensureBusiExt().openJoinPay = "1"
+                        }
+                        ToastBroadUtils.show(
+                            getString(com.cboda.baselibrary.R.string.group_join_pay_save_success),
+                        )
+                        refreshJoinPayUsdApprox()
+                    }
+                }
+        }
+    }
+
+    /**
+     * @param requireMin true：必须已输入且 ≥1；false：空则回落 "1"（关闭接口用）。
+     */
+    private fun resolveJoinPayPrice(requireMin: Boolean): String? {
+        val raw = etGroupJoinPayPrice.text?.toString()?.trim().orEmpty()
+        if (raw.isEmpty()) {
+            return if (requireMin) null else "1"
+        }
+        val amount = raw.toBigDecimalOrNull() ?: return null
+        if (requireMin && amount < java.math.BigDecimal.ONE) {
+            return null
+        }
+        return raw
+    }
+
+    private var ustHs: String? = ""
+    private fun refreshJoinPayUsdApprox() {
+        val amount = etGroupJoinPayPrice.text?.toString()?.trim().orEmpty()
+        if (amount.isEmpty()) {
+            tvGroupJoinPayUsd.text = ""
+            return
+        }
+        if (TextUtils.isEmpty(ustHs)) {
+            lifecycleScope.launch {
+                viewModel?.convertJoinPayUsd("1")
+                    ?.observe(this@ImQunInfo2BroadActivity) { usd ->
+                        ustHs = usd
+                        refreshJoinPayUsdApprox(amount)
+                    }
+            }
+        } else {
+            refreshJoinPayUsdApprox(amount)
+        }
+    }
+
+    private fun refreshJoinPayUsdApprox(amount: String) {
+        tvGroupJoinPayUsd.text = getString(com.cboda.baselibrary.R.string.group_join_pay_usd_approx, mul(amount, ustHs).toString())
     }
 
     /**
