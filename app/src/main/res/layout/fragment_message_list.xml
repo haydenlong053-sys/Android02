@@ -84,7 +84,6 @@
         android:id="@+id/panel_switch_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/wechat_bg_chat"
         android:orientation="vertical"
         app:animationSpeed="standard"
         >
@@ -112,7 +111,6 @@
                         android:id="@+id/rv_messages"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/wechat_bg_chat"
                         tools:listitem="@layout/item_message" />
                 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -131,7 +129,7 @@
                     android:id="@+id/input_panel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/wechat_bg_chat" />
+                    />
 
                 <FrameLayout
                     android:id="@+id/multi_message_action_container"
