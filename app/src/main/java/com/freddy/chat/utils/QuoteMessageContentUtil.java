@@ -113,7 +113,7 @@ public final class QuoteMessageContentUtil {
     }
 
     /**
-     * 展示时再解析一次：兼容历史引用里 displayName 仍是 userId 的情况。
+     * 展示时按「当前用户视角」解析名称：本地备注/群昵称优先，不使用对方写入的 displayName。
      */
     @NonNull
     public static String resolveDisplayNameForPreview(@Nullable QuoteInfo quote,
@@ -122,12 +122,17 @@ public final class QuoteMessageContentUtil {
         if (quote == null) {
             return "";
         }
-        String stored = quote.displayName;
-        if (!TextUtils.isEmpty(stored)
-                && (TextUtils.isEmpty(quote.userId) || !TextUtils.equals(stored, quote.userId))) {
-            return stored.trim();
+        String local = WeChatUiHelper.resolveUserDisplayName(quote.userId, currentUserId, nameMap);
+        if (!TextUtils.isEmpty(local)
+                && (TextUtils.isEmpty(quote.userId) || !TextUtils.equals(local, quote.userId))) {
+            return local;
         }
-        return WeChatUiHelper.resolveUserDisplayName(quote.userId, currentUserId, nameMap);
+        // 本地解析失败时再退回消息里携带的名称
+        if (!TextUtils.isEmpty(quote.displayName)
+                && !TextUtils.equals(quote.displayName, quote.userId)) {
+            return quote.displayName.trim();
+        }
+        return TextUtils.isEmpty(local) ? "" : local;
     }
 
     @NonNull
