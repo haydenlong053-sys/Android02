@@ -72,6 +72,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
 
+            <include
+                android:id="@+id/panel_more_hongbao"
+                layout="@layout/panel_chat_more_item"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
 
             <include
                 android:id="@+id/panel_more_anti_fraud"
@@ -86,15 +93,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
-
-            <include
-                layout="@layout/panel_chat_more_item"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:visibility="invisible"
-                tools:visibility="visible"
-                />
 
             <include
                 layout="@layout/panel_chat_more_item"
