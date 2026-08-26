@@ -2,6 +2,7 @@ package com.cboda.baselibrary.app
 
 import android.app.Application
 import android.content.Context
+import com.cboda.baselibrary.utils.RealTimeUtil.initTime
 import com.cboda.baselibrary.utils.RealmUtil.initRealm
 import com.cboda.baselibrary.utils.logAppCreate
 import com.cboda.baselibrary.utils.logAppTrimMemory
@@ -20,6 +21,7 @@ open class UtilBroadApplication : Application() {
         initLanguage(this)
         initRealm(this)
         initLog()
+        initTime(this)
     }
 
     override fun onLowMemory() {
