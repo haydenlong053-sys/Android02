@@ -35,6 +35,7 @@ import com.cboda.chatui.audio.AudioRecorderBroadPanel;
 import com.cboda.intelligent.R;
 import com.cboda.chatui.conversation.mention.MentionBroadSpan;
 import com.freddy.chat.mention.AtMentionCustomInfoBuilder;
+import com.freddy.chat.utils.QuoteMessageContentUtil;
 import com.effective.android.panel.PanelSwitchHelper;
 import com.effective.android.panel.interfaces.ContentScrollMeasurer;
 import com.effective.android.panel.interfaces.PanelHeightMeasurer;
@@ -51,7 +52,9 @@ public class MessageListInputBroadPanel extends FrameLayout
         implements DefaultLifecycleObserver, IEmotionSelectedBroadListener {
 
     public interface Callback {
-        void onSendText(@NonNull String text, @Nullable String customInfo);
+        void onSendText(@NonNull String text,
+                        @Nullable String customInfo,
+                        @Nullable QuoteMessageContentUtil.QuoteInfo quoteInfo);
 
         boolean canSendVoice();
 
@@ -89,6 +92,14 @@ public class MessageListInputBroadPanel extends FrameLayout
     private View inputContainerLinearLayout;
     private View disableInputTipView;
     private TextView disableInputTipTextView;
+    @Nullable
+    private View refRelativeLayout;
+    @Nullable
+    private TextView refEditText;
+    @Nullable
+    private View clearRefImageButton;
+    @Nullable
+    private QuoteMessageContentUtil.QuoteInfo pendingQuote;
 
     @Nullable
     private Fragment fragment;
@@ -186,6 +197,7 @@ public class MessageListInputBroadPanel extends FrameLayout
 
     public void clearInput() {
         editText.setText("");
+        clearQuote();
         updateSendButtonVisibility();
     }
 
@@ -278,6 +290,37 @@ public class MessageListInputBroadPanel extends FrameLayout
         inputContainerLinearLayout = findViewById(R.id.inputContainerLinearLayout);
         disableInputTipView = findViewById(R.id.disableInputTipView);
         disableInputTipTextView = findViewById(R.id.disableInputTipTextView);
+        refRelativeLayout = findViewById(R.id.refRelativeLayout);
+        refEditText = findViewById(R.id.refEditText);
+        clearRefImageButton = findViewById(R.id.clearRefImageButton);
+    }
+
+    /** 长按「引用」后展示输入区引用条。 */
+    public void setQuoteMessage(@NonNull QuoteMessageContentUtil.QuoteInfo quoteInfo) {
+        pendingQuote = quoteInfo;
+        if (refRelativeLayout != null) {
+            refRelativeLayout.setVisibility(VISIBLE);
+        }
+        if (refEditText != null) {
+            refEditText.setText(quoteInfo.formatPreviewLine());
+        }
+        editText.requestFocus();
+        updateSendButtonVisibility();
+    }
+
+    public void clearQuote() {
+        pendingQuote = null;
+        if (refRelativeLayout != null) {
+            refRelativeLayout.setVisibility(GONE);
+        }
+        if (refEditText != null) {
+            refEditText.setText("");
+        }
+    }
+
+    @Nullable
+    public QuoteMessageContentUtil.QuoteInfo getPendingQuote() {
+        return pendingQuote;
     }
 
     private void registerPermissionLauncher(@NonNull Fragment fragment) {
@@ -335,6 +378,9 @@ public class MessageListInputBroadPanel extends FrameLayout
 
     private void setupListeners() {
         sendButton.setOnClickListener(v -> dispatchSend());
+        if (clearRefImageButton != null) {
+            clearRefImageButton.setOnClickListener(v -> clearQuote());
+        }
         audioImageView.setOnClickListener(new OnSingleClickBroadListener() {
             @Override
             public void onSingleClick(View v) {
@@ -526,7 +572,8 @@ public class MessageListInputBroadPanel extends FrameLayout
         if (TextUtils.isEmpty(body) && TextUtils.isEmpty(customInfo)) {
             return;
         }
-        callback.onSendText(body, customInfo);
+        QuoteMessageContentUtil.QuoteInfo quote = pendingQuote;
+        callback.onSendText(body, customInfo, quote);
     }
 
     private void initPanelSwitchHelper() {

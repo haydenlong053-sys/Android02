@@ -65,34 +65,83 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical">
 
-                        <EditText
-                            android:id="@+id/editText"
-                            style="@style/WeChatEditText"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:background="@drawable/shape_session_text_broad_input2"
-                            android:gravity="center_vertical"
-                            android:hint="@string/msg_input"
-                            android:inputType="textMultiLine"
-                            android:maxLines="5"
-                            android:minHeight="42dp"
-                            android:paddingVertical="@dimen/dp_6"
-                            android:paddingStart="12dp"
-                            android:paddingEnd="40dp"
-                            android:textColor="@color/color_text0"
-                            android:textColorHint="@color/black35"
-                            android:textSize="16sp" />
+                            android:orientation="vertical">
 
-                        <ImageView
-                            android:id="@+id/emotionImageView"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_gravity="bottom|end"
-                            android:layout_margin="5dp"
-                            android:contentDescription="@string/panel_emotion"
-                            android:scaleType="centerInside"
-                            android:src="@mipmap/ic_msg_broad_emo" />
+                            <RelativeLayout
+                                android:id="@+id/refRelativeLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="6dp"
+                                android:visibility="gone"
+                                tools:visibility="visible">
+
+                                <TextView
+                                    android:id="@+id/refEditText"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:background="@drawable/shape_session_ref_broad_input"
+                                    android:ellipsize="end"
+                                    android:maxLines="2"
+                                    android:minHeight="30dp"
+                                    android:paddingStart="8dp"
+                                    android:paddingTop="6dp"
+                                    android:paddingEnd="36dp"
+                                    android:paddingBottom="6dp"
+                                    android:textColor="#99000000"
+                                    android:textSize="12sp"
+                                    tools:text="张三: 你好" />
+
+                                <ImageButton
+                                    android:id="@+id/clearRefImageButton"
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_centerVertical="true"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    android:contentDescription="@string/message_quote"
+                                    android:padding="4dp"
+                                    android:scaleType="centerInside"
+                                    android:src="@mipmap/ic_broad_cancel" />
+                            </RelativeLayout>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/editText"
+                                    style="@style/WeChatEditText"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:background="@drawable/shape_session_text_broad_input2"
+                                    android:gravity="center_vertical"
+                                    android:hint="@string/msg_input"
+                                    android:inputType="textMultiLine"
+                                    android:maxLines="5"
+                                    android:minHeight="42dp"
+                                    android:paddingVertical="@dimen/dp_6"
+                                    android:paddingStart="12dp"
+                                    android:paddingEnd="40dp"
+                                    android:textColor="@color/color_text0"
+                                    android:textColorHint="@color/black35"
+                                    android:textSize="16sp" />
+
+                                <ImageView
+                                    android:id="@+id/emotionImageView"
+                                    android:layout_width="35dp"
+                                    android:layout_height="35dp"
+                                    android:layout_gravity="bottom|end"
+                                    android:layout_margin="5dp"
+                                    android:contentDescription="@string/panel_emotion"
+                                    android:scaleType="centerInside"
+                                    android:src="@mipmap/ic_msg_broad_emo" />
+                            </FrameLayout>
+                        </LinearLayout>
                     </FrameLayout>
 
                     <FrameLayout

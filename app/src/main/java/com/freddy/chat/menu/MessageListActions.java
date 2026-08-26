@@ -24,6 +24,8 @@ public interface MessageListActions {
 
     void onCollectMessage(@NonNull AppMessage message);
 
+    void onQuoteMessage(@NonNull AppMessage message);
+
     void onToggleMessageChecked(@NonNull AppMessage message, boolean checked);
 
     void onExitMultiSelectMode();

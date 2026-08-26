@@ -293,6 +293,63 @@ public final class WeChatUiHelper {
         return TextUtils.isEmpty(userId) ? "" : userId;
     }
 
+    /**
+     * 引用/摘要等场景：优先 nameMap → 好友备注/昵称 → 当前登录用户昵称 → userId。
+     */
+    @NonNull
+    public static String resolveUserDisplayName(@Nullable String userId,
+                                                @Nullable String currentUserId,
+                                                @Nullable Map<String, String> nameMap) {
+        if (TextUtils.isEmpty(userId)) {
+            return "";
+        }
+        if (nameMap != null) {
+            String mapped = nameMap.get(userId);
+            if (!TextUtils.isEmpty(mapped) && !TextUtils.equals(mapped, userId)) {
+                return mapped.trim();
+            }
+        }
+        String friendName = RealmUtil.INSTANCE.findFriendDisplayName(userId);
+        if (!TextUtils.isEmpty(friendName)) {
+            return MessageContentFormatter.preferShortDisplayName(friendName);
+        }
+        if (!TextUtils.isEmpty(currentUserId) && TextUtils.equals(currentUserId, userId)) {
+            String selfName = resolveCurrentLoginDisplayName();
+            if (!TextUtils.isEmpty(selfName)) {
+                return selfName;
+            }
+        }
+        if (nameMap != null) {
+            String mapped = nameMap.get(userId);
+            if (!TextUtils.isEmpty(mapped)) {
+                return mapped.trim();
+            }
+        }
+        return userId;
+    }
+
+    @NonNull
+    public static String resolveCurrentLoginDisplayName() {
+        try {
+            String json = com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getSqlStrData(
+                    com.cboda.baselibrary.utils.MMKVBroadUtils.LOGIN_USER_DATA, "");
+            if (TextUtils.isEmpty(json)) {
+                return "";
+            }
+            com.cboda.baselibrary.bean.UserInfoBean bean =
+                    com.cboda.baselibrary.utils.GsonUtilsKt.fromJson2(json,
+                            com.cboda.baselibrary.bean.UserInfoBean.class);
+            if (bean == null) {
+                return "";
+            }
+            if (!TextUtils.isEmpty(bean.getName())) {
+                return bean.getName().trim();
+            }
+        } catch (Throwable ignored) {
+        }
+        return "";
+    }
+
 
     /**
      * 会话列表预览：传入当前用户与群成员昵称，避免撤回等系统文案显示裸 userId。

@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import com.freddy.chat.im.MessageReadUiState;
 import com.freddy.chat.menu.MessageListActions;
 import com.freddy.chat.menu.MessageListMode;
+import com.freddy.chat.utils.QuoteMessageContentUtil;
 import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.http.model.im.GroupMemberItem;
@@ -45,6 +46,8 @@ public final class MessageViewHolderContext {
     public final OnMentionMemberListener mentionMemberListener;
     @Nullable
     public final OnPortraitClickListener portraitClickListener;
+    @Nullable
+    public final OnQuoteClickListener quoteClickListener;
     public final int listMode;
 
     public interface OnMentionMemberListener {
@@ -54,6 +57,10 @@ public final class MessageViewHolderContext {
     /** 消息头像点击（对齐野火 {@code OnPortraitClickListener}）。 */
     public interface OnPortraitClickListener {
         void onPortraitClick(@NonNull String userId);
+    }
+
+    public interface OnQuoteClickListener {
+        void onQuoteClick(@NonNull QuoteMessageContentUtil.QuoteInfo quoteInfo);
     }
 
     public MessageViewHolderContext(boolean isGroupChat,
@@ -71,6 +78,7 @@ public final class MessageViewHolderContext {
                                     @Nullable MessageListActions messageActions,
                                     @Nullable OnMentionMemberListener mentionMemberListener,
                                     @Nullable OnPortraitClickListener portraitClickListener,
+                                    @Nullable OnQuoteClickListener quoteClickListener,
                                     int listMode) {
         this.isGroupChat = isGroupChat;
         this.peerAvatarUrl = peerAvatarUrl;
@@ -87,6 +95,7 @@ public final class MessageViewHolderContext {
         this.messageActions = messageActions;
         this.mentionMemberListener = mentionMemberListener;
         this.portraitClickListener = portraitClickListener;
+        this.quoteClickListener = quoteClickListener;
         this.listMode = listMode;
     }
 
@@ -129,6 +138,12 @@ public final class MessageViewHolderContext {
                 && !TextUtils.isEmpty(peerUserId)
                 && !TextUtils.isEmpty(peerDisplayName)) {
             map.putIfAbsent(peerUserId, peerDisplayName);
+        }
+        if (!TextUtils.isEmpty(currentUserId)) {
+            String selfName = WeChatUiHelper.resolveCurrentLoginDisplayName();
+            if (!TextUtils.isEmpty(selfName)) {
+                map.put(currentUserId, selfName);
+            }
         }
         return map;
     }
