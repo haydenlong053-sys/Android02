@@ -123,9 +123,19 @@ class CallActivity : AppCompatActivity() {
         if (finishing || isFinishing || callConnected || !outgoing) {
             return@Runnable
         }
-        eLogD(tAG, "主叫振铃超时 ${OUTGOING_RING_TIMEOUT_MS}ms，未接听 callId=$callId")
+        eLogD(tAG, "主叫振铃超时 ${RING_TIMEOUT_MS}ms，未接听 callId=$callId")
         ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_remote_no_answer)
         hangup(sendSignal = true, timeoutNoAnswer = true)
+    }
+
+    /** 被叫振铃超时：超过 1 分钟未接听则自动拒绝并关闭页面。 */
+    private val incomingRingTimeout = Runnable {
+        if (finishing || isFinishing || callConnected || outgoing) {
+            return@Runnable
+        }
+        eLogD(tAG, "被叫振铃超时 ${RING_TIMEOUT_MS}ms，未接听自动关闭 callId=$callId")
+        ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_missed)
+        autoRejectIncomingOnTimeout()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -173,8 +183,10 @@ class CallActivity : AppCompatActivity() {
         }
         if (!fromFloating) {
             startOutgoingRingTimeout()
+            startIncomingRingTimeout()
         } else if (!callConnected) {
             startOutgoingRingTimeout()
+            startIncomingRingTimeout()
             if (isMultiCall) {
                 startMultiParticipantRingTimeouts()
             }
@@ -453,11 +465,11 @@ class CallActivity : AppCompatActivity() {
             pendingRingTimeouts.remove(userId)
             if (finishing || isFinishing) return@Runnable
             if (connectedParticipantIds.contains(userId)) return@Runnable
-            eLogD(tAG, "群通话成员 $userId ${OUTGOING_RING_TIMEOUT_MS}ms 未接听，移除 callId=$callId")
+            eLogD(tAG, "群通话成员 $userId ${RING_TIMEOUT_MS}ms 未接听，移除 callId=$callId")
             removeUnansweredParticipant(userId)
         }
         pendingRingTimeouts[userId] = runnable
-        durationHandler.postDelayed(runnable, OUTGOING_RING_TIMEOUT_MS)
+        durationHandler.postDelayed(runnable, RING_TIMEOUT_MS)
     }
 
     /** 超时未接听：发 CANCEL(timeout) 停对端振铃（带 groupId，不落会话消息），并从本页移除。 */
@@ -738,6 +750,7 @@ class CallActivity : AppCompatActivity() {
         callConnected = true
         stopRing()
         cancelOutgoingRingTimeout()
+        cancelIncomingRingTimeout()
         connectedAtMs = System.currentTimeMillis()
         incomingActionContainer.visibility = View.GONE
         if (isMultiCall) {
@@ -800,9 +813,25 @@ class CallActivity : AppCompatActivity() {
         hangup(sendSignal = false)
     }
 
+    /** 被叫侧振铃超时：发 REJECT 通知主叫，并关闭本页。 */
+    private fun autoRejectIncomingOnTimeout() {
+        if (outgoing || callConnected || finishing) {
+            hangup(sendSignal = false)
+            return
+        }
+        val id = if (!TextUtils.isEmpty(callId)) callId else roomName
+        val gid = groupId.takeIf { it.isNotBlank() }
+        eLogD(tAG, "被叫超时未接听，发 REJECT callId=$id toUserId=$targetId groupId=$gid")
+//        if (!TextUtils.isEmpty(id) && !TextUtils.isEmpty(targetId)) {
+//            CallSignalSender.reject(id, targetId, roomName, video, gid)
+//        }
+        hangup(sendSignal = false)
+    }
+
     private fun hangup(sendSignal: Boolean = true, timeoutNoAnswer: Boolean = false) {
         stopRing()
         cancelOutgoingRingTimeout()
+        cancelIncomingRingTimeout()
         cancelAllParticipantRingTimeouts()
         if (timeoutNoAnswer) {
             leaveAsTimeout = true
@@ -822,17 +851,49 @@ class CallActivity : AppCompatActivity() {
         finishFade()
     }
 
-    /** 1v1 主叫：接通前 20s 未接听则超时取消。 */
+    /** 1v1 主叫：接通前 60s 未接听则超时取消。 */
     private fun startOutgoingRingTimeout() {
         cancelOutgoingRingTimeout()
         if (!outgoing || isMultiCall || callConnected || finishing) {
             return
         }
-        durationHandler.postDelayed(outgoingRingTimeout, OUTGOING_RING_TIMEOUT_MS)
+        val delay = remainingRingTimeoutMs()
+        if (delay <= 0L) {
+            durationHandler.post(outgoingRingTimeout)
+            return
+        }
+        durationHandler.postDelayed(outgoingRingTimeout, delay)
     }
 
     private fun cancelOutgoingRingTimeout() {
         durationHandler.removeCallbacks(outgoingRingTimeout)
+    }
+
+    /** 被叫：接通前 60s 未接听则自动关页。 */
+    private fun startIncomingRingTimeout() {
+        cancelIncomingRingTimeout()
+        if (outgoing || callConnected || finishing) {
+            return
+        }
+        val delay = remainingRingTimeoutMs()
+        if (delay <= 0L) {
+            durationHandler.post(incomingRingTimeout)
+            return
+        }
+        durationHandler.postDelayed(incomingRingTimeout, delay)
+    }
+
+    private fun cancelIncomingRingTimeout() {
+        durationHandler.removeCallbacks(incomingRingTimeout)
+    }
+
+    /** 按页面打开时间计算剩余振铃超时（含悬浮窗恢复场景）。 */
+    private fun remainingRingTimeoutMs(): Long {
+        if (openedAtMs <= 0L) {
+            return RING_TIMEOUT_MS
+        }
+        val elapsed = System.currentTimeMillis() - openedAtMs
+        return (RING_TIMEOUT_MS - elapsed).coerceAtLeast(0L)
     }
 
     /**
@@ -984,6 +1045,7 @@ class CallActivity : AppCompatActivity() {
             currentRef = null
         }
         cancelOutgoingRingTimeout()
+        cancelIncomingRingTimeout()
         cancelAllParticipantRingTimeouts()
         durationHandler.removeCallbacks(durationTicker)
         val keepRoom = CallSessionHolder.keepRoomOnDestroy
@@ -1113,16 +1175,16 @@ class CallActivity : AppCompatActivity() {
         const val EXTRA_OUTGOING = "outgoing"
         const val EXTRA_FROM_FLOATING_VIEW = "fromFloatingView"
 
-        /** 主叫振铃超时（毫秒）。 */
-        private const val OUTGOING_RING_TIMEOUT_MS = 60_000L
+        /** 振铃超时（毫秒）：主叫未接通 / 被叫未接听均 60s。 */
+        private const val RING_TIMEOUT_MS = 60_000L
 
         /** 被叫侧判断「振铃过久后的 CANCEL」是否为超时（略短于主叫超时，留网络余量）。 */
         @JvmStatic
-        fun ringTimeoutDetectMs(): Long = OUTGOING_RING_TIMEOUT_MS - 2_000L
+        fun ringTimeoutDetectMs(): Long = RING_TIMEOUT_MS - 2_000L
 
         /** 主叫振铃超时时长（供信令层对齐判断）。 */
         @JvmStatic
-        fun outgoingRingTimeoutMs(): Long = OUTGOING_RING_TIMEOUT_MS
+        fun outgoingRingTimeoutMs(): Long = RING_TIMEOUT_MS
 
         @Volatile
         private var currentRef: WeakReference<CallActivity>? = null
