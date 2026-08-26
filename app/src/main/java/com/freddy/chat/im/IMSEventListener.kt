@@ -10,6 +10,7 @@ import com.blankj.utilcode.util.ThreadUtils
 import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.RealTimeUtil
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.baselibrary.utils.toLog
@@ -50,6 +51,7 @@ import kotlin.collections.LinkedHashMap
 import kotlin.collections.MutableList
 import kotlin.collections.MutableMap
 import kotlin.concurrent.Volatile
+import kotlin.math.abs
 
 /**
  * SeekWeb4 + imsignal 回调到应用层 [MessageProcessor]。
@@ -82,7 +84,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
             return
         }
         eLogD(tAG, "收到服务端的onSignalPush信令响应cmd: " + push.header.cmd)
-
+        RealTimeUtil.getServerTime(null)
         // 0x0004 下线通知：被踢下线 → 提示并走失效登录
         if (push.header.cmd == ImSignalProtos.Cmd.OFFLINE_VALUE) {
             handleOfflineKick(push)
@@ -187,8 +189,8 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                 }
                 val myId = MMKVBroadUtils.getRealUserId()
                 val selfRemoved = !myId.isNullOrEmpty() && (
-                    sig.leavesList.any { it == myId } || sig.kickoutsList.any { it == myId }
-                )
+                        sig.leavesList.any { it == myId } || sig.kickoutsList.any { it == myId }
+                        )
                 if (selfRemoved) {
                     // 自己退群/被踢：移除本地会话并刷新列表
                     ImLocalStore.removeSessionCompletely(groupId) {
@@ -300,9 +302,17 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                             + " ,callId=" + sign.callId
                             + " ,mode=" + sign.mode
                             + " ,mediaType=" + sign.mediaType
-                            + " ,fromUserIcon=" + sign.fromUserIcon)
+                            + " ,fromUserIcon=" + sign.fromUserIcon
+                            + " ,timestamp=" + sign.timestamp)
+
                 )
+//                RealTimeUtil.getServerTime(null) {
+//                    val timeSecond = abs(it - sign.timestamp) / 1000
+//                    eLogD(tAG, ("timeSecond:" + timeSecond + " ,it=" + it + " ,timestamp=" + sign.timestamp))
+//                    if (timeSecond <= 55) {
                 handleCallSignal(sign)
+//                    }
+//                }
             } catch (e: Exception) {
                 e.toLog(tAG + "_解析 CallSignal 失败")
             }
@@ -389,24 +399,6 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                 }
                 val video = TextUtils.equals("video", sign.mediaType)
                 val callId = if (!TextUtils.isEmpty(sign.callId)) sign.callId else roomName
-                val groupId = if (sign.hasGroupId()) sign.groupId else ""
-                val participantIds = linkedSetOf<String>()
-                if (!TextUtils.isEmpty(sign.fromUserId)) {
-                    participantIds.add(sign.fromUserId)
-                }
-                if (sign.toUserIdsCount > 0) {
-                    sign.toUserIdsList.forEach { uid ->
-                        if (!TextUtils.isEmpty(uid)) participantIds.add(uid)
-                    }
-                }
-                if (sign.membersCount > 0) {
-                    sign.membersList.forEach { uid ->
-                        if (!TextUtils.isEmpty(uid)) participantIds.add(uid)
-                    }
-                }
-                if (!TextUtils.isEmpty(selfId)) {
-                    participantIds.remove(selfId)
-                }
                 val sameCall = CallActivity.isSameCall(callId) || CallActivity.isSameCall(roomName)
                 // 语音/视频通话中，或会议中：回 CALL_SIGNAL(0x0502) / CALL_BUSY=5，不弹来电页
                 val busyNow = (CallActivity.isInCall() && !sameCall)
@@ -416,22 +408,48 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     CallSignalSender.busy(callId, sign.fromUserId, roomName, video)
                     return
                 }
-                // type=1 由产品约定为「用户已接通」通知，此处不再回执 RINGING，避免主叫误判已接通
-                eLogD(tAG, "CALL_INVITE groupId=$groupId participants=$participantIds")
-                CallMissedLocalStore.markIncoming(callId, sign.fromUserId)
-                CallMissedLocalStore.markIncoming(roomName, sign.fromUserId)
-                ThreadUtils.getMainHandler().post {
-                    CallActivity.startIncoming(
-                        getAppContext(),
-                        sign.fromUserId,
-                        roomName,
-                        video,
-                        participantIds = participantIds.toList(),
-                        callId = sign.callId,
-                        groupId = groupId
-                    )
+                RealTimeUtil.getServerTime(null) {
+                    val timeSecond = abs(it - sign.timestamp) / 1000
+                    eLogD(tAG, ("timeSecond:" + timeSecond + " ,it=" + it + " ,timestamp=" + sign.timestamp))
+                    if (timeSecond <= 55) {
+                        val groupId = if (sign.hasGroupId()) sign.groupId else ""
+                        val participantIds = linkedSetOf<String>()
+                        if (!TextUtils.isEmpty(sign.fromUserId)) {
+                            participantIds.add(sign.fromUserId)
+                        }
+                        if (sign.toUserIdsCount > 0) {
+                            sign.toUserIdsList.forEach { uid ->
+                                if (!TextUtils.isEmpty(uid)) participantIds.add(uid)
+                            }
+                        }
+                        if (sign.membersCount > 0) {
+                            sign.membersList.forEach { uid ->
+                                if (!TextUtils.isEmpty(uid)) participantIds.add(uid)
+                            }
+                        }
+                        if (!TextUtils.isEmpty(selfId)) {
+                            participantIds.remove(selfId)
+                        }
+                        // type=1 由产品约定为「用户已接通」通知，此处不再回执 RINGING，避免主叫误判已接通
+                        eLogD(tAG, "CALL_INVITE groupId=$groupId participants=$participantIds")
+                        CallMissedLocalStore.markIncoming(callId, sign.fromUserId)
+                        CallMissedLocalStore.markIncoming(roomName, sign.fromUserId)
+                        ThreadUtils.getMainHandler().post {
+                            CallActivity.startIncoming(
+                                getAppContext(),
+                                sign.fromUserId,
+                                roomName,
+                                video,
+                                participantIds = participantIds.toList(),
+                                callId = sign.callId,
+                                groupId = groupId
+                            )
+                        }
+                    }
                 }
+
             }
+
             ImSignalProtos.CallSignalType.CALL_RINGING_VALUE -> {
                 // 产品约定：0x0502 type=1 表示某用户已接通，刷新通话页 UI
                 val matchId = when {
@@ -444,6 +462,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     CallActivity.onRemoteUserConnected(matchId, sign.fromUserId)
                 }
             }
+
             ImSignalProtos.CallSignalType.CALL_ACCEPT_VALUE -> {
                 val matchId = when {
                     !TextUtils.isEmpty(sign.callId) -> sign.callId
@@ -455,6 +474,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     CallActivity.onRemoteUserConnected(matchId, sign.fromUserId)
                 }
             }
+
             ImSignalProtos.CallSignalType.CALL_MEMBER_JOINED_VALUE -> {
                 val matchId = when {
                     !TextUtils.isEmpty(sign.callId) -> sign.callId
@@ -466,6 +486,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     CallActivity.onRemoteUserConnected(matchId, sign.fromUserId)
                 }
             }
+
             ImSignalProtos.CallSignalType.CALL_BUSY_VALUE -> {
                 val matchId = when {
                     !TextUtils.isEmpty(sign.callId) -> sign.callId
@@ -477,6 +498,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     CallActivity.onRemoteParticipantLeft(matchId, sign.fromUserId, busy = true)
                 }
             }
+
             ImSignalProtos.CallSignalType.CALL_CANCEL_VALUE -> {
                 val matchId = when {
                     !TextUtils.isEmpty(sign.callId) -> sign.callId
@@ -487,7 +509,8 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                         && CallActivity.isCancelTimeoutPayload(sign.payload)
                 // 无 payload 时：来电已超过约 55s 也视为超时未接
                 val timeoutByRing = CallMissedLocalStore.isIncomingOlderThan(
-                        matchId, sign.fromUserId, CallActivity.ringTimeoutDetectMs())
+                    matchId, sign.fromUserId, CallActivity.ringTimeoutDetectMs()
+                )
                 val timeout = timeoutPayload || timeoutByRing
                 eLogD(tAG, "主叫取消 CALL_CANCEL matchId=$matchId from=${sign.fromUserId} timeout=$timeout")
                 if (timeout) {
@@ -497,6 +520,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     CallActivity.finishIfRemoteCancelled(matchId, sign.fromUserId, timeout)
                 }
             }
+
             ImSignalProtos.CallSignalType.CALL_HANGUP_VALUE -> {
                 val matchId = when {
                     !TextUtils.isEmpty(sign.callId) -> sign.callId
@@ -510,6 +534,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     CallActivity.onRemoteParticipantLeft(matchId, sign.fromUserId)
                 }
             }
+
             ImSignalProtos.CallSignalType.CALL_REJECT_VALUE -> {
                 val matchId = when {
                     !TextUtils.isEmpty(sign.callId) -> sign.callId
@@ -521,6 +546,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     CallActivity.onRemoteParticipantLeft(matchId, sign.fromUserId)
                 }
             }
+
             ImSignalProtos.CallSignalType.CALL_MEMBER_LEFT_VALUE -> {
                 val matchId = when {
                     !TextUtils.isEmpty(sign.callId) -> sign.callId
@@ -532,6 +558,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     CallActivity.onRemoteParticipantLeft(matchId, sign.fromUserId)
                 }
             }
+
             ImSignalProtos.CallSignalType.CALL_END_VALUE -> {
                 val matchId = when {
                     !TextUtils.isEmpty(sign.callId) -> sign.callId
@@ -544,6 +571,7 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
                     CallActivity.finishIfRemoteEnded(matchId, sign.fromUserId)
                 }
             }
+
             else -> {
                 eLogD(tAG, "未处理的通话信令 type=${sign.type}")
             }
