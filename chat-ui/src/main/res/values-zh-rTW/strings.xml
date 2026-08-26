@@ -375,6 +375,8 @@
     <string name="message_add">新增</string>
     <string name="message_recall">撤回</string>
     <string name="message_copy">複製</string>
+    <string name="message_quote">引用</string>
+    <string name="message_quote_not_found">找不到原訊息</string>
     <string name="message_copy_success">複製成功</string>
     <string name="message_select_more">多選</string>
     <string name="message_delete">刪除</string>

@@ -65,6 +65,7 @@ import com.freddy.chat.media.PictureSelectorSandboxEngine;
 import com.freddy.chat.utils.CThreadPoolExecutor;
 import com.freddy.chat.utils.MediaMessageContentUtil;
 import com.freddy.chat.utils.MediaUploadFileResolver;
+import com.freddy.chat.utils.QuoteMessageContentUtil;
 import com.freddy.chat.utils.VideoCoverUtil;
 import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.MessageType;
@@ -277,6 +278,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             }else {
                 JumpBroadUtils.Companion.startHaoYouAddActivity(requireContext(), userId, "2");
             }});
+        adapter.setQuoteClickListener(this::scrollToQuotedMessage);
         if (isGroupChat) {
             adapter.setMentionMemberListener((userId, displayName) -> {
                 if (inputPanel != null) {
@@ -302,8 +304,10 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
         inputPanel.init(this, view.findViewById(R.id.mViewIntercept), new MessageListInputBroadPanel.Callback() {
             @Override
-            public void onSendText(@NonNull String text, @Nullable String customInfo) {
-                sendMsg(text, customInfo);
+            public void onSendText(@NonNull String text,
+                                   @Nullable String customInfo,
+                                   @Nullable QuoteMessageContentUtil.QuoteInfo quoteInfo) {
+                sendMsg(text, customInfo, quoteInfo);
             }
 
             @Override
@@ -1307,6 +1311,12 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     }
 
     private void sendMsg(@NonNull String text, @Nullable String customInfo) {
+        sendMsg(text, customInfo, null);
+    }
+
+    private void sendMsg(@NonNull String text,
+                         @Nullable String customInfo,
+                         @Nullable QuoteMessageContentUtil.QuoteInfo quoteInfo) {
         if (TextUtils.isEmpty(text) && TextUtils.isEmpty(customInfo)) {
             return;
         }
@@ -1318,7 +1328,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         }
 
         AppMessage message = MessageBuilder.buildTextMessage(
-                sessionId, sessionItem.getConversation(), peerUserId, text, customInfo);
+                sessionId, sessionItem.getConversation(), peerUserId, text, customInfo, quoteInfo);
         ELogUtilKt.eLogI(ELogUtilKt.APP_IM_TAG, "message.getContent()=" + message.getContent() + "------" + "message.getCustomInfo()=" + message.getCustomInfo());
         MessageProcessor.getInstance().sendMsg(message, () -> {
             markSelfSendNow();
@@ -1489,6 +1499,60 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             return;
         }
         MessageContextMenuHelper.copyTextToClipboard(requireContext(), text);
+    }
+
+    @Override
+    public void onQuoteMessage(@NonNull AppMessage message) {
+        if (inputPanel == null || adapter == null) {
+            return;
+        }
+        String currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
+        QuoteMessageContentUtil.QuoteInfo quote = QuoteMessageContentUtil.fromMessage(
+                message, currentUserId, adapter.buildUserDisplayNameMap());
+        if (TextUtils.isEmpty(quote.resolveAnchorId())) {
+            return;
+        }
+        inputPanel.setQuoteMessage(quote);
+        inputPanel.setVisibility(View.VISIBLE);
+    }
+
+    private void scrollToQuotedMessage(@NonNull QuoteMessageContentUtil.QuoteInfo quoteInfo) {
+        if (adapter == null || recyclerView == null) {
+            return;
+        }
+        String anchor = quoteInfo.resolveAnchorId();
+        int pos = adapter.findPositionByMessageId(anchor);
+        if (pos < 0 && !TextUtils.isEmpty(quoteInfo.clientMsgId)
+                && !TextUtils.equals(anchor, quoteInfo.clientMsgId)) {
+            pos = adapter.findPositionByMessageId(quoteInfo.clientMsgId);
+        }
+        if (pos < 0) {
+            ToastBroadUtils.show(getString(com.cboda.chatui.R.string.message_quote_not_found));
+            return;
+        }
+        LinearLayoutManager lm = (LinearLayoutManager) recyclerView.getLayoutManager();
+        if (lm != null) {
+            lm.scrollToPositionWithOffset(pos, Math.max(recyclerView.getHeight() / 3, 120));
+        } else {
+            recyclerView.scrollToPosition(pos);
+        }
+        highlightQuotedItem(pos);
+    }
+
+    private void highlightQuotedItem(int position) {
+        recyclerView.post(() -> {
+            RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(position);
+            if (holder == null || holder.itemView == null) {
+                return;
+            }
+            View itemView = holder.itemView;
+            itemView.animate().cancel();
+            itemView.setAlpha(0.4f);
+            itemView.animate()
+                    .alpha(1f)
+                    .setDuration(650)
+                    .start();
+        });
     }
 
     @Override

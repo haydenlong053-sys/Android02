@@ -43,6 +43,10 @@ public final class MessageContextMenuHelper {
             menuActions.add(action(context, com.cboda.chatui.R.string.message_copy,
                     () -> actions.onCopyMessage(message)));
         }
+        if (MessageMenuPolicy.canQuote(message)) {
+            menuActions.add(action(context, com.cboda.chatui.R.string.message_quote,
+                    () -> actions.onQuoteMessage(message)));
+        }
         if (MessageMenuPolicy.canCollect(message)) {
             menuActions.add(action(context, com.cboda.chatui.R.string.message_collect,
                     () -> actions.onCollectMessage(message)));

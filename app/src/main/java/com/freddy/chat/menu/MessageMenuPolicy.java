@@ -105,4 +105,24 @@ public final class MessageMenuPolicy {
     public static boolean canDelete(@NonNull AppMessage message) {
         return supportsContextMenu(message);
     }
+
+    /**
+     * 对齐野火：文本 / 图片 / 视频 / 文件 / 语音 / 名片 / 位置 可引用。
+     */
+    public static boolean canQuote(@NonNull AppMessage message) {
+        if (!supportsContextMenu(message)) {
+            return false;
+        }
+        if (TextUtils.isEmpty(message.getMsgId()) && TextUtils.isEmpty(message.getClientMsgId())) {
+            return false;
+        }
+        int type = message.getMsgContentType();
+        return MessageType.MessageContentType.isText(type)
+                || MessageContentFormatter.isImageMessage(type)
+                || MessageContentFormatter.isVideoMessage(type)
+                || MessageContentFormatter.isFileMessage(type)
+                || MessageContentFormatter.isVoiceMessage(type)
+                || MessageContentFormatter.isCardMessage(type)
+                || MessageContentFormatter.isMapMessage(type);
+    }
 }
