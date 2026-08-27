@@ -11,6 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
+import com.cboda.baselibrary.network.repository.NetworkBroadRepository
+import com.cboda.baselibrary.network.result.onError
+import com.cboda.baselibrary.network.result.onFailure
+import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.utils.DeviceBroadUtil
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.APP_TAG
@@ -18,6 +22,7 @@ import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppStr
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.intelligent.R
+import com.cboda.intelligent.bean.CheckGroupJoiBean
 import com.cboda.intelligent.bean.ResultBroadBean
 import com.cboda.intelligent.configuration.ScanJumpBroadEnum
 import com.cboda.intelligent.dialog.NormalBroadDialog
@@ -28,6 +33,7 @@ import com.cboda.intelligent.utils.OkHttpBroadHelper
 import com.cboda.intelligent.utils.SpotsCallBroadBack
 import com.cboda.intelligent.utils.StringBroadUtil
 import com.cboda.intelligent.utils.ToastBroadUtil
+import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.utils.isEthWalletLinkQrCode
 import com.cboda.intelligent.utils.isTransferLinkQrCode
 import com.cboda.intelligent.utils.showToastMain
@@ -368,29 +374,29 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
                         applySelfImJoinGroup(linkId, null)
                         return
                     }
-                    val param1 = HashMap<String, Any>()
-                    param1["id"] = linkId
-                    OkHttpBroadHelper.getInstance().post_json(
-                        this,
-                        HttpsBroadConfig.appBaseUrl + "/groupScan",
-                        param1,
-                        object : SpotsCallBroadBack<ResultBroadBean>(this) {
-                            override fun onSuccess(response: Response?, commonResultBean: ResultBroadBean?) {
-                                if (commonResultBean != null && !TextUtils.isEmpty(commonResultBean.groupId)) {
-                                    AppBroadUtils.goChat(this@ScanActivity, commonResultBean.groupId, "1", null)
-                                    finish()
-                                } else {
-                                    ToastBroadUtil.show(commonResultBean?.msg ?: getString(R.string.scan_applied_waiting_group_owner))
-                                    finish()
-                                }
-                            }
-
-                            override fun onError(response: Response?, code: Int, e: Exception?) {
-                                ToastBroadUtil.show(getString(R.string.scan_network_request_failed))
-                                restartScan()
-                            }
-                        }
-                    )
+//                    val param1 = HashMap<String, Any>()
+//                    param1["id"] = linkId
+//                    OkHttpBroadHelper.getInstance().post_json(
+//                        this,
+//                        HttpsBroadConfig.appBaseUrl + "/groupScan",
+//                        param1,
+//                        object : SpotsCallBroadBack<ResultBroadBean>(this) {
+//                            override fun onSuccess(response: Response?, commonResultBean: ResultBroadBean?) {
+//                                if (commonResultBean != null && !TextUtils.isEmpty(commonResultBean.groupId)) {
+//                                    AppBroadUtils.goChat(this@ScanActivity, commonResultBean.groupId, "1", null)
+//                                    finish()
+//                                } else {
+//                                    ToastBroadUtil.show(commonResultBean?.msg ?: getString(R.string.scan_applied_waiting_group_owner))
+//                                    finish()
+//                                }
+//                            }
+//
+//                            override fun onError(response: Response?, code: Int, e: Exception?) {
+//                                ToastBroadUtil.show(getString(R.string.scan_network_request_failed))
+//                                restartScan()
+//                            }
+//                        }
+//                    )
                 }
 
                 "3" -> { //扫描登录
@@ -418,17 +424,20 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
         ImGroupHttpExample.requestGetGroupByCodeId(codeId!!, object : OnHttpImListener<GroupQrInfoRes> {
             override fun onHttpImSuccess(result: GroupQrInfoRes) {
                 if (result.busiExt.openJoinPay == "1") {
+//                    ImGroupHttpExample.requestGetGroupDetail(result.id, { result -> eLogD("requestGetGroupDetail", "result:${toJson2(result)}") }, {})
+//                    showToastMain("需要付费：${result.busiExt.joinPayPriceUsdt}")
 
                 } else {
-                    runOnUiThread {
-                        if (TextUtils.isEmpty(result.id)) {
-                            ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code))
-                            restartScan()
-                            return@runOnUiThread
-                        }
-                        applySelfImJoinGroup(result.id!!, result)
-                    }
+                    showToastMain("不需要付费")
                 }
+//                if (TextUtils.isEmpty(result.id)) {
+//                    showToastMain(R.string.scan_invalid_qr_code)
+//                    restartScan()
+//                    return
+//                } else {
+//                    checkGroupJoinEligibility(result.id ?: "", result)
+//                }
+//                applySelfImJoinGroup(result.id!!, result)
             }
         }, {
             runOnUiThread {
@@ -436,6 +445,52 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
                 restartScan()
             }
         })
+    }
+
+    /** 自研：校验黑名单与入群收费，通过后再申请入群。 */
+    private fun checkGroupJoinEligibility(groupId: String, groupInfo: GroupVo?) {
+        lifecycleScope.launch {
+            val params = hashMapOf<String, Any?>("id" to groupId)
+            val response = withContext(Dispatchers.IO) {
+                NetworkBroadRepository.postEncrypted2(
+                    UrlBroadBroadConstants.CHECK_GROUP_JOIN,
+                    CheckGroupJoiBean::class.java,
+                    params,
+                )
+            }
+            withContext(Dispatchers.Main) {
+                response.onSuccess { data ->
+                    if (data == null) {
+                        ToastBroadUtil.show(getString(R.string.scan_network_request_failed))
+                        restartScan()
+                        return@onSuccess
+                    }
+                    val fallbackPay = groupInfo?.busiExt?.openJoinPay ?: groupInfo?.openJoinPay
+                    when {
+                        data.isBlacklisted() -> {
+                            ToastBroadUtil.show(getString(R.string.scan_group_blacklisted))
+                            restartScan()
+                        }
+
+                        data.isJoinPayRequired(fallbackPay) -> {
+                            ToastBroadUtil.show(getString(R.string.scan_group_join_pay_required))
+                            restartScan()
+                        }
+
+                        else -> applySelfImJoinGroup(groupId, groupInfo)
+                    }
+                }.onFailure { _, message ->
+                    ToastBroadUtil.show(
+                        message.takeIf { it.isNotBlank() }
+                            ?: getString(R.string.scan_network_request_failed)
+                    )
+                    restartScan()
+                }.onError {
+                    ToastBroadUtil.show(getString(R.string.scan_network_request_failed))
+                    restartScan()
+                }
+            }
+        }
     }
 
     /** 自研申请入群。对齐野火：无需审核则进群聊；需审核则提示等待群主。 */
