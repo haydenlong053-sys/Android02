@@ -185,6 +185,10 @@ public final class MessageContentFormatter {
     public static String formatDisplayText(@NonNull AppMessage message,
                                            @Nullable String currentUserId,
                                            @Nullable Map<String, String> userIdToDisplayName) {
+        int type = message.getMsgContentType();
+        if (isRedPacketMessage(type)) {
+            return str(R.string.base_digest_red_package);
+        }
         if (isSystemMessage(message)) {
             String raw = resolveSystemContentRaw(message.getContent(), message.getExtra());
             if (isSystemContentJson(raw)) {
@@ -210,7 +214,7 @@ public final class MessageContentFormatter {
                     message.getContent(), sentByMe, currentUserId, groupCall, initiatorName,
                     resolveCallPeerUserId(message, currentUserId)));
         }
-        int type = message.getMsgContentType();
+
         if (isVoiceMessage(type)) {
             String duration = parseVoiceDurationLabel(message.getContent());
             String audio = str(R.string.base_digest_audio);
@@ -231,9 +235,7 @@ public final class MessageContentFormatter {
         if (isCardMessage(type)) {
             return str(R.string.base_digest_person_card);
         }
-        if (isRedPacketMessage(type)) {
-            return str(R.string.base_digest_red_package);
-        }
+
 //        if (isHongbaoClaimMessage(type)) {
 //            return formatHongbaoClaimDisplay(message.getContent(), currentUserId);
 //        }
@@ -312,6 +314,10 @@ public final class MessageContentFormatter {
                                               int lastMessageStatus,
                                               boolean groupChat,
                                               @Nullable String lastFromUserId) {
+        int type = parseContentTypeInt(contentType);
+        if (isRedPacketMessage(type)) {
+            return str(R.string.base_digest_red_package);
+        }
         // 撤回优先：不依赖 contentType，避免图片/语音等快捷分支盖过撤回文案
         if (MessageRepealHelper.isRecalled(lastMessageStatus)) {
             String raw = !TextUtils.isEmpty(lastMessageContent) ? lastMessageContent : content;
@@ -331,7 +337,6 @@ public final class MessageContentFormatter {
             return sanitizeOutgoingDisplayText(
                     formatTextDisplay(raw, lastCustomInfo, currentUserId, userIdToDisplayName));
         }
-        int type = parseContentTypeInt(contentType);
         if (isSystemContentJson(content)) {
             return sanitizeOutgoingDisplayText(
                     formatSystemDisplay(content, lastCustomInfo, currentUserId, userIdToDisplayName));
@@ -376,9 +381,6 @@ public final class MessageContentFormatter {
         }
         if (isCardMessage(type)) {
             return str(R.string.base_digest_person_card);
-        }
-        if (isRedPacketMessage(type)) {
-            return str(R.string.base_digest_red_package);
         }
 //        if (isHongbaoClaimMessage(type)) {
 //            String claimRaw = !TextUtils.isEmpty(lastMessageContent) ? lastMessageContent : content;

@@ -1,5 +1,6 @@
 package com.freddy.chat.viewholder;
 
+import static com.blankj.utilcode.util.SizeUtils.dp2px;
 import static com.cboda.baselibrary.utils.ViewExpandUtilKt.setBackColorAndRadius;
 
 import android.text.TextUtils;
@@ -17,6 +18,8 @@ import com.freddy.im.bean.AppMessage;
 import com.hjq.shape.view.ShapeTextView;
 
 import java.util.List;
+
+import cn.wildfirechat.message.core.MessageDirection;
 
 /**
  * 自研红包气泡（复用 {@code chat_hongbao_broad_layout}，对齐野火 HongBaoMessageContentViewBroadHolder）。
@@ -75,28 +78,35 @@ public final class HongBaoMessageVH extends BaseMessageVH {
         String desc = HongBaoMessageContentUtil.resolveHongbaoDesc(content);
         tvyilinghongbaodesc.setText(desc);
 
+        if (sentByMe) {
+            hongbaoBg.setCornerRadius(dp2px(12f), 0f, 0f, 0f);
+        } else {
+            hongbaoBg.setCornerRadius(0f, dp2px(12f), 0f, 0f);
+        }
         if ("1".equals(lingquStatus)
                 || (!TextUtils.isEmpty(context.currentUserId) && lqUsers.contains(context.currentUserId))) {
             allGroup.setAlpha(1f);
             if (sentByMe) {
-                statusTv.setVisibility(View.GONE);
                 tvhoongbaotips.setText(itemView.getContext().getString(R.string.hongbao_unlocked_by_others));
+                setBackColorAndRadius(statusTv, com.cboda.baselibrary.R.color.color_E9A94F,
+                        com.cboda.baselibrary.R.dimen.dp_0, com.cboda.baselibrary.R.dimen.dp_0,
+                        com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_0);
             } else {
-                statusTv.setVisibility(View.VISIBLE);
                 setBackColorAndRadius(statusTv, com.cboda.baselibrary.R.color.color_E9A94F,
                         com.cboda.baselibrary.R.dimen.dp_0, com.cboda.baselibrary.R.dimen.dp_12,
                         com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_0);
                 tvhoongbaotips.setText(itemView.getContext().getString(R.string.hongbao_unlocked));
-                statusTv.setText(itemView.getContext().getString(R.string.hongbao_received));
             }
+            statusTv.setVisibility(View.VISIBLE);
+            statusTv.setText(itemView.getContext().getString(R.string.hongbao_received));
         } else if ("3".equals(lingquStatus)) {
             allGroup.setAlpha(1f);
             statusTv.setVisibility(View.VISIBLE);
             statusTv.setText(itemView.getContext().getString(R.string.hongbao_expired));
             if (sentByMe) {
                 setBackColorAndRadius(statusTv, com.cboda.baselibrary.R.color.color_777777,
-                        com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_0,
-                        com.cboda.baselibrary.R.dimen.dp_0, com.cboda.baselibrary.R.dimen.dp_0);
+                        com.cboda.baselibrary.R.dimen.dp_0, com.cboda.baselibrary.R.dimen.dp_0,
+                        com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_0);
             } else {
                 setBackColorAndRadius(statusTv, com.cboda.baselibrary.R.color.color_777777,
                         com.cboda.baselibrary.R.dimen.dp_0, com.cboda.baselibrary.R.dimen.dp_12,
@@ -106,16 +116,19 @@ public final class HongBaoMessageVH extends BaseMessageVH {
         } else if ("2".equals(lingquStatus) && !context.isGroupChat) {
             allGroup.setAlpha(1f);
             if (sentByMe) {
-                statusTv.setVisibility(View.GONE);
                 tvhoongbaotips.setText(itemView.getContext().getString(R.string.hongbao_rejected_by_others));
+                setBackColorAndRadius(statusTv, com.cboda.baselibrary.R.color.color_44A7C8,
+                        com.cboda.baselibrary.R.dimen.dp_0, com.cboda.baselibrary.R.dimen.dp_0,
+                        com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_0);
             } else {
                 tvhoongbaotips.setText(itemView.getContext().getString(R.string.hongbao_rejected));
-                statusTv.setVisibility(View.VISIBLE);
+
                 setBackColorAndRadius(statusTv, com.cboda.baselibrary.R.color.color_44A7C8,
                         com.cboda.baselibrary.R.dimen.dp_0, com.cboda.baselibrary.R.dimen.dp_12,
                         com.cboda.baselibrary.R.dimen.dp_12, com.cboda.baselibrary.R.dimen.dp_0);
-                statusTv.setText(itemView.getContext().getString(R.string.hongbao_rejected));
             }
+            statusTv.setVisibility(View.VISIBLE);
+            statusTv.setText(itemView.getContext().getString(R.string.hongbao_rejected));
         } else {
             allGroup.setAlpha(1f);
             tvhoongbaotips.setText(itemView.getContext().getString(R.string.hongbao_unlock_digital_future));
