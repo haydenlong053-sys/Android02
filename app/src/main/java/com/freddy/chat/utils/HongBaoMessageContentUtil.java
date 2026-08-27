@@ -21,7 +21,7 @@ public final class HongBaoMessageContentUtil {
 
     public static final String KEY_HONGBAO_ID = "hongbaoId";
     public static final String KEY_PRICE = "price";
-    public static final String KEY_HONGBAO_DESC = "hongbaoDesc";
+    public static final String KEY_HONGBAO_DESC = "info";
     public static final String KEY_LINGQU_STATUS = "lingquStatus";
     public static final String KEY_HONGBAO_LEIXING = "hongbaoLeixing";
     public static final String KEY_ZHUANSHU_USER_ID = "zhuanshuUserId";

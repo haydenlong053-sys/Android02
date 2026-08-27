@@ -11,6 +11,7 @@ import com.freddy.im.MessageType
  */
 object HongBaoMessageSender {
 
+    //暂不使用，由后端接口来发
     fun sendRedPacket(
         activity: Activity?,
         isGroupChat: Boolean,

@@ -295,7 +295,7 @@ public class MessageBuilder {
         return message;
     }
 
-    /** 红包气泡消息 contentType=1000。 */
+    /** 红包气泡消息 contentType=720。 */
     @NonNull
     public static AppMessage buildRedPacketMessage(@Nullable String sessionId,
                                                    int conversationType,
