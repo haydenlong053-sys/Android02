@@ -526,6 +526,19 @@
     <string name="group_join_pay_fee_tip">The platform will charge a %1$s%% service fee. The remaining amount will be transferred to the group owner\'s DUALX account.</string>
     <string name="group_join_pay_price_invalid">Minimum join fee is 1 DUALX</string>
     <string name="group_join_pay_save_success">Saved</string>
+    <string name="group_join_pay_page_title">This group requires a join fee</string>
+    <string name="group_join_pay_page_subtitle">Pay the fee and pass verification to join the group</string>
+    <string name="group_join_pay_paid_tag">Paid</string>
+    <string name="group_join_pay_fee_card_title">Join fee</string>
+    <string name="group_join_pay_tips_title">Payment notes</string>
+    <string name="group_join_pay_tip_1">After payment succeeds, the system will verify and approve your join request automatically</string>
+    <string name="group_join_pay_tip_2">The join fee goes to the group owner\'s wallet for group operations only</string>
+    <string name="group_join_pay_tip_3">Payments are non-refundable. Please confirm before paying</string>
+    <string name="group_join_pay_group_id">Group ID: %1$s</string>
+    <string name="group_join_pay_group_members">Members: %1$d</string>
+    <string name="group_join_pay_amount_format">%1$s DUALX</string>
+    <string name="group_join_pay_btn_format">Pay %1$s DUALX to join</string>
+    <string name="group_join_pay_coming_soon">Payment coming soon</string>
     <string name="my_groups">My groups</string>
     <string name="menu_group_info">Group info</string>
 

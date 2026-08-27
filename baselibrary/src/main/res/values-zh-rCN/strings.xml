@@ -511,6 +511,19 @@
     <string name="group_join_pay_fee_tip">平台将收取 %1$s%% 服务费，剩余金额将自动转入群主 DUALX 平台账户。</string>
     <string name="group_join_pay_price_invalid">入群费用最低为 1 DUALX</string>
     <string name="group_join_pay_save_success">保存成功</string>
+    <string name="group_join_pay_page_title">该群开启了收费进群</string>
+    <string name="group_join_pay_page_subtitle">支付费用后，验证通过即可加入群聊</string>
+    <string name="group_join_pay_paid_tag">收费群</string>
+    <string name="group_join_pay_fee_card_title">进群费用</string>
+    <string name="group_join_pay_tips_title">支付说明</string>
+    <string name="group_join_pay_tip_1">支付成功后，系统将自动验证并通过群申请</string>
+    <string name="group_join_pay_tip_2">进群费用将进入群主钱包，仅用于群运营</string>
+    <string name="group_join_pay_tip_3">支付后不支持退款，请确认后支付</string>
+    <string name="group_join_pay_group_id">群ID: %1$s</string>
+    <string name="group_join_pay_group_members">群成员: %1$d</string>
+    <string name="group_join_pay_amount_format">%1$s DUALX</string>
+    <string name="group_join_pay_btn_format">立即支付 %1$s DUALX进群</string>
+    <string name="group_join_pay_coming_soon">支付功能即将开放</string>
     <string name="my_groups">我的群聊</string>
     <string name="menu_group_info">群聊信息</string>
 </resources>

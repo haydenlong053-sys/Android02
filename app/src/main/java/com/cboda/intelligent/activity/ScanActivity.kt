@@ -22,6 +22,7 @@ import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppStr
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.intelligent.R
+import com.cboda.intelligent.activity.im.GroupJoinPayActivity
 import com.cboda.intelligent.bean.CheckGroupJoiBean
 import com.cboda.intelligent.bean.ResultBroadBean
 import com.cboda.intelligent.configuration.ScanJumpBroadEnum
@@ -426,7 +427,7 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
                 if (result.busiExt.openJoinPay == "1") {
 //                    ImGroupHttpExample.requestGetGroupDetail(result.id, { result -> eLogD("requestGetGroupDetail", "result:${toJson2(result)}") }, {})
 //                    showToastMain("需要付费：${result.busiExt.joinPayPriceUsdt}")
-
+                    GroupJoinPayActivity.start(this@ScanActivity, result)
                 } else {
                     showToastMain("不需要付费")
                 }
