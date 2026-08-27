@@ -626,6 +626,14 @@ class MMKVBroadUtils {
 
         }
 
+        fun removeSqlData(key: String) {
+            try {
+                getMmKv()?.remove(key)
+            } catch (e: Exception) {
+                e.toLog("MMKVBroadUtilsClass")
+            }
+        }
+
 
         fun getSqlLongData(key: String, defaultValue: Long = 0L): Long {
             return try {

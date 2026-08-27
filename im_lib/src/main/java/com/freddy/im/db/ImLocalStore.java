@@ -269,6 +269,16 @@ public final class ImLocalStore {
         ImMessageRepository.getInstance().updateOutgoingMessage(message, onUpdated);
     }
 
+    /**
+     * 按 msgId 或 clientMsgId 更新本地消息 content（如红包领取状态），并回调最新快照。
+     */
+    public static void updateMessageContentById(@Nullable String msgIdOrClientMsgId,
+                                                @Nullable String newContent,
+                                                @Nullable ImMessageRepository.OnMessageUpdatedCallback onUpdated) {
+        ImMessageRepository.getInstance().updateMessageContentById(
+                msgIdOrClientMsgId, newContent, onUpdated);
+    }
+
     public static void markOutgoingSendFailed(@Nullable String clientMsgId,
                                             @Nullable ImMessageRepository.OnMessageUpdatedCallback onUpdated) {
         ImMessageRepository.getInstance().markOutgoingSendFailed(clientMsgId, onUpdated);

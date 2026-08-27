@@ -21,6 +21,8 @@ import com.freddy.chat.viewholder.BaseMessageVH;
 import com.freddy.chat.viewholder.CallMessageVH;
 import com.freddy.chat.viewholder.CardMessageVH;
 import com.freddy.chat.viewholder.FileMessageVH;
+import com.freddy.chat.viewholder.HongBaoMessageVH;
+//import com.freddy.chat.viewholder.HongbaoClaimMessageVH;
 import com.freddy.chat.viewholder.ImageMessageVH;
 import com.freddy.chat.viewholder.MapMessageVH;
 import com.freddy.chat.viewholder.MeetStatusMessageVH;
@@ -62,6 +64,8 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     private static final int VIEW_TYPE_MEET_END = 11;
     private static final int VIEW_TYPE_CALL = 12;
     private static final int VIEW_TYPE_RECALL = 13;
+    private static final int VIEW_TYPE_HONGBAO = 14;
+//    private static final int VIEW_TYPE_HONGBAO_CLAIM = 15;
     private static final int VIEW_TYPE_UNKNOWN = 99;
 
     private final boolean isGroupChat;
@@ -552,6 +556,12 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
         if (WeChatUiHelper.isCardMessage(contentType)) {
             return VIEW_TYPE_CARD;
         }
+        if (WeChatUiHelper.isRedPacketMessage(contentType)) {
+            return VIEW_TYPE_HONGBAO;
+        }
+//        if (WeChatUiHelper.isHongbaoClaimMessage(contentType)) {
+//            return VIEW_TYPE_HONGBAO_CLAIM;
+//        }
         if (WeChatUiHelper.isNoticeMessage(contentType)) {
             return VIEW_TYPE_NOTICE;
         }
@@ -586,6 +596,10 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
             View v = inflater.inflate(R.layout.item_message_meet_status, parent, false);
             return new MeetStatusMessageVH(v);
         }
+//        if (viewType == VIEW_TYPE_HONGBAO_CLAIM) {
+//            View v = inflater.inflate(R.layout.item_message_meet_status, parent, false);
+//            return new HongbaoClaimMessageVH(v);
+//        }
         switch (viewType) {
             case VIEW_TYPE_IMAGE: {
                 View v = inflater.inflate(R.layout.item_message, parent, false);
@@ -597,6 +611,7 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
             case VIEW_TYPE_FILE:
             case VIEW_TYPE_MAP:
             case VIEW_TYPE_CARD:
+            case VIEW_TYPE_HONGBAO:
             case VIEW_TYPE_NOTICE:
             case VIEW_TYPE_MERGE_TRANS:
             case VIEW_TYPE_TEXT:
@@ -620,6 +635,9 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
                 }
                 if (viewType == VIEW_TYPE_CARD) {
                     return new CardMessageVH(v);
+                }
+                if (viewType == VIEW_TYPE_HONGBAO) {
+                    return new HongBaoMessageVH(v);
                 }
                 if (viewType == VIEW_TYPE_NOTICE) {
                     return new NoticeMessageVH(v);
@@ -664,6 +682,10 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
             ((MeetStatusMessageVH) holder).bind(m);
             return;
         }
+//        if (holder instanceof HongbaoClaimMessageVH) {
+//            ((HongbaoClaimMessageVH) holder).bind(m, context);
+//            return;
+//        }
         if (holder instanceof CallMessageVH) {
             ((CallMessageVH) holder).bind(m, position, context);
         } else if (holder instanceof ImageMessageVH) {
@@ -678,6 +700,8 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
             ((MapMessageVH) holder).bind(m, position, context);
         } else if (holder instanceof CardMessageVH) {
             ((CardMessageVH) holder).bind(m, position, context);
+        } else if (holder instanceof HongBaoMessageVH) {
+            ((HongBaoMessageVH) holder).bind(m, position, context);
         } else if (holder instanceof NoticeMessageVH) {
             ((NoticeMessageVH) holder).bind(m, position, context);
         } else if (holder instanceof MergeTransMessageVH) {

@@ -157,6 +157,14 @@ public final class MessageContentFormatter {
         return MessageType.MessageContentType.isCard(msgContentType);
     }
 
+    public static boolean isRedPacketMessage(int msgContentType) {
+        return MessageType.MessageContentType.isRedPacket(msgContentType);
+    }
+
+//    public static boolean isHongbaoClaimMessage(int msgContentType) {
+//        return MessageType.MessageContentType.isHongbaoClaim(msgContentType);
+//    }
+
     public static boolean isNoticeMessage(int msgContentType) {
         return MessageType.MessageContentType.isNotice(msgContentType);
     }
@@ -223,6 +231,12 @@ public final class MessageContentFormatter {
         if (isCardMessage(type)) {
             return str(R.string.base_digest_person_card);
         }
+        if (isRedPacketMessage(type)) {
+            return str(R.string.base_digest_red_package);
+        }
+//        if (isHongbaoClaimMessage(type)) {
+//            return formatHongbaoClaimDisplay(message.getContent(), currentUserId);
+//        }
         if (isNoticeMessage(type)) {
             return str(R.string.base_digest_notice);
         }
@@ -363,6 +377,13 @@ public final class MessageContentFormatter {
         if (isCardMessage(type)) {
             return str(R.string.base_digest_person_card);
         }
+        if (isRedPacketMessage(type)) {
+            return str(R.string.base_digest_red_package);
+        }
+//        if (isHongbaoClaimMessage(type)) {
+//            String claimRaw = !TextUtils.isEmpty(lastMessageContent) ? lastMessageContent : content;
+//            return formatHongbaoClaimDisplay(claimRaw, currentUserId);
+//        }
         if (isNoticeMessage(type)) {
             return str(R.string.base_digest_notice);
         }
@@ -1637,6 +1658,55 @@ public final class MessageContentFormatter {
             return String.format(Locale.US, "%d:%02d:%02d", hours, minutes, seconds);
         }
         return String.format(Locale.US, "%02d:%02d", minutes, seconds);
+    }
+
+    @NonNull
+    public static String formatHongbaoClaimDisplay(@Nullable String raw,
+                                                   @Nullable String currentUserId) {
+        JsonObject obj = parseJsonObject(raw);
+        if (obj == null) {
+            return str(R.string.base_digest_red_package);
+        }
+        String sendUserId = firstPrimitiveString(obj, "sendUserId");
+        String sendUserName = firstPrimitiveString(obj, "sendUserName");
+        String lingquUserId = firstPrimitiveString(obj, "lingquUserId");
+        String lingquUserName = firstPrimitiveString(obj, "lingquUserName");
+        if (sendUserId == null) {
+            sendUserId = "";
+        }
+        if (sendUserName == null) {
+            sendUserName = "";
+        }
+        if (lingquUserId == null) {
+            lingquUserId = "";
+        }
+        if (lingquUserName == null) {
+            lingquUserName = "";
+        }
+        boolean iAmSender = !TextUtils.isEmpty(currentUserId)
+                && TextUtils.equals(currentUserId, sendUserId);
+        boolean iAmClaimer = !TextUtils.isEmpty(currentUserId)
+                && TextUtils.equals(currentUserId, lingquUserId);
+        if (iAmSender) {
+            if (iAmClaimer) {
+                return "你领取了自己的红包";
+            }
+            return TextUtils.isEmpty(lingquUserName)
+                    ? "有人领取了你的红包"
+                    : lingquUserName + "领取了你的红包";
+        }
+        if (iAmClaimer) {
+            return TextUtils.isEmpty(sendUserName)
+                    ? "您领取了红包"
+                    : "您领取了" + sendUserName + "红包";
+        }
+        if (TextUtils.isEmpty(lingquUserName) && TextUtils.isEmpty(sendUserName)) {
+            return str(R.string.base_digest_red_package);
+        }
+        if (TextUtils.isEmpty(sendUserName)) {
+            return lingquUserName + "领取了红包";
+        }
+        return lingquUserName + "领取了" + sendUserName + "的红包";
     }
 
     @NonNull

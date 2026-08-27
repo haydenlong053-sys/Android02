@@ -20,6 +20,7 @@
     <string name="base_digest_chat_record">[聊天记录]: </string>
     <string name="base_digest_file">[文件]</string>
     <string name="base_digest_red_package">[红包]</string>
+    <string name="base_digest_draft">[草稿]</string>
     <string name="base_digest_meeting">[会议]</string>
     <string name="base_digest_notice">[公告]</string>
     <string name="base_digest_audio">[语音]</string>

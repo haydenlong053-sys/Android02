@@ -312,11 +312,11 @@ class MyImManagerBroadHolder(private val context: Context?) {
                         }
 
                         BridgeImEnum.RED_PACKET.value -> {
-                            JumpBroadUtils.startFaHongBaoActivity(mContext, params ?: "")
+//                            JumpBroadUtils.startFaHongBaoActivity(mContext, params ?: "")
                         }
 
                         BridgeImEnum.GROUP_RED_PACKET.value -> {
-                            JumpBroadUtils.startFaQunHongBaoActivity(mContext, params ?: "")
+//                            JumpBroadUtils.startFaQunHongBaoActivity(mContext, params ?: "")
                         }
 
                         BridgeImEnum.EDIT.value -> {

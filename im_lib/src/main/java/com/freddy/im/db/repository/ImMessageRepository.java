@@ -313,6 +313,53 @@ public final class ImMessageRepository {
         });
     }
 
+    /**
+     * 按服务端 msgId 或本地 clientMsgId 更新 content（入站红包领取状态等）。
+     */
+    public void updateMessageContentById(@Nullable String msgIdOrClientMsgId,
+                                         @Nullable String newContent,
+                                         @Nullable OnMessageUpdatedCallback onUpdated) {
+        if (TextUtils.isEmpty(msgIdOrClientMsgId) || newContent == null || !ImRealm.isUserBound()) {
+            if (onUpdated != null) {
+                onUpdated.onUpdated(null);
+            }
+            return;
+        }
+        final String key = msgIdOrClientMsgId.trim();
+        final String content = newContent;
+        ImDbExecutor.runWrite(() -> {
+            Realm realm = ImRealm.getRealm();
+            String persistClientMsgId = null;
+            try {
+                final String[] clientMsgIdHolder = {null};
+                realm.executeTransaction(r -> {
+                    MessageEntity entity = r.where(MessageEntity.class)
+                            .equalTo("msgId", key)
+                            .findFirst();
+                    if (entity == null) {
+                        entity = r.where(MessageEntity.class)
+                                .equalTo("clientMsgId", key)
+                                .findFirst();
+                    }
+                    if (entity == null) {
+                        return;
+                    }
+                    entity.setContent(content);
+                    clientMsgIdHolder[0] = entity.getClientMsgId();
+                });
+                persistClientMsgId = clientMsgIdHolder[0];
+            } finally {
+                realm.close();
+            }
+            if (onUpdated != null) {
+                AppMessage updated = !TextUtils.isEmpty(persistClientMsgId)
+                        ? queryAppMessageByClientMsgId(persistClientMsgId)
+                        : null;
+                onUpdated.onUpdated(updated);
+            }
+        });
+    }
+
     public void markOutgoingSendFailed(@Nullable String clientMsgId,
                                        @Nullable OnMessageUpdatedCallback onUpdated) {
         updateOutgoingSendStatus(clientMsgId, IMSConfig.SEND_STATUS_FAILED, onUpdated);
@@ -514,6 +561,42 @@ public final class ImMessageRepository {
     private static AppMessage queryAppMessageByClientMsgId(@NonNull String clientMsgId) {
         MessageEntity entity = queryEntityByClientMsgId(clientMsgId);
         return entity != null ? MessageRealmMapper.toAppMessage(entity) : null;
+    }
+
+    /**
+     * 按 msgId 或 clientMsgId 查找消息（写线程查询，回调在写线程）。
+     */
+    public void findMessageByMsgIdOrClientMsgId(@Nullable String msgIdOrClientMsgId,
+                                                @Nullable OnMessageUpdatedCallback onFound) {
+        if (TextUtils.isEmpty(msgIdOrClientMsgId) || !ImRealm.isUserBound()) {
+            if (onFound != null) {
+                onFound.onUpdated(null);
+            }
+            return;
+        }
+        final String key = msgIdOrClientMsgId.trim();
+        ImDbExecutor.runWrite(() -> {
+            Realm realm = ImRealm.getRealm();
+            AppMessage found = null;
+            try {
+                MessageEntity entity = realm.where(MessageEntity.class)
+                        .equalTo("msgId", key)
+                        .findFirst();
+                if (entity == null) {
+                    entity = realm.where(MessageEntity.class)
+                            .equalTo("clientMsgId", key)
+                            .findFirst();
+                }
+                if (entity != null) {
+                    found = MessageRealmMapper.toAppMessage(realm.copyFromRealm(entity));
+                }
+            } finally {
+                realm.close();
+            }
+            if (onFound != null) {
+                onFound.onUpdated(found);
+            }
+        });
     }
 
     @NonNull

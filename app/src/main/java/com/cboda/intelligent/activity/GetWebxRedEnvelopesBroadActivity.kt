@@ -52,6 +52,12 @@ class GetWebxRedEnvelopesBroadActivity : BaseSimple2BroadActivity() {
     private val messageId by lazy(LazyThreadSafetyMode.NONE) {
         intent?.getLongExtra("messageId", 0L) ?: 0L
     }
+    private val imLocalMsgKey by lazy(LazyThreadSafetyMode.NONE) {
+        intent?.getStringExtra("imLocalMsgKey") ?: ""
+    }
+    private val sessionId by lazy(LazyThreadSafetyMode.NONE) {
+        intent?.getStringExtra("sessionId") ?: ""
+    }
     private val sender by lazy(LazyThreadSafetyMode.NONE) {
         intent?.getStringExtra("sender") ?: ""
     }
@@ -101,7 +107,8 @@ class GetWebxRedEnvelopesBroadActivity : BaseSimple2BroadActivity() {
                         isGroup,
                         msgTarget,
                         sendUserId,
-                        sendUserName, messageId, sender
+                        sendUserName, messageId, sender,
+                        imLocalMsgKey, sessionId
                     )
                 }
             })
@@ -110,7 +117,7 @@ class GetWebxRedEnvelopesBroadActivity : BaseSimple2BroadActivity() {
                     viewModel.refuseRedEnvelopes(
                         this@GetWebxRedEnvelopesBroadActivity,
                         redEnvelopesId,
-                        isGroup, messageId
+                        isGroup, messageId, imLocalMsgKey
                     )
                 }
             })

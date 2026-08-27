@@ -5,7 +5,7 @@ import com.freddy.im.signal.ImSignalProtos;
 /**
  * IM 消息类型定义（会话 {@link #msgType}、内容 {@link MessageContentType}），全局统一使用。
  * <p>
- * 内容类型编号对齐 IM 文档 §10：100 文本、101 转发、102 合并转发、200 图片、201 会议弹幕图片、300 文件、400 语音、500 视频、600 地图、700 个人名片、710 系统公告、900 开始会议、901 结束会议。
+ * 内容类型编号对齐 IM 文档 §10：100 文本、101 转发、102 合并转发、200 图片、201 会议弹幕图片、300 文件、400 语音、500 视频、600 地图、700 个人名片、710 系统公告、900 开始会议、901 结束会议、1000 红包、1001 红包领取通知。
  */
 public enum MessageType {
 
@@ -43,6 +43,8 @@ public enum MessageType {
         TRANSPOND(101),
         /** 合并转发 text/mergeTranspond */
         MERGE_TRANSPOND(102),
+//        /** 群红包领取通知条（暂不使用） */
+//        HONGBAO_CLAIM(104),
         /** 图片 img/ */
         IMAGE(200),
         /** 会议弹幕图片（对齐野火 isMeetingImage） */
@@ -59,6 +61,8 @@ public enum MessageType {
         CARD(700),
         /** 系统公告 announcement */
         SYS_NOTICE(710),
+        /** 红包气泡（对齐野火 HongBaoMessageContent） */
+        RED_PACKET(720),
         /** 开始会议（会话通知条，对齐野火 MeetStart「会议中」） */
         MEET_START(900),
         /** 结束会议（会话通知条，对齐野火 MeetEnd「会议已结束」） */
@@ -114,6 +118,14 @@ public enum MessageType {
             return type == SYS_NOTICE.msgContentType;
         }
 
+        public static boolean isRedPacket(int type) {
+            return type == RED_PACKET.msgContentType;
+        }
+
+//        public static boolean isHongbaoClaim(int type) {
+//            return type == HONGBAO_CLAIM.msgContentType;
+//        }
+
         public static boolean isMeetStart(int type) {
             return type == MEET_START.msgContentType;
         }
@@ -126,5 +138,10 @@ public enum MessageType {
         public static boolean isMeetStatus(int type) {
             return isMeetStart(type) || isMeetEnd(type);
         }
+
+//        /** 红包领取通知条（无气泡菜单的会话通知类消息）。 */
+//        public static boolean isHongbaoClaimNotice(int type) {
+//            return isHongbaoClaim(type);
+//        }
     }
 }

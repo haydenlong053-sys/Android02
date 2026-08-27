@@ -28,6 +28,7 @@ import okhttp3.Response
 
 class FaHongBaoBroadActivity : BaseSimple2BroadActivity() {
     private var uid = ""
+    private var sessionId = ""
     private var viewModel: CommViewBroadModel? = null
     private lateinit var tvPhoneLogin: TextView
     private lateinit var qianNum: TextView
@@ -166,34 +167,29 @@ class FaHongBaoBroadActivity : BaseSimple2BroadActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         uid = intent?.getStringExtra("uid") ?: ""
+        sessionId = intent?.getStringExtra("sessionId") ?: ""
         initViews()
         edtjine.filters = arrayOf(AmountInputFilter(1000.0, 2))
         viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
         viewModel?.errorLiveData?.observe(this) {
             when (it.type) {
                 "fahongbaosuc" -> {
-                    val sendCustomMsg = SendCustomBroadMsg()
-//                    sendCustomMsg.sendHongBaoMsg(
-//                        this@FaHongBaoBroadActivity,
+                    finish()
+//                    val sendCustomMsg = SendCustomBroadMsg()
+//                    sendCustomMsg.sendMyImHongBao(
+//                        "",
+//                        uid,
 //                        edtjieshao?.text?.trim()?.toString() ?: "",
 //                        it.type2,
 //                        edtjine?.text?.trim()?.toString() ?: "",
 //                        "0",
-//                        uid
+//                        "",
+//                        "",
+//                        "",
+//                        "",
+//                        this@FaHongBaoBroadActivity,
+//                        sessionId
 //                    )
-                    sendCustomMsg.sendMyImHongBao(
-                        "",
-                        uid,
-                        edtjieshao?.text?.trim()?.toString() ?: "",
-                        it.type2,
-                        edtjine?.text?.trim()?.toString() ?: "",
-                        "0",
-                        "",
-                        "",
-                        "",
-                        "",
-                        this@FaHongBaoBroadActivity
-                    )
                 }
             }
         }

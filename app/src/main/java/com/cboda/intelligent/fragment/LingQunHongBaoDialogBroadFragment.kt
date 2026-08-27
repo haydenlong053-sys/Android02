@@ -68,13 +68,13 @@ class LingQunHongBaoDialogBroadFragment : BaseDialogBroadFragment() {
                     dismiss()
                     JumpBroadUtils.startHongBaoPageActivity(context,hongbaoId,isgroup)
 
-                    if (msgBean != null && msgBean!!.message != null && msgBean!!.message.content is HongBaoMessageContent) {
-                        SendCustomBroadMsg().sendMyImLingQu(msgBean!!.message.conversation.target,"",
-                            dataBean!!.data!!.uid!!,
-                            dataBean!!.data!!.name!!,
-                            MMKVBroadUtils.getRealUserId()!!, MMKVBroadUtils.getUserName()!!
-                        )
-                    }
+//                    if (msgBean != null && msgBean!!.message != null && msgBean!!.message.content is HongBaoMessageContent) {
+//                        SendCustomBroadMsg().sendMyImLingQu(msgBean!!.message.conversation.target,"",
+//                            dataBean!!.data!!.uid!!,
+//                            dataBean!!.data!!.name!!,
+//                            MMKVBroadUtils.getRealUserId()!!, MMKVBroadUtils.getUserName()!!
+//                        )
+//                    }
 
 //                    if (it.type2 == "1"){
 //                        if (msgBean is CustomHongBaoMessageBean){

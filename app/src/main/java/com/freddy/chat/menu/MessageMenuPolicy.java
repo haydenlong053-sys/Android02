@@ -71,6 +71,9 @@ public final class MessageMenuPolicy {
             return false;
         }
         int type = message.getMsgContentType();
+        if (MessageContentFormatter.isRedPacketMessage(type)) {
+            return false;
+        }
         return MessageContentFormatter.isImageMessage(type)
                 || MessageContentFormatter.isVoiceMessage(type)
                 || MessageContentFormatter.isVideoMessage(type)
@@ -86,10 +89,13 @@ public final class MessageMenuPolicy {
      * 图片、视频、文件须已有远端 http(s) {@code url}，避免收藏仅含 localUrl 的草稿。
      */
     public static boolean canCollect(@NonNull AppMessage message) {
+        int type = message.getMsgContentType();
+        if (MessageContentFormatter.isRedPacketMessage(type)) {
+            return false;
+        }
         if (TextUtils.isEmpty(com.freddy.chat.collect.MessageCollectHelper.buildCollectParams(message))) {
             return false;
         }
-        int type = message.getMsgContentType();
         if (MessageContentFormatter.isImageMessage(type)
                 || MessageContentFormatter.isVideoMessage(type)
                 || MessageContentFormatter.isFileMessage(type)) {

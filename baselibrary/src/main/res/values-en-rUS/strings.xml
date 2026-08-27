@@ -20,6 +20,7 @@
     <string name="base_digest_chat_record">[Chat History]: </string>
     <string name="base_digest_file">[File]</string>
     <string name="base_digest_red_package">[Red Packet]</string>
+    <string name="base_digest_draft">[Draft]</string>
     <string name="base_digest_meeting">[Meeting]</string>
     <string name="base_digest_notice">[Announcement]</string>
     <string name="base_digest_audio">[Voice]</string>

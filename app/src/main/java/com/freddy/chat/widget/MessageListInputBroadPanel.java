@@ -28,12 +28,15 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.chatemoji.EmotionBroadLayout;
 import com.cboda.chatemoji.IEmotionSelectedBroadListener;
 import com.cboda.chatui.audio.AudioRecorderBroadPanel;
 import com.cboda.intelligent.R;
 import com.cboda.chatui.conversation.mention.MentionBroadSpan;
+import com.freddy.chat.draft.ChatDraftHelper;
+import com.freddy.chat.draft.ChatDraftStore;
 import com.freddy.chat.mention.AtMentionCustomInfoBuilder;
 import com.effective.android.panel.PanelSwitchHelper;
 import com.effective.android.panel.interfaces.ContentScrollMeasurer;
@@ -42,6 +45,9 @@ import com.effective.android.panel.interfaces.listener.OnPanelChangeListener;
 import com.effective.android.panel.view.panel.IPanelView;
 
 import java.io.File;
+
+import android.os.Handler;
+import android.os.Looper;
 
 /**
  * 自研消息列表底部输入面板，UI 与录音交互对齐野火 {@code ConversationInputBroadPanel}，
@@ -68,6 +74,8 @@ public class MessageListInputBroadPanel extends FrameLayout
         void onOpenVoiceCall();
 
         void onOpenBusinessCard();
+
+        void onOpenHongBao();
 
         void onOpenMeetingRoom();
 
@@ -108,6 +116,12 @@ public class MessageListInputBroadPanel extends FrameLayout
     private boolean mentionEnabled;
     @Nullable
     private Runnable mentionPicker;
+    @Nullable
+    private String draftSessionId;
+    private boolean restoringDraft;
+    private final Handler draftHandler = new Handler(Looper.getMainLooper());
+    private final Runnable saveDraftRunnable = this::flushDraft;
+    private static final long DRAFT_DEBOUNCE_MS = 500L;
 
     public MessageListInputBroadPanel(@NonNull Context context) {
         this(context, null);
@@ -129,6 +143,7 @@ public class MessageListInputBroadPanel extends FrameLayout
                      @Nullable View interceptView,
                      @NonNull Callback callback) {
         if (panelSwitchHelper != null) {
+            flushDraft();
             onDestroy();
         }
         this.fragment = fragment;
@@ -143,7 +158,7 @@ public class MessageListInputBroadPanel extends FrameLayout
         setupMorePanel();
     }
 
-    /** 群聊显示「会议室」，单聊隐藏（对齐野火 {@code MeetingBroadExt#filter}）。 */
+    /** 群聊显示「会议室」，单聊隐藏（对齐野火 {@code MeetingBroadExt#filter}）。红包入口始终显示。 */
     public void configureMorePanel(boolean showMeetingRoom) {
         showMeetingRoomEntry = showMeetingRoom;
         if (fragment == null) {
@@ -185,7 +200,60 @@ public class MessageListInputBroadPanel extends FrameLayout
     }
 
     public void clearInput() {
+        cancelPendingDraftSave();
+        restoringDraft = true;
         editText.setText("");
+        restoringDraft = false;
+        updateSendButtonVisibility();
+        if (!TextUtils.isEmpty(draftSessionId)) {
+            ChatDraftStore.clear(draftSessionId);
+        }
+    }
+
+    /**
+     * 绑定会话并恢复草稿（进聊天页调用一次）。
+     */
+    public void bindDraftSession(@Nullable String sessionId) {
+        flushDraft();
+        this.draftSessionId = sessionId;
+        restoreDraft();
+    }
+
+    public void flushDraft() {
+        cancelPendingDraftSave();
+        if (TextUtils.isEmpty(draftSessionId) || editText == null || restoringDraft) {
+            return;
+        }
+        Editable editable = editText.getText();
+        ChatDraftStore.save(draftSessionId, ChatDraftHelper.toJson(editable));
+    }
+
+    private void scheduleDraftSave() {
+        if (TextUtils.isEmpty(draftSessionId) || restoringDraft) {
+            return;
+        }
+        cancelPendingDraftSave();
+        draftHandler.postDelayed(saveDraftRunnable, DRAFT_DEBOUNCE_MS);
+    }
+
+    private void cancelPendingDraftSave() {
+        draftHandler.removeCallbacks(saveDraftRunnable);
+    }
+
+    private void restoreDraft() {
+        if (TextUtils.isEmpty(draftSessionId) || editText == null) {
+            return;
+        }
+        String json = ChatDraftStore.loadJson(draftSessionId);
+        CharSequence restored = ChatDraftHelper.toEditable(json);
+        restoringDraft = true;
+        if (restored != null && restored.length() > 0) {
+            editText.setText(restored);
+            editText.setSelection(editText.getText() != null ? editText.getText().length() : 0);
+        } else {
+            editText.setText("");
+        }
+        restoringDraft = false;
         updateSendButtonVisibility();
     }
 
@@ -238,6 +306,7 @@ public class MessageListInputBroadPanel extends FrameLayout
     }
 
     public void onDestroy() {
+        cancelPendingDraftSave();
         if (audioRecorderPanel != null) {
             audioRecorderPanel.finishRecord();
             audioRecorderPanel.deattch();
@@ -251,6 +320,7 @@ public class MessageListInputBroadPanel extends FrameLayout
         interceptView = null;
         callback = null;
         recordPermissionLauncher = null;
+        draftSessionId = null;
     }
 
     @Override
@@ -258,10 +328,13 @@ public class MessageListInputBroadPanel extends FrameLayout
         if (audioRecorderPanel != null && audioRecorderPanel.isVoiceRecording()) {
             cancelMsgVoice(false);
         }
+        flushDraft();
     }
 
     @Override
     public void onDestroy(@NonNull LifecycleOwner owner) {
+        cancelPendingDraftSave();
+        flushDraft();
         onDestroy();
     }
 
@@ -377,6 +450,7 @@ public class MessageListInputBroadPanel extends FrameLayout
             @Override
             public void afterTextChanged(Editable s) {
                 updateSendButtonVisibility();
+                scheduleDraftSave();
             }
         });
         updateSendButtonVisibility();
@@ -521,11 +595,13 @@ public class MessageListInputBroadPanel extends FrameLayout
             return;
         }
         Editable editable = editText.getText();
+        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"str="+editable.toString());
         String body = AtMentionCustomInfoBuilder.buildMessageText(editable);
         String customInfo = AtMentionCustomInfoBuilder.buildCustomInfoFromSpans(editable);
         if (TextUtils.isEmpty(body) && TextUtils.isEmpty(customInfo)) {
             return;
         }
+        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"body="+body+" customInfo="+customInfo);
         callback.onSendText(body, customInfo);
     }
 
@@ -733,6 +809,14 @@ public class MessageListInputBroadPanel extends FrameLayout
                 () -> {
                     if (callback != null) {
                         callback.onOpenBusinessCard();
+                    }
+                });
+        bindMoreItem(root.findViewById(R.id.panel_more_hongbao),
+                com.cboda.chatui.R.mipmap.ic_func_broad_hongbao,
+                com.cboda.chatui.R.string.msg_red_envelope,
+                () -> {
+                    if (callback != null) {
+                        callback.onOpenHongBao();
                     }
                 });
         bindMoreItem(root.findViewById(R.id.panel_more_meeting),

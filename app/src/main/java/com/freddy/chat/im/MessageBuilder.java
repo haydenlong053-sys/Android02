@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.freddy.chat.utils.AppGson;
 import com.freddy.chat.utils.CardMessageContentUtil;
+import com.freddy.chat.utils.HongBaoMessageContentUtil;
 import com.freddy.chat.utils.NoticeMessageContentUtil;
 import com.freddy.chat.utils.MediaMessageContentUtil;
 import com.freddy.chat.utils.StringUtil;
@@ -18,8 +19,10 @@ import com.freddy.im.http.model.im.UploadRes;
 import com.freddy.im.signal.ImSignalProtos;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -282,6 +285,65 @@ public class MessageBuilder {
         return message;
     }
 
+    /** 红包气泡消息 contentType=1000。 */
+    @NonNull
+    public static AppMessage buildRedPacketMessage(@Nullable String sessionId,
+                                                   int conversationType,
+                                                   @NonNull String toId,
+                                                   @Nullable String hongbaoId,
+                                                   @Nullable String price,
+                                                   @Nullable String hongbaoDesc,
+                                                   @Nullable String lingquStatus,
+                                                   @Nullable String hongbaoLeixing,
+                                                   @Nullable String zhuanshuUserId,
+                                                   @Nullable String zhuanshuUserName,
+                                                   @Nullable String zhuanshuUserAvatar,
+                                                   @Nullable List<String> lqUsers) {
+        String userId = IMSClientBootstrap.getInstance().getCurrentUserId();
+        AppMessage message = new AppMessage();
+        if (!TextUtils.isEmpty(sessionId)) {
+            message.setConversationId(sessionId);
+        }
+        message.setClientMsgId(UUID.randomUUID().toString());
+        message.setMsgContentType(MessageType.MessageContentType.RED_PACKET.getMsgContentType());
+        message.setFromId(userId);
+        message.setToId(toId);
+        message.setTimestamp(System.currentTimeMillis());
+        message.setConversationTypeEnum(ImSignalProtos.ConversationType.forNumber(conversationType));
+        message.setContent(wrapRedPacketContentAsJson(
+                hongbaoId, price, hongbaoDesc, lingquStatus, hongbaoLeixing,
+                zhuanshuUserId, zhuanshuUserName, zhuanshuUserAvatar, lqUsers));
+        message.setSendStatus(IMSConfig.SEND_STATUS_SENDING);
+        return message;
+    }
+
+//    /** 群红包领取通知 contentType=104。 */
+//    @NonNull
+//    public static AppMessage buildHongbaoClaimMessage(@Nullable String sessionId,
+//                                                      int conversationType,
+//                                                      @NonNull String toId,
+//                                                      @Nullable String tipType,
+//                                                      @Nullable String sendUserId,
+//                                                      @Nullable String sendUserName,
+//                                                      @Nullable String lingquUserId,
+//                                                      @Nullable String lingquUserName) {
+//        String userId = IMSClientBootstrap.getInstance().getCurrentUserId();
+//        AppMessage message = new AppMessage();
+//        if (!TextUtils.isEmpty(sessionId)) {
+//            message.setConversationId(sessionId);
+//        }
+//        message.setClientMsgId(UUID.randomUUID().toString());
+//        message.setMsgContentType(MessageType.MessageContentType.HONGBAO_CLAIM.getMsgContentType());
+//        message.setFromId(userId);
+//        message.setToId(toId);
+//        message.setTimestamp(System.currentTimeMillis());
+//        message.setConversationTypeEnum(ImSignalProtos.ConversationType.forNumber(conversationType));
+//        message.setContent(wrapHongbaoClaimContentAsJson(
+//                tipType, sendUserId, sendUserName, lingquUserId, lingquUserName));
+//        message.setSendStatus(IMSConfig.SEND_STATUS_SENDING);
+//        return message;
+//    }
+
     /** 系统公告消息 contentType=710。 */
     @NonNull
     public static AppMessage buildNoticeMessage(@Nullable String sessionId,
@@ -373,6 +435,46 @@ public class MessageBuilder {
             body.put("idno", idno);
         }
         body.put("from", fromUserId);
+        return AppGson.get().toJson(body);
+    }
+
+    @NonNull
+    private static String wrapRedPacketContentAsJson(@Nullable String hongbaoId,
+                                                     @Nullable String price,
+                                                     @Nullable String hongbaoDesc,
+                                                     @Nullable String lingquStatus,
+                                                     @Nullable String hongbaoLeixing,
+                                                     @Nullable String zhuanshuUserId,
+                                                     @Nullable String zhuanshuUserName,
+                                                     @Nullable String zhuanshuUserAvatar,
+                                                     @Nullable List<String> lqUsers) {
+        Map<String, Object> body = new LinkedHashMap<>(9);
+        body.put(HongBaoMessageContentUtil.KEY_HONGBAO_ID, hongbaoId != null ? hongbaoId : "");
+        body.put(HongBaoMessageContentUtil.KEY_PRICE, price != null ? price : "");
+        body.put(HongBaoMessageContentUtil.KEY_HONGBAO_DESC, hongbaoDesc != null ? hongbaoDesc : "");
+        body.put(HongBaoMessageContentUtil.KEY_LINGQU_STATUS, lingquStatus != null ? lingquStatus : "0");
+        body.put(HongBaoMessageContentUtil.KEY_HONGBAO_LEIXING, hongbaoLeixing != null ? hongbaoLeixing : "");
+        body.put(HongBaoMessageContentUtil.KEY_ZHUANSHU_USER_ID, zhuanshuUserId != null ? zhuanshuUserId : "");
+        body.put(HongBaoMessageContentUtil.KEY_ZHUANSHU_USER_NAME, zhuanshuUserName != null ? zhuanshuUserName : "");
+        body.put(HongBaoMessageContentUtil.KEY_ZHUANSHU_USER_AVATAR,
+                zhuanshuUserAvatar != null ? zhuanshuUserAvatar : "");
+        body.put(HongBaoMessageContentUtil.KEY_LQ_USERS,
+                lqUsers != null ? lqUsers : new ArrayList<String>());
+        return AppGson.get().toJson(body);
+    }
+
+    @NonNull
+    private static String wrapHongbaoClaimContentAsJson(@Nullable String tipType,
+                                                        @Nullable String sendUserId,
+                                                        @Nullable String sendUserName,
+                                                        @Nullable String lingquUserId,
+                                                        @Nullable String lingquUserName) {
+        Map<String, Object> body = new LinkedHashMap<>(5);
+        body.put(HongBaoMessageContentUtil.KEY_TIP_TYPE, tipType != null ? tipType : "");
+        body.put(HongBaoMessageContentUtil.KEY_SEND_USER_ID, sendUserId != null ? sendUserId : "");
+        body.put(HongBaoMessageContentUtil.KEY_SEND_USER_NAME, sendUserName != null ? sendUserName : "");
+        body.put(HongBaoMessageContentUtil.KEY_LINGQU_USER_ID, lingquUserId != null ? lingquUserId : "");
+        body.put(HongBaoMessageContentUtil.KEY_LINGQU_USER_NAME, lingquUserName != null ? lingquUserName : "");
         return AppGson.get().toJson(body);
     }
 

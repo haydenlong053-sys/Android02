@@ -29,4 +29,6 @@ public class Events {
     public static final String GROUP_NOTICE_UPDATED = "group_notice_updated";
     /** 群禁言状态变更；payload 为 {@link GroupMuteUpdateEvent} */
     public static final String GROUP_MUTE_UPDATED = "group_mute_updated";
+    /** 会话草稿变更；payload 为 {@code sessionId}（String） */
+    public static final String CHAT_DRAFT_UPDATED = "chat_draft_updated";
 }

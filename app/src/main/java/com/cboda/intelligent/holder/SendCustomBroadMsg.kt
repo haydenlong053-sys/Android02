@@ -15,48 +15,18 @@ import cn.wildfirechat.remote.ChatManager
 import cn.wildfirechat.remote.SendMessageCallback
 import com.blankj.utilcode.util.GsonUtils
 import com.cboda.intelligent.utils.AppBroadUtils
+import com.freddy.chat.hongbao.HongBaoMessageSender
 
 class SendCustomBroadMsg {
     private val gson = GsonUtils.getGson()
 
-
-    fun sendMyImMingPian(
-        isGroup: String,
-        uid: String,
-        target: String,
-        displayName: String,
-        portrait: String,
-        activity: Activity,
-        idno: String=""
-    ) {
-        val userInfo = ChatManager.Instance().getUserInfo(uid, false)
-        val cardMessageContent =
-            CardMessageContent(0, uid, displayName, portrait, ChatManager.Instance().userId,idno)
-        cardMessageContent.name = userInfo.name
-        val conversation = Conversation()
-        conversation.target = target
-        conversation.type =
-            if (isGroup == "1") Conversation.ConversationType.Group else Conversation.ConversationType.Single
-        val msg = Message()
-        msg.conversation = conversation
-        msg.content = cardMessageContent
-        msg.sender = ChatManager.Instance().userId
-        ChatManager.Instance().sendMessage(msg, object : SendMessageCallback {
-            override fun onSuccess(messageUid: Long, timestamp: Long) {
-                AppBroadUtils.debug("野火", "名片消息发送 onSuccess-->")
-                activity.finish()
-            }
-
-            override fun onFail(errorCode: Int) {
-                AppBroadUtils.debug("野火", "名片消息发送 onFail-->$errorCode")
-            }
-
-            override fun onPrepare(messageId: Long, savedTime: Long) {
-            }
-
-        })
+    /** 自研会话传入 sessionId 时走 MessageProcessor */
+    private fun useSelfIm(sessionId: String?): Boolean {
+        return !TextUtils.isEmpty(sessionId)
     }
 
+
+    @Deprecated("废弃")
     fun sendMyImZhuanZhang(
         isGroup: String,
         target: String,
@@ -93,42 +63,29 @@ class SendCustomBroadMsg {
     }
 
 
-    fun sendMyImLingQu(
-        target: String,
-        tipType: String,
-        sendUserId: String,
-        sendUserName: String,
-        lingquUserId: String,
-        lingquUserName: String,
-        msgSender: String = ""
-    ) {
-        val lqMessageContent =
-            LingQuMessageContent(tipType, sendUserId, sendUserName, lingquUserId, lingquUserName)
-        val conversation = Conversation()
-        conversation.target = target
-        conversation.type =
-            Conversation.ConversationType.Group
-        val msg = Message()
-        msg.conversation = conversation
-        msg.content = lqMessageContent
-        msg.sender = ChatManager.Instance().userId
-        if (!TextUtils.isEmpty(msgSender)) {
-            msg.toUsers = arrayOf(msgSender)
-        }
-        ChatManager.Instance().sendMessage(msg, object : SendMessageCallback {
-            override fun onSuccess(messageUid: Long, timestamp: Long) {
-                AppBroadUtils.debug("野火", "转账消息发送 onSuccess-->")
-            }
-
-            override fun onFail(errorCode: Int) {
-                AppBroadUtils.debug("野火", "转账消息发送 onFail-->$errorCode")
-            }
-
-            override fun onPrepare(messageId: Long, savedTime: Long) {
-            }
-
-        })
-    }
+//    fun sendMyImLingQu(
+//        target: String,
+//        tipType: String,
+//        sendUserId: String,
+//        sendUserName: String,
+//        lingquUserId: String,
+//        lingquUserName: String,
+//        msgSender: String = "",
+//        sessionId: String = ""
+//    ) {
+//        if (useSelfIm(sessionId)) {
+//            HongBaoMessageSender.sendClaim(
+//                isGroupChat = true,
+//                toId = target,
+//                sessionId = sessionId.ifEmpty { target },
+//                tipType = tipType,
+//                sendUserId = sendUserId,
+//                sendUserName = sendUserName,
+//                lingquUserId = lingquUserId,
+//                lingquUserName = lingquUserName,
+//            )
+//        }
+//    }
 
 
     fun sendMyImZhuanZhangJieShou(
@@ -166,6 +123,7 @@ class SendCustomBroadMsg {
         })
     }
 
+    //暂不使用，由后端接口来发
     fun sendMyImHongBao(
         isGroup: String,
         target: String,
@@ -177,82 +135,26 @@ class SendCustomBroadMsg {
         zhuanshuUserId: String,
         zhuanshuUserAvatar: String,
         zhuanshuUserName: String,
-        activity: Activity
+        activity: Activity,
+        sessionId: String = ""
     ) {
-        val cardMessageContent = HongBaoMessageContent(
-            hongbaoId,
-            price,
-            hongbaoDesc,
-            lingquStatus,
-            hongbaoLeixing,
-            zhuanshuUserId,
-            zhuanshuUserName,
-            zhuanshuUserAvatar,
-            arrayListOf<String>()
-        )
-        val conversation = Conversation()
-        conversation.target = target
-        conversation.type =
-            if (isGroup == "1") Conversation.ConversationType.Group else Conversation.ConversationType.Single
-        val msg = Message()
-        msg.conversation = conversation
-        msg.content = cardMessageContent
-        msg.sender = ChatManager.Instance().userId
-        ChatManager.Instance().sendMessage(msg, object : SendMessageCallback {
-            override fun onSuccess(messageUid: Long, timestamp: Long) {
-                AppBroadUtils.debug("野火", "红包消息发送 onSuccess-->")
-                activity.finish()
-            }
-
-            override fun onFail(errorCode: Int) {
-                AppBroadUtils.debug("野火", "红包消息发送 onFail-->$errorCode")
-            }
-
-            override fun onPrepare(messageId: Long, savedTime: Long) {
-            }
-
-        })
+        if (useSelfIm(sessionId)) {
+            HongBaoMessageSender.sendRedPacket(
+                activity = activity,
+                isGroupChat = isGroup == "1",
+                toId = target,
+                sessionId = sessionId,
+                hongbaoDesc = hongbaoDesc,
+                hongbaoId = hongbaoId,
+                price = price,
+                lingquStatus = lingquStatus,
+                hongbaoLeixing = hongbaoLeixing,
+                zhuanshuUserId = zhuanshuUserId,
+                zhuanshuUserAvatar = zhuanshuUserAvatar,
+                zhuanshuUserName = zhuanshuUserName,
+            )
+        }
     }
 
-
-    fun sendMyImWeiZhi(
-        isGroup: String,
-        target: String,
-        title: String,
-        latitude: Double,
-        longitude: Double,
-        thumbnail: Bitmap,
-        activity: Activity
-    ) {
-        val locCont = LocationMessageContent()
-        locCont.title = title
-        locCont.location.latitude = latitude
-        locCont.location.longitude = longitude
-        locCont.thumbnail = thumbnail
-
-
-        val conversation = Conversation()
-        conversation.target = target
-        conversation.type =
-            if (isGroup == "1") Conversation.ConversationType.Group else Conversation.ConversationType.Single
-        val msg = Message()
-        msg.conversation = conversation
-        msg.content = locCont
-        msg.sender = ChatManager.Instance().userId
-        ChatManager.Instance().sendMessage(msg, object : SendMessageCallback {
-            override fun onSuccess(messageUid: Long, timestamp: Long) {
-                AppBroadUtils.debug("野火", "位置消息发送 onSuccess-->")
-                activity.finish()
-            }
-
-            override fun onFail(errorCode: Int) {
-                AppBroadUtils.debug("野火", "位置消息发送 onFail-->$errorCode")
-            }
-
-            override fun onPrepare(messageId: Long, savedTime: Long) {
-            }
-
-        })
-    }
 
 }

@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.baselibrary.widge.VpGradeView;
 import com.cboda.intelligent.R;
+import com.freddy.chat.draft.ChatDraftStore;
 import com.freddy.chat.mention.AtMentionChecker;
 import com.freddy.chat.utils.MessageAvatarBinder;
 import com.freddy.chat.utils.WeChatUiHelper;
@@ -202,6 +203,21 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
                 }
                 s.setUnreadCount(0);
                 notifyItemChanged(i, PAYLOAD_UNREAD);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** 草稿变更后刷新对应会话副标题。 */
+    public boolean notifyDraftChanged(@Nullable String sessionId) {
+        if (sessionId == null || sessionId.isEmpty()) {
+            return false;
+        }
+        for (int i = 0; i < items.size(); i++) {
+            SessionItem s = items.get(i);
+            if (s != null && sessionId.equals(s.getSessionId())) {
+                notifyItemChanged(i, PAYLOAD_PREVIEW);
                 return true;
             }
         }
@@ -394,6 +410,20 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
 
     @NonNull
     private CharSequence buildSubtitle(@NonNull VH holder, @NonNull SessionItem session) {
+        String draftPreview = ChatDraftStore.peekPreview(session.getSessionId());
+        if (!TextUtils.isEmpty(draftPreview)) {
+            String prefix = holder.itemView.getContext()
+                    .getString(com.cboda.baselibrary.R.string.base_digest_draft);
+            String text = prefix + draftPreview;
+            SpannableString spannable = new SpannableString(text);
+            int accent = ContextCompat.getColor(holder.itemView.getContext(),  R.color.color_3B47DD);
+            spannable.setSpan(
+                    new ForegroundColorSpan(accent),
+                    0,
+                    prefix.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return spannable;
+        }
         String preview = WeChatUiHelper.formatSessionPreview(session, currentUserId);
         if (AtMentionChecker.isMentioningMe(session, currentUserId)) {
             String prefix = holder.itemView.getContext().getString(com.cboda.chatui.R.string.someone_mentioned_me);

@@ -243,9 +243,12 @@ class JumpBroadUtils {
         }
 
 
-        fun startFaHongBaoActivity(context: Context?, uid: String) {
+        fun startFaHongBaoActivity(context: Context?, uid: String, sessionId: String = "") {
             val intent = Intent(context, FaHongBaoBroadActivity::class.java)
             intent.putExtra("uid", uid)
+            if (sessionId.isNotEmpty()) {
+                intent.putExtra("sessionId", sessionId)
+            }
             context?.startActivity(intent)
         }
 
@@ -272,7 +275,9 @@ class JumpBroadUtils {
             messageTime: Long?,
             msgTarget: String?,
             sender: String?,
-            messageId: Long?
+            messageId: Long?,
+            imLocalMsgKey: String? = null,
+            sessionId: String? = null,
         ) {
             val intent = Intent(context, GetWebxRedEnvelopesBroadActivity::class.java)
             intent.putExtra("redEnvelopesId", hongbaoId)
@@ -284,6 +289,12 @@ class JumpBroadUtils {
             intent.putExtra("msgTarget", msgTarget)
             intent.putExtra("sender", sender)
             intent.putExtra("messageId", messageId ?: 0L)
+            if (!imLocalMsgKey.isNullOrEmpty()) {
+                intent.putExtra("imLocalMsgKey", imLocalMsgKey)
+            }
+            if (!sessionId.isNullOrEmpty()) {
+                intent.putExtra("sessionId", sessionId)
+            }
             context?.startActivity(intent)
         }
 

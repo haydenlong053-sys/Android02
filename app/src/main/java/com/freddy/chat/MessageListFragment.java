@@ -355,6 +355,11 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             }
 
             @Override
+            public void onOpenHongBao() {
+                openHongBao();
+            }
+
+            @Override
             public void onOpenMeetingRoom() {
                 openMeetingRoom();
             }
@@ -370,6 +375,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             }
         });
         inputPanel.configureMorePanel(isGroupChat);
+        inputPanel.bindDraftSession(sessionId);
         if (isGroupChat) {
             inputPanel.configureMention(true, this::launchMentionPicker);
         }
@@ -1675,6 +1681,14 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         } else {
             MyCommonBroadBridge2.getInstance().setMyBridgeMethod2(
                     requireActivity(), BridgeImEnum.BUSINESS_CARD.getValue(), peerUserId, "", sessionId, null);
+        }
+    }
+
+    private void openHongBao() {
+        if (isGroupChat) {
+            JumpBroadUtils.Companion.startFaQunHongBaoActivity(requireContext(), sessionId);
+        } else {
+            JumpBroadUtils.Companion.startFaHongBaoActivity(requireContext(), peerUserId, sessionId);
         }
     }
 

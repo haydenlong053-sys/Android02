@@ -18,6 +18,10 @@ import com.cboda.chatui.widget.ProgressBroadFragment
 import com.cboda.intelligent.R
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.viewmodel.ConversationParentViewModel
+import com.freddy.chat.draft.ChatDraftStore
+import com.freddy.chat.event.CEventCenter
+import com.freddy.chat.event.Events
+import com.freddy.chat.event.I_CEventListener
 import com.freddy.chat.im.IMSClientBootstrap
 import com.freddy.chat.utils.SessionDisplayEnricher
 import com.freddy.chat.utils.WeChatUiHelper
@@ -26,9 +30,11 @@ import com.freddy.im.http.ImConversationHttpExample
 import com.freddy.im.http.ImMessageHttpExample
 import com.freddy.im.http.model.im.SessionItem
 
-abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
+abstract class BaseConversationSessionFragment : ProgressBroadFragment(), I_CEventListener {
 
     protected abstract val sessionCategory: ConversationSessionCategory
+
+    private val draftEvents = arrayOf(Events.CHAT_DRAFT_UPDATED)
 
     private val parentViewModel: ConversationParentViewModel by activityViewModels()
     private val uiViewModel: HomeUIViewModel by activityViewModels()
@@ -78,6 +84,7 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         recyclerView.adapter = adapter
         // 关闭默认换页动画，减轻局部刷新时的视觉跳动
         recyclerView.itemAnimator = null
+        CEventCenter.registerEventListener(this, draftEvents)
 
         setupSwipeRefresh()
 
@@ -134,6 +141,24 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
     override fun onResume() {
         super.onResume()
         updateSwipeRefreshEnabled()
+    }
+
+    override fun onDestroyView() {
+        CEventCenter.unregisterEventListener(this, draftEvents)
+        super.onDestroyView()
+    }
+
+    override fun onCEvent(topic: String?, msgCode: Int, resultCode: Int, obj: Any?) {
+        if (Events.CHAT_DRAFT_UPDATED == topic && obj is String) {
+            if (!isAdded) {
+                return
+            }
+            requireView().post {
+                if (::adapter.isInitialized) {
+                    adapter.notifyDraftChanged(obj)
+                }
+            }
+        }
     }
 
     override fun onPause() {
@@ -345,6 +370,9 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
 
     private fun renderSessions(sessions: List<SessionItem>?) {
         val list = sessions ?: emptyList()
+        if (list.isNotEmpty()) {
+            ChatDraftStore.warmUp(list.mapNotNull { it.sessionId })
+        }
         adapter.setNewData(list)
         sessionsEmpty = list.isEmpty()
         applyOverlayState()

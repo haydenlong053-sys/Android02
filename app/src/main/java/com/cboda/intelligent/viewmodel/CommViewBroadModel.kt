@@ -3,7 +3,6 @@ package com.cboda.intelligent.viewmodel
 import android.content.Context
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
-import cn.wildfirechat.message.HongBaoMessageContent
 import cn.wildfirechat.model.Conversation
 import cn.wildfirechat.remote.ChatManager
 import com.cboda.baselibrary.bean.BaseBroadResponse
@@ -19,12 +18,12 @@ import com.cboda.baselibrary.utils.RealmUtil
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
 import com.cboda.baselibrary.utils.groupDataLiveData
-import com.cboda.baselibrary.utils.toLog
 import com.cboda.intelligent.bean.*
 import com.cboda.intelligent.configuration.CommonBroadConfig
 import com.cboda.intelligent.holder.SendCustomBroadMsg
 import com.cboda.intelligent.utils.OKGoBroadHelper
 import com.cboda.intelligent.utils.ToastBroadUtil
+import com.freddy.chat.hongbao.HongBaoLocalUpdater
 import com.freddy.im.db.repository.ImSessionRepository
 import com.freddy.im.http.ImGroupHttpExample
 import com.freddy.im.http.model.im.GroupApplyInfoRes
@@ -1588,7 +1587,9 @@ class CommViewBroadModel : FriendViewBroadModel() {
         sendUserId: String,
         sendUserName: String,
         messageId: Long,
-        msgSender: String
+        msgSender: String,
+        imLocalMsgKey: String = "",
+        sessionId: String = "",
     ) {
         okGoHelper.post(
             context,
@@ -1598,15 +1599,10 @@ class CommViewBroadModel : FriendViewBroadModel() {
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBroadBean) {
-                        if (isGroup && !TextUtils.isEmpty(msgTarget) && !TextUtils.isEmpty(
-                                sendUserId
-                            )
-                        ) {
-                            SendCustomBroadMsg().sendMyImLingQu(
-                                msgTarget, "",
-                                sendUserId,
-                                sendUserName,
-                                MMKVBroadUtils.getRealUserId()!!, MMKVBroadUtils.getUserName()!!, msgSender
+                        if (!TextUtils.isEmpty(imLocalMsgKey)) {
+                            HongBaoLocalUpdater.markClaimedByUser(
+                                imLocalMsgKey,
+                                MMKVBroadUtils.getRealUserId()
                             )
                         }
                         errorLiveData.value = ErrorBroadBean(type = "linghongbaosuc", isGroup = isGroup)
@@ -1615,14 +1611,8 @@ class CommViewBroadModel : FriendViewBroadModel() {
 
                 override fun onFail(bean: BaseBroadResponse?) {
                     if (bean?.code == "200") {
-                        try {
-                            val msg = ChatManager.Instance().getMessage(messageId)
-                            val hongBaoMessageContent = msg.content as HongBaoMessageContent
-                            hongBaoMessageContent.lingquStatus = "3"
-                            ChatManager.Instance().updateMessage(messageId, hongBaoMessageContent)
-                            eLogD("refuseRedEnvelopesClass", "updateMessage")
-                        } catch (e: Exception) {
-                            e.toLog("refuseRedEnvelopesClass")
+                        if (!TextUtils.isEmpty(imLocalMsgKey)) {
+                            HongBaoLocalUpdater.applyLingquStatus(imLocalMsgKey, "3")
                         }
                     }
                 }
@@ -1655,7 +1645,13 @@ class CommViewBroadModel : FriendViewBroadModel() {
     }
 
 
-    fun refuseRedEnvelopes(context: Context?, id: String, isGroup: Boolean, messageId: Long) {
+    fun refuseRedEnvelopes(
+        context: Context?,
+        id: String,
+        isGroup: Boolean,
+        messageId: Long,
+        imLocalMsgKey: String = "",
+    ) {
         okGoHelper.post(
             context,
             "/redPacket/refuse",
@@ -1665,33 +1661,17 @@ class CommViewBroadModel : FriendViewBroadModel() {
             showToast = true,
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
-//
-                    try {
-                        val msg = ChatManager.Instance().getMessage(messageId)
-                        val hongBaoMessageContent = msg.content as HongBaoMessageContent
-                        hongBaoMessageContent.lingquStatus = "2"
-//                        eLogD("refuseRedEnvelopesClass","messageId:$messageId")
-//                        eLogD("refuseRedEnvelopesClass","msgContent:${toJson2(msg.content)}")
-//                        eLogD("refuseRedEnvelopesClass","hongBaoMessageContent:${toJson2(hongBaoMessageContent)}")
-                        ChatManager.Instance().updateMessage(messageId, hongBaoMessageContent)
-                    } catch (e: Exception) {
-                        e.toLog("refuseRedEnvelopesClass")
+                    if (!TextUtils.isEmpty(imLocalMsgKey)) {
+                        HongBaoLocalUpdater.applyLingquStatus(imLocalMsgKey, "2")
                     }
-
                     refuseRedEnvelopesLiveData.value = Pair(isGroup, true)
                 }
 
                 override fun onFail(bean: BaseBroadResponse?) {
                     eLogD("refuseRedEnvelopesClass", "code:${bean?.code}")
                     if (bean?.code == "500") {
-                        try {
-                            val msg = ChatManager.Instance().getMessage(messageId)
-                            val hongBaoMessageContent = msg.content as HongBaoMessageContent
-                            hongBaoMessageContent.lingquStatus = "3"
-                            ChatManager.Instance().updateMessage(messageId, hongBaoMessageContent)
-                            eLogD("refuseRedEnvelopesClass", "updateMessage")
-                        } catch (e: Exception) {
-                            e.toLog("refuseRedEnvelopesClass")
+                        if (!TextUtils.isEmpty(imLocalMsgKey)) {
+                            HongBaoLocalUpdater.applyLingquStatus(imLocalMsgKey, "3")
                         }
                     }
 

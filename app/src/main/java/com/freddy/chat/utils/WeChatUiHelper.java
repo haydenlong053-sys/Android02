@@ -218,6 +218,14 @@ public final class WeChatUiHelper {
         return MessageContentFormatter.isCardMessage(msgContentType);
     }
 
+    public static boolean isRedPacketMessage(int msgContentType) {
+        return MessageContentFormatter.isRedPacketMessage(msgContentType);
+    }
+
+//    public static boolean isHongbaoClaimMessage(int msgContentType) {
+//        return MessageContentFormatter.isHongbaoClaimMessage(msgContentType);
+//    }
+
     public static boolean isNoticeMessage(int msgContentType) {
         return MessageContentFormatter.isNoticeMessage(msgContentType);
     }

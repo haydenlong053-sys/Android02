@@ -149,6 +149,12 @@ public final class MergeTranspondMessageContentUtil {
         if (MessageContentFormatter.isCardMessage(contentType)) {
             return ImUiStrings.get(R.string.base_digest_person_card);
         }
+        if (MessageContentFormatter.isRedPacketMessage(contentType)) {
+            return ImUiStrings.get(R.string.base_digest_red_package);
+        }
+//        if (MessageContentFormatter.isHongbaoClaimMessage(contentType)) {
+//            return MessageContentFormatter.formatHongbaoClaimDisplay(contentJson, null);
+//        }
         if (MessageContentFormatter.isNoticeMessage(contentType)) {
             return ImUiStrings.get(R.string.base_digest_notice);
         }
