@@ -11,6 +11,7 @@ import com.freddy.chat.utils.CardMessageContentUtil;
 import com.freddy.chat.utils.HongBaoMessageContentUtil;
 import com.freddy.chat.utils.NoticeMessageContentUtil;
 import com.freddy.chat.utils.MediaMessageContentUtil;
+import com.freddy.chat.utils.QuoteMessageContentUtil;
 import com.freddy.chat.utils.StringUtil;
 import com.freddy.im.IMSConfig;
 import com.freddy.im.MessageType;
@@ -70,6 +71,15 @@ public class MessageBuilder {
                                               String toId,
                                               String content,
                                               @Nullable String customInfo) {
+        return buildTextMessage(sessionId, conversationType, toId, content, customInfo, null);
+    }
+
+    public static AppMessage buildTextMessage(String sessionId,
+                                              int conversationType,
+                                              String toId,
+                                              String content,
+                                              @Nullable String customInfo,
+                                              @Nullable QuoteMessageContentUtil.QuoteInfo quoteInfo) {
         String userId = IMSClientBootstrap.getInstance().getCurrentUserId();
         AppMessage message = new AppMessage();
         if (!TextUtils.isEmpty(sessionId)) {
@@ -81,7 +91,7 @@ public class MessageBuilder {
         message.setToId(toId);
         message.setTimestamp(System.currentTimeMillis());
         message.setConversationTypeEnum(ImSignalProtos.ConversationType.forNumber(conversationType));
-        message.setContent(wrapTextContentAsJson(content));
+        message.setContent(wrapTextContentAsJson(content, quoteInfo));
         if (!TextUtils.isEmpty(customInfo)) {
             message.setCustomInfo(customInfo);
         }
@@ -480,8 +490,17 @@ public class MessageBuilder {
 
     /** 文本消息 content 包装为 {@code {"msg":"..."}} */
     private static String wrapTextContentAsJson(String content) {
-        Map<String, String> body = Collections.singletonMap("msg", content != null ? content : "");
-        return AppGson.get().toJson(body);
+        return wrapTextContentAsJson(content, null);
+    }
+
+    private static String wrapTextContentAsJson(String content,
+                                                @Nullable QuoteMessageContentUtil.QuoteInfo quoteInfo) {
+        com.google.gson.JsonObject body = new com.google.gson.JsonObject();
+        body.addProperty("msg", content != null ? content : "");
+        if (quoteInfo != null) {
+            body.add(QuoteMessageContentUtil.KEY_QUOTE, QuoteMessageContentUtil.toJsonObject(quoteInfo));
+        }
+        return body.toString();
     }
 
     /** 图片消息 content：{@code localUrl} 本地路径，{@code url} 远程/CDN。 */

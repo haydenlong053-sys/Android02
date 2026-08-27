@@ -417,13 +417,17 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
         }
         ImGroupHttpExample.requestGetGroupByCodeId(codeId!!, object : OnHttpImListener<GroupQrInfoRes> {
             override fun onHttpImSuccess(result: GroupQrInfoRes) {
-                runOnUiThread {
-                    if (TextUtils.isEmpty(result.id)) {
-                        ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code))
-                        restartScan()
-                        return@runOnUiThread
+                if (result.busiExt.openJoinPay == "1") {
+
+                } else {
+                    runOnUiThread {
+                        if (TextUtils.isEmpty(result.id)) {
+                            ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code))
+                            restartScan()
+                            return@runOnUiThread
+                        }
+                        applySelfImJoinGroup(result.id!!, result)
                     }
-                    applySelfImJoinGroup(result.id!!, result)
                 }
             }
         }, {

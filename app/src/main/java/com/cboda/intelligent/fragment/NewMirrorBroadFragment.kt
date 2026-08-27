@@ -39,6 +39,7 @@ import com.cboda.baselibrary.bean.UserInfoBroadModel
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.PRICE_DUALX
+import com.cboda.baselibrary.utils.RealTimeUtil
 import com.cboda.baselibrary.utils.callImTokenViaDeepLink
 import com.cboda.baselibrary.utils.callMetaMaskWithEIP681
 import com.cboda.baselibrary.utils.mul
@@ -84,6 +85,7 @@ class NewMirrorBroadFragment : BaseBroadFragment<NewMirrorBroadFragmentBinding, 
         }
         binding.ivMirrorAvatar.setOnClickListener(userInfoClick)
         binding.layoutMirrorCredit.click {
+//            RealTimeUtil.getServerTime(binding.layoutMirrorCredit.context)
             if (!HttpsBroadConfig.isReviewEnv) {
                 //信用分状态 1、已开通 0:未开通
                 if (anyToInt(userInfo?.gradeStatus) == 1) {

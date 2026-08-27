@@ -104,6 +104,7 @@ dependencies {
 //    implementation libs.refresh.footer.ball
     implementation 'io.realm:realm-android-library:10.19.0'
     api 'com.github.Dimezis:BlurView:version-3.2.0'
+    implementation 'com.github.homayoonahmadi:RealTime:1.3.0'
     if (libsinfo.enableCrash) implementation libs.bugly
 //    if (!libsinfo.enableCrash) implementation platform('com.google.firebase:firebase-bom:34.12.0')
 //    if (!libsinfo.enableCrash) implementation 'com.google.firebase:firebase-crashlytics-ndk'

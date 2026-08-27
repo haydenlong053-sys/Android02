@@ -87,6 +87,8 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     private MessageViewHolderContext.OnMentionMemberListener mentionMemberListener;
     @Nullable
     private MessageViewHolderContext.OnPortraitClickListener portraitClickListener;
+    @Nullable
+    private MessageViewHolderContext.OnQuoteClickListener quoteClickListener;
 
     private final Map<String, GroupMemberItem> membersByUserId = new HashMap<>();
     private final Set<String> checkedClientMsgIds = new HashSet<>();
@@ -133,6 +135,34 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     public void setPortraitClickListener(
             @Nullable MessageViewHolderContext.OnPortraitClickListener portraitClickListener) {
         this.portraitClickListener = portraitClickListener;
+    }
+
+    public void setQuoteClickListener(
+            @Nullable MessageViewHolderContext.OnQuoteClickListener quoteClickListener) {
+        this.quoteClickListener = quoteClickListener;
+    }
+
+    @NonNull
+    public Map<String, String> buildUserDisplayNameMap() {
+        MessageViewHolderContext context = new MessageViewHolderContext(
+                isGroupChat,
+                peerAvatarUrl,
+                selfAvatarUrl,
+                IMSClientBootstrap.getInstance().getCurrentUserId(),
+                membersByUserId,
+                items,
+                readUiState,
+                resolveGroupMemberCount(),
+                sessionId,
+                peerUserId,
+                peerDisplayName,
+                retryListener,
+                messageActions,
+                mentionMemberListener,
+                portraitClickListener,
+                quoteClickListener,
+                listMode);
+        return context.buildUserDisplayNameMap();
     }
 
     public int getMode() {
@@ -669,6 +699,7 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
                 messageActions,
                 mentionMemberListener,
                 portraitClickListener,
+                quoteClickListener,
                 listMode);
         if (holder instanceof RecallMessageVH) {
             ((RecallMessageVH) holder).bind(m, context);
