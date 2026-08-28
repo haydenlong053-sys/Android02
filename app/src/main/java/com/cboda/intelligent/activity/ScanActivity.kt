@@ -50,6 +50,8 @@ import com.freddy.im.http.model.im.GroupVo
 import com.freddy.im.listener.OnHttpImListener
 import com.freddy.im.util.ImGroupQrCodeHelper
 import com.freddy.im.util.groupToSession
+import com.freddy.webtrc.utils.BroadE.checkMembersInGroup
+import com.freddy.webtrc.utils.BroadE.checkPeopleInGroup
 import com.google.zxing.Result
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.permissions.OnPermissionCallback
@@ -424,25 +426,22 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
             restartScan()
             return
         }
-        ImGroupHttpExample.requestGetGroupByCodeId(codeId!!, object : OnHttpImListener<GroupQrInfoRes> {
-            override fun onHttpImSuccess(result: GroupQrInfoRes) {
-//                checkGroupJoinEligibility(result.id, result)
-//                checkUserIsGroup(result.id, MMKVBroadUtils.getRealUserId())
-//                if (result.busiExt.openJoinPay == "1") {
-////                    ImGroupHttpExample.requestGetGroupDetail(result.id, { result -> eLogD("requestGetGroupDetail", "result:${toJson2(result)}") }, {})
-////                    showToastMain("需要付费：${result.busiExt.joinPayPriceUsdt}")
-//                    GroupJoinPayActivity.start(this@ScanActivity, result)
-//                } else {
-//                    showToastMain("不需要付费")
-//                }
-//                if (TextUtils.isEmpty(result.id)) {
-//                    showToastMain(R.string.scan_invalid_qr_code)
-//                    restartScan()
-//                    return
-//                } else {
-//                    checkGroupJoinEligibility(result.id ?: "", result)
-//                }
-//                applySelfImJoinGroup(result.id!!, result)
+        ImGroupHttpExample.requestGetGroupByCodeId(codeId!!, { result ->
+            if (TextUtils.isEmpty(result.id)) {
+                showToastMain(R.string.scan_invalid_qr_code)
+                restartScan()
+            } else {
+                checkPeopleInGroup(result.id, MMKVBroadUtils.getRealUserId()) { pair ->
+                    if (pair.first) {
+                        JumpBroadUtils.startChatMsgActivity(groupToSession(result), this@ScanActivity)
+                        finish()
+                    } else if (!TextUtils.isEmpty(pair.second)) {
+                        restartScan()
+                        showToastMain(pair.second ?: "")
+                    } else {
+                        checkGroupJoinEligibility(result.id, result)
+                    }
+                }
             }
         }, {
             runOnUiThread {
@@ -453,7 +452,7 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
     }
 
     /** 自研：校验黑名单与入群收费，通过后再申请入群。 */
-    private fun checkGroupJoinEligibility(groupId: String, groupInfo: GroupVo?) {
+    private fun checkGroupJoinEligibility(groupId: String, groupInfo: GroupQrInfoRes) {
         lifecycleScope.launch {
             val params = hashMapOf<String, Any?>("id" to groupId)
             val response = withContext(Dispatchers.IO) {
@@ -473,13 +472,11 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
                     val fallbackPay = groupInfo?.busiExt?.openJoinPay ?: groupInfo?.openJoinPay
                     when {
                         data.isBlacklisted() -> {
-                            ToastBroadUtil.show(getString(R.string.scan_group_blacklisted))
+                            showToastMain(R.string.scan_group_blacklisted)
                             restartScan()
                         }
-
                         data.isJoinPayRequired(fallbackPay) -> {
-                            ToastBroadUtil.show(getString(R.string.scan_group_join_pay_required))
-                            restartScan()
+                            GroupJoinPayActivity.start(this@ScanActivity, groupInfo)
                         }
 
                         else -> applySelfImJoinGroup(groupId, groupInfo)
@@ -504,12 +501,12 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
             override fun onHttpImSuccess(result: Boolean) {
                 runOnUiThread {
                     if (!result) {
-                        ToastBroadUtil.show(getString(R.string.scan_network_request_failed))
+                        showToastMain(getString(R.string.scan_network_request_failed))
                         restartScan()
                         return@runOnUiThread
                     }
                     if (isJoinNeedVerify(groupInfo)) {
-                        ToastBroadUtil.show(getString(R.string.scan_applied_waiting_group_owner))
+                        showToastMain(getString(R.string.scan_applied_waiting_group_owner))
                         finish()
                     } else {
                         openSelfImGroupChat(groupInfo, groupId)
@@ -518,7 +515,7 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
             }
         }, {
             runOnUiThread {
-                ToastBroadUtil.show(getString(R.string.scan_network_request_failed))
+                showToastMain(getString(R.string.scan_network_request_failed))
                 restartScan()
             }
         })
