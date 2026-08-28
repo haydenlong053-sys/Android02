@@ -415,7 +415,21 @@ object NetworkBroadUtils {
     ) {
         val api = createApi()
         val fullUrl = buildFullUrl(NetworkBroadConfig.defaultBaseUrl, url)
-        executeFlatMapCall(api.postEncryptedFlat(fullUrl, body), callback)
+        executeFlatMapCall(api.postEncryptedFlat(fullUrl, body), callback, requireBizSuccess = true)
+    }
+
+    /**
+     * 加密扁平 POST：HTTP 成功且能解析出 body 即回调 [FlatMapCallback.onSuccess]，
+     * 不依赖业务字段 `success`（适用于 checkGroupJoin 等 success=false 但仍返回业务数据的接口）。
+     */
+    fun postEncryptedFlatRaw(
+        url: String,
+        body: Any,
+        callback: FlatMapCallback,
+    ) {
+        val api = createApi()
+        val fullUrl = buildFullUrl(NetworkBroadConfig.defaultBaseUrl, url)
+        executeFlatMapCall(api.postEncryptedFlat(fullUrl, body), callback, requireBizSuccess = false)
     }
 
     /**
@@ -634,6 +648,7 @@ object NetworkBroadUtils {
     private fun executeFlatMapCall(
         call: Call<Map<String, Any?>>,
         callback: FlatMapCallback,
+        requireBizSuccess: Boolean = true,
     ) {
         call.enqueue(object : Callback<Map<String, Any?>> {
             override fun onResponse(
@@ -652,7 +667,7 @@ object NetworkBroadUtils {
                     }
                     val code = (map["code"] as? Number)?.toInt() ?: 0
                     val success = map["success"] as? Boolean ?: false
-                    if (code == 200 && success) {
+                    if (code == 200 && (!requireBizSuccess || success)) {
                         callback.onSuccess(map)
                     } else {
                         callback.onFailure(code, map["msg"]?.toString() ?: "请求失败")

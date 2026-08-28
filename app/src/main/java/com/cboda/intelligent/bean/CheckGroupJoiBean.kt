@@ -2,20 +2,43 @@ package com.cboda.intelligent.bean
 
 import java.io.Serializable
 
-/** 扫码/申请入群前置校验（{@code api/checkGroupJoi}）。 */
+/**
+ * 扫码/申请入群前置校验（{@code api/checkGroupJoin}）扁平响应。
+ * 注意：需支付时服务端常返回 `success=false` + `needPay=1`，属业务态而非网络失败。
+ */
 class CheckGroupJoiBean : Serializable {
-    /** 是否在黑名单：1 是 */
-    var blacklisted: Int = 0
-    /** 是否需付费入群："0" / "1" */
+    var msg: String? = null
+    var code: Int = 0
+    var success: Boolean = false
+    /** 是否允许直接加入："0" / "1" */
+    var allow: String? = null
+    /** 是否在黑名单："0" / "1" */
+    var blacklisted: String? = null
+    /** 是否需付费："0" / "1" */
+    var needPay: String? = null
+    /** 是否开启群收费："0" / "1" */
     var openJoinPay: String? = null
+    /** 是否已申请："0" / "1" */
+    var applied: String? = null
 
-    fun isBlacklisted(): Boolean = blacklisted == 1
+    var groupId: String? = null
+    var groupName: String? = null
+    var groupIcon: String? = null
+    var memberCount: Int = 0
 
-    fun isJoinPayRequired(fallbackOpenJoinPay: String? = null): Boolean {
-        return when (openJoinPay) {
-            "1" -> true
-            "0" -> false
-            else -> fallbackOpenJoinPay == "1"
-        }
-    }
+    var priceDualx: String? = null
+    var priceUsdt: String? = null
+    var feeRate: String? = null
+    var payMode: String? = null
+    var tokenSymbol: String? = null
+    var scene: String? = null
+    var odicPriceAvailable: Boolean = false
+
+    fun isBlacklisted(): Boolean = isFlagOn(blacklisted)
+
+    fun isNeedPay(): Boolean = isFlagOn(needPay) || isFlagOn(openJoinPay)
+
+    fun isAllowJoin(): Boolean = isFlagOn(allow) && !isBlacklisted() && !isNeedPay()
+
+    private fun isFlagOn(flag: String?): Boolean = flag == "1" || flag == "true"
 }

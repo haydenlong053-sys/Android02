@@ -455,8 +455,9 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
     private fun checkGroupJoinEligibility(groupId: String, groupInfo: GroupQrInfoRes) {
         lifecycleScope.launch {
             val params = hashMapOf<String, Any?>("id" to groupId)
+            // checkGroupJoin 为扁平响应；需支付时 success=false，需用 Raw 才能拿到业务字段
             val response = withContext(Dispatchers.IO) {
-                NetworkBroadRepository.postEncrypted2(
+                NetworkBroadRepository.postEncryptedFlatRaw2(
                     UrlBroadBroadConstants.CHECK_GROUP_JOIN,
                     CheckGroupJoiBean::class.java,
                     params,
@@ -469,19 +470,29 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
                         restartScan()
                         return@onSuccess
                     }
-                    val fallbackPay = groupInfo?.busiExt?.openJoinPay ?: groupInfo?.openJoinPay
                     when {
                         data.isBlacklisted() -> {
                             showToastMain(R.string.scan_group_blacklisted)
                             restartScan()
                         }
 
-                        data.isJoinPayRequired(fallbackPay) -> {
+                        data.isNeedPay() -> {
+                            mergeCheckGroupJoinIntoQrInfo(groupInfo, data)
                             GroupJoinPayActivity.start(this@ScanActivity, groupInfo)
                             finish()
                         }
 
-                        else -> applySelfImJoinGroup(groupId, groupInfo)
+                        data.isAllowJoin() || data.success -> {
+                            applySelfImJoinGroup(groupId, groupInfo)
+                        }
+
+                        else -> {
+                            showToastMain(
+                                data.msg?.takeIf { it.isNotBlank() }
+                                    ?: getString(R.string.scan_network_request_failed)
+                            )
+                            restartScan()
+                        }
                     }
                 }.onFailure { _, message ->
                     showToastMain(
@@ -493,6 +504,36 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
                     showToastMain(R.string.scan_network_request_failed)
                     restartScan()
                 }
+            }
+        }
+    }
+
+    /** 用 checkGroupJoin 返回的价格/群信息补全扫码结果，供收费进群页展示。 */
+    private fun mergeCheckGroupJoinIntoQrInfo(groupInfo: GroupQrInfoRes, check: CheckGroupJoiBean) {
+        if (!check.groupName.isNullOrBlank()) {
+            groupInfo.name = check.groupName
+        }
+        if (!check.groupIcon.isNullOrBlank()) {
+            groupInfo.icon = check.groupIcon
+        }
+        if (check.memberCount > 0) {
+            groupInfo.memCount = check.memberCount
+        }
+        if (!check.priceDualx.isNullOrBlank()) {
+            groupInfo.joinPayPrice = check.priceDualx
+        }
+        val payFlag = when {
+            check.openJoinPay == "1" || check.needPay == "1" -> "1"
+            else -> check.openJoinPay ?: groupInfo.openJoinPay
+        }
+        groupInfo.openJoinPay = payFlag
+        groupInfo.ensureBusiExt().apply {
+            openJoinPay = payFlag
+            if (!check.priceUsdt.isNullOrBlank()) {
+                joinPayPriceUsdt = check.priceUsdt
+            }
+            if (!check.feeRate.isNullOrBlank()) {
+                joinPayFeeRate = check.feeRate
             }
         }
     }
