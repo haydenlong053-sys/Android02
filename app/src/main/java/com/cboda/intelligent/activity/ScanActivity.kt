@@ -475,20 +475,22 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
                             showToastMain(R.string.scan_group_blacklisted)
                             restartScan()
                         }
+
                         data.isJoinPayRequired(fallbackPay) -> {
                             GroupJoinPayActivity.start(this@ScanActivity, groupInfo)
+                            finish()
                         }
 
                         else -> applySelfImJoinGroup(groupId, groupInfo)
                     }
                 }.onFailure { _, message ->
-                    ToastBroadUtil.show(
+                    showToastMain(
                         message.takeIf { it.isNotBlank() }
                             ?: getString(R.string.scan_network_request_failed)
                     )
                     restartScan()
                 }.onError {
-                    ToastBroadUtil.show(getString(R.string.scan_network_request_failed))
+                    showToastMain(R.string.scan_network_request_failed)
                     restartScan()
                 }
             }
