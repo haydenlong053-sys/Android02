@@ -18,9 +18,11 @@ import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.utils.DeviceBroadUtil
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.APP_TAG
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppStr
 import com.cboda.baselibrary.utils.toJson2
+import com.cboda.chatui.utils.E.checkUserIsGroup
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.im.GroupJoinPayActivity
 import com.cboda.intelligent.bean.CheckGroupJoiBean
@@ -424,13 +426,15 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
         }
         ImGroupHttpExample.requestGetGroupByCodeId(codeId!!, object : OnHttpImListener<GroupQrInfoRes> {
             override fun onHttpImSuccess(result: GroupQrInfoRes) {
-                if (result.busiExt.openJoinPay == "1") {
-//                    ImGroupHttpExample.requestGetGroupDetail(result.id, { result -> eLogD("requestGetGroupDetail", "result:${toJson2(result)}") }, {})
-//                    showToastMain("需要付费：${result.busiExt.joinPayPriceUsdt}")
-                    GroupJoinPayActivity.start(this@ScanActivity, result)
-                } else {
-                    showToastMain("不需要付费")
-                }
+//                checkGroupJoinEligibility(result.id, result)
+//                checkUserIsGroup(result.id, MMKVBroadUtils.getRealUserId())
+//                if (result.busiExt.openJoinPay == "1") {
+////                    ImGroupHttpExample.requestGetGroupDetail(result.id, { result -> eLogD("requestGetGroupDetail", "result:${toJson2(result)}") }, {})
+////                    showToastMain("需要付费：${result.busiExt.joinPayPriceUsdt}")
+//                    GroupJoinPayActivity.start(this@ScanActivity, result)
+//                } else {
+//                    showToastMain("不需要付费")
+//                }
 //                if (TextUtils.isEmpty(result.id)) {
 //                    showToastMain(R.string.scan_invalid_qr_code)
 //                    restartScan()
