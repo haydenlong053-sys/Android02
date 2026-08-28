@@ -524,6 +524,14 @@
     <string name="group_join_pay_amount_format">%1$s DUALX</string>
     <string name="group_join_pay_btn_format">立即支付 %1$s DUALX進群</string>
     <string name="group_join_pay_coming_soon">支付功能即將開放</string>
+    <string name="group_join_pay_confirm_title">確認支付</string>
+    <string name="group_join_pay_token_dualx">DUALX</string>
+    <string name="group_join_pay_confirm_payee">收款方</string>
+    <string name="group_join_pay_confirm_payee_value">%1$s (群主錢包)</string>
+    <string name="group_join_pay_confirm_method">支付方式</string>
+    <string name="group_join_pay_confirm_method_value">DUALX錢包</string>
+    <string name="group_join_pay_confirm_order">訂單號</string>
+    <string name="group_join_pay_confirm_need_pay">需支付</string>
     <string name="my_groups">我的群聊</string>
     <string name="menu_group_info">群聊資訊</string>
 </resources>

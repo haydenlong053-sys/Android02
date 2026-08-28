@@ -8,7 +8,6 @@ import android.text.TextUtils
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.utils.click
@@ -70,7 +69,8 @@ class GroupJoinPayActivity : BaseSimple2BroadActivity() {
         returnView.click { finish() }
         backIcon2.click { finish() }
         payBtn.click {
-            ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_join_pay_coming_soon))
+            val info = groupInfo ?: return@click
+            GroupJoinPayConfirmActivity.start(this, info)
         }
     }
 

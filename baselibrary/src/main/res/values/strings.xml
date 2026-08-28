@@ -539,6 +539,14 @@
     <string name="group_join_pay_amount_format">%1$s DUALX</string>
     <string name="group_join_pay_btn_format">Pay %1$s DUALX to join</string>
     <string name="group_join_pay_coming_soon">Payment coming soon</string>
+    <string name="group_join_pay_confirm_title">Confirm payment</string>
+    <string name="group_join_pay_token_dualx">DUALX</string>
+    <string name="group_join_pay_confirm_payee">Payee</string>
+    <string name="group_join_pay_confirm_payee_value">%1$s (Owner wallet)</string>
+    <string name="group_join_pay_confirm_method">Payment method</string>
+    <string name="group_join_pay_confirm_method_value">DUALX wallet</string>
+    <string name="group_join_pay_confirm_order">Order No.</string>
+    <string name="group_join_pay_confirm_need_pay">Amount due</string>
     <string name="my_groups">My groups</string>
     <string name="menu_group_info">Group info</string>
 
