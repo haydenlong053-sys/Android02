@@ -25,6 +25,7 @@ import com.cboda.baselibrary.utils.toJson2
 import com.cboda.chatui.utils.E.checkUserIsGroup
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.im.GroupJoinPayActivity
+import com.cboda.intelligent.activity.im.GroupJoinPayResultActivity
 import com.cboda.intelligent.bean.CheckGroupJoiBean
 import com.cboda.intelligent.bean.ResultBroadBean
 import com.cboda.intelligent.configuration.ScanJumpBroadEnum

@@ -60,13 +60,15 @@ class GroupJoinPayConfirmActivity : BaseSimple2BroadActivity() {
         payPopup.showPopupWindow()
     }
 
+
     private fun checkOrder() {
         if (canPay && payLsOrderBean != null && !TextUtils.isEmpty(payLsOrderBean?.orderId)) {
             viewModel.checkOrder(payLsOrderBean?.orderId, true, true).observe(this) { data ->
                 if (data?.success == true) {
                     canPay = false
                     payLsOrderBean = null
-                    //支付成功跳转
+                    GroupJoinPayResultActivity.start(this@GroupJoinPayConfirmActivity, groupInfo)
+                    finish()
                 } else {
                     showCommonStrTip("订单支付", "该订单是否支付？", "取消支付", "已支付", this, isOutSideTouchable = false) { toCheck ->
                         if (toCheck) {
@@ -74,7 +76,8 @@ class GroupJoinPayConfirmActivity : BaseSimple2BroadActivity() {
                                 if (data?.success == true) {
                                     canPay = false
                                     payLsOrderBean = null
-                                    //支付成功跳转
+                                    GroupJoinPayResultActivity.start(this@GroupJoinPayConfirmActivity, groupInfo)
+                                    finish()
                                 } else {
                                     showCommonStrTip("订单支付", "查询到该订单未成功支付，是否继续？", "取消支付", "重新支付", this, isOutSideTouchable = false) { toCheck2 ->
                                         if (toCheck2) {
