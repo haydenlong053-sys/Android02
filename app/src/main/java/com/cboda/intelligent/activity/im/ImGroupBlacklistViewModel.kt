@@ -15,8 +15,6 @@ import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.utils.dismissLoading
 import com.cboda.intelligent.utils.showLoading
 import com.cboda.intelligent.utils.showToastMain
-import com.freddy.im.db.ImLocalStore
-import com.freddy.im.http.model.im.GroupMemberItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,7 +22,6 @@ import kotlinx.coroutines.withContext
 data class GroupBlacklistUiState(
     val blacklist: List<GroupBlacklistItem> = emptyList(),
     val totalCount: Int = 0,
-    val candidates: List<GroupMemberItem> = emptyList(),
     val loading: Boolean = false,
 )
 
@@ -33,14 +30,9 @@ class ImGroupBlacklistViewModel : BaseViewModel() {
     private val _state = MutableLiveData(GroupBlacklistUiState(loading = true))
     val state: LiveData<GroupBlacklistUiState> = _state
 
-    fun load(groupId: String, currentUserId: String?) {
+    fun load(groupId: String) {
         if (groupId.isEmpty()) return
         _state.value = (_state.value ?: GroupBlacklistUiState()).copy(loading = true)
-        loadBlacklist(groupId)
-        loadCandidates(groupId, currentUserId)
-    }
-
-    fun refreshBlacklist(groupId: String) {
         loadBlacklist(groupId)
     }
 
@@ -79,21 +71,6 @@ class ImGroupBlacklistViewModel : BaseViewModel() {
                 val cur = _state.value ?: GroupBlacklistUiState()
                 _state.postValue(cur.copy(loading = false))
             }
-        }
-    }
-
-    private fun loadCandidates(groupId: String, currentUserId: String?) {
-        ImLocalStore.loadGroupMembersPage(
-            groupId,
-            currentUserId,
-            null,
-            null,
-            -1,
-            0,
-            500,
-        ) { page ->
-            val cur = _state.value ?: GroupBlacklistUiState()
-            _state.postValue(cur.copy(candidates = page.members))
         }
     }
 

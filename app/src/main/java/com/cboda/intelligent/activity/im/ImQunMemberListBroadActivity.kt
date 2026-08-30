@@ -45,6 +45,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
     private var fromPage = ""
     private var qunId = ""
     private var userType = ""
+    private var excludeUserIds: Set<String> = emptySet()
     private var mAdapter: QunMemberBroadAdapter? = null
     private val mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
     private val mDataList3 = arrayListOf<CommonDataListBroadBean.CommonBean>()
@@ -71,6 +72,10 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         fromPage = intent?.getStringExtra("fromPage") ?: ""
         qunId = intent?.getStringExtra("qunid") ?: ""
         userType = intent?.getStringExtra("userType") ?: ""
+        excludeUserIds = intent?.getStringArrayListExtra(ImGroupIntent.EXTRA_EXCLUDE_USER_IDS)
+            ?.mapNotNull { it.trim().takeIf { id -> id.isNotEmpty() } }
+            ?.toHashSet()
+            .orEmpty()
         // 打开成员选择/踢人页：全量 memberList 闲时续拉提速为立刻
         ImGroupMemberChangeManager.getInstance().promoteFullSyncPriority(qunId)
         viewModel = ViewModelProvider(this)[CommViewBroadModel::class.java]
@@ -88,7 +93,9 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         getToolbarTitle()?.text = when (fromPage) {
             "selectManager" -> getString(R.string.qunguanliyuan)
             "selectNewOwner" -> getString(R.string.xuanxinqunzhu)
-            ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS -> getString(com.cboda.baselibrary.R.string.select_group_members)
+            ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS,
+            ImGroupIntent.FROM_PAGE_SELECT_BLACKLIST,
+            -> getString(com.cboda.baselibrary.R.string.select_group_members)
             else -> getString(R.string.xuanzelianxiren)
         }
         tvAgree.isSubmitCanGo(false)
@@ -145,7 +152,8 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (fromPage != "add" && fromPage != "remove"
                     && fromPage != "selectManager" && fromPage != "selectNewOwner"
-                    && fromPage != ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS) return
+                    && fromPage != ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS
+                    && fromPage != ImGroupIntent.FROM_PAGE_SELECT_BLACKLIST) return
                 searchRunnable?.let { runnable -> searchHandler.removeCallbacks(runnable) }
                 searchRunnable = Runnable { triggerSearch() }.also { runnable ->
                     searchHandler.postDelayed(runnable, SEARCH_DEBOUNCE_MS)
@@ -162,6 +170,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
             "selectManager" -> loadSelectManagerMembers()
             "selectNewOwner" -> loadSelectNewOwnerMembers()
             ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS -> loadSelectCallMembers()
+            ImGroupIntent.FROM_PAGE_SELECT_BLACKLIST -> loadSelectBlacklistMembers()
         }
     }
 
@@ -207,6 +216,14 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                     loadSelectCallMembers()
                 } else {
                     searchSelectCallMembers(keyword)
+                }
+            }
+            ImGroupIntent.FROM_PAGE_SELECT_BLACKLIST -> {
+                val keyword = currentSearchKey()
+                if (keyword.isEmpty()) {
+                    loadSelectBlacklistMembers()
+                } else {
+                    searchSelectBlacklistMembers(keyword)
                 }
             }
         }
@@ -414,6 +431,49 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         )
     }
 
+    /** 加黑名单：本地群成员库加载（排除自己与已在黑名单）。 */
+    private fun loadSelectBlacklistMembers() {
+        if (qunId.isEmpty()) return
+        val currentUserId = IMSClientBootstrap.getInstance().currentUserId
+        ImLocalStore.loadGroupMembersMap(qunId) { map ->
+            val beans = ImGroupMemberUiMapper.toCommonBeansFromMemberItems(map.values.toList())
+                .filter { bean ->
+                    val uid = bean.userId
+                    !uid.isNullOrEmpty() && uid != currentUserId && uid !in excludeUserIds
+                }
+            runOnUiThread { submitRemoveList(beans) }
+        }
+    }
+
+    /** 加黑名单：ES 模糊搜索群成员（排除自己与已在黑名单）。 */
+    private fun searchSelectBlacklistMembers(keyword: String) {
+        if (qunId.isEmpty()) return
+        val currentUserId = IMSClientBootstrap.getInstance().currentUserId
+        ImGroupHttpExample.requestSearchMembers(
+            qunId,
+            keyword,
+            object : OnHttpImListener<List<com.freddy.im.http.model.im.GroupUserVo>> {
+                override fun onHttpImSuccess(result: List<com.freddy.im.http.model.im.GroupUserVo>) {
+                    if (keyword != currentSearchKey()) return
+                    val items = GroupUserVoMapper.toItems(qunId, result)
+                    val beans = ImGroupMemberUiMapper.toCommonBeansFromMemberItems(items)
+                        .filter { bean ->
+                            val uid = bean.userId
+                            !uid.isNullOrEmpty() && uid != currentUserId && uid !in excludeUserIds
+                        }
+                    runOnUiThread { submitRemoveList(beans) }
+                }
+            },
+            {
+                runOnUiThread {
+                    if (keyword == currentSearchKey()) {
+                        submitRemoveList(emptyList())
+                    }
+                }
+            },
+        )
+    }
+
     private fun updateYiXuan() {
         mAdapter2?.setList(mDataList3)
         recyclerView2.isVisible = mDataList3.isNotEmpty()
@@ -495,7 +555,9 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                     finish()
                 }
             }
-            ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS -> {
+            ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS,
+            ImGroupIntent.FROM_PAGE_SELECT_BLACKLIST,
+            -> {
                 val ids = selected.mapNotNull { it.userId }
                 setResult(
                     RESULT_OK,

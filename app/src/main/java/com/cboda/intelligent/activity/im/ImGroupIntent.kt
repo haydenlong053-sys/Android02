@@ -16,11 +16,17 @@ object ImGroupIntent {
     const val EXTRA_MEMBER_UI_TYPE = "im_member_ui_type"
     const val EXTRA_FROM_PAGE = "im_from_page"
     const val EXTRA_GROUP_NAME = "im_group_name"
-    /** 成员选择结果（如群语音通话被叫 userId 列表） */
+    /** 成员选择结果（如群语音通话被叫 / 加黑名单 userId 列表） */
     const val EXTRA_SELECTED_USER_IDS = "im_selected_user_ids"
+
+    /** 选择页需排除的 userId（如已在黑名单） */
+    const val EXTRA_EXCLUDE_USER_IDS = "im_exclude_user_ids"
 
     /** {@link ImQunMemberListBroadActivity}：选择群成员发起通话 */
     const val FROM_PAGE_SELECT_CALL_MEMBERS = "selectCallMembers"
+
+    /** {@link ImQunMemberListBroadActivity}：选择群成员加入黑名单 */
+    const val FROM_PAGE_SELECT_BLACKLIST = "selectBlacklist"
 
     fun putGroup(intent: Intent, groupId: String, groupVo: GroupVo? = null, myRole: Int = -1) {
         intent.putExtra(EXTRA_GROUP_ID, groupId)
