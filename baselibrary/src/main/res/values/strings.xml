@@ -547,6 +547,13 @@
     <string name="group_join_pay_confirm_method_value">DUALX wallet</string>
     <string name="group_join_pay_confirm_order">Order No.</string>
     <string name="group_join_pay_confirm_need_pay">Amount due</string>
+    <string name="group_join_pay_result_title">Payment successful</string>
+    <string name="group_join_pay_result_subtitle">Verifying your eligibility to join...</string>
+    <string name="group_join_pay_result_step_pay">Paid</string>
+    <string name="group_join_pay_result_step_verify">Verifying</string>
+    <string name="group_join_pay_result_step_join">Joined</string>
+    <string name="group_join_pay_result_join_title">Joined successfully</string>
+    <string name="group_join_pay_result_join_subtitle">You have successfully joined the group</string>
     <string name="my_groups">My groups</string>
     <string name="menu_group_info">Group info</string>
 

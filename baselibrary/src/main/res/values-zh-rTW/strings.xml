@@ -532,6 +532,13 @@
     <string name="group_join_pay_confirm_method_value">DUALX錢包</string>
     <string name="group_join_pay_confirm_order">訂單號</string>
     <string name="group_join_pay_confirm_need_pay">需支付</string>
+    <string name="group_join_pay_result_title">支付成功</string>
+    <string name="group_join_pay_result_subtitle">正在為您驗證入群資格...</string>
+    <string name="group_join_pay_result_step_pay">支付成功</string>
+    <string name="group_join_pay_result_step_verify">驗證資格</string>
+    <string name="group_join_pay_result_step_join">入群成功</string>
+    <string name="group_join_pay_result_join_title">入群成功</string>
+    <string name="group_join_pay_result_join_subtitle">您已成功加入群聊</string>
     <string name="my_groups">我的群聊</string>
     <string name="menu_group_info">群聊資訊</string>
 </resources>
