@@ -76,7 +76,7 @@ public final class InviteJoinGroupMessageVH extends BaseMessageVH {
         }
         Glide.with(portraitImageView.getContext())
                 .load(GroupInviteMessageContentUtil.resolveGroupIcon(content))
-                .placeholder(R.mipmap.avatar_broad_def)
+                .placeholder(R.mipmap.ic_group_broad_chat)
                 .into(portraitImageView);
     }
 
