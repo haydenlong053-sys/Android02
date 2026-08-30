@@ -1,7 +1,13 @@
 package com.freddy.chat.card
 
 import android.app.Activity
+import com.cboda.baselibrary.network.repository.NetworkBroadRepository
+import com.cboda.baselibrary.network.result.onError
+import com.cboda.baselibrary.network.result.onFailure
+import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.intelligent.bean.CheckGroupJoiBean
+import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.freddy.chat.im.MessageBuilder
 import com.freddy.chat.im.MessageProcessor
 import com.freddy.im.MessageType
@@ -11,12 +17,23 @@ import com.freddy.im.http.model.im.GroupVo
 import com.freddy.im.http.model.im.SessionItem
 import com.freddy.im.listener.OnHttpImListener
 import com.freddy.im.util.ImUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.coroutines.resume
 
 /**
- * 向好友单聊发送群邀请卡片（不调用 addMembers）。
+ * 邀请好友进群：
+ * - 非收费群且好友不在黑名单 → [ImGroupHttpExample.requestAddMembers] 直接拉人
+ * - 收费群，或好友在黑名单 → 单聊发送邀请卡片
  */
 object GroupInviteMessageSender {
+
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
     /**
      * @param invitees userId → 展示名（备注优先）
@@ -36,21 +53,166 @@ object GroupInviteMessageSender {
             onAllDone?.invoke()
             return
         }
-        // 先拉群详情，携带显示用群号 idno
-        ImGroupHttpExample.requestGetGroupDetail(
+        scope.launch {
+            val detail = awaitGroupDetail(groupId)
+            val idno = detail?.busiExt?.idno?.takeIf { it.isNotBlank() }
+            val name = groupName?.takeIf { it.isNotBlank() } ?: detail?.name
+            val icon = groupIcon?.takeIf { it.isNotBlank() } ?: detail?.icon
+            val isPaid = isJoinPayOpen(detail)
+
+            if (isPaid) {
+                // 收费群：全部发邀请消息
+                dispatchInvites(activity, groupId, name, icon, idno, targets, onAllDone)
+                return@launch
+            }
+
+            val blackIds = fetchBlacklistedUserIds(groupId, targets.map { it.first })
+            val directTargets = targets.filter { it.first !in blackIds }
+            val messageTargets = targets.filter { it.first in blackIds }
+
+            val pending = AtomicInteger(
+                (if (directTargets.isNotEmpty()) 1 else 0) +
+                    (if (messageTargets.isNotEmpty()) 1 else 0),
+            )
+            if (pending.get() == 0) {
+                finishOnUi(activity, onAllDone)
+                return@launch
+            }
+            fun oneDone() {
+                if (pending.decrementAndGet() <= 0) {
+                    finishOnUi(activity, onAllDone)
+                }
+            }
+            if (directTargets.isNotEmpty()) {
+                addMembersDirect(groupId, directTargets.map { it.first }, ::oneDone)
+            }
+            if (messageTargets.isNotEmpty()) {
+                dispatchInvites(activity, groupId, name, icon, idno, messageTargets, ::oneDone)
+            }
+        }
+    }
+
+    private fun isJoinPayOpen(vo: GroupVo?): Boolean {
+        if (vo == null) return false
+        val flag = vo.busiExt?.openJoinPay?.takeIf { it.isNotBlank() } ?: vo.openJoinPay
+        return flag == "1"
+    }
+
+    private suspend fun awaitGroupDetail(groupId: String): GroupVo? =
+        suspendCancellableCoroutine { cont ->
+            ImGroupHttpExample.requestGetGroupDetail(
+                groupId,
+                object : OnHttpImListener<GroupVo> {
+                    override fun onHttpImSuccess(result: GroupVo) {
+                        if (cont.isActive) cont.resume(result)
+                    }
+                },
+                {
+                    if (cont.isActive) cont.resume(null)
+                },
+            )
+        }
+
+    /**
+     * [api/checkGroupJoin] 传 uids，收集在群黑名单中的好友。
+     * 优先按批传逗号拼接；若无批量特征结果则逐人校验。
+     */
+    private suspend fun fetchBlacklistedUserIds(
+        groupId: String,
+        userIds: List<String>,
+    ): Set<String> {
+        if (groupId.isEmpty() || userIds.isEmpty()) return emptySet()
+        val distinct = userIds.distinct().filter { it.isNotBlank() }
+        if (distinct.isEmpty()) return emptySet()
+        return withContext(Dispatchers.IO) {
+            val batch = checkJoinBlacklistedBatch(groupId, distinct)
+            if (batch != null) batch else checkJoinBlacklistedOneByOne(groupId, distinct)
+        }
+    }
+
+    /** @return null 表示响应不像批量结果，需回退逐人校验 */
+    private suspend fun checkJoinBlacklistedBatch(
+        groupId: String,
+        userIds: List<String>,
+    ): Set<String>? {
+        val blackIds = linkedSetOf<String>()
+        var sawBatchShape = false
+        for (chunk in userIds.chunked(50)) {
+            val params = hashMapOf<String, Any?>(
+                "id" to groupId,
+                "uids" to chunk.joinToString(","),
+            )
+            NetworkBroadRepository.postEncryptedFlatRaw2(
+                UrlBroadBroadConstants.CHECK_GROUP_JOIN,
+                CheckGroupJoiBean::class.java,
+                params,
+            ).onSuccess { data ->
+                if (data == null) return@onSuccess
+                val hasBatchFields = !data.blacklistedUids.isNullOrEmpty()
+                    || !data.list.isNullOrEmpty()
+                    || !data.results.isNullOrEmpty()
+                    || !data.items.isNullOrEmpty()
+                if (hasBatchFields) {
+                    sawBatchShape = true
+                    blackIds.addAll(data.collectBlacklistedUserIds(chunk))
+                } else if (chunk.size == 1 && data.isBlacklisted()) {
+                    sawBatchShape = true
+                    blackIds.add(chunk.first())
+                }
+            }.onFailure { _, _ ->
+                // ignore
+            }.onError {
+                // ignore
+            }
+        }
+        return if (sawBatchShape) blackIds else null
+    }
+
+    private suspend fun checkJoinBlacklistedOneByOne(
+        groupId: String,
+        userIds: List<String>,
+    ): Set<String> {
+        val blackIds = linkedSetOf<String>()
+        for (uid in userIds) {
+            val params = hashMapOf<String, Any?>(
+                "id" to groupId,
+                "uids" to uid,
+            )
+            NetworkBroadRepository.postEncryptedFlatRaw2(
+                UrlBroadBroadConstants.CHECK_GROUP_JOIN,
+                CheckGroupJoiBean::class.java,
+                params,
+            ).onSuccess { data ->
+                if (data != null && data.isBlacklisted()) {
+                    blackIds.add(uid)
+                }
+            }.onFailure { _, _ ->
+                // ignore
+            }.onError {
+                // ignore
+            }
+        }
+        return blackIds
+    }
+
+    private fun addMembersDirect(
+        groupId: String,
+        memberIds: List<String>,
+        onDone: () -> Unit,
+    ) {
+        if (memberIds.isEmpty()) {
+            onDone()
+            return
+        }
+        ImGroupHttpExample.requestAddMembers(
             groupId,
+            memberIds,
             object : OnHttpImListener<GroupVo> {
                 override fun onHttpImSuccess(result: GroupVo) {
-                    val idno = result.busiExt?.idno?.takeIf { it.isNotBlank() }
-                    val name = groupName?.takeIf { it.isNotBlank() } ?: result.name
-                    val icon = groupIcon?.takeIf { it.isNotBlank() } ?: result.icon
-                    dispatchInvites(activity, groupId, name, icon, idno, targets, onAllDone)
+                    onDone()
                 }
             },
-            {
-                // 详情失败仍发送，但无显示群号
-                dispatchInvites(activity, groupId, groupName, groupIcon, null, targets, onAllDone)
-            },
+            { onDone() },
         )
     }
 
@@ -63,6 +225,10 @@ object GroupInviteMessageSender {
         targets: List<Pair<String, String>>,
         onAllDone: (() -> Unit)?,
     ) {
+        if (targets.isEmpty()) {
+            onAllDone?.invoke()
+            return
+        }
         val selfId = MMKVBroadUtils.getRealUserId().orEmpty()
         val fromName = MMKVBroadUtils.getUserName()?.takeIf { it.isNotBlank() }
             ?: selfId
