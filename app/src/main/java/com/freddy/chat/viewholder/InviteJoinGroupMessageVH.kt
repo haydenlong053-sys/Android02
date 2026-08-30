@@ -1,108 +1,103 @@
-package com.freddy.chat.viewholder;
+package com.freddy.chat.viewholder
 
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-
-import com.bumptech.glide.Glide;
-import com.cboda.chatui.R;
-import com.cboda.intelligent.utils.JumpBroadUtils;
-import com.freddy.chat.utils.GroupInviteMessageContentUtil;
-import com.freddy.im.bean.AppMessage;
-import com.freddy.im.http.GroupVoSessionMapper;
-import com.freddy.im.http.model.im.GroupVo;
+import android.text.TextUtils
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.cboda.baselibrary.utils.click
+import com.cboda.baselibrary.utils.loadImg
+import com.cboda.chatui.R
+import com.cboda.intelligent.utils.JumpBroadUtils.Companion.startChatMsgActivity
+import com.freddy.chat.utils.GroupInviteMessageContentUtil
+import com.freddy.im.bean.AppMessage
+import com.freddy.im.http.GroupVoSessionMapper
+import com.freddy.im.http.model.im.GroupVo
 
 /**
- * 邀请进群消息 UI（contentType=730，{@link com.freddy.chat.MessageListAdapter} VIEW_TYPE_INVITE_JOIN_GROUP）。
+ * 邀请进群消息 UI（contentType=730，[com.freddy.chat.MessageListAdapter] VIEW_TYPE_INVITE_JOIN_GROUP）。
  */
-public final class InviteJoinGroupMessageVH extends BaseMessageVH {
+class InviteJoinGroupMessageVH(itemView: View) : BaseMessageVH(itemView, R.layout.conversation_item_group_invite_card_receive, false) {
+    private var boundContentLayoutRes = 0
+    private var cardContentLayout: View? = null
+    private var portraitImageView: ImageView? = null
+    private var nameTextView: TextView? = null
+    private var descTextView: TextView? = null
+    private var inviteGroupId = ""
 
-    private int boundContentLayoutRes;
-    private View cardContentLayout;
-    private ImageView portraitImageView;
-    private TextView nameTextView;
-    private TextView descTextView;
-    @NonNull
-    private String inviteGroupId = "";
-
-    public InviteJoinGroupMessageVH(@NonNull View itemView) {
-        super(itemView, R.layout.conversation_item_group_invite_card_receive, false);
-        cacheViews();
+    init {
+        cacheViews()
     }
 
-    public void bind(@NonNull AppMessage message, int position, @NonNull MessageViewHolderContext context) {
-        boolean sentByMe = message.isSender(context.currentUserId);
-        int layoutRes = sentByMe
-                ? R.layout.conversation_item_group_invite_card_send
-                : R.layout.conversation_item_group_invite_card_receive;
+    fun bind(message: AppMessage, position: Int, context: MessageViewHolderContext) {
+        val sentByMe = message.isSender(context.currentUserId)
+        val layoutRes = if (sentByMe)
+            R.layout.conversation_item_group_invite_card_send
+        else
+            R.layout.conversation_item_group_invite_card_receive
         if (boundContentLayoutRes != layoutRes) {
-            inflateContentLayout(layoutRes);
-            boundContentLayoutRes = layoutRes;
-            cacheViews();
-            bindClick();
+            inflateContentLayout(layoutRes)
+            boundContentLayoutRes = layoutRes
+            cacheViews()
+            bindClick()
         }
-        bindCommon(message, position, context);
+        bindCommon(message, position, context)
 
-        String content = message.getContent();
-        inviteGroupId = GroupInviteMessageContentUtil.resolveGroupId(content);
-        nameTextView.setText(GroupInviteMessageContentUtil.resolveGroupName(content));
+        val content = message.content
+        inviteGroupId = GroupInviteMessageContentUtil.resolveGroupId(content)
+        nameTextView?.text = GroupInviteMessageContentUtil.resolveGroupName(content)
         if (sentByMe) {
-            String toName = GroupInviteMessageContentUtil.resolveToName(content);
+            var toName: String? = GroupInviteMessageContentUtil.resolveToName(content)
             if (TextUtils.isEmpty(toName) && !TextUtils.isEmpty(context.peerDisplayName)) {
-                toName = context.peerDisplayName;
+                toName = context.peerDisplayName
             }
             if (TextUtils.isEmpty(toName)) {
-                toName = GroupInviteMessageContentUtil.resolveTo(content);
+                toName = GroupInviteMessageContentUtil.resolveTo(content)
             }
             if (TextUtils.isEmpty(toName)) {
-                toName = message.getToId() != null ? message.getToId() : "";
+                toName = message.toId ?: ""
             }
-            descTextView.setText(
-                    itemView.getContext().getString(
-                            com.cboda.baselibrary.R.string.group_invite_card_desc_sent,
-                            toName));
+            descTextView?.text = itemView.context.getString(
+                com.cboda.baselibrary.R.string.group_invite_card_desc_sent,
+                toName
+            )
         } else {
-            String fromName = GroupInviteMessageContentUtil.resolveFromName(content);
+            var fromName = GroupInviteMessageContentUtil.resolveFromName(content)
             if (TextUtils.isEmpty(fromName)) {
-                fromName = GroupInviteMessageContentUtil.resolveFrom(content);
+                fromName = GroupInviteMessageContentUtil.resolveFrom(content)
             }
-            descTextView.setText(
-                    itemView.getContext().getString(
-                            com.cboda.baselibrary.R.string.group_invite_card_desc,
-                            fromName));
+            descTextView?.text = itemView.context.getString(
+                com.cboda.baselibrary.R.string.group_invite_card_desc,
+                fromName
+            )
         }
-        Glide.with(portraitImageView.getContext())
-                .load(GroupInviteMessageContentUtil.resolveGroupIcon(content))
-                .placeholder(R.mipmap.ic_group_broad_chat)
-                .into(portraitImageView);
+        portraitImageView?.loadImg(GroupInviteMessageContentUtil.resolveGroupIcon(content), R.mipmap.ic_group_broad_chat)
     }
 
-    private void cacheViews() {
-        cardContentLayout = contentView.findViewById(R.id.contentLayout);
-        portraitImageView = contentView.findViewById(R.id.groupInvitePortraitImageView);
-        nameTextView = contentView.findViewById(R.id.groupInviteNameTextView);
-        descTextView = contentView.findViewById(R.id.groupInviteDescTextView);
-        bindClick();
+    private fun cacheViews() {
+        cardContentLayout = contentView.findViewById(R.id.contentLayout)
+        portraitImageView = contentView.findViewById(R.id.groupInvitePortraitImageView)
+        nameTextView = contentView.findViewById(R.id.groupInviteNameTextView)
+        descTextView = contentView.findViewById(R.id.groupInviteDescTextView)
+        bindClick()
     }
 
-    private void bindClick() {
-        if (cardContentLayout == null) {
-            return;
+    private fun bindClick() {
+
+        cardContentLayout?.click {
+            onInviteClick()
         }
-        cardContentLayout.setOnClickListener(v -> onInviteClick());
     }
 
-    private void onInviteClick() {
+    private fun onInviteClick() {
         if (TextUtils.isEmpty(inviteGroupId)) {
-            return;
+            return
         }
-        GroupVo vo = new GroupVo();
-        vo.setId(inviteGroupId);
-        JumpBroadUtils.Companion.startChatMsgActivity(
-                GroupVoSessionMapper.toSessionItem(vo, null, inviteGroupId),
-                itemView.getContext());
+        val vo = GroupVo()
+        vo.id = inviteGroupId
+        startChatMsgActivity(
+            GroupVoSessionMapper.toSessionItem(vo, null, inviteGroupId),
+            itemView.context
+        )
     }
 }
