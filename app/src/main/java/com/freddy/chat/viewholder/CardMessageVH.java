@@ -14,7 +14,7 @@ import com.freddy.chat.utils.CardMessageContentUtil;
 import com.freddy.im.bean.AppMessage;
 
 /**
- * 个人名片消息 UI（对齐野火 {@link com.cboda.chatui.conversation.message.viewholder.UserCardMessageContentViewBroadHolder}）。
+ * 个人名片消息 UI（contentType=700）。
  */
 public final class CardMessageVH extends BaseMessageVH {
 

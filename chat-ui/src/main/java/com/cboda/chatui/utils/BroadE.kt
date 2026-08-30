@@ -29,6 +29,7 @@ import com.cboda.baselibrary.utils.fromListJson2
 import com.cboda.baselibrary.utils.getIsDebug
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.toJson2
+import com.cboda.baselibrary.utils.toLog
 import com.cboda.chatui.ChatManagerBroadHolder
 import com.cboda.chatui.R
 import com.cboda.chatui.conversation.mention.MentionBroadSpan
@@ -38,6 +39,7 @@ import kotlin.collections.isNotEmpty
 
 object E {
     private const val MAX_SAVE_TIME = 24L
+
     //加载群头像（portrait：头像url）
     fun loadGroupImg(imageView: ImageView?, groupId: String?, portrait: String? = null) {
         imageView?.loadGroupImg2(portrait)
@@ -358,6 +360,29 @@ object E {
         }
     }
 
+    fun checkUserIsGroup(groupId: String?, userId: String?) {
+        val map = mapOf("id" to groupId, "uid" to userId)
+        postEncrypted(
+            UrlBroadConstants.GROUP_ME_USER, map, object : NetworkBroadUtils.NetworkCallback<Any> {
+                override fun onSuccess(data: Any?) {
+//                    val groupUserBean = fromJson2(toJson2(data), GroupUserBean::class.java)
+//                    RealmUtil.addUserGroupData(userGroupBean, groupUserBean)
+//                    callBack.invoke(groupUserBean)
+                    eLogD("checkUserIsGroup", "onSuccess:${toJson2(data)}")
+                }
+
+                override fun onFailure(code: Int, message: String, data: Any?) {
+//                        eLogD("groupMeUserClass", "onFailure:$code ,$message")
+                    eLogD("checkUserIsGroup", "onFailure:$code ,$message")
+                }
+
+                override fun onError(throwable: Throwable) {
+                    eLogD("checkUserIsGroup", "onError:${throwable.toLog("checkUserIsGroup")}")
+
+                }
+
+            })
+    }
 
     fun getDetailUserData(
         userGroupBean: UserGroupBean, callBack: (bean: GroupUserBean?) -> Unit = {}

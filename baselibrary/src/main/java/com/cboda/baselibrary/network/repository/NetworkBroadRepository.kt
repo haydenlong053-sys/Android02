@@ -765,6 +765,40 @@ object NetworkBroadRepository {
         )
     }
 
+    /**
+     * 加密扁平 POST：`code==200` 即解析整包（不依赖 `success`）。
+     * 用于 checkGroupJoin 等「success=false 但仍返回业务字段」的接口。
+     */
+    suspend fun <T> postEncryptedFlatRaw2(
+        url: String,
+        clazz: Class<T>,
+        body: Any,
+    ): NetworkBroadResult<T> = suspendCancellableCoroutine { continuation ->
+        NetworkBroadUtils.postEncryptedFlatRaw(
+            url = url,
+            body = body,
+            callback = object : NetworkBroadUtils.FlatMapCallback {
+                override fun onSuccess(map: Map<String, Any?>) {
+                    try {
+                        val gson = GsonUtils.getGson()
+                        val result = gson.fromJson(gson.toJson(map), clazz)
+                        continuation.resume(NetworkBroadResult.BroadSuccess(result))
+                    } catch (e: Exception) {
+                        continuation.resume(NetworkBroadResult.BroadError(e))
+                    }
+                }
+
+                override fun onFailure(code: Int, message: String) {
+                    continuation.resume(NetworkBroadResult.BroadFailure(code, message))
+                }
+
+                override fun onError(throwable: Throwable) {
+                    continuation.resume(NetworkBroadResult.BroadError(throwable))
+                }
+            },
+        )
+    }
+
 
     /**
      * 协程版本的列表 POST 请求

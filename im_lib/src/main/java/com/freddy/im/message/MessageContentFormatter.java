@@ -157,6 +157,10 @@ public final class MessageContentFormatter {
         return MessageType.MessageContentType.isCard(msgContentType);
     }
 
+    public static boolean isInviteJoinGroupMessage(int msgContentType) {
+        return MessageType.MessageContentType.isInviteJoinGroup(msgContentType);
+    }
+
     public static boolean isRedPacketMessage(int msgContentType) {
         return MessageType.MessageContentType.isRedPacket(msgContentType);
     }
@@ -234,6 +238,9 @@ public final class MessageContentFormatter {
         }
         if (isCardMessage(type)) {
             return str(R.string.base_digest_person_card);
+        }
+        if (isInviteJoinGroupMessage(type)) {
+            return str(R.string.base_digest_group_invite);
         }
 
 //        if (isHongbaoClaimMessage(type)) {
@@ -381,6 +388,9 @@ public final class MessageContentFormatter {
         }
         if (isCardMessage(type)) {
             return str(R.string.base_digest_person_card);
+        }
+        if (isInviteJoinGroupMessage(type)) {
+            return str(R.string.base_digest_group_invite);
         }
 //        if (isHongbaoClaimMessage(type)) {
 //            String claimRaw = !TextUtils.isEmpty(lastMessageContent) ? lastMessageContent : content;

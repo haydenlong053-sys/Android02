@@ -491,6 +491,15 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:name="com.cboda.intelligent.activity.im.GroupJoinPayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cboda.intelligent.activity.im.GroupJoinPayConfirmActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.cboda.intelligent.activity.im.GroupJoinPayResultActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.cboda.intelligent.activity.im.ImQunUserList2BroadActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -94,6 +94,17 @@ public class GroupBusiExt implements java.io.Serializable {
 
     private String openJoinPay;
 
+    public String getJoinPayPriceUsdt() {
+        return joinPayPriceUsdt;
+    }
+
+    public void setJoinPayPriceUsdt(String joinPayPriceUsdt) {
+        this.joinPayPriceUsdt = joinPayPriceUsdt;
+    }
+
+    private String joinPayPriceUsdt;
+
+
 
     public String getOpenJoinPay() {
         return openJoinPay;

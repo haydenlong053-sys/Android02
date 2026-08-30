@@ -1,11 +1,12 @@
 package com.cboda.intelligent.activity.im
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
-import androidx.core.widget.NestedScrollView
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -13,17 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.intelligent.R
-import com.cboda.intelligent.adapter.im.GroupBlacklistCandidateAdapter
-import com.cboda.intelligent.adapter.im.GroupBlacklistCandidateUi
 import com.cboda.intelligent.adapter.im.GroupBlacklistMemberAdapter
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.bean.GroupBlacklistItem
-import com.freddy.chat.im.IMSClientBootstrap
-import com.freddy.im.http.model.im.GroupMemberItem
+import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import kotlinx.coroutines.launch
 
 /**
- * 群黑名单：已拉黑列表 + 选择群成员加入黑名单。
+ * 群黑名单：分页展示已拉黑列表；添加成员跳转选择群成员页，返回后调用加黑接口。
  */
 class ImGroupBlacklistBroadActivity : BaseSimpleBroadActivity() {
 
@@ -33,21 +31,28 @@ class ImGroupBlacklistBroadActivity : BaseSimpleBroadActivity() {
     private lateinit var tvBlacklistSectionTitle: TextView
     private lateinit var tvAddMember: TextView
     private lateinit var etSearchBlacklist: EditText
+    private lateinit var smartLayout: SmartRefreshLayout
     private lateinit var rvBlacklist: RecyclerView
     private lateinit var tvBlacklistEmpty: TextView
-    private lateinit var tvNoMore: TextView
-    private lateinit var addSection: View
-    private lateinit var rvCandidates: RecyclerView
-    private lateinit var tvCandidatesEmpty: TextView
-    private lateinit var btnConfirmAdd: TextView
-    private lateinit var scrollContent: NestedScrollView
 
     private val memberAdapter = GroupBlacklistMemberAdapter()
-    private val candidateAdapter = GroupBlacklistCandidateAdapter()
 
     private var allBlacklist: List<GroupBlacklistItem> = emptyList()
     private var blacklistTotalCount = 0
+    private var hasMore = true
     private var searchKeyword = ""
+
+    private val selectMemberLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult(),
+    ) { result ->
+        if (result.resultCode != Activity.RESULT_OK) return@registerForActivityResult
+        val ids = result.data?.getStringArrayListExtra(ImGroupIntent.EXTRA_SELECTED_USER_IDS)
+            ?.mapNotNull { it.trim().takeIf { id -> id.isNotEmpty() } }
+            ?.distinct()
+            .orEmpty()
+        if (ids.isEmpty()) return@registerForActivityResult
+        addSelectedToBlacklist(ids)
+    }
 
     override fun getLayoutId(): Int = R.layout.activity_im_group_blacklist
 
@@ -64,38 +69,53 @@ class ImGroupBlacklistBroadActivity : BaseSimpleBroadActivity() {
         bindClicks()
         viewModel = ViewModelProvider(this)[ImGroupBlacklistViewModel::class.java]
         viewModel?.state?.observe(this) { state ->
-            if (state.loading) {
+            if (state.loading && allBlacklist.isEmpty()) {
                 showLoading()
-            } else {
+            } else if (!state.loading) {
                 dismissLoading()
+            }
+            if (!state.loading && !state.loadingMore) {
+                smartLayout.finishRefresh()
+                if (state.hasMore) {
+                    smartLayout.setNoMoreData(false)
+                    smartLayout.finishLoadMore()
+                } else {
+                    smartLayout.finishLoadMoreWithNoMoreData()
+                }
             }
             allBlacklist = state.blacklist
             blacklistTotalCount = state.totalCount
+            hasMore = state.hasMore
             renderBlacklist()
-            renderCandidates(state.candidates, state.blacklist)
         }
-        viewModel?.load(qunId, IMSClientBootstrap.getInstance().currentUserId)
+        viewModel?.refresh(qunId)
     }
 
     private fun initViews() {
         tvBlacklistSectionTitle = findViewById(R.id.tvBlacklistSectionTitle)
         tvAddMember = findViewById(R.id.tvAddMember)
         etSearchBlacklist = findViewById(R.id.etSearchBlacklist)
+        smartLayout = findViewById(R.id.smartLayout)
         rvBlacklist = findViewById(R.id.rvBlacklist)
         tvBlacklistEmpty = findViewById(R.id.tvBlacklistEmpty)
-        tvNoMore = findViewById(R.id.tvNoMore)
-        addSection = findViewById(R.id.addSection)
-        rvCandidates = findViewById(R.id.rvCandidates)
-        tvCandidatesEmpty = findViewById(R.id.tvCandidatesEmpty)
-        btnConfirmAdd = findViewById(R.id.btnConfirmAdd)
-        scrollContent = findViewById(R.id.scrollContent)
+        smartLayout.setEnableRefresh(true)
+        smartLayout.setEnableLoadMore(true)
+        smartLayout.setOnRefreshListener {
+            viewModel?.refresh(qunId)
+        }
+        smartLayout.setOnLoadMoreListener {
+            if (searchKeyword.isNotEmpty()) {
+                // 本地搜索时不再请求下一页
+                smartLayout.finishLoadMore()
+                return@setOnLoadMoreListener
+            }
+            viewModel?.loadMore(qunId)
+        }
     }
 
     private fun bindList() {
         rvBlacklist.layoutManager = LinearLayoutManager(this)
         rvBlacklist.adapter = memberAdapter
-        rvCandidates.layoutManager = LinearLayoutManager(this)
-        rvCandidates.adapter = candidateAdapter
 
         memberAdapter.setOnItemChildClickListener { _, view, position ->
             if (view.id != R.id.btnRemove) return@setOnItemChildClickListener
@@ -103,28 +123,27 @@ class ImGroupBlacklistBroadActivity : BaseSimpleBroadActivity() {
             val userId = item.userId?.takeIf { it.isNotBlank() } ?: item.id ?: return@setOnItemChildClickListener
             removeMember(userId)
         }
-        candidateAdapter.setOnItemChildClickListener { _, _, position ->
-            if (position !in candidateAdapter.data.indices) return@setOnItemChildClickListener
-            val item = candidateAdapter.data[position]
-            item.selected = !item.selected
-            if (!item.selected) {
-                item.reason = ""
-            }
-            candidateAdapter.notifyItemChanged(position)
-        }
         etSearchBlacklist.doAfterTextChanged { editable ->
             searchKeyword = editable?.toString()?.trim().orEmpty()
+            smartLayout.setEnableLoadMore(searchKeyword.isEmpty() && hasMore)
             renderBlacklist()
         }
     }
 
     private fun bindClicks() {
-        tvAddMember.setOnClickListener {
-            scrollContent.post {
-                scrollContent.smoothScrollTo(0, addSection.top)
-            }
+        tvAddMember.setOnClickListener { openSelectMembers() }
+    }
+
+    private fun openSelectMembers() {
+        val excludeIds = allBlacklist.mapNotNull {
+            it.userId?.takeIf { id -> id.isNotBlank() } ?: it.id?.takeIf { id -> id.isNotBlank() }
         }
-        btnConfirmAdd.setOnClickListener { confirmAdd() }
+        val intent = Intent(this, ImQunMemberListBroadActivity::class.java).apply {
+            putExtra("qunid", qunId)
+            putExtra("fromPage", ImGroupIntent.FROM_PAGE_SELECT_BLACKLIST)
+            putStringArrayListExtra(ImGroupIntent.EXTRA_EXCLUDE_USER_IDS, ArrayList(excludeIds))
+        }
+        selectMemberLauncher.launch(intent)
     }
 
     private fun renderBlacklist() {
@@ -142,31 +161,7 @@ class ImGroupBlacklistBroadActivity : BaseSimpleBroadActivity() {
             com.cboda.baselibrary.R.string.group_blacklist_section_title,
             blacklistTotalCount.coerceAtLeast(allBlacklist.size),
         )
-        val empty = filtered.isEmpty()
-        tvBlacklistEmpty.isVisible = empty
-        tvNoMore.isVisible = !empty
-    }
-
-    private fun renderCandidates(
-        members: List<GroupMemberItem>,
-        blacklist: List<GroupBlacklistItem>,
-    ) {
-        val blackIds = blacklist.mapNotNull { it.userId?.takeIf { id -> id.isNotBlank() } ?: it.id }
-            .toHashSet()
-        val currentUserId = IMSClientBootstrap.getInstance().currentUserId
-        val previous = candidateAdapter.data.associateBy { it.member.userId }
-        val list = members
-            .filter { it.userId != currentUserId && it.userId !in blackIds }
-            .map { member ->
-                val old = previous[member.userId]
-                GroupBlacklistCandidateUi(
-                    member = member,
-                    selected = old?.selected == true,
-                    reason = old?.reason.orEmpty(),
-                )
-            }
-        candidateAdapter.setList(list)
-        tvCandidatesEmpty.isVisible = list.isEmpty()
+        tvBlacklistEmpty.isVisible = filtered.isEmpty()
     }
 
     private fun removeMember(userId: String) {
@@ -177,21 +172,14 @@ class ImGroupBlacklistBroadActivity : BaseSimpleBroadActivity() {
                         ToastBroadUtils.show(
                             getString(com.cboda.baselibrary.R.string.group_blacklist_remove_success),
                         )
-                        viewModel?.load(qunId, IMSClientBootstrap.getInstance().currentUserId)
+                        viewModel?.refresh(qunId)
                     }
                 }
         }
     }
 
-    private fun confirmAdd() {
-        val selected = candidateAdapter.data.filter { it.selected }
-        if (selected.isEmpty()) {
-            ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_blacklist_select_tip))
-            return
-        }
-        val uid = selected.mapNotNull { it.member.userId?.takeIf { id -> id.isNotBlank() } }
-            .distinct()
-            .joinToString(",")
+    private fun addSelectedToBlacklist(userIds: List<String>) {
+        val uid = userIds.joinToString(",")
         if (uid.isEmpty()) return
         lifecycleScope.launch {
             viewModel?.addBlacklist(qunId, uid)
@@ -200,7 +188,7 @@ class ImGroupBlacklistBroadActivity : BaseSimpleBroadActivity() {
                         ToastBroadUtils.show(
                             getString(com.cboda.baselibrary.R.string.group_blacklist_add_success),
                         )
-                        viewModel?.load(qunId, IMSClientBootstrap.getInstance().currentUserId)
+                        viewModel?.refresh(qunId)
                     }
                 }
         }

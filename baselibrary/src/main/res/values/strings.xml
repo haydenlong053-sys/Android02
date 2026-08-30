@@ -216,6 +216,9 @@
     <!-- 会话列表 / 消息气泡 / 通话记录展示（多语言） -->
     <string name="base_digest_location">[位置]</string>
     <string name="base_digest_person_card">[个人名片]</string>
+    <string name="base_digest_group_invite">[群邀请]</string>
+    <string name="group_invite_card_desc">%1$s 邀请你加入群聊</string>
+    <string name="group_invite_card_desc_sent">你邀请%1$s加入群聊</string>
     <string name="base_digest_meet_ongoing">会议中</string>
     <string name="base_digest_meet_ended">会议已结束</string>
     <string name="call_digest">[通话]</string>
@@ -526,10 +529,42 @@
     <string name="group_join_pay_fee_tip">The platform will charge a %1$s%% service fee. The remaining amount will be transferred to the group owner\'s DUALX account.</string>
     <string name="group_join_pay_price_invalid">Minimum join fee is 1 DUALX</string>
     <string name="group_join_pay_save_success">Saved</string>
+    <string name="group_join_pay_page_title">This group requires a join fee</string>
+    <string name="group_join_pay_page_subtitle">Pay the fee and pass verification to join the group</string>
+    <string name="group_join_pay_paid_tag">Paid</string>
+    <string name="group_join_pay_fee_card_title">Join fee</string>
+    <string name="group_join_pay_tips_title">Payment notes</string>
+    <string name="group_join_pay_tip_1">After payment succeeds, the system will verify and approve your join request automatically</string>
+    <string name="group_join_pay_tip_2">The join fee goes to the group owner\'s wallet for group operations only</string>
+    <string name="group_join_pay_tip_3">Payments are non-refundable. Please confirm before paying</string>
+    <string name="group_join_pay_group_id">Group ID: %1$s</string>
+    <string name="group_join_pay_group_members">Members: %1$d</string>
+    <string name="group_join_pay_amount_format">%1$s DUALX</string>
+    <string name="group_join_pay_btn_format">Pay %1$s DUALX to join</string>
+    <string name="group_join_pay_coming_soon">Payment coming soon</string>
+    <string name="group_join_pay_confirm_title">Confirm payment</string>
+    <string name="group_join_pay_token_dualx">DUALX</string>
+    <string name="group_join_pay_confirm_payee">Payee</string>
+    <string name="group_join_pay_confirm_payee_value">%1$s (Owner wallet)</string>
+    <string name="group_join_pay_confirm_method">Payment method</string>
+    <string name="group_join_pay_confirm_method_value">DUALX wallet</string>
+    <string name="group_join_pay_confirm_order">Order No.</string>
+    <string name="group_join_pay_confirm_need_pay">Amount due</string>
+    <string name="group_join_pay_result_title">Payment successful</string>
+    <string name="group_join_pay_result_subtitle">Verifying your eligibility to join...</string>
+    <string name="group_join_pay_result_step_pay">Paid</string>
+    <string name="group_join_pay_result_step_verify">Verifying</string>
+    <string name="group_join_pay_result_step_join">Joined</string>
+    <string name="group_join_pay_result_join_title">Joined successfully</string>
+    <string name="group_join_pay_result_join_subtitle">You have successfully joined the group</string>
     <string name="my_groups">My groups</string>
     <string name="menu_group_info">Group info</string>
 
     <string name="im_network_unavailable_tip">当前无法连接网络，可检查网络设置是否正常。</string>
 
     <string name="post_log_success">上传日志成功</string>
+
+    <string name="http_error">网络请求失败...</string>
+    <string name="group_user_not_is_null">群ID和用户ID不能为空</string>
+
 </resources>

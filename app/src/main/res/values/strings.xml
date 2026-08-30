@@ -865,6 +865,8 @@
     <string name="scan_invalid_qr_code">Invalid QR code</string>
     <string name="scan_network_request_failed">Network request failed, please try again</string>
     <string name="scan_applied_waiting_group_owner">Applied, waiting for group owner approval</string>
+    <string name="scan_group_blacklisted">You are on the group blacklist and cannot join</string>
+    <string name="scan_group_join_pay_required">This group requires a join fee and cannot be joined by scanning</string>
     <string name="scan_invalid_qr_code_type">Invalid QR code type</string>
     <string name="scan_login_request_failed">Login request failed, please try again</string>
     <string name="拍摄">Take Photo</string>

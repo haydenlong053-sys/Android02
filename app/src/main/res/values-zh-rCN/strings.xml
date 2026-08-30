@@ -864,6 +864,8 @@
     <string name="scan_invalid_qr_code">无效的二维码</string>
     <string name="scan_network_request_failed">网络请求失败，请重试</string>
     <string name="scan_applied_waiting_group_owner">已申请，等待群主同意</string>
+    <string name="scan_group_blacklisted">您已被加入群黑名单，无法加入该群</string>
+    <string name="scan_group_join_pay_required">该群已开启入群收费，无法通过扫码加入</string>
     <string name="scan_invalid_qr_code_type">无效的二维码类型</string>
     <string name="scan_login_request_failed">登录请求失败，请重试</string>
     <string name="拍摄">拍摄</string>

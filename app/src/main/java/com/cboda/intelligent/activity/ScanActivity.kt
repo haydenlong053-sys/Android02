@@ -11,13 +11,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
+import com.cboda.baselibrary.network.repository.NetworkBroadRepository
+import com.cboda.baselibrary.network.result.onError
+import com.cboda.baselibrary.network.result.onFailure
+import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.utils.DeviceBroadUtil
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.APP_TAG
+import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppStr
 import com.cboda.baselibrary.utils.toJson2
+import com.cboda.chatui.utils.E.checkUserIsGroup
 import com.cboda.intelligent.R
+import com.cboda.intelligent.activity.im.GroupJoinPayActivity
+import com.cboda.intelligent.activity.im.GroupJoinPayResultActivity
+import com.cboda.intelligent.bean.CheckGroupJoiBean
 import com.cboda.intelligent.bean.ResultBroadBean
 import com.cboda.intelligent.configuration.ScanJumpBroadEnum
 import com.cboda.intelligent.dialog.NormalBroadDialog
@@ -28,6 +37,7 @@ import com.cboda.intelligent.utils.OkHttpBroadHelper
 import com.cboda.intelligent.utils.SpotsCallBroadBack
 import com.cboda.intelligent.utils.StringBroadUtil
 import com.cboda.intelligent.utils.ToastBroadUtil
+import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.utils.isEthWalletLinkQrCode
 import com.cboda.intelligent.utils.isTransferLinkQrCode
 import com.cboda.intelligent.utils.showToastMain
@@ -41,6 +51,8 @@ import com.freddy.im.http.model.im.GroupVo
 import com.freddy.im.listener.OnHttpImListener
 import com.freddy.im.util.ImGroupQrCodeHelper
 import com.freddy.im.util.groupToSession
+import com.freddy.webtrc.utils.BroadE.checkMembersInGroup
+import com.freddy.webtrc.utils.BroadE.checkPeopleInGroup
 import com.google.zxing.Result
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.permissions.OnPermissionCallback
@@ -368,29 +380,29 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
                         applySelfImJoinGroup(linkId, null)
                         return
                     }
-                    val param1 = HashMap<String, Any>()
-                    param1["id"] = linkId
-                    OkHttpBroadHelper.getInstance().post_json(
-                        this,
-                        HttpsBroadConfig.appBaseUrl + "/groupScan",
-                        param1,
-                        object : SpotsCallBroadBack<ResultBroadBean>(this) {
-                            override fun onSuccess(response: Response?, commonResultBean: ResultBroadBean?) {
-                                if (commonResultBean != null && !TextUtils.isEmpty(commonResultBean.groupId)) {
-                                    AppBroadUtils.goChat(this@ScanActivity, commonResultBean.groupId, "1", null)
-                                    finish()
-                                } else {
-                                    ToastBroadUtil.show(commonResultBean?.msg ?: getString(R.string.scan_applied_waiting_group_owner))
-                                    finish()
-                                }
-                            }
-
-                            override fun onError(response: Response?, code: Int, e: Exception?) {
-                                ToastBroadUtil.show(getString(R.string.scan_network_request_failed))
-                                restartScan()
-                            }
-                        }
-                    )
+//                    val param1 = HashMap<String, Any>()
+//                    param1["id"] = linkId
+//                    OkHttpBroadHelper.getInstance().post_json(
+//                        this,
+//                        HttpsBroadConfig.appBaseUrl + "/groupScan",
+//                        param1,
+//                        object : SpotsCallBroadBack<ResultBroadBean>(this) {
+//                            override fun onSuccess(response: Response?, commonResultBean: ResultBroadBean?) {
+//                                if (commonResultBean != null && !TextUtils.isEmpty(commonResultBean.groupId)) {
+//                                    AppBroadUtils.goChat(this@ScanActivity, commonResultBean.groupId, "1", null)
+//                                    finish()
+//                                } else {
+//                                    ToastBroadUtil.show(commonResultBean?.msg ?: getString(R.string.scan_applied_waiting_group_owner))
+//                                    finish()
+//                                }
+//                            }
+//
+//                            override fun onError(response: Response?, code: Int, e: Exception?) {
+//                                ToastBroadUtil.show(getString(R.string.scan_network_request_failed))
+//                                restartScan()
+//                            }
+//                        }
+//                    )
                 }
 
                 "3" -> { //扫描登录
@@ -415,18 +427,20 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
             restartScan()
             return
         }
-        ImGroupHttpExample.requestGetGroupByCodeId(codeId!!, object : OnHttpImListener<GroupQrInfoRes> {
-            override fun onHttpImSuccess(result: GroupQrInfoRes) {
-                if (result.busiExt.openJoinPay == "1") {
-
-                } else {
-                    runOnUiThread {
-                        if (TextUtils.isEmpty(result.id)) {
-                            ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code))
-                            restartScan()
-                            return@runOnUiThread
-                        }
-                        applySelfImJoinGroup(result.id!!, result)
+        ImGroupHttpExample.requestGetGroupByCodeId(codeId!!, { result ->
+            if (TextUtils.isEmpty(result.id)) {
+                showToastMain(R.string.scan_invalid_qr_code)
+                restartScan()
+            } else {
+                checkPeopleInGroup(result.id, MMKVBroadUtils.getRealUserId()) { pair ->
+                    if (pair.first) {
+                        JumpBroadUtils.startChatMsgActivity(groupToSession(result), this@ScanActivity)
+                        finish()
+                    } else if (!TextUtils.isEmpty(pair.second)) {
+                        restartScan()
+                        showToastMain(pair.second ?: "")
+                    } else {
+                        checkGroupJoinEligibility(result.id, result)
                     }
                 }
             }
@@ -438,18 +452,105 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
         })
     }
 
+    /** 自研：校验黑名单与入群收费，通过后再申请入群。 */
+    private fun checkGroupJoinEligibility(groupId: String, groupInfo: GroupQrInfoRes) {
+        lifecycleScope.launch {
+            val params = hashMapOf<String, Any?>("id" to groupId)
+            // checkGroupJoin 为扁平响应；需支付时 success=false，需用 Raw 才能拿到业务字段
+            val response = withContext(Dispatchers.IO) {
+                NetworkBroadRepository.postEncryptedFlatRaw2(
+                    UrlBroadBroadConstants.CHECK_GROUP_JOIN,
+                    CheckGroupJoiBean::class.java,
+                    params,
+                )
+            }
+            withContext(Dispatchers.Main) {
+                response.onSuccess { data ->
+                    if (data == null) {
+                        ToastBroadUtil.show(getString(R.string.scan_network_request_failed))
+                        restartScan()
+                        return@onSuccess
+                    }
+                    when {
+                        data.isBlacklisted() -> {
+                            showToastMain(R.string.scan_group_blacklisted)
+                            restartScan()
+                        }
+
+                        data.isNeedPay() -> {
+                            mergeCheckGroupJoinIntoQrInfo(groupInfo, data)
+                            GroupJoinPayActivity.start(this@ScanActivity, groupInfo)
+                            finish()
+                        }
+
+                        data.isAllowJoin() || data.success -> {
+                            applySelfImJoinGroup(groupId, groupInfo)
+                        }
+
+                        else -> {
+                            showToastMain(
+                                data.msg?.takeIf { it.isNotBlank() }
+                                    ?: getString(R.string.scan_network_request_failed)
+                            )
+                            restartScan()
+                        }
+                    }
+                }.onFailure { _, message ->
+                    showToastMain(
+                        message.takeIf { it.isNotBlank() }
+                            ?: getString(R.string.scan_network_request_failed)
+                    )
+                    restartScan()
+                }.onError {
+                    showToastMain(R.string.scan_network_request_failed)
+                    restartScan()
+                }
+            }
+        }
+    }
+
+    /** 用 checkGroupJoin 返回的价格/群信息补全扫码结果，供收费进群页展示。 */
+    private fun mergeCheckGroupJoinIntoQrInfo(groupInfo: GroupQrInfoRes, check: CheckGroupJoiBean) {
+        if (!check.groupName.isNullOrBlank()) {
+            groupInfo.name = check.groupName
+        }
+        if (!check.groupIcon.isNullOrBlank()) {
+            groupInfo.icon = check.groupIcon
+        }
+        if (check.memberCount > 0) {
+            groupInfo.memCount = check.memberCount
+        }
+        if (!check.priceDualx.isNullOrBlank()) {
+            groupInfo.joinPayPrice = check.priceDualx
+        }
+        val payFlag = when {
+            check.openJoinPay == "1" || check.needPay == "1" -> "1"
+            else -> check.openJoinPay ?: groupInfo.openJoinPay
+        }
+        groupInfo.openJoinPay = payFlag
+        groupInfo.ensureBusiExt().apply {
+            openJoinPay = payFlag
+            if (!check.priceUsdt.isNullOrBlank()) {
+                joinPayPriceUsdt = check.priceUsdt
+            }
+            if (!check.feeRate.isNullOrBlank()) {
+                joinPayFeeRate = check.feeRate
+            }
+        }
+    }
+
     /** 自研申请入群。对齐野火：无需审核则进群聊；需审核则提示等待群主。 */
     private fun applySelfImJoinGroup(groupId: String, groupInfo: GroupVo?) {
         ImGroupHttpExample.requestApplyInGroup(groupId, object : OnHttpImListener<Boolean> {
             override fun onHttpImSuccess(result: Boolean) {
                 runOnUiThread {
                     if (!result) {
-                        ToastBroadUtil.show(getString(R.string.scan_network_request_failed))
+                        showToastMain(getString(R.string.scan_network_request_failed))
                         restartScan()
                         return@runOnUiThread
                     }
                     if (isJoinNeedVerify(groupInfo)) {
-                        ToastBroadUtil.show(getString(R.string.scan_applied_waiting_group_owner))
+                        showToastMain(getString(R.string.scan_applied_waiting_group_owner))
                         finish()
                     } else {
                         openSelfImGroupChat(groupInfo, groupId)
@@ -458,7 +559,7 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
             }
         }, {
             runOnUiThread {
-                ToastBroadUtil.show(getString(R.string.scan_network_request_failed))
+                showToastMain(getString(R.string.scan_network_request_failed))
                 restartScan()
             }
         })

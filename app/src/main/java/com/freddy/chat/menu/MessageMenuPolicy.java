@@ -80,6 +80,7 @@ public final class MessageMenuPolicy {
                 || MessageContentFormatter.isFileMessage(type)
                 || MessageContentFormatter.isMapMessage(type)
                 || MessageContentFormatter.isCardMessage(type)
+                || MessageContentFormatter.isInviteJoinGroupMessage(type)
                 || MessageContentFormatter.isNoticeMessage(type)
                 || MessageType.MessageContentType.isText(type);
     }
@@ -129,6 +130,7 @@ public final class MessageMenuPolicy {
                 || MessageContentFormatter.isFileMessage(type)
                 || MessageContentFormatter.isVoiceMessage(type)
                 || MessageContentFormatter.isCardMessage(type)
+                || MessageContentFormatter.isInviteJoinGroupMessage(type)
                 || MessageContentFormatter.isMapMessage(type);
     }
 }

@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.freddy.chat.utils.AppGson;
 import com.freddy.chat.utils.CardMessageContentUtil;
+import com.freddy.chat.utils.GroupInviteMessageContentUtil;
 import com.freddy.chat.utils.HongBaoMessageContentUtil;
 import com.freddy.chat.utils.NoticeMessageContentUtil;
 import com.freddy.chat.utils.MediaMessageContentUtil;
@@ -18,6 +19,7 @@ import com.freddy.im.MessageType;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.http.model.im.UploadRes;
 import com.freddy.im.signal.ImSignalProtos;
+import com.freddy.im.util.ImUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -295,6 +297,45 @@ public class MessageBuilder {
         return message;
     }
 
+    /**
+     * 邀请进群卡片（contentType=730），发往被邀请人的单聊。
+     * 独立类型，勿复用 700 个人名片。
+     */
+    @NonNull
+    public static AppMessage buildGroupInviteMessage(@Nullable String sessionId,
+                                                     @NonNull String toUserId,
+                                                     @NonNull String groupId,
+                                                     @Nullable String groupName,
+                                                     @Nullable String groupIcon,
+                                                     @Nullable String groupIdno,
+                                                     @Nullable String fromName,
+                                                     @Nullable String toName) {
+        String userId = IMSClientBootstrap.getInstance().getCurrentUserId();
+        AppMessage message = new AppMessage();
+        String resolvedSessionId = sessionId;
+        if (TextUtils.isEmpty(resolvedSessionId)
+                && !TextUtils.isEmpty(userId)
+                && !TextUtils.isEmpty(toUserId)) {
+            // 单聊必须用稳定 p2p sessionId；空 conversationId 会落到 clientMsgId 锚点，产生重复会话
+            resolvedSessionId = ImUtils.getP2pSessionIdId(userId, toUserId);
+        }
+        if (!TextUtils.isEmpty(resolvedSessionId)) {
+            message.setConversationId(resolvedSessionId);
+        }
+        message.setClientMsgId(UUID.randomUUID().toString());
+        message.setMsgContentType(
+                MessageType.MessageContentType.INVITE_JOIN_GROUP.getMsgContentType());
+        message.setFromId(userId);
+        message.setToId(toUserId);
+        message.setTimestamp(System.currentTimeMillis());
+        message.setConversationTypeEnum(ImSignalProtos.ConversationType.forNumber(
+                MessageType.SINGLE_CHAT.getMsgType()));
+        message.setContent(wrapGroupInviteContentAsJson(
+                groupId, groupName, groupIcon, groupIdno, userId, fromName, toUserId, toName));
+        message.setSendStatus(IMSConfig.SEND_STATUS_SENDING);
+        return message;
+    }
+
     /** 红包气泡消息 contentType=720。 */
     @NonNull
     public static AppMessage buildRedPacketMessage(@Nullable String sessionId,
@@ -445,6 +486,33 @@ public class MessageBuilder {
             body.put("idno", idno);
         }
         body.put("from", fromUserId);
+        return AppGson.get().toJson(body);
+    }
+
+    @NonNull
+    private static String wrapGroupInviteContentAsJson(@NonNull String groupId,
+                                                       @Nullable String groupName,
+                                                       @Nullable String groupIcon,
+                                                       @Nullable String groupIdno,
+                                                       @NonNull String fromUserId,
+                                                       @Nullable String fromName,
+                                                       @NonNull String toUserId,
+                                                       @Nullable String toName) {
+        Map<String, Object> body = new LinkedHashMap<>(9);
+        body.put("msg", GroupInviteMessageContentUtil.MSG_GROUP_INVITE);
+        body.put("groupId", groupId);
+        body.put("groupName", groupName != null ? groupName : "");
+        if (!TextUtils.isEmpty(groupIcon)) {
+            body.put("groupIcon", groupIcon);
+        }
+        // 显示用群号（busiExt.idno），与个人名片 idno 对齐
+        if (!TextUtils.isEmpty(groupIdno)) {
+            body.put("idno", groupIdno);
+        }
+        body.put("from", fromUserId);
+        body.put("fromName", fromName != null ? fromName : "");
+        body.put("to", toUserId);
+        body.put("toName", toName != null ? toName : "");
         return AppGson.get().toJson(body);
     }
 
