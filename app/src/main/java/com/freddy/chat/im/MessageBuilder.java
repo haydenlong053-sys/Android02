@@ -19,6 +19,7 @@ import com.freddy.im.MessageType;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.http.model.im.UploadRes;
 import com.freddy.im.signal.ImSignalProtos;
+import com.freddy.im.util.ImUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -297,7 +298,8 @@ public class MessageBuilder {
     }
 
     /**
-     * 群邀请卡片（contentType=700，content.msg=GroupInvite），发往被邀请人的单聊。
+     * 邀请进群卡片（contentType=730），发往被邀请人的单聊。
+     * 独立类型，勿复用 700 个人名片。
      */
     @NonNull
     public static AppMessage buildGroupInviteMessage(@Nullable String sessionId,
@@ -305,21 +307,30 @@ public class MessageBuilder {
                                                      @NonNull String groupId,
                                                      @Nullable String groupName,
                                                      @Nullable String groupIcon,
-                                                     @Nullable String fromName) {
+                                                     @Nullable String fromName,
+                                                     @Nullable String toName) {
         String userId = IMSClientBootstrap.getInstance().getCurrentUserId();
         AppMessage message = new AppMessage();
-        if (!TextUtils.isEmpty(sessionId)) {
-            message.setConversationId(sessionId);
+        String resolvedSessionId = sessionId;
+        if (TextUtils.isEmpty(resolvedSessionId)
+                && !TextUtils.isEmpty(userId)
+                && !TextUtils.isEmpty(toUserId)) {
+            // 单聊必须用稳定 p2p sessionId；空 conversationId 会落到 clientMsgId 锚点，产生重复会话
+            resolvedSessionId = ImUtils.getP2pSessionIdId(userId, toUserId);
+        }
+        if (!TextUtils.isEmpty(resolvedSessionId)) {
+            message.setConversationId(resolvedSessionId);
         }
         message.setClientMsgId(UUID.randomUUID().toString());
-        message.setMsgContentType(MessageType.MessageContentType.CARD.getMsgContentType());
+        message.setMsgContentType(
+                MessageType.MessageContentType.INVITE_JOIN_GROUP.getMsgContentType());
         message.setFromId(userId);
         message.setToId(toUserId);
         message.setTimestamp(System.currentTimeMillis());
         message.setConversationTypeEnum(ImSignalProtos.ConversationType.forNumber(
                 MessageType.SINGLE_CHAT.getMsgType()));
         message.setContent(wrapGroupInviteContentAsJson(
-                groupId, groupName, groupIcon, userId, fromName));
+                groupId, groupName, groupIcon, userId, fromName, toUserId, toName));
         message.setSendStatus(IMSConfig.SEND_STATUS_SENDING);
         return message;
     }
@@ -482,8 +493,10 @@ public class MessageBuilder {
                                                        @Nullable String groupName,
                                                        @Nullable String groupIcon,
                                                        @NonNull String fromUserId,
-                                                       @Nullable String fromName) {
-        Map<String, Object> body = new LinkedHashMap<>(6);
+                                                       @Nullable String fromName,
+                                                       @NonNull String toUserId,
+                                                       @Nullable String toName) {
+        Map<String, Object> body = new LinkedHashMap<>(8);
         body.put("msg", GroupInviteMessageContentUtil.MSG_GROUP_INVITE);
         body.put("groupId", groupId);
         body.put("groupName", groupName != null ? groupName : "");
@@ -492,6 +505,8 @@ public class MessageBuilder {
         }
         body.put("from", fromUserId);
         body.put("fromName", fromName != null ? fromName : "");
+        body.put("to", toUserId);
+        body.put("toName", toName != null ? toName : "");
         return AppGson.get().toJson(body);
     }
 

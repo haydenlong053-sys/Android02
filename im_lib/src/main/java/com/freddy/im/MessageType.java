@@ -5,7 +5,7 @@ import com.freddy.im.signal.ImSignalProtos;
 /**
  * IM 消息类型定义（会话 {@link #msgType}、内容 {@link MessageContentType}），全局统一使用。
  * <p>
- * 内容类型编号对齐 IM 文档 §10：100 文本、101 转发、102 合并转发、200 图片、201 会议弹幕图片、300 文件、400 语音、500 视频、600 地图、700 个人名片、710 系统公告、900 开始会议、901 结束会议、1000 红包、1001 红包领取通知。
+ * 内容类型编号对齐 IM 文档 §10：100 文本、101 转发、102 合并转发、200 图片、201 会议弹幕图片、300 文件、400 语音、500 视频、600 地图、700 个人名片、710 系统公告、720 红包、730 邀请进群、900 开始会议、901 结束会议。
  */
 public enum MessageType {
 
@@ -63,6 +63,8 @@ public enum MessageType {
         SYS_NOTICE(710),
         /** 红包气泡（对齐野火 HongBaoMessageContent） */
         RED_PACKET(720),
+        /** 邀请进群（独立类型，勿复用 700，避免旧版当个人名片解析） */
+        INVITE_JOIN_GROUP(730),
         /** 开始会议（会话通知条，对齐野火 MeetStart「会议中」） */
         MEET_START(900),
         /** 结束会议（会话通知条，对齐野火 MeetEnd「会议已结束」） */
@@ -112,6 +114,10 @@ public enum MessageType {
 
         public static boolean isCard(int type) {
             return type == CARD.msgContentType;
+        }
+
+        public static boolean isInviteJoinGroup(int type) {
+            return type == INVITE_JOIN_GROUP.msgContentType;
         }
 
         public static boolean isNotice(int type) {

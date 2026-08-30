@@ -5,13 +5,18 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.hjq.shape.layout.ShapeConstraintLayout
         android:id="@+id/contentLayout"
         android:layout_width="@dimen/dp_239"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_chat_user_card_receive"
         android:paddingHorizontal="12dp"
-        android:paddingVertical="12dp">
+        android:paddingVertical="12dp"
+        app:shape_angle="90"
+        app:shape_bottomLeftRadius="@dimen/dp_10"
+        app:shape_bottomRightRadius="@dimen/dp_10"
+        app:shape_endColor="#4D8CCAFF"
+        app:shape_startColor="@color/white"
+        app:shape_topRightRadius="@dimen/dp_10">
 
         <com.cboda.baselibrary.view.AppRoundBroadImage
             android:id="@+id/groupInvitePortraitImageView"
@@ -54,5 +59,5 @@
             app:layout_constraintStart_toStartOf="@id/groupInviteNameTextView"
             app:layout_constraintTop_toBottomOf="@id/groupInviteNameTextView"
             tools:text="张三 邀请你加入群聊" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.hjq.shape.layout.ShapeConstraintLayout>
 </FrameLayout>

@@ -218,6 +218,10 @@ public final class WeChatUiHelper {
         return MessageContentFormatter.isCardMessage(msgContentType);
     }
 
+    public static boolean isInviteJoinGroupMessage(int msgContentType) {
+        return MessageContentFormatter.isInviteJoinGroupMessage(msgContentType);
+    }
+
     public static boolean isRedPacketMessage(int msgContentType) {
         return MessageContentFormatter.isRedPacketMessage(msgContentType);
     }

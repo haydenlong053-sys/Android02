@@ -149,6 +149,9 @@ public final class MergeTranspondMessageContentUtil {
         if (MessageContentFormatter.isCardMessage(contentType)) {
             return ImUiStrings.get(R.string.base_digest_person_card);
         }
+        if (MessageContentFormatter.isInviteJoinGroupMessage(contentType)) {
+            return ImUiStrings.get(R.string.base_digest_group_invite);
+        }
         if (MessageContentFormatter.isRedPacketMessage(contentType)) {
             return ImUiStrings.get(R.string.base_digest_red_package);
         }

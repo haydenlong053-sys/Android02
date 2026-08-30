@@ -24,6 +24,7 @@ import com.freddy.chat.viewholder.FileMessageVH;
 import com.freddy.chat.viewholder.HongBaoMessageVH;
 //import com.freddy.chat.viewholder.HongbaoClaimMessageVH;
 import com.freddy.chat.viewholder.ImageMessageVH;
+import com.freddy.chat.viewholder.InviteJoinGroupMessageVH;
 import com.freddy.chat.viewholder.MapMessageVH;
 import com.freddy.chat.viewholder.MeetStatusMessageVH;
 import com.freddy.chat.viewholder.MergeTransMessageVH;
@@ -588,6 +589,9 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
         if (WeChatUiHelper.isCardMessage(contentType)) {
             return VIEW_TYPE_CARD;
         }
+        if (WeChatUiHelper.isInviteJoinGroupMessage(contentType)) {
+            return VIEW_TYPE_INVITE_JOIN_GROUP;
+        }
         if (WeChatUiHelper.isRedPacketMessage(contentType)) {
             return VIEW_TYPE_HONGBAO;
         }
@@ -643,6 +647,7 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
             case VIEW_TYPE_FILE:
             case VIEW_TYPE_MAP:
             case VIEW_TYPE_CARD:
+            case VIEW_TYPE_INVITE_JOIN_GROUP:
             case VIEW_TYPE_HONGBAO:
             case VIEW_TYPE_NOTICE:
             case VIEW_TYPE_MERGE_TRANS:
@@ -667,6 +672,9 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
                 }
                 if (viewType == VIEW_TYPE_CARD) {
                     return new CardMessageVH(v);
+                }
+                if (viewType == VIEW_TYPE_INVITE_JOIN_GROUP) {
+                    return new InviteJoinGroupMessageVH(v);
                 }
                 if (viewType == VIEW_TYPE_HONGBAO) {
                     return new HongBaoMessageVH(v);
@@ -733,6 +741,8 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
             ((MapMessageVH) holder).bind(m, position, context);
         } else if (holder instanceof CardMessageVH) {
             ((CardMessageVH) holder).bind(m, position, context);
+        } else if (holder instanceof InviteJoinGroupMessageVH) {
+            ((InviteJoinGroupMessageVH) holder).bind(m, position, context);
         } else if (holder instanceof HongBaoMessageVH) {
             ((HongBaoMessageVH) holder).bind(m, position, context);
         } else if (holder instanceof NoticeMessageVH) {

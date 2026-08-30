@@ -9,9 +9,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 /**
- * 群邀请卡片 content（复用 contentType=700，{@code msg=GroupInvite}）。
+ * 邀请进群消息 content JSON 解析（contentType=730）。
  * <p>
- * {@code {"msg":"GroupInvite","groupId":"...","groupName":"...","groupIcon":"...","from":"...","fromName":"..."}}
+ * {@code {"msg":"GroupInvite","groupId":"...","groupName":"...","groupIcon":"...",
+ * "from":"...","fromName":"...","to":"...","toName":"..."}}
  */
 public final class GroupInviteMessageContentUtil {
 
@@ -23,6 +24,8 @@ public final class GroupInviteMessageContentUtil {
     private static final String KEY_GROUP_ICON = "groupIcon";
     private static final String KEY_FROM = "from";
     private static final String KEY_FROM_NAME = "fromName";
+    private static final String KEY_TO = "to";
+    private static final String KEY_TO_NAME = "toName";
 
     private GroupInviteMessageContentUtil() {
     }
@@ -54,6 +57,16 @@ public final class GroupInviteMessageContentUtil {
     @NonNull
     public static String resolveFromName(@Nullable String contentJson) {
         return readString(contentJson, KEY_FROM_NAME);
+    }
+
+    @NonNull
+    public static String resolveTo(@Nullable String contentJson) {
+        return readString(contentJson, KEY_TO);
+    }
+
+    @NonNull
+    public static String resolveToName(@Nullable String contentJson) {
+        return readString(contentJson, KEY_TO_NAME);
     }
 
     @NonNull

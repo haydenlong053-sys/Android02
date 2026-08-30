@@ -466,8 +466,16 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
             }
             "selectNewOwner" -> confirmTransferOwner(selected.first())
             "add" -> {
-                val ids = selected.mapNotNull { it.userId }.filter { it.isNotBlank() }
-                if (ids.isEmpty()) {
+                val invitees = linkedMapOf<String, String>()
+                selected.forEach { bean ->
+                    val uid = bean.userId?.trim().orEmpty()
+                    if (uid.isEmpty()) return@forEach
+                    val display = bean.bei?.takeIf { it.isNotBlank() }
+                        ?: bean.name?.takeIf { it.isNotBlank() }
+                        ?: uid
+                    invitees[uid] = display
+                }
+                if (invitees.isEmpty()) {
                     ToastBroadUtils.show(getString(R.string.xuanzelianxiren))
                     return
                 }
@@ -479,7 +487,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                     qunId,
                     groupName,
                     groupIcon,
-                    ids,
+                    invitees,
                 ) {
                     ToastBroadUtils.show(
                         getString(com.cboda.baselibrary.R.string.group_apply_action_success)
