@@ -8,11 +8,9 @@ import com.bumptech.glide.Glide
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.chatui.R
-import com.cboda.intelligent.utils.JumpBroadUtils.Companion.startChatMsgActivity
+import com.freddy.chat.group.GroupInviteClickHelper
 import com.freddy.chat.utils.GroupInviteMessageContentUtil
 import com.freddy.im.bean.AppMessage
-import com.freddy.im.http.GroupVoSessionMapper
-import com.freddy.im.http.model.im.GroupVo
 
 /**
  * 邀请进群消息 UI（contentType=730，[com.freddy.chat.MessageListAdapter] VIEW_TYPE_INVITE_JOIN_GROUP）。
@@ -24,6 +22,8 @@ class InviteJoinGroupMessageVH(itemView: View) : BaseMessageVH(itemView, R.layou
     private var nameTextView: TextView? = null
     private var descTextView: TextView? = null
     private var inviteGroupId = ""
+    private var inviteGroupName = ""
+    private var inviteGroupIcon = ""
 
     init {
         cacheViews()
@@ -45,7 +45,9 @@ class InviteJoinGroupMessageVH(itemView: View) : BaseMessageVH(itemView, R.layou
 
         val content = message.content
         inviteGroupId = GroupInviteMessageContentUtil.resolveGroupId(content)
-        nameTextView?.text = GroupInviteMessageContentUtil.resolveGroupName(content)
+        inviteGroupName = GroupInviteMessageContentUtil.resolveGroupName(content)
+        inviteGroupIcon = GroupInviteMessageContentUtil.resolveGroupIcon(content)
+        nameTextView?.text = inviteGroupName
         if (sentByMe) {
             var toName: String? = GroupInviteMessageContentUtil.resolveToName(content)
             if (TextUtils.isEmpty(toName) && !TextUtils.isEmpty(context.peerDisplayName)) {
@@ -71,7 +73,7 @@ class InviteJoinGroupMessageVH(itemView: View) : BaseMessageVH(itemView, R.layou
                 fromName
             )
         }
-        portraitImageView?.loadImg(GroupInviteMessageContentUtil.resolveGroupIcon(content), R.mipmap.ic_group_broad_chat)
+        portraitImageView?.loadImg(inviteGroupIcon, R.mipmap.ic_group_broad_chat)
     }
 
     private fun cacheViews() {
@@ -93,11 +95,11 @@ class InviteJoinGroupMessageVH(itemView: View) : BaseMessageVH(itemView, R.layou
         if (TextUtils.isEmpty(inviteGroupId)) {
             return
         }
-        val vo = GroupVo()
-        vo.id = inviteGroupId
-        startChatMsgActivity(
-            GroupVoSessionMapper.toSessionItem(vo, null, inviteGroupId),
-            itemView.context
+        GroupInviteClickHelper.handleClick(
+            itemView.context,
+            inviteGroupId,
+            inviteGroupName,
+            inviteGroupIcon,
         )
     }
 }
