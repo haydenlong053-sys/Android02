@@ -22,54 +22,84 @@ import kotlinx.coroutines.withContext
 data class GroupBlacklistUiState(
     val blacklist: List<GroupBlacklistItem> = emptyList(),
     val totalCount: Int = 0,
+    val pageNo: Int = 0,
+    val hasMore: Boolean = true,
+    /** 首屏/下拉刷新 */
     val loading: Boolean = false,
+    /** 上拉加载更多 */
+    val loadingMore: Boolean = false,
 )
 
 class ImGroupBlacklistViewModel : BaseViewModel() {
 
+    companion object {
+        const val PAGE_SIZE = 20
+    }
+
     private val _state = MutableLiveData(GroupBlacklistUiState(loading = true))
     val state: LiveData<GroupBlacklistUiState> = _state
 
-    fun load(groupId: String) {
+    /** 重新从第 1 页加载。 */
+    fun refresh(groupId: String) {
         if (groupId.isEmpty()) return
-        _state.value = (_state.value ?: GroupBlacklistUiState()).copy(loading = true)
-        loadBlacklist(groupId)
+        loadPage(groupId, pageNo = 1, append = false)
     }
 
-    private fun loadBlacklist(groupId: String) {
+    /** 加载下一页。 */
+    fun loadMore(groupId: String) {
+        if (groupId.isEmpty()) return
+        val cur = _state.value ?: GroupBlacklistUiState()
+        if (cur.loading || cur.loadingMore || !cur.hasMore) return
+        loadPage(groupId, pageNo = cur.pageNo + 1, append = true)
+    }
+
+    private fun loadPage(groupId: String, pageNo: Int, append: Boolean) {
+        val cur = _state.value ?: GroupBlacklistUiState()
+        _state.value = cur.copy(
+            loading = !append,
+            loadingMore = append,
+        )
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val params = hashMapOf<String, Any?>(
                     "id" to groupId,
-                    "pageNo" to 1,
-                    "pageSize" to 100,
+                    "pageNo" to pageNo,
+                    "pageSize" to PAGE_SIZE,
                 )
                 NetworkBroadRepository.postEncrypted2(
                     UrlBroadBroadConstants.GROUP_BLACKLIST,
                     GroupBlacklistPageBean::class.java,
                     params,
                 ).onSuccess { data ->
-                    val list = data?.list.orEmpty()
-                    val total = data?.count?.takeIf { it > 0 } ?: list.size
-                    val cur = _state.value ?: GroupBlacklistUiState()
+                    val pageList = data?.list.orEmpty()
+                    val prev = _state.value ?: GroupBlacklistUiState()
+                    val merged = if (append) prev.blacklist + pageList else pageList
+                    val total = data?.count?.takeIf { it > 0 }
+                        ?: if (append) maxOf(prev.totalCount, merged.size) else merged.size
+                    val hasMore = pageList.isNotEmpty()
+                        && pageList.size >= PAGE_SIZE
+                        && (total <= 0 || merged.size < total)
                     _state.postValue(
-                        cur.copy(
-                            blacklist = list,
+                        prev.copy(
+                            blacklist = merged,
                             totalCount = total,
+                            pageNo = pageNo,
+                            hasMore = hasMore,
                             loading = false,
+                            loadingMore = false,
                         ),
                     )
                 }.onFailure { _, message ->
-                    val cur = _state.value ?: GroupBlacklistUiState()
-                    _state.postValue(cur.copy(loading = false))
+                    val prev = _state.value ?: GroupBlacklistUiState()
+                    _state.postValue(prev.copy(loading = false, loadingMore = false))
                     showToastMain(message)
                 }.onError {
-                    val cur = _state.value ?: GroupBlacklistUiState()
-                    _state.postValue(cur.copy(loading = false))
+                    val prev = _state.value ?: GroupBlacklistUiState()
+                    _state.postValue(prev.copy(loading = false, loadingMore = false))
                 }
             } catch (_: Exception) {
-                val cur = _state.value ?: GroupBlacklistUiState()
-                _state.postValue(cur.copy(loading = false))
+                val prev = _state.value ?: GroupBlacklistUiState()
+                _state.postValue(prev.copy(loading = false, loadingMore = false))
             }
         }
     }
