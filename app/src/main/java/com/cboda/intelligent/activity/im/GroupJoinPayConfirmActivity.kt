@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import com.cboda.baselibrary.bean.PayLsOrderBean
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.anyToInt
+import com.cboda.baselibrary.utils.deepClone
 import com.cboda.baselibrary.utils.showCommonStrTip
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
@@ -128,8 +129,10 @@ class GroupJoinPayConfirmActivity : BaseSimple2BroadActivity() {
     private fun bindClicks() {
         backIcon2.click { finish() }
         confirmPayBtn.click {
-            payLsOrderBean = groupInfo
-            showSelectPayMethod()
+            groupInfo?.let {
+                payLsOrderBean = deepClone(it, PayLsOrderBean::class.java)
+                showSelectPayMethod()
+            }
         }
     }
 
