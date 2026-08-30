@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.cboda.baselibrary.toast.ToastBroadUtils
@@ -26,8 +27,7 @@ class GroupJoinPayConfirmActivity : BaseSimple2BroadActivity() {
 
     private var groupInfo: GroupQrInfoRes? = null
 
-    private lateinit var returnView: ShapeView
-    private lateinit var backIcon2: ImageView
+    private lateinit var backIcon2: View
     private lateinit var amountTv: TextView
     private lateinit var usdTv: TextView
     private lateinit var payeeTv: TextView
@@ -39,13 +39,13 @@ class GroupJoinPayConfirmActivity : BaseSimple2BroadActivity() {
 
     override fun showOrHideTitleLayout(): Boolean = false
 
-    override fun fitsSystemWindows(): Boolean = false
+    override fun fitsSystemWindows(): Boolean = true
 
     override fun useStatusBarDarkFont(): Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setRootBgColor(R.color.color_group_join_pay_bg)
+//        setRootBgColor(R.color.color_group_join_pay_bg)
         groupInfo = readGroupInfo(intent)
         if (groupInfo == null || TextUtils.isEmpty(groupInfo?.id)) {
             finish()
@@ -57,18 +57,17 @@ class GroupJoinPayConfirmActivity : BaseSimple2BroadActivity() {
     }
 
     private fun bindViews() {
-        returnView = findViewById(R.id.returnView)
-        backIcon2 = findViewById(R.id.backIcon2)
+        backIcon2 = findViewById(R.id.returnView)
         amountTv = findViewById(R.id.amountTv)
         usdTv = findViewById(R.id.usdTv)
         payeeTv = findViewById(R.id.payeeTv)
         orderNoTv = findViewById(R.id.orderNoTv)
         bottomAmountTv = findViewById(R.id.bottomAmountTv)
         confirmPayBtn = findViewById(R.id.confirmPayBtn)
+        addHeight(backIcon2)
     }
 
     private fun bindClicks() {
-        returnView.click { finish() }
         backIcon2.click { finish() }
         confirmPayBtn.click {
             ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_join_pay_coming_soon))

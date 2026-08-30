@@ -5,9 +5,11 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.cboda.baselibrary.utils.loadImg
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.utils.click
@@ -22,8 +24,7 @@ class GroupJoinPayActivity : BaseSimple2BroadActivity() {
 
     private var groupInfo: GroupQrInfoRes? = null
 
-    private lateinit var returnView: ShapeView
-    private lateinit var backIcon2: ImageView
+    private lateinit var backIcon2: View
     private lateinit var groupAvatar: ImageView
     private lateinit var groupNameTv: TextView
     private lateinit var groupIdTv: TextView
@@ -36,13 +37,13 @@ class GroupJoinPayActivity : BaseSimple2BroadActivity() {
 
     override fun showOrHideTitleLayout(): Boolean = false
 
-    override fun fitsSystemWindows(): Boolean = false
+    override fun fitsSystemWindows(): Boolean = true
 
     override fun useStatusBarDarkFont(): Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setRootBgColor(R.color.color_group_join_pay_bg)
+//        setRootBgColor(R.color.color_group_join_pay_bg)
         groupInfo = readGroupInfo(intent)
         if (groupInfo == null || TextUtils.isEmpty(groupInfo?.id)) {
             finish()
@@ -54,8 +55,7 @@ class GroupJoinPayActivity : BaseSimple2BroadActivity() {
     }
 
     private fun bindViews() {
-        returnView = findViewById(R.id.returnView)
-        backIcon2 = findViewById(R.id.backIcon2)
+        backIcon2 = findViewById(R.id.returnView)
         groupAvatar = findViewById(R.id.groupAvatar)
         groupNameTv = findViewById(R.id.groupNameTv)
         groupIdTv = findViewById(R.id.groupIdTv)
@@ -63,11 +63,14 @@ class GroupJoinPayActivity : BaseSimple2BroadActivity() {
         feeAmountTv = findViewById(R.id.feeAmountTv)
         feeUsdTv = findViewById(R.id.feeUsdTv)
         payBtn = findViewById(R.id.payBtn)
+        addHeight(backIcon2)
+        addHeight(findViewById(R.id.contentScroll))
     }
 
     private fun bindClicks() {
-        returnView.click { finish() }
-        backIcon2.click { finish() }
+        backIcon2.click {
+            finish()
+        }
         payBtn.click {
             val info = groupInfo ?: return@click
             GroupJoinPayConfirmActivity.start(this, info)
@@ -84,7 +87,7 @@ class GroupJoinPayActivity : BaseSimple2BroadActivity() {
         )
 
         val price = resolveJoinPayPrice(info)
-        feeAmountTv.text = getString(com.cboda.baselibrary.R.string.group_join_pay_amount_format, price)
+        feeAmountTv.text = price
         payBtn.text = getString(com.cboda.baselibrary.R.string.group_join_pay_btn_format, price)
 
         val usd = info.busiExt?.joinPayPriceUsdt?.trim().orEmpty()
@@ -93,12 +96,7 @@ class GroupJoinPayActivity : BaseSimple2BroadActivity() {
         } else {
             getString(com.cboda.baselibrary.R.string.group_join_pay_usd_approx, usd)
         }
-
-        Glide.with(this)
-            .load(info.icon.orEmpty())
-            .placeholder(com.cboda.chatui.R.mipmap.ic_group_broad_chat)
-            .error(com.cboda.chatui.R.mipmap.ic_group_broad_chat)
-            .into(groupAvatar)
+        groupAvatar.loadImg(info.icon,com.cboda.chatui.R.mipmap.ic_group_broad_chat)
     }
 
     private fun resolveJoinPayPrice(info: GroupQrInfoRes): String {

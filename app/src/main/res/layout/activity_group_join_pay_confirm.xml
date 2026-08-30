@@ -4,31 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_group_join_pay_bg">
+    android:background="@color/color_F2F3F5">
+
+    <com.hjq.shape.view.ShapeView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_480"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shape_angle="90"
+        app:shape_endColor="#9EB4F5"
+        app:shape_startColor="@color/color_F2F3F5" />
 
     <com.hjq.shape.view.ShapeView
         android:id="@+id/returnView"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="48dp"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginStart="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shape_radius="18dp"
-        app:shape_shadowColor="#339E9E9E"
-        app:shape_shadowSize="6dp"
+        app:shape_radius="@dimen/dp_30"
+        app:shape_shadowColor="#A69e9e9e"
+        app:shape_shadowSize="@dimen/dp_5"
         app:shape_solidColor="@color/white" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/backIcon2"
+        android:id="@+id/mIvBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_broad_back2"
         app:layout_constraintBottom_toBottomOf="@id/returnView"
         app:layout_constraintEnd_toEndOf="@id/returnView"
         app:layout_constraintStart_toStartOf="@id/returnView"
-        app:layout_constraintTop_toTopOf="@id/returnView"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintTop_toTopOf="@id/returnView" />
+
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/titleTv"
@@ -60,20 +68,15 @@
             android:paddingTop="28dp"
             android:paddingBottom="8dp">
 
-            <com.hjq.shape.view.ShapeTextView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/dxIconTv"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:gravity="center"
-                android:text="DX"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:shape_radius="28dp"
-                app:shape_solidColor="@color/color_5F19E2" />
+               android:src="@drawable/ic_group_join_pay_price_icon" />
 
             <LinearLayout
                 android:id="@+id/amountRow"
@@ -91,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
-                    android:textColor="@color/color_5F19E2"
+                    android:textColor="@color/color_3B47DD"
                     android:textSize="40sp"
                     android:textStyle="bold"
                     tools:text="100" />
@@ -158,7 +161,7 @@
                         android:ellipsize="end"
                         android:gravity="end"
                         android:maxLines="2"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_85"
                         android:textSize="14sp"
                         tools:text="DUALX 交流1群 (群主钱包)" />
                 </LinearLayout>
@@ -190,7 +193,7 @@
                         android:layout_weight="1"
                         android:gravity="end"
                         android:text="@string/group_join_pay_confirm_method_value"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_85"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -222,7 +225,7 @@
                         android:ellipsize="middle"
                         android:gravity="end"
                         android:maxLines="1"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_85"
                         android:textSize="14sp"
                         tools:text="202405200123456789" />
                 </LinearLayout>
@@ -241,7 +244,7 @@
         android:paddingBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -249,7 +252,12 @@
             android:paddingBottom="12dp">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="0dp"
+                android:id="@+id/bottomAmountHintTv"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_14"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/group_join_pay_confirm_need_pay"
@@ -257,36 +265,42 @@
                 android:textSize="14sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                app:layout_constraintBaseline_toBottomOf="@id/bottomAmountHintTv"
                 android:id="@+id/bottomAmountTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:includeFontPadding="false"
-                android:textColor="@color/color_5F19E2"
-                android:textSize="22sp"
+            app:layout_constraintEnd_toStartOf="@id/bottomUnitTv"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:textColor="@color/color_3B47DD"
+                android:textSize="28sp"
                 android:textStyle="bold"
                 tools:text="100" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                app:layout_constraintBaseline_toBottomOf="@id/bottomAmountHintTv"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="@dimen/dp_8"
                 android:id="@+id/bottomUnitTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:includeFontPadding="false"
                 android:text="@string/group_join_pay_token_dualx"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
-        </LinearLayout>
+                android:textSize="12sp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         <com.hjq.shape.view.ShapeTextView
             android:id="@+id/confirmPayBtn"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="46dp"
             android:gravity="center"
-            android:text="@string/group_join_pay_confirm_title"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:shape_radius="24dp"
-            app:shape_solidColor="@color/color_5F19E2" />
+            app:shape_radius="@dimen/dp_16"
+            app:shape_solidColor="@color/color_3B47DD"
+            android:text="@string/group_join_pay_confirm_title"/>
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
