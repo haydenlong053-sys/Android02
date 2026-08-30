@@ -243,6 +243,52 @@ open class NewMirrorViewBroadModel : BaseViewBroadModel() {
         }
     }
 
+    fun createPayJoinOrder(groupId: String, haveLoading: Boolean, closeLoading: Boolean, callBack: (PayLsOrderBean) -> Unit = {}): SingleLiveBroadData<PayLsOrderBean> {
+        val liveData = SingleLiveBroadData<PayLsOrderBean>()
+        val createGroupData = CreateGroupData()
+        createGroupData.groupId = groupId
+        createGroupData.forceNewPay = false
+        val params = hashMapOf<String, Any?>("scene" to "group_join", "bizParams" to createGroupData)
+        if (haveLoading) {
+            showLoading()
+        }
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val result = NetworkBroadRepository.postEncrypted(
+                        UrlBroadBroadConstants.CREATE_LS_PAY_ORDER,
+                        PayLsOrderBean::class.java, params
+                    )
+                    result.onSuccess { data ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        data?.let {
+                            liveData.postValue(data)
+                            callBack.invoke(data)
+                        } ?: showToastMain("数据为空")
+                    }.onFailure { _, message ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        showToastMain(message)
+                    }.onError { error ->
+                        if (closeLoading) {
+                            dismissLoading()
+                        }
+                        showToastMain("${error.message}")
+                    }
+                } catch (e: Exception) {
+                    if (closeLoading) {
+                        dismissLoading()
+                    }
+                    showToastMain("${e.message}")
+                }
+            }
+        }
+        return liveData
+    }
+
     fun createPayOrder(scene: String, haveLoading: Boolean, closeLoading: Boolean, callBack: (PayLsOrderBean) -> Unit = {}): SingleLiveBroadData<PayLsOrderBean> {
         val liveData = SingleLiveBroadData<PayLsOrderBean>()
         val params = if (scene == "vip_open") {

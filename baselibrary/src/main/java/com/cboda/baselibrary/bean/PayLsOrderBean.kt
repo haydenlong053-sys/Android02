@@ -3,6 +3,8 @@ package com.cboda.baselibrary.bean
 import java.io.Serializable
 
 class PayLsOrderBean : Serializable {
+    var groupId: String? = null
+    var groupName: String? = null
     var amountDisplay: String = ""
     var priceUsdt: String = ""
     var priceOdic: String = ""
@@ -37,4 +39,6 @@ class CreateGroupData : Serializable {
     var roomName: String? = null //会议室名称
     var forceNewPay: Boolean? = null
     var planId: String? = null
+    var groupId: String? = null
 }
+

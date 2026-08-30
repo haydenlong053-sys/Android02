@@ -8,14 +8,15 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
+import androidx.activity.viewModels
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.utils.click
+import com.cboda.intelligent.viewmodel.NewMirrorViewBroadModel
 import com.freddy.im.http.model.im.GroupQrInfoRes
 import com.hjq.shape.view.ShapeTextView
-import com.hjq.shape.view.ShapeView
+import kotlin.getValue
 
 /**
  * 收费进群页：扫码检测到需付费时，携带 [GroupQrInfoRes] 进入。
@@ -24,6 +25,7 @@ class GroupJoinPayActivity : BaseSimple2BroadActivity() {
 
     private var groupInfo: GroupQrInfoRes? = null
 
+    private val viewModel: NewMirrorViewBroadModel by viewModels()
     private lateinit var backIcon2: View
     private lateinit var groupAvatar: ImageView
     private lateinit var groupNameTv: TextView
@@ -73,7 +75,12 @@ class GroupJoinPayActivity : BaseSimple2BroadActivity() {
         }
         payBtn.click {
             val info = groupInfo ?: return@click
-            GroupJoinPayConfirmActivity.start(this, info)
+            viewModel.createPayJoinOrder(info.id, haveLoading = true, closeLoading = true) {
+                it.groupId = info.id
+                it.groupName = info.name
+                GroupJoinPayConfirmActivity.start(this, it)
+                finish()
+            }
         }
     }
 
@@ -96,7 +103,7 @@ class GroupJoinPayActivity : BaseSimple2BroadActivity() {
         } else {
             getString(com.cboda.baselibrary.R.string.group_join_pay_usd_approx, usd)
         }
-        groupAvatar.loadImg(info.icon,com.cboda.chatui.R.mipmap.ic_group_broad_chat)
+        groupAvatar.loadImg(info.icon, com.cboda.chatui.R.mipmap.ic_group_broad_chat)
     }
 
     private fun resolveJoinPayPrice(info: GroupQrInfoRes): String {
