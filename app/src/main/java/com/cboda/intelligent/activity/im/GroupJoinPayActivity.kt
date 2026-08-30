@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
+import com.cboda.baselibrary.bean.PayLsOrderBean.JoinGroupBean
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
@@ -76,8 +77,12 @@ class GroupJoinPayActivity : BaseSimple2BroadActivity() {
         payBtn.click {
             val info = groupInfo ?: return@click
             viewModel.createPayJoinOrder(info.id, haveLoading = true, closeLoading = true) {
-                it.groupId = info.id
-                it.groupName = info.name
+                val joinGroupBean = JoinGroupBean()
+                joinGroupBean.groupId = info.id
+                joinGroupBean.groupName = info.name
+                joinGroupBean.joinNeedVerify = info.joinNeedVerify
+                joinGroupBean.openQyyz = info.busiExt.openQyyz
+                it.joinGroupBean = joinGroupBean
                 GroupJoinPayConfirmActivity.start(this, it)
                 finish()
             }

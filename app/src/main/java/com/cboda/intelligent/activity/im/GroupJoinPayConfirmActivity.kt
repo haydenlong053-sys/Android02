@@ -61,29 +61,19 @@ class GroupJoinPayConfirmActivity : BaseSimple2BroadActivity() {
 
     private fun checkOrder() {
         if (canPay && payLsOrderBean != null && !TextUtils.isEmpty(payLsOrderBean?.orderId)) {
-            viewModel.checkOrder(payLsOrderBean?.orderId, true, false).observe(this) { data ->
+            viewModel.checkOrder(payLsOrderBean?.orderId, true, true).observe(this) { data ->
                 if (data?.success == true) {
-//                        viewModel.goOpenCredit(payLsOrderBean?.orderId, false, true).observe(this) { isSuccess ->
-//                            if (isSuccess) {
-//                                canPay = false
-//                                payLsOrderBean = null
-//
-//
-//
-//                            }
-//                        }
+                    canPay = false
+                    payLsOrderBean = null
+                    //支付成功跳转
                 } else {
                     showCommonStrTip("订单支付", "该订单是否支付？", "取消支付", "已支付", this, isOutSideTouchable = false) { toCheck ->
                         if (toCheck) {
-                            viewModel.checkOrder(payLsOrderBean?.orderId, true, false).observe(this) { data ->
+                            viewModel.checkOrder(payLsOrderBean?.orderId, true, true).observe(this) { data ->
                                 if (data?.success == true) {
-//                                        viewModel.goOpenCredit(payLsOrderBean?.orderId, false, true).observe(this) { isSuccess ->
-//                                            if (isSuccess) {
-//                                                canPay = false
-//                                                payLsOrderBean = null
-//                                                JumpBroadUtils.startCreditScoreActivity(this)
-//                                            }
-//                                        }
+                                    canPay = false
+                                    payLsOrderBean = null
+                                    //支付成功跳转
                                 } else {
                                     showCommonStrTip("订单支付", "查询到该订单未成功支付，是否继续？", "取消支付", "重新支付", this, isOutSideTouchable = false) { toCheck2 ->
                                         if (toCheck2) {
@@ -106,11 +96,16 @@ class GroupJoinPayConfirmActivity : BaseSimple2BroadActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        checkOrder()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setRootBgColor(R.color.color_group_join_pay_bg)
         groupInfo = readGroupInfo(intent)
-        if (groupInfo == null || TextUtils.isEmpty(groupInfo?.groupId)) {
+        if (groupInfo == null || TextUtils.isEmpty(groupInfo?.joinGroupBean?.groupId)) {
             finish()
             return
         }
@@ -150,7 +145,7 @@ class GroupJoinPayConfirmActivity : BaseSimple2BroadActivity() {
             getString(com.cboda.baselibrary.R.string.group_join_pay_usd_approx, usd)
         }
 
-        val groupName = info.groupName?.takeIf { it.isNotBlank() } ?: info.groupId.orEmpty()
+        val groupName = info.joinGroupBean?.groupName?.takeIf { it.isNotBlank() } ?: info.joinGroupBean?.groupId.orEmpty()
         payeeTv.text = getString(com.cboda.baselibrary.R.string.group_join_pay_confirm_payee_value, groupName)
         orderNoTv.text = info.orderId
     }
