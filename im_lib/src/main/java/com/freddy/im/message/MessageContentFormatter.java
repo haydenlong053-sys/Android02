@@ -157,6 +157,22 @@ public final class MessageContentFormatter {
         return MessageType.MessageContentType.isCard(msgContentType);
     }
 
+    /** contentType=700 且 content.msg=GroupInvite。 */
+    public static boolean isGroupInviteContentJson(@Nullable String contentJson) {
+        if (TextUtils.isEmpty(contentJson)) {
+            return false;
+        }
+        try {
+            JsonObject obj = JsonParser.parseString(contentJson.trim()).getAsJsonObject();
+            if (obj == null || !obj.has("msg") || !obj.get("msg").isJsonPrimitive()) {
+                return false;
+            }
+            return "GroupInvite".equals(obj.get("msg").getAsString());
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
+
     public static boolean isRedPacketMessage(int msgContentType) {
         return MessageType.MessageContentType.isRedPacket(msgContentType);
     }
@@ -233,6 +249,9 @@ public final class MessageContentFormatter {
             return str(R.string.base_digest_location);
         }
         if (isCardMessage(type)) {
+            if (isGroupInviteContentJson(message.getContent())) {
+                return str(R.string.base_digest_group_invite);
+            }
             return str(R.string.base_digest_person_card);
         }
 
@@ -380,6 +399,9 @@ public final class MessageContentFormatter {
             return str(R.string.base_digest_location);
         }
         if (isCardMessage(type)) {
+            if (isGroupInviteContentJson(content)) {
+                return str(R.string.base_digest_group_invite);
+            }
             return str(R.string.base_digest_person_card);
         }
 //        if (isHongbaoClaimMessage(type)) {

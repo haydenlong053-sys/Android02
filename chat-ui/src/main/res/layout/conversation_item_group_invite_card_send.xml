@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="@dimen/dp_239"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_chat_user_card_send"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="12dp">
+
+        <com.cboda.baselibrary.view.AppRoundBroadImage
+            android:id="@+id/groupInvitePortraitImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/avatar_broad_def"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/groupInviteNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/groupInviteDescTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/groupInvitePortraitImageView"
+            app:layout_constraintTop_toTopOf="@id/groupInvitePortraitImageView"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="群名称" />
+
+        <TextView
+            android:id="@+id/groupInviteDescTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/black_65"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/groupInvitePortraitImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/groupInviteNameTextView"
+            app:layout_constraintTop_toBottomOf="@id/groupInviteNameTextView"
+            tools:text="张三 邀请你加入群聊" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

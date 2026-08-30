@@ -24,6 +24,7 @@ import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
 import com.cboda.susindexbar.IndexBar.widget.IndexBar2
+import com.freddy.chat.card.GroupInviteMessageSender
 import com.freddy.chat.im.IMSClientBootstrap
 import com.freddy.chat.im.MessageProcessor
 import com.freddy.im.db.ImLocalStore
@@ -465,19 +466,26 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
             }
             "selectNewOwner" -> confirmTransferOwner(selected.first())
             "add" -> {
-                val ids = selected.mapNotNull { it.userId }
-                ImGroupHttpExample.requestAddMembers(qunId, ids, object : OnHttpImListener<com.freddy.im.http.model.im.GroupVo> {
-                    override fun onHttpImSuccess(result: com.freddy.im.http.model.im.GroupVo) {
-                        runOnUiThread {
-                            ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_apply_action_success))
-                            finish()
-                        }
-                    }
-                }, {
-//                    runOnUiThread {
-//                        ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_add_member_failed))
-//                    }
-                })
+                val ids = selected.mapNotNull { it.userId }.filter { it.isNotBlank() }
+                if (ids.isEmpty()) {
+                    ToastBroadUtils.show(getString(R.string.xuanzelianxiren))
+                    return
+                }
+                val session = ImLocalStore.querySessionEntity(qunId)
+                val groupName = session?.sessionName
+                val groupIcon = session?.icon
+                GroupInviteMessageSender.sendToFriends(
+                    this,
+                    qunId,
+                    groupName,
+                    groupIcon,
+                    ids,
+                ) {
+                    ToastBroadUtils.show(
+                        getString(com.cboda.baselibrary.R.string.group_apply_action_success)
+                    )
+                    finish()
+                }
             }
             ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS -> {
                 val ids = selected.mapNotNull { it.userId }

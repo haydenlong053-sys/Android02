@@ -216,6 +216,8 @@
     <!-- 会话列表 / 消息气泡 / 通话记录展示（多语言） -->
     <string name="base_digest_location">[位置]</string>
     <string name="base_digest_person_card">[个人名片]</string>
+    <string name="base_digest_group_invite">[群邀请]</string>
+    <string name="group_invite_card_desc">%1$s 邀请你加入群聊</string>
     <string name="base_digest_meet_ongoing">会议中</string>
     <string name="base_digest_meet_ended">会议已结束</string>
     <string name="call_digest">[通话]</string>

@@ -66,6 +66,8 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     private static final int VIEW_TYPE_RECALL = 13;
     private static final int VIEW_TYPE_HONGBAO = 14;
 //    private static final int VIEW_TYPE_HONGBAO_CLAIM = 15;
+
+    private static final int VIEW_TYPE_INVITE_JOIN_GROUP = 16;
     private static final int VIEW_TYPE_UNKNOWN = 99;
 
     private final boolean isGroupChat;

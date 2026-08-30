@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.freddy.chat.utils.AppGson;
 import com.freddy.chat.utils.CardMessageContentUtil;
+import com.freddy.chat.utils.GroupInviteMessageContentUtil;
 import com.freddy.chat.utils.HongBaoMessageContentUtil;
 import com.freddy.chat.utils.NoticeMessageContentUtil;
 import com.freddy.chat.utils.MediaMessageContentUtil;
@@ -295,6 +296,34 @@ public class MessageBuilder {
         return message;
     }
 
+    /**
+     * 群邀请卡片（contentType=700，content.msg=GroupInvite），发往被邀请人的单聊。
+     */
+    @NonNull
+    public static AppMessage buildGroupInviteMessage(@Nullable String sessionId,
+                                                     @NonNull String toUserId,
+                                                     @NonNull String groupId,
+                                                     @Nullable String groupName,
+                                                     @Nullable String groupIcon,
+                                                     @Nullable String fromName) {
+        String userId = IMSClientBootstrap.getInstance().getCurrentUserId();
+        AppMessage message = new AppMessage();
+        if (!TextUtils.isEmpty(sessionId)) {
+            message.setConversationId(sessionId);
+        }
+        message.setClientMsgId(UUID.randomUUID().toString());
+        message.setMsgContentType(MessageType.MessageContentType.CARD.getMsgContentType());
+        message.setFromId(userId);
+        message.setToId(toUserId);
+        message.setTimestamp(System.currentTimeMillis());
+        message.setConversationTypeEnum(ImSignalProtos.ConversationType.forNumber(
+                MessageType.SINGLE_CHAT.getMsgType()));
+        message.setContent(wrapGroupInviteContentAsJson(
+                groupId, groupName, groupIcon, userId, fromName));
+        message.setSendStatus(IMSConfig.SEND_STATUS_SENDING);
+        return message;
+    }
+
     /** 红包气泡消息 contentType=720。 */
     @NonNull
     public static AppMessage buildRedPacketMessage(@Nullable String sessionId,
@@ -445,6 +474,24 @@ public class MessageBuilder {
             body.put("idno", idno);
         }
         body.put("from", fromUserId);
+        return AppGson.get().toJson(body);
+    }
+
+    @NonNull
+    private static String wrapGroupInviteContentAsJson(@NonNull String groupId,
+                                                       @Nullable String groupName,
+                                                       @Nullable String groupIcon,
+                                                       @NonNull String fromUserId,
+                                                       @Nullable String fromName) {
+        Map<String, Object> body = new LinkedHashMap<>(6);
+        body.put("msg", GroupInviteMessageContentUtil.MSG_GROUP_INVITE);
+        body.put("groupId", groupId);
+        body.put("groupName", groupName != null ? groupName : "");
+        if (!TextUtils.isEmpty(groupIcon)) {
+            body.put("groupIcon", groupIcon);
+        }
+        body.put("from", fromUserId);
+        body.put("fromName", fromName != null ? fromName : "");
         return AppGson.get().toJson(body);
     }
 

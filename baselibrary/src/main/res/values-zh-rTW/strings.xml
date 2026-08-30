@@ -201,6 +201,8 @@
     <string name="call_remote_no_answer">對方未接聽</string>
     <string name="base_digest_location">[位置]</string>
     <string name="base_digest_person_card">[個人名片]</string>
+    <string name="base_digest_group_invite">[群邀請]</string>
+    <string name="group_invite_card_desc">%1$s 邀請你加入群聊</string>
     <string name="base_digest_meet_ongoing">會議中</string>
     <string name="base_digest_meet_ended">會議已結束</string>
     <string name="call_digest">[通話]</string>

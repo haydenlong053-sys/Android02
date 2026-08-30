@@ -202,6 +202,8 @@
     <string name="call_remote_no_answer">The other party did not answer</string>
     <string name="base_digest_location">[Location]</string>
     <string name="base_digest_person_card">[Contact Card]</string>
+    <string name="base_digest_group_invite">[Group Invite]</string>
+    <string name="group_invite_card_desc">%1$s invites you to join the group</string>
     <string name="base_digest_meet_ongoing">In a meeting</string>
     <string name="base_digest_meet_ended">Meeting ended</string>
     <string name="call_digest">[Call]</string>
