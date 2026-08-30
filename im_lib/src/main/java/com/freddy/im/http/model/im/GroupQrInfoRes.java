@@ -12,6 +12,8 @@ public class GroupQrInfoRes extends GroupVo {
     /** 公司名称 */
     private String companyName;
 
+
+
     public int getAddType() {
         return addType;
     }

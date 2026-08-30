@@ -44,7 +44,7 @@ ext {
 //            isReviewEnv   : "false",
 
 //            //  // /***打包测试使用（可切环境）(appEnvironment: 0-82环境，1-https，2-fat环境，3-自定义环境，4-美区环境，5-香港环境，6-84环境)***/
-            storeFile        : "google_play_us.jks",
+            storeFile        : "google_play_us2.jks",
             storePassword    : "Aa663366",
             keyAlias         : "uscbodabroadintelligent",
             deviceIdType     : "3",

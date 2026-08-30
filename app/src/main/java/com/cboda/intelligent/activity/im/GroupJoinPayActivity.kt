@@ -27,7 +27,7 @@ class GroupJoinPayActivity : BaseSimple2BroadActivity() {
     private var groupInfo: GroupQrInfoRes? = null
 
     private val viewModel: NewMirrorViewBroadModel by viewModels()
-    private lateinit var backIcon2: View
+    private lateinit var returnView: View
     private lateinit var groupAvatar: ImageView
     private lateinit var groupNameTv: TextView
     private lateinit var groupIdTv: TextView
@@ -58,7 +58,7 @@ class GroupJoinPayActivity : BaseSimple2BroadActivity() {
     }
 
     private fun bindViews() {
-        backIcon2 = findViewById(R.id.returnView)
+        returnView = findViewById(R.id.returnView)
         groupAvatar = findViewById(R.id.groupAvatar)
         groupNameTv = findViewById(R.id.groupNameTv)
         groupIdTv = findViewById(R.id.groupIdTv)
@@ -66,12 +66,15 @@ class GroupJoinPayActivity : BaseSimple2BroadActivity() {
         feeAmountTv = findViewById(R.id.feeAmountTv)
         feeUsdTv = findViewById(R.id.feeUsdTv)
         payBtn = findViewById(R.id.payBtn)
-        addHeight(backIcon2)
+        addHeight(returnView)
         addHeight(findViewById(R.id.contentScroll))
     }
 
     private fun bindClicks() {
-        backIcon2.click {
+        findViewById<View>(R.id.mIvBack).click {
+            finish()
+        }
+        returnView.click {
             finish()
         }
         payBtn.click {

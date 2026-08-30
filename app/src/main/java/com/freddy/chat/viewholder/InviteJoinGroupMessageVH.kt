@@ -24,6 +24,7 @@ class InviteJoinGroupMessageVH(itemView: View) : BaseMessageVH(itemView, R.layou
     private var inviteGroupId = ""
     private var inviteGroupName = ""
     private var inviteGroupIcon = ""
+    private var inviteGroupIdNum = ""
 
     init {
         cacheViews()
@@ -47,6 +48,7 @@ class InviteJoinGroupMessageVH(itemView: View) : BaseMessageVH(itemView, R.layou
         inviteGroupId = GroupInviteMessageContentUtil.resolveGroupId(content)
         inviteGroupName = GroupInviteMessageContentUtil.resolveGroupName(content)
         inviteGroupIcon = GroupInviteMessageContentUtil.resolveGroupIcon(content)
+        inviteGroupIdNum = GroupInviteMessageContentUtil.resolveGroupIdno(content)
         nameTextView?.text = inviteGroupName
         if (sentByMe) {
             var toName: String? = GroupInviteMessageContentUtil.resolveToName(content)
@@ -85,8 +87,7 @@ class InviteJoinGroupMessageVH(itemView: View) : BaseMessageVH(itemView, R.layou
     }
 
     private fun bindClick() {
-
-        cardContentLayout?.click {
+        itemView.click {
             onInviteClick()
         }
     }
@@ -100,6 +101,7 @@ class InviteJoinGroupMessageVH(itemView: View) : BaseMessageVH(itemView, R.layou
             inviteGroupId,
             inviteGroupName,
             inviteGroupIcon,
+            inviteGroupIdNum
         )
     }
 }

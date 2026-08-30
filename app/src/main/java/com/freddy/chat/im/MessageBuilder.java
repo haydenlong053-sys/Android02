@@ -307,6 +307,7 @@ public class MessageBuilder {
                                                      @NonNull String groupId,
                                                      @Nullable String groupName,
                                                      @Nullable String groupIcon,
+                                                     @Nullable String groupIdno,
                                                      @Nullable String fromName,
                                                      @Nullable String toName) {
         String userId = IMSClientBootstrap.getInstance().getCurrentUserId();
@@ -330,7 +331,7 @@ public class MessageBuilder {
         message.setConversationTypeEnum(ImSignalProtos.ConversationType.forNumber(
                 MessageType.SINGLE_CHAT.getMsgType()));
         message.setContent(wrapGroupInviteContentAsJson(
-                groupId, groupName, groupIcon, userId, fromName, toUserId, toName));
+                groupId, groupName, groupIcon, groupIdno, userId, fromName, toUserId, toName));
         message.setSendStatus(IMSConfig.SEND_STATUS_SENDING);
         return message;
     }
@@ -492,16 +493,21 @@ public class MessageBuilder {
     private static String wrapGroupInviteContentAsJson(@NonNull String groupId,
                                                        @Nullable String groupName,
                                                        @Nullable String groupIcon,
+                                                       @Nullable String groupIdno,
                                                        @NonNull String fromUserId,
                                                        @Nullable String fromName,
                                                        @NonNull String toUserId,
                                                        @Nullable String toName) {
-        Map<String, Object> body = new LinkedHashMap<>(8);
+        Map<String, Object> body = new LinkedHashMap<>(9);
         body.put("msg", GroupInviteMessageContentUtil.MSG_GROUP_INVITE);
         body.put("groupId", groupId);
         body.put("groupName", groupName != null ? groupName : "");
         if (!TextUtils.isEmpty(groupIcon)) {
             body.put("groupIcon", groupIcon);
+        }
+        // 显示用群号（busiExt.idno），与个人名片 idno 对齐
+        if (!TextUtils.isEmpty(groupIdno)) {
+            body.put("idno", groupIdno);
         }
         body.put("from", fromUserId);
         body.put("fromName", fromName != null ? fromName : "");

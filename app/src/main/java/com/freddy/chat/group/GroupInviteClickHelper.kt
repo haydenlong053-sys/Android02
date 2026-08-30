@@ -15,6 +15,7 @@ import com.cboda.intelligent.utils.UrlBroadBroadConstants
 import com.cboda.intelligent.utils.showToastMain
 import com.freddy.chat.utils.AppGson
 import com.freddy.im.http.ImGroupHttpExample
+import com.freddy.im.http.model.im.GroupBusiExt
 import com.freddy.im.http.model.im.GroupQrInfoRes
 import com.freddy.im.http.model.im.GroupVo
 import com.freddy.im.listener.OnHttpImListener
@@ -43,6 +44,7 @@ object GroupInviteClickHelper {
         groupId: String,
         groupName: String? = null,
         groupIcon: String? = null,
+        groupIdNum: String? = null
     ) {
         if (groupId.isBlank() || !inFlight.compareAndSet(false, true)) {
             return
@@ -56,7 +58,7 @@ object GroupInviteClickHelper {
                 inFlight.set(false)
                 showToastMain(pair.second ?: "")
             } else {
-                checkGroupJoinEligibility(context, groupId, groupName, groupIcon)
+                checkGroupJoinEligibility(context, groupId, groupName, groupIcon, groupIdNum)
             }
         }
     }
@@ -66,6 +68,7 @@ object GroupInviteClickHelper {
         groupId: String,
         groupName: String?,
         groupIcon: String?,
+        groupIdNum: String?
     ) {
         scope.launch {
             val params = hashMapOf<String, Any?>("id" to groupId)
@@ -82,7 +85,7 @@ object GroupInviteClickHelper {
                     showToastMain(R.string.scan_network_request_failed)
                     return@onSuccess
                 }
-                val groupInfo = buildGroupQrInfo(groupId, groupName, groupIcon, data)
+                val groupInfo = buildGroupQrInfo(groupId, groupName, groupIcon, groupIdNum, data)
                 when {
                     data.isBlacklisted() -> {
                         inFlight.set(false)
@@ -124,6 +127,7 @@ object GroupInviteClickHelper {
         groupId: String,
         groupName: String?,
         groupIcon: String?,
+        groupIdNum: String?,
         check: CheckGroupJoiBean,
     ): GroupQrInfoRes {
         val info = GroupQrInfoRes()
@@ -152,6 +156,12 @@ object GroupInviteClickHelper {
                 }
             }
         }
+
+        if (null == info.busiExt) {
+            val busiExt = GroupBusiExt()
+            info.busiExt = busiExt
+        }
+        info.busiExt?.idno = groupIdNum
         return info
     }
 

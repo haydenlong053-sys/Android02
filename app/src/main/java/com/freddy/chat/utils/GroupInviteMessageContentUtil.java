@@ -11,7 +11,7 @@ import com.google.gson.JsonParser;
 /**
  * 邀请进群消息 content JSON 解析（contentType=730）。
  * <p>
- * {@code {"msg":"GroupInvite","groupId":"...","groupName":"...","groupIcon":"...",
+ * {@code {"msg":"GroupInvite","groupId":"...","groupName":"...","groupIcon":"...","idno":"...",
  * "from":"...","fromName":"...","to":"...","toName":"..."}}
  */
 public final class GroupInviteMessageContentUtil {
@@ -22,6 +22,7 @@ public final class GroupInviteMessageContentUtil {
     private static final String KEY_GROUP_ID = "groupId";
     private static final String KEY_GROUP_NAME = "groupName";
     private static final String KEY_GROUP_ICON = "groupIcon";
+    private static final String KEY_IDNO = "idno";
     private static final String KEY_FROM = "from";
     private static final String KEY_FROM_NAME = "fromName";
     private static final String KEY_TO = "to";
@@ -47,6 +48,12 @@ public final class GroupInviteMessageContentUtil {
     @NonNull
     public static String resolveGroupIcon(@Nullable String contentJson) {
         return readString(contentJson, KEY_GROUP_ICON);
+    }
+
+    /** 显示用群号（{@code busiExt.idno}）。 */
+    @NonNull
+    public static String resolveGroupIdno(@Nullable String contentJson) {
+        return readString(contentJson, KEY_IDNO);
     }
 
     @NonNull
