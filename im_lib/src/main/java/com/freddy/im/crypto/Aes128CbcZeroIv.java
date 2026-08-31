@@ -1,5 +1,6 @@
 package com.freddy.im.crypto;
 
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.freddy.im.util.ImUtils;
 
 import java.security.GeneralSecurityException;
@@ -47,7 +48,7 @@ public final class Aes128CbcZeroIv {
         if (generateRandomKey.isEmpty()){
             generateRandomKey = ImUtils.generateRandomKey(16);
         }
-        System.out.println("AES密钥"+generateRandomKey);
+        ELogUtilKt.eLogI(ELogUtilKt.APP_IM_TAG,"AES密钥"+generateRandomKey);
         return ImUtils.stringToBytes(generateRandomKey);
 
     }
