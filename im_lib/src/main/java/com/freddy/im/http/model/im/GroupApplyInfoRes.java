@@ -10,6 +10,7 @@ package com.freddy.im.http.model.im;
 public class GroupApplyInfoRes {
 
     private String applyId;
+    private String applicantName;
     private String groupId;
     private String applicant;
     private String companyId;
@@ -19,9 +20,19 @@ public class GroupApplyInfoRes {
     private Long updateTime;
     private String groupName;
     private String icon;
-    /** approve：待我审批；apply：我发起的申请 */
+    /**
+     * approve：待我审批；apply：我发起的申请
+     */
     private String type;
     private String desc;
+
+    public String getApplicantName() {
+        return applicantName;
+    }
+
+    public void setApplicantName(String applicantName) {
+        this.applicantName = applicantName;
+    }
 
     public String getApplyId() {
         return applyId;

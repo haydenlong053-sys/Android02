@@ -556,6 +556,7 @@ class CommViewBroadModel : FriendViewBroadModel() {
      */
     private fun mapGroupApplyToCommonBean(item: GroupApplyInfoRes): CommonDataListBroadBean.CommonBean {
         val bean = CommonDataListBroadBean.CommonBean()
+        bean.applicantName = item.applicantName
         bean.id = item.applyId
         bean.userId = item.applicant
         bean.type = item.type
@@ -571,9 +572,9 @@ class CommViewBroadModel : FriendViewBroadModel() {
         }
         bean.state = item.status
         //优先从接口取icon
-        val icon= if (item.icon?.isNotEmpty() == true){
+        val icon = if (item.icon?.isNotEmpty() == true) {
             item.icon
-        }else{
+        } else {
             val session = if (!TextUtils.isEmpty(item.groupId)) {
                 ImSessionRepository.getInstance().queryBySessionId(item.groupId)
             } else {
@@ -1875,7 +1876,7 @@ class CommViewBroadModel : FriendViewBroadModel() {
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     if (bean is NoResultBroadBean) {
-                        errorLiveData.value = ErrorBroadBean(result = state,type = "setGroupAbsentKick")
+                        errorLiveData.value = ErrorBroadBean(result = state, type = "setGroupAbsentKick")
                     }
                 }
 

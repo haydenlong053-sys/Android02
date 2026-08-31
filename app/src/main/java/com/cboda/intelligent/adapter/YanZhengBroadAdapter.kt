@@ -1,5 +1,6 @@
 package com.cboda.intelligent.adapter
 
+import android.text.TextUtils
 import cn.wildfirechat.remote.ChatManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -25,7 +26,7 @@ class YanZhengBroadAdapter(layoutResId: Int, private val fromPage: String) :
 
         holder.setText(R.id.tvname, item.name ?: "")
         if (fromPage == GROUP_INVITED) {
-            holder.setText(R.id.tvnicheng, item.info ?: "")
+            holder.setText(R.id.tvnicheng, (if (!TextUtils.isEmpty(item.applicantName)) item.applicantName else "") + item.info)
         } else {
             holder.setText(R.id.tvnicheng, item.sinfo ?: "")
         }

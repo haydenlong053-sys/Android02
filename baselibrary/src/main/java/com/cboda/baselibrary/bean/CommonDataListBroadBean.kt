@@ -30,6 +30,9 @@ class CommonDataListBroadBean : BaseBroadResponse() {
         var isLiang: String? = null
         var lianghao: String? = null
         var idno: String? = null
+        var applicantName: String? = null
+
+
         override fun getTarget(): String {
             return getDisplayName().toString()
         }
