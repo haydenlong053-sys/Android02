@@ -31,6 +31,7 @@ import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.click
+import com.cboda.baselibrary.utils.div
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.groupDataLiveData
 import com.cboda.baselibrary.utils.loadImg
@@ -879,7 +880,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     }
 
     private fun refreshJoinPayUsdApprox(amount: String) {
-        tvGroupJoinPayUsd.text = getString(com.cboda.baselibrary.R.string.group_join_pay_usd_approx, mul(amount, ustHs).toString())
+        tvGroupJoinPayUsd.text = getString(com.cboda.baselibrary.R.string.group_join_pay_usd_approx, div(amount, ustHs,2,true).toString())
     }
 
     /**

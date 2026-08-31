@@ -453,11 +453,11 @@ class ImQunInfoViewModel : BaseViewModel() {
                     PriceConversion::class.java,
                     params,
                 ).onSuccess { data ->
-                    val usdt = data?.priceUsdt?.takeIf { it.isNotBlank() }
-                    if (!usdt.isNullOrBlank()) {
-                        liveData.postValue(formatUsd(usdt))
-                        return@onSuccess
-                    }
+//                    val usdt = data?.priceUsdt?.takeIf { it.isNotBlank() }
+//                    if (!usdt.isNullOrBlank()) {
+//                        liveData.postValue(formatUsd(usdt))
+//                        return@onSuccess
+//                    }
                     val odic = data?.priceOdic?.takeIf { it.isNotBlank() }
                     if (!odic.isNullOrBlank() && amountBd.compareTo(BigDecimal.ONE) == 0) {
                         MMKVBroadUtils.saveSqlStrData(PRICE_DUALX, odic)
