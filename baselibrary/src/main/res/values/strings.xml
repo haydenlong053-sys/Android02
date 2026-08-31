@@ -522,6 +522,7 @@
     <string name="group_blacklist_select_tip">Please select members</string>
     <string name="group_blacklist_add_success">Added to blacklist</string>
     <string name="group_blacklist_remove_success">Removed from blacklist</string>
+    <string name="group_invite_friend_in_blacklist">This friend is on the group blacklist. Remove them from the blacklist first.</string>
     <string name="group_join_pay_title">Enable group fee</string>
     <string name="group_join_pay_desc">Once enabled, members must pay to join the group</string>
     <string name="group_join_pay_fee_label">Join fee (DUALX)</string>

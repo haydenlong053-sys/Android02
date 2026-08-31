@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.baselibrary.bean.CommonDataListBroadBean
@@ -25,6 +26,7 @@ import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
 import com.cboda.susindexbar.IndexBar.widget.IndexBar2
 import com.freddy.chat.card.GroupInviteMessageSender
+import com.freddy.chat.group.GroupJoinCheckHelper
 import com.freddy.chat.im.IMSClientBootstrap
 import com.freddy.chat.im.MessageProcessor
 import com.freddy.im.db.ImLocalStore
@@ -36,6 +38,7 @@ import com.freddy.im.listener.OnHttpImListener
 import com.freddy.im.message.ImGroupMemberChangeManager
 import com.freddy.im.message.ImGroupTransferManager
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
+import kotlinx.coroutines.launch
 
 /**
  * 自研加人/踢人（对齐野火 {@link com.cboda.intelligent.activity.QunMemberListBroadActivity}）。
@@ -62,6 +65,8 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
     private var pageNo = 1
     private val searchHandler by lazy { Handler(Looper.getMainLooper()) }
     private var searchRunnable: Runnable? = null
+    /** 邀请好友：群黑名单 userId（列表不隐藏，选中时拦截）。 */
+    private var blacklistedFriendIds: Set<String> = emptySet()
 
     override fun showBgTopTitleLayout(): Boolean = true
     override fun getLayoutId(): Int = R.layout.activity_xu_broad_an_ze_lian_xi_ren
@@ -110,6 +115,17 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         mAdapter?.setOnItemClickListener { _, _, position ->
             if (position !in mDataList.indices) return@setOnItemClickListener
             if (mDataList[position].isZy == "1") return@setOnItemClickListener
+            if (fromPage == "add") {
+                val bean = mDataList[position]
+                val uid = bean.userId?.trim().orEmpty()
+                // 即将选中时：黑名单好友不可选
+                if (!bean.isSelect && uid.isNotEmpty() && uid in blacklistedFriendIds) {
+                    ToastBroadUtils.show(
+                        getString(com.cboda.baselibrary.R.string.group_invite_friend_in_blacklist),
+                    )
+                    return@setOnItemClickListener
+                }
+            }
             if (fromPage == "selectNewOwner") {
                 for (i in mDataList.indices) {
                     mDataList[i].isSelect = i == position
@@ -261,9 +277,39 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                         }
                         smartLayout.setEnableLoadMore(false)
                         checkCanGo()
+                        // 列表不隐藏黑名单好友；后台拉取后用于点击拦截
+                        prefetchBlacklistedFriends(dedupedList.mapNotNull { it.userId })
                     }
                 }
             }, null)
+    }
+
+    private fun prefetchBlacklistedFriends(userIds: List<String>) {
+        if (fromPage != "add" || qunId.isEmpty() || userIds.isEmpty()) {
+            blacklistedFriendIds = emptySet()
+            return
+        }
+        lifecycleScope.launch {
+            blacklistedFriendIds = GroupJoinCheckHelper.fetchBlacklistedUserIds(qunId, userIds)
+            // 若已选中了黑名单好友（竞态），回退选中态
+            if (blacklistedFriendIds.isEmpty()) return@launch
+            var changed = false
+            mDataList.forEach { bean ->
+                val uid = bean.userId
+                if (bean.isSelect && !uid.isNullOrEmpty() && uid in blacklistedFriendIds) {
+                    bean.isSelect = false
+                    changed = true
+                }
+            }
+            if (mDataList3.removeAll { it.userId in blacklistedFriendIds }) {
+                changed = true
+                updateYiXuan()
+            }
+            if (changed) {
+                mAdapter?.setList(mDataList)
+                checkCanGo()
+            }
+        }
     }
 
     /** 踢人：本地群成员库加载（对齐 ImXuanQunJinYanBroadActivity）。 */
@@ -530,6 +576,12 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                 selected.forEach { bean ->
                     val uid = bean.userId?.trim().orEmpty()
                     if (uid.isEmpty()) return@forEach
+                    if (uid in blacklistedFriendIds) {
+                        ToastBroadUtils.show(
+                            getString(com.cboda.baselibrary.R.string.group_invite_friend_in_blacklist),
+                        )
+                        return
+                    }
                     val display = bean.bei?.takeIf { it.isNotBlank() }
                         ?: bean.name?.takeIf { it.isNotBlank() }
                         ?: uid

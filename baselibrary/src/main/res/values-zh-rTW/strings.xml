@@ -507,6 +507,7 @@
     <string name="group_blacklist_select_tip">請選擇要添加的成員</string>
     <string name="group_blacklist_add_success">已加入黑名單</string>
     <string name="group_blacklist_remove_success">已移除黑名單</string>
+    <string name="group_invite_friend_in_blacklist">該好友已在群黑名單裡面，請先從群黑名單裡移除</string>
     <string name="group_join_pay_title">開啟群收費</string>
     <string name="group_join_pay_desc">開啟後，成員需要支付費用才能加入群聊</string>
     <string name="group_join_pay_fee_label">入群費用(DUALX)</string>

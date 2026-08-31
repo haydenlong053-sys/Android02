@@ -14,14 +14,19 @@ class CheckGroupJoiBean : Serializable {
     var msg: String? = null
     var code: Int = 0
     var success: Boolean = false
+
     /** 是否允许直接加入："0" / "1" */
     var allow: String? = null
+
     /** 是否在黑名单："0" / "1"（单人校验） */
     var blacklisted: String? = null
+
     /** 是否需付费："0" / "1" */
     var needPay: String? = null
+
     /** 是否开启群收费："0" / "1" */
     var openJoinPay: String? = null
+
     /** 是否已申请："0" / "1" */
     var applied: String? = null
 
@@ -42,6 +47,7 @@ class CheckGroupJoiBean : Serializable {
     var list: List<CheckGroupJoinUserItem>? = null
     var results: List<CheckGroupJoinUserItem>? = null
     var items: List<CheckGroupJoinUserItem>? = null
+
     /** 批量校验：直接返回的黑名单 uid 列表 */
     var blacklistedUids: List<String>? = null
 
@@ -57,19 +63,10 @@ class CheckGroupJoiBean : Serializable {
      */
     fun collectBlacklistedUserIds(requestedUids: Collection<String> = emptyList()): Set<String> {
         val out = linkedSetOf<String>()
-        blacklistedUids?.forEach { uid ->
-            if (!uid.isNullOrBlank()) out.add(uid)
-        }
-        sequenceOf(list, results, items)
-            .filterNotNull()
-            .flatten()
-            .forEach { item ->
-                if (item.isBlacklisted()) {
-                    item.resolveUserId()?.let { out.add(it) }
-                }
+        requestedUids.forEach { uid2 ->
+            if (blacklistedUids?.contains(uid2) == true) {
+                out.add(uid2)
             }
-        if (isBlacklisted() && requestedUids.size == 1) {
-            out.add(requestedUids.first())
         }
         return out
     }
