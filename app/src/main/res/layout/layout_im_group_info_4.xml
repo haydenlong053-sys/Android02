@@ -666,6 +666,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/group_invite_yz_layout"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:gravity="center_vertical">

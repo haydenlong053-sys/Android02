@@ -147,6 +147,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private lateinit var qunzhumingpianView: View
     private lateinit var ruqunyanz: SwitchCompat
     private lateinit var ruqunyanzView: View
+    private lateinit var groupInviteYzLayout:View
     private lateinit var wufajiahaoyou: SwitchCompat
     private lateinit var wufajiahaoyouView: View
     private lateinit var kejianguanli: SwitchCompat
@@ -226,6 +227,8 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         qunzhumingpian.isClickable = false
         qunzhumingpian.isFocusable = false
         ruqunyanz = findViewById(R.id.ruqunyanz)
+
+        groupInviteYzLayout = findViewById(R.id.group_invite_yz_layout)
         ruqunyanzView = findViewById(R.id.ruqunyanzView)
         ruqunyanz.isClickable = false
         ruqunyanz.isFocusable = false
@@ -442,10 +445,16 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private fun applyJoinPaySwitch(enabled: Boolean) {
         joinPayPersistedOpen = enabled
         groupJoinPaySwitch.isChecked = enabled
-        groupJoinPayDetail.isVisible = enabled
+        syncJoinPayRelatedVisibility(enabled)
         if (enabled) {
             refreshJoinPayUsdApprox()
         }
+    }
+
+    /** 开启群收费时隐藏「群员入群邀请管理验证」，关闭则展示。 */
+    private fun syncJoinPayRelatedVisibility(joinPayEnabled: Boolean) {
+        groupJoinPayDetail.isVisible = joinPayEnabled
+        groupInviteYzLayout.isGone = joinPayEnabled
     }
 
     /** 已设置过的入群费用通过 {@code api/getGroupJoinPayPrice} 回填，取 priceDualx；开关取 openJoinPay。 */
@@ -774,7 +783,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private fun openGroupJoinPayLocally() {
         // 打开仅本地展开，不调接口；无价格时仍展开便于填写，并提示最低 1 DUALX
         groupJoinPaySwitch.isChecked = true
-        groupJoinPayDetail.isVisible = true
+        syncJoinPayRelatedVisibility(true)
 //        val price = resolveJoinPayPrice(requireMin = true)
 //        if (price == null) {
 //            ToastBroadUtils.show(getString(com.cboda.baselibrary.R.string.group_join_pay_price_invalid))
@@ -787,7 +796,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         // 未持久化开启：仅收起本地 UI，避免重复调关闭接口
         if (!joinPayPersistedOpen) {
             groupJoinPaySwitch.isChecked = false
-            groupJoinPayDetail.isVisible = false
+            syncJoinPayRelatedVisibility(false)
             return
         }
         val price = resolveJoinPayPrice(requireMin = false) ?: "1"
@@ -797,7 +806,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                     if (ok == true) {
                         joinPayPersistedOpen = false
                         groupJoinPaySwitch.isChecked = false
-                        groupJoinPayDetail.isVisible = false
+                        syncJoinPayRelatedVisibility(false)
                         groupVo?.openJoinPay = "0"
                         groupVo?.ensureBusiExt()?.openJoinPay = "0"
                     }
