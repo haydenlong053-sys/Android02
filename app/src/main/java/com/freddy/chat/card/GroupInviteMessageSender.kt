@@ -72,7 +72,7 @@ object GroupInviteMessageSender {
 
             val pending = AtomicInteger(
                 (if (directTargets.isNotEmpty()) 1 else 0) +
-                    (if (messageTargets.isNotEmpty()) 1 else 0),
+                        (if (messageTargets.isNotEmpty()) 1 else 0),
             )
             if (pending.get() == 0) {
                 finishOnUi(activity, onAllDone)
@@ -137,33 +137,26 @@ object GroupInviteMessageSender {
     ): Set<String>? {
         val blackIds = linkedSetOf<String>()
         var sawBatchShape = false
-        for (chunk in userIds.chunked(50)) {
-            val params = hashMapOf<String, Any?>(
-                "id" to groupId,
-                "uids" to chunk.joinToString(","),
-            )
-            NetworkBroadRepository.postEncryptedFlatRaw2(
-                UrlBroadBroadConstants.CHECK_GROUP_JOIN,
-                CheckGroupJoiBean::class.java,
-                params,
-            ).onSuccess { data ->
-                if (data == null) return@onSuccess
-                val hasBatchFields = !data.blacklistedUids.isNullOrEmpty()
-                    || !data.list.isNullOrEmpty()
-                    || !data.results.isNullOrEmpty()
-                    || !data.items.isNullOrEmpty()
-                if (hasBatchFields) {
-                    sawBatchShape = true
-                    blackIds.addAll(data.collectBlacklistedUserIds(chunk))
-                } else if (chunk.size == 1 && data.isBlacklisted()) {
-                    sawBatchShape = true
-                    blackIds.add(chunk.first())
-                }
-            }.onFailure { _, _ ->
-                // ignore
-            }.onError {
-                // ignore
-            }
+        val params = hashMapOf<String, Any?>(
+            "id" to groupId,
+            "uids" to userIds.joinToString("|"),
+        )
+        NetworkBroadRepository.postEncryptedFlatRaw2(
+            UrlBroadBroadConstants.CHECK_GROUP_JOIN,
+            CheckGroupJoiBean::class.java,
+            params,
+        ).onSuccess { data ->
+            if (data == null) return@onSuccess
+//            val hasBatchFields = !data.blacklistedUids.isNullOrEmpty()
+//                    || !data.list.isNullOrEmpty()
+//                    || !data.results.isNullOrEmpty()
+//                    || !data.items.isNullOrEmpty()
+            sawBatchShape = true
+            blackIds.addAll(data.collectBlacklistedUserIds(userIds))
+        }.onFailure { _, _ ->
+            // ignore
+        }.onError {
+            // ignore
         }
         return if (sawBatchShape) blackIds else null
     }
@@ -173,25 +166,25 @@ object GroupInviteMessageSender {
         userIds: List<String>,
     ): Set<String> {
         val blackIds = linkedSetOf<String>()
-        for (uid in userIds) {
+//        for (uid in userIds) {
             val params = hashMapOf<String, Any?>(
                 "id" to groupId,
-                "uids" to uid,
+                "uids" to userIds.joinToString("|"),
             )
             NetworkBroadRepository.postEncryptedFlatRaw2(
                 UrlBroadBroadConstants.CHECK_GROUP_JOIN,
                 CheckGroupJoiBean::class.java,
                 params,
             ).onSuccess { data ->
-                if (data != null && data.isBlacklisted()) {
-                    blackIds.add(uid)
-                }
+//                if (data != null && data.isBlacklisted()) {
+//                    blackIds.add(uid)
+//                }
             }.onFailure { _, _ ->
                 // ignore
             }.onError {
                 // ignore
             }
-        }
+//        }
         return blackIds
     }
 
