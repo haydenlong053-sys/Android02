@@ -531,7 +531,9 @@ public final class ImMessageRepository {
                 .sort("sequenceId", Sort.DESCENDING)
                 .findFirst();
         if (prev == null) {
-            return false;
+//            return false;
+            //首次会话，直接认定为连续
+            return true;
         }
         long prevSeq = prev.getSequenceId();
         if (prevSeq + 1L != currentSeq) {
