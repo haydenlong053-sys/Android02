@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.baselibrary.view.RoundedImageBroadView;
 import com.cboda.chatui.R;
@@ -18,8 +19,6 @@ import com.freddy.im.bean.AppMessage;
 import com.hjq.shape.view.ShapeTextView;
 
 import java.util.List;
-
-import cn.wildfirechat.message.core.MessageDirection;
 
 /**
  * 自研红包气泡（复用 {@code chat_hongbao_broad_layout}，对齐野火 HongBaoMessageContentViewBroadHolder）。
@@ -83,6 +82,7 @@ public final class HongBaoMessageVH extends BaseMessageVH {
         } else {
             hongbaoBg.setCornerRadius(0f, dp2px(12f), 0f, 0f);
         }
+        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"lingquStatus="+lingquStatus+" sentByMe="+sentByMe);
         if ("1".equals(lingquStatus)
                 || (!TextUtils.isEmpty(context.currentUserId) && lqUsers.contains(context.currentUserId))) {
             allGroup.setAlpha(1f);
@@ -99,6 +99,10 @@ public final class HongBaoMessageVH extends BaseMessageVH {
             }
             statusTv.setVisibility(View.VISIBLE);
             statusTv.setText(itemView.getContext().getString(R.string.hongbao_received));
+        } else if (HongBaoMessageContentUtil.isAllClaimedByOthersStatus(lingquStatus)) {
+            allGroup.setAlpha(1f);
+            statusTv.setVisibility(View.GONE);
+            tvhoongbaotips.setText(itemView.getContext().getString(R.string.hongbao_unlocked_by_others));
         } else if ("3".equals(lingquStatus)) {
             allGroup.setAlpha(1f);
             statusTv.setVisibility(View.VISIBLE);
