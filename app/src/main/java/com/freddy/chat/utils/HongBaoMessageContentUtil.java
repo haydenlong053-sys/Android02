@@ -35,6 +35,9 @@ public final class HongBaoMessageContentUtil {
     public static final String KEY_LINGQU_USER_ID = "lingquUserId";
     public static final String KEY_LINGQU_USER_NAME = "lingquUserName";
 
+    /** 未领取，但群红包份数已被他人领完 */
+    public static final String LINGQU_STATUS_ALL_CLAIMED = "4";
+
     private HongBaoMessageContentUtil() {
     }
 
@@ -123,6 +126,38 @@ public final class HongBaoMessageContentUtil {
         return readString(contentJson, KEY_LINGQU_USER_NAME);
     }
 
+    /** 群红包 {@code ylq >= count} 且 {@code count > 0}。 */
+    public static boolean isGroupAllClaimed(@Nullable String ylq, @Nullable String count) {
+        int claimed = parseNonNegativeInt(ylq);
+        int total = parseNonNegativeInt(count);
+        return total > 0 && claimed >= total;
+    }
+
+    /**
+     * 自己未领、但群红包已被他人领完（用于写 {@link #LINGQU_STATUS_ALL_CLAIMED}）。
+     */
+    public static boolean shouldMarkAllClaimedByOthers(boolean isGroup,
+                                                       @Nullable String isLing,
+                                                       @Nullable String currentUserId,
+                                                       @NonNull List<String> lqUsers,
+                                                       @Nullable String ylq,
+                                                       @Nullable String count) {
+        if (!isGroup) {
+            return false;
+        }
+        if ("1".equals(isLing)) {
+            return false;
+        }
+        if (!TextUtils.isEmpty(currentUserId) && lqUsers.contains(currentUserId.trim())) {
+            return false;
+        }
+        return isGroupAllClaimed(ylq, count);
+    }
+
+    public static boolean isAllClaimedByOthersStatus(@Nullable String lingquStatus) {
+        return LINGQU_STATUS_ALL_CLAIMED.equals(lingquStatus);
+    }
+
     /**
      * 将 content JSON 中的 {@code lingquStatus}（及可选 {@code lqUsers}）写回新 JSON。
      */
@@ -147,6 +182,17 @@ public final class HongBaoMessageContentUtil {
             obj.add(KEY_LQ_USERS, arr);
         }
         return obj.toString();
+    }
+
+    private static int parseNonNegativeInt(@Nullable String raw) {
+        if (TextUtils.isEmpty(raw)) {
+            return 0;
+        }
+        try {
+            return Math.max(0, Integer.parseInt(raw.trim()));
+        } catch (NumberFormatException ignored) {
+            return 0;
+        }
     }
 
     @NonNull

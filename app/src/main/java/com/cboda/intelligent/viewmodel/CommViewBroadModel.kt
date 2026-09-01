@@ -24,6 +24,7 @@ import com.cboda.intelligent.holder.SendCustomBroadMsg
 import com.cboda.intelligent.utils.OKGoBroadHelper
 import com.cboda.intelligent.utils.ToastBroadUtil
 import com.freddy.chat.hongbao.HongBaoLocalUpdater
+import com.freddy.chat.utils.HongBaoMessageContentUtil
 import com.freddy.im.db.repository.ImSessionRepository
 import com.freddy.im.http.ImGroupHttpExample
 import com.freddy.im.http.model.im.GroupApplyInfoRes
@@ -1613,7 +1614,12 @@ class CommViewBroadModel : FriendViewBroadModel() {
                 override fun onFail(bean: BaseBroadResponse?) {
                     if (bean?.code == "200") {
                         if (!TextUtils.isEmpty(imLocalMsgKey)) {
-                            HongBaoLocalUpdater.applyLingquStatus(imLocalMsgKey, "3")
+                            val status = if (isGroup) {
+                                HongBaoMessageContentUtil.LINGQU_STATUS_ALL_CLAIMED
+                            } else {
+                                "3"
+                            }
+                            HongBaoLocalUpdater.applyLingquStatus(imLocalMsgKey, status)
                         }
                     }
                 }

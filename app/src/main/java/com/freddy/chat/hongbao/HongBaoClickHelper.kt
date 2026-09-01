@@ -44,36 +44,111 @@ object HongBaoClickHelper {
         }
         val isGroup = vhContext?.isGroupChat == true
         val payload = buildPayloadJson(content)
-        val localKey = if (!TextUtils.isEmpty(message.msgId)) {
-            message.msgId
-        } else {
-            message.clientMsgId
-        }
+        val localKey = resolveLocalKey(message)
         val sessionId = vhContext?.sessionId ?: message.conversationId
-        val msgTarget = when {
-            isGroup -> if (!TextUtils.isEmpty(sessionId)) sessionId else message.toId
-            vhContext != null && !TextUtils.isEmpty(vhContext.peerUserId) -> vhContext.peerUserId
-            else -> if (message.isSender(currentUserId)) message.toId else message.fromId
-        }
+        val msgTarget = resolveMsgTarget(message, vhContext, isGroup, currentUserId, sessionId)
 
-        if (lingStatus == "2") {
-            JumpBroadUtils.toGetWebxRedEnvelopesActivity(
-                context,
-                hongbaoId,
-                isGroup,
-                true,
-                payload,
-                localKey,
-                message.timestamp,
-                msgTarget,
-                message.fromId,
-                0L,
-                localKey,
-                sessionId,
+        if (lingStatus == HongBaoMessageContentUtil.LINGQU_STATUS_ALL_CLAIMED) {
+            openDetailPage(
+                context, hongbaoId, isGroup, true, payload, localKey,
+                message, msgTarget, sessionId,
             )
             return
         }
 
+        if (lingStatus == "2") {
+            openDetailPage(
+                context, hongbaoId, isGroup, true, payload, localKey,
+                message, msgTarget, sessionId,
+            )
+            return
+        }
+
+        queryHbInfo(
+            context = context,
+            hongbaoId = hongbaoId,
+            isGroup = isGroup,
+            showLoading = true,
+            onResult = { data ->
+                handleHbInfoResult(
+                    context = context,
+                    data = data,
+                    message = message,
+                    hongbaoId = hongbaoId,
+                    isGroup = isGroup,
+                    currentUserId = currentUserId,
+                    lqUsers = lqUsers,
+                    payload = payload,
+                    localKey = localKey,
+                    msgTarget = msgTarget,
+                    sessionId = sessionId,
+                )
+            },
+        )
+    }
+
+    private fun handleHbInfoResult(
+        context: Context,
+        data: CommonResultBroadBean.CommonResult,
+        message: AppMessage,
+        hongbaoId: String,
+        isGroup: Boolean,
+        currentUserId: String?,
+        lqUsers: List<String>,
+        payload: String,
+        localKey: String,
+        msgTarget: String?,
+        sessionId: String?,
+    ) {
+        when {
+            data.isLing == "1" -> {
+                HongBaoLocalUpdater.applyLingquStatus(localKey, "1")
+                openDetailPage(
+                    context, hongbaoId, isGroup, true, payload, localKey,
+                    message, msgTarget, sessionId,
+                )
+            }
+            data.tuiStatus == 1 -> {
+                HongBaoLocalUpdater.applyLingquStatus(localKey, "3")
+                ToastBroadUtils.show(context.getString(R.string.string_hongbao_expired))
+            }
+            data.tuiStatus == 2 -> {
+                HongBaoLocalUpdater.applyLingquStatus(localKey, "2")
+            }
+            HongBaoMessageContentUtil.shouldMarkAllClaimedByOthers(
+                isGroup,
+                data.isLing,
+                currentUserId,
+                lqUsers,
+                data.ylq,
+                data.count,
+            ) -> {
+                HongBaoLocalUpdater.applyLingquStatus(
+                    localKey,
+                    HongBaoMessageContentUtil.LINGQU_STATUS_ALL_CLAIMED,
+                )
+                openDetailPage(
+                    context, hongbaoId, isGroup, true, payload, localKey,
+                    message, msgTarget, sessionId,
+                )
+            }
+            else -> {
+                val isReceived = !isGroup && TextUtils.equals(message.fromId, currentUserId)
+                openDetailPage(
+                    context, hongbaoId, isGroup, isReceived, payload, localKey,
+                    message, msgTarget, sessionId,
+                )
+            }
+        }
+    }
+
+    private fun queryHbInfo(
+        context: Context,
+        hongbaoId: String,
+        isGroup: Boolean,
+        showLoading: Boolean,
+        onResult: (CommonResultBroadBean.CommonResult) -> Unit,
+    ) {
         val map = JSONObject()
         try {
             map.put("id", hongbaoId)
@@ -84,58 +159,67 @@ object HongBaoClickHelper {
             if (isGroup) "/hbInfo" else "/dhbInfo",
             map.toString(),
             CommonResultBroadBean(),
+            showToast = false,
+            showLoading = showLoading,
             callBack = object : OKGoBroadHelper.RequestCallBack {
                 override fun onSuccess(bean: BaseBroadResponse?) {
                     val data = (bean as? CommonResultBroadBean)?.data ?: return
-                    when {
-                        data.isLing == "1" -> {
-                            HongBaoLocalUpdater.applyLingquStatus(localKey, "1")
-                            JumpBroadUtils.toGetWebxRedEnvelopesActivity(
-                                context,
-                                hongbaoId,
-                                isGroup,
-                                true,
-                                payload,
-                                localKey,
-                                message.timestamp,
-                                msgTarget,
-                                message.fromId,
-                                0L,
-                                localKey,
-                                sessionId,
-                            )
-                        }
-                        data.tuiStatus == 1 -> {
-                            HongBaoLocalUpdater.applyLingquStatus(localKey, "3")
-                            ToastBroadUtils.show(context.getString(R.string.string_hongbao_expired))
-                        }
-                        data.tuiStatus == 2 -> {
-                            HongBaoLocalUpdater.applyLingquStatus(localKey, "2")
-                        }
-                        else -> {
-                            val isReceived = !isGroup && TextUtils.equals(message.fromId, currentUserId)
-                            JumpBroadUtils.toGetWebxRedEnvelopesActivity(
-                                context,
-                                hongbaoId,
-                                isGroup,
-                                isReceived,
-                                payload,
-                                localKey,
-                                message.timestamp,
-                                msgTarget,
-                                message.fromId,
-                                0L,
-                                localKey,
-                                sessionId,
-                            )
-                        }
-                    }
+                    onResult(data)
                 }
 
                 override fun onFail(bean: BaseBroadResponse?) {
                 }
             },
         )
+    }
+
+    private fun openDetailPage(
+        context: Context,
+        hongbaoId: String,
+        isGroup: Boolean,
+        isReceived: Boolean,
+        payload: String,
+        localKey: String,
+        message: AppMessage,
+        msgTarget: String?,
+        sessionId: String?,
+    ) {
+        JumpBroadUtils.toGetWebxRedEnvelopesActivity(
+            context,
+            hongbaoId,
+            isGroup,
+            isReceived,
+            payload,
+            localKey,
+            message.timestamp,
+            msgTarget,
+            message.fromId,
+            0L,
+            localKey,
+            sessionId,
+        )
+    }
+
+    private fun resolveLocalKey(message: AppMessage): String {
+        return if (!TextUtils.isEmpty(message.msgId)) {
+            message.msgId
+        } else {
+            message.clientMsgId ?: ""
+        }
+    }
+
+    private fun resolveMsgTarget(
+        message: AppMessage,
+        vhContext: MessageViewHolderContext?,
+        isGroup: Boolean,
+        currentUserId: String?,
+        sessionId: String?,
+    ): String? {
+        return when {
+            isGroup -> if (!TextUtils.isEmpty(sessionId)) sessionId else message.toId
+            vhContext != null && !TextUtils.isEmpty(vhContext.peerUserId) -> vhContext.peerUserId
+            else -> if (message.isSender(currentUserId)) message.toId else message.fromId
+        }
     }
 
     private fun buildPayloadJson(content: String?): String {
