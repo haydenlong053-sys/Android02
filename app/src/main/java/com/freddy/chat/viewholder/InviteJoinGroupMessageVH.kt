@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.cboda.baselibrary.utils.click
+import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.chatui.R
 import com.freddy.chat.group.GroupInviteClickHelper
@@ -45,6 +46,7 @@ class InviteJoinGroupMessageVH(itemView: View) : BaseMessageVH(itemView, R.layou
         bindCommon(message, position, context)
 
         val content = message.content
+        eLogD("InviteJoinGroupMessageVHContent",content)
         inviteGroupId = GroupInviteMessageContentUtil.resolveGroupId(content)
         inviteGroupName = GroupInviteMessageContentUtil.resolveGroupName(content)
         inviteGroupIcon = GroupInviteMessageContentUtil.resolveGroupIcon(content)
@@ -76,6 +78,7 @@ class InviteJoinGroupMessageVH(itemView: View) : BaseMessageVH(itemView, R.layou
             )
         }
         portraitImageView?.loadImg(inviteGroupIcon, R.mipmap.ic_group_broad_chat)
+        bindClick()
     }
 
     private fun cacheViews() {
@@ -83,11 +86,10 @@ class InviteJoinGroupMessageVH(itemView: View) : BaseMessageVH(itemView, R.layou
         portraitImageView = contentView.findViewById(R.id.groupInvitePortraitImageView)
         nameTextView = contentView.findViewById(R.id.groupInviteNameTextView)
         descTextView = contentView.findViewById(R.id.groupInviteDescTextView)
-        bindClick()
     }
 
     private fun bindClick() {
-        itemView.click {
+        cardContentLayout?.click {
             onInviteClick()
         }
     }

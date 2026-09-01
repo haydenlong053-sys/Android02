@@ -1,5 +1,7 @@
 package com.freddy.chat;
 
+import static com.cboda.baselibrary.utils.ELogUtilKt.eLogD;
+
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +49,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import com.cboda.intelligent.R;
 
 public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -452,7 +455,9 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
         }
     }
 
-    /** 升序列表中按 timestamp / sequenceId 找插入下标（列表中尚无该消息）。 */
+    /**
+     * 升序列表中按 timestamp / sequenceId 找插入下标（列表中尚无该消息）。
+     */
     private int findInsertIndexByTimestamp(@NonNull AppMessage message) {
         long ts = message.getTimestamp();
         long seq = message.getSequenceId();
@@ -555,7 +560,9 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
     @Override
     public int getItemViewType(int position) {
         AppMessage m = items.get(position);
-        return resolveViewType(m);
+        int type = resolveViewType(m);
+        eLogD("getItemViewType", type);
+        return type;
     }
 
     private int resolveViewType(@Nullable AppMessage message) {
