@@ -48,7 +48,8 @@ object CallUtil {
         try {
             val room = getCallRoom(context) ?: return
             room.connect(url ?: "", token ?: "")
-            room.localParticipant.setMicrophoneEnabled(true)
+//            room.localParticipant.setMicrophoneEnabled(true)
+            openOrCloseMicrophone(true, context, room)
         } catch (e1: Exception) {
             e1.toLog(tAG)
         }
@@ -111,9 +112,10 @@ object CallUtil {
     }
 
 
-    private suspend fun openOrCloseMicrophone(boolean: Boolean = false, context: Context? = null) {
+    private suspend fun openOrCloseMicrophone(boolean: Boolean = false, context: Context? = null, callRoom: Room? = null) {
         try {
-            getCallRoom(context)?.localParticipant?.setMicrophoneEnabled(boolean)
+            val room = callRoom ?: getCallRoom(context)
+            room?.localParticipant?.setMicrophoneEnabled(boolean)
         } catch (e: Exception) {
             e.toLog(tAG)
         }
