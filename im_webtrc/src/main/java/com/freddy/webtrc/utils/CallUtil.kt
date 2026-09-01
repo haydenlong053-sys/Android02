@@ -5,11 +5,15 @@ import android.content.Context
 import android.text.TextUtils
 import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.utils.eLogD
+import com.cboda.baselibrary.utils.getIsDebug
+import com.cboda.baselibrary.utils.toJson2
 import com.cboda.baselibrary.utils.toLog
+import com.freddy.webtrc.bean.CallEvent
 import io.livekit.android.LiveKit
 import io.livekit.android.events.RoomEvent
 import io.livekit.android.events.collect
 import io.livekit.android.room.Room
+import io.livekit.android.room.participant.Participant
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -69,7 +73,7 @@ object CallUtil {
     }
 
     /** 供悬浮窗 Service 等独立协程监听房间事件。 */
-    suspend fun observeRoomEvents(context: Context? = null, callBack: (RoomEvent) -> Unit) {
+    suspend fun observeRoomEvents(context: Context? = null, callBack: (CallEvent) -> Unit) {
         setCallListener(context, callBack)
     }
 
@@ -130,51 +134,14 @@ object CallUtil {
         }
     }
 
-    private suspend fun setCallListener(context: Context? = null, callBack: (RoomEvent) -> Unit) {
+    private suspend fun setCallListener(context: Context? = null, callBack: (CallEvent) -> Unit) {
         getCallRoom(context)?.events?.events?.collect { event ->
-            when (event) {
-                is RoomEvent.ParticipantConnected -> {
-                    // 有⼈进来 → 视为接通
-                    callBack.invoke(event)
-                }
-
-                is RoomEvent.ParticipantDisconnected -> {
-                    callBack.invoke(event)
-                }
-
-                is RoomEvent.TrackSubscribed -> {
-                    // 收到对⽅⾳/视频轨
-                    callBack.invoke(event)
-                }
-
-                is RoomEvent.TrackUnsubscribed -> {
-                    callBack.invoke(event)
-                }
-
-                is RoomEvent.ActiveSpeakersChanged -> {
-                    //event.speakers 正在说话,做⾼亮
-                    callBack.invoke(event)
-                }
-
-                is RoomEvent.Disconnected -> {
-                    //通话结束,关⻚⾯
-                    callBack.invoke(event)
-                }
-
-                is RoomEvent.FailedToConnect -> {
-                    //连接失败
-                    callBack.invoke(event)
-                }
-
-                else -> {
-                    callBack.invoke(event)
-                }
-            }
+            callBack.invoke(event.toCallEvent())
         }
     }
 
     //通话监听
-    fun setCallListener(scope: CoroutineScope? = null, context: Context? = null, callBack: (RoomEvent) -> Unit) {
+    fun setCallListener(scope: CoroutineScope? = null, context: Context? = null, callBack: (CallEvent) -> Unit) {
         scope?.launch {
             withContext(Dispatchers.IO) {
                 setCallListener(context, callBack)
@@ -184,6 +151,32 @@ object CallUtil {
                 setCallListener(context, callBack)
             }
         }
+    }
+
+    private fun RoomEvent.toCallEvent(): CallEvent {
+        return when (this) {
+            is RoomEvent.Connected -> CallEvent.Connected
+            is RoomEvent.ParticipantConnected -> CallEvent.ParticipantConnected(identityOf(participant))
+            is RoomEvent.ParticipantDisconnected -> CallEvent.ParticipantDisconnected(identityOf(participant))
+            is RoomEvent.TrackSubscribed -> CallEvent.TrackSubscribed(identityOf(participant))
+            is RoomEvent.TrackUnsubscribed -> CallEvent.TrackUnsubscribed(identityOf(participant))
+            is RoomEvent.ActiveSpeakersChanged -> {
+                CallEvent.ActiveSpeakersChanged(
+                    speakers.mapNotNull { it.identity?.value?.takeIf { id -> id.isNotBlank() } }
+                )
+            }
+
+            is RoomEvent.Disconnected -> CallEvent.Disconnected
+            is RoomEvent.FailedToConnect -> CallEvent.FailedToConnect(error.message)
+            else -> {
+                eLogD(tAG, this)
+                CallEvent.UnKnownEvent
+            }
+        }
+    }
+
+    private fun identityOf(participant: Participant?): String {
+        return participant?.identity?.value.orEmpty()
     }
 
     //获取通话的人员信息

@@ -29,9 +29,9 @@ import com.freddy.im.call.CallDurationLocalStore
 import com.freddy.im.call.CallSignalSender
 import com.freddy.webtrc.R
 import com.freddy.webtrc.activity.CallActivity
+import com.freddy.webtrc.bean.CallEvent
 import com.freddy.webtrc.utils.CallRingPlayer
 import com.freddy.webtrc.utils.CallUtil
-import io.livekit.android.events.RoomEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -120,15 +120,13 @@ class CallFloatService : Service() {
         eventJob = serviceScope.launch(Dispatchers.IO) {
             CallUtil.observeRoomEvents { event ->
                 when (event) {
-                    is RoomEvent.ParticipantConnected,
-                    is RoomEvent.TrackSubscribed,
-                    is RoomEvent.Connected -> {
+                    is CallEvent.ParticipantConnected,
+                    is CallEvent.TrackSubscribed,
+                    is CallEvent.Connected -> {
                         handler.post {
                             val uid = when (event) {
-                                is RoomEvent.ParticipantConnected ->
-                                    event.participant.identity?.value
-                                is RoomEvent.TrackSubscribed ->
-                                    event.participant.identity?.value
+                                is CallEvent.ParticipantConnected -> event.userId
+                                is CallEvent.TrackSubscribed -> event.userId
                                 else -> null
                             }
                             if (!uid.isNullOrBlank()) {
@@ -142,9 +140,9 @@ class CallFloatService : Service() {
                         }
                     }
 
-                    is RoomEvent.ParticipantDisconnected -> {
+                    is CallEvent.ParticipantDisconnected -> {
                         handler.post {
-                            val uid = event.participant.identity?.value.orEmpty()
+                            val uid = event.userId
                             if (CallSessionHolder.isMultiCall) {
                                 if (uid.isNotBlank()) {
                                     CallSessionHolder.removeParticipant(uid)
@@ -158,11 +156,11 @@ class CallFloatService : Service() {
                         }
                     }
 
-                    is RoomEvent.Disconnected -> {
+                    is CallEvent.Disconnected -> {
                         handler.post { endCallFromFloat(sendSignal = false) }
                     }
 
-                    is RoomEvent.FailedToConnect -> {
+                    is CallEvent.FailedToConnect -> {
                         handler.post { endCallFromFloat(sendSignal = false) }
                     }
 

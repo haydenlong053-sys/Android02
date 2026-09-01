@@ -41,11 +41,11 @@ import com.freddy.webtrc.floatcall.CallSessionHolder
 import com.freddy.webtrc.utils.BroadE
 import com.freddy.webtrc.utils.CallRingPlayer
 import com.freddy.webtrc.utils.CallUtil
+import com.freddy.webtrc.bean.CallEvent
 import com.freddy.webtrc.widget.MultiCallParticipantItem
 import java.lang.ref.WeakReference
 import eightbitlab.com.blurview.BlurTarget
 import eightbitlab.com.blurview.BlurView
-import io.livekit.android.events.RoomEvent
 
 /**
  * 基于 [CallUtil] / LiveKit 的通话页。
@@ -638,12 +638,12 @@ class CallActivity : AppCompatActivity() {
         onCallConnected()
     }
 
-    private fun onRoomEvent(event: RoomEvent) {
+    private fun onRoomEvent(event: CallEvent) {
         eLogD(tAG, "event2:" + event.javaClass.simpleName)
         runOnUiThread {
             when (event) {
-                is RoomEvent.ParticipantConnected -> {
-                    val uid = event.participant.identity?.value.orEmpty()
+                is CallEvent.ParticipantConnected -> {
+                    val uid = event.userId
                     if (isMultiCall && uid.isNotEmpty()) {
                         ensureRemoteParticipantItem(uid)
                         markParticipantConnected(uid)
@@ -651,15 +651,15 @@ class CallActivity : AppCompatActivity() {
                     onCallConnected()
                 }
 
-                is RoomEvent.TrackSubscribed -> {
-                    val uid = event.participant.identity?.value.orEmpty()
+                is CallEvent.TrackSubscribed -> {
+                    val uid = event.userId
                     if (isMultiCall && uid.isNotEmpty()) {
                         markParticipantConnected(uid)
                     }
                     onCallConnected()
                 }
 
-                is RoomEvent.Connected -> {
+                is CallEvent.Connected -> {
                     if (CallUtil.hasRemoteParticipant(this)) {
                         if (isMultiCall) {
                             syncRemoteParticipants()
@@ -668,8 +668,8 @@ class CallActivity : AppCompatActivity() {
                     }
                 }
 
-                is RoomEvent.ParticipantDisconnected -> {
-                    val uid = event.participant.identity?.value.orEmpty()
+                is CallEvent.ParticipantDisconnected -> {
+                    val uid = event.userId
                     if (isMultiCall) {
                         if (uid.isNotEmpty()) {
                             removeParticipant(uid)
@@ -685,11 +685,11 @@ class CallActivity : AppCompatActivity() {
                     }
                 }
 
-                is RoomEvent.Disconnected -> {
+                is CallEvent.Disconnected -> {
                     if (finishing) return@runOnUiThread
                     if (isMultiCall) {
                         // 群通话：本地异常断线才收尾；若仍有未接听邀请成员则不因单人离开而整通结束
-                        // LiveKit Disconnected 表示本端已离房，关闭本页但不回发挂断
+                        // 本端已离房，关闭本页但不回发挂断
                         ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
                         hangup(sendSignal = false)
                     } else {
@@ -698,7 +698,7 @@ class CallActivity : AppCompatActivity() {
                     }
                 }
 
-                is RoomEvent.FailedToConnect -> {
+                is CallEvent.FailedToConnect -> {
                     ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_failed)
                     hangup()
                 }
