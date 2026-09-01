@@ -148,7 +148,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private lateinit var qunzhumingpianView: View
     private lateinit var ruqunyanz: SwitchCompat
     private lateinit var ruqunyanzView: View
-    private lateinit var groupInviteYzLayout:View
+    private lateinit var groupInviteYzLayout: View
     private lateinit var wufajiahaoyou: SwitchCompat
     private lateinit var wufajiahaoyouView: View
     private lateinit var kejianguanli: SwitchCompat
@@ -428,7 +428,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         jiangetime = (busi?.jiange ?: 0).coerceAtLeast(0)
         syncSpeakIntervalInput(jiangetime)
         bindJoinPayUi(vo)
-        loadGroupBlacklistCount(vo.blackListCount)
+        loadGroupBlacklistCount(anyToInt(vo.busiExt?.groupBlacklistCount))
     }
 
     private fun bindJoinPayUi(vo: GroupVo) {
@@ -436,9 +436,9 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         applyJoinPaySwitch(isJoinPayOpen(vo.busiExt?.openJoinPay))
         tvGroupJoinPayFeeTip.text = getString(
             com.cboda.baselibrary.R.string.group_join_pay_fee_tip,
-            formatJoinPayFeeRate(vo.busiExt?.joinPayFeeRate),
+            formatJoinPayFeeRate(vo.busiExt?.joinPayPriceUsdt),
         )
-        loadGroupJoinPayPrice()
+        loadGroupJoinPayPrice(vo)
     }
 
     private fun isJoinPayOpen(flag: String?): Boolean = flag == "1"
@@ -459,41 +459,15 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     }
 
     /** 已设置过的入群费用通过 {@code api/getGroupJoinPayPrice} 回填，取 priceDualx；开关取 openJoinPay。 */
-    private fun loadGroupJoinPayPrice() {
+    private fun loadGroupJoinPayPrice(vo: GroupVo) {
         if (!GroupRole.isOwnerOrAdmin(myRole) || qunId.isEmpty()) {
             return
         }
-        lifecycleScope.launch {
-            viewModel?.fetchGroupJoinPayPrice(qunId)
-                ?.observe(this@ImQunInfo2BroadActivity) { bean ->
-                    bean ?: return@observe
-                    if (bean.openJoinPay != null) {
-                        val enabled = isJoinPayOpen(bean.openJoinPay)
-                        applyJoinPaySwitch(enabled)
-                        groupVo?.openJoinPay = bean.openJoinPay
-                        groupVo?.ensureBusiExt()?.openJoinPay = bean.openJoinPay
-                    }
-                    val value = bean.priceDualx?.takeIf { it.isNotBlank() }
-                    if (!value.isNullOrBlank()) {
-                        suppressJoinPayPriceWatcher = true
-                        if (etGroupJoinPayPrice.text?.toString() != value) {
-                            etGroupJoinPayPrice.setText(value)
-                            etGroupJoinPayPrice.setSelection(value.length)
-                        }
-                        suppressJoinPayPriceWatcher = false
-                        groupVo?.joinPayPrice = value
-                    }
-                    bean.feeRate?.takeIf { it.isNotBlank() }?.let { rate ->
-                        groupVo?.ensureBusiExt()?.joinPayFeeRate = rate
-                        tvGroupJoinPayFeeTip.text = getString(
-                            com.cboda.baselibrary.R.string.group_join_pay_fee_tip,
-                            formatJoinPayFeeRate(rate),
-                        )
-                    }
-                    if (groupJoinPaySwitch.isChecked) {
-                        refreshJoinPayUsdApprox()
-                    }
-                }
+        if (isJoinPayOpen(vo.busiExt.openJoinPay)) {
+            tvGroupJoinPayFeeTip.text = getString(
+                com.cboda.baselibrary.R.string.group_join_pay_fee_tip,
+                formatJoinPayFeeRate(vo.busiExt.priceUsdt),
+            )
         }
     }
 
@@ -506,18 +480,18 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             com.cboda.baselibrary.R.string.group_blacklist_count,
             fallbackCount.coerceAtLeast(0),
         )
-        if (!GroupRole.isOwnerOrAdmin(myRole) || qunId.isEmpty()) {
-            return
-        }
-        lifecycleScope.launch {
-            viewModel?.fetchGroupBlacklistCount(qunId)
-                ?.observe(this@ImQunInfo2BroadActivity) { count ->
-                    tvGroupBlackCount.text = getString(
-                        com.cboda.baselibrary.R.string.group_blacklist_count,
-                        count ?: fallbackCount.coerceAtLeast(0),
-                    )
-                }
-        }
+//        if (!GroupRole.isOwnerOrAdmin(myRole) || qunId.isEmpty()) {
+//            return
+//        }
+//        lifecycleScope.launch {
+//            viewModel?.fetchGroupBlacklistCount(qunId)
+//                ?.observe(this@ImQunInfo2BroadActivity) { count ->
+//                    tvGroupBlackCount.text = getString(
+//                        com.cboda.baselibrary.R.string.group_blacklist_count,
+//                        count ?: fallbackCount.coerceAtLeast(0),
+//                    )
+//                }
+//        }
     }
 
     /** 商业功能开关入口：isshop 为空不展示；有值则展示，1=开 / 0=关。 */
@@ -867,11 +841,13 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             return
         }
         if (TextUtils.isEmpty(ustHs)) {
+            suppressJoinPayPriceWatcher = true
             lifecycleScope.launch {
                 viewModel?.convertJoinPayUsd("1")
                     ?.observe(this@ImQunInfo2BroadActivity) { usd ->
                         ustHs = usd
                         refreshJoinPayUsdApprox(amount)
+                        suppressJoinPayPriceWatcher = false
                     }
             }
         } else {
@@ -880,7 +856,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     }
 
     private fun refreshJoinPayUsdApprox(amount: String) {
-        tvGroupJoinPayUsd.text = getString(com.cboda.baselibrary.R.string.group_join_pay_usd_approx, div(amount, ustHs,2,true).toString())
+        tvGroupJoinPayUsd.text = getString(com.cboda.baselibrary.R.string.group_join_pay_usd_approx, div(amount, ustHs, 2, true).toString())
     }
 
     /**
