@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 /**
+ * 邀请进群消息封装与解析
  * 邀请进群消息 content JSON 解析（contentType=730）。
  * <p>
  * {@code {"msg":"GroupInvite","groupId":"...","groupName":"...","groupIcon":"...","idno":"...",
