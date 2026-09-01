@@ -53,26 +53,26 @@ object GroupInviteMessageSender {
             val idno = detail?.busiExt?.idno?.takeIf { it.isNotBlank() }
             val name = groupName?.takeIf { it.isNotBlank() } ?: detail?.name
             val icon = groupIcon?.takeIf { it.isNotBlank() } ?: detail?.icon
-            val isPaid = isJoinPayOpen(detail)
-
-            if (isPaid) {
-                dispatchInvites(activity, groupId, name, icon, idno, targets, onAllDone)
-                return@launch
-            }
-
-            val blackIds = GroupJoinCheckHelper.fetchBlacklistedUserIds(
-                groupId,
-                targets.map { it.first },
-            )
-            // 非收费：黑名单好友跳过（选人页已提示）；其余直接拉人
-            val directTargets = targets.filter { it.first !in blackIds }
-            if (directTargets.isEmpty()) {
-                finishOnUi(activity, onAllDone)
-                return@launch
-            }
-            addMembersDirect(groupId, directTargets.map { it.first }) {
-                finishOnUi(activity, onAllDone)
-            }
+//            val isPaid = isJoinPayOpen(detail)
+//
+//            if (isPaid) {
+            dispatchInvites(activity, groupId, name, icon, idno, targets, onAllDone)
+//                return@launch
+//            }
+//
+//            val blackIds = GroupJoinCheckHelper.fetchBlacklistedUserIds(
+//                groupId,
+//                targets.map { it.first },
+//            )
+//            // 非收费：黑名单好友跳过（选人页已提示）；其余直接拉人
+//            val directTargets = targets.filter { it.first !in blackIds }
+//            if (directTargets.isEmpty()) {
+//                finishOnUi(activity, onAllDone)
+//                return@launch
+//            }
+//            addMembersDirect(groupId, directTargets.map { it.first }) {
+//                finishOnUi(activity, onAllDone)
+//            }
         }
     }
 

@@ -22,6 +22,7 @@ import com.cboda.intelligent.adapter.YiXuanQunMemberBroadAdapter
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.holder.CommanConfimBroadHolder
 import com.cboda.intelligent.utils.isSubmitCanGo
+import com.cboda.intelligent.utils.showToastMain
 import com.cboda.intelligent.viewmodel.CommViewBroadModel
 import com.cboda.intelligent.widge.WrapContentLinearLayoutBroadManager
 import com.cboda.susindexbar.IndexBar.widget.IndexBar2
@@ -31,6 +32,7 @@ import com.freddy.chat.im.IMSClientBootstrap
 import com.freddy.chat.im.MessageProcessor
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.db.mapper.GroupUserVoMapper
+import com.freddy.im.group.GroupRole
 import com.freddy.im.http.ImGroupHttpExample
 import com.freddy.im.http.model.im.BaseMsgResponse
 import com.freddy.im.http.model.im.GroupFriendBean
@@ -65,6 +67,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
     private var pageNo = 1
     private val searchHandler by lazy { Handler(Looper.getMainLooper()) }
     private var searchRunnable: Runnable? = null
+
     /** 邀请好友：群黑名单 userId（列表不隐藏，选中时拦截）。 */
     private var blacklistedFriendIds: Set<String> = emptySet()
 
@@ -100,7 +103,8 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
             "selectNewOwner" -> getString(R.string.xuanxinqunzhu)
             ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS,
             ImGroupIntent.FROM_PAGE_SELECT_BLACKLIST,
-            -> getString(com.cboda.baselibrary.R.string.select_group_members)
+                -> getString(com.cboda.baselibrary.R.string.select_group_members)
+
             else -> getString(R.string.xuanzelianxiren)
         }
         tvAgree.isSubmitCanGo(false)
@@ -169,12 +173,14 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                 if (fromPage != "add" && fromPage != "remove"
                     && fromPage != "selectManager" && fromPage != "selectNewOwner"
                     && fromPage != ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS
-                    && fromPage != ImGroupIntent.FROM_PAGE_SELECT_BLACKLIST) return
+                    && fromPage != ImGroupIntent.FROM_PAGE_SELECT_BLACKLIST
+                ) return
                 searchRunnable?.let { runnable -> searchHandler.removeCallbacks(runnable) }
                 searchRunnable = Runnable { triggerSearch() }.also { runnable ->
                     searchHandler.postDelayed(runnable, SEARCH_DEBOUNCE_MS)
                 }
             }
+
             override fun afterTextChanged(s: Editable?) = Unit
         })
     }
@@ -202,6 +208,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                 checkCanGo()
                 loadAddGroupData()
             }
+
             "remove" -> {
                 val keyword = currentSearchKey()
                 if (keyword.isEmpty()) {
@@ -210,6 +217,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                     searchRemoveMembers(keyword)
                 }
             }
+
             "selectManager" -> {
                 val keyword = currentSearchKey()
                 if (keyword.isEmpty()) {
@@ -218,6 +226,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                     searchSelectManagerMembers(keyword)
                 }
             }
+
             "selectNewOwner" -> {
                 val keyword = currentSearchKey()
                 if (keyword.isEmpty()) {
@@ -226,6 +235,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                     searchSelectNewOwnerMembers(keyword)
                 }
             }
+
             ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS -> {
                 val keyword = currentSearchKey()
                 if (keyword.isEmpty()) {
@@ -234,6 +244,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                     searchSelectCallMembers(keyword)
                 }
             }
+
             ImGroupIntent.FROM_PAGE_SELECT_BLACKLIST -> {
                 val keyword = currentSearchKey()
                 if (keyword.isEmpty()) {
@@ -281,7 +292,8 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                         prefetchBlacklistedFriends(dedupedList.mapNotNull { it.userId })
                     }
                 }
-            }, null)
+            }, null
+        )
     }
 
     private fun prefetchBlacklistedFriends(userIds: List<String>) {
@@ -552,6 +564,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
 //                    }
                 })
             }
+
             "selectManager" -> {
                 val ids = selected.mapNotNull { it.userId }
                 ImGroupHttpExample.requestSetGroupManager(
@@ -570,46 +583,56 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                     },
                 )
             }
+
             "selectNewOwner" -> confirmTransferOwner(selected.first())
             "add" -> {
-                val invitees = linkedMapOf<String, String>()
-                selected.forEach { bean ->
-                    val uid = bean.userId?.trim().orEmpty()
-                    if (uid.isEmpty()) return@forEach
-                    if (uid in blacklistedFriendIds) {
-                        ToastBroadUtils.show(
-                            getString(com.cboda.baselibrary.R.string.group_invite_friend_in_blacklist),
-                        )
+                if (userType == "1" || userType == "2") {
+                    val ids = selected.mapNotNull { it.userId }
+                    ImGroupHttpExample.requestAddMembers(qunId, ids, object : OnHttpImListener<com.freddy.im.http.model.im.GroupVo> {
+                        override fun onHttpImSuccess(result: com.freddy.im.http.model.im.GroupVo) {
+                            showToastMain(com.cboda.baselibrary.R.string.group_apply_action_success)
+                            finish()
+                        }
+                    }, {
+                        showToastMain(com.cboda.baselibrary.R.string.group_add_member_failed)
+                    })
+                } else {
+                    val invitees = linkedMapOf<String, String>()
+                    selected.forEach { bean ->
+                        val uid = bean.userId?.trim().orEmpty()
+                        if (uid.isEmpty()) return@forEach
+                        if (uid in blacklistedFriendIds) {
+                            showToastMain(com.cboda.baselibrary.R.string.group_invite_friend_in_blacklist)
+                            return
+                        }
+                        val display = bean.bei?.takeIf { it.isNotBlank() }
+                            ?: bean.name?.takeIf { it.isNotBlank() }
+                            ?: uid
+                        invitees[uid] = display
+                    }
+                    if (invitees.isEmpty()) {
+                        showToastMain(R.string.xuanzelianxiren)
                         return
                     }
-                    val display = bean.bei?.takeIf { it.isNotBlank() }
-                        ?: bean.name?.takeIf { it.isNotBlank() }
-                        ?: uid
-                    invitees[uid] = display
-                }
-                if (invitees.isEmpty()) {
-                    ToastBroadUtils.show(getString(R.string.xuanzelianxiren))
-                    return
-                }
-                val session = ImLocalStore.querySessionEntity(qunId)
-                val groupName = session?.sessionName
-                val groupIcon = session?.icon
-                GroupInviteMessageSender.sendToFriends(
-                    this,
-                    qunId,
-                    groupName,
-                    groupIcon,
-                    invitees,
-                ) {
-                    ToastBroadUtils.show(
-                        getString(com.cboda.baselibrary.R.string.group_apply_action_success)
-                    )
-                    finish()
+                    val session = ImLocalStore.querySessionEntity(qunId)
+                    val groupName = session?.sessionName
+                    val groupIcon = session?.icon
+                    GroupInviteMessageSender.sendToFriends(
+                        this,
+                        qunId,
+                        groupName,
+                        groupIcon,
+                        invitees,
+                    ) {
+                        showToastMain(com.cboda.baselibrary.R.string.group_apply_action_success)
+                        finish()
+                    }
                 }
             }
+
             ImGroupIntent.FROM_PAGE_SELECT_CALL_MEMBERS,
             ImGroupIntent.FROM_PAGE_SELECT_BLACKLIST,
-            -> {
+                -> {
                 val ids = selected.mapNotNull { it.userId }
                 setResult(
                     RESULT_OK,
