@@ -37,6 +37,7 @@ import com.cboda.baselibrary.utils.groupDataLiveData
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.mul
 import com.cboda.baselibrary.utils.showAbsentKickTip
+import com.cboda.baselibrary.utils.showCommonTip
 import com.cboda.chatui.bridge.MyBroadEvent
 import com.cboda.intelligent.R
 import com.cboda.intelligent.adapter.QunUserBroadAdapter2
@@ -599,7 +600,15 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         }
         groupJoinPaySwitchView.setOnClickListener {
             if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
-            toggleGroupJoinPay(!groupJoinPaySwitch.isChecked)
+            if (groupJoinPaySwitch.isChecked) {
+                toggleGroupJoinPay(false)
+            } else {
+                showCommonTip(com.cboda.baselibrary.R.string.ps_prompt2, com.cboda.baselibrary.R.string.open_price_group_hint, R.string.cancel, com.cboda.baselibrary.R.string.continue_to_open) {
+                    if (it) {
+                        toggleGroupJoinPay(true)
+                    }
+                }
+            }
         }
         btnGroupJoinPaySave.setOnClickListener {
             if (!GroupRole.isOwnerOrAdmin(myRole)) return@setOnClickListener
@@ -778,7 +787,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         lifecycleScope.launch {
             viewModel?.setGroupJoinPay(qunId, enabled = false, price)
                 ?.observe(this@ImQunInfo2BroadActivity) { ok ->
-                    if (ok == true) {
+                    if (ok) {
                         joinPayPersistedOpen = false
                         groupJoinPaySwitch.isChecked = false
                         syncJoinPayRelatedVisibility(false)

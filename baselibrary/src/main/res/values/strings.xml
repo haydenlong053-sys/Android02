@@ -567,5 +567,8 @@
 
     <string name="http_error">网络请求失败...</string>
     <string name="group_user_not_is_null">群ID和用户ID不能为空</string>
+    <string name="open_price_group_hint">开启群收费时，系统将自动关闭“群员入群邀请管理员验证”功能，以确保新成员可正常付费入群。是否继续开启</string>
 
+    <string name="continue_to_open">继续开启</string>
+    <string name="ps_prompt2">提示</string>
 </resources>
