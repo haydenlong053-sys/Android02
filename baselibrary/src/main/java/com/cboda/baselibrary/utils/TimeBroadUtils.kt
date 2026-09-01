@@ -93,16 +93,25 @@ object TimeBroadBroadUtils {
     fun formatTimestamp(timestampStr: String?, pattern: String = "yyyy-MM-dd HH:mm:ss"): String? {
         if (timestampStr.isNullOrBlank()) return null
         if (!timestampStr.all { it.isDigit() }) return null // 必须全是数字
-
         return try {
-            val ts = timestampStr.toLong()
-            val millis = when (timestampStr.length) {
+            formatTimestamp(timestampStr.toLong(), pattern)
+        } catch (_: Exception) {
+            null
+        }
+
+    }
+
+
+    fun formatTimestamp(ts: Long?, pattern: String = "yyyy-MM-dd HH:mm:ss"): String? {
+        if (ts == null) return null
+        return try {
+            val millis = when (ts.toString().length) {
                 10 -> ts * 1000 // 秒级
                 13 -> ts       // 毫秒级
                 else -> return null // 非常见长度
             }
             formatDate(Date(millis), pattern)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             null
         }
     }

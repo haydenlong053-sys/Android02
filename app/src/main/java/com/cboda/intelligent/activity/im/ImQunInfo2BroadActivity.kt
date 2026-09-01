@@ -500,7 +500,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 
     /** 商业功能开关入口：isshop 为空不展示；有值则展示，1=开 / 0=关。 */
     private fun applyCommercialFunctionEntry(busiExt: GroupBusiExt?) {
-        commercialFunctionLayout.isGone = TextUtils.isEmpty(busiExt?.isshop)
+        commercialFunctionLayout.isGone = TextUtils.isEmpty(busiExt?.isshop ?: "")
         commercialFunctionSwitch.isChecked = anyToInt(busiExt?.isshop) == 1
     }
 

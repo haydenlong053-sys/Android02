@@ -37,6 +37,16 @@
         app:layout_constraintStart_toStartOf="@id/returnView"
         app:layout_constraintTop_toTopOf="@id/returnView" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/backBtn"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:alpha="0"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/returnView"
+        app:layout_constraintEnd_toEndOf="@id/returnView"
+        app:layout_constraintStart_toStartOf="@id/returnView"
+        app:layout_constraintTop_toTopOf="@id/returnView" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/titleTv"
@@ -58,249 +68,728 @@
         android:clipToPadding="false"
         android:fillViewport="true"
         android:overScrollMode="never"
-        android:paddingBottom="16dp"
         app:layout_constraintBottom_toTopOf="@id/bottomBar"
         app:layout_constraintTop_toBottomOf="@id/returnView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="28dp"
-            android:paddingBottom="8dp">
+            android:paddingBottom="@dimen/dp_10">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/dxIconTv"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent"
-               android:src="@drawable/ic_group_join_pay_price_icon" />
+                tools:visibility="gone">
 
-            <LinearLayout
-                android:id="@+id/amountRow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="bottom"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/dxIconTv">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/amountTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
-                    android:textColor="@color/color_3B47DD"
-                    android:textSize="40sp"
-                    android:textStyle="bold"
-                    tools:text="100" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/heroIv"
+                    android:layout_width="@dimen/dp_279"
+                    android:layout_height="@dimen/dp_120"
+                    android:layout_marginTop="@dimen/dp_0"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_group_join_pay_hero"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/amountUnitTv"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/titleTv2"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginBottom="6dp"
-                    android:includeFontPadding="false"
-                    android:text="@string/group_join_pay_token_dualx"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="@string/group_join_pay_pending_title"
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/heroIv" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/usdTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:textColor="@color/black_35"
-                android:textSize="13sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/amountRow"
-                tools:text="≈$12.35 USD" />
-
-            <com.hjq.shape.layout.ShapeLinearLayout
-                android:id="@+id/detailCard"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="28dp"
-                android:orientation="vertical"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/usdTv"
-                app:shape_radius="16dp"
-                app:shape_solidColor="@color/white">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/subtitleTv"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:minHeight="48dp"
-                    android:orientation="horizontal">
+                    android:layout_marginHorizontal="32dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="@string/group_join_pay_pending_subtitle"
+                    android:textColor="@color/black_65"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/titleTv2" />
+
+                <com.hjq.shape.layout.ShapeLinearLayout
+                    android:id="@+id/orderCard"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/subtitleTv"
+                    app:shape_radius="16dp"
+                    app:shape_solidColor="@color/white">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:minHeight="48dp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/group_join_pay_pending_amount"
+                            android:textColor="@color/black_35"
+                            android:textSize="14sp" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/amountTv2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:textColor="@color/color_3B47DD"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            tools:text="100 DUALX" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/black_8" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:minHeight="48dp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/group_join_pay_confirm_order"
+                            android:textColor="@color/black_35"
+                            android:textSize="14sp" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/orderNoTv2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:ellipsize="middle"
+                            android:gravity="end"
+                            android:maxLines="1"
+                            android:textColor="@color/black_85"
+                            android:textSize="14sp"
+                            tools:text="202405200123456789" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/black_8" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:minHeight="48dp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/group_join_pay_pending_create_time"
+                            android:textColor="@color/black_35"
+                            android:textSize="14sp" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/createTimeTv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:textColor="@color/black_85"
+                            android:textSize="14sp"
+                            tools:text="2024-05-20 10:30:25" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/black_8" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:minHeight="48dp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/group_join_pay_pending_status"
+                            android:textColor="@color/black_35"
+                            android:textSize="14sp" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/statusTv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="@string/group_join_pay_pending_status_value"
+                            android:textColor="@color/black_85"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </com.hjq.shape.layout.ShapeLinearLayout>
+
+                <com.hjq.shape.layout.ShapeConstraintLayout
+                    android:id="@+id/progressCard"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="12dp"
+                    android:paddingVertical="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/orderCard"
+                    app:shape_radius="16dp"
+                    app:shape_solidColor="@color/white">
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/progressTitleTv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/group_join_pay_confirm_payee"
-                        android:textColor="@color/black_35"
-                        android:textSize="14sp" />
+                        android:layout_marginHorizontal="@dimen/dp_16"
+                        android:text="@string/group_join_pay_pending_progress"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/payeeTv"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/stepLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:gravity="end"
-                        android:maxLines="2"
-                        android:textColor="@color/black_85"
+                        android:layout_marginTop="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/progressTitleTv">
+
+
+                        <com.hjq.shape.view.ShapeImageView
+                            android:id="@+id/step1Icon"
+                            android:layout_width="@dimen/dp_16"
+                            android:layout_height="@dimen/dp_16"
+                            android:layout_marginStart="@dimen/dp_36"
+                            android:padding="@dimen/dp_3"
+                            android:src="@mipmap/ic_group_join_step_done"
+                            app:layout_constraintEnd_toStartOf="@id/stepLine1"
+                            app:layout_constraintHorizontal_chainStyle="packed"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:shape_radius="@dimen/dp_8"
+                            app:shape_solidColor="@color/color_3B47DD_65"
+                            tools:ignore="ContentDescription" />
+
+                        <View
+                            android:id="@+id/stepLine1"
+                            android:layout_width="0dp"
+                            android:layout_height="2dp"
+                            android:layout_marginHorizontal="8dp"
+                            android:background="@drawable/bg_group_join_step_line_pending"
+                            android:layerType="software"
+                            app:layout_constraintBottom_toBottomOf="@id/step1Icon"
+                            app:layout_constraintEnd_toStartOf="@id/step2Icon"
+                            app:layout_constraintStart_toEndOf="@id/step1Icon"
+                            app:layout_constraintTop_toTopOf="@id/step1Icon" />
+
+
+                        <com.hjq.shape.view.ShapeView
+                            android:id="@+id/step2Icon"
+                            android:layout_width="@dimen/dp_16"
+                            android:layout_height="@dimen/dp_16"
+                            app:layout_constraintEnd_toStartOf="@id/stepLine2"
+                            app:layout_constraintStart_toEndOf="@id/stepLine1"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:shape_radius="@dimen/dp_8"
+                            app:shape_solidColor="@color/transparent"
+                            app:shape_strokeColor="@color/color_3B47DD"
+                            app:shape_strokeWidth="@dimen/dp_5"
+                            tools:ignore="ContentDescription" />
+
+                        <View
+                            android:id="@+id/stepLine2"
+                            android:layout_width="0dp"
+                            android:layout_height="2dp"
+                            android:layout_marginHorizontal="8dp"
+                            android:background="@drawable/bg_group_join_step_line_pending"
+                            android:layerType="software"
+                            app:layout_constraintBottom_toBottomOf="@id/step2Icon"
+                            app:layout_constraintEnd_toStartOf="@id/step3Icon"
+                            app:layout_constraintStart_toEndOf="@id/step2Icon"
+                            app:layout_constraintTop_toTopOf="@id/step2Icon" />
+
+                        <com.hjq.shape.view.ShapeView
+                            android:id="@+id/step3Icon"
+                            android:layout_width="@dimen/dp_16"
+                            android:layout_height="@dimen/dp_16"
+                            android:layout_marginEnd="@dimen/dp_36"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/stepLine2"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:shape_radius="@dimen/dp_8"
+                            app:shape_solidColor="@color/transparent"
+                            app:shape_strokeColor="@color/color_3B47DD_10"
+                            app:shape_strokeWidth="@dimen/dp_5"
+                            tools:ignore="ContentDescription" />
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/step1Tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/group_join_pay_pending_step_submit"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            app:layout_constraintEnd_toEndOf="@id/step1Icon"
+                            app:layout_constraintStart_toStartOf="@id/step1Icon"
+                            app:layout_constraintTop_toBottomOf="@id/step1Icon" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/step2Tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/group_join_pay_pending_step_confirm"
+                            android:textColor="@color/color_3B47DD"
+                            android:textSize="12sp"
+                            app:layout_constraintEnd_toEndOf="@id/step2Icon"
+                            app:layout_constraintStart_toStartOf="@id/step2Icon"
+                            app:layout_constraintTop_toBottomOf="@id/step2Icon" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/step3Tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/group_join_pay_result_step_join"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            app:layout_constraintEnd_toEndOf="@id/step3Icon"
+                            app:layout_constraintStart_toStartOf="@id/step3Icon"
+                            app:layout_constraintTop_toBottomOf="@id/step3Icon" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/etaTv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/dp_16"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/group_join_pay_pending_eta"
+                        android:textColor="@color/black"
                         android:textSize="14sp"
-                        tools:text="DUALX 交流1群 (群主钱包)" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/black_8" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:minHeight="48dp"
-                    android:orientation="horizontal">
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/stepLayout" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/group_join_pay_confirm_method"
-                        android:textColor="@color/black_35"
-                        android:textSize="14sp" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/methodTv"
+                        android:id="@+id/etaHintTv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/group_join_pay_confirm_method_value"
-                        android:textColor="@color/black_85"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/black_8" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:minHeight="48dp"
-                    android:orientation="horizontal">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/group_join_pay_confirm_order"
+                        android:layout_marginHorizontal="@dimen/dp_16"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/group_join_pay_pending_eta_hint"
                         android:textColor="@color/black_35"
-                        android:textSize="14sp" />
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/etaTv" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/orderNoTv"
+                    <com.hjq.shape.layout.ShapeLinearLayout
+                        android:id="@+id/warningBox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_weight="1"
-                        android:ellipsize="middle"
-                        android:gravity="end"
-                        android:maxLines="1"
-                        android:textColor="@color/black_85"
-                        android:textSize="14sp"
-                        tools:text="202405200123456789" />
+                        android:layout_marginHorizontal="@dimen/dp_16"
+                        android:layout_marginTop="12dp"
+                        android:orientation="vertical"
+                        android:padding="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/etaHintTv"
+                        app:shape_radius="8dp"
+                        app:shape_solidColor="@color/color_group_join_pay_warning_bg">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/group_join_pay_pending_warning_title"
+                            android:textColor="@color/black_FF4D4F"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/group_join_pay_pending_warning_desc"
+                            android:textColor="@color/black_65"
+                            android:textSize="12sp" />
+                    </com.hjq.shape.layout.ShapeLinearLayout>
+                </com.hjq.shape.layout.ShapeConstraintLayout>
+                
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/dp_20"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/dxIconTv"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_group_join_pay_price_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/amountRow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dxIconTv">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/amountTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/color_3B47DD"
+                        android:textSize="40sp"
+                        android:textStyle="bold"
+                        tools:text="100" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/amountUnitTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginBottom="6dp"
+                        android:includeFontPadding="false"
+                        android:text="@string/group_join_pay_token_dualx"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
                 </LinearLayout>
-            </com.hjq.shape.layout.ShapeLinearLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/usdTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:textColor="@color/black_35"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/amountRow"
+                    tools:text="≈$12.35 USD" />
+
+                <com.hjq.shape.layout.ShapeLinearLayout
+                    android:id="@+id/detailCard"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="28dp"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/usdTv"
+                    app:shape_radius="16dp"
+                    app:shape_solidColor="@color/white">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:minHeight="48dp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/group_join_pay_confirm_payee"
+                            android:textColor="@color/black_35"
+                            android:textSize="14sp" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/payeeTv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:gravity="end"
+                            android:maxLines="2"
+                            android:textColor="@color/black_85"
+                            android:textSize="14sp"
+                            tools:text="DUALX 交流1群 (群主钱包)" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/black_8" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:minHeight="48dp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/group_join_pay_confirm_method"
+                            android:textColor="@color/black_35"
+                            android:textSize="14sp" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/methodTv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="@string/group_join_pay_confirm_method_value"
+                            android:textColor="@color/black_85"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/black_8" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:minHeight="48dp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/group_join_pay_confirm_order"
+                            android:textColor="@color/black_35"
+                            android:textSize="14sp" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/orderNoTv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:ellipsize="middle"
+                            android:gravity="end"
+                            android:maxLines="1"
+                            android:textColor="@color/black_85"
+                            android:textSize="14sp"
+                            tools:text="202405200123456789" />
+                    </LinearLayout>
+                </com.hjq.shape.layout.ShapeLinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <LinearLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:paddingHorizontal="16dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.hjq.shape.layout.ShapeLinearLayout
+            android:id="@+id/bottomBar1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shape_radius="16dp"
+            app:shape_solidColor="@color/white"
+            tools:visibility="visible">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/group_join_pay_pending_choose"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <com.hjq.shape.view.ShapeTextView
+                android:id="@+id/paidBtn"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@string/group_join_pay_pending_paid_btn"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:shape_radius="@dimen/dp_16"
+                app:shape_solidColor="@color/color_3B47DD" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/group_join_pay_pending_paid_hint"
+                android:textColor="@color/black_35"
+                android:textSize="12sp" />
+
+            <com.hjq.shape.view.ShapeTextView
+                android:id="@+id/retryBtn"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@string/group_join_pay_pending_retry_btn"
+                android:textColor="@color/color_3B47DD"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:shape_radius="@dimen/dp_16"
+                app:shape_solidColor="@color/white"
+                app:shape_strokeColor="@color/color_3B47DD"
+                app:shape_strokeWidth="@dimen/dp_1" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/group_join_pay_pending_retry_hint"
+                android:textColor="@color/black_35"
+                android:textSize="12sp" />
+        </com.hjq.shape.layout.ShapeLinearLayout>
+
+        <com.hjq.shape.layout.ShapeLinearLayout
+            android:id="@+id/bottomBar2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingBottom="12dp">
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:shape_solidColor="@color/white"
+            tools:visibility="gone">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/bottomAmountHintTv"
-                android:layout_marginStart="@dimen/dp_8"
-                android:layout_marginTop="@dimen/dp_14"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/group_join_pay_confirm_need_pay"
-                android:textColor="@color/black_35"
-                android:textSize="14sp" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="12dp">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                app:layout_constraintBaseline_toBottomOf="@id/bottomAmountHintTv"
-                android:id="@+id/bottomAmountTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@id/bottomUnitTv"
-                android:layout_marginEnd="@dimen/dp_4"
-                android:textColor="@color/color_3B47DD"
-                android:textSize="28sp"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/bottomAmountHintTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_8"
+                    android:layout_marginTop="@dimen/dp_14"
+                    android:layout_weight="1"
+                    android:text="@string/group_join_pay_confirm_need_pay"
+                    android:textColor="@color/black_35"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/bottomAmountTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:textColor="@color/color_3B47DD"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBaseline_toBottomOf="@id/bottomAmountHintTv"
+                    app:layout_constraintEnd_toStartOf="@id/bottomUnitTv"
+                    tools:text="100" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/bottomUnitTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_8"
+                    android:text="@string/group_join_pay_token_dualx"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintBaseline_toBottomOf="@id/bottomAmountHintTv"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <com.hjq.shape.view.ShapeTextView
+                android:id="@+id/confirmPayBtn"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:gravity="center"
+                android:text="@string/group_join_pay_confirm_title"
+                android:textColor="@color/white"
+                android:textSize="16sp"
                 android:textStyle="bold"
-                tools:text="100" />
+                app:shape_radius="@dimen/dp_16"
+                app:shape_solidColor="@color/color_3B47DD" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                app:layout_constraintBaseline_toBottomOf="@id/bottomAmountHintTv"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="@dimen/dp_8"
-                android:id="@+id/bottomUnitTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/group_join_pay_token_dualx"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.hjq.shape.layout.ShapeLinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-        <com.hjq.shape.view.ShapeTextView
-            android:id="@+id/confirmPayBtn"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:shape_radius="@dimen/dp_16"
-            app:shape_solidColor="@color/color_3B47DD"
-            android:text="@string/group_join_pay_confirm_title"/>
-
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

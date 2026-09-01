@@ -224,7 +224,7 @@ public class MessageListActivity extends BaseSimple2BroadActivity
             startOutH5Activity(shopUrl, MessageListActivity.this);
             return Unit.INSTANCE;
         });
-        groupDataLiveData2.observe(this, this::applyShopEntryFromBusiExt);
+        groupDataLiveData2.observeForever(this::applyShopEntryFromBusiExt);
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -860,6 +860,7 @@ public class MessageListActivity extends BaseSimple2BroadActivity
             verticalDanmakuView.clearAll();
         }
         EventBus.getDefault().unregister(this);
+        groupDataLiveData2.removeObserver(this::applyShopEntryFromBusiExt);
         super.onDestroy();
     }
 

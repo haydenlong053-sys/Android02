@@ -111,7 +111,7 @@
             app:layout_constraintEnd_toStartOf="@id/step2Icon"
             app:layout_constraintStart_toEndOf="@id/step1Icon"
             app:layout_constraintTop_toTopOf="@id/step1Icon" />
-        <com.hjq.shape.view.ShapeImageView
+        <com.hjq.shape.view.ShapeView
             android:id="@+id/step2Icon"
             android:layout_width="@dimen/dp_16"
             android:layout_height="@dimen/dp_16"
@@ -137,7 +137,7 @@
             app:layout_constraintTop_toTopOf="@id/step2Icon" />
 
 
-        <com.hjq.shape.view.ShapeImageView
+        <com.hjq.shape.view.ShapeView
             android:layout_marginEnd="@dimen/dp_36"
             android:id="@+id/step3Icon"
             android:layout_width="@dimen/dp_16"

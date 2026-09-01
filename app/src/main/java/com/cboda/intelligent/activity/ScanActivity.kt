@@ -22,10 +22,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppStr
 import com.cboda.baselibrary.utils.toJson2
-import com.cboda.chatui.utils.E.checkUserIsGroup
 import com.cboda.intelligent.R
-import com.cboda.intelligent.activity.im.GroupJoinPayActivity
-import com.cboda.intelligent.activity.im.GroupJoinPayResultActivity
 import com.cboda.intelligent.bean.CheckGroupJoiBean
 import com.cboda.intelligent.bean.ResultBroadBean
 import com.cboda.intelligent.configuration.ScanJumpBroadEnum
@@ -479,7 +476,7 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
 
                         data.isNeedPay() -> {
                             mergeCheckGroupJoinIntoQrInfo(groupInfo, data)
-                            GroupJoinPayActivity.start(this@ScanActivity, groupInfo)
+                            JumpBroadUtils.startToGroupJoinPay(groupInfo, this@ScanActivity)
                             finish()
                         }
 

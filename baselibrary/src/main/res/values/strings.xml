@@ -558,6 +558,25 @@
     <string name="group_join_pay_result_step_join">Joined</string>
     <string name="group_join_pay_result_join_title">Joined successfully</string>
     <string name="group_join_pay_result_join_subtitle">You have successfully joined the group</string>
+    <string name="group_join_pay_pending_title">An order is being confirmed on-chain</string>
+    <string name="group_join_pay_pending_subtitle">Please wait for confirmation, or check and pay again</string>
+    <string name="group_join_pay_pending_amount">Amount</string>
+    <string name="group_join_pay_pending_create_time">Created</string>
+    <string name="group_join_pay_pending_status">Status</string>
+    <string name="group_join_pay_pending_status_value">Confirming on-chain</string>
+    <string name="group_join_pay_pending_progress">Confirmation progress</string>
+    <string name="group_join_pay_pending_step_submit">Payment submitted</string>
+    <string name="group_join_pay_pending_step_confirm">Confirming on-chain</string>
+    <string name="group_join_pay_pending_eta">Estimated time: 1–3 minutes</string>
+    <string name="group_join_pay_pending_eta_hint">Network congestion may delay confirmation. Please wait</string>
+    <string name="group_join_pay_pending_warning_title">Confirmation is not detected yet. Do not pay again</string>
+    <string name="group_join_pay_pending_warning_desc">Paying again may cause duplicate charges. If you already paid, please wait</string>
+    <string name="group_join_pay_pending_choose">You can choose</string>
+    <string name="group_join_pay_pending_paid_btn">I have paid</string>
+    <string name="group_join_pay_pending_paid_hint">Paid but not in the group? Tap to verify</string>
+    <string name="group_join_pay_pending_retry_btn">Pay again</string>
+    <string name="group_join_pay_pending_retry_hint">Payment incomplete or failed? Pay again</string>
+    <string name="group_join_pay_pending_not_confirmed">Payment is not confirmed yet</string>
     <string name="my_groups">My groups</string>
     <string name="menu_group_info">Group info</string>
 

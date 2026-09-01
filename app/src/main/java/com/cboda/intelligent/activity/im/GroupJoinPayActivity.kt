@@ -10,9 +10,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import com.cboda.baselibrary.bean.PayLsOrderBean.JoinGroupBean
+import com.cboda.baselibrary.utils.TimeBroadBroadUtils.getNowTime
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
+import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.click
 import com.cboda.intelligent.viewmodel.NewMirrorViewBroadModel
 import com.freddy.im.http.model.im.GroupQrInfoRes
@@ -87,8 +89,9 @@ class GroupJoinPayActivity : BaseSimple2BroadActivity() {
                 joinGroupBean.groupName = info.name
                 joinGroupBean.joinNeedVerify = info.joinNeedVerify
                 joinGroupBean.openQyyz = info.busiExt.openQyyz
+                joinGroupBean.createTime = getNowTime()
                 it.joinGroupBean = joinGroupBean
-                GroupJoinPayConfirmActivity.start(this, it)
+                JumpBroadUtils.startToGroupJoinPayConfirm(it, this)
                 finish()
             }
         }
@@ -124,11 +127,6 @@ class GroupJoinPayActivity : BaseSimple2BroadActivity() {
     companion object {
         const val EXTRA_GROUP_QR_INFO = "extra_group_qr_info"
 
-        fun start(context: Context, groupInfo: GroupQrInfoRes) {
-            val intent = Intent(context, GroupJoinPayActivity::class.java)
-            intent.putExtra(EXTRA_GROUP_QR_INFO, groupInfo)
-            context.startActivity(intent)
-        }
 
         fun readGroupInfo(intent: Intent?): GroupQrInfoRes? {
             if (intent == null) return null

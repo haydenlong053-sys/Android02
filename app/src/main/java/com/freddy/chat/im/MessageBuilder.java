@@ -525,7 +525,7 @@ public class MessageBuilder {
         }
         // 显示用群号（busiExt.idno），与个人名片 idno 对齐
         if (!TextUtils.isEmpty(groupIdno)) {
-            body.put(GroupInviteMessageContentUtil.KEY_IDNO, groupIdno);
+            body.put(GroupInviteMessageContentUtil.KEY_ID_NO, groupIdno);
         }
         body.put(GroupInviteMessageContentUtil.KEY_FROM, fromUserId);
         body.put(GroupInviteMessageContentUtil.KEY_FROM_NAME, fromName != null ? fromName : "");

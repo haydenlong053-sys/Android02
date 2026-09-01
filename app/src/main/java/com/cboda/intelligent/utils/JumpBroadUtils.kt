@@ -7,6 +7,7 @@ import android.text.TextUtils
 import androidx.activity.result.ActivityResultLauncher
 import com.blankj.utilcode.util.ActivityUtils
 import com.cboda.baselibrary.bean.CommonResultBroadBean
+import com.cboda.baselibrary.bean.PayLsOrderBean
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
@@ -77,6 +78,10 @@ import com.cboda.intelligent.activity.ZhuanRangQunBroadActivity
 import com.cboda.intelligent.activity.ZhuanZhangPageBroadActivity
 import com.cboda.intelligent.activity.ZhuanzhangBroadActivity
 import com.cboda.intelligent.activity.ZoomPicBroadActivity
+import com.cboda.intelligent.activity.im.GroupJoinPayActivity
+import com.cboda.intelligent.activity.im.GroupJoinPayActivity.Companion.EXTRA_GROUP_QR_INFO
+import com.cboda.intelligent.activity.im.GroupJoinPayConfirmActivity
+import com.cboda.intelligent.activity.im.GroupJoinPayResultActivity
 import com.cboda.intelligent.bean.AiCheckResultBroadBean
 import com.cboda.intelligent.dialog.GroupQrCodeDialog
 import com.cboda.intelligent.dialog.ImGroupQrCodeDialog
@@ -84,6 +89,7 @@ import com.freddy.chat.MessageListActivity
 import com.freddy.im.http.model.im.GroupVo
 import com.freddy.chat.SessionItemIntent
 import com.freddy.chat.collect.CollectIntent
+import com.freddy.im.http.model.im.GroupQrInfoRes
 import com.freddy.im.http.model.im.SessionItem
 
 
@@ -367,6 +373,49 @@ class JumpBroadUtils {
                 intent.putExtra("groupPeopleCount", groupPeopleCount)
             }
             context?.startActivity(intent)
+        }
+
+        fun startToGroupJoinPayConfirm(groupInfo: PayLsOrderBean?, context: Context? = null) {
+            ActivityUtils.getActivityList().forEach {
+                val actName = it.javaClass.simpleName
+                if (actName == "GroupJoinPayConfirmActivity") {
+                    it.finish()
+                }
+            }
+            val intent = Intent(context, GroupJoinPayConfirmActivity::class.java)
+            if (groupInfo != null) {
+                intent.putExtra(EXTRA_GROUP_QR_INFO, groupInfo)
+            }
+            getAppContext(context).startActivity(intent)
+        }
+
+        fun startToGroupJoinPayResult(groupInfo: PayLsOrderBean?, context: Context? = null) {
+            ActivityUtils.getActivityList().forEach {
+                val actName = it.javaClass.simpleName
+                if (actName == "GroupJoinPayResultActivity") {
+                    it.finish()
+                }
+            }
+            val intent = Intent(context, GroupJoinPayResultActivity::class.java)
+            if (groupInfo != null) {
+                intent.putExtra(EXTRA_GROUP_QR_INFO, groupInfo)
+            }
+            getAppContext(context).startActivity(intent)
+        }
+
+
+        fun startToGroupJoinPay(groupInfo: GroupQrInfoRes?, context: Context? = null) {
+            ActivityUtils.getActivityList().forEach {
+                val actName = it.javaClass.simpleName
+                if (actName == "GroupJoinPayActivity") {
+                    it.finish()
+                }
+            }
+            val intent = Intent(context, GroupJoinPayActivity::class.java)
+            if (groupInfo != null) {
+                intent.putExtra(EXTRA_GROUP_QR_INFO, groupInfo)
+            }
+            getAppContext(context).startActivity(intent)
         }
 
         fun startImQunManagerActivity(context: Context?, qunId: String) {

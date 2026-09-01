@@ -16,18 +16,18 @@ import com.google.gson.JsonParser;
  */
 public final class GroupInviteMessageContentUtil {
 
-    public static final String MSG_GROUP_INVITE = "InviteToGroup";
+    public static final String MSG_GROUP_INVITE = "GroupInvite";
 
     public static final String KEY_MSG = "msg";
     public static final String KEY_GROUP_ID = "gId";
     public static final String KEY_GROUP_NAME = "gName";
     public static final String KEY_GROUP_ICON = "gIcon";
-    public static final String KEY_IDNO = "gNum";
+    public static final String KEY_ID_NO = "gNum";
     public static final String KEY_FROM = "from";
-    public static final String KEY_FROM_NAME = "fromName";
+    public static final String KEY_FROM_NAME = "fName";
     public static final String KEY_TO = "to";
-    public static final String KEY_TO_NAME = "toName";
-    public static final String KEY_GROUP_MEMBER_COUNT = "memCount";
+    public static final String KEY_TO_NAME = "tName";
+    public static final String KEY_GROUP_MEMBER_COUNT = "pCount";
 
 
     private GroupInviteMessageContentUtil() {
@@ -57,7 +57,7 @@ public final class GroupInviteMessageContentUtil {
      */
     @NonNull
     public static String resolveGroupIdno(@Nullable String contentJson) {
-        return readString(contentJson, KEY_IDNO);
+        return readString(contentJson, KEY_ID_NO);
     }
 
     @NonNull

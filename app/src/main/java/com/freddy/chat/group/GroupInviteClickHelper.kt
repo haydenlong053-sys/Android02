@@ -9,7 +9,6 @@ import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.intelligent.R
-import com.cboda.intelligent.activity.im.GroupJoinPayActivity
 import com.cboda.intelligent.bean.CheckGroupJoiBean
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
@@ -96,7 +95,8 @@ object GroupInviteClickHelper {
                     }
 
                     data.isNeedPay() -> {
-                        GroupJoinPayActivity.start(context, groupInfo)
+                        JumpBroadUtils.startToGroupJoinPay(groupInfo, context)
+//                        GroupJoinPayActivity.start(context, groupInfo)
 //                        loadGroupDetailThenContinue(context, groupId, groupName, groupIcon, data, needPay = true)
                     }
 
@@ -135,9 +135,13 @@ object GroupInviteClickHelper {
         check: CheckGroupJoiBean,
     ): GroupQrInfoRes {
         val info = GroupQrInfoRes()
-        info.id = check.groupId?.takeIf { it.isNotBlank() } ?: groupId
-        info.name = check.groupName?.takeIf { it.isNotBlank() } ?: groupName
-        info.icon = check.groupIcon?.takeIf { it.isNotBlank() } ?: groupIcon
+        info.id = groupId
+        if (!TextUtils.isEmpty(groupName)) {
+            info.name = groupName
+        } else {
+            info.name = check.groupName?.takeIf { it.isNotBlank() } ?: groupName
+        }
+        info.icon = groupIcon ?: check.groupIcon
         val memberCount = anyToInt(memCount)
         if (memberCount > 0) {
             info.memCount = memberCount
@@ -175,41 +179,41 @@ object GroupInviteClickHelper {
     /**
      * 调用 [im/group/detail/{groupId}] 获取群信息后，再创建 [GroupQrInfoRes] 并继续收费页或申请入群。
      */
-    private fun loadGroupDetailThenContinue(
-        context: Context,
-        groupId: String,
-        groupName: String?,
-        groupIcon: String?,
-        check: CheckGroupJoiBean,
-        needPay: Boolean,
-    ) {
-        ImGroupHttpExample.requestGetGroupDetail(
-            groupId,
-            object : OnHttpImListener<GroupVo?> {
-
-
-                override fun onHttpImSuccess(result: GroupVo) {
-                    if (result.id.isNullOrBlank()) {
-                        inFlight.set(false)
-                        showToastMain(R.string.scan_network_request_failed)
-                        return
-                    }
-                    val groupInfo = toGroupQrInfo(result, groupName, groupIcon)
-                    mergeCheckGroupJoinIntoQrInfo(groupInfo, check)
-                    if (needPay) {
-                        inFlight.set(false)
-                        GroupJoinPayActivity.start(context, groupInfo)
-                    } else {
-                        applyJoinGroup(context, groupId, groupInfo)
-                    }
-                }
-            },
-            {
-                inFlight.set(false)
-                showToastMain(R.string.scan_network_request_failed)
-            },
-        )
-    }
+//    private fun loadGroupDetailThenContinue(
+//        context: Context,
+//        groupId: String,
+//        groupName: String?,
+//        groupIcon: String?,
+//        check: CheckGroupJoiBean,
+//        needPay: Boolean,
+//    ) {
+//        ImGroupHttpExample.requestGetGroupDetail(
+//            groupId,
+//            object : OnHttpImListener<GroupVo?> {
+//
+//
+//                override fun onHttpImSuccess(result: GroupVo) {
+//                    if (result.id.isNullOrBlank()) {
+//                        inFlight.set(false)
+//                        showToastMain(R.string.scan_network_request_failed)
+//                        return
+//                    }
+//                    val groupInfo = toGroupQrInfo(result, groupName, groupIcon)
+//                    mergeCheckGroupJoinIntoQrInfo(groupInfo, check)
+//                    if (needPay) {
+//                        inFlight.set(false)
+//                        GroupJoinPayActivity.start(context, groupInfo)
+//                    } else {
+//                        applyJoinGroup(context, groupId, groupInfo)
+//                    }
+//                }
+//            },
+//            {
+//                inFlight.set(false)
+//                showToastMain(R.string.scan_network_request_failed)
+//            },
+//        )
+//    }
 
     private fun applyJoinGroup(context: Context, groupId: String, groupInfo: GroupQrInfoRes) {
         ImGroupHttpExample.requestApplyInGroup(

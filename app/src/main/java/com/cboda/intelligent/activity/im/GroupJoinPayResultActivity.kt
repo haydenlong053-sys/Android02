@@ -11,6 +11,7 @@ import com.blankj.utilcode.util.ThreadUtils
 import com.cboda.baselibrary.bean.PayLsOrderBean
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.intelligent.R
+import com.cboda.intelligent.activity.im.GroupJoinPayActivity.Companion.EXTRA_GROUP_QR_INFO
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.click
@@ -98,27 +99,13 @@ class GroupJoinPayResultActivity : BaseSimple2BroadActivity() {
     }
 
     companion object {
-        const val EXTRA_ORDER = "extra_group_join_pay_order"
-
-
-        fun start(
-            context: Context,
-            order: PayLsOrderBean? = null
-        ) {
-            val intent = Intent(context, GroupJoinPayResultActivity::class.java)
-            if (order != null) {
-                intent.putExtra(EXTRA_ORDER, order)
-            }
-            context.startActivity(intent)
-        }
-
         fun readOrder(intent: Intent?): PayLsOrderBean? {
             if (intent == null) return null
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                intent.getSerializableExtra(EXTRA_ORDER, PayLsOrderBean::class.java)
+                intent.getSerializableExtra(EXTRA_GROUP_QR_INFO, PayLsOrderBean::class.java)
             } else {
                 @Suppress("DEPRECATION")
-                intent.getSerializableExtra(EXTRA_ORDER) as? PayLsOrderBean
+                intent.getSerializableExtra(EXTRA_GROUP_QR_INFO) as? PayLsOrderBean
             }
         }
     }

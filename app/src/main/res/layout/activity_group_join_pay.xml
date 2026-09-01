@@ -39,14 +39,15 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/backBtn"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
         android:alpha="0"
         android:background="@color/transparent"
         app:layout_constraintBottom_toBottomOf="@id/returnView"
         app:layout_constraintEnd_toEndOf="@id/returnView"
         app:layout_constraintStart_toStartOf="@id/returnView"
-        app:layout_constraintTop_toTopOf="@id/returnView"
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="@dimen/dp_0"/>
+        app:layout_constraintTop_toTopOf="@id/returnView" />
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/contentScroll"
         android:layout_width="match_parent"
@@ -130,7 +131,7 @@
                     app:riv_oval="true"
                     tools:src="@color/color_5F19E2_12" />
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/groupNameRow"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -141,31 +142,39 @@
                     app:layout_constraintStart_toEndOf="@id/groupAvatar"
                     app:layout_constraintTop_toTopOf="@id/groupAvatar">
 
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/groupNameTv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/dp_0"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:maxLength="10"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        tools:text="DUAEX交流1群" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_max="@dimen/dp_180"
+                        tools:text="交流1群交流1群交流1群交流1群交流1群交流1群交流1群" />
 
                     <com.hjq.shape.view.ShapeTextView
                         android:id="@+id/paidTagTv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        android:maxLines="1"
                         android:paddingHorizontal="6dp"
                         android:paddingVertical="2dp"
                         android:text="@string/group_join_pay_paid_tag"
                         android:textColor="@color/color_3B47DD"
                         android:textSize="11sp"
+                        app:layout_constraintBottom_toBottomOf="@id/groupNameTv"
+                        app:layout_constraintStart_toEndOf="@id/groupNameTv"
+                        app:layout_constraintTop_toTopOf="@id/groupNameTv"
                         app:shape_radius="4dp"
                         app:shape_solidColor="@color/color_3B47DD_12" />
-                </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/groupIdTv"
@@ -226,24 +235,25 @@
                     android:textColor="@color/color_3B47DD"
                     android:textSize="28sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintEnd_toStartOf="@id/feeAmountAfterTv"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/feeLabelTv"
                     tools:text="100" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/feeAmountAfterTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_4"
                     android:gravity="center"
+                    android:text="@string/人民币"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@id/feeAmountTv"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBaseline_toBaselineOf="@id/feeAmountTv"
-                    android:text="@string/人民币" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/feeAmountTv" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/feeUsdTv"
@@ -344,8 +354,8 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="12dp"
                         android:layout_height="12dp"
-                        android:scaleType="centerCrop"
                         android:layout_marginTop="2dp"
+                        android:scaleType="centerCrop"
                         android:src="@drawable/ic_group_join_pay_check"
                         tools:ignore="ContentDescription" />
 

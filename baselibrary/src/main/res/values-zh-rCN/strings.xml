@@ -543,6 +543,25 @@
     <string name="group_join_pay_result_step_join">入群成功</string>
     <string name="group_join_pay_result_join_title">入群成功</string>
     <string name="group_join_pay_result_join_subtitle">您已成功加入群聊</string>
+    <string name="group_join_pay_pending_title">您有一笔订单在链上确认中</string>
+    <string name="group_join_pay_pending_subtitle">请耐心等待确认完成，或检查并重新发起支付</string>
+    <string name="group_join_pay_pending_amount">订单金额</string>
+    <string name="group_join_pay_pending_create_time">创建时间</string>
+    <string name="group_join_pay_pending_status">当前状态</string>
+    <string name="group_join_pay_pending_status_value">链上确认中</string>
+    <string name="group_join_pay_pending_progress">确认进度</string>
+    <string name="group_join_pay_pending_step_submit">提交支付</string>
+    <string name="group_join_pay_pending_step_confirm">链上确认中</string>
+    <string name="group_join_pay_pending_eta">预计确认时间：1~3分钟</string>
+    <string name="group_join_pay_pending_eta_hint">网络拥堵可能导致确认时间延长，请耐心等待</string>
+    <string name="group_join_pay_pending_warning_title">系统暂未监测到确认完成，请不要重复支付</string>
+    <string name="group_join_pay_pending_warning_desc">重复支付可能会导致重复扣款，如已支付成功，请等待确认完成</string>
+    <string name="group_join_pay_pending_choose">您可以选择</string>
+    <string name="group_join_pay_pending_paid_btn">我已支付成功</string>
+    <string name="group_join_pay_pending_paid_hint">支付成功但未入群？点击手动验证</string>
+    <string name="group_join_pay_pending_retry_btn">重新发起支付</string>
+    <string name="group_join_pay_pending_retry_hint">未完成支付或支付失败？重新发起支付</string>
+    <string name="group_join_pay_pending_not_confirmed">暂未监测到支付完成</string>
     <string name="my_groups">我的群聊</string>
     <string name="menu_group_info">群聊信息</string>
 </resources>

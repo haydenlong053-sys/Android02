@@ -20,6 +20,7 @@ class PayLsOrderBean : Serializable {
         var groupName: String? = null
         var openQyyz: String? = null
         var joinNeedVerify: Int? = null
+        var createTime: Long? = null
     }
 
     class PayLsOrderTxParams : Serializable {
