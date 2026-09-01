@@ -27,6 +27,7 @@ import com.blankj.utilcode.util.ActivityUtils
 import com.cboda.baselibrary.common.MyEventCodeEnum
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.APP_IM_TAG
+import com.cboda.baselibrary.utils.AmountInputFilter
 import com.cboda.baselibrary.utils.CompressionBroadUtil.imgCompression
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.anyToInt
@@ -74,6 +75,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.io.File
+import java.text.DecimalFormat
 
 /**
  * 自研 IM 群详情（UI 对齐野火 {@link com.cboda.intelligent.activity.QunInfo2BroadActivity}）。
@@ -285,7 +287,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             finish()
             return
         }
-
+        etGroupJoinPayPrice.filters = arrayOf(AmountInputFilter(9999999999.99, 2))
         getTopBgView()?.setImageResource(com.cboda.baselibrary.R.mipmap.ic_bg_top_broad_main2)
         findViewById<View>(com.cboda.baselibrary.R.id.mViewBack).click { finish() }
         findViewById<AppCompatImageView>(com.cboda.baselibrary.R.id.mIvRight)
@@ -862,7 +864,20 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     }
 
     private fun refreshJoinPayUsdApprox(amount: String) {
-        tvGroupJoinPayUsd.text = getString(com.cboda.baselibrary.R.string.group_join_pay_usd_approx, div(amount, ustHs, 2, true).toString())
+        setUsdTxt(amount, 2)
+    }
+
+
+    private fun setUsdTxt(amount: String, scale: Int) {
+        val price = div(amount, ustHs, 2, true)
+//        if (price > 0f) {
+//            val df = DecimalFormat("#.##########")
+//            tvGroupJoinPayUsd.text = getString(com.cboda.baselibrary.R.string.group_join_pay_usd_approx, df.format(price))
+//        } else {
+//            setUsdTxt(amount, scale + 1)
+//        }
+        val df = DecimalFormat("#.##")
+        tvGroupJoinPayUsd.text = getString(com.cboda.baselibrary.R.string.group_join_pay_usd_approx, df.format(price))
     }
 
     /**
