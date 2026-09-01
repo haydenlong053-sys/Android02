@@ -7,6 +7,7 @@ import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.utils.MMKVBroadUtils
+import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.im.GroupJoinPayActivity
 import com.cboda.intelligent.bean.CheckGroupJoiBean
@@ -44,9 +45,10 @@ object GroupInviteClickHelper {
         groupId: String,
         groupName: String? = null,
         groupIcon: String? = null,
-        groupIdNum: String? = null
+        groupIdNum: String? = null,
+        memCount: String? = null
     ) {
-        if (groupId.isBlank() || !inFlight.compareAndSet(false, true)) {
+        if (groupId.isBlank()) {
             return
         }
         val userId = MMKVBroadUtils.getRealUserId()
@@ -58,7 +60,7 @@ object GroupInviteClickHelper {
                 inFlight.set(false)
                 showToastMain(pair.second ?: "")
             } else {
-                checkGroupJoinEligibility(context, groupId, groupName, groupIcon, groupIdNum)
+                checkGroupJoinEligibility(context, groupId, groupName, groupIcon, groupIdNum, memCount)
             }
         }
     }
@@ -68,7 +70,8 @@ object GroupInviteClickHelper {
         groupId: String,
         groupName: String?,
         groupIcon: String?,
-        groupIdNum: String?
+        groupIdNum: String?,
+        memCount: String?
     ) {
         scope.launch {
             val params = hashMapOf<String, Any?>("id" to groupId)
@@ -85,7 +88,7 @@ object GroupInviteClickHelper {
                     showToastMain(R.string.scan_network_request_failed)
                     return@onSuccess
                 }
-                val groupInfo = buildGroupQrInfo(groupId, groupName, groupIcon, groupIdNum, data)
+                val groupInfo = buildGroupQrInfo(groupId, groupName, groupIcon, groupIdNum, memCount, data)
                 when {
                     data.isBlacklisted() -> {
                         inFlight.set(false)
@@ -128,13 +131,17 @@ object GroupInviteClickHelper {
         groupName: String?,
         groupIcon: String?,
         groupIdNum: String?,
+        memCount: String?,
         check: CheckGroupJoiBean,
     ): GroupQrInfoRes {
         val info = GroupQrInfoRes()
         info.id = check.groupId?.takeIf { it.isNotBlank() } ?: groupId
         info.name = check.groupName?.takeIf { it.isNotBlank() } ?: groupName
         info.icon = check.groupIcon?.takeIf { it.isNotBlank() } ?: groupIcon
-        if (check.memberCount > 0) {
+        val memberCount = anyToInt(memCount)
+        if (memberCount > 0) {
+            info.memCount = memberCount
+        } else if (check.memberCount > 0) {
             info.memCount = check.memberCount
         }
         if (!check.priceDualx.isNullOrBlank()) {

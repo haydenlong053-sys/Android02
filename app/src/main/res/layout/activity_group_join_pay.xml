@@ -37,6 +37,16 @@
         app:layout_constraintStart_toStartOf="@id/returnView"
         app:layout_constraintTop_toTopOf="@id/returnView" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/backBtn"
+        android:alpha="0"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/returnView"
+        app:layout_constraintEnd_toEndOf="@id/returnView"
+        app:layout_constraintStart_toStartOf="@id/returnView"
+        app:layout_constraintTop_toTopOf="@id/returnView"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"/>
     <androidx.core.widget.NestedScrollView
         android:id="@+id/contentScroll"
         android:layout_width="match_parent"

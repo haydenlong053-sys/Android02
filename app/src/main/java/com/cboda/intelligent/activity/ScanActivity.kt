@@ -427,7 +427,7 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
             restartScan()
             return
         }
-        ImGroupHttpExample.requestGetGroupByCodeId(codeId!!, { result ->
+        ImGroupHttpExample.requestGetGroupByCodeId(codeId ?: "", { result ->
             if (TextUtils.isEmpty(result.id)) {
                 showToastMain(R.string.scan_invalid_qr_code)
                 restartScan()
@@ -517,7 +517,7 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
         if (!check.groupIcon.isNullOrBlank()) {
             groupInfo.icon = check.groupIcon
         }
-        if (check.memberCount > 0) {
+        if (groupInfo.memCount <= 0 && check.memberCount > 0) {
             groupInfo.memCount = check.memberCount
         }
         if (!check.priceDualx.isNullOrBlank()) {

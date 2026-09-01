@@ -54,7 +54,9 @@ class GroupJoinPayActivity : BaseSimple2BroadActivity() {
         }
         bindViews()
         bindClicks()
-        bindData(groupInfo!!)
+        groupInfo?.let {
+            bindData(it)
+        }
     }
 
     private fun bindViews() {
@@ -71,7 +73,7 @@ class GroupJoinPayActivity : BaseSimple2BroadActivity() {
     }
 
     private fun bindClicks() {
-        findViewById<View>(R.id.mIvBack).click {
+        findViewById<View>(R.id.backBtn).click {
             finish()
         }
         returnView.click {

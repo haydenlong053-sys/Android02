@@ -4,6 +4,7 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import com.bumptech.glide.Glide
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.eLogD
@@ -22,10 +23,11 @@ class InviteJoinGroupMessageVH(itemView: View) : BaseMessageVH(itemView, R.layou
     private var portraitImageView: ImageView? = null
     private var nameTextView: TextView? = null
     private var descTextView: TextView? = null
-    private var inviteGroupId = ""
-    private var inviteGroupName = ""
-    private var inviteGroupIcon = ""
-    private var inviteGroupIdNum = ""
+    private var groupInviteBtn: AppCompatButton? = null
+//    private var inviteGroupId = ""
+//    private var inviteGroupName = ""
+//    private var inviteGroupIcon = ""
+//    private var inviteGroupIdNum = ""
 
     init {
         cacheViews()
@@ -41,16 +43,15 @@ class InviteJoinGroupMessageVH(itemView: View) : BaseMessageVH(itemView, R.layou
             inflateContentLayout(layoutRes)
             boundContentLayoutRes = layoutRes
             cacheViews()
-            bindClick()
         }
         bindCommon(message, position, context)
 
         val content = message.content
-        eLogD("InviteJoinGroupMessageVHContent",content)
-        inviteGroupId = GroupInviteMessageContentUtil.resolveGroupId(content)
-        inviteGroupName = GroupInviteMessageContentUtil.resolveGroupName(content)
-        inviteGroupIcon = GroupInviteMessageContentUtil.resolveGroupIcon(content)
-        inviteGroupIdNum = GroupInviteMessageContentUtil.resolveGroupIdno(content)
+        eLogD("InviteJoinGroupMessageVHContentClass", content)
+//        inviteGroupId = GroupInviteMessageContentUtil.resolveGroupId(content)
+        val inviteGroupName = GroupInviteMessageContentUtil.resolveGroupName(content)
+        val inviteGroupIcon = GroupInviteMessageContentUtil.resolveGroupIcon(content)
+//        inviteGroupIdNum = GroupInviteMessageContentUtil.resolveGroupIdno(content)
         nameTextView?.text = inviteGroupName
         if (sentByMe) {
             var toName: String? = GroupInviteMessageContentUtil.resolveToName(content)
@@ -78,32 +79,41 @@ class InviteJoinGroupMessageVH(itemView: View) : BaseMessageVH(itemView, R.layou
             )
         }
         portraitImageView?.loadImg(inviteGroupIcon, R.mipmap.ic_group_broad_chat)
-        bindClick()
+        bindClick(content)
     }
 
     private fun cacheViews() {
+        groupInviteBtn = contentView.findViewById(R.id.groupInviteBtn)
         cardContentLayout = contentView.findViewById(R.id.contentLayout)
         portraitImageView = contentView.findViewById(R.id.groupInvitePortraitImageView)
         nameTextView = contentView.findViewById(R.id.groupInviteNameTextView)
         descTextView = contentView.findViewById(R.id.groupInviteDescTextView)
     }
 
-    private fun bindClick() {
-        cardContentLayout?.click {
-            onInviteClick()
+    private fun bindClick(content: String) {
+        groupInviteBtn?.click {
+            eLogD("InviteJoinGroupMessageVHClass", "点击群消息")
+            onInviteClick(content)
         }
     }
 
-    private fun onInviteClick() {
+    private fun onInviteClick(content: String) {
+        val inviteGroupId = GroupInviteMessageContentUtil.resolveGroupId(content)
         if (TextUtils.isEmpty(inviteGroupId)) {
             return
         }
+        val inviteGroupName = GroupInviteMessageContentUtil.resolveGroupName(content)
+        val inviteGroupIcon = GroupInviteMessageContentUtil.resolveGroupIcon(content)
+        val inviteGroupIdNum = GroupInviteMessageContentUtil.resolveGroupIdno(content)
+        val memCount=GroupInviteMessageContentUtil.resolveGroupMemberCount(content)
+
         GroupInviteClickHelper.handleClick(
             itemView.context,
             inviteGroupId,
             inviteGroupName,
             inviteGroupIcon,
-            inviteGroupIdNum
+            inviteGroupIdNum,
+            memCount
         )
     }
 }

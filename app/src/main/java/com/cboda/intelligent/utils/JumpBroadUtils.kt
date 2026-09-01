@@ -3,6 +3,7 @@ package com.cboda.intelligent.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.text.TextUtils
 import androidx.activity.result.ActivityResultLauncher
 import com.blankj.utilcode.util.ActivityUtils
 import com.cboda.baselibrary.bean.CommonResultBroadBean
@@ -355,12 +356,16 @@ class JumpBroadUtils {
             context: Context?,
             qunId: String,
             fromPage: String,
-            userType: String
+            userType: String,
+            groupPeopleCount: String? = null
         ) {
             val intent = Intent(context, ImQunMemberListBroadActivity::class.java)
             intent.putExtra("qunid", qunId)
             intent.putExtra("fromPage", fromPage)
             intent.putExtra("userType", userType)
+            if (!TextUtils.isEmpty(groupPeopleCount)) {
+                intent.putExtra("groupPeopleCount", groupPeopleCount)
+            }
             context?.startActivity(intent)
         }
 

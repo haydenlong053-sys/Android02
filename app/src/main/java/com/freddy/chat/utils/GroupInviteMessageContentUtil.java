@@ -16,17 +16,19 @@ import com.google.gson.JsonParser;
  */
 public final class GroupInviteMessageContentUtil {
 
-    public static final String MSG_GROUP_INVITE = "GroupInvite";
+    public static final String MSG_GROUP_INVITE = "InviteToGroup";
 
-    private static final String KEY_MSG = "msg";
-    private static final String KEY_GROUP_ID = "groupId";
-    private static final String KEY_GROUP_NAME = "groupName";
-    private static final String KEY_GROUP_ICON = "groupIcon";
-    private static final String KEY_IDNO = "idno";
-    private static final String KEY_FROM = "from";
-    private static final String KEY_FROM_NAME = "fromName";
-    private static final String KEY_TO = "to";
-    private static final String KEY_TO_NAME = "toName";
+    public static final String KEY_MSG = "msg";
+    public static final String KEY_GROUP_ID = "gId";
+    public static final String KEY_GROUP_NAME = "gName";
+    public static final String KEY_GROUP_ICON = "gIcon";
+    public static final String KEY_IDNO = "gNum";
+    public static final String KEY_FROM = "from";
+    public static final String KEY_FROM_NAME = "fromName";
+    public static final String KEY_TO = "to";
+    public static final String KEY_TO_NAME = "toName";
+    public static final String KEY_GROUP_MEMBER_COUNT = "memCount";
+
 
     private GroupInviteMessageContentUtil() {
     }
@@ -50,7 +52,9 @@ public final class GroupInviteMessageContentUtil {
         return readString(contentJson, KEY_GROUP_ICON);
     }
 
-    /** 显示用群号（{@code busiExt.idno}）。 */
+    /**
+     * 显示用群号（{@code busiExt.idno}）。
+     */
     @NonNull
     public static String resolveGroupIdno(@Nullable String contentJson) {
         return readString(contentJson, KEY_IDNO);
@@ -65,6 +69,13 @@ public final class GroupInviteMessageContentUtil {
     public static String resolveFromName(@Nullable String contentJson) {
         return readString(contentJson, KEY_FROM_NAME);
     }
+
+
+    @NonNull
+    public static String resolveGroupMemberCount(@Nullable String contentJson) {
+        return readString(contentJson, KEY_GROUP_MEMBER_COUNT);
+    }
+
 
     @NonNull
     public static String resolveTo(@Nullable String contentJson) {

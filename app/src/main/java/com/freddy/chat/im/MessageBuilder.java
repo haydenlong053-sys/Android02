@@ -34,8 +34,8 @@ import java.util.UUID;
  */
 public class MessageBuilder {
 
-    public static AppMessage buildNewTextMessage(String toId, int conversationType,String content) {
-        return buildTextMessage(null,conversationType,toId,content);
+    public static AppMessage buildNewTextMessage(String toId, int conversationType, String content) {
+        return buildTextMessage(null, conversationType, toId, content);
     }
 
     /**
@@ -182,10 +182,12 @@ public class MessageBuilder {
         return message;
     }
 
-    /** 上传完成后将图片 content 中的 url 替换为 CDN 地址。 */
+    /**
+     * 上传完成后将图片 content 中的 url 替换为 CDN 地址。
+     */
     public static void applyImageUpload(@NonNull AppMessage message,
-                                      @NonNull String localImagePath,
-                                      @NonNull UploadRes upload) {
+                                        @NonNull String localImagePath,
+                                        @NonNull UploadRes upload) {
         message.setContent(wrapImageContentAsJson(
                 localImagePath,
                 upload.getUrl(),
@@ -193,15 +195,17 @@ public class MessageBuilder {
                 upload.getLargeImage()));
     }
 
-    /** 批量上传完成后写入远端视频/封面 URL，保留本地路径。 */
+    /**
+     * 批量上传完成后写入远端视频/封面 URL，保留本地路径。
+     */
     public static void applyVideoUpload(@NonNull AppMessage message,
-                                      int durationSec,
-                                      @NonNull String localVideoPath,
-                                      @Nullable String localCoverPath,
-                                      @NonNull String remoteVideoUrl,
-                                      @Nullable String remoteCoverUrl,
-                                      int displayWidth,
-                                      int displayHeight) {
+                                        int durationSec,
+                                        @NonNull String localVideoPath,
+                                        @Nullable String localCoverPath,
+                                        @NonNull String remoteVideoUrl,
+                                        @Nullable String remoteCoverUrl,
+                                        int displayWidth,
+                                        int displayHeight) {
         message.setContent(wrapVideoContentAsJson(
                 durationSec,
                 localVideoPath,
@@ -226,7 +230,9 @@ public class MessageBuilder {
         message.setContent(wrapVoiceContentAsJson(durationSec, remoteUrl, localPath));
     }
 
-    /** 文件消息 content：{@code {"url":"https://...","msg":"name.ext","size":12345}} */
+    /**
+     * 文件消息 content：{@code {"url":"https://...","msg":"name.ext","size":12345}}
+     */
     @NonNull
     public static AppMessage buildFileMessage(@Nullable String sessionId,
                                               int conversationType,
@@ -249,7 +255,9 @@ public class MessageBuilder {
         return message;
     }
 
-    /** 语音消息 content：{@code localUrl} + {@code url} */
+    /**
+     * 语音消息 content：{@code localUrl} + {@code url}
+     */
     @NonNull
     public static AppMessage buildVoiceMessage(@Nullable String sessionId,
                                                int conversationType,
@@ -272,7 +280,9 @@ public class MessageBuilder {
         return message;
     }
 
-    /** 个人名片消息 contentType=700。 */
+    /**
+     * 个人名片消息 contentType=700。
+     */
     @NonNull
     public static AppMessage buildCardMessage(@Nullable String sessionId,
                                               int conversationType,
@@ -309,7 +319,8 @@ public class MessageBuilder {
                                                      @Nullable String groupIcon,
                                                      @Nullable String groupIdno,
                                                      @Nullable String fromName,
-                                                     @Nullable String toName) {
+                                                     @Nullable String toName,
+                                                     @Nullable String groupPeopleCount) {
         String userId = IMSClientBootstrap.getInstance().getCurrentUserId();
         AppMessage message = new AppMessage();
         String resolvedSessionId = sessionId;
@@ -331,12 +342,14 @@ public class MessageBuilder {
         message.setConversationTypeEnum(ImSignalProtos.ConversationType.forNumber(
                 MessageType.SINGLE_CHAT.getMsgType()));
         message.setContent(wrapGroupInviteContentAsJson(
-                groupId, groupName, groupIcon, groupIdno, userId, fromName, toUserId, toName));
+                groupId, groupName, groupIcon, groupIdno, userId, fromName, toUserId, toName, groupPeopleCount));
         message.setSendStatus(IMSConfig.SEND_STATUS_SENDING);
         return message;
     }
 
-    /** 红包气泡消息 contentType=720。 */
+    /**
+     * 红包气泡消息 contentType=720。
+     */
     @NonNull
     public static AppMessage buildRedPacketMessage(@Nullable String sessionId,
                                                    int conversationType,
@@ -395,7 +408,9 @@ public class MessageBuilder {
 //        return message;
 //    }
 
-    /** 系统公告消息 contentType=710。 */
+    /**
+     * 系统公告消息 contentType=710。
+     */
     @NonNull
     public static AppMessage buildNoticeMessage(@Nullable String sessionId,
                                                 int conversationType,
@@ -422,7 +437,9 @@ public class MessageBuilder {
         return message;
     }
 
-    /** 公告列表/详情分享：仅构造内容与类型，供内联转发。 */
+    /**
+     * 公告列表/详情分享：仅构造内容与类型，供内联转发。
+     */
     @NonNull
     public static AppMessage buildForwardableNoticeMessage(@Nullable String id,
                                                            @Nullable String contentUrl,
@@ -497,22 +514,24 @@ public class MessageBuilder {
                                                        @NonNull String fromUserId,
                                                        @Nullable String fromName,
                                                        @NonNull String toUserId,
-                                                       @Nullable String toName) {
+                                                       @Nullable String toName,
+                                                       @Nullable String groupPeopleCount) {
         Map<String, Object> body = new LinkedHashMap<>(9);
-        body.put("msg", GroupInviteMessageContentUtil.MSG_GROUP_INVITE);
-        body.put("groupId", groupId);
-        body.put("groupName", groupName != null ? groupName : "");
+        body.put(GroupInviteMessageContentUtil.KEY_MSG, GroupInviteMessageContentUtil.MSG_GROUP_INVITE);
+        body.put(GroupInviteMessageContentUtil.KEY_GROUP_ID, groupId);
+        body.put(GroupInviteMessageContentUtil.KEY_GROUP_NAME, groupName != null ? groupName : "");
         if (!TextUtils.isEmpty(groupIcon)) {
-            body.put("groupIcon", groupIcon);
+            body.put(GroupInviteMessageContentUtil.KEY_GROUP_ICON, groupIcon);
         }
         // 显示用群号（busiExt.idno），与个人名片 idno 对齐
         if (!TextUtils.isEmpty(groupIdno)) {
-            body.put("idno", groupIdno);
+            body.put(GroupInviteMessageContentUtil.KEY_IDNO, groupIdno);
         }
-        body.put("from", fromUserId);
-        body.put("fromName", fromName != null ? fromName : "");
-        body.put("to", toUserId);
-        body.put("toName", toName != null ? toName : "");
+        body.put(GroupInviteMessageContentUtil.KEY_FROM, fromUserId);
+        body.put(GroupInviteMessageContentUtil.KEY_FROM_NAME, fromName != null ? fromName : "");
+        body.put(GroupInviteMessageContentUtil.KEY_TO, toUserId);
+        body.put(GroupInviteMessageContentUtil.KEY_GROUP_MEMBER_COUNT, groupPeopleCount);
+        body.put(GroupInviteMessageContentUtil.KEY_TO_NAME, toName != null ? toName : "");
         return AppGson.get().toJson(body);
     }
 
@@ -556,7 +575,9 @@ public class MessageBuilder {
         return AppGson.get().toJson(body);
     }
 
-    /** 文本消息 content 包装为 {@code {"msg":"..."}} */
+    /**
+     * 文本消息 content 包装为 {@code {"msg":"..."}}
+     */
     private static String wrapTextContentAsJson(String content) {
         return wrapTextContentAsJson(content, null);
     }
@@ -571,7 +592,9 @@ public class MessageBuilder {
         return body.toString();
     }
 
-    /** 图片消息 content：{@code localUrl} 本地路径，{@code url} 远程/CDN。 */
+    /**
+     * 图片消息 content：{@code localUrl} 本地路径，{@code url} 远程/CDN。
+     */
     @NonNull
     private static String wrapImageContentAsJson(@NonNull String localImagePath,
                                                  @NonNull String remoteUrl,

@@ -50,6 +50,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
     private var fromPage = ""
     private var qunId = ""
     private var userType = ""
+    private var groupPeopleCount = ""
     private var excludeUserIds: Set<String> = emptySet()
     private var mAdapter: QunMemberBroadAdapter? = null
     private val mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
@@ -80,6 +81,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         fromPage = intent?.getStringExtra("fromPage") ?: ""
         qunId = intent?.getStringExtra("qunid") ?: ""
         userType = intent?.getStringExtra("userType") ?: ""
+        groupPeopleCount = intent?.getStringExtra("groupPeopleCount") ?: ""
         excludeUserIds = intent?.getStringArrayListExtra(ImGroupIntent.EXTRA_EXCLUDE_USER_IDS)
             ?.mapNotNull { it.trim().takeIf { id -> id.isNotEmpty() } }
             ?.toHashSet()
@@ -622,6 +624,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
                         qunId,
                         groupName,
                         groupIcon,
+                        groupPeopleCount,
                         invitees,
                     ) {
                         showToastMain(com.cboda.baselibrary.R.string.group_apply_action_success)

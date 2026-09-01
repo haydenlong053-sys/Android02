@@ -412,14 +412,6 @@ class ImQunInfoViewModel : BaseViewModel() {
                     params,
                 ).onSuccess {
                     dismissLoading()
-                    val cur = _state.value
-                    val vo = cur?.groupVo
-                    if (vo != null) {
-                        vo.openJoinPay = if (enabled) "1" else "0"
-                        vo.ensureBusiExt().openJoinPay = if (enabled) "1" else "0"
-                        vo.joinPayPrice = normalizedPrice
-                        _state.postValue(cur.copy(groupVo = vo))
-                    }
                     liveData.postValue(true)
                 }.onFailure { _, message ->
                     dismissLoading()
@@ -501,10 +493,12 @@ class ImQunInfoViewModel : BaseViewModel() {
                     ext.openQyyq = value
                     vo.allowMemberInvite = anyToInt(value)
                 }
+
                 "openQyyz" -> {
                     ext.openQyyz = value
                     vo.joinNeedVerify = anyToInt(value)
                 }
+
                 "openQzts" -> ext.openQzts = value
                 "openQygl" -> ext.openQygl = value
                 "openQysl" -> ext.openQysl = value

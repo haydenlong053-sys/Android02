@@ -38,6 +38,7 @@ object GroupInviteMessageSender {
         groupId: String,
         groupName: String?,
         groupIcon: String?,
+        groupPeopleCount: String?,
         invitees: Map<String, String>,
         onAllDone: (() -> Unit)? = null,
     ) {
@@ -56,7 +57,7 @@ object GroupInviteMessageSender {
 //            val isPaid = isJoinPayOpen(detail)
 //
 //            if (isPaid) {
-            dispatchInvites(activity, groupId, name, icon, idno, targets, onAllDone)
+            dispatchInvites(activity, groupId, name, icon, idno, groupPeopleCount, targets, onAllDone)
 //                return@launch
 //            }
 //
@@ -124,6 +125,7 @@ object GroupInviteMessageSender {
         groupName: String?,
         groupIcon: String?,
         groupIdno: String?,
+        groupPeopleCount: String?,
         targets: List<Pair<String, String>>,
         onAllDone: (() -> Unit)?,
     ) {
@@ -165,6 +167,7 @@ object GroupInviteMessageSender {
                 groupIdno,
                 fromName,
                 peerName,
+                groupPeopleCount
             )
             MessageProcessor.getInstance().sendMsg(message, {
                 if (remaining.decrementAndGet() <= 0) {

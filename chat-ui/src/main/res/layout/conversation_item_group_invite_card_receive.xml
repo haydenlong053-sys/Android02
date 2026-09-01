@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="12dp"
         android:paddingVertical="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:shape_angle="90"
         app:shape_bottomLeftRadius="@dimen/dp_10"
         app:shape_bottomRightRadius="@dimen/dp_10"
@@ -60,4 +62,15 @@
             app:layout_constraintTop_toBottomOf="@id/groupInviteNameTextView"
             tools:text="张三 邀请你加入群聊" />
     </com.hjq.shape.layout.ShapeConstraintLayout>
-</FrameLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/groupInviteBtn"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:alpha="0"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/contentLayout"
+        app:layout_constraintEnd_toEndOf="@id/contentLayout"
+        app:layout_constraintStart_toStartOf="@id/contentLayout"
+        app:layout_constraintTop_toTopOf="@id/contentLayout" />
+</androidx.constraintlayout.widget.ConstraintLayout>
