@@ -18,17 +18,16 @@ import com.google.gson.JsonParser;
 public final class GroupInviteMessageContentUtil {
 
     public static final String MSG_GROUP_INVITE = "GroupInvite";
-
     public static final String KEY_MSG = "msg";
-    public static final String KEY_GROUP_ID = "gId";
-    public static final String KEY_GROUP_NAME = "gName";
-    public static final String KEY_GROUP_ICON = "gIcon";
-    public static final String KEY_ID_NO = "gNum";
-    public static final String KEY_FROM = "from";
-    public static final String KEY_FROM_NAME = "fName";
-    public static final String KEY_TO = "to";
-    public static final String KEY_TO_NAME = "tName";
-    public static final String KEY_GROUP_MEMBER_COUNT = "pCount";
+    public static final String KEY_GROUP_ID = "gId";//群ID
+    public static final String KEY_GROUP_NAME = "gName";//群名称
+    public static final String KEY_GROUP_ICON = "gIcon";//群头像
+    public static final String KEY_ID_NO = "gNum";//群ID（显示ID）
+    public static final String KEY_FROM = "from";//发送者ID
+    public static final String KEY_FROM_NAME = "fName";//发送者名称
+    public static final String KEY_TO = "to";//接收者ID
+    public static final String KEY_TO_NAME = "tName";//接收者名称
+    public static final String KEY_GROUP_MEMBER_COUNT = "pCount";//群成员数量
 
 
     private GroupInviteMessageContentUtil() {
