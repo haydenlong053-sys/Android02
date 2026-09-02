@@ -15,6 +15,7 @@ import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.loadImg
+import com.cboda.baselibrary.widge.VpGradeView
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.SquareUserActivity
 import com.cboda.intelligent.adapter.PengYouQuanBroadAdapter
@@ -32,6 +33,7 @@ import com.freddy.chat.utils.WeChatUiHelper
 import com.freddy.im.group.GroupRole
 import com.freddy.im.http.ImGroupHttpExample
 import com.freddy.im.http.model.im.GroupUserVo
+import com.freddy.im.http.model.im.GroupVo
 import com.freddy.im.listener.OnHttpImListener
 import com.freddy.webtrc.utils.BroadE
 
@@ -47,6 +49,8 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
     private var targetRole = GroupRole.MEMBER
     private var member: GroupUserVo? = null
     private var isFriend = false
+    /** 群详情 busiExt.openQysl=="1"：禁止群内加好友（仅非好友时生效） */
+    private var forbidAddFriendInGroup = false
     private var avatarUrl = ""
     private var displayName = ""
 
@@ -57,11 +61,12 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
     private lateinit var yichubenqun: View
     private lateinit var shezhijinyan: View
     private lateinit var tianjiadaotongxun: TextView
+    private lateinit var mLlOpenFri: View
+    private lateinit var mViewJump: View
     private lateinit var tvname: TextView
     private lateinit var tvnicheng: TextView
     private lateinit var ivxingbie: ImageView
-    private lateinit var ivTouxiang: ImageView
-    private lateinit var mTvGrade: TextView
+    private lateinit var ivTouxiang: VpGradeView
     private lateinit var mTvJoinGroupDay: TextView
     private lateinit var mTvManageDes: TextView
     private lateinit var mViewSetManger: View
@@ -97,7 +102,8 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
         yichubenqun = findViewById(R.id.yichubenqun)
         shezhijinyan = findViewById(R.id.shezhijinyan)
         tianjiadaotongxun = findViewById(R.id.tianjiadaotongxun)
-        mTvGrade = findViewById(R.id.mTvGrade)
+        mLlOpenFri = findViewById(R.id.mLlOpenFri)
+        mViewJump = findViewById(R.id.mViewJump)
         mTvJoinGroupDay = findViewById(R.id.mTvJoinGroupDay)
         mTvManageDes = findViewById(R.id.mTvManageDes)
         mViewSetManger = findViewById(R.id.mViewSetManger)
@@ -131,8 +137,8 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
                 ivxingbie.setImageResource(
                     if (sex == "1") R.mipmap.ic_msg_icon_boy else R.mipmap.ic_msg_icon_girl
                 )
-                mTvGrade.text="${this.grade}分"
-                pengyouquanlay.isVisible = (isOpenQuan == "1" && bean.data?.quan?.isNotEmpty() == true)
+//                mTvGrade.text="${this.grade}分"
+                pengyouquanlay.isVisible = (isOpenQuan == "1")
 
                 applyActionVisibility()
             }
@@ -167,9 +173,10 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
                 .setImage(avatarUrl)
                 .start()
         }
-        pengyouquanlay.setOnClickListener {
+        mViewJump.setOnClickListener {
             SquareUserActivity.start(this, uid)
         }
+
         mViewChat.setOnClickListener { startP2pChat() }
         mViewCall.setOnClickListener {
             BroadE.startCall(uid, false, context = this)
@@ -178,6 +185,25 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
 
         loadSpecifyMembers()
         loadUserProfile()
+        loadGroupDetail()
+    }
+
+    /** 拉群详情：读取 busiExt.openQysl，用于非好友时的加好友限制。 */
+    private fun loadGroupDetail() {
+        ImGroupHttpExample.requestGetGroupDetail(
+            qunId,
+            object : OnHttpImListener<GroupVo> {
+                override fun onHttpImSuccess(result: GroupVo) {
+                    runOnUiThread {
+                        forbidAddFriendInGroup = result.busiExt?.openQysl == "1"
+                        applyActionVisibility()
+                    }
+                }
+            },
+            {
+                // 详情失败不影响资料页其它能力，保持默认允许加好友
+            },
+        )
     }
 
     /** 一次拉取自己 + 目标，用于角色与踢人/禁言权限。 */
@@ -207,7 +233,8 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
                                 }
                                 if (avatarUrl.isEmpty() && !vo.headPortrait.isNullOrEmpty()) {
                                     avatarUrl = vo.headPortrait!!
-                                    ivTouxiang.loadImg(avatarUrl)
+                                    val registerTime = groupDaysFromCreateTime(member?.registerTime?:0L)
+                                    ivTouxiang.setData(avatarUrl,member?.lianghao?.isNotEmpty()?:false,member?.isvip=="1",member?.grade?.toString(),registerTime.toString())
                                 }
                                 val fromCreateTime = groupDaysFromCreateTime(vo.joinTime)
                                 mTvJoinGroupDay.isVisible =(fromCreateTime>0)
@@ -263,6 +290,8 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
         val manage = canManageTarget()
         val setManager = canSetManager()
         val showFriendActions = !self && isFriend
+        // 仅非好友判断 openQysl：为 1 时不可加好友，展示「不可私聊」
+        val blockAddFriend = !self && !isFriend && forbidAddFriendInGroup
         shezhijinyan.isVisible = manage
         yichubenqun.isVisible = manage
         mTvManageDes.isVisible = manage || setManager
@@ -271,7 +300,8 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
         if (setManager) {
             applyManagerSwitchUi()
         }
-        tianjiadaotongxun.isVisible = !self && !isFriend
+        tianjiadaotongxun.isVisible = !self && !isFriend && !blockAddFriend
+        mLlOpenFri.isVisible = blockAddFriend
     }
 
     private fun startP2pChat() {
