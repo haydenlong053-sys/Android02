@@ -15,6 +15,7 @@ import com.cboda.baselibrary.bean.CommonDataListBroadBean
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.loadImg
+import com.cboda.baselibrary.widge.VpGradeView
 import com.cboda.intelligent.R
 import com.cboda.intelligent.activity.SquareUserActivity
 import com.cboda.intelligent.adapter.PengYouQuanBroadAdapter
@@ -61,11 +62,11 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
     private lateinit var shezhijinyan: View
     private lateinit var tianjiadaotongxun: TextView
     private lateinit var mLlOpenFri: View
+    private lateinit var mViewJump: View
     private lateinit var tvname: TextView
     private lateinit var tvnicheng: TextView
     private lateinit var ivxingbie: ImageView
-    private lateinit var ivTouxiang: ImageView
-    private lateinit var mTvGrade: TextView
+    private lateinit var ivTouxiang: VpGradeView
     private lateinit var mTvJoinGroupDay: TextView
     private lateinit var mTvManageDes: TextView
     private lateinit var mViewSetManger: View
@@ -102,7 +103,7 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
         shezhijinyan = findViewById(R.id.shezhijinyan)
         tianjiadaotongxun = findViewById(R.id.tianjiadaotongxun)
         mLlOpenFri = findViewById(R.id.mLlOpenFri)
-        mTvGrade = findViewById(R.id.mTvGrade)
+        mViewJump = findViewById(R.id.mViewJump)
         mTvJoinGroupDay = findViewById(R.id.mTvJoinGroupDay)
         mTvManageDes = findViewById(R.id.mTvManageDes)
         mViewSetManger = findViewById(R.id.mViewSetManger)
@@ -136,7 +137,7 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
                 ivxingbie.setImageResource(
                     if (sex == "1") R.mipmap.ic_msg_icon_boy else R.mipmap.ic_msg_icon_girl
                 )
-                mTvGrade.text="${this.grade}分"
+//                mTvGrade.text="${this.grade}分"
                 pengyouquanlay.isVisible = (isOpenQuan == "1")
 
                 applyActionVisibility()
@@ -172,9 +173,10 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
                 .setImage(avatarUrl)
                 .start()
         }
-        pengyouquanlay.setOnClickListener {
+        mViewJump.setOnClickListener {
             SquareUserActivity.start(this, uid)
         }
+
         mViewChat.setOnClickListener { startP2pChat() }
         mViewCall.setOnClickListener {
             BroadE.startCall(uid, false, context = this)
@@ -231,7 +233,8 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
                                 }
                                 if (avatarUrl.isEmpty() && !vo.headPortrait.isNullOrEmpty()) {
                                     avatarUrl = vo.headPortrait!!
-                                    ivTouxiang.loadImg(avatarUrl)
+                                    val registerTime = groupDaysFromCreateTime(member?.registerTime?:0L)
+                                    ivTouxiang.setData(avatarUrl,member?.lianghao?.isNotEmpty()?:false,member?.isvip=="1",member?.grade?.toString(),registerTime.toString())
                                 }
                                 val fromCreateTime = groupDaysFromCreateTime(vo.joinTime)
                                 mTvJoinGroupDay.isVisible =(fromCreateTime>0)

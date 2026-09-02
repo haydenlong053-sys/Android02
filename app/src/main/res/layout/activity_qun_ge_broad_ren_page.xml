@@ -24,39 +24,28 @@
                 android:paddingVertical="24dp"
                 >
 
-                <com.cboda.baselibrary.view.RoundedImageBroadView
+                <com.cboda.baselibrary.widge.VpGradeView
                     android:id="@+id/ivTouxiang"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_92"
+                    app:user_img_width="@dimen/dp_80"
+                    app:user_vip_width="@dimen/dp_27"
+                    app:user_grade_text_size="11sp"
+                    app:user_grade_height="16dp"
+                    app:user_grade_pad="8dp"
+                    app:user_vip_margin_bottom="-18dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:scaleType="centerCrop"
-                    app:riv_oval="true"
-                    />
-                <com.hjq.shape.view.ShapeTextView
-                    android:id="@+id/mTvGrade"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:shape_solidColor="@color/color_7A66FA"
-                    app:shape_radius="8dp"
-                    android:paddingVertical="1dp"
-                    android:paddingHorizontal="8dp"
-                    android:textColor="@color/white"
-                    tools:text="78分"
-                    android:textSize="11sp"
-                    app:layout_constraintStart_toStartOf="@id/ivTouxiang"
-                    app:layout_constraintEnd_toEndOf="@id/ivTouxiang"
-                    app:layout_constraintTop_toTopOf="@id/ivTouxiang"
-                    android:layout_marginTop="64dp"
+                    tools:visibility="visible" />
 
-                    />
+
 
                 <TextView
                     android:id="@+id/tvname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="1dp"
                     android:ellipsize="end"
                     android:maxWidth="200dp"
                     android:maxLines="1"
@@ -435,7 +424,15 @@
                 app:layout_constraintBottom_toBottomOf="@id/pengyouquan"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/pengyouquan" />
-
+            <View
+                android:id="@+id/mViewJump"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
