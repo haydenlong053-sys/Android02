@@ -86,7 +86,6 @@ object BroadE {
             )
         } else {
             callBack.invoke(Pair(null, getAppStr(R.string.group_user_not_is_null)))
-            return
         }
 
     }

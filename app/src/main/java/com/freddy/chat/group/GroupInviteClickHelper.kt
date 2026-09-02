@@ -12,6 +12,8 @@ import com.cboda.intelligent.R
 import com.cboda.intelligent.bean.CheckGroupJoiBean
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.UrlBroadBroadConstants
+import com.cboda.intelligent.utils.dismissLoading
+import com.cboda.intelligent.utils.showLoading
 import com.cboda.intelligent.utils.showToastMain
 import com.freddy.chat.utils.AppGson
 import com.freddy.im.http.ImGroupHttpExample
@@ -47,15 +49,15 @@ object GroupInviteClickHelper {
         groupIdNum: String? = null,
         memCount: String? = null
     ) {
-        if (groupId.isBlank()) {
-            return
-        }
         val userId = MMKVBroadUtils.getRealUserId()
+        showLoading()
         checkPeopleInGroup(groupId, userId) { pair ->
             if (pair.first) {
+                dismissLoading()
                 inFlight.set(false)
                 openGroupChat(context, groupId, groupName, groupIcon)
             } else if (!TextUtils.isEmpty(pair.second)) {
+                dismissLoading()
                 inFlight.set(false)
                 showToastMain(pair.second ?: "")
             } else {
@@ -90,11 +92,13 @@ object GroupInviteClickHelper {
                 val groupInfo = buildGroupQrInfo(groupId, groupName, groupIcon, groupIdNum, memCount, data)
                 when {
                     data.isBlacklisted() -> {
+                        dismissLoading()
                         inFlight.set(false)
                         showToastMain(R.string.scan_group_blacklisted)
                     }
 
                     data.isNeedPay() -> {
+                        dismissLoading()
                         JumpBroadUtils.startToGroupJoinPay(groupInfo, context)
 //                        GroupJoinPayActivity.start(context, groupInfo)
 //                        loadGroupDetailThenContinue(context, groupId, groupName, groupIcon, data, needPay = true)
@@ -105,6 +109,7 @@ object GroupInviteClickHelper {
                     }
 
                     else -> {
+                        dismissLoading()
                         inFlight.set(false)
                         showToastMain(
                             data.msg?.takeIf { it.isNotBlank() }
@@ -113,12 +118,14 @@ object GroupInviteClickHelper {
                     }
                 }
             }.onFailure { _, message ->
+                dismissLoading()
                 inFlight.set(false)
                 showToastMain(
                     message.takeIf { it.isNotBlank() }
                         ?: context.getString(R.string.scan_network_request_failed),
                 )
             }.onError {
+                dismissLoading()
                 inFlight.set(false)
                 showToastMain(R.string.scan_network_request_failed)
             }
@@ -222,17 +229,21 @@ object GroupInviteClickHelper {
                 override fun onHttpImSuccess(result: Boolean) {
                     inFlight.set(false)
                     if (!result) {
+                        dismissLoading()
                         showToastMain(R.string.scan_network_request_failed)
                         return
                     }
                     if (isJoinNeedVerify(groupInfo)) {
+                        dismissLoading()
                         showToastMain(R.string.scan_applied_waiting_group_owner)
                     } else {
+                        dismissLoading()
                         openGroupChat(context, groupId, groupInfo.name, groupInfo.icon)
                     }
                 }
             },
             {
+                dismissLoading()
                 inFlight.set(false)
                 showToastMain(R.string.scan_network_request_failed)
             },

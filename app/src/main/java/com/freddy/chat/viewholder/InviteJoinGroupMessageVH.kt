@@ -10,6 +10,7 @@ import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.loadImg
 import com.cboda.chatui.R
+import com.cboda.intelligent.utils.showToastMain
 import com.freddy.chat.group.GroupInviteClickHelper
 import com.freddy.chat.utils.GroupInviteMessageContentUtil
 import com.freddy.im.bean.AppMessage
@@ -100,12 +101,13 @@ class InviteJoinGroupMessageVH(itemView: View) : BaseMessageVH(itemView, R.layou
     private fun onInviteClick(content: String) {
         val inviteGroupId = GroupInviteMessageContentUtil.resolveGroupId(content)
         if (TextUtils.isEmpty(inviteGroupId)) {
+            showToastMain("群ID为${inviteGroupId},该群不存在!")
             return
         }
         val inviteGroupName = GroupInviteMessageContentUtil.resolveGroupName(content)
         val inviteGroupIcon = GroupInviteMessageContentUtil.resolveGroupIcon(content)
         val inviteGroupIdNum = GroupInviteMessageContentUtil.resolveGroupIdno(content)
-        val memCount=GroupInviteMessageContentUtil.resolveGroupMemberCount(content)
+        val memCount = GroupInviteMessageContentUtil.resolveGroupMemberCount(content)
 
         GroupInviteClickHelper.handleClick(
             itemView.context,
