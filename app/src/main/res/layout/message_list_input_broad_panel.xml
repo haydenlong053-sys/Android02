@@ -28,8 +28,9 @@
             <com.hjq.shape.view.ShapeView
                 android:id="@+id/yyView1"
                 android:layout_width="@dimen/dp_6"
-                android:layout_height="@dimen/dp_35"
-                android:layout_marginStart="-4dp"
+                android:layout_height="@dimen/dp_0"
+                android:layout_marginVertical="@dimen/dp_8"
+                android:layout_marginStart="-3dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -49,16 +50,91 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/refEditText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textColor="#CC000000"
                     android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ref_thumb_frame"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="你们在聊什么啊，怎么不喊我呢你们在聊什么啊，不喊我呢你们在聊什么啊"
+                    tools:visibility="visible" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ref_thumb_frame"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="你们在聊什么啊，怎么不喊我呢你们在聊什么啊，不喊我呢你们在聊什么啊" />
+                    tools:visibility="visible">
+
+                    <com.cboda.baselibrary.view.RoundedImageBroadView
+                        android:id="@+id/iv_ref_thumb"
+                        android:layout_width="@dimen/dp_38"
+                        android:layout_height="@dimen/dp_38"
+                        android:contentDescription="@null"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:riv_corner_radius="@dimen/dp_6"
+                        tools:src="@color/black" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_ref_play"
+                        android:layout_width="10dp"
+                        android:layout_height="11dp"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/img_video_play_session2"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_ref_thumb"
+                        app:layout_constraintEnd_toEndOf="@id/iv_ref_thumb"
+                        app:layout_constraintStart_toStartOf="@id/iv_ref_thumb"
+                        app:layout_constraintTop_toTopOf="@id/iv_ref_thumb"
+                        tools:visibility="visible" />
+
+                    <Space
+                        android:layout_width="@dimen/dp_6"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/iv_ref_thumb"
+                        app:layout_constraintTop_toTopOf="@id/iv_ref_thumb" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/refNameTextBefore2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/message_quote"
+                    android:textColor="#72000000"
+                    android:textSize="10sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/ref_thumb_frame"
+                    app:layout_constraintStart_toEndOf="@id/ref_thumb_frame"
+                    app:layout_constraintTop_toTopOf="@id/ref_thumb_frame"
+                    tools:ignore="SmallSp"
+                    tools:visibility="visible" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/refNameText2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_6"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="#A5000000"
+                    android:textSize="10sp"
+                    android:visibility="gone"
+                    app:layout_constraintBaseline_toBaselineOf="@id/refNameTextBefore2"
+                    app:layout_constraintStart_toEndOf="@id/refNameTextBefore2"
+                    tools:ignore="SmallSp"
+                    tools:text="JOY Follow"
+                    tools:visibility="visible" />
+
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/refNameTextBefore"
@@ -70,9 +146,11 @@
                     android:text="@string/message_quote"
                     android:textColor="#72000000"
                     android:textSize="10sp"
-                    app:layout_constraintStart_toStartOf="@id/refEditText"
-                    app:layout_constraintTop_toBottomOf="@id/refEditText"
-                    tools:ignore="SmallSp" />
+                    android:visibility="visible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ref_content_bottom_barrier"
+                    tools:ignore="SmallSp"
+                    tools:visibility="visible" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/refNameText"
@@ -83,11 +161,19 @@
                     android:maxLines="1"
                     android:textColor="#A5000000"
                     android:textSize="10sp"
-                    app:layout_constraintStart_toEndOf="@id/refNameTextBefore"
+                    android:visibility="visible"
                     app:layout_constraintBaseline_toBaselineOf="@id/refNameTextBefore"
+                    app:layout_constraintStart_toEndOf="@id/refNameTextBefore"
                     tools:ignore="SmallSp"
-                    tools:text="JOY Follow" />
+                    tools:text="JOY Follow"
+                    tools:visibility="visible" />
 
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/ref_content_bottom_barrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="refEditText,ref_thumb_frame" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

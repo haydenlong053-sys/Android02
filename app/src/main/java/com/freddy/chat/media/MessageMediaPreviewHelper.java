@@ -2,20 +2,26 @@ package com.freddy.chat.media;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 
 import com.cboda.chatui.mm.MMPreviewBroadActivity;
 import com.cboda.chatui.mm.MediaBroadEntry;
 import com.cboda.intelligent.activity.VideoPlayOnlyBroadActivity;
 import com.freddy.chat.utils.MediaMessageContentUtil;
+import com.freddy.chat.utils.QuoteMessageContentUtil;
 import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.db.mapper.MessageRealmMapper;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -67,9 +73,105 @@ public final class MessageMediaPreviewHelper {
             return;
         }
         String coverUrl = MediaMessageContentUtil.resolveCoverDisplayUrl(message.getContent(), sentByMe);
+        previewVideoUrl(context, playUrl, coverUrl);
+    }
+
+    /** 引用卡片：直接打开图片（优先用会话内原消息做相册预览）。 */
+    public static void previewQuotedImage(@NonNull Context context,
+                                          @NonNull QuoteMessageContentUtil.QuoteInfo quote,
+                                          @Nullable List<AppMessage> sessionMessages,
+                                          @Nullable AppMessage quotedMessage,
+                                          @Nullable String currentUserId) {
+        if (quotedMessage != null
+                && sessionMessages != null
+                && WeChatUiHelper.isImageMessage(quotedMessage.getMsgContentType())) {
+            previewImages(context, sessionMessages, quotedMessage, currentUserId);
+            return;
+        }
+        String mediaUrl = firstNonEmpty(quote.mediaUrl, quote.thumbUrl);
+        if (TextUtils.isEmpty(mediaUrl)) {
+            return;
+        }
+        MediaBroadEntry entry = new MediaBroadEntry();
+        entry.setType(MediaBroadEntry.TYPE_IMAGE);
+        if (MediaMessageContentUtil.isUsableLocalFile(mediaUrl)) {
+            entry.setMediaLocalPath(mediaUrl);
+            entry.setMediaUrl(mediaUrl);
+        } else {
+            entry.setMediaUrl(mediaUrl);
+        }
+        if (!TextUtils.isEmpty(quote.thumbUrl)) {
+            entry.setThumbnailUrl(quote.thumbUrl);
+        }
+        MMPreviewBroadActivity.previewMedia(context, Collections.singletonList(entry), 0, false);
+    }
+
+    /** 引用卡片：直接打开视频。 */
+    public static void previewQuotedVideo(@NonNull Context context,
+                                          @NonNull QuoteMessageContentUtil.QuoteInfo quote,
+                                          @Nullable AppMessage quotedMessage,
+                                          @Nullable String currentUserId) {
+        if (quotedMessage != null && WeChatUiHelper.isVideoMessage(quotedMessage.getMsgContentType())) {
+            previewVideo(context, quotedMessage, currentUserId);
+            return;
+        }
+        if (TextUtils.isEmpty(quote.mediaUrl)) {
+            return;
+        }
+        previewVideoUrl(context, quote.mediaUrl, quote.thumbUrl);
+    }
+
+    /** 引用卡片：直接打开文件。 */
+    public static void openQuotedFile(@NonNull Context context,
+                                      @NonNull QuoteMessageContentUtil.QuoteInfo quote,
+                                      @Nullable AppMessage quotedMessage,
+                                      @Nullable String currentUserId) {
+        String path = "";
+        if (quotedMessage != null && WeChatUiHelper.isFileMessage(quotedMessage.getMsgContentType())) {
+            boolean sentByMe = quotedMessage.isSender(currentUserId);
+            path = MediaMessageContentUtil.resolveDisplayUrl(quotedMessage.getContent(), sentByMe);
+        }
+        if (TextUtils.isEmpty(path)) {
+            path = quote.mediaUrl == null ? "" : quote.mediaUrl;
+        }
+        if (TextUtils.isEmpty(path)) {
+            Toast.makeText(context, com.cboda.baselibrary.R.string.file_pick_failed, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            Uri uri;
+            if (path.startsWith("http://") || path.startsWith("https://")) {
+                uri = Uri.parse(path);
+            } else {
+                File file = new File(path);
+                if (!file.isFile()) {
+                    Toast.makeText(context, com.cboda.baselibrary.R.string.file_pick_failed, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                uri = FileProvider.getUriForFile(
+                        context,
+                        context.getPackageName() + ".provider",
+                        file);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            }
+            intent.setDataAndType(uri, "*/*");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(context, com.cboda.baselibrary.R.string.file_pick_failed, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static void previewVideoUrl(@NonNull Context context,
+                                       @NonNull String playUrl,
+                                       @Nullable String coverUrl) {
+        if (TextUtils.isEmpty(playUrl)) {
+            return;
+        }
         Intent intent = new Intent(context, VideoPlayOnlyBroadActivity.class);
         intent.putExtra("video", playUrl);
-        intent.putExtra("videoImage", coverUrl);
+        intent.putExtra("videoImage", coverUrl == null ? "" : coverUrl);
         context.startActivity(intent);
     }
 
@@ -106,5 +208,16 @@ public final class MessageMediaPreviewHelper {
         String msgIdA = a.getMsgId();
         String msgIdB = b.getMsgId();
         return !TextUtils.isEmpty(msgIdA) && msgIdA.equals(msgIdB);
+    }
+
+    @NonNull
+    private static String firstNonEmpty(@Nullable String a, @Nullable String b) {
+        if (!TextUtils.isEmpty(a)) {
+            return a.trim();
+        }
+        if (!TextUtils.isEmpty(b)) {
+            return b.trim();
+        }
+        return "";
     }
 }

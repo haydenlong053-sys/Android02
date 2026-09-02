@@ -29,10 +29,12 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.cboda.baselibrary.utils.ELogUtilKt;
+import com.cboda.baselibrary.utils.GlideUtilsKt;
 import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.chatemoji.EmotionBroadLayout;
 import com.cboda.chatemoji.IEmotionSelectedBroadListener;
 import com.cboda.chatui.audio.AudioRecorderBroadPanel;
+import com.cboda.chatui.utils.FileBroadUtils;
 import com.cboda.intelligent.R;
 import com.cboda.chatui.conversation.mention.MentionBroadSpan;
 import com.freddy.chat.draft.ChatDraftHelper;
@@ -105,9 +107,15 @@ public class MessageListInputBroadPanel extends FrameLayout
     @Nullable
     private TextView refEditText;
     @Nullable
-    private TextView refNameText;
+    private TextView refNameText, refNameText2;
     @Nullable
-    private View clearRefImageButton;
+    private View clearRefImageButton, refNameTextBefore, refNameTextBefore2;
+    @Nullable
+    private View refThumbFrame;
+    @Nullable
+    private ImageView ivRefThumb;
+    @Nullable
+    private ImageView ivRefPlay;
     @Nullable
     private QuoteMessageContentUtil.QuoteInfo pendingQuote;
 
@@ -372,7 +380,13 @@ public class MessageListInputBroadPanel extends FrameLayout
         refRelativeLayout = findViewById(R.id.refRelativeLayout);
         refEditText = findViewById(R.id.refEditText);
         refNameText = findViewById(R.id.refNameText);
+        refNameText2 = findViewById(R.id.refNameText2);
         clearRefImageButton = findViewById(R.id.clearRefImageButton);
+        refNameTextBefore = findViewById(R.id.refNameTextBefore);
+        refNameTextBefore2 = findViewById(R.id.refNameTextBefore2);
+        refThumbFrame = findViewById(R.id.ref_thumb_frame);
+        ivRefThumb = findViewById(R.id.iv_ref_thumb);
+        ivRefPlay = findViewById(R.id.iv_ref_play);
     }
 
     /**
@@ -387,18 +401,79 @@ public class MessageListInputBroadPanel extends FrameLayout
         String name = TextUtils.isEmpty(quoteInfo.displayName)
                 ? (quoteInfo.userId == null ? "" : quoteInfo.userId)
                 : quoteInfo.displayName.trim();
+        boolean showThumb = quoteInfo.hasThumbPreview();
+        bindRefThumb(quoteInfo, showThumb);
         if (refEditText != null) {
-            refEditText.setText(digest);
+            if (quoteInfo.isImageQuote() || quoteInfo.isVideoQuote()) {
+                // 对齐微信：图/视频引用草稿只展示缩略图
+                refEditText.setText("");
+                refEditText.setVisibility(GONE);
+            } else {
+                refEditText.setVisibility(VISIBLE);
+                refEditText.setText(digest);
+            }
         }
-        if (refNameText != null) {
+        if (refNameText != null && refNameText2 != null) {
             if (!TextUtils.isEmpty(name)) {
                 refNameText.setText(name);
+                refNameText2.setText(name);
             } else {
                 refNameText.setText("");
+                refNameText2.setText("");
             }
         }
         editText.requestFocus();
         updateSendButtonVisibility();
+    }
+
+    private void bindRefThumb(@NonNull QuoteMessageContentUtil.QuoteInfo quoteInfo, boolean showThumb) {
+        if (!showThumb || refThumbFrame == null || ivRefThumb == null) {
+            hideRefThumb();
+            return;
+        }
+        refThumbFrame.setVisibility(VISIBLE);
+        if (quoteInfo.isFileQuote()) {
+            String fileName = !TextUtils.isEmpty(quoteInfo.fileName) ? quoteInfo.fileName : quoteInfo.digest;
+            ivRefThumb.setImageResource(FileBroadUtils.getFileTypeImageResId(fileName));
+            if (ivRefPlay != null) {
+                ivRefPlay.setVisibility(GONE);
+            }
+            return;
+        }
+        String thumb = quoteInfo.thumbUrl;
+        if (TextUtils.isEmpty(thumb)) {
+            thumb = quoteInfo.mediaUrl;
+        }
+        GlideUtilsKt.loadImg(ivRefThumb, thumb, com.cboda.baselibrary.R.mipmap.icon_image_placeholder_my);
+
+        if (null != refNameText2 && null != refNameTextBefore2 && null != refNameText && null != refNameTextBefore) {
+            if (quoteInfo.isImageQuote() || quoteInfo.isVideoQuote()) {
+                refNameText2.setVisibility(View.VISIBLE);
+                refNameTextBefore2.setVisibility(View.VISIBLE);
+                refNameText.setVisibility(View.GONE);
+                refNameTextBefore.setVisibility(View.GONE);
+            } else {
+                refNameText.setVisibility(View.VISIBLE);
+                refNameTextBefore.setVisibility(View.VISIBLE);
+                refNameText2.setVisibility(View.GONE);
+                refNameTextBefore2.setVisibility(View.GONE);
+            }
+        }
+        if (ivRefPlay != null) {
+            ivRefPlay.setVisibility(quoteInfo.isVideoQuote() ? VISIBLE : GONE);
+        }
+    }
+
+    private void hideRefThumb() {
+        if (refThumbFrame != null) {
+            refThumbFrame.setVisibility(GONE);
+        }
+        if (ivRefPlay != null) {
+            ivRefPlay.setVisibility(GONE);
+        }
+        if (ivRefThumb != null) {
+            ivRefThumb.setImageDrawable(null);
+        }
     }
 
     public void clearQuote() {
@@ -408,10 +483,13 @@ public class MessageListInputBroadPanel extends FrameLayout
         }
         if (refEditText != null) {
             refEditText.setText("");
+            refEditText.setVisibility(VISIBLE);
         }
-        if (refNameText != null) {
+        if (refNameText != null && refNameText2 != null) {
             refNameText.setText("");
+            refNameText2.setText("");
         }
+        hideRefThumb();
     }
 
     @Nullable

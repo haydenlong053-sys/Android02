@@ -34,10 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:minWidth="140dp"
-        android:orientation="vertical"
-        android:paddingTop="6dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="6dp"
+        android:paddingVertical="@dimen/dp_6"
+        android:paddingEnd="@dimen/dp_6"
         android:visibility="gone"
         tools:background="@drawable/bg_message_quote_card_input"
         tools:visibility="visible">
@@ -45,43 +43,97 @@
         <com.hjq.shape.view.ShapeView
             android:id="@+id/yyView"
             android:layout_width="@dimen/dp_2"
+            android:layout_marginVertical="@dimen/dp_4"
             android:layout_height="@dimen/dp_0"
-            android:layout_marginVertical="@dimen/dp_3"
-            android:layout_marginStart="@dimen/dp_5"
-            app:layout_constraintBottom_toBottomOf="@id/tv_quote_digest"
+            android:layout_marginStart="@dimen/dp_6"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_quote_title"
+            app:layout_constraintTop_toTopOf="parent"
             app:shape_angle="90"
             app:shape_endColor="#4444F0"
             app:shape_radius="@dimen/dp_2"
             app:shape_startColor="#5686F3" />
 
         <TextView
+            android:id="@+id/tvQuoteTitleBefore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_5"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#72000000"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/yyView"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/message_quote" />
+        <TextView
             android:id="@+id/tv_quote_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_5"
             android:ellipsize="end"
-            android:maxWidth="200dp"
+            android:maxWidth="150dp"
             android:maxLines="1"
-            android:textColor="#B2000000"
+            android:textColor="#A5000000"
             android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/yyView"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="引用 JOY Follow" />
-
+            app:layout_constrainedWidth="true"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/tvQuoteTitleBefore"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvQuoteTitleBefore"
+            tools:text="JOY Follow" />
         <TextView
             android:id="@+id/tv_quote_digest"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="@dimen/dp_3"
             android:ellipsize="end"
-            android:maxWidth="200dp"
+            android:maxWidth="@dimen/dp_150"
             android:maxLines="2"
             android:textColor="#B2000000"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@id/tv_quote_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_quote_title"
+            app:layout_constraintStart_toEndOf="@id/quote_thumb_frame"
+            app:layout_constraintTop_toBottomOf="@id/tvQuoteTitleBefore"
             tools:text="你好，很高兴认识你" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/quote_thumb_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_3"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/tvQuoteTitleBefore"
+            app:layout_constraintTop_toBottomOf="@id/tvQuoteTitleBefore"
+            tools:visibility="visible">
+
+            <com.cboda.baselibrary.view.RoundedImageBroadView
+                android:id="@+id/iv_quote_thumb"
+                android:layout_width="@dimen/dp_50"
+                android:layout_height="@dimen/dp_50"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:riv_corner_radius="@dimen/dp_6"
+                tools:src="@color/black" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_quote_play"
+                android:layout_width="10dp"
+                android:layout_height="11dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/img_video_play_session2"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/iv_quote_thumb"
+                app:layout_constraintEnd_toEndOf="@id/iv_quote_thumb"
+                app:layout_constraintStart_toStartOf="@id/iv_quote_thumb"
+                app:layout_constraintTop_toTopOf="@id/iv_quote_thumb"
+                tools:visibility="visible" />
+
+            <Space
+                android:layout_width="@dimen/dp_6"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/iv_quote_thumb"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

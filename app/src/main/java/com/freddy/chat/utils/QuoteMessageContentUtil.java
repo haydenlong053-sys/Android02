@@ -16,7 +16,7 @@ import java.util.Map;
  * 文本消息引用（仿微信 / 对齐野火 {@code QuoteInfo}）。
  * <p>
  * 写入文本 content JSON：
- * {@code {"msg":"...","quote":{"msgId":"...","clientMsgId":"...","userId":"...","displayName":"...","digest":"...","contentType":100}}}
+ * {@code {"msg":"...","quote":{"msgId":"...","clientMsgId":"...","userId":"...","displayName":"...","digest":"...","contentType":100,"thumbUrl":"...","mediaUrl":"...","fileName":"..."}}}
  */
 public final class QuoteMessageContentUtil {
 
@@ -27,6 +27,9 @@ public final class QuoteMessageContentUtil {
     private static final String KEY_DISPLAY_NAME = "displayName";
     private static final String KEY_DIGEST = "digest";
     private static final String KEY_CONTENT_TYPE = "contentType";
+    private static final String KEY_THUMB_URL = "thumbUrl";
+    private static final String KEY_MEDIA_URL = "mediaUrl";
+    private static final String KEY_FILE_NAME = "fileName";
     private static final int DIGEST_MAX_LEN = 48;
 
     private QuoteMessageContentUtil() {
@@ -44,6 +47,14 @@ public final class QuoteMessageContentUtil {
         @Nullable
         public String digest;
         public int contentType;
+        /** 图片缩略图 / 视频封面；文件为空时用 fileName 解析图标。 */
+        @Nullable
+        public String thumbUrl;
+        /** 可打开的图片 / 视频 / 文件地址（优先远端）。 */
+        @Nullable
+        public String mediaUrl;
+        @Nullable
+        public String fileName;
 
         @NonNull
         public String formatPreviewLine() {
@@ -66,6 +77,29 @@ public final class QuoteMessageContentUtil {
             }
             return null;
         }
+
+        public boolean isImageQuote() {
+            return MessageContentFormatter.isImageMessage(contentType);
+        }
+
+        public boolean isVideoQuote() {
+            return MessageContentFormatter.isVideoMessage(contentType);
+        }
+
+        public boolean isFileQuote() {
+            return MessageContentFormatter.isFileMessage(contentType);
+        }
+
+        public boolean isMediaQuote() {
+            return isImageQuote() || isVideoQuote() || isFileQuote();
+        }
+
+        public boolean hasThumbPreview() {
+            return isMediaQuote()
+                    && (!TextUtils.isEmpty(thumbUrl)
+                    || !TextUtils.isEmpty(mediaUrl)
+                    || isFileQuote());
+        }
     }
 
     @Nullable
@@ -81,6 +115,9 @@ public final class QuoteMessageContentUtil {
         info.userId = readString(q, KEY_USER_ID);
         info.displayName = readString(q, KEY_DISPLAY_NAME);
         info.digest = readString(q, KEY_DIGEST);
+        info.thumbUrl = readString(q, KEY_THUMB_URL);
+        info.mediaUrl = readString(q, KEY_MEDIA_URL);
+        info.fileName = readString(q, KEY_FILE_NAME);
         if (q.has(KEY_CONTENT_TYPE) && q.get(KEY_CONTENT_TYPE).isJsonPrimitive()) {
             try {
                 info.contentType = q.get(KEY_CONTENT_TYPE).getAsInt();
@@ -88,7 +125,10 @@ public final class QuoteMessageContentUtil {
                 info.contentType = 0;
             }
         }
-        if (TextUtils.isEmpty(info.resolveAnchorId()) && TextUtils.isEmpty(info.digest)) {
+        if (TextUtils.isEmpty(info.resolveAnchorId())
+                && TextUtils.isEmpty(info.digest)
+                && TextUtils.isEmpty(info.thumbUrl)
+                && TextUtils.isEmpty(info.mediaUrl)) {
             return null;
         }
         return info;
@@ -109,7 +149,48 @@ public final class QuoteMessageContentUtil {
         }
         info.digest = digest;
         info.contentType = message.getMsgContentType();
+        fillMediaFields(info, message, currentUserId);
         return info;
+    }
+
+    private static void fillMediaFields(@NonNull QuoteInfo info,
+                                        @NonNull AppMessage message,
+                                        @Nullable String currentUserId) {
+        String content = message.getContent();
+        boolean sentByMe = message.isSender(currentUserId);
+        if (info.isImageQuote()) {
+            String remote = MediaMessageContentUtil.resolveRemoteUrl(content);
+            String display = MediaMessageContentUtil.resolveDisplayUrl(content, sentByMe);
+            String thumb = MediaMessageContentUtil.resolveDisplayThumbUrl(content, sentByMe);
+            info.mediaUrl = firstNonEmpty(remote, display);
+            info.thumbUrl = firstNonEmpty(thumb, info.mediaUrl);
+            return;
+        }
+        if (info.isVideoQuote()) {
+            String remote = MediaMessageContentUtil.resolveRemoteUrl(content);
+            String play = MediaMessageContentUtil.resolveVideoPlayUrl(content, sentByMe);
+            info.mediaUrl = firstNonEmpty(remote, play);
+            String cover = MediaMessageContentUtil.resolveCoverDisplayUrl(content, sentByMe);
+            info.thumbUrl = cover;
+            return;
+        }
+        if (info.isFileQuote()) {
+            String remote = MediaMessageContentUtil.resolveRemoteUrl(content);
+            String display = MediaMessageContentUtil.resolveDisplayUrl(content, sentByMe);
+            info.mediaUrl = firstNonEmpty(remote, display);
+            info.fileName = MediaMessageContentUtil.resolveFileName(content);
+        }
+    }
+
+    @NonNull
+    private static String firstNonEmpty(@Nullable String a, @Nullable String b) {
+        if (!TextUtils.isEmpty(a)) {
+            return a.trim();
+        }
+        if (!TextUtils.isEmpty(b)) {
+            return b.trim();
+        }
+        return "";
     }
 
     /**
@@ -170,6 +251,15 @@ public final class QuoteMessageContentUtil {
         }
         if (info.contentType > 0) {
             q.addProperty(KEY_CONTENT_TYPE, info.contentType);
+        }
+        if (!TextUtils.isEmpty(info.thumbUrl)) {
+            q.addProperty(KEY_THUMB_URL, info.thumbUrl);
+        }
+        if (!TextUtils.isEmpty(info.mediaUrl)) {
+            q.addProperty(KEY_MEDIA_URL, info.mediaUrl);
+        }
+        if (!TextUtils.isEmpty(info.fileName)) {
+            q.addProperty(KEY_FILE_NAME, info.fileName);
         }
         return q;
     }

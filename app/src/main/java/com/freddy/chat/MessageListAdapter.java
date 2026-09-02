@@ -407,6 +407,11 @@ public final class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.
         return items.get(position);
     }
 
+    @NonNull
+    public List<AppMessage> getItems() {
+        return items;
+    }
+
     private void reportMessageRead(AppMessage appMessage) {
         if (appMessage == null || appMessage.getMsgId() == null) {
             return;
