@@ -1,5 +1,6 @@
 package com.freddy.chat.viewholder;
 
+import android.annotation.SuppressLint;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -22,13 +23,17 @@ import com.freddy.im.bean.AppMessage;
 public class TextMessageVH extends BaseMessageVH {
     public final LinearLayout textBubbleRoot;
     public final TextView tvMessage;
-    public final TextView tvQuoteRef;
+    public final View quoteContainer;
+    public final TextView tvQuoteTitle;
+    public final TextView tvQuoteDigest;
 
     public TextMessageVH(@NonNull View itemView) {
         super(itemView, R.layout.item_message_content_text, false);
         textBubbleRoot = contentView.findViewById(R.id.text_bubble_root);
         tvMessage = contentView.findViewById(R.id.tv_message);
-        tvQuoteRef = contentView.findViewById(R.id.tv_quote_ref);
+        quoteContainer = contentView.findViewById(R.id.quote_container);
+        tvQuoteTitle = contentView.findViewById(R.id.tv_quote_title);
+        tvQuoteDigest = contentView.findViewById(R.id.tv_quote_digest);
     }
 
     public void bind(@NonNull AppMessage message, int position, @NonNull MessageViewHolderContext context) {
@@ -38,54 +43,56 @@ public class TextMessageVH extends BaseMessageVH {
         if (sentByMe) {
             tvMessage.setTextColor(ContextCompat.getColor(itemView.getContext(), android.R.color.white));
             tvMessage.setLinkTextColor(ContextCompat.getColor(itemView.getContext(), android.R.color.white));
-            tvQuoteRef.setTextColor(0xB3FFFFFF);
         } else {
             int textColor = ContextCompat.getColor(itemView.getContext(), com.cboda.chatui.R.color.color_text0);
             tvMessage.setTextColor(textColor);
             tvMessage.setLinkTextColor(textColor);
-            tvQuoteRef.setTextColor(0x99000000);
         }
-        bindQuote(message, context);
+        bindQuote(message, context, sentByMe);
         bindMessageBody(message, context);
         refreshContextMenuLongClickOnContent();
     }
 
-    private void bindQuote(@NonNull AppMessage message, @NonNull MessageViewHolderContext context) {
+    @SuppressLint("SetTextI18n")
+    private void bindQuote(@NonNull AppMessage message,
+                           @NonNull MessageViewHolderContext context,
+                           boolean sentByMe) {
         QuoteMessageContentUtil.QuoteInfo quote = QuoteMessageContentUtil.parse(message.getContent());
         if (quote == null) {
-            tvQuoteRef.setVisibility(View.GONE);
-            tvQuoteRef.setOnClickListener(null);
-            if (tvMessage.getLayoutParams() instanceof LinearLayout.LayoutParams) {
-                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) tvMessage.getLayoutParams();
-                lp.topMargin = 0;
-                tvMessage.setLayoutParams(lp);
-            }
+            hideQuote();
             return;
         }
-        String preview = QuoteMessageContentUtil.formatPreviewLine(
+        String name = QuoteMessageContentUtil.resolveDisplayNameForPreview(
                 quote, context.currentUserId, context.buildUserDisplayNameMap());
-        if (TextUtils.isEmpty(preview)) {
-            tvQuoteRef.setVisibility(View.GONE);
-            tvQuoteRef.setOnClickListener(null);
-            if (tvMessage.getLayoutParams() instanceof LinearLayout.LayoutParams) {
-                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) tvMessage.getLayoutParams();
-                lp.topMargin = 0;
-                tvMessage.setLayoutParams(lp);
-            }
+        String digest = quote.digest == null ? "" : quote.digest.trim();
+        if (TextUtils.isEmpty(name) && TextUtils.isEmpty(digest)) {
+            hideQuote();
             return;
         }
-        tvQuoteRef.setVisibility(View.VISIBLE);
-        tvQuoteRef.setText(preview);
-        if (tvMessage.getLayoutParams() instanceof LinearLayout.LayoutParams) {
-            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) tvMessage.getLayoutParams();
-            lp.topMargin = (int) (4 * itemView.getResources().getDisplayMetrics().density);
-            tvMessage.setLayoutParams(lp);
+        quoteContainer.setVisibility(View.VISIBLE);
+        // 发送气泡内白底卡片，接收气泡内浅灰卡片，样式对齐设计稿
+        quoteContainer.setBackgroundResource(
+                sentByMe ? R.drawable.bg_message_quote_card : R.drawable.bg_message_quote_card_input);
+        String quoteLabel = itemView.getContext().getString(com.cboda.chatui.R.string.message_quote);
+        if (TextUtils.isEmpty(name)) {
+            tvQuoteTitle.setText(quoteLabel);
+        } else {
+            tvQuoteTitle.setText(quoteLabel + " " + name);
         }
-        tvQuoteRef.setOnClickListener(v -> {
+        tvQuoteDigest.setText(digest);
+        tvQuoteDigest.setVisibility(TextUtils.isEmpty(digest) ? View.GONE : View.VISIBLE);
+        quoteContainer.setOnClickListener(v -> {
             if (context.quoteClickListener != null) {
                 context.quoteClickListener.onQuoteClick(quote);
             }
         });
+    }
+
+    private void hideQuote() {
+        quoteContainer.setVisibility(View.GONE);
+        quoteContainer.setOnClickListener(null);
+        tvQuoteTitle.setText("");
+        tvQuoteDigest.setText("");
     }
 
     protected final void bindMessageBody(@NonNull AppMessage message, @NonNull MessageViewHolderContext context) {

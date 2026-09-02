@@ -105,6 +105,8 @@ public class MessageListInputBroadPanel extends FrameLayout
     @Nullable
     private TextView refEditText;
     @Nullable
+    private TextView refNameText;
+    @Nullable
     private View clearRefImageButton;
     @Nullable
     private QuoteMessageContentUtil.QuoteInfo pendingQuote;
@@ -169,7 +171,9 @@ public class MessageListInputBroadPanel extends FrameLayout
         setupMorePanel();
     }
 
-    /** 群聊显示「会议室」，单聊隐藏（对齐野火 {@code MeetingBroadExt#filter}）。红包入口始终显示。 */
+    /**
+     * 群聊显示「会议室」，单聊隐藏（对齐野火 {@code MeetingBroadExt#filter}）。红包入口始终显示。
+     */
     public void configureMorePanel(boolean showMeetingRoom) {
         showMeetingRoomEntry = showMeetingRoom;
         if (fragment == null) {
@@ -181,7 +185,9 @@ public class MessageListInputBroadPanel extends FrameLayout
         }
     }
 
-    /** 群聊 @ 成员：输入 {@code @} 弹出选择页，长按头像由外部插入片段。 */
+    /**
+     * 群聊 @ 成员：输入 {@code @} 弹出选择页，长按头像由外部插入片段。
+     */
     public void configureMention(boolean enabled, @Nullable Runnable onPickMentionMember) {
         mentionEnabled = enabled;
         mentionPicker = onPickMentionMember;
@@ -365,17 +371,31 @@ public class MessageListInputBroadPanel extends FrameLayout
         disableInputTipTextView = findViewById(R.id.disableInputTipTextView);
         refRelativeLayout = findViewById(R.id.refRelativeLayout);
         refEditText = findViewById(R.id.refEditText);
+        refNameText = findViewById(R.id.refNameText);
         clearRefImageButton = findViewById(R.id.clearRefImageButton);
     }
 
-    /** 长按「引用」后展示输入区引用条。 */
+    /**
+     * 长按「引用」后展示输入区引用条。
+     */
     public void setQuoteMessage(@NonNull QuoteMessageContentUtil.QuoteInfo quoteInfo) {
         pendingQuote = quoteInfo;
         if (refRelativeLayout != null) {
             refRelativeLayout.setVisibility(VISIBLE);
         }
+        String digest = quoteInfo.digest == null ? "" : quoteInfo.digest.trim();
+        String name = TextUtils.isEmpty(quoteInfo.displayName)
+                ? (quoteInfo.userId == null ? "" : quoteInfo.userId)
+                : quoteInfo.displayName.trim();
         if (refEditText != null) {
-            refEditText.setText(quoteInfo.formatPreviewLine());
+            refEditText.setText(digest);
+        }
+        if (refNameText != null) {
+            if (!TextUtils.isEmpty(name)) {
+                refNameText.setText(name);
+            } else {
+                refNameText.setText("");
+            }
         }
         editText.requestFocus();
         updateSendButtonVisibility();
@@ -388,6 +408,9 @@ public class MessageListInputBroadPanel extends FrameLayout
         }
         if (refEditText != null) {
             refEditText.setText("");
+        }
+        if (refNameText != null) {
+            refNameText.setText("");
         }
     }
 
@@ -641,13 +664,13 @@ public class MessageListInputBroadPanel extends FrameLayout
             return;
         }
         Editable editable = editText.getText();
-        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"str="+editable.toString());
+        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG, "str=" + editable.toString());
         String body = AtMentionCustomInfoBuilder.buildMessageText(editable);
         String customInfo = AtMentionCustomInfoBuilder.buildCustomInfoFromSpans(editable);
         if (TextUtils.isEmpty(body) && TextUtils.isEmpty(customInfo)) {
             return;
         }
-        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"body="+body+" customInfo="+customInfo);
+        ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG, "body=" + body + " customInfo=" + customInfo);
         QuoteMessageContentUtil.QuoteInfo quote = pendingQuote;
         callback.onSendText(body, customInfo, quote);
     }
