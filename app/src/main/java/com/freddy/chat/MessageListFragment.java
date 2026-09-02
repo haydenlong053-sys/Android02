@@ -59,6 +59,7 @@ import com.freddy.chat.im.MessageProcessor;
 import com.freddy.chat.mention.ImMentionContract;
 import com.freddy.chat.mention.ImMentionHelper;
 import com.freddy.chat.mention.ImMentionMemberActivity;
+import com.freddy.chat.media.MessageMediaPreviewHelper;
 import com.freddy.chat.media.PictureSelectorCompressEngine;
 import com.freddy.chat.media.PictureSelectorGlideEngine;
 import com.freddy.chat.media.PictureSelectorSandboxEngine;
@@ -278,7 +279,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             }else {
                 JumpBroadUtils.Companion.startHaoYouAddActivity(requireContext(), userId, "2");
             }});
-        adapter.setQuoteClickListener(this::scrollToQuotedMessage);
+        adapter.setQuoteClickListener(this::onQuotedMessageClick);
         if (isGroupChat) {
             adapter.setMentionMemberListener((userId, displayName) -> {
                 if (inputPanel != null) {
@@ -1520,6 +1521,60 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         }
         inputPanel.setQuoteMessage(quote);
         inputPanel.setVisibility(View.VISIBLE);
+    }
+
+    private void onQuotedMessageClick(@NonNull QuoteMessageContentUtil.QuoteInfo quoteInfo) {
+        if (quoteInfo.isMediaQuote()) {
+            openQuotedMedia(quoteInfo);
+            return;
+        }
+        scrollToQuotedMessage(quoteInfo);
+    }
+
+    private void openQuotedMedia(@NonNull QuoteMessageContentUtil.QuoteInfo quoteInfo) {
+        if (!isAdded() || getContext() == null || adapter == null) {
+            return;
+        }
+        AppMessage quoted = findQuotedMessage(quoteInfo);
+        boolean hasStoredUrl = !TextUtils.isEmpty(quoteInfo.mediaUrl)
+                || !TextUtils.isEmpty(quoteInfo.thumbUrl);
+        if (quoted == null && !hasStoredUrl) {
+            // 旧数据无媒体地址时退回定位
+            scrollToQuotedMessage(quoteInfo);
+            return;
+        }
+        String currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
+        if (quoteInfo.isImageQuote()) {
+            MessageMediaPreviewHelper.previewQuotedImage(
+                    requireContext(), quoteInfo, adapter.getItems(), quoted, currentUserId);
+            return;
+        }
+        if (quoteInfo.isVideoQuote()) {
+            MessageMediaPreviewHelper.previewQuotedVideo(
+                    requireContext(), quoteInfo, quoted, currentUserId);
+            return;
+        }
+        if (quoteInfo.isFileQuote()) {
+            MessageMediaPreviewHelper.openQuotedFile(
+                    requireContext(), quoteInfo, quoted, currentUserId);
+        }
+    }
+
+    @Nullable
+    private AppMessage findQuotedMessage(@NonNull QuoteMessageContentUtil.QuoteInfo quoteInfo) {
+        if (adapter == null) {
+            return null;
+        }
+        String anchor = quoteInfo.resolveAnchorId();
+        int pos = adapter.findPositionByMessageId(anchor);
+        if (pos < 0 && !TextUtils.isEmpty(quoteInfo.clientMsgId)
+                && !TextUtils.equals(anchor, quoteInfo.clientMsgId)) {
+            pos = adapter.findPositionByMessageId(quoteInfo.clientMsgId);
+        }
+        if (pos < 0) {
+            return null;
+        }
+        return adapter.getMessageAt(pos);
     }
 
     private void scrollToQuotedMessage(@NonNull QuoteMessageContentUtil.QuoteInfo quoteInfo) {
