@@ -454,6 +454,30 @@
             android:visibility="gone"
             tools:visibility="visible" />
 
+        <LinearLayout
+            android:id="@+id/mLlOpenFri"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rect_white_broad_16dp"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:gravity="center"
+                android:drawableStart="@mipmap/ic_m_icon_rejuse"
+                android:drawablePadding="@dimen/dp_9"
+                android:text="不可私聊"
+                android:textColor="@color/black_45"
+                android:textSize="16sp"
+                 />
+
+        </LinearLayout>
+
+
         <com.hjq.shape.layout.ShapeLinearLayout
             android:id="@+id/mViewFriendActions"
             android:layout_width="match_parent"
