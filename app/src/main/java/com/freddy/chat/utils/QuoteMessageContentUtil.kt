@@ -320,6 +320,9 @@ object QuoteMessageContentUtil {
         val isFileQuote: Boolean
             get() = MessageContentFormatter.isFileMessage(contentType)
 
+        fun isVoiceQuote(): Boolean {
+            return MessageContentFormatter.isVoiceMessage(contentType)
+        }
         val isMediaQuote: Boolean
             get() = this.isImageQuote || this.isVideoQuote || this.isFileQuote
 

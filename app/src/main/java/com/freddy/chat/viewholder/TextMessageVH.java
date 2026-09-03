@@ -72,7 +72,7 @@ public class TextMessageVH extends BaseMessageVH {
                            @NonNull MessageViewHolderContext context,
                            boolean sentByMe) {
 //        eLogD("bindQuoteClass", "msgContent:" + message.getContent());
-        eLogD("bindQuoteClass", "msgCustomInfo:" + message.getCustomInfo());
+//        eLogD("bindQuoteClass", "msgCustomInfo:" + message.getCustomInfo());
         QuoteMessageContentUtil.QuoteInfo quote = QuoteMessageContentUtil.parseFromMessage(message);
         if (quote == null) {
             hideQuote();
