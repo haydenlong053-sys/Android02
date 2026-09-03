@@ -16,7 +16,7 @@ import java.util.Map;
  * 文本消息引用（仿微信 / 对齐野火 {@code QuoteInfo}）。
  * <p>
  * 写入文本 content JSON：
- * {@code {"msg":"...","quote":{"msgId":"...","clientMsgId":"...","userId":"...","displayName":"...","digest":"...","contentType":100,"thumbUrl":"...","mediaUrl":"...","fileName":"..."}}}
+ * {@code {"msg":"...","quote":{"msgId":"...","clientMsgId":"...","userId":"...","displayName":"...","digest":"...","contentType":100,"thumbUrl":"...","mediaUrl":"...","fileName":"...","duration":3}}}
  */
 public final class QuoteMessageContentUtil {
 
@@ -30,6 +30,7 @@ public final class QuoteMessageContentUtil {
     private static final String KEY_THUMB_URL = "thumbUrl";
     private static final String KEY_MEDIA_URL = "mediaUrl";
     private static final String KEY_FILE_NAME = "fileName";
+//    private static final String KEY_DURATION = "duration";
     private static final int DIGEST_MAX_LEN = 48;
 
     private QuoteMessageContentUtil() {
@@ -47,14 +48,19 @@ public final class QuoteMessageContentUtil {
         @Nullable
         public String digest;
         public int contentType;
-        /** 图片缩略图 / 视频封面；文件为空时用 fileName 解析图标。 */
+        /**
+         * 图片缩略图 / 视频封面；文件为空时用 fileName 解析图标。
+         */
         @Nullable
         public String thumbUrl;
-        /** 可打开的图片 / 视频 / 文件地址（优先远端）。 */
+        /**
+         * 可打开的图片 / 视频 / 文件 / 语音地址（优先远端）。
+         */
         @Nullable
         public String mediaUrl;
         @Nullable
         public String fileName;
+
 
         @NonNull
         public String formatPreviewLine() {
@@ -66,7 +72,9 @@ public final class QuoteMessageContentUtil {
             return name + ": " + dig;
         }
 
-        /** 优先服务端 msgId，其次 clientMsgId，用于列表定位。 */
+        /**
+         * 优先服务端 msgId，其次 clientMsgId，用于列表定位。
+         */
         @Nullable
         public String resolveAnchorId() {
             if (!TextUtils.isEmpty(msgId)) {
@@ -88,6 +96,10 @@ public final class QuoteMessageContentUtil {
 
         public boolean isFileQuote() {
             return MessageContentFormatter.isFileMessage(contentType);
+        }
+
+        public boolean isVoiceQuote() {
+            return MessageContentFormatter.isVoiceMessage(contentType);
         }
 
         public boolean isMediaQuote() {
@@ -136,8 +148,8 @@ public final class QuoteMessageContentUtil {
 
     @NonNull
     public static QuoteInfo fromMessage(@NonNull AppMessage message,
-                                         @Nullable String currentUserId,
-                                         @Nullable Map<String, String> nameMap) {
+                                        @Nullable String currentUserId,
+                                        @Nullable Map<String, String> nameMap) {
         QuoteInfo info = new QuoteInfo();
         info.msgId = message.getMsgId();
         info.clientMsgId = message.getClientMsgId();
@@ -179,6 +191,13 @@ public final class QuoteMessageContentUtil {
             String display = MediaMessageContentUtil.resolveDisplayUrl(content, sentByMe);
             info.mediaUrl = firstNonEmpty(remote, display);
             info.fileName = MediaMessageContentUtil.resolveFileName(content);
+            return;
+        }
+        if (info.isVoiceQuote()) {
+            String remote = MediaMessageContentUtil.resolveRemoteUrl(content);
+            String display = MediaMessageContentUtil.resolveDisplayUrl(content, sentByMe);
+            info.mediaUrl = firstNonEmpty(remote, display);
+            info.fileName = String.valueOf(MediaMessageContentUtil.resolveVoiceDurationSec(content));
         }
     }
 

@@ -47,21 +47,6 @@
                 app:layout_constraintEnd_toStartOf="@id/clearRefImageButton"
                 app:layout_constraintStart_toEndOf="@id/yyView1"
                 app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/refEditText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textColor="#CC000000"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ref_thumb_frame"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="你们在聊什么啊，怎么不喊我呢你们在聊什么啊，不喊我呢你们在聊什么啊"
-                    tools:visibility="visible" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/ref_thumb_frame"
                     android:layout_width="wrap_content"
@@ -101,7 +86,55 @@
                         app:layout_constraintStart_toEndOf="@id/iv_ref_thumb"
                         app:layout_constraintTop_toTopOf="@id/iv_ref_thumb" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    app:layout_constraintBottom_toTopOf="@id/refNameTextBefore2"
+                    android:id="@+id/refEditLayout"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ref_thumb_frame"
+                    app:layout_constraintTop_toTopOf="parent">
 
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/voiceInput1"
+                        android:layout_width="@dimen/dp_16"
+                        android:layout_height="@dimen/dp_16"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/icon_voice_input2"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:visibility="visible" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/voiceInput2"
+                        android:layout_width="@dimen/dp_62"
+                        android:layout_height="@dimen/dp_12"
+                        android:layout_marginStart="@dimen/dp_6"
+                        android:paddingEnd="@dimen/dp_6"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/icon_voice_input3"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@id/voiceInput1"
+                        app:layout_constraintStart_toEndOf="@id/voiceInput1"
+                        app:layout_constraintTop_toTopOf="@id/voiceInput1"
+                        tools:ignore="RtlSymmetry"
+                        tools:visibility="visible" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/refEditText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="#CC000000"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/voiceInput2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="你们在聊什么啊，怎么不喊我呢你们在聊什么啊，不喊我呢你们在聊什么啊"
+                        tools:visibility="visible" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/refNameTextBefore2"
@@ -115,7 +148,7 @@
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@id/ref_thumb_frame"
                     app:layout_constraintStart_toEndOf="@id/ref_thumb_frame"
-                    app:layout_constraintTop_toTopOf="@id/ref_thumb_frame"
+                    app:layout_constraintTop_toBottomOf="@id/refEditLayout"
                     tools:ignore="SmallSp"
                     tools:visibility="visible" />
 
@@ -173,7 +206,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="refEditText,ref_thumb_frame" />
+                    app:constraint_referenced_ids="refEditLayout,ref_thumb_frame" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -106,12 +106,13 @@ public class MessageListInputBroadPanel extends FrameLayout
     private View refRelativeLayout;
     @Nullable
     private TextView refEditText;
+
     @Nullable
     private TextView refNameText, refNameText2;
     @Nullable
     private View clearRefImageButton, refNameTextBefore, refNameTextBefore2;
     @Nullable
-    private View refThumbFrame;
+    private View refThumbFrame, voiceInput1, voiceInput2;
     @Nullable
     private ImageView ivRefThumb;
     @Nullable
@@ -385,6 +386,9 @@ public class MessageListInputBroadPanel extends FrameLayout
         refNameTextBefore = findViewById(R.id.refNameTextBefore);
         refNameTextBefore2 = findViewById(R.id.refNameTextBefore2);
         refThumbFrame = findViewById(R.id.ref_thumb_frame);
+        voiceInput1 = findViewById(R.id.voiceInput1);
+        voiceInput2 = findViewById(R.id.voiceInput2);
+
         ivRefThumb = findViewById(R.id.iv_ref_thumb);
         ivRefPlay = findViewById(R.id.iv_ref_play);
     }
@@ -410,9 +414,23 @@ public class MessageListInputBroadPanel extends FrameLayout
                 refEditText.setVisibility(GONE);
             } else {
                 refEditText.setVisibility(VISIBLE);
-                refEditText.setText(digest);
+                if (quoteInfo.isVoiceQuote()) {
+                    refEditText.setText(quoteInfo.fileName);
+                } else {
+                    refEditText.setText(digest);
+                }
             }
         }
+        if (voiceInput1 != null && voiceInput2 != null) {
+            if (quoteInfo.isVoiceQuote()) {
+                voiceInput1.setVisibility(View.VISIBLE);
+                voiceInput2.setVisibility(View.VISIBLE);
+            } else {
+                voiceInput1.setVisibility(View.GONE);
+                voiceInput2.setVisibility(View.GONE);
+            }
+        }
+
         if (refNameText != null && refNameText2 != null) {
             if (!TextUtils.isEmpty(name)) {
                 refNameText.setText(name);
