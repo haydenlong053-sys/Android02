@@ -101,8 +101,20 @@ public class TextMessageVH extends BaseMessageVH {
         if (quote.isImageQuote() || quote.isVideoQuote()) {
             tvQuoteDigest.setText("");
             tvQuoteDigest.setVisibility(View.GONE);
-        } else if (quote.isVoiceQuote() && !TextUtils.isEmpty(quote.fileName)) {
-            tvQuoteDigest.setText(quote.fileName + "''");
+        } else if (quote.isVoiceQuote()) {
+            String dName = "";
+            if (!TextUtils.isEmpty(quote.fileName)) {
+                dName = quote.fileName + "''";
+            } else if (digest.contains("]")) {
+                String[] d1 = digest.split("]");
+                if (d1.length >= 2) {
+                    dName = d1[1].trim();
+                }
+            }
+            if (TextUtils.isEmpty(dName)) {
+                dName = digest;
+            }
+            tvQuoteDigest.setText(dName);
             tvQuoteDigest.setVisibility(View.VISIBLE);
         } else {
             tvQuoteDigest.setText(digest);
