@@ -236,8 +236,12 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
                                     val registerTime = groupDaysFromCreateTime(member?.registerTime?:0L)
                                     ivTouxiang.setData(avatarUrl,member?.lianghao?.isNotEmpty()?:false,member?.isvip=="1",member?.grade?.toString(),registerTime.toString())
                                 }
-                                val fromCreateTime = groupDaysFromCreateTime(vo.joinTime)
-                                mTvJoinGroupDay.isVisible =(fromCreateTime>0)
+                                val fromCreateTime = if (groupDaysFromCreateTime(vo.joinTime)==0){
+                                    1
+                                }else{
+                                    groupDaysFromCreateTime(vo.joinTime)
+                                }
+//                                mTvJoinGroupDay.isVisible =(fromCreateTime>0)
                                 mTvJoinGroupDay.text="入群:${fromCreateTime}天"
                             }
                             if (selfId != null && id == selfId) {
