@@ -38,11 +38,11 @@ object QuoteMessageContentUtil {
         if (message == null) {
             return null
         }
-        val fromCustom = parse(message.getCustomInfo())
+        val fromCustom = parse(message.customInfo)
         if (fromCustom != null) {
             return fromCustom
         }
-        return parse(message.getContent())
+        return parse(message.content)
     }
 
     /**
@@ -50,7 +50,7 @@ object QuoteMessageContentUtil {
      */
     fun parse(json: String?): QuoteInfo? {
         val root = parseObject(json)
-        if (root == null || !root.has(KEY_QUOTE) || !root.get(KEY_QUOTE).isJsonObject()) {
+        if (root == null || !root.has(KEY_QUOTE) || !root.get(KEY_QUOTE).isJsonObject) {
             return null
         }
         return parseQuoteObject(root.getAsJsonObject(KEY_QUOTE))
@@ -208,7 +208,7 @@ object QuoteMessageContentUtil {
         if (TextUtils.isEmpty(name)) {
             return dig
         }
-        return name + ": " + dig
+        return "$name: $dig"
     }
 
     fun toJsonObject(info: QuoteInfo): JsonObject {
@@ -297,7 +297,7 @@ object QuoteMessageContentUtil {
             if (TextUtils.isEmpty(name)) {
                 return dig
             }
-            return name + ": " + dig
+            return "$name: $dig"
         }
 
         /** 优先服务端 msgId，其次 clientMsgId，用于列表定位。  */
