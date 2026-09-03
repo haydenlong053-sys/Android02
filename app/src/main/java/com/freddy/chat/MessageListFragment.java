@@ -88,6 +88,8 @@ import com.freddy.im.message.MessageContentFormatter;
 import com.freddy.webtrc.utils.BroadE;
 import com.freddy.im.group.GroupMuteEvaluator;
 import com.freddy.im.group.GroupRole;
+
+import static com.cboda.intelligent.utils.ViewExpandUtilKt.showToastMain;
 import static com.freddy.im.util.BaseLiveDataEventKt.groupDataLiveData2;
 import com.freddy.chat.forward.ForwardMode;
 import com.freddy.chat.menu.MessageContextMenuHelper;
@@ -1524,6 +1526,9 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     }
 
     private void onQuotedMessageClick(@NonNull QuoteMessageContentUtil.QuoteInfo quoteInfo) {
+        if (toastIfQuotedMessageRecalled(findQuotedMessage(quoteInfo))) {
+            return;
+        }
         if (quoteInfo.isMediaQuote()) {
             openQuotedMedia(quoteInfo);
             return;
@@ -1577,6 +1582,17 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         return adapter.getMessageAt(pos);
     }
 
+    /**
+     * 原消息已撤回时只提示，不跳转到撤回记录。
+     */
+    private boolean toastIfQuotedMessageRecalled(@Nullable AppMessage quoted) {
+        if (quoted == null || !WeChatUiHelper.isRecalledMessage(quoted)) {
+            return false;
+        }
+        showToastMain(com.cboda.chatui.R.string.message_quote_recalled);
+        return true;
+    }
+
     private void scrollToQuotedMessage(@NonNull QuoteMessageContentUtil.QuoteInfo quoteInfo) {
         if (adapter == null || recyclerView == null) {
             return;
@@ -1589,6 +1605,9 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         }
         if (pos < 0) {
             ToastBroadUtils.show(getString(com.cboda.chatui.R.string.message_quote_not_found));
+            return;
+        }
+        if (toastIfQuotedMessageRecalled(adapter.getMessageAt(pos))) {
             return;
         }
         LinearLayoutManager lm = (LinearLayoutManager) recyclerView.getLayoutManager();

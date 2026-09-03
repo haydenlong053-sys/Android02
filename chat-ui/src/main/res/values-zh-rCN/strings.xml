@@ -377,6 +377,7 @@
     <string name="message_copy">复制</string>
     <string name="message_quote">引用</string>
     <string name="message_quote_not_found">找不到原消息</string>
+    <string name="message_quote_recalled">该消息已撤回</string>
     <string name="message_copy_success">复制成功</string>
     <string name="message_select_more">多选</string>
     <string name="message_delete">删除</string>
