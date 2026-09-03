@@ -3,8 +3,8 @@ ext {
             applicationId    : "com.cboda.intelligent",
             minSdk           : 29,
             compileSdk       : 36,
-            versionCode      : 389,
-            versionName      : "3.8.9",
+            versionCode      : 390,
+            versionName      : "3.9.0",
             buildToolsVersion: "33.0.3",
 
 
