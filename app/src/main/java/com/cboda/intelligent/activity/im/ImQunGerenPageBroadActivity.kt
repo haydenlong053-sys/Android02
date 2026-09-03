@@ -160,7 +160,7 @@ class ImQunGerenPageBroadActivity : BaseSimple2BroadActivity() {
                 this,
                 uid,
                 member?.displayName ?: tvname.text?.toString() ?: "",
-                "2",
+                "1",
                 qunId,
                 "1"
             )
