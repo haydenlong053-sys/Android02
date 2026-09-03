@@ -363,12 +363,17 @@ class JumpBroadUtils {
             qunId: String,
             fromPage: String,
             userType: String,
-            groupPeopleCount: String? = null
+            groupPeopleCount: String? = null,
+            openJoinPay: String? = null
         ) {
             val intent = Intent(context, ImQunMemberListBroadActivity::class.java)
             intent.putExtra("qunid", qunId)
             intent.putExtra("fromPage", fromPage)
             intent.putExtra("userType", userType)
+            if (!TextUtils.isEmpty(openJoinPay)) {
+                intent.putExtra("openJoinPay", openJoinPay)
+            }
+
             if (!TextUtils.isEmpty(groupPeopleCount)) {
                 intent.putExtra("groupPeopleCount", groupPeopleCount)
             }

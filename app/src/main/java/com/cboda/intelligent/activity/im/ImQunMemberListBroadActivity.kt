@@ -51,6 +51,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
     private var qunId = ""
     private var userType = ""
     private var groupPeopleCount = ""
+    private var openJoinPay = ""
     private var excludeUserIds: Set<String> = emptySet()
     private var mAdapter: QunMemberBroadAdapter? = null
     private val mDataList = arrayListOf<CommonDataListBroadBean.CommonBean>()
@@ -82,6 +83,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
         qunId = intent?.getStringExtra("qunid") ?: ""
         userType = intent?.getStringExtra("userType") ?: ""
         groupPeopleCount = intent?.getStringExtra("groupPeopleCount") ?: ""
+        openJoinPay = intent?.getStringExtra("openJoinPay") ?: ""
         excludeUserIds = intent?.getStringArrayListExtra(ImGroupIntent.EXTRA_EXCLUDE_USER_IDS)
             ?.mapNotNull { it.trim().takeIf { id -> id.isNotEmpty() } }
             ?.toHashSet()
@@ -588,7 +590,7 @@ class ImQunMemberListBroadActivity : BaseSimple2BroadActivity() {
 
             "selectNewOwner" -> confirmTransferOwner(selected.first())
             "add" -> {
-                if (userType == "1" || userType == "2") {
+                if (userType == "1" || userType == "2" || openJoinPay != "1") {
                     val ids = selected.mapNotNull { it.userId }
                     ImGroupHttpExample.requestAddMembers(qunId, ids, object : OnHttpImListener<com.freddy.im.http.model.im.GroupVo> {
                         override fun onHttpImSuccess(result: com.freddy.im.http.model.im.GroupVo) {

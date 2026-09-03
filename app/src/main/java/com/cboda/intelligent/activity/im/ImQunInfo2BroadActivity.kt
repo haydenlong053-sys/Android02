@@ -315,7 +315,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             if (position !in items.indices) return@setOnItemClickListener
             when (items[position].type) {
                 "add" -> JumpBroadUtils.startImQunMemberListActivity(
-                    this, qunId, "add", ImGroupMemberUiMapper.wildfireUserTypeForRole(myRole), anyToInt(groupPeopleCount).toString()
+                    this, qunId, "add", ImGroupMemberUiMapper.wildfireUserTypeForRole(myRole), anyToInt(groupPeopleCount).toString(),groupVo?.busiExt?.openJoinPay
                 )
 
                 "remove" -> JumpBroadUtils.startImQunMemberListActivity(

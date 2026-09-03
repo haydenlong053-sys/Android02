@@ -169,7 +169,7 @@ object CallUtil {
             is RoomEvent.Disconnected -> CallEvent.Disconnected
             is RoomEvent.FailedToConnect -> CallEvent.FailedToConnect(error.message)
             else -> {
-                eLogD(tAG, this)
+//                eLogD(tAG, this)
                 CallEvent.UnKnownEvent
             }
         }

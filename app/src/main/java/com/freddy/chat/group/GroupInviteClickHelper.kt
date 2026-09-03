@@ -233,13 +233,13 @@ object GroupInviteClickHelper {
                         showToastMain(R.string.scan_network_request_failed)
                         return
                     }
-                    if (isJoinNeedVerify(groupInfo)) {
-                        dismissLoading()
-                        showToastMain(R.string.scan_applied_waiting_group_owner)
-                    } else {
-                        dismissLoading()
-                        openGroupChat(context, groupId, groupInfo.name, groupInfo.icon)
-                    }
+//                    if (isJoinNeedVerify(groupInfo)) {
+                    dismissLoading()
+                    showToastMain(R.string.scan_applied_waiting_group_owner)
+//                    } else {
+//                        dismissLoading()
+//                        openGroupChat(context, groupId, groupInfo.name, groupInfo.icon)
+//                    }
                 }
             },
             {

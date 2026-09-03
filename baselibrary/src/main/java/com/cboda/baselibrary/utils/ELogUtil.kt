@@ -199,29 +199,33 @@ private fun log3(tag: String?, msg: String, type: Int) {
 }
 
 private fun log2(tag: String?, msg: String, type: Int) {
-//    if (getIsDebug()) {
-    val segmentSize = 1024 * 2
-    val segmentSize2 = 1024 * 2 * 80
-    val length = msg.length
-    when {
-        length <= segmentSize -> {
-            log3(tag, msg, type)
-        }
+    try {
+        //    if (getIsDebug()) {
+        val segmentSize = 1024 * 2
+        val segmentSize2 = 1024 * 2 * 80
+        val length = msg.length
+        when {
+            length <= segmentSize -> {
+                log3(tag, msg, type)
+            }
 
-        length <= segmentSize2 -> {
-            val message = msg.substring(0, segmentSize)
-            log3(tag, message, type)
-            val message2 = msg.substring(segmentSize)
-            log2(tag, "\t\t$message2", type)
-        }
+            length <= segmentSize2 -> {
+                val message = msg.substring(0, segmentSize)
+                log3(tag, message, type)
+                val message2 = msg.substring(segmentSize)
+                log2(tag, "\t\t$message2", type)
+            }
 
-        else -> {
-            log3(tag, msg, type)
+            else -> {
+                log3(tag, msg, type)
+            }
         }
-    }
 //    } else {
 //        log3(tag, msg, type)
 //    }
+    } catch (e: Exception) {
+        crashReportLog("$tag ,log2Error: ${e.message}")
+    }
 }
 
 private fun getMsgFormatInt(msg: Int): String {
@@ -323,15 +327,19 @@ fun Throwable.asIOException(): IOException {
 }
 
 private fun getMsgFormat(tag: String?, msg: Any?): String {
-    return if (null != msg) {
-        when (msg) {
-            is String -> getMsgFormatString(msg)
-            is Int -> getMsgFormatInt(msg)
-            is Exception -> msg.toLog(tag)
-            is Throwable -> msg.toLog(tag)
-            else -> getMsgFormatString(toJson2(msg))
+    return try {
+        if (null != msg) {
+            when (msg) {
+                is String -> getMsgFormatString(msg)
+                is Int -> getMsgFormatInt(msg)
+                is Exception -> msg.toLog(tag)
+                is Throwable -> msg.toLog(tag)
+                else -> getMsgFormatString(toJson2(msg))
+            }
+        } else {
+            getMsgFormatString()
         }
-    } else {
-        getMsgFormatString()
+    } catch (e: Exception) {
+        "gerMsgFormatError:" + e.message
     }
 }
