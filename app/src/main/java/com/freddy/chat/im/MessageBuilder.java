@@ -93,9 +93,10 @@ public class MessageBuilder {
         message.setToId(toId);
         message.setTimestamp(System.currentTimeMillis());
         message.setConversationTypeEnum(ImSignalProtos.ConversationType.forNumber(conversationType));
-        message.setContent(wrapTextContentAsJson(content, quoteInfo));
-        if (!TextUtils.isEmpty(customInfo)) {
-            message.setCustomInfo(customInfo);
+        message.setContent(wrapTextContentAsJson(content));
+        String mergedCustomInfo = QuoteMessageContentUtil.mergeIntoCustomInfo(customInfo, quoteInfo);
+        if (!TextUtils.isEmpty(mergedCustomInfo)) {
+            message.setCustomInfo(mergedCustomInfo);
         }
         message.setSendStatus(IMSConfig.SEND_STATUS_SENDING);
         return message;
@@ -579,16 +580,8 @@ public class MessageBuilder {
      * 文本消息 content 包装为 {@code {"msg":"..."}}
      */
     private static String wrapTextContentAsJson(String content) {
-        return wrapTextContentAsJson(content, null);
-    }
-
-    private static String wrapTextContentAsJson(String content,
-                                                @Nullable QuoteMessageContentUtil.QuoteInfo quoteInfo) {
         com.google.gson.JsonObject body = new com.google.gson.JsonObject();
         body.addProperty("msg", content != null ? content : "");
-        if (quoteInfo != null) {
-            body.add(QuoteMessageContentUtil.KEY_QUOTE, QuoteMessageContentUtil.toJsonObject(quoteInfo));
-        }
         return body.toString();
     }
 

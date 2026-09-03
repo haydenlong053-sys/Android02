@@ -71,7 +71,9 @@ public class TextMessageVH extends BaseMessageVH {
     private void bindQuote(@NonNull AppMessage message,
                            @NonNull MessageViewHolderContext context,
                            boolean sentByMe) {
-        QuoteMessageContentUtil.QuoteInfo quote = QuoteMessageContentUtil.parse(message.getContent());
+//        eLogD("bindQuoteClass", "msgContent:" + message.getContent());
+        eLogD("bindQuoteClass", "msgCustomInfo:" + message.getCustomInfo());
+        QuoteMessageContentUtil.QuoteInfo quote = QuoteMessageContentUtil.parseFromMessage(message);
         if (quote == null) {
             hideQuote();
             return;
