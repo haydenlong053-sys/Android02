@@ -34,7 +34,7 @@ public class TextMessageVH extends BaseMessageVH {
     public final View quoteContainer;
     public final TextView tvQuoteTitle;
     public final TextView tvQuoteDigest;
-    public final View quoteThumbFrame;
+    public final View quoteThumbFrame, ivQuoteThumb2;
     public final ImageView ivQuoteThumb;
     public final ImageView ivQuotePlay;
 
@@ -45,6 +45,7 @@ public class TextMessageVH extends BaseMessageVH {
         quoteContainer = contentView.findViewById(R.id.quote_container);
         tvQuoteTitle = contentView.findViewById(R.id.tv_quote_title);
         tvQuoteDigest = contentView.findViewById(R.id.tv_quote_digest);
+        ivQuoteThumb2 = contentView.findViewById(R.id.ivQuoteThumb2);
         quoteThumbFrame = contentView.findViewById(R.id.quote_thumb_frame);
         ivQuoteThumb = contentView.findViewById(R.id.iv_quote_thumb);
         ivQuotePlay = contentView.findViewById(R.id.iv_quote_play);
@@ -72,7 +73,7 @@ public class TextMessageVH extends BaseMessageVH {
                            @NonNull MessageViewHolderContext context,
                            boolean sentByMe) {
 //        eLogD("bindQuoteClass", "msgContent:" + message.getContent());
-//        eLogD("bindQuoteClass", "msgCustomInfo:" + message.getCustomInfo());
+        eLogD("bindQuoteClass", "msgCustomInfo:" + message.getCustomInfo());
         QuoteMessageContentUtil.QuoteInfo quote = QuoteMessageContentUtil.parseFromMessage(message);
         if (quote == null) {
             hideQuote();
@@ -100,6 +101,9 @@ public class TextMessageVH extends BaseMessageVH {
         if (quote.isImageQuote() || quote.isVideoQuote()) {
             tvQuoteDigest.setText("");
             tvQuoteDigest.setVisibility(View.GONE);
+        } else if (quote.isVoiceQuote() && !TextUtils.isEmpty(quote.fileName)) {
+            tvQuoteDigest.setText(quote.fileName + "''");
+            tvQuoteDigest.setVisibility(View.VISIBLE);
         } else {
             tvQuoteDigest.setText(digest);
             tvQuoteDigest.setVisibility(TextUtils.isEmpty(digest) ? View.GONE : View.VISIBLE);
@@ -112,11 +116,22 @@ public class TextMessageVH extends BaseMessageVH {
     }
 
     private void bindQuoteThumb(@NonNull QuoteMessageContentUtil.QuoteInfo quote, boolean showThumb) {
-        if (!showThumb || quoteThumbFrame == null || ivQuoteThumb == null) {
+        if ((!showThumb || quoteThumbFrame == null || ivQuoteThumb == null) && !quote.isVoiceQuote()) {
             hideQuoteThumb();
             return;
         }
-        quoteThumbFrame.setVisibility(View.VISIBLE);
+        if (quoteThumbFrame != null) {
+            quoteThumbFrame.setVisibility(View.VISIBLE);
+        }
+        if (ivQuoteThumb != null && ivQuoteThumb2 != null) {
+            if (quote.isVoiceQuote()) {
+                ivQuoteThumb2.setVisibility(View.VISIBLE);
+                ivQuoteThumb.setVisibility(View.GONE);
+            } else {
+                ivQuoteThumb2.setVisibility(View.GONE);
+                ivQuoteThumb.setVisibility(View.VISIBLE);
+            }
+        }
 //        eLogD("bindQuoteThumb","quote:"+toJson2(quote));
         if (quote.isFileQuote()) {
             String fileName = !TextUtils.isEmpty(quote.fileName) ? quote.fileName : quote.digest;
@@ -145,7 +160,10 @@ public class TextMessageVH extends BaseMessageVH {
             ivQuotePlay.setVisibility(View.GONE);
         }
         if (ivQuoteThumb != null) {
-            ivQuoteThumb.setImageDrawable(null);
+            ivQuoteThumb.setVisibility(View.GONE);
+        }
+        if (ivQuoteThumb2 != null) {
+            ivQuoteThumb2.setVisibility(View.GONE);
         }
     }
 

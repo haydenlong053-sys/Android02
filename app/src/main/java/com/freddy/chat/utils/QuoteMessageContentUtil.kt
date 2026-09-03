@@ -156,6 +156,12 @@ object QuoteMessageContentUtil {
             info.mediaUrl = firstNonEmpty(remote, display)
             info.fileName = MediaMessageContentUtil.resolveFileName(content)
         }
+        if (info.isVoiceQuote()) {
+            val remote = MediaMessageContentUtil.resolveRemoteUrl(content)
+            val display = MediaMessageContentUtil.resolveDisplayUrl(content, sentByMe)
+            info.mediaUrl = firstNonEmpty(remote, display)
+            info.fileName = MediaMessageContentUtil.resolveVoiceDurationSec(content).toString()
+        }
     }
 
     private fun firstNonEmpty(a: String?, b: String?): String {
@@ -323,6 +329,7 @@ object QuoteMessageContentUtil {
         fun isVoiceQuote(): Boolean {
             return MessageContentFormatter.isVoiceMessage(contentType)
         }
+
         val isMediaQuote: Boolean
             get() = this.isImageQuote || this.isVideoQuote || this.isFileQuote
 

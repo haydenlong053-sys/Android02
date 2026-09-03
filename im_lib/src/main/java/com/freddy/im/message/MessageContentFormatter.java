@@ -220,9 +220,10 @@ public final class MessageContentFormatter {
         }
 
         if (isVoiceMessage(type)) {
-            String duration = parseVoiceDurationLabel(message.getContent());
-            String audio = str(R.string.base_digest_audio);
-            return duration.isEmpty() ? audio : audio + " " + duration;
+//            String duration = parseVoiceDurationLabel(message.getContent());
+//            String audio = str(R.string.base_digest_audio);
+//            return duration.isEmpty() ? audio : audio + " " + duration;
+            return str(R.string.base_digest_audio);
         }
         if (isImageMessage(type)) {
             return str(R.string.base_digest_img);
@@ -1499,7 +1500,9 @@ public final class MessageContentFormatter {
         return 0;
     }
 
-    /** 解析 mm:ss / h:mm:ss。 */
+    /**
+     * 解析 mm:ss / h:mm:ss。
+     */
     private static int parseDurationClock(@Nullable String text) {
         if (TextUtils.isEmpty(text) || !text.contains(":")) {
             return 0;
