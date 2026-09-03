@@ -132,7 +132,7 @@ object QuoteMessageContentUtil {
         message: AppMessage,
         currentUserId: String?
     ) {
-        val content = message.getContent()
+        val content = message.content
         val sentByMe = message.isSender(currentUserId)
         if (info.isImageQuote) {
             val remote = MediaMessageContentUtil.resolveRemoteUrl(content)
@@ -147,7 +147,8 @@ object QuoteMessageContentUtil {
             val play = MediaMessageContentUtil.resolveVideoPlayUrl(content, sentByMe)
             info.mediaUrl = firstNonEmpty(remote, play)
             val cover = MediaMessageContentUtil.resolveCoverDisplayUrl(content, sentByMe)
-            info.thumbUrl = cover
+            info.thumbUrl = MediaMessageContentUtil.resolveRemoteCoverUrl(content)
+            info.fileName = cover
             return
         }
         if (info.isFileQuote) {

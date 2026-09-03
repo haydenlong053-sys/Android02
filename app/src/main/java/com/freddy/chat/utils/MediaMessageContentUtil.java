@@ -130,7 +130,7 @@ public final class MediaMessageContentUtil {
             }
         }
         String remoteThumbUrl = readString(obj, KEY_THUMB_URL);
-        if (!TextUtils.isEmpty(remoteThumbUrl)){
+        if (!TextUtils.isEmpty(remoteThumbUrl)) {
             return remoteThumbUrl;
         }
         String remote = readString(obj, KEY_URL);
@@ -165,11 +165,22 @@ public final class MediaMessageContentUtil {
         return readString(obj, KEY_URL);
     }
 
+    @NonNull
+    public static String resolveRemoteCoverUrl(@Nullable String contentJson) {
+        JsonObject obj = parseObject(contentJson);
+        if (obj == null) {
+            return "";
+        }
+        return readString(obj, KEY_COVER_URL);
+    }
+
     public static boolean hasRemoteUrl(@Nullable String contentJson) {
         return isHttpUrl(resolveRemoteUrl(contentJson));
     }
 
-    /** 视频远端封面 {@code coverUrl} 是否为可用 http(s) 地址。 */
+    /**
+     * 视频远端封面 {@code coverUrl} 是否为可用 http(s) 地址。
+     */
     public static boolean hasRemoteCoverUrl(@Nullable String contentJson) {
         JsonObject obj = parseObject(contentJson);
         if (obj == null) {

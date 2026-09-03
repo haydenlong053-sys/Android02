@@ -73,7 +73,7 @@ public class TextMessageVH extends BaseMessageVH {
                            @NonNull MessageViewHolderContext context,
                            boolean sentByMe) {
 //        eLogD("bindQuoteClass", "msgContent:" + message.getContent());
-        eLogD("bindQuoteClass", "msgCustomInfo:" + message.getCustomInfo());
+//        eLogD("bindQuoteClass", "msgCustomInfo:" + message.getCustomInfo());
         QuoteMessageContentUtil.QuoteInfo quote = QuoteMessageContentUtil.parseFromMessage(message);
         if (quote == null) {
             hideQuote();
@@ -154,7 +154,13 @@ public class TextMessageVH extends BaseMessageVH {
             return;
         }
         String thumb = quote.thumbUrl;
-        if (TextUtils.isEmpty(thumb) || !FileUtils.isFileExists(thumb)) {
+        if (quote.isVideoQuote()) {
+            if (!TextUtils.isEmpty(quote.fileName) && FileUtils.isFileExists(quote.fileName)) {
+                thumb = quote.fileName;
+//            eLogD("bindQuoteThumb","isFileExists");
+            }
+        }
+        if ((TextUtils.isEmpty(thumb) || !FileUtils.isFileExists(thumb)) && !thumb.contains("http")) {
             thumb = quote.mediaUrl;
 //            eLogD("bindQuoteThumb","isFileExists");
         }
