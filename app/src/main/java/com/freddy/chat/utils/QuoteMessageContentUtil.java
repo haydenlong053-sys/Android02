@@ -36,23 +36,30 @@ public final class QuoteMessageContentUtil {
     }
 
     public static final class QuoteInfo {
+        /** 被引用消息的服务端消息 ID，用于定位原消息。 */
         @Nullable
         public String msgId;
+        /** 被引用消息的客户端消息 ID，服务端 ID 缺失时的定位兜底。 */
         @Nullable
         public String clientMsgId;
+        /** 被引用消息发送者的用户 ID。 */
         @Nullable
         public String userId;
+        /** 被引用消息发送者展示名（发送时写入，展示时优先用本地备注/群昵称覆盖）。 */
         @Nullable
         public String displayName;
+        /** 被引用内容摘要文案（文本截断后内容，或 [图片]/[视频] 等占位描述）。 */
         @Nullable
         public String digest;
+        /** 被引用消息的内容类型（见 {@link com.freddy.im.MessageType.MessageContentType}）。 */
         public int contentType;
-        /** 图片缩略图 / 视频封面；文件为空时用 fileName 解析图标。 */
+        /** 引用预览缩略图地址：图片用 thumb，视频用封面；文件为空时改用 fileName 解析图标。 */
         @Nullable
         public String thumbUrl;
-        /** 可打开的图片 / 视频 / 文件地址（优先远端）。 */
+        /** 可直接打开的媒体地址：图片原图 / 视频播放地址 / 文件下载地址（优先远端 URL）。 */
         @Nullable
         public String mediaUrl;
+        /** 被引用文件的原始文件名，用于展示与匹配文件类型图标。 */
         @Nullable
         public String fileName;
 
