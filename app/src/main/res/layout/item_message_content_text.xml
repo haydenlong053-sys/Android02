@@ -33,12 +33,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:minWidth="140dp"
         android:paddingVertical="@dimen/dp_6"
         android:paddingEnd="@dimen/dp_6"
         android:visibility="gone"
         tools:background="@drawable/bg_message_quote_card_input"
-        tools:visibility="visible">
+        tools:visibility="visible"
+        tools:ignore="RtlSymmetry">
 
         <com.hjq.shape.view.ShapeView
             android:id="@+id/yyView"

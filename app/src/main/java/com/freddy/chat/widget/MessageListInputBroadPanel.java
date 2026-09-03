@@ -1,5 +1,7 @@
 package com.freddy.chat.widget;
 
+import static com.cboda.baselibrary.utils.ViewExpandUtilKt.anyToInt;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -34,6 +36,7 @@ import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.chatemoji.EmotionBroadLayout;
 import com.cboda.chatemoji.IEmotionSelectedBroadListener;
 import com.cboda.chatui.audio.AudioRecorderBroadPanel;
+import com.cboda.chatui.third.utils.TimeConvertBroadUtils;
 import com.cboda.chatui.utils.FileBroadUtils;
 import com.cboda.intelligent.R;
 import com.cboda.chatui.conversation.mention.MentionBroadSpan;
@@ -415,7 +418,7 @@ public class MessageListInputBroadPanel extends FrameLayout
             } else {
                 refEditText.setVisibility(VISIBLE);
                 if (quoteInfo.isVoiceQuote()) {
-                    refEditText.setText(quoteInfo.fileName);
+                    refEditText.setText(formatVoiceQuoteDuration(quoteInfo.fileName));
                 } else {
                     refEditText.setText(digest);
                 }
@@ -442,6 +445,14 @@ public class MessageListInputBroadPanel extends FrameLayout
         }
         editText.requestFocus();
         updateSendButtonVisibility();
+    }
+
+    /**
+     * 语音引用时长展示为 mm:ss（如 6 秒 → 00:06），避免直接显示裸秒数。
+     */
+    private static String formatVoiceQuoteDuration(String durationSecText) {
+        int durationSec = anyToInt(durationSecText);
+        return TimeConvertBroadUtils.formatLongTime(Math.max(0, durationSec));
     }
 
     private void bindRefThumb(@NonNull QuoteMessageContentUtil.QuoteInfo quoteInfo, boolean showThumb) {
