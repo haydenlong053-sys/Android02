@@ -426,8 +426,7 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         jinqunjiaoyan.isChecked = busi?.openQyyz == "1" ||
                 (busi?.openQyyz.isNullOrEmpty() && vo.joinNeedVerify == 1)
         qunzhumingpian.isChecked = busi?.openQzts == "1"
-        ruqunyanz.isChecked = busi?.openQygl == "1" ||
-                (busi?.openQygl.isNullOrEmpty() && vo.joinNeedVerify == 1)
+        ruqunyanz.isChecked = (vo.joinNeedVerify == 1)
         wufajiahaoyou.isChecked = busi?.openQysl == "1"
         kejianguanli.isChecked = busi?.openQykj == "1"
         jiangetime = (busi?.jiange ?: 0).coerceAtLeast(0)
