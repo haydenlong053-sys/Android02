@@ -38,5 +38,23 @@ data class QuickDetailMeetBean(
     @JvmField
     var userTierConfigId: Int = 0,
     @JvmField
-    var userTierConfigValue: Int = 0
-): Serializable
+    var userTierConfigValue: Int = 0,
+    /** LiveKit SFU 地址（api/im/meeting） */
+    @JvmField
+    var sfuUrl: String? = null,
+    /** LiveKit 会议号 */
+    @JvmField
+    var meetingId: String? = null,
+    /** LiveKit 房间名 meet_ 前缀 */
+    @JvmField
+    var roomName: String? = null,
+    /** 本次 token 能否发麦 */
+    @JvmField
+    var canPublish: Boolean = false,
+    /** host / speaker / audience / pending */
+    @JvmField
+    var myRole: String? = null,
+    /** simple / live */
+    @JvmField
+    var mode: String? = null,
+) : Serializable

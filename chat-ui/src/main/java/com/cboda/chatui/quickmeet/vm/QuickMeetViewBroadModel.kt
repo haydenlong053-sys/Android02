@@ -13,9 +13,12 @@ import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.APP_TAG
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toJson2
 import com.cboda.baselibrary.utils.toLog
+import com.cboda.chatui.quickmeet.LiveKitMeetMapper
+import com.cboda.chatui.quickmeet.MeetCallManager
 import com.cboda.chatui.quickmeet.UrlMeetConstants
 import com.cboda.chatui.quickmeet.bean.CheckMeetPayBean
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean
@@ -23,19 +26,30 @@ import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean
 import com.cboda.chatui.quickmeet.bean.SeatMicListBean
 import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.showLoadingWfc
-
+import com.freddy.im.http.ImMeetingHttpExample
+import com.freddy.im.http.ImNotifyHttpExample
+import com.freddy.im.http.model.im.MeetingSessionVO
+import com.freddy.im.listener.OnHttpImListener
+import com.freddy.im.meeting.GroupMeetSessionStore
+import com.freddy.im.signal.OthBusiSigCodes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
+import kotlin.coroutines.resume
 import kotlin.jvm.java
 
 //极速直播
 open class QuickMeetViewBroadModel : BaseViewModel() {
 
     /**
-     * 直播信息查询
+     * 直播信息查询（声网）/ LiveKit 用 meetingId join 换 token。
      */
     suspend fun goQuickMeetInfo(groupIdNo: String, liveStatus: String): SingleLiveBroadData<QuickMeetInfoBean> {
+        if (HttpsBroadConfig.useLiveKitGroupMeeting) {
+            return goLiveKitMeetInfo(groupIdNo)
+        }
 //        showLoadingWfc()
         val safeCenterLiveData = SingleLiveBroadData<QuickMeetInfoBean>()
         val params = hashMapOf("groupIdNo" to groupIdNo, "liveStatus" to liveStatus)
@@ -66,11 +80,37 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
         return safeCenterLiveData
     }
 
+    /** LiveKit：按群缓存的 meetingId 调 /join，组装成旧 QuickMeetInfoBean。 */
+    private suspend fun goLiveKitMeetInfo(groupIdNo: String): SingleLiveBroadData<QuickMeetInfoBean> {
+        val liveData = SingleLiveBroadData<QuickMeetInfoBean>()
+        val session = GroupMeetSessionStore.get(groupIdNo)
+        if (session == null) {
+            ToastBroadUtils.show("会议不存在或已结束~")
+            return liveData
+        }
+        val joined = awaitMeetingSession { cb, fail ->
+            ImMeetingHttpExample.requestJoin(session.meetingId, session.roomName, null, cb, fail)
+        } ?: return liveData
+        val bean = LiveKitMeetMapper.toQuickDetail(joined, groupIdNo, session.title)
+        GroupMeetSessionStore.put(groupIdNo, joined.meetingId, joined.roomName, joined.title)
+        liveData.postValue(
+            QuickMeetInfoBean(
+                list = listOf(bean),
+                liveStatus = "active",
+                token = joined.token,
+            )
+        )
+        return liveData
+    }
+
 
     /**
-     * 创建直播
+     * 创建直播 / LiveKit 群会议室
      */
     suspend fun goCreateQuickMeet(groupIdNo: String, channelName: String, durationConfigId: Int, userTierConfigId: Int, orderId: String?): SingleLiveBroadData<QuickDetailMeetBean> {
+        if (HttpsBroadConfig.useLiveKitGroupMeeting) {
+            return goCreateLiveKitMeet(groupIdNo, channelName)
+        }
         showLoadingWfc()
         val safeCenterLiveData = SingleLiveBroadData<QuickDetailMeetBean>()
         val params = hashMapOf(
@@ -112,11 +152,55 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
         return safeCenterLiveData
     }
 
+    /**
+     * LiveKit：POST /im/meeting/create（mode=live, mediaType=audio），并推送 MEET_START。
+     */
+    suspend fun goCreateLiveKitMeet(groupIdNo: String, channelName: String): SingleLiveBroadData<QuickDetailMeetBean> {
+        showLoadingWfc()
+        val liveData = SingleLiveBroadData<QuickDetailMeetBean>()
+        val session = awaitMeetingSession { cb, fail ->
+            ImMeetingHttpExample.requestCreateLiveAudio(channelName, groupIdNo, 4, cb, fail)
+        }
+        dismissLoadingWfc()
+        if (session == null) {
+            return liveData
+        }
+        val bean = LiveKitMeetMapper.toQuickDetail(session, groupIdNo, channelName)
+        GroupMeetSessionStore.put(groupIdNo, session.meetingId, session.roomName, session.title)
+        // 通知群成员可加入（对齐声网 MEET_START）
+        pushMeetStartSignal(groupIdNo, session)
+        liveData.postValue(bean)
+        return liveData
+    }
+
+    private fun pushMeetStartSignal(groupIdNo: String, session: MeetingSessionVO) {
+        try {
+            val data = JSONObject()
+                .put("groupId", groupIdNo)
+                .put("meetingId", session.meetingId)
+                .put("roomName", session.roomName)
+                .put("title", session.title ?: "")
+                .toString()
+            ImNotifyHttpExample.requestBusiPush(
+                groupIdNo,
+                OthBusiSigCodes.MEET_START,
+                data,
+                { },
+                null,
+            )
+        } catch (e: Exception) {
+            e.toLog(APP_TAG)
+        }
+    }
+
 
     /**
-     * 销毁直播频道
+     * 销毁直播频道 / LiveKit 散会
      */
     suspend fun goDissolveQuickMeet(groupIdNo: String): SingleLiveBroadData<Boolean> {
+        if (HttpsBroadConfig.useLiveKitGroupMeeting || MeetCallManager.getInstance().mCallData.useLiveKit) {
+            return goEndLiveKitMeet(groupIdNo)
+        }
         val mLiveData = SingleLiveBroadData<Boolean>()
         val params = hashMapOf("groupIdNo" to groupIdNo)
         withContext(Dispatchers.IO) {
@@ -139,6 +223,45 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
             }
         }
         return mLiveData
+    }
+
+    private suspend fun goEndLiveKitMeet(groupIdNo: String): SingleLiveBroadData<Boolean> {
+        val liveData = SingleLiveBroadData<Boolean>()
+        val callData = MeetCallManager.getInstance().mCallData
+        val meetingId = callData.meetingId.ifBlank {
+            callData.quickDetailMeetBean?.meetingId
+                ?: GroupMeetSessionStore.get(groupIdNo)?.meetingId
+        }
+        val roomName = callData.roomName.ifBlank {
+            callData.quickDetailMeetBean?.roomName
+                ?: GroupMeetSessionStore.get(groupIdNo)?.roomName
+        }
+        val ok = awaitBoolean { cb, fail ->
+            ImMeetingHttpExample.requestEnd(meetingId, roomName, {
+                cb.onHttpImSuccess(true)
+            }, fail)
+        }
+        if (ok) {
+            GroupMeetSessionStore.remove(groupIdNo)
+            pushMeetEndSignal(groupIdNo)
+        }
+        liveData.postValue(ok)
+        return liveData
+    }
+
+    private fun pushMeetEndSignal(groupIdNo: String) {
+        try {
+            val data = JSONObject().put("groupId", groupIdNo).toString()
+            ImNotifyHttpExample.requestBusiPush(
+                groupIdNo,
+                OthBusiSigCodes.MEET_END,
+                data,
+                { },
+                null,
+            )
+        } catch (e: Exception) {
+            e.toLog(APP_TAG)
+        }
     }
 
     /**
@@ -220,6 +343,9 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
      * 已经在麦位的人员列表
      */
     suspend fun goMeetMicSeatPersonList(groupIdNo: String?): SingleLiveBroadData<SeatMicListBean> {
+        if (HttpsBroadConfig.useLiveKitGroupMeeting || MeetCallManager.getInstance().mCallData.useLiveKit) {
+            return goLiveKitMicSeatList(groupIdNo)
+        }
         showLoadingWfc()
         val safeCenterLiveData = SingleLiveBroadData<SeatMicListBean>()
         val params = hashMapOf("groupIdNo" to groupIdNo)
@@ -250,11 +376,40 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
         return safeCenterLiveData
     }
 
+    private suspend fun goLiveKitMicSeatList(groupIdNo: String?): SingleLiveBroadData<SeatMicListBean> {
+        showLoadingWfc()
+        val liveData = SingleLiveBroadData<SeatMicListBean>()
+        val meetingId = resolveMeetingId(groupIdNo)
+        val roomName = resolveRoomName(groupIdNo)
+        val session = awaitMeetingSession { cb, fail ->
+            ImMeetingHttpExample.requestInfo(meetingId, roomName, cb, fail)
+        }
+        dismissLoadingWfc()
+        // speakers 为 userId 字符串列表
+        val speaking = session?.speakers?.mapIndexed { index, userId ->
+            com.cboda.baselibrary.bean.MeetUser(
+                userId = userId,
+                seatNumbIndex = index,
+            )
+        }?.toMutableList()
+        liveData.postValue(
+            SeatMicListBean(
+                adminUserId = session?.hostId,
+                speakingList = speaking,
+                groupIdNo = groupIdNo,
+            )
+        )
+        return liveData
+    }
+
 
     /**
-     * 下麦
+     * 下麦（声网 quick/live；LiveKit speak/leave 或 speak/kick）
      */
     suspend fun goNetDownMic(applicantUserId: String?, groupIdNo: String?): SingleLiveBroadData<Boolean> {
+        if (HttpsBroadConfig.useLiveKitGroupMeeting || MeetCallManager.getInstance().mCallData.useLiveKit) {
+            return goLiveKitDownMic(applicantUserId, groupIdNo)
+        }
         showLoadingWfc()
         val mLiveData = SingleLiveBroadData<Boolean>()
         val params = hashMapOf("targetUserId" to applicantUserId, "groupIdNo" to groupIdNo)
@@ -282,6 +437,115 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
             }
         }
         return mLiveData
+    }
+
+    private suspend fun goLiveKitDownMic(applicantUserId: String?, groupIdNo: String?): SingleLiveBroadData<Boolean> {
+        showLoadingWfc()
+        val liveData = SingleLiveBroadData<Boolean>()
+        val callData = MeetCallManager.getInstance().mCallData
+        val meetingId = callData.meetingId.ifBlank {
+            callData.quickDetailMeetBean?.meetingId
+                ?: GroupMeetSessionStore.get(groupIdNo.orEmpty())?.meetingId
+        }
+        val roomName = callData.roomName.ifBlank {
+            callData.quickDetailMeetBean?.roomName
+                ?: GroupMeetSessionStore.get(groupIdNo.orEmpty())?.roomName
+        }
+        val myId = com.cboda.baselibrary.utils.MMKVBroadUtils.getRealUserId()
+        val session = if (!applicantUserId.isNullOrBlank() && applicantUserId != myId) {
+            awaitMeetingSession { cb, fail ->
+                ImMeetingHttpExample.requestSpeakKick(meetingId, roomName, applicantUserId, cb, fail)
+            }
+        } else {
+            awaitMeetingSession { cb, fail ->
+                ImMeetingHttpExample.requestSpeakLeave(meetingId, roomName, cb, fail)
+            }
+        }
+        dismissLoadingWfc()
+        if (session != null) {
+            // speak/leave 直接返回观众 token，需重连
+            if (!session.token.isNullOrBlank() && !session.url.isNullOrBlank()) {
+                MeetCallManager.getInstance().reconnectLiveKit(
+                    session.url,
+                    session.token,
+                    session.isCanPublish,
+                )
+            }
+            liveData.postValue(true)
+        } else {
+            liveData.postValue(false)
+        }
+        return liveData
+    }
+
+    /** LiveKit：观众申请上麦。 */
+    suspend fun goLiveKitSpeakApply(groupIdNo: String?): SingleLiveBroadData<Boolean> {
+        val liveData = SingleLiveBroadData<Boolean>()
+        val meetingId = resolveMeetingId(groupIdNo)
+        val roomName = resolveRoomName(groupIdNo)
+        val session = awaitMeetingSession { cb, fail ->
+            ImMeetingHttpExample.requestSpeakApply(meetingId, roomName, cb, fail)
+        }
+        liveData.postValue(session != null)
+        return liveData
+    }
+
+    /** LiveKit：主持人同意上麦（对方需自行 rejoin）。 */
+    suspend fun goLiveKitSpeakApprove(groupIdNo: String?, targetUserId: String): SingleLiveBroadData<Boolean> {
+        val liveData = SingleLiveBroadData<Boolean>()
+        val meetingId = resolveMeetingId(groupIdNo)
+        val roomName = resolveRoomName(groupIdNo)
+        val session = awaitMeetingSession { cb, fail ->
+            ImMeetingHttpExample.requestSpeakApprove(meetingId, roomName, targetUserId, cb, fail)
+        }
+        liveData.postValue(session != null)
+        return liveData
+    }
+
+    private fun resolveMeetingId(groupIdNo: String?): String? {
+        val callData = MeetCallManager.getInstance().mCallData
+        return callData.meetingId.ifBlank {
+            callData.quickDetailMeetBean?.meetingId
+                ?: GroupMeetSessionStore.get(groupIdNo.orEmpty())?.meetingId
+        }
+    }
+
+    private fun resolveRoomName(groupIdNo: String?): String? {
+        val callData = MeetCallManager.getInstance().mCallData
+        return callData.roomName.ifBlank {
+            callData.quickDetailMeetBean?.roomName
+                ?: GroupMeetSessionStore.get(groupIdNo.orEmpty())?.roomName
+        }
+    }
+
+    private suspend fun awaitMeetingSession(
+        block: (OnHttpImListener<MeetingSessionVO>, Runnable) -> Unit,
+    ): MeetingSessionVO? = withContext(Dispatchers.IO) {
+        suspendCancellableCoroutine { cont ->
+            block(
+                OnHttpImListener { session ->
+                    if (cont.isActive) cont.resume(session)
+                },
+                Runnable {
+                    if (cont.isActive) cont.resume(null)
+                },
+            )
+        }
+    }
+
+    private suspend fun awaitBoolean(
+        block: (OnHttpImListener<Boolean>, Runnable) -> Unit,
+    ): Boolean = withContext(Dispatchers.IO) {
+        suspendCancellableCoroutine { cont ->
+            block(
+                OnHttpImListener { ok ->
+                    if (cont.isActive) cont.resume(ok == true)
+                },
+                Runnable {
+                    if (cont.isActive) cont.resume(false)
+                },
+            )
+        }
     }
 
     /**
@@ -347,6 +611,12 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
 
 
     fun checkPayMeet(groupIdNo: String? = null, callBack: (CheckMeetPayBean) -> Unit = {}): SingleLiveBroadData<CheckMeetPayBean> {
+        if (HttpsBroadConfig.useLiveKitGroupMeeting) {
+            // LiveKit 文档路径不走 quick/live 付费订单
+            val empty = SingleLiveBroadData<CheckMeetPayBean>()
+            empty.postValue(CheckMeetPayBean())
+            return empty
+        }
         val liveData = SingleLiveBroadData<CheckMeetPayBean>()
         val params = hashMapOf<String, Any?>()
         if (!TextUtils.isEmpty(groupIdNo)) {

@@ -26,6 +26,9 @@ object HttpsBroadConfig {
         get():String {
             return "$appHost2/api"
         }
+    @JvmField
+//    var useLiveKitGroupMeeting = false
+    var useLiveKitGroupMeeting = true
 
     //自研的长连接host
     private const val MY_IM_SOCKET_HOST_FAT: String = "[{\"host\":\"95.40.9.142\", \"port\":1081}]"

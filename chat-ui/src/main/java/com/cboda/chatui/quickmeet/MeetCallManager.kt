@@ -11,6 +11,7 @@ import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.common.PlatformParams
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.APP_TAG
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.getAppContext
@@ -22,6 +23,8 @@ import com.cboda.chatui.quickmeet.bean.CallDirect
 import com.cboda.chatui.quickmeet.bean.CallStatus
 import com.cboda.chatui.quickmeet.bean.MeetRole
 import com.cboda.chatui.quickmeet.bean.QuickDetailMeetBean
+import com.freddy.webtrc.bean.CallEvent
+import com.freddy.webtrc.utils.MeetLiveKitUtil
 import io.agora.rtc2.ChannelMediaOptions
 import io.agora.rtc2.ClientRoleOptions
 import io.agora.rtc2.Constants
@@ -31,9 +34,10 @@ import io.agora.rtc2.IRtcEngineEventHandler
 import io.agora.rtc2.IRtcEngineEventHandler.AudioVolumeInfo
 import io.agora.rtc2.RtcEngine
 import io.agora.rtc2.RtcEngineConfig
+import kotlinx.coroutines.GlobalScope
 
 /**
- * 会议管理类
+ * 会议管理类（声网 Agora / LiveKit 双栈，由 [HttpsBroadConfig.useLiveKitGroupMeeting] 切换）。
  */
 class MeetCallManager private constructor() {
     private val PERMISSION_REQ_ID: Int = 22
@@ -55,9 +59,17 @@ class MeetCallManager private constructor() {
         fun getInstance(): MeetCallManager {
             return instance
         }
+
+        /** 当前配置是否走 LiveKit 群会议。 */
+        @JvmStatic
+        fun isLiveKitEngineEnabled(): Boolean = HttpsBroadConfig.useLiveKitGroupMeeting
     }
 
     fun muteRemoteAudio(uid: Int, mute: Boolean): Int {
+        if (mCallData.useLiveKit) {
+            // LiveKit 远端静音由 UI 侧处理；引擎层无按 int uid 的接口
+            return 0
+        }
         return callEngine?.muteRemoteAudioStream(uid, mute) ?: -1
     }
 
@@ -72,6 +84,10 @@ class MeetCallManager private constructor() {
      *
      */
     fun muteLocalAudio(mute: Boolean): Int {
+        if (mCallData.useLiveKit) {
+            MeetLiveKitUtil.setMicrophoneEnabled(!mute && mCallData.canPublish)
+            return 0
+        }
         return callEngine?.muteLocalAudioStream(mute) ?: -1
     }
 
@@ -109,6 +125,14 @@ class MeetCallManager private constructor() {
             data.channelId = channelId
             data.quickDetailMeetBean = quickDetailMeetBean
             data.groupMemberRole = groupMemberRole
+            data.useLiveKit = isLiveKitEngineEnabled()
+                || !quickDetailMeetBean?.sfuUrl.isNullOrBlank()
+                || !quickDetailMeetBean?.meetingId.isNullOrBlank()
+            data.sfuUrl = quickDetailMeetBean?.sfuUrl.orEmpty()
+            data.meetingId = quickDetailMeetBean?.meetingId.orEmpty()
+            data.roomName = quickDetailMeetBean?.roomName.orEmpty()
+            data.canPublish = quickDetailMeetBean?.canPublish == true
+                || direct == CallDirect.CALLER
             //初始化通话参数
             start(data, channelId, token)
         } else {
@@ -132,24 +156,131 @@ class MeetCallManager private constructor() {
      */
     private fun start(data: CallData, channelId: String, token: String) {
         if (isIdleState()) {
-            eLogD("call", "init===>channelName=$channelId---token=$token")
+            eLogD("call", "init===>channelName=$channelId---token=$token liveKit=${data.useLiveKit}")
             val realUserId = MMKVBroadUtils.getRealUserId()
             mCallData.direct = data.direct
             mCallData.callStatus = data.callStatus
             mCallData.channelId = data.channelId
             mCallData.quickDetailMeetBean = data.quickDetailMeetBean
             mCallData.groupMemberRole = data.groupMemberRole
-            mCallData.role = if (data.quickDetailMeetBean != null && realUserId == data.quickDetailMeetBean?.userId) {
+            mCallData.useLiveKit = data.useLiveKit
+            mCallData.sfuUrl = data.sfuUrl
+            mCallData.meetingId = data.meetingId
+            mCallData.roomName = data.roomName
+            mCallData.canPublish = data.canPublish
+            mCallData.role = if (
+                data.quickDetailMeetBean != null
+                && (realUserId == data.quickDetailMeetBean?.userId
+                        || "host".equals(data.quickDetailMeetBean?.myRole, ignoreCase = true))
+            ) {
                 MeetRole.OWNER
             } else if (data.groupMemberRole == GroupMemberRole.ADMIN) {
                 MeetRole.MANAGER
             } else {
                 null
             }
-            //初始化 音视频sdk
-            initRtcEngine(UtilBroadApplication.cxt.applicationContext, channelId, token)
+            if (data.useLiveKit) {
+                initLiveKitEngine(token)
+            } else {
+                initRtcEngine(UtilBroadApplication.cxt.applicationContext, channelId, token)
+            }
         } else {
             eLogD("call", "rtc 当前有在处理的视频通话===>")
+        }
+    }
+
+    private fun initLiveKitEngine(token: String) {
+        notifyEngineSetup()
+        val url = mCallData.sfuUrl.ifBlank { mCallData.quickDetailMeetBean?.sfuUrl.orEmpty() }
+        val joinToken = token.ifBlank { mCallData.quickDetailMeetBean?.token.orEmpty() }
+        if (url.isBlank() || joinToken.isBlank()) {
+            eLogD(APP_TAG, "LiveKit join missing url/token")
+            mCallData.callStatus = CallStatus.IDLE
+            ToastBroadUtils.show("会议进房参数无效")
+            return
+        }
+        MeetLiveKitUtil.joinRoom(
+            url = url,
+            token = joinToken,
+            canPublish = mCallData.canPublish,
+            scope = GlobalScope,
+            onEvent = { event -> handleLiveKitEvent(event) },
+        )
+    }
+
+    private fun handleLiveKitEvent(event: CallEvent) {
+        runOnUiThread {
+            when (event) {
+                is CallEvent.Connected -> {
+                    mCallData.callStatus = CallStatus.CALLING
+                    startCallService()
+                    notifyRtcJoinChannelSuccess()
+                }
+                is CallEvent.ParticipantConnected -> {
+                    notifyRtcUserJoined(hashUid(event.userId))
+                }
+                is CallEvent.ParticipantDisconnected -> {
+                    notifyRtcUserOffline(hashUid(event.userId), 0)
+                }
+                is CallEvent.ActiveSpeakersChanged -> {
+                    // MeetPlugin 依赖 Agora AudioVolumeInfo；LiveKit 侧暂用说话列表驱动本地波形由座位刷新兜底
+                }
+                is CallEvent.Disconnected -> {
+                    notifyOwnerMeetEndedMuteRestore()
+                    notifyEngineDestroy(mCallData)
+                    resetLiveKitState()
+                }
+                is CallEvent.FailedToConnect -> {
+                    ToastBroadUtils.show(event.errorMessage ?: "会议连接失败")
+                    leaveAndRelease()
+                }
+                else -> Unit
+            }
+        }
+    }
+
+    private fun hashUid(userId: String): Int {
+        if (userId.isBlank()) return 0
+        return userId.hashCode() and 0x7fffffff
+    }
+
+    private fun resetLiveKitState() {
+        mCallData.callStatus = CallStatus.IDLE
+        mCallData.useLiveKit = false
+        mCallData.sfuUrl = ""
+        mCallData.meetingId = ""
+        mCallData.roomName = ""
+        mCallData.canPublish = false
+        stopCallService()
+    }
+
+    /**
+     * LiveKit 换 token 重连（上麦审批后 /speak/leave 返回新 token 时调用）。
+     */
+    fun reconnectLiveKit(url: String?, token: String?, canPublish: Boolean) {
+        if (!mCallData.useLiveKit) return
+        if (url.isNullOrBlank() || token.isNullOrBlank()) return
+        mCallData.sfuUrl = url
+        mCallData.canPublish = canPublish
+        mCallData.quickDetailMeetBean?.sfuUrl = url
+        mCallData.quickDetailMeetBean?.token = token
+        mCallData.quickDetailMeetBean?.canPublish = canPublish
+        val oldRole = if (mCallData.direct == CallDirect.CALLER) {
+            Constants.CLIENT_ROLE_BROADCASTER
+        } else {
+            Constants.CLIENT_ROLE_AUDIENCE
+        }
+        MeetLiveKitUtil.reconnect(
+            url = url,
+            token = token,
+            canPublish = canPublish,
+            scope = GlobalScope,
+            onEvent = { event -> handleLiveKitEvent(event) },
+        )
+        mCallData.direct = if (canPublish) CallDirect.CALLER else CallDirect.ANSWER
+        val newRole = if (canPublish) Constants.CLIENT_ROLE_BROADCASTER else Constants.CLIENT_ROLE_AUDIENCE
+        if (oldRole != newRole) {
+            notifyRtcRoleChanged(oldRole, newRole)
         }
     }
 
@@ -310,6 +441,9 @@ class MeetCallManager private constructor() {
      * @return Boolean
      */
     fun isSpeakerphoneEnabled(): Boolean {
+        if (mCallData.useLiveKit) {
+            return MeetLiveKitUtil.isSpeakerphoneEnabled()
+        }
         return callEngine?.isSpeakerphoneEnabled() ?: false
     }
 
@@ -318,6 +452,10 @@ class MeetCallManager private constructor() {
      * @param enabled Boolean
      */
     fun setEnableSpeakerphone(enabled: Boolean) {
+        if (mCallData.useLiveKit) {
+            MeetLiveKitUtil.setEnableSpeakerphone(enabled)
+            return
+        }
         callEngine?.setEnableSpeakerphone(enabled)
     }
 
@@ -457,20 +595,44 @@ class MeetCallManager private constructor() {
      * 0：方法调用成功。
      * < 0：方法调用失败
      */
-    fun setRtcClientRoleDirect(type: CallDirect): Int = callEngine?.let {
-        if (mCallData.direct == type) {
-            -1
-        } else if (CallDirect.ANSWER == type) {
-            //切换成观众
-            val clientRoleOptions = ClientRoleOptions()
-            clientRoleOptions.audienceLatencyLevel = Constants.AUDIENCE_LATENCY_LEVEL_LOW_LATENCY
-            it.setClientRole(Constants.CLIENT_ROLE_AUDIENCE, clientRoleOptions)
-        } else {
-            //切换成主播
-            it.setClientRole(Constants.CLIENT_ROLE_BROADCASTER)
+    fun setRtcClientRoleDirect(type: CallDirect): Int {
+        if (mCallData.useLiveKit) {
+            if (mCallData.direct == type) {
+                return -1
+            }
+            val canPublish = type == CallDirect.CALLER
+            // LiveKit canPublish 写死在 token；此处先切换本端麦状态。
+            // 真正发麦需走 /speak/approve 后 rejoin（见 reconnectLiveKit）。
+            mCallData.canPublish = canPublish
+            mCallData.direct = type
+            MeetLiveKitUtil.setMicrophoneEnabled(canPublish)
+            val oldRole = if (type == CallDirect.CALLER) {
+                Constants.CLIENT_ROLE_AUDIENCE
+            } else {
+                Constants.CLIENT_ROLE_BROADCASTER
+            }
+            val newRole = if (canPublish) {
+                Constants.CLIENT_ROLE_BROADCASTER
+            } else {
+                Constants.CLIENT_ROLE_AUDIENCE
+            }
+            notifyRtcRoleChanged(oldRole, newRole)
+            return 0
         }
-
-    } ?: -1
+        return callEngine?.let {
+            if (mCallData.direct == type) {
+                -1
+            } else if (CallDirect.ANSWER == type) {
+                //切换成观众
+                val clientRoleOptions = ClientRoleOptions()
+                clientRoleOptions.audienceLatencyLevel = Constants.AUDIENCE_LATENCY_LEVEL_LOW_LATENCY
+                it.setClientRole(Constants.CLIENT_ROLE_AUDIENCE, clientRoleOptions)
+            } else {
+                //切换成主播
+                it.setClientRole(Constants.CLIENT_ROLE_BROADCASTER)
+            }
+        } ?: -1
+    }
 
     private fun notifyRtcRoleChanged(oldRole: Int, newRole: Int) {
         val list = ArrayList<CallEventCallback>(mCallEvents)
@@ -495,6 +657,11 @@ class MeetCallManager private constructor() {
     fun leaveAndRelease() {
         // 房主主动/意外离会统一在此恢复会前禁言（含 isCalling 已变为 false 的异常路径）
         notifyOwnerMeetEndedMuteRestore()
+        if (mCallData.useLiveKit) {
+            MeetLiveKitUtil.destroyRoom()
+            resetLiveKitState()
+            return
+        }
         if (callEngine != null) {
             mCallData.callStatus = CallStatus.IDLE
             // 离开频道

@@ -46,8 +46,11 @@ import com.cboda.chatui.common.OperateBroadResult;
 import com.cboda.chatui.contact.model.UIUserBroadInfo;
 import com.cboda.chatui.net.OKHttpBroadHelper;
 import com.cboda.chatui.net.SimpleCallback;
+import com.cboda.chatui.quickmeet.MeetCallManager;
 import com.cboda.chatui.quickmeet.UrlMeetConstants;
 import com.cboda.chatui.third.utils.FileBroadUtils;
+import com.freddy.im.http.ImMeetingHttpExample;
+import com.freddy.im.meeting.GroupMeetSessionStore;
 import com.cboda.chatui.user.UserViewBroadModel;
 import com.cboda.chatui.utils.PinyinBroadUtils;
 import com.cboda.chatui.utils.portrait.CombineBitmapBroadTools;
@@ -787,6 +790,23 @@ public class GroupViewBroadModel extends ViewModel implements OnGroupInfoUpdateL
     //上麦申请接口
     public SingleLiveBroadData<Boolean> goMeetUpMicApply(String groupID) {
         SingleLiveBroadData<Boolean> result = new SingleLiveBroadData<>();
+        if (com.cboda.baselibrary.utils.HttpsBroadConfig.useLiveKitGroupMeeting
+                || MeetCallManager.getInstance().getMCallData().getUseLiveKit()) {
+            String meetingId = MeetCallManager.getInstance().getMCallData().getMeetingId();
+            if (TextUtils.isEmpty(meetingId)) {
+                meetingId = MeetCallManager.getInstance().getMCallData().getQuickDetailMeetBean() != null
+                        ? MeetCallManager.getInstance().getMCallData().getQuickDetailMeetBean().meetingId : null;
+            }
+            if (TextUtils.isEmpty(meetingId)) {
+                GroupMeetSessionStore.Session session = GroupMeetSessionStore.get(groupID);
+                meetingId = session != null ? session.meetingId : null;
+            }
+            String roomName = MeetCallManager.getInstance().getMCallData().getRoomName();
+            ImMeetingHttpExample.requestSpeakApply(meetingId, roomName,
+                    session -> result.postValue(true),
+                    () -> result.postValue(false));
+            return result;
+        }
         Map<String, Object> params = new HashMap<>(2);
         params.put("uid", MMKVBroadUtils.Companion.getRealUserId());
         params.put("groupIdNo", groupID);
@@ -814,6 +834,19 @@ public class GroupViewBroadModel extends ViewModel implements OnGroupInfoUpdateL
     //下麦接口
     public SingleLiveBroadData<Boolean> goMeetDownMicApply(String groupID) {
         SingleLiveBroadData<Boolean> result = new SingleLiveBroadData<>();
+        if (com.cboda.baselibrary.utils.HttpsBroadConfig.useLiveKitGroupMeeting
+                || MeetCallManager.getInstance().getMCallData().getUseLiveKit()) {
+            String meetingId = MeetCallManager.getInstance().getMCallData().getMeetingId();
+            String roomName = MeetCallManager.getInstance().getMCallData().getRoomName();
+            ImMeetingHttpExample.requestSpeakLeave(meetingId, roomName, session -> {
+                if (session != null && !TextUtils.isEmpty(session.getToken()) && !TextUtils.isEmpty(session.getUrl())) {
+                    MeetCallManager.getInstance().reconnectLiveKit(
+                            session.getUrl(), session.getToken(), session.isCanPublish());
+                }
+                result.postValue(true);
+            }, () -> result.postValue(false));
+            return result;
+        }
         Map<String, Object> params = new HashMap<>(2);
         params.put("targetUserId", MMKVBroadUtils.Companion.getRealUserId());
         params.put("groupIdNo", groupID);

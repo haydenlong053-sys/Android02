@@ -12,11 +12,18 @@ class CallData : Serializable{
     var direct: CallDirect? = null
     var role: MeetRole? = null
     var channelId: String = ""
-    var quickDetailMeetBean:QuickDetailMeetBean?=null
+    var quickDetailMeetBean: QuickDetailMeetBean? = null
 
     /** 群成员角色：0 群主、1 管理员、2 普通成员，-1 未知（对齐自研 {@code GroupRole}）。 */
     var groupMemberRole: Int = GroupMemberRole.UNKNOWN
 
+    /** 当前是否走 LiveKit 群会议引擎（与声网互斥）。 */
+    var useLiveKit: Boolean = false
+
+    var sfuUrl: String = ""
+    var meetingId: String = ""
+    var roomName: String = ""
+    var canPublish: Boolean = false
 }
 
 /** 群成员角色（与自研 im_lib GroupRole 数值对齐，避免 chat-ui 跨模块依赖）。 */

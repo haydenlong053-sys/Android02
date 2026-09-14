@@ -117,6 +117,26 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
         )
     }
 
+    /** LiveKit：创建页 UI 不变，底层走 /im/meeting/create。 */
+    private fun createLiveKitMeeting() {
+        goPermissionAudioMeet {
+            lifecycleScope.launch {
+                val ui = viewModel.uiState.value
+                val title = ui.roomName.ifBlank {
+                    if (groupName.isNotEmpty()) {
+                        "$groupName-${getString(com.cboda.intelligent.R.string.meeting_room_suffix)}"
+                    } else {
+                        getString(com.cboda.intelligent.R.string.meeting_room_suffix)
+                    }
+                }
+                viewModel.goCreateLiveKitMeet(groupId, title)
+                    .observe(this@QuickMeetingCreateActivity) { bean ->
+                        joinCreatedMeet(bean)
+                    }
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         MeetCallManager.getInstance().registerEngineEvent(this)
@@ -145,7 +165,9 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
                     }
                 },
                 onPayAuthSuccess = {
-                    if (!HttpsBroadConfig.openTPay) {
+                    if (HttpsBroadConfig.useLiveKitGroupMeeting) {
+                        createLiveKitMeeting()
+                    } else if (!HttpsBroadConfig.openTPay) {
                         lifecycleScope.launch {
                             val meetingCreateUiState = viewModel.uiState.value
                             viewModel.goCreateQuickMeet(groupId, meetingCreateUiState.roomName, meetingCreateUiState.selectedDuration?.id ?: 0, meetingCreateUiState.selectedUserTier?.id ?: 0, "")

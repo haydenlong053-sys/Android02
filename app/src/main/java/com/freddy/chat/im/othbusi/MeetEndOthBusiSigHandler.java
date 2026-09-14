@@ -30,6 +30,7 @@ public final class MeetEndOthBusiSigHandler implements OthBusiSigHandler {
             return false;
         }
         ELogUtilKt.eLogD(TAG, "groupId=" + groupIdNo);
+        com.freddy.im.meeting.GroupMeetSessionStore.remove(groupIdNo);
         // 由 MyBroadApp 全局观察 meetEndMsgLiveData 恢复会前禁言态（会前无禁言则解禁）
         BaseLiveDataEventKt.meetEndMsgLiveData.postValue(groupIdNo);
         return true;

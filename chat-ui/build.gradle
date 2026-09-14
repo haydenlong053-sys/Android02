@@ -78,6 +78,7 @@ dependencies {
     api files('libs/broad_chat_emoji.aar')
     api project(':chat-client')
     implementation project(':im_webtrc')
+    implementation project(':im_lib')
     api libs.androidx.appcompat
     api libs.material
     api libs.glide

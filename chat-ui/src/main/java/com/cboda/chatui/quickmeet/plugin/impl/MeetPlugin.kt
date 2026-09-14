@@ -309,6 +309,15 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             MainScope().launch {
                 viewModel?.goNetDownMic(myUserId, groupId)?.observeForever { }
             }
+        } else if (isCalling() && MeetCallManager.getInstance().mCallData.useLiveKit) {
+            // LiveKit 观众离会：记 leave 流水
+            MainScope().launch {
+                val meetingId = MeetCallManager.getInstance().mCallData.meetingId
+                    .ifBlank { MeetCallManager.getInstance().mCallData.quickDetailMeetBean?.meetingId }
+                val roomName = MeetCallManager.getInstance().mCallData.roomName
+                    .ifBlank { MeetCallManager.getInstance().mCallData.quickDetailMeetBean?.roomName }
+                com.freddy.im.http.ImMeetingHttpExample.requestLeave(meetingId, roomName, null, null)
+            }
         }
     }
 
@@ -792,9 +801,16 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
             }?.let {
                 //上麦
                 if (!MeetCallManager.getInstance().isCallDirect()) {
-                    MeetCallManager.getInstance().setRtcClientRoleDirect(CallDirect.CALLER).let { successInt ->
-                        if (successInt == 0 && it.idNo?.isNotEmpty() == true) {
-                            tempSeatMutAudioMap.put(anyToInt(it.idNo!!), false)
+                    if (MeetCallManager.getInstance().mCallData.useLiveKit) {
+                        // 文档：审批后必须重新 /join 换发麦 token
+                        MainScope().launch {
+                            rejoinLiveKitAfterApproved()
+                        }
+                    } else {
+                        MeetCallManager.getInstance().setRtcClientRoleDirect(CallDirect.CALLER).let { successInt ->
+                            if (successInt == 0 && it.idNo?.isNotEmpty() == true) {
+                                tempSeatMutAudioMap.put(anyToInt(it.idNo!!), false)
+                            }
                         }
                     }
                 }
@@ -808,6 +824,25 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         }
 
 
+    }
+
+    private suspend fun rejoinLiveKitAfterApproved() {
+        val callData = MeetCallManager.getInstance().mCallData
+        val meetingId = callData.meetingId.ifBlank { callData.quickDetailMeetBean?.meetingId }
+        val roomName = callData.roomName.ifBlank { callData.quickDetailMeetBean?.roomName }
+        com.freddy.im.http.ImMeetingHttpExample.requestJoin(
+            meetingId,
+            roomName,
+            null,
+            { session ->
+                MeetCallManager.getInstance().reconnectLiveKit(
+                    session.url,
+                    session.token,
+                    session.isCanPublish,
+                )
+            },
+            null,
+        )
     }
 
     override fun onRtcUserJoined(uid: Int) {
