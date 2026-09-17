@@ -108,6 +108,15 @@ interface CallEventCallback{
     fun onRoomUserMuteAudio(uid: Int,muted : Boolean){
 
     }
+
+    /**
+     * LiveKit：远端用户开关麦（identity = userId）。
+     * muted true=关麦，false=开麦。
+     */
+    fun onRoomUserMuteAudio(userId: String, muted: Boolean) {
+
+    }
+
     fun onRtcConnectionStateChanged(state: Int, reason: Int){
 
     }

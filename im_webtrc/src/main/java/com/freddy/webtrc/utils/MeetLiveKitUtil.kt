@@ -14,6 +14,9 @@ import io.livekit.android.events.RoomEvent
 import io.livekit.android.events.collect
 import io.livekit.android.room.Room
 import io.livekit.android.room.participant.Participant
+import io.livekit.android.room.participant.RemoteParticipant
+import io.livekit.android.room.track.Track
+import io.livekit.android.room.track.TrackPublication
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -166,6 +169,8 @@ object MeetLiveKitUtil {
             is RoomEvent.ParticipantDisconnected -> CallEvent.ParticipantDisconnected(identityOf(participant))
             is RoomEvent.TrackSubscribed -> CallEvent.TrackSubscribed(identityOf(participant))
             is RoomEvent.TrackUnsubscribed -> CallEvent.TrackUnsubscribed(identityOf(participant))
+            is RoomEvent.TrackMuted -> toRemoteAudioMuteEvent(participant, publication, muted = true)
+            is RoomEvent.TrackUnmuted -> toRemoteAudioMuteEvent(participant, publication, muted = false)
             is RoomEvent.ActiveSpeakersChanged -> {
                 CallEvent.ActiveSpeakersChanged(
                     speakers.mapNotNull { it.identity?.value?.takeIf { id -> id.isNotBlank() } }
@@ -175,6 +180,27 @@ object MeetLiveKitUtil {
             is RoomEvent.FailedToConnect -> CallEvent.FailedToConnect(error.message)
             else -> CallEvent.UnKnownEvent
         }
+    }
+
+    /** 仅转发远端麦克风 mute，对齐声网 onUserMuteAudio。 */
+    private fun toRemoteAudioMuteEvent(
+        participant: Participant,
+        publication: TrackPublication,
+        muted: Boolean,
+    ): CallEvent {
+        if (participant !is RemoteParticipant) {
+            return CallEvent.UnKnownEvent
+        }
+        val isAudio = publication.kind == Track.Kind.AUDIO
+                || publication.source == Track.Source.MICROPHONE
+        if (!isAudio) {
+            return CallEvent.UnKnownEvent
+        }
+        val userId = identityOf(participant)
+        if (userId.isBlank()) {
+            return CallEvent.UnKnownEvent
+        }
+        return CallEvent.RemoteAudioMuteChanged(userId, muted)
     }
 
     private fun identityOf(participant: Participant?): String {

@@ -19,6 +19,12 @@ sealed class CallEvent {
     /** 对方音/视频轨取消订阅 */
     data class TrackUnsubscribed(val userId: String) : CallEvent()
 
+    /**
+     * 远端音频 mute 状态变化（对齐声网 onUserMuteAudio）。
+     * [muted] true=关麦，false=开麦。
+     */
+    data class RemoteAudioMuteChanged(val userId: String, val muted: Boolean) : CallEvent()
+
     /** 正在说话的人变化 */
     data class ActiveSpeakersChanged(val speakerIds: List<String>) : CallEvent()
 

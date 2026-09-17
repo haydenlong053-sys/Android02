@@ -123,6 +123,8 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     //麦位上当前所有人员的麦克风禁言状态的集合
     private val tempSeatMutAudioMap = hashMapOf<Int, Boolean>()
+    /** LiveKit：按 userId 记录远端开关麦 */
+    private val tempSeatMutAudioByUserId = hashMapOf<String, Boolean>()
     private val myMid by lazy {
         MMKVBroadUtils.getUserMId()
     }
@@ -763,21 +765,39 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         refreshSeatMicState(uid, muted)
     }
 
+    override fun onRoomUserMuteAudio(userId: String, muted: Boolean) {
+        if (userId.isBlank()) return
+        tempSeatMutAudioByUserId[userId] = muted
+        refreshSeatMicStateByUserId(userId, muted)
+    }
+
     //刷新麦位上的麦克风状态
     private fun refreshSeatMicState(uid: Int, muted: Boolean) {
         seatMicFourList.find {
             it.idNo?.toIntOrNull() == uid
         }?.let {
-            if (it.seatNumbIndex == SeatNumb.MIC_MAIN.ordinal) {
-                mIvIconMic?.isSelected = muted
-                seatMainMicIv?.isSelected = muted
-            } else if (it.seatNumbIndex == SeatNumb.MIC_SUB.ordinal) {
-                seatSubMicIv?.isSelected = muted
-            } else if (it.seatNumbIndex == SeatNumb.MIC_GUEST_ONE.ordinal) {
-                seatGuestOneMicIv?.isSelected = muted
-            } else if (it.seatNumbIndex == SeatNumb.MIC_GUEST_TWO.ordinal) {
-                seatGuestTwoMicIv?.isSelected = muted
-            }
+            applySeatMicMuted(it.seatNumbIndex, muted)
+        }
+    }
+
+    private fun refreshSeatMicStateByUserId(userId: String, muted: Boolean) {
+        seatMicFourList.find { meetUser ->
+            meetUser.userId == userId || meetUser.idNo == userId
+        }?.let {
+            applySeatMicMuted(it.seatNumbIndex, muted)
+        }
+    }
+
+    private fun applySeatMicMuted(seatIndex: Int, muted: Boolean) {
+        if (seatIndex == SeatNumb.MIC_MAIN.ordinal) {
+            mIvIconMic?.isSelected = muted
+            seatMainMicIv?.isSelected = muted
+        } else if (seatIndex == SeatNumb.MIC_SUB.ordinal) {
+            seatSubMicIv?.isSelected = muted
+        } else if (seatIndex == SeatNumb.MIC_GUEST_ONE.ordinal) {
+            seatGuestOneMicIv?.isSelected = muted
+        } else if (seatIndex == SeatNumb.MIC_GUEST_TWO.ordinal) {
+            seatGuestTwoMicIv?.isSelected = muted
         }
     }
 
@@ -830,6 +850,9 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                     //同步麦位上的麦克风状态
                     tempSeatMutAudioMap.forEach { (key, value) ->
                         refreshSeatMicState(key, value)
+                    }
+                    tempSeatMutAudioByUserId.forEach { (userId, muted) ->
+                        refreshSeatMicStateByUserId(userId, muted)
                     }
                 }
             }
@@ -905,6 +928,7 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
     private fun removePanel() {
         clearFourSeatMicList()
         tempSeatMutAudioMap.clear()
+        tempSeatMutAudioByUserId.clear()
         clearVoiceWaveAnimate()
 
         mView?.visibility = View.GONE

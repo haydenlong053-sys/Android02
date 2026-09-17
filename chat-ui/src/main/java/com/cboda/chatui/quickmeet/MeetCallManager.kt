@@ -223,6 +223,9 @@ class MeetCallManager private constructor() {
                 is CallEvent.ParticipantDisconnected -> {
                     notifyRtcUserOffline(hashUid(event.userId), 0)
                 }
+                is CallEvent.RemoteAudioMuteChanged -> {
+                    notifyRtcUserMuteAudioChange(event.userId, event.muted)
+                }
                 is CallEvent.ActiveSpeakersChanged -> {
                     // MeetPlugin 依赖 Agora AudioVolumeInfo；LiveKit 侧暂用说话列表驱动本地波形由座位刷新兜底
                 }
@@ -537,6 +540,13 @@ class MeetCallManager private constructor() {
         val list = ArrayList<CallEventCallback>(mCallEvents)
         for (callEvent in list) {
             callEvent.onRoomUserMuteAudio(uid, muted)
+        }
+    }
+
+    private fun notifyRtcUserMuteAudioChange(userId: String, muted: Boolean) {
+        val list = ArrayList<CallEventCallback>(mCallEvents)
+        for (callEvent in list) {
+            callEvent.onRoomUserMuteAudio(userId, muted)
         }
     }
 
