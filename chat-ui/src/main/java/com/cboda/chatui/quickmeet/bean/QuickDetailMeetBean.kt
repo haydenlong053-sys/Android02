@@ -41,7 +41,7 @@ data class QuickDetailMeetBean(
     var userTierConfigValue: Int = 0,
     /** LiveKit SFU 地址（api/im/meeting） */
     @JvmField
-    var sfuUrl: String? = null,
+    var meetingUrl: String? = null,
     /** LiveKit 会议号 */
     @JvmField
     var meetingId: String? = null,

@@ -11,13 +11,16 @@ import androidx.annotation.Nullable;
 
 import com.cboda.baselibrary.bean.UserInfoBean;
 import com.cboda.baselibrary.toast.ToastBroadUtils;
+import com.cboda.baselibrary.utils.ELogUtilKt;
 import com.cboda.baselibrary.utils.MMKVBroadUtils;
 import com.freddy.im.http.api.MeetingCreateApi;
 import com.freddy.im.http.api.MeetingEndApi;
 import com.freddy.im.http.api.MeetingInfoApi;
+import com.freddy.im.http.api.MeetingInfoByGroupApi;
 import com.freddy.im.http.api.MeetingJoinApi;
 import com.freddy.im.http.api.MeetingLeaveApi;
 import com.freddy.im.http.api.MeetingSpeakApi;
+import com.freddy.im.http.model.im.BaseMsgListResponse;
 import com.freddy.im.http.model.im.BaseMsgResponse;
 import com.freddy.im.http.model.im.MeetingEndContent;
 import com.freddy.im.http.model.im.MeetingSessionVO;
@@ -26,6 +29,8 @@ import com.google.gson.Gson;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.lifecycle.ApplicationLifecycle;
 import com.hjq.http.listener.OnHttpListener;
+
+import java.util.List;
 
 /**
  * 群会议 / 直播 HTTP：{@code /im/meeting/*}（LiveKit SFU）。
@@ -64,11 +69,10 @@ public final class ImMeetingHttpExample {
     }
 
     public static void requestJoin(@Nullable String meetingId,
-                                   @Nullable String roomName,
                                    @Nullable String displayName,
                                    @NonNull OnHttpImListener<MeetingSessionVO> callback,
                                    @Nullable Runnable onFail) {
-        if (TextUtils.isEmpty(meetingId) && TextUtils.isEmpty(roomName)) {
+        if (TextUtils.isEmpty(meetingId) ) {
             if (onFail != null) {
                 onFail.run();
             }
@@ -76,13 +80,51 @@ public final class ImMeetingHttpExample {
         }
         MeetingJoinApi api = new MeetingJoinApi()
                 .setMeetingId(meetingId)
-                .setRoomName(roomName)
                 .setName(displayName)
                 .setMediaType("audio");
         EasyHttp.post(ApplicationLifecycle.getInstance())
                 .api(api)
                 .request(sessionListener("join", callback, onFail, true));
     }
+
+    public static void requestLiveByGroup(@NonNull String groupId,
+                                   @NonNull OnHttpImListener<MeetingSessionVO> callback,
+                                   @Nullable Runnable onFail) {
+        EasyHttp.get(ApplicationLifecycle.getInstance())
+                .api(new MeetingInfoByGroupApi().setGroupId(groupId))
+                .request(  new OnHttpListener<BaseMsgListResponse<MeetingSessionVO>>() {
+            @Override
+            public void onHttpSuccess(@NonNull BaseMsgListResponse<MeetingSessionVO> result) {
+                if (!result.isSuccess()) {
+                    String msg = result.getErrorMsg();
+                    ToastBroadUtils.show(TextUtils.isEmpty(msg) ? "会议请求开小差了" : msg);
+                    if (onFail != null) {
+                        onFail.run();
+                    }
+                    return;
+                }
+                List<MeetingSessionVO> content = result.getContent();
+                if (content == null ||content.isEmpty()) {
+                    if (onFail != null) {
+                        onFail.run();
+                    }
+                    return;
+                }
+                ELogUtilKt.eLogD(ELogUtilKt.APP_IM_TAG,"会议查询成功1---"+content.get(0).getMeetingId());
+                callback.onHttpImSuccess(content.get(0));
+            }
+
+            @Override
+            public void onHttpFail(@NonNull Throwable throwable) {
+                String msg = throwable.getMessage();
+                ToastBroadUtils.show(TextUtils.isEmpty(msg) ? "会议请求失败" : msg);
+                if (onFail != null) {
+                    onFail.run();
+                }
+            }
+        });
+    }
+
 
     public static void requestLeave(@Nullable String meetingId,
                                     @Nullable String roomName,
@@ -267,7 +309,7 @@ public final class ImMeetingHttpExample {
                             + " msg=" + result.getErrorMsg());
                     if (toastOnFail) {
                         String msg = result.getErrorMsg();
-                        ToastBroadUtils.show(TextUtils.isEmpty(msg) ? "会议请求失败" : msg);
+                        ToastBroadUtils.show(TextUtils.isEmpty(msg) ? "会议请求开小差了" : msg);
                     }
                     if (onFail != null) {
                         onFail.run();

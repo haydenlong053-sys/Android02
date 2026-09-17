@@ -5,6 +5,8 @@ import android.content.Context
 import android.media.AudioManager
 import android.text.TextUtils
 import com.cboda.baselibrary.app.UtilBroadApplication
+import com.cboda.baselibrary.utils.APP_IM_TAG
+import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.toLog
 import com.freddy.webtrc.bean.CallEvent
 import io.livekit.android.LiveKit
@@ -67,6 +69,7 @@ object MeetLiveKitUtil {
                     if (room.state == Room.State.CONNECTED) {
                         room.disconnect()
                     }
+                    eLogD(APP_IM_TAG,"会议sdk真正加入房间canPublish=${canPublish}---url=$url---token=$token")
                     room.connect(url.orEmpty(), token.orEmpty())
                     room.localParticipant.setMicrophoneEnabled(canPublish)
                     applySpeakerphone(speakerphoneEnabled)

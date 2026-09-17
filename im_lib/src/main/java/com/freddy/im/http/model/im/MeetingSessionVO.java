@@ -31,6 +31,12 @@ public class MeetingSessionVO implements java.io.Serializable {
     private List<String> speakers;
     /** 上麦申请 userId 列表（接口字段名 pending） */
     private List<String> pending;
+    private Integer activeCount;
+
+
+    public Integer getActiveCount() {
+        return activeCount;
+    }
 
     public String getUrl() {
         return url;

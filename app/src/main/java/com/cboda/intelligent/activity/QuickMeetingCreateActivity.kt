@@ -165,9 +165,7 @@ class QuickMeetingCreateActivity : BaseSimpleBroadActivity(), CallEventCallback 
                     }
                 },
                 onPayAuthSuccess = {
-                    if (HttpsBroadConfig.useLiveKitGroupMeeting) {
-                        createLiveKitMeeting()
-                    } else if (!HttpsBroadConfig.openTPay) {
+                    if (!HttpsBroadConfig.openTPay) {
                         lifecycleScope.launch {
                             val meetingCreateUiState = viewModel.uiState.value
                             viewModel.goCreateQuickMeet(groupId, meetingCreateUiState.roomName, meetingCreateUiState.selectedDuration?.id ?: 0, meetingCreateUiState.selectedUserTier?.id ?: 0, "")

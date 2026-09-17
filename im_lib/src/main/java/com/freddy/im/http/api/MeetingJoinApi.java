@@ -11,8 +11,6 @@ public final class MeetingJoinApi implements IRequestApi {
     @Nullable
     private String meetingId;
     @Nullable
-    private String roomName;
-    @Nullable
     private String name;
     @Nullable
     private String mediaType;
@@ -28,10 +26,6 @@ public final class MeetingJoinApi implements IRequestApi {
         return this;
     }
 
-    public MeetingJoinApi setRoomName(@Nullable String roomName) {
-        this.roomName = roomName;
-        return this;
-    }
 
     public MeetingJoinApi setName(@Nullable String name) {
         this.name = name;

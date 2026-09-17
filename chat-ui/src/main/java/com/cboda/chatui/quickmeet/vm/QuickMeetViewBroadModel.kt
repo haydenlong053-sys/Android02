@@ -3,15 +3,15 @@ package com.cboda.chatui.quickmeet.vm
 import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.base.BaseViewModel
-import com.cboda.baselibrary.bean.CreateGroupData
 import com.cboda.baselibrary.bean.GlobalChatGroupBean
-import com.cboda.baselibrary.bean.PayLsOrderBean
+import com.cboda.baselibrary.bean.MeetUser
 import com.cboda.baselibrary.livedata.SingleLiveBroadData
 import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
 import com.cboda.baselibrary.toast.ToastBroadUtils
+import com.cboda.baselibrary.utils.APP_IM_TAG
 import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.eLogD
@@ -26,8 +26,10 @@ import com.cboda.chatui.quickmeet.bean.QuickMeetInfoBean
 import com.cboda.chatui.quickmeet.bean.SeatMicListBean
 import com.cboda.chatui.quickmeet.dismissLoadingWfc
 import com.cboda.chatui.quickmeet.showLoadingWfc
+import com.freddy.im.db.ImLocalStore
 import com.freddy.im.http.ImMeetingHttpExample
 import com.freddy.im.http.ImNotifyHttpExample
+import com.freddy.im.http.model.im.GroupMemberItem
 import com.freddy.im.http.model.im.MeetingSessionVO
 import com.freddy.im.listener.OnHttpImListener
 import com.freddy.im.meeting.GroupMeetSessionStore
@@ -38,7 +40,6 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import kotlin.coroutines.resume
-import kotlin.jvm.java
 
 //极速直播
 open class QuickMeetViewBroadModel : BaseViewModel() {
@@ -83,21 +84,17 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
     /** LiveKit：按群缓存的 meetingId 调 /join，组装成旧 QuickMeetInfoBean。 */
     private suspend fun goLiveKitMeetInfo(groupIdNo: String): SingleLiveBroadData<QuickMeetInfoBean> {
         val liveData = SingleLiveBroadData<QuickMeetInfoBean>()
-        val session = GroupMeetSessionStore.get(groupIdNo)
-        if (session == null) {
-            ToastBroadUtils.show("会议不存在或已结束~")
-            return liveData
-        }
         val joined = awaitMeetingSession { cb, fail ->
-            ImMeetingHttpExample.requestJoin(session.meetingId, session.roomName, null, cb, fail)
+            ImMeetingHttpExample.requestLiveByGroup(groupIdNo, cb, fail)
         } ?: return liveData
-        val bean = LiveKitMeetMapper.toQuickDetail(joined, groupIdNo, session.title)
-        GroupMeetSessionStore.put(groupIdNo, joined.meetingId, joined.roomName, joined.title)
+        val bean = LiveKitMeetMapper.toQuickDetail(joined, groupIdNo,"")
+        eLogD(APP_IM_TAG, "会议查询成功2---groupIdNo" + bean.groupIdNo)
         liveData.postValue(
             QuickMeetInfoBean(
                 list = listOf(bean),
                 liveStatus = "active",
                 token = joined.token,
+                joinedUsers = joined.activeCount?.toString()
             )
         )
         return liveData
@@ -108,9 +105,9 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
      * 创建直播 / LiveKit 群会议室
      */
     suspend fun goCreateQuickMeet(groupIdNo: String, channelName: String, durationConfigId: Int, userTierConfigId: Int, orderId: String?): SingleLiveBroadData<QuickDetailMeetBean> {
-        if (HttpsBroadConfig.useLiveKitGroupMeeting) {
-            return goCreateLiveKitMeet(groupIdNo, channelName)
-        }
+//        if (HttpsBroadConfig.useLiveKitGroupMeeting) {
+//            return goCreateLiveKitMeet(groupIdNo, channelName)
+//        }
         showLoadingWfc()
         val safeCenterLiveData = SingleLiveBroadData<QuickDetailMeetBean>()
         val params = hashMapOf(
@@ -133,6 +130,7 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
                 ).onSuccess { userInfo ->
                     dismissLoadingWfc()
                     userInfo?.let {
+                        it.canPublish =true
                         safeCenterLiveData.postValue(it)
                     }
 
@@ -379,19 +377,13 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
     private suspend fun goLiveKitMicSeatList(groupIdNo: String?): SingleLiveBroadData<SeatMicListBean> {
         showLoadingWfc()
         val liveData = SingleLiveBroadData<SeatMicListBean>()
-        val meetingId = resolveMeetingId(groupIdNo)
-        val roomName = resolveRoomName(groupIdNo)
         val session = awaitMeetingSession { cb, fail ->
-            ImMeetingHttpExample.requestInfo(meetingId, roomName, cb, fail)
+            ImMeetingHttpExample.requestLiveByGroup(groupIdNo ?: "", cb, fail)
+        }
+        val speaking = withContext(Dispatchers.IO) {
+            mapSpeakersToMeetUsers(groupIdNo, session?.speakers)
         }
         dismissLoadingWfc()
-        // speakers 为 userId 字符串列表
-        val speaking = session?.speakers?.mapIndexed { index, userId ->
-            com.cboda.baselibrary.bean.MeetUser(
-                userId = userId,
-                seatNumbIndex = index,
-            )
-        }?.toMutableList()
         liveData.postValue(
             SeatMicListBean(
                 adminUserId = session?.hostId,
@@ -400,6 +392,39 @@ open class QuickMeetViewBroadModel : BaseViewModel() {
             )
         )
         return liveData
+    }
+
+    /** speakers 为 userId 列表：本地群成员库补全资料，查不到则新建 MeetUser。 */
+    private fun mapSpeakersToMeetUsers(groupIdNo: String?, speakers: List<String>?): MutableList<MeetUser> {
+        if (speakers.isNullOrEmpty()) {
+            return mutableListOf()
+        }
+        val memberMap = if (!groupIdNo.isNullOrBlank()) {
+            try {
+                ImLocalStore.queryGroupMembersMap(groupIdNo)
+            } catch (_: Exception) {
+                emptyMap()
+            }
+        } else {
+            emptyMap()
+        }
+        return speakers.mapIndexed { index, userId ->
+            toMeetUser(memberMap[userId], userId, index)
+        }.toMutableList()
+    }
+
+    private fun toMeetUser(member: GroupMemberItem?, userId: String, seatIndex: Int): MeetUser {
+        if (member == null) {
+            return MeetUser(userId = userId, seatNumbIndex = seatIndex)
+        }
+        return MeetUser(
+            icon = member.headPortrait,
+            nickname = member.displayName,
+            role = member.role.toString(),
+            userId = member.userId ?: userId,
+            idNo = member.idNo,
+            seatNumbIndex = seatIndex,
+        )
     }
 
 

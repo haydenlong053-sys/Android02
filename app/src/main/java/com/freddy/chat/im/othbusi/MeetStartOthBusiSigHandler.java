@@ -32,7 +32,7 @@ public final class MeetStartOthBusiSigHandler implements OthBusiSigHandler {
         if (!TextUtils.isEmpty(meetingId)) {
             com.freddy.im.meeting.GroupMeetSessionStore.put(groupIdNo, meetingId, roomName, title);
         }
-        ELogUtilKt.eLogD(TAG, "groupId=" + groupIdNo + " meetingId=" + meetingId);
+        ELogUtilKt.eLogD(TAG, "groupId=" + groupIdNo + " meetingId=" + meetingId+ " data=" + data);
         BaseLiveDataEventKt.getMeetJoinMsgLiveData().postValue(groupIdNo);
         return true;
     }

@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ThreadUtils.runOnUiThread
 import com.cboda.baselibrary.app.UtilBroadApplication
 import com.cboda.baselibrary.common.PlatformParams
@@ -126,13 +127,12 @@ class MeetCallManager private constructor() {
             data.quickDetailMeetBean = quickDetailMeetBean
             data.groupMemberRole = groupMemberRole
             data.useLiveKit = isLiveKitEngineEnabled()
-                || !quickDetailMeetBean?.sfuUrl.isNullOrBlank()
-                || !quickDetailMeetBean?.meetingId.isNullOrBlank()
-            data.sfuUrl = quickDetailMeetBean?.sfuUrl.orEmpty()
+
+            data.meetingUrl = quickDetailMeetBean?.meetingUrl.orEmpty()
             data.meetingId = quickDetailMeetBean?.meetingId.orEmpty()
             data.roomName = quickDetailMeetBean?.roomName.orEmpty()
-            data.canPublish = quickDetailMeetBean?.canPublish == true
-                || direct == CallDirect.CALLER
+            data.canPublish = quickDetailMeetBean?.canPublish ?: false
+
             //初始化通话参数
             start(data, channelId, token)
         } else {
@@ -164,7 +164,7 @@ class MeetCallManager private constructor() {
             mCallData.quickDetailMeetBean = data.quickDetailMeetBean
             mCallData.groupMemberRole = data.groupMemberRole
             mCallData.useLiveKit = data.useLiveKit
-            mCallData.sfuUrl = data.sfuUrl
+            mCallData.meetingUrl = data.meetingUrl
             mCallData.meetingId = data.meetingId
             mCallData.roomName = data.roomName
             mCallData.canPublish = data.canPublish
@@ -191,19 +191,20 @@ class MeetCallManager private constructor() {
 
     private fun initLiveKitEngine(token: String) {
         notifyEngineSetup()
-        val url = mCallData.sfuUrl.ifBlank { mCallData.quickDetailMeetBean?.sfuUrl.orEmpty() }
+        val url = mCallData.meetingUrl.ifBlank { mCallData.quickDetailMeetBean?.meetingUrl.orEmpty() }
         val joinToken = token.ifBlank { mCallData.quickDetailMeetBean?.token.orEmpty() }
         if (url.isBlank() || joinToken.isBlank()) {
             eLogD(APP_TAG, "LiveKit join missing url/token")
             mCallData.callStatus = CallStatus.IDLE
-            ToastBroadUtils.show("会议进房参数无效")
+            ToastBroadUtils.show("会议进房参数无效,缺少url或token")
             return
         }
+
         MeetLiveKitUtil.joinRoom(
             url = url,
             token = joinToken,
             canPublish = mCallData.canPublish,
-            scope = GlobalScope,
+            scope = getResumeActivity()?.lifecycleScope,
             onEvent = { event -> handleLiveKitEvent(event) },
         )
     }
@@ -247,7 +248,7 @@ class MeetCallManager private constructor() {
     private fun resetLiveKitState() {
         mCallData.callStatus = CallStatus.IDLE
         mCallData.useLiveKit = false
-        mCallData.sfuUrl = ""
+        mCallData.meetingUrl = ""
         mCallData.meetingId = ""
         mCallData.roomName = ""
         mCallData.canPublish = false
@@ -260,9 +261,9 @@ class MeetCallManager private constructor() {
     fun reconnectLiveKit(url: String?, token: String?, canPublish: Boolean) {
         if (!mCallData.useLiveKit) return
         if (url.isNullOrBlank() || token.isNullOrBlank()) return
-        mCallData.sfuUrl = url
+        mCallData.meetingUrl = url
         mCallData.canPublish = canPublish
-        mCallData.quickDetailMeetBean?.sfuUrl = url
+        mCallData.quickDetailMeetBean?.meetingUrl = url
         mCallData.quickDetailMeetBean?.token = token
         mCallData.quickDetailMeetBean?.canPublish = canPublish
         val oldRole = if (mCallData.direct == CallDirect.CALLER) {

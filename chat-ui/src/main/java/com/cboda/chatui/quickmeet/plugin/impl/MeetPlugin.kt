@@ -13,10 +13,12 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.bean.MeetUser
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.APP_TAG
 import com.cboda.baselibrary.utils.BusLiveBroadData
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.LiveDataBroadBroadBus
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.anyToInt
@@ -259,32 +261,74 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         groupId = groupIdNo
         activity.lifecycleScope.launch {
             viewModel?.goQuickMeetInfo(groupIdNo, liveStatus)?.observe(activity) {
-                if (it.list?.isNotEmpty() == true && it.token != null) {
+                if (it.list?.isNotEmpty() == true) {
                     hasMeetInfoInvoke.invoke(it)
                     meetChannelBean = it.list!![0]
-                    meetChannelBean?.token = it.token
                 }
             }
         }
 
     }
 
-    fun joinMyMeetRoom(isJoinInvoke: () -> Unit = {}) {
-        goPermissionAudioMeet() {
-            meetChannelBean?.let {
-                isJoinInvoke.invoke()
-                val direct = if (myMid == it.idNo.toString()) {
-                    CallDirect.CALLER
-                } else {
-                    CallDirect.ANSWER
+    //LiveKit观众端进入时，先获取会议必要的token以及url
+   private fun getJoinLiveKitMeetToken(meetingId: String?,joinInvoke: () -> Unit = {}){
+        val userName = MMKVBroadUtils.getUserName()
+        com.freddy.im.http.ImMeetingHttpExample.requestJoin(
+            meetingId,
+            userName,
+            { session ->
+                meetChannelBean?.let {
+                    it.meetingUrl =session.url
+                    it.token=session.token
+                    it.canPublish=session.isCanPublish
                 }
-                MeetCallManager.getInstance().callMeetAction(
-                    direct,
-                    it.channelId ?: "",
-                    it.token ?: "",
-                    it,
-                    groupMemberRole,
-                )
+                joinInvoke.invoke()
+            },
+            null,
+        )
+    }
+
+
+    fun joinMyMeetRoom(isJoinInvoke: () -> Unit = {}) {
+        if (HttpsBroadConfig.useLiveKitGroupMeeting){
+            meetChannelBean?.let {
+                getJoinLiveKitMeetToken(it.meetingId){
+                    goPermissionAudioMeet() {
+                        meetChannelBean?.let {
+                            isJoinInvoke.invoke()
+                            val direct = if (myMid == it.idNo.toString()) {
+                                CallDirect.CALLER
+                            } else {
+                                CallDirect.ANSWER
+                            }
+                            MeetCallManager.getInstance().callMeetAction(
+                                direct,
+                                it.channelId ?: "",
+                                it.token ?: "",
+                                it,
+                                groupMemberRole,
+                            )
+                        }
+                    }
+                }
+            }
+        }else{
+            goPermissionAudioMeet() {
+                meetChannelBean?.let {
+                    isJoinInvoke.invoke()
+                    val direct = if (myMid == it.idNo.toString()) {
+                        CallDirect.CALLER
+                    } else {
+                        CallDirect.ANSWER
+                    }
+                    MeetCallManager.getInstance().callMeetAction(
+                        direct,
+                        it.channelId ?: "",
+                        it.token ?: "",
+                        it,
+                        groupMemberRole,
+                    )
+                }
             }
         }
     }
@@ -803,9 +847,10 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
                 if (!MeetCallManager.getInstance().isCallDirect()) {
                     if (MeetCallManager.getInstance().mCallData.useLiveKit) {
                         // 文档：审批后必须重新 /join 换发麦 token
-                        MainScope().launch {
-                            rejoinLiveKitAfterApproved()
+                        viewModel?.viewModelScope?.launch {
+                            rejoinLiveKitAfterApproved(it.nickname)
                         }
+
                     } else {
                         MeetCallManager.getInstance().setRtcClientRoleDirect(CallDirect.CALLER).let { successInt ->
                             if (successInt == 0 && it.idNo?.isNotEmpty() == true) {
@@ -826,14 +871,12 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
 
     }
 
-    private suspend fun rejoinLiveKitAfterApproved() {
+    private fun rejoinLiveKitAfterApproved(nickname: String?) {
         val callData = MeetCallManager.getInstance().mCallData
         val meetingId = callData.meetingId.ifBlank { callData.quickDetailMeetBean?.meetingId }
-        val roomName = callData.roomName.ifBlank { callData.quickDetailMeetBean?.roomName }
         com.freddy.im.http.ImMeetingHttpExample.requestJoin(
             meetingId,
-            roomName,
-            null,
+            nickname,
             { session ->
                 MeetCallManager.getInstance().reconnectLiveKit(
                     session.url,

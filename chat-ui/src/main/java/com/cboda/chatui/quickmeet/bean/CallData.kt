@@ -20,7 +20,7 @@ class CallData : Serializable{
     /** 当前是否走 LiveKit 群会议引擎（与声网互斥）。 */
     var useLiveKit: Boolean = false
 
-    var sfuUrl: String = ""
+    var meetingUrl: String = ""
     var meetingId: String = ""
     var roomName: String = ""
     var canPublish: Boolean = false
