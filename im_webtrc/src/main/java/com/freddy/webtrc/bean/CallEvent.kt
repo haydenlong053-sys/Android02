@@ -28,6 +28,12 @@ sealed class CallEvent {
     /** 正在说话的人变化 */
     data class ActiveSpeakersChanged(val speakerIds: List<String>) : CallEvent()
 
+    /**
+     * 本端说话状态（对齐声网音量回调 uid=0）。
+     * ActiveSpeakersChanged 在主播本端可能不含自己。
+     */
+    data class LocalSpeakingChanged(val userId: String, val isSpeaking: Boolean) : CallEvent()
+
     /** 本端已离房 */
     data object Disconnected : CallEvent()
 

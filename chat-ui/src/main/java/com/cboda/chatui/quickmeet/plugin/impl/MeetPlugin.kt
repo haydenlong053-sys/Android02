@@ -705,6 +705,29 @@ class MeetPlugin(val activity: FragmentActivity) : PluginLayout(activity), CallE
         updateFourSeatSpeakingState(speakers)
     }
 
+    override fun onRoomActiveSpeakersChanged(speakerIds: List<String>) {
+        if (speakerIds.isEmpty()) return
+        if (mVoiceWaveView?.isAnimating() == false) {
+            mVoiceWaveView?.startLoopAnim()
+        }
+        speakerIds.forEach { speakerId ->
+            if (speakerId.isBlank()) return@forEach
+            val isMe = speakerId == myUserId || speakerId == myMid
+            val seat = seatMicFourList.find { meetUser ->
+                meetUser.userId == speakerId || meetUser.idNo == speakerId
+            } ?: if (isMe) {
+                seatMicFourList.find { it.userId == myUserId || it.idNo == myMid }
+                    ?: seatMicFourList.find { it.seatNumbIndex == SeatNumb.MIC_MAIN.ordinal }
+            } else {
+                null
+            }
+            seat?.let { updateSeatWaveByIndex(it.seatNumbIndex) }
+            if (isMe && MeetCallManager.getInstance().isOwner()) {
+                updateSeatWaveByIndex(SeatNumb.MIC_MAIN.ordinal)
+            }
+        }
+    }
+
     /**
      * 依据 Agora 回调中的 uid 与麦位用户 idno 对应关系，找出当前正在说话的麦位并更新波纹动画。
      * 比对规则：AudioVolumeInfo.uid == MeetUser.idno

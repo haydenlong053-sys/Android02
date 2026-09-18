@@ -98,6 +98,14 @@ interface CallEventCallback{
     }
 
     /**
+     * LiveKit：当前正在说话的人（identity = userId，按音量从高到低）。
+     * 对齐声网 onAudioVolumeIndication 驱动麦位音浪。
+     */
+    fun onRoomActiveSpeakersChanged(speakerIds: List<String>) {
+
+    }
+
+    /**
      * uid
      * 远端用户 ID。
      * muted
