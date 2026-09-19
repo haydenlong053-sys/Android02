@@ -6,9 +6,12 @@ import static com.cboda.intelligent.utils.ViewExpandUtilKt.showToastMain;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -63,7 +66,7 @@ public class UserSetBroadActivity extends BaseSimple2BroadActivity implements Vi
     private LinearLayout llYuyan;
     private LinearLayout llFanYi;
     private TextView tvZx;
-    private TextView tvLogout;
+    private View tvLogout;
     private TextView tvAboutVersion;
     private View llBindMachineNo;
     private boolean isHasPassword = false;
@@ -74,8 +77,8 @@ public class UserSetBroadActivity extends BaseSimple2BroadActivity implements Vi
         super.onCreate(savedInstanceState);
         initViews();
         getToolbarTitle().setText(getResources().getString(R.string.设置));
-        setRootBgColor(R.color.white);
-        llZhanghu.setVisibility(View.GONE);
+        setRootBgColor(R.color.color_msg_page_bg);
+        styleSettingsToolbar();
         tvSwitch.setVisibility(getIsDebug() ? View.VISIBLE : View.GONE);
         tvSwitch.setText("切换环境（" + HttpsBroadConfig.INSTANCE.getDevType() + "）");
         tvSwitch.setOnClickListener(this);
@@ -121,6 +124,11 @@ public class UserSetBroadActivity extends BaseSimple2BroadActivity implements Vi
     @Override
     protected int getLayoutId() {
         return R.layout.activity_user_broad_set;
+    }
+
+    @Override
+    public boolean showTransparentTopTitleLayout() {
+        return true;
     }
 
     @Override
@@ -381,16 +389,33 @@ public class UserSetBroadActivity extends BaseSimple2BroadActivity implements Vi
         }
     }
 
+    private void styleSettingsToolbar() {
+        if (backIcon != null) {
+            float density = getResources().getDisplayMetrics().density;
+            int size = (int) (density * 36f);
+            int padding = (int) (density * 10f);
+            int marginStart = (int) (density * 12f);
+            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(size, size);
+            lp.gravity = Gravity.START | Gravity.CENTER_VERTICAL;
+            lp.setMargins(marginStart, 0, 0, 0);
+            backIcon.setLayoutParams(lp);
+            backIcon.setPadding(padding, padding, padding, padding);
+            backIcon.setBackgroundResource(R.drawable.bg_circle_white_shadow);
+            backIcon.setImageResource(R.mipmap.ic_broad_back);
+            backIcon.clearColorFilter();
+            backIcon.setColorFilter(0xFF333333, PorterDuff.Mode.SRC_IN);
+        }
+        if (getToolbarTitle() != null) {
+            getToolbarTitle().setTextColor(0xFF1A1A1C);
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAppEventReceiver(ActionRefreshBroadEvent event) {
         userInfo();
 
     }
 
-    @Override
-    public boolean showBgTopTitleLayout() {
-        return true;
-    }
 
     @Override
     protected void onDestroy() {

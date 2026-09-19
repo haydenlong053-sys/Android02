@@ -1101,4 +1101,5 @@
     <string name="friends_empty_hint">快去添加好友吧～</string>
     <string name="new_friend_desc">添加新朋友</string>
     <string name="new_group_invite_desc">邀请加入群聊</string>
+    <string name="settings_logout">退出登录</string>
 </resources>
