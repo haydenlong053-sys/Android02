@@ -485,4 +485,8 @@
     <string name="menu_group_info">群聊資訊</string>
     <string name="new_app_name">启讯</string>
     <string name="new_app_name_use">启讯</string>
+    <string name="图形验证码">图形验证码</string>
+    <string name="请输入图形验证码">请输入图形验证码</string>
+    <string name="conversation_list_empty_title">暫無相關資料</string>
+    <string name="conversation_list_empty_hint">快去和朋友聊天吧～</string>
 </resources>

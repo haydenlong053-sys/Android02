@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:background="@drawable/shape_two_white_round_broad_15"
-    android:orientation="vertical">
-
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
+        android:scrollbars="none"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none" />
-
+        android:layout_height="wrap_content"/>
     <TextView
+        android:textSize="15sp"
+        android:textColor="#aaaaaa"
+        android:gravity="center"
         android:id="@+id/tvCancel"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:gravity="center"
-        android:text="@string/quxiao"
-        android:textColor="#AAAAAA"
-        android:textSize="15sp" />
+        android:text="@string/quxiao"/>
 </LinearLayout>

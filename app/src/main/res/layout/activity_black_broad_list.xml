@@ -1,47 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/color_F7F8FA"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/color_F7F8FA">
-
+    android:layout_height="match_parent">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <LinearLayout
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
             android:id="@+id/llNoData"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="140dp"
-            android:orientation="vertical"
-            android:visibility="gone">
-
+            android:layout_marginTop="140dp">
             <ImageView
                 android:id="@+id/ivNoData"
                 android:layout_width="@dimen/dp_140"
                 android:layout_height="@dimen/dp_140"
-                android:src="@mipmap/ic_empty_broad_bg" />
-
+                android:src="@mipmap/ic_empty_broad_bg"/>
             <TextView
+                android:textSize="13sp"
+                android:textColor="#ff989898"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:id="@+id/tvNoData"
+                android:visibility="visible"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="@string/no_data"
-                android:textColor="#ff989898"
-                android:textSize="13sp"
-                android:visibility="visible" />
+                android:text="@string/no_data"/>
         </LinearLayout>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ryBlack"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="@dimen/dp_12" />
+            android:layout_marginHorizontal="@dimen/dp_12"/>
     </FrameLayout>
 </LinearLayout>

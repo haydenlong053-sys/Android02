@@ -486,4 +486,8 @@
     <string name="menu_group_info">Group info</string>
     <string name="new_app_name">启讯</string>
     <string name="new_app_name_use">启讯</string>
+    <string name="图形验证码">Captcha</string>
+    <string name="请输入图形验证码">Please enter captcha</string>
+    <string name="conversation_list_empty_title">No data yet</string>
+    <string name="conversation_list_empty_hint">Go chat with friends~</string>
 </resources>

@@ -1095,4 +1095,7 @@
     <string name="absent_kick_warm_tip">此功能旨在提升群會議參與度，營造更好的溝通氛圍。</string>
     <string name="absent_kick_rule_title_fallback">連續 5 次未參會</string>
     <string name="absent_kick_rule_empty">暫無規則說明</string>
+    <string name="图形验证码">图形验证码</string>
+    <string name="请输入图形验证码">请输入图形验证码</string>
+    <string name="mine_center_slogan">探索無限可能，連接無限世界</string>
 </resources>

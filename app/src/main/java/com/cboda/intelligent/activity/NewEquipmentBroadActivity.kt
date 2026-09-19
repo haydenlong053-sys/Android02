@@ -58,7 +58,7 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
         super.onCreate(savedInstanceState)
         EventBus.getDefault().register(this)
         mBinding = (binding as? ActivityNewBroadEquipmentBinding)
-        mIvBgTop.setImageResource(com.cboda.baselibrary.R.color.color_111B40)
+        mIvBgTop.setImageResource(R.drawable.ic_login_big_bg)
         mIvBgTop.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
         mIvBgTop.requestLayout() // 或直接调用 setLayoutParams 会自动触发
         setLottiePath("login_back1.json")
@@ -162,7 +162,7 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
     /** 登录/注册白底页：隐藏暗色 Lottie，返回键与协议文案改深色。 */
     private fun applyAuthLightChrome(light: Boolean) {
         if (light) {
-            mIvBgTop.setImageResource(android.R.color.white)
+//            mIvBgTop.setImageResource(android.R.color.white)
             setBackLottieIsShow(false)
             mBinding?.ivBlack?.imageTintList = ColorStateList.valueOf(Color.BLACK)
             mBinding?.languageTv?.setTextColor(ContextCompat.getColor(this, R.color.black_65))
@@ -171,7 +171,7 @@ class NewEquipmentBroadActivity : BaseSimple2BroadActivity() {
             mBinding?.bottomTv3?.setTextColor(0x99000000.toInt())
             mBinding?.bottomTv5?.setTextColor(ContextCompat.getColor(this, R.color.color_3B47DD))
         } else {
-            mIvBgTop.setImageResource(com.cboda.baselibrary.R.color.color_111B40)
+//            mIvBgTop.setImageResource(com.cboda.baselibrary.R.color.color_111B40)
             setBackLottieIsShow(true)
             mBinding?.ivBlack?.imageTintList = ColorStateList.valueOf(Color.WHITE)
             mBinding?.languageTv?.setTextColor(ContextCompat.getColor(this, R.color.white))

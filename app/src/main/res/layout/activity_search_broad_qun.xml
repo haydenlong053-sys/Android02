@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:background="@color/bg_main"
-    android:orientation="vertical">
-
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:gravity="center_vertical">
-
+        android:layout_height="60dp">
         <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -19,66 +15,54 @@
             android:layout_marginEnd="23dp"
             app:shapeCornersRadius="20dp"
             app:shapeSolidColor="@color/color_input_bg">
-
             <EditText
-                android:id="@+id/edtSousuo"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:drawableLeft="@mipmap/ic_broad_search2"
-                android:drawablePadding="8dp"
+                android:textSize="13sp"
+                android:textColor="#aaaaaa"
+                android:textColorHint="#aaaaaa"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
-                android:imeOptions="actionSearch"
-                android:paddingStart="20dp"
-                android:singleLine="true"
-                android:hint="@string/sousuoqunlibieao"
-                android:textColor="#AAAAAA"
-                android:textColorHint="#AAAAAA"
-                android:textSize="13sp" />
-
-        </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
-    <com.scwang.smart.refresh.layout.SmartRefreshLayout
-        android:id="@+id/smartLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/bg_main_space"
-        android:layout_marginBottom="10dp"
-        android:paddingTop="10dp"
-        android:layout_weight="1">
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:scrollbars="none">
-
-            <LinearLayout
+                android:id="@+id/edtSousuo"
+                android:background="@null"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-
+                android:hint="@string/sousuoqunlibieao"
+                android:singleLine="true"
+                android:drawableLeft="@mipmap/ic_broad_search2"
+                android:drawablePadding="8dp"
+                android:imeOptions="actionSearch"
+                android:paddingStart="20dp"/>
+        </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/smartLayout"
+        android:background="@color/bg_main_space"
+        android:paddingTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1">
+        <androidx.core.widget.NestedScrollView
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
+                    android:layout_height="wrap_content"/>
                 <TextView
+                    android:textSize="15sp"
+                    android:textColor="#aaaaaa"
+                    android:layout_gravity="center_horizontal"
                     android:id="@+id/tvquncount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="25dp"
-                    android:textColor="#AAAAAA"
-                    android:textSize="15sp" />
+                    android:layout_marginTop="25dp"/>
             </LinearLayout>
-
         </androidx.core.widget.NestedScrollView>
-
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 </LinearLayout>

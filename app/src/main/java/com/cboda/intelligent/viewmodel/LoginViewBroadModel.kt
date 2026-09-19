@@ -3,6 +3,7 @@ package com.cboda.intelligent.viewmodel
 import android.content.Context
 import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
+import com.cboda.baselibrary.bean.CaptchaBean
 import com.cboda.baselibrary.bean.FriendBean
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.bean.LoginBean
@@ -14,6 +15,9 @@ import com.cboda.baselibrary.network.repository.NetworkBroadRepository
 import com.cboda.baselibrary.network.result.onError
 import com.cboda.baselibrary.network.result.onFailure
 import com.cboda.baselibrary.network.result.onSuccess
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import com.cboda.baselibrary.utils.DeviceBroadUtil.getAndroidId
 import com.cboda.baselibrary.utils.DeviceBroadUtil.getDeviceBrand
 import com.cboda.baselibrary.utils.DeviceBroadUtil.getDeviceModel
@@ -53,9 +57,6 @@ import com.cboda.intelligent.net.manager.UserServerBroadManager
 import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.intelligent.utils.OkHttpBroadHelper
 import com.cboda.intelligent.utils.showGuidePasswordTip
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import okhttp3.Response
 import java.lang.Exception
 import java.security.MessageDigest
@@ -511,7 +512,48 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
 
     }
 
-    fun pwdLogin(account: String, pwd: String, code: String = "", payPwd: String = "", googleCode: String = "", securityQuestion: String = "") {
+    /**
+     * 拉取图形验证码。
+     * @param scene `login` / `register`
+     */
+    fun fetchCaptcha(scene: String = "login"): SingleLiveBroadData<CaptchaBean> {
+        val liveData = SingleLiveBroadData<CaptchaBean>()
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val params = hashMapOf<String, Any?>("scene" to scene)
+                    NetworkBroadRepository.post(
+                        "im/user/captcha",
+                        CaptchaBean::class.java,
+                        params,
+                    ).onSuccess { data ->
+                        liveData.postValue(data)
+                    }.onFailure { _, message ->
+                        showToastMain(message)
+                        liveData.postValue(null)
+                    }.onError {
+                        liveData.postValue(null)
+                    }
+                } catch (_: Exception) {
+                    liveData.postValue(null)
+                }
+            }
+        }
+        return liveData
+    }
+
+    fun pwdLogin(
+        account: String,
+        pwd: String,
+        code: String = "",
+        payPwd: String = "",
+        googleCode: String = "",
+        securityQuestion: String = "",
+        captchaId: String = "",
+        captcha: String = "",
+        requireCaptcha: Boolean = true,
+        onCaptchaInvalid: (() -> Unit)? = null,
+    ) {
         if (TextUtils.isEmpty(account)) {
             showToastMain(R.string.please_enter_account)
             return
@@ -524,8 +566,13 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
             showToastMain(com.cboda.baselibrary.R.string.pwd_length_six)
             return
         }
+        if (requireCaptcha) {
+            if (TextUtils.isEmpty(captchaId) || TextUtils.isEmpty(captcha.trim())) {
+                showToastMain(R.string.请输入图形验证码)
+                return
+            }
+        }
         val mContext = getAppContext()
-//        val model = "${getDeviceBrand()} ${getDeviceModel()}"
 
         val jmPwd = hashRegisterPassword(pwd, account)
         val param =
@@ -533,16 +580,10 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                 "account" to account,
                 "password" to jmPwd
             )
-//        if (!TextUtils.isEmpty(payPwd)) {
-//            param["paywd"] = payPwd
-//        }
-//        if (!TextUtils.isEmpty(googleCode)) {
-//            param["googleCode"] = googleCode
-//        }
-//        if (!TextUtils.isEmpty(securityQuestion)) {
-//            param["mbda"] = securityQuestion
-//        }
-//        eLogD("LoginViewModelClass_pwdLoginMap", param)
+        if (requireCaptcha || !TextUtils.isEmpty(captchaId) || !TextUtils.isEmpty(captcha)) {
+            param["captchaId"] = captchaId
+            param["captchaCode"] = captcha.trim()
+        }
         UserServerBroadManager.accLogin(
             mContext,
             param,
@@ -551,23 +592,18 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                     if (!TextUtils.isEmpty(result)) {
                         val resultBean = fromJson2(result, ResultBroadBean::class.java)
                         eLogD("pwdLogin", "result:$result")
-//                        if (resultBean.code == "202") {
-//                            QrdlBroadDialog(
-//                                mContext,
-//                                { code -> pwdLogin(account, pwd, code ?: "") }, account
-//                            ).show()
-//                        } else if (resultBean.code == "200" && resultBean.success) {
-//                            imLogin(resultBean, mContext)
-//                        } else if (!TextUtils.isEmpty(resultBean.msg)) {
-//                            showToastMain(resultBean.msg)
-//                        }
                         if (resultBean.code == "200" && resultBean.success) {
                             imLogin(resultBean, mContext)
                         } else {
-                            showToastMain(if (!TextUtils.isEmpty(resultBean.errorMsg)) resultBean.errorMsg else getAppStr(com.cboda.baselibrary.R.string.service_error_data_null))
+                            showToastMain(
+                                if (!TextUtils.isEmpty(resultBean.errorMsg)) resultBean.errorMsg
+                                else getAppStr(com.cboda.baselibrary.R.string.service_error_data_null)
+                            )
+                            onCaptchaInvalid?.invoke()
                         }
                     } else {
                         showToastMain(com.cboda.baselibrary.R.string.service_error_data_null)
+                        onCaptchaInvalid?.invoke()
                     }
                 }
 
@@ -577,6 +613,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                     e: Exception?
                 ) {
                     showToastMain(R.string.httperror)
+                    onCaptchaInvalid?.invoke()
                 }
 
             })
@@ -584,7 +621,14 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
     }
 
 
-    fun registerAccount(account: String, pwd: String, secondPwd: String) {
+    fun registerAccount(
+        account: String,
+        pwd: String,
+        secondPwd: String,
+        captchaId: String = "",
+        captcha: String = "",
+        onCaptchaInvalid: (() -> Unit)? = null,
+    ) {
         val mContext = getAppContext()
         if (TextUtils.isEmpty(account)) {
             showToastMain(R.string.please_enter_account)
@@ -606,25 +650,19 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
             showToastMain(com.cboda.baselibrary.R.string.pwd_length_six)
             return
         }
+        if (TextUtils.isEmpty(captchaId) || TextUtils.isEmpty(captcha.trim())) {
+            showToastMain(R.string.请输入图形验证码)
+            return
+        }
         // 注册传输：v1$ + hex(SHA-256(明文密码 + "\n" + account.trim().lowercase()))
         val jmPwd = hashRegisterPassword(pwd, account)
-//        val jmPwd = hashRegisterPassword("Passw0rd123", "demoacct")
-//        eLogD("LoginViewBroadModelClass", "jmPwd:$jmPwd")
         val param =
             mapOf(
                 "account" to account,
-                "password" to jmPwd
+                "password" to jmPwd,
+                "captchaId" to captchaId,
+                "captchaCode" to captcha.trim(),
             )
-//        val param =
-//            mapOf(
-//                "acc" to account,
-//                "pwd" to pwd,
-//                "eqno" to getUuIdMd5(),
-//                "clientId" to getUuIdMd5(),
-//                "type" to 2,
-//                "model" to getUuIdMd5()
-//            )
-//        eLogD("LoginViewModelClass_registeredMap", param)
         UserServerBroadManager.qeLogin(
             mContext,
             param,
@@ -635,10 +673,12 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                     resultBean: ResultBroadBean?
                 ) {
                     resultBean?.let {
-                        // 新 IM 注册：content 已展平为 apptoken/imtoken/userId/qrcode
                         eLogD("LoginViewBroadModelClass", "resultBean:${toJson2(resultBean)}")
                         imLogin(resultBean, mContext)
-                    } ?: showToastMain(com.cboda.baselibrary.R.string.service_error_token_null)
+                    } ?: run {
+                        showToastMain(com.cboda.baselibrary.R.string.service_error_token_null)
+                        onCaptchaInvalid?.invoke()
+                    }
                 }
 
                 override fun onError(
@@ -646,7 +686,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                     code: Int,
                     e: Exception?
                 ) {
-
+                    onCaptchaInvalid?.invoke()
                 }
             })
     }

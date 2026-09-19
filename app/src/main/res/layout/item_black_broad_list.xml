@@ -1,65 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.hjq.shape.layout.ShapeConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.hjq.shape.layout.ShapeConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_76"
     android:layout_marginTop="@dimen/dp_8"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
     android:paddingHorizontal="@dimen/dp_12"
     app:shape_radius="@dimen/dp_16"
     app:shape_solidColor="@color/white">
-
-
     <com.cboda.baselibrary.widge.VpGradeView
         android:id="@+id/riIcon"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"/>
     <com.hjq.shape.view.ShapeTextView
+        android:textSize="17sp"
+        android:textColor="@color/black"
+        android:gravity="start"
         android:id="@+id/tvName"
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_11"
-        android:gravity="start"
-        android:textColor="@color/black"
-        android:textSize="17sp"
-        app:layout_constraintBottom_toTopOf="@id/tvNum"
-        app:layout_constraintEnd_toStartOf="@id/tvQuxiao"
-        app:layout_constraintStart_toEndOf="@id/riIcon"
+        app:layout_constraintBottom_toTopOf="@+id/tvNum"
+        app:layout_constraintEnd_toStartOf="@+id/tvQuxiao"
+        app:layout_constraintStart_toEndOf="@+id/riIcon"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        tools:text="Anny" />
-
+        app:layout_constraintVertical_chainStyle="packed"/>
     <com.hjq.shape.view.ShapeTextView
+        android:textSize="14sp"
+        android:textColor="@color/black_45"
         android:id="@+id/tvNum"
+        android:visibility="gone"
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_3"
-        android:textColor="@color/black_45"
-        android:textSize="14sp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/tvName"
-        app:layout_constraintStart_toStartOf="@id/tvName"
-        app:layout_constraintTop_toBottomOf="@id/tvName"
-        tools:text="ID：366465"
-        tools:visibility="visible" />
-
+        app:layout_constraintEnd_toEndOf="@+id/tvName"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"/>
     <com.hjq.shape.view.ShapeTextView
+        android:textColor="@color/white"
         android:id="@+id/tvQuxiao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/remove_blacklist"
         android:paddingHorizontal="@dimen/dp_12"
         android:paddingVertical="@dimen/dp_6"
-        android:text="@string/remove_blacklist"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shape_radius="@dimen/dp_8"
-        app:shape_solidColor="@color/color_3B47DD" />
+        app:shape_solidColor="@color/color_3B47DD"/>
 </com.hjq.shape.layout.ShapeConstraintLayout>

@@ -1,129 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootFrameLayout"
+    android:background="@color/gray5"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray5">
-
-
+    android:layout_height="match_parent">
     <LinearLayout
-        android:id="@+id/llTop"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:orientation="vertical"
+        android:id="@+id/llTop"
         android:paddingTop="10dp"
-        android:visibility="visible">
-
-
-        <!--这个地方有bug，recyclerView元素的的时候，会把edit顶出去，可能用ConstraintLayout能解决-->
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <com.cboda.chatui.widget.MaxSizeRecyclerBroadView
             android:id="@+id/pickedUserRecyclerView"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_64"
             android:layout_marginHorizontal="@dimen/dp_12"
             android:paddingHorizontal="@dimen/dp_8"
-            android:visibility="gone"
             app:shape_radius="@dimen/dp_8"
-            app:shape_solidColor="@color/white"
-            tools:visibility="visible" />
-
+            app:shape_solidColor="@color/white"/>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
             android:gravity="center"
             android:orientation="horizontal"
-            android:visibility="visible">
-
-            <!--被选中的联系人头像列表-->
-
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
                 <EditText
+                    android:textSize="16sp"
+                    android:textColorHint="@color/gray23"
                     android:id="@+id/searchEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:background="@null"
-                    android:drawablePadding="10dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:singleLine="true"
-                    android:textColorHint="@color/gray23"
-                    android:textSize="16sp" />
-
+                    android:drawablePadding="10dp"/>
                 <LinearLayout
+                    android:gravity="center"
+                    android:layout_gravity="center"
                     android:id="@+id/hint_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center">
-
+                    android:layout_height="wrap_content">
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_broad_search2" />
-
+                        android:src="@mipmap/ic_broad_search2"/>
                     <TextView
+                        android:textSize="18sp"
+                        android:textColor="@color/gray23"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="6dp"
-                        android:text="搜索"
-                        android:textColor="@color/gray23"
-                        android:textSize="18sp" />
-
+                        android:text="搜索"/>
                 </LinearLayout>
-
             </FrameLayout>
-
         </LinearLayout>
-
         <View
-            style="@style/Line"
             android:layout_marginLeft="0px"
-            android:layout_marginRight="0px" />
-
+            android:layout_marginRight="0px"
+            style="@style/Line"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <!--联系人选择列表-->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/usersRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
+                android:layout_height="match_parent"/>
             <com.cboda.chatui.widget.QuickIndexBroadBar
                 android:id="@+id/quickIndexBar"
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="10dp" />
-
-            <!--字母对话框-->
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentRight="true"/>
             <TextView
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:gravity="center"
                 android:id="@+id/indexLetterTextView"
+                android:background="@drawable/shape_contact_letter_broad_bg"
+                android:visibility="gone"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:layout_centerInParent="true"
-                android:background="@drawable/shape_contact_letter_broad_bg"
-                android:gravity="center"
                 android:text="A"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:visibility="gone" />
+                android:layout_centerInParent="true"/>
         </RelativeLayout>
-
         <FrameLayout
             android:id="@+id/searchFrameLayout"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:alpha="0"
-            android:visibility="gone" />
-
+            android:alpha="0"/>
     </LinearLayout>
-
 </FrameLayout>

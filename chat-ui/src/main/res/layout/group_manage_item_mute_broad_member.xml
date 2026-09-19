@@ -1,47 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-
+    android:layout_height="wrap_content">
     <LinearLayout
-        android:id="@+id/contactLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/selector_common_broad_item"
         android:gravity="center_vertical"
+        android:id="@+id/contactLinearLayout"
+        android:background="@drawable/selector_common_broad_item"
         android:paddingLeft="@dimen/item_margin_left_and_right"
         android:paddingTop="@dimen/item_margin_top_and_bottom"
         android:paddingRight="@dimen/item_margin_left_and_right"
-        android:paddingBottom="@dimen/item_margin_top_and_bottom">
-
+        android:paddingBottom="@dimen/item_margin_top_and_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp">
         <ImageView
             android:id="@+id/portraitImageView"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/ic_add_team_broad_member" />
-
+            android:src="@mipmap/ic_add_team_broad_member"
+            android:scaleType="centerCrop"/>
         <TextView
+            android:textSize="16sp"
+            android:textColor="@color/gray0"
             android:id="@+id/nameTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/item_margin_left_and_right"
-            android:layout_weight="1"
-            android:singleLine="true"
             android:text="群成员禁言"
-            android:textColor="@color/gray0"
-            android:textSize="16sp" />
-
+            android:singleLine="true"
+            android:layout_weight="1"/>
     </LinearLayout>
-
     <View
         android:id="@+id/dividerLine"
-        style="@style/Line"
+        android:visibility="visible"
         android:layout_marginLeft="@dimen/item_margin_left_and_right"
         android:layout_marginRight="@dimen/item_margin_left_and_right"
-        android:visibility="visible" />
-
+        style="@style/Line"/>
 </LinearLayout>

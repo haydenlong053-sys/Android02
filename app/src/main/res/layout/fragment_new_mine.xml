@@ -1,84 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@mipmap/setting_back2"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_main2">
-
+    android:layout_height="match_parent">
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsvMineContent"
+        android:scrollbars="none"
+        android:clipToPadding="false"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:clipToPadding="false"
         android:fillViewport="true"
-        android:paddingHorizontal="16dp"
-        android:scrollbars="none"
+        android:overScrollMode="never"
+        android:paddingHorizontal="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingBottom="28dp">
-
-            <!-- 用户信息卡片 -->
+            android:paddingTop="48dp"
+            android:paddingBottom="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivBrandLogo"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
+                android:src="@mipmap/icon_logo2"
+                android:scaleType="centerCrop"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textColor="#2b2b4a"
+                android:id="@+id/tvBrandName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/new_app_name"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:textSize="14sp"
+                android:textColor="#8b8ba8"
+                android:gravity="center"
+                android:id="@+id/tvBrandSlogan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/mine_center_slogan"/>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cardUserProfile"
+                android:background="@drawable/bg_rect_mine_fff_broad_16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/bg_rect_mine_fff_broad_12dp"
+                android:layout_marginTop="36dp"
                 android:paddingHorizontal="16dp"
-                android:paddingVertical="16dp">
-
+                android:paddingVertical="18dp">
                 <com.cboda.baselibrary.view.AppRoundBroadImage
                     android:id="@+id/ivUserAvatar"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:src="@mipmap/icon_logo2"
                     android:scaleType="centerCrop"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription"
-                    tools:src="@mipmap/ic_broad_head" />
-
+                    app:layout_constraintTop_toTopOf="parent"/>
                 <TextView
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="#1a1a1c"
+                    android:ellipsize="end"
                     android:id="@+id/tvUserName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="8dp"
-                    android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="#1A1A1C"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/tvUserId"
-                    app:layout_constraintEnd_toStartOf="@id/ivProfileArrow"
-                    app:layout_constraintStart_toEndOf="@id/ivUserAvatar"
-                    app:layout_constraintTop_toTopOf="@id/ivUserAvatar"
-                    app:layout_constraintVertical_chainStyle="packed"
-                    tools:text="x123" />
-
+                    android:layout_marginStart="14dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvUserId"
+                    app:layout_constraintEnd_toStartOf="@+id/ivProfileArrow"
+                    app:layout_constraintStart_toEndOf="@+id/ivUserAvatar"
+                    app:layout_constraintTop_toTopOf="@+id/ivUserAvatar"
+                    app:layout_constraintVertical_chainStyle="packed"/>
                 <TextView
+                    android:textSize="13sp"
+                    android:textColor="#999999"
+                    android:ellipsize="end"
                     android:id="@+id/tvUserId"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="#999999"
-                    android:textSize="13sp"
-                    app:layout_constraintBottom_toBottomOf="@id/ivUserAvatar"
-                    app:layout_constraintEnd_toEndOf="@id/tvUserName"
-                    app:layout_constraintStart_toStartOf="@id/tvUserName"
-                    app:layout_constraintTop_toBottomOf="@id/tvUserName"
-                    tools:text="ID:10010" />
-
+                    app:layout_constraintBottom_toBottomOf="@+id/ivUserAvatar"
+                    app:layout_constraintEnd_toEndOf="@+id/tvUserName"
+                    app:layout_constraintStart_toStartOf="@+id/tvUserName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUserName"/>
                 <ImageView
                     android:id="@+id/ivProfileArrow"
                     android:layout_width="16dp"
@@ -86,111 +100,93 @@
                     android:src="@drawable/ic_mine_icon_back"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription" />
+                    app:layout_constraintTop_toTopOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!-- 客服 -->
             <LinearLayout
-                android:visibility="gone"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:id="@+id/layoutViewService"
-                android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/bg_rect_mine_fff_broad_12dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="16dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_mine_icon_service_call"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_weight="1"
-                    android:text="@string/mine_customer_service"
-                    android:textColor="#1A1A1C"
-                    android:textSize="16sp" />
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/ic_mine_icon_back"
-                    tools:ignore="ContentDescription" />
-            </LinearLayout>
-
-            <!-- 收藏 -->
-            <LinearLayout
+                android:background="@drawable/bg_rect_mine_fff_broad_16dp"
                 android:visibility="gone"
-                android:id="@+id/itemFavorite"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/bg_rect_mine_fff_broad_12dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
                 android:paddingHorizontal="16dp">
-
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_mine_icon_colloct"
-                    tools:ignore="ContentDescription" />
-
+                    android:src="@drawable/ic_mine_icon_service_call"/>
                 <TextView
+                    android:textSize="16sp"
+                    android:textColor="#1a1a1c"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
+                    android:text="@string/mine_customer_service"
                     android:layout_weight="1"
-                    android:text="@string/mine_favorite"
-                    android:textColor="#1A1A1C"
-                    android:textSize="16sp" />
-
+                    android:layout_marginStart="12dp"/>
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/ic_mine_icon_back"
-                    tools:ignore="ContentDescription" />
+                    android:src="@drawable/ic_mine_icon_back"/>
             </LinearLayout>
-
-            <!-- 系统设置 -->
             <LinearLayout
-                android:id="@+id/itemSettings"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:id="@+id/itemFavorite"
+                android:background="@drawable/bg_rect_mine_fff_broad_16dp"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/bg_rect_mine_fff_broad_12dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
                 android:paddingHorizontal="16dp">
-
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_mine_icon_sys_set"
-                    tools:ignore="ContentDescription" />
-
+                    android:src="@drawable/ic_mine_icon_colloct"/>
                 <TextView
+                    android:textSize="16sp"
+                    android:textColor="#1a1a1c"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
+                    android:text="@string/mine_favorite"
                     android:layout_weight="1"
-                    android:text="@string/mine_system_settings"
-                    android:textColor="#1A1A1C"
-                    android:textSize="16sp" />
-
+                    android:layout_marginStart="12dp"/>
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/ic_mine_icon_back"
-                    tools:ignore="ContentDescription" />
+                    android:src="@drawable/ic_mine_icon_back"/>
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:id="@+id/itemSettings"
+                android:background="@drawable/bg_rect_mine_fff_broad_16dp"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_marginTop="12dp"
+                android:paddingHorizontal="16dp">
+                <com.hjq.shape.view.ShapeImageView
+                    android:padding="10dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:src="@mipmap/setting_icon2"
+                    android:scaleType="centerInside"
+                    app:shape_radius="12dp"
+                    app:shape_solidColor="#f3eeff"/>
+                <TextView
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#1a1a1c"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mine_system_settings"
+                    android:layout_weight="1"
+                    android:layout_marginStart="14dp"/>
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_mine_icon_back"/>
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

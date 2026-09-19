@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/bg_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/bg_main">
-
+    android:layout_height="match_parent">
     <androidx.core.widget.NestedScrollView
-        android:fillViewport="true"
         android:scrollbars="none"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        android:fillViewport="true">
         <TextView
-            android:layout_margin="17dp"
-            android:lineSpacingExtra="5dp"
-            android:id="@+id/gonggaoxinxi"
             android:textSize="14sp"
             android:textColor="@color/color_text0"
-            tools:text="好地方开始"
+            android:id="@+id/gonggaoxinxi"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
+            android:layout_height="match_parent"
+            android:layout_margin="17dp"
+            android:lineSpacingExtra="5dp"/>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

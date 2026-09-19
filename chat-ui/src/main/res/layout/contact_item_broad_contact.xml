@@ -1,84 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-
+    android:layout_height="wrap_content">
     <TextView
+        android:textSize="13sp"
+        android:textColor="@color/color_text_main"
+        android:gravity="center_vertical"
         android:id="@+id/categoryTextView"
+        android:paddingLeft="@dimen/item_margin_left_and_right"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/item_margin_left_and_right"
-        android:text="群主"
-        android:textColor="@color/color_text_main"
-        android:textSize="13sp"
-        android:visibility="visible" />
-
+        android:text="群主"/>
     <LinearLayout
-        android:id="@+id/contactLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@drawable/selector_common_broad_item"
         android:gravity="center_vertical"
+        android:id="@+id/contactLinearLayout"
+        android:background="@drawable/selector_common_broad_item"
         android:paddingLeft="@dimen/item_margin_left_and_right"
         android:paddingTop="@dimen/item_margin_top_and_bottom"
         android:paddingRight="@dimen/item_margin_left_and_right"
-        android:paddingBottom="@dimen/item_margin_top_and_bottom">
-
+        android:paddingBottom="@dimen/item_margin_top_and_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="56dp">
         <CheckBox
             android:id="@+id/checkbox"
-            style="@style/CustomCheckboxTheme"
+            android:visibility="gone"
+            android:clickable="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:clickable="false"
-            android:visibility="gone" />
-
+            style="@style/CustomCheckboxTheme"/>
         <com.cboda.baselibrary.view.AppRoundBroadImage
             android:id="@+id/portraitImageView"
             android:layout_width="@dimen/dp_48"
             android:layout_height="@dimen/dp_48"
-            android:scaleType="centerCrop"
-            tools:src="@mipmap/avatar_broad_def" />
-
+            android:scaleType="centerCrop"/>
         <LinearLayout
+            android:gravity="center_vertical"
+            android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
+            android:layout_marginStart="12dp">
             <TextView
+                android:textSize="17sp"
+                android:textColor="@color/black"
                 android:id="@+id/nameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="17sp"
-                tools:text="wfc" />
-
+                android:singleLine="true"/>
             <TextView
+                android:textSize="14sp"
+                android:textColor="@color/black_65"
                 android:id="@+id/descTextView"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:textColor="@color/black_65"
-                android:textSize="14sp"
-                android:visibility="gone"
-                tools:text="wfc desc"
-                tools:visibility="visible" />
+                android:singleLine="true"/>
         </LinearLayout>
-
     </LinearLayout>
-
     <View
         android:id="@+id/dividerLine"
-        style="@style/Line"
+        android:visibility="visible"
         android:layout_marginLeft="72dp"
-        android:visibility="visible" />
-
+        style="@style/Line"/>
 </LinearLayout>

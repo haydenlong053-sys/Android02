@@ -1,439 +1,376 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:background="@color/bg_main_space"
-    android:orientation="vertical">
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <androidx.core.widget.NestedScrollView
-        android:layout_marginTop="10dp"
+        android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="none">
-
+        android:layout_marginTop="10dp"
+        android:fillViewport="true">
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
+            android:layout_height="match_parent">
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:background="@color/bg_main1"
-                android:orientation="vertical">
-
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginTop="10dp"
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"/>
                 <TextView
+                    android:textSize="15sp"
+                    android:textColor="@color/color_gdqcy"
+                    android:gravity="center"
                     android:id="@+id/chakangebngduo"
                     android:layout_width="match_parent"
                     android:layout_height="62dp"
-                    android:gravity="center"
-                    android:text="@string/chakanquanbuquncheng"
-                    android:textColor="@color/color_gdqcy"
-                    android:textSize="15sp" />
-
+                    android:text="@string/chakanquanbuquncheng"/>
             </LinearLayout>
-
-
-
-
             <View
                 android:layout_width="match_parent"
-                android:layout_height="9dp"
-                />
+                android:layout_height="9dp"/>
             <View
+                android:background="#11e9e9e9"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="#11E9E9E9" />
+                android:layout_height="0.5dp"/>
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:gravity="center_vertical"
                 android:id="@+id/shezhiquntou"
-                android:layout_width="match_parent"
-                android:layout_height="62dp"
                 android:background="@color/bg_main1"
-                android:gravity="center_vertical">
-
+                android:layout_width="match_parent"
+                android:layout_height="62dp">
                 <TextView
+                    android:textSize="15sp"
+                    android:textColor="@color/color_text0"
+                    android:ellipsize="end"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:maxLines="1"
                     android:text="@string/shezhiquntouxiang"
-                    android:textColor="@color/color_text0"
-                    android:textSize="15sp" />
-
+                    android:maxLines="1"
+                    android:layout_weight="1"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"/>
                 <ImageView
                     android:id="@+id/quntouxiang"
                     android:layout_width="40dp"
-                    android:layout_height="40dp" />
-
+                    android:layout_height="40dp"/>
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:scaleType="centerInside"
-                    android:src="@mipmap/ic_broad_next" />
+                    android:src="@mipmap/ic_broad_next"
+                    android:scaleType="centerInside"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
-
             <View
                 android:layout_width="match_parent"
-                style="@style/Line2"
-                />
-
+                style="@style/Line2"/>
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:gravity="center_vertical"
                 android:id="@+id/shezhiqunnicheng"
-                android:layout_width="match_parent"
-                android:layout_height="62dp"
                 android:background="@color/bg_main1"
-                android:gravity="center_vertical">
-
+                android:layout_width="match_parent"
+                android:layout_height="62dp">
                 <TextView
+                    android:textSize="15sp"
+                    android:textColor="@color/color_text0"
+                    android:ellipsize="end"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:maxLines="1"
                     android:text="@string/qubmingcheng"
-                    android:textColor="@color/color_text0"
-                    android:textSize="15sp" />
-
-
-                <TextView
-                    android:maxWidth="180dp"
-                    android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="#9C9C9C"
+                    android:layout_weight="1"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"/>
+                <TextView
                     android:textSize="14sp"
+                    android:textColor="#9c9c9c"
+                    android:ellipsize="end"
                     android:id="@+id/qunmingceng"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
+                    android:layout_height="wrap_content"
+                    android:maxWidth="180dp"
+                    android:maxLines="1"/>
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:scaleType="centerInside"
-                    android:src="@mipmap/ic_broad_next" />
+                    android:src="@mipmap/ic_broad_next"
+                    android:scaleType="centerInside"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
-
             <View
                 android:layout_width="match_parent"
-                style="@style/Line2"
-                />
-
-
+                style="@style/Line2"/>
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:gravity="center_vertical"
                 android:id="@+id/qunidlay"
-                android:layout_width="match_parent"
-                android:layout_height="62dp"
                 android:background="@color/bg_main1"
-                android:gravity="center_vertical">
-
+                android:layout_width="match_parent"
+                android:layout_height="62dp">
                 <TextView
+                    android:textSize="15sp"
+                    android:textColor="@color/color_text0"
+                    android:ellipsize="end"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:maxLines="1"
                     android:text="@string/qunid"
-                    android:textColor="@color/color_text0"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:layout_marginEnd="10dp"
-                    android:maxWidth="180dp"
-                    android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="#9C9C9C"
+                    android:layout_weight="1"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"/>
+                <TextView
                     android:textSize="14sp"
+                    android:textColor="#9c9c9c"
+                    android:ellipsize="end"
                     android:id="@+id/qunid"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
+                    android:layout_height="wrap_content"
+                    android:maxWidth="180dp"
+                    android:maxLines="1"
+                    android:layout_marginEnd="10dp"/>
                 <ImageView
-                    android:layout_marginEnd="10dp"
                     android:id="@+id/qunma"
                     android:layout_width="40dp"
-                    android:layout_height="40dp" />
-
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="10dp"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
             <View
                 android:layout_width="match_parent"
-                style="@style/Line2"
-                />
+                style="@style/Line2"/>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="9dp"
-                />
+                android:layout_height="9dp"/>
             <View
                 android:layout_width="match_parent"
-                style="@style/Line2"
-                />
-
+                style="@style/Line2"/>
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="62dp"
+                android:gravity="center_vertical"
                 android:background="@color/bg_main1"
-                android:gravity="center_vertical">
-
+                android:layout_width="match_parent"
+                android:layout_height="62dp">
                 <TextView
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:textSize="15sp"
+                    android:textColor="@color/color_text0"
+                    android:ellipsize="end"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:text="@string/shewweizhiding"
+                    android:maxLines="1"
+                    android:layout_weight="1"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="@string/shewweizhiding"
-                    android:textColor="@color/color_text0"
-                    android:textSize="15sp" />
-
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
                 <androidx.appcompat.widget.SwitchCompat
+                    android:theme="@style/switchStyle"
+                    android:layout_gravity="end|center_vertical"
                     android:id="@+id/zhiding"
+                    android:background="@null"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|end"
-                    android:layout_marginEnd="15dp"
-                    android:background="@null"
-                    android:theme="@style/switchStyle"
                     android:thumb="@drawable/thumb_broad_selector"
+                    android:layout_marginEnd="15dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:track="@drawable/track_broad_selector" />
+                    app:track="@drawable/track_broad_selector"/>
                 <View
                     android:id="@+id/zhidingView"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_width="70dp"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
-
             <View
                 android:layout_width="match_parent"
-                style="@style/Line2"
-                />
-
+                style="@style/Line2"/>
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="62dp"
+                android:gravity="center_vertical"
                 android:background="@color/bg_main1"
-                android:gravity="center_vertical">
-
+                android:layout_width="match_parent"
+                android:layout_height="62dp">
                 <TextView
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:textSize="15sp"
+                    android:textColor="@color/color_text0"
+                    android:ellipsize="end"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:text="@string/xiaoximiandarao"
+                    android:maxLines="1"
+                    android:layout_weight="1"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="@string/xiaoximiandarao"
-                    android:textColor="@color/color_text0"
-                    android:textSize="15sp" />
-
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
                 <androidx.appcompat.widget.SwitchCompat
+                    android:theme="@style/switchStyle"
+                    android:layout_gravity="end|center_vertical"
                     android:id="@+id/miaodarao"
+                    android:background="@null"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|end"
-                    android:layout_marginEnd="15dp"
-                    android:background="@null"
-                    android:theme="@style/switchStyle"
                     android:thumb="@drawable/thumb_broad_selector"
+                    android:layout_marginEnd="15dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:track="@drawable/track_broad_selector" />
+                    app:track="@drawable/track_broad_selector"/>
                 <View
                     android:id="@+id/miaodaraoView"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_width="70dp"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <View
                 android:layout_width="match_parent"
-                style="@style/Line2"
-                />
-
+                style="@style/Line2"/>
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="62dp"
+                android:gravity="center_vertical"
                 android:background="@color/bg_main1"
-                android:gravity="center_vertical">
-
+                android:layout_width="match_parent"
+                android:layout_height="62dp">
                 <TextView
+                    android:textSize="15sp"
+                    android:textColor="@color/color_text0"
+                    android:ellipsize="end"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/自动翻译"
+                    android:maxLines="1"
+                    android:layout_weight="1"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="@string/自动翻译"
-                    android:textColor="@color/color_text0"
-                    android:textSize="15sp" />
-
+                    app:layout_constraintTop_toTopOf="parent"/>
                 <androidx.appcompat.widget.SwitchCompat
+                    android:theme="@style/switchStyle"
+                    android:layout_gravity="end|center_vertical"
                     android:id="@+id/zidongfanyi"
+                    android:background="@null"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|end"
-                    android:layout_marginEnd="15dp"
-                    android:background="@null"
-                    android:theme="@style/switchStyle"
                     android:thumb="@drawable/thumb_broad_selector"
+                    android:layout_marginEnd="15dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:track="@drawable/track_broad_selector" />
+                    app:track="@drawable/track_broad_selector"/>
                 <View
                     android:id="@+id/zidongfanyiView"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_width="70dp"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <View
                 android:layout_width="match_parent"
-                style="@style/Line2"
-                />
+                style="@style/Line2"/>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="9dp"
-                />
+                android:layout_height="9dp"/>
             <View
                 android:layout_width="match_parent"
-                style="@style/Line2"
-                />
+                style="@style/Line2"/>
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:gravity="center_vertical"
                 android:id="@+id/qungonggao"
-                android:layout_width="match_parent"
-                android:layout_height="62dp"
                 android:background="@color/bg_main1"
-                android:gravity="center_vertical">
-
+                android:layout_width="match_parent"
+                android:layout_height="62dp">
                 <TextView
+                    android:textSize="15sp"
+                    android:textColor="@color/color_text0"
+                    android:ellipsize="end"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:maxLines="1"
                     android:text="@string/qungonggapo"
-                    android:textColor="@color/color_text0"
-                    android:textSize="15sp" />
-
+                    android:maxLines="1"
+                    android:layout_weight="1"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"/>
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:scaleType="centerInside"
-                    android:src="@mipmap/ic_broad_next" />
+                    android:src="@mipmap/ic_broad_next"
+                    android:scaleType="centerInside"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
-
             <View
+                android:background="#11e9e9e9"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="#11E9E9E9" />
-
-
+                android:layout_height="0.5dp"/>
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:gravity="center_vertical"
                 android:id="@+id/qingkong"
-                android:layout_width="match_parent"
-                android:layout_height="62dp"
                 android:background="@color/bg_main1"
-                android:gravity="center_vertical">
-
+                android:layout_width="match_parent"
+                android:layout_height="62dp">
                 <TextView
+                    android:textSize="15sp"
+                    android:textColor="@color/color_text0"
+                    android:ellipsize="end"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:maxLines="1"
                     android:text="@string/qingkongliaotian"
-                    android:textColor="@color/color_text0"
-                    android:textSize="15sp" />
-
+                    android:maxLines="1"
+                    android:layout_weight="1"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"/>
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:scaleType="centerInside"
-                    android:src="@mipmap/ic_broad_next" />
+                    android:src="@mipmap/ic_broad_next"
+                    android:scaleType="centerInside"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
             <View
+                android:background="#11e9e9e9"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="#11E9E9E9" />
+                android:layout_height="0.5dp"/>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="9dp"
-                 />
+                android:layout_height="9dp"/>
             <View
+                android:background="#11e9e9e9"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="#11E9E9E9" />
-
+                android:layout_height="0.5dp"/>
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:gravity="center_vertical"
                 android:id="@+id/wodequnnicheng"
-                android:layout_width="match_parent"
-                android:layout_height="62dp"
                 android:background="@color/bg_main1"
-                android:gravity="center_vertical">
-
+                android:layout_width="match_parent"
+                android:layout_height="62dp">
                 <TextView
+                    android:textSize="15sp"
+                    android:textColor="@color/color_text0"
+                    android:ellipsize="end"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:maxLines="1"
                     android:text="@string/wodequnnicheng"
-                    android:textColor="@color/color_text0"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:maxWidth="180dp"
-                    android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="#9C9C9C"
+                    android:layout_weight="1"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"/>
+                <TextView
                     android:textSize="14sp"
+                    android:textColor="#9c9c9c"
+                    android:ellipsize="end"
                     android:id="@+id/wodequnbnicjheng"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
+                    android:layout_height="wrap_content"
+                    android:maxWidth="180dp"
+                    android:maxLines="1"/>
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:scaleType="centerInside"
-                    android:src="@mipmap/ic_broad_next" />
+                    android:src="@mipmap/ic_broad_next"
+                    android:scaleType="centerInside"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:orientation="vertical"
                 android:id="@+id/qunguanlilay"
@@ -441,617 +378,543 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:textSize="15sp"
+                    android:textColor="@color/color_text_content"
+                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
-                    android:paddingStart="19dp"
-                    android:gravity="center_vertical"
                     android:text="@string/qunguanli"
-                    android:textColor="@color/color_text_content"
-                    android:textSize="15sp" />
-
-
+                    android:paddingStart="19dp"/>
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:gravity="center_vertical"
                     android:id="@+id/qunguanliyuan"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:gravity="center_vertical">
-
+                    android:layout_height="62dp">
                     <TextView
+                        android:textSize="15sp"
+                        android:textColor="@color/color_text0"
+                        android:ellipsize="end"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
                         android:text="@string/qunguanliyuan"
-                        android:textColor="@color/color_text0"
-                        android:textSize="15sp" />
-
+                        android:maxLines="1"
+                        android:layout_weight="1"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="10dp"/>
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:scaleType="centerInside"
-                        android:src="@mipmap/ic_broad_next" />
+                        android:src="@mipmap/ic_broad_next"
+                        android:scaleType="centerInside"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
-
                 <View
                     android:id="@+id/guanlixian"
+                    android:background="#11e9e9e9"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#11E9E9E9" />
-
-
+                    android:layout_height="0.5dp"/>
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:gravity="center_vertical"
                     android:id="@+id/qunjinmyan"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:gravity="center_vertical">
-
+                    android:layout_height="62dp">
                     <TextView
+                        android:textSize="15sp"
+                        android:textColor="@color/color_text0"
+                        android:ellipsize="end"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
                         android:text="@string/qunjinyan"
-                        android:textColor="@color/color_text0"
-                        android:textSize="15sp" />
-
+                        android:maxLines="1"
+                        android:layout_weight="1"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="10dp"/>
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:scaleType="centerInside"
-                        android:src="@mipmap/ic_broad_next" />
+                        android:src="@mipmap/ic_broad_next"
+                        android:scaleType="centerInside"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
-
                 <View
+                    android:background="#11e9e9e9"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#11E9E9E9" />
-
-
+                    android:layout_height="0.5dp"/>
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:gravity="center_vertical"
                     android:id="@+id/zhuanrangqun"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:gravity="center_vertical">
-
+                    android:layout_height="62dp">
                     <TextView
+                        android:textSize="15sp"
+                        android:textColor="@color/color_text0"
+                        android:ellipsize="end"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
                         android:text="@string/zhuanrnagquan"
-                        android:textColor="@color/color_text0"
-                        android:textSize="15sp" />
-
+                        android:maxLines="1"
+                        android:layout_weight="1"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="10dp"/>
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:scaleType="centerInside"
-                        android:src="@mipmap/ic_broad_next" />
+                        android:src="@mipmap/ic_broad_next"
+                        android:scaleType="centerInside"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
                 <View
+                    android:background="#11e9e9e9"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#11E9E9E9" />
-
-
+                    android:layout_height="0.5dp"/>
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:gravity="center_vertical"
                     android:id="@+id/shengjiqun"
                     android:visibility="gone"
-                    tools:visibility="visible"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:gravity="center_vertical">
-
+                    android:layout_height="62dp">
                     <TextView
+                        android:textSize="15sp"
+                        android:textColor="@color/color_text0"
+                        android:ellipsize="end"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
                         android:text="@string/升级群聊"
-                        android:textColor="@color/color_text0"
-                        android:textSize="15sp" />
-
+                        android:maxLines="1"
+                        android:layout_weight="1"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="10dp"/>
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:scaleType="centerInside"
-                        android:src="@mipmap/ic_broad_next" />
+                        android:src="@mipmap/ic_broad_next"
+                        android:scaleType="centerInside"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
                 <View
                     android:id="@+id/shengjiqunView"
+                    android:background="#11e9e9e9"
                     android:visibility="gone"
-                    tools:visibility="visible"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#11E9E9E9" />
+                    android:layout_height="0.5dp"/>
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:gravity="center_vertical"
                     android:id="@+id/jiqiren"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:gravity="center_vertical">
-
+                    android:layout_height="62dp">
                     <TextView
+                        android:textSize="15sp"
+                        android:textColor="@color/color_text0"
+                        android:ellipsize="end"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
                         android:text="@string/机器人定时消息"
-                        android:textColor="@color/color_text0"
-                        android:textSize="15sp" />
-
+                        android:maxLines="1"
+                        android:layout_weight="1"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="10dp"/>
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:scaleType="centerInside"
-                        android:src="@mipmap/ic_broad_next" />
+                        android:src="@mipmap/ic_broad_next"
+                        android:scaleType="centerInside"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
                 <View
+                    android:background="#11e9e9e9"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#11E9E9E9" />
+                    android:layout_height="0.5dp"/>
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:gravity="center_vertical"
                     android:id="@+id/huanyingchengyuan"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:gravity="center_vertical">
-
+                    android:layout_height="62dp">
                     <TextView
+                        android:textSize="15sp"
+                        android:textColor="@color/color_text0"
+                        android:ellipsize="end"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
                         android:text="@string/欢迎成员"
-                        android:textColor="@color/color_text0"
-                        android:textSize="15sp" />
-
+                        android:maxLines="1"
+                        android:layout_weight="1"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="10dp"/>
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:scaleType="centerInside"
-                        android:src="@mipmap/ic_broad_next" />
+                        android:src="@mipmap/ic_broad_next"
+                        android:scaleType="centerInside"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
                 <View
                     android:id="@+id/zhuanrangxian"
+                    android:background="#11e9e9e9"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#11E9E9E9" />
+                    android:layout_height="0.5dp"/>
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:gravity="center_vertical">
-
+                    android:layout_height="62dp">
                     <TextView
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/yaoqinghaioyu"
+                        android:textSize="15sp"
+                        android:textColor="@color/color_text0"
+                        android:ellipsize="end"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:text="@string/yaoqinghaoyoujinqn"
+                        android:maxLines="1"
+                        android:layout_weight="1"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="@string/yaoqinghaoyoujinqn"
-                        android:textColor="@color/color_text0"
-                        android:textSize="15sp" />
-
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/yaoqinghaioyu"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
                     <androidx.appcompat.widget.SwitchCompat
+                        android:theme="@style/switchStyle"
+                        android:layout_gravity="end|center_vertical"
                         android:id="@+id/yaoqinghaioyu"
+                        android:background="@null"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|end"
-                        android:layout_marginEnd="15dp"
-                        android:background="@null"
-                        android:theme="@style/switchStyle"
                         android:thumb="@drawable/thumb_broad_selector"
+                        android:layout_marginEnd="15dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:track="@drawable/track_broad_selector" />
+                        app:track="@drawable/track_broad_selector"/>
                     <View
                         android:id="@+id/yaoqinghaioyuView"
-                        app:layout_constraintEnd_toEndOf="parent"
                         android:layout_width="70dp"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
                 <View
+                    android:background="#11e9e9e9"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#11E9E9E9" />
-
-
+                    android:layout_height="0.5dp"/>
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:gravity="center_vertical">
-
+                    android:layout_height="62dp">
                     <TextView
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/jinqunjiaoyan"
+                        android:textSize="15sp"
+                        android:textColor="@color/color_text0"
+                        android:ellipsize="end"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:text="@string/qunyuanjinqunjiaoyanb"
+                        android:maxLines="1"
+                        android:layout_weight="1"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="@string/qunyuanjinqunjiaoyanb"
-                        android:textColor="@color/color_text0"
-                        android:textSize="15sp" />
-
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/jinqunjiaoyan"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
                     <androidx.appcompat.widget.SwitchCompat
+                        android:theme="@style/switchStyle"
+                        android:layout_gravity="end|center_vertical"
                         android:id="@+id/jinqunjiaoyan"
+                        android:background="@null"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|end"
-                        android:layout_marginEnd="15dp"
-                        android:background="@null"
-                        android:theme="@style/switchStyle"
                         android:thumb="@drawable/thumb_broad_selector"
+                        android:layout_marginEnd="15dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:track="@drawable/track_broad_selector" />
+                        app:track="@drawable/track_broad_selector"/>
                     <View
                         android:id="@+id/jinqunjiaoyanView"
-                        app:layout_constraintEnd_toEndOf="parent"
                         android:layout_width="70dp"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
                 <View
+                    android:background="#11e9e9e9"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#11E9E9E9" />
-
-
+                    android:layout_height="0.5dp"/>
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:gravity="center_vertical">
-
+                    android:layout_height="62dp">
                     <TextView
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/kefahongboa"
+                        android:textSize="15sp"
+                        android:textColor="@color/color_text0"
+                        android:ellipsize="end"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:text="@string/qunzhukefahogb"
+                        android:maxLines="1"
+                        android:layout_weight="1"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="@string/qunzhukefahogb"
-                        android:textColor="@color/color_text0"
-                        android:textSize="15sp" />
-
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/kefahongboa"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
                     <androidx.appcompat.widget.SwitchCompat
+                        android:theme="@style/switchStyle"
+                        android:layout_gravity="end|center_vertical"
                         android:id="@+id/kefahongboa"
+                        android:background="@null"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|end"
-                        android:layout_marginEnd="15dp"
-                        android:background="@null"
-                        android:theme="@style/switchStyle"
                         android:thumb="@drawable/thumb_broad_selector"
+                        android:layout_marginEnd="15dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:track="@drawable/track_broad_selector" />
+                        app:track="@drawable/track_broad_selector"/>
                     <View
                         android:id="@+id/kefahongboaView"
-                        app:layout_constraintEnd_toEndOf="parent"
                         android:layout_width="70dp"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
                 <View
+                    android:background="#11e9e9e9"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#11E9E9E9" />
-
-
+                    android:layout_height="0.5dp"/>
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:gravity="center_vertical">
-
+                    android:layout_height="62dp">
                     <TextView
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/qunzhumingpian"
+                        android:textSize="15sp"
+                        android:textColor="@color/color_text0"
+                        android:ellipsize="end"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:text="@string/qunzhutuisongmingp"
+                        android:maxLines="1"
+                        android:layout_weight="1"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="@string/qunzhutuisongmingp"
-                        android:textColor="@color/color_text0"
-                        android:textSize="15sp" />
-
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/qunzhumingpian"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
                     <androidx.appcompat.widget.SwitchCompat
+                        android:theme="@style/switchStyle"
+                        android:layout_gravity="end|center_vertical"
                         android:id="@+id/qunzhumingpian"
+                        android:background="@null"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|end"
-                        android:layout_marginEnd="15dp"
-                        android:background="@null"
-                        android:theme="@style/switchStyle"
                         android:thumb="@drawable/thumb_broad_selector"
+                        android:layout_marginEnd="15dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:track="@drawable/track_broad_selector" />
+                        app:track="@drawable/track_broad_selector"/>
                     <View
                         android:id="@+id/qunzhumingpianView"
-                        app:layout_constraintEnd_toEndOf="parent"
                         android:layout_width="70dp"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
                 <View
+                    android:background="#11e9e9e9"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#11E9E9E9" />
-
-
+                    android:layout_height="0.5dp"/>
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:gravity="center_vertical">
-
+                    android:layout_height="62dp">
                     <TextView
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/ruqunyanz"
+                        android:textSize="15sp"
+                        android:textColor="@color/color_text0"
+                        android:ellipsize="end"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:text="@string/qunyuanguanliyanz"
+                        android:maxLines="1"
+                        android:layout_weight="1"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="@string/qunyuanguanliyanz"
-                        android:textColor="@color/color_text0"
-                        android:textSize="15sp" />
-
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/ruqunyanz"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
                     <androidx.appcompat.widget.SwitchCompat
+                        android:theme="@style/switchStyle"
+                        android:layout_gravity="end|center_vertical"
                         android:id="@+id/ruqunyanz"
+                        android:background="@null"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|end"
-                        android:layout_marginEnd="15dp"
-                        android:background="@null"
-                        android:theme="@style/switchStyle"
                         android:thumb="@drawable/thumb_broad_selector"
+                        android:layout_marginEnd="15dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:track="@drawable/track_broad_selector" />
+                        app:track="@drawable/track_broad_selector"/>
                     <View
                         android:id="@+id/ruqunyanzView"
-                        app:layout_constraintEnd_toEndOf="parent"
                         android:layout_width="70dp"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
                 <View
+                    android:background="#11e9e9e9"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#11E9E9E9" />
-
-
+                    android:layout_height="0.5dp"/>
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:gravity="center_vertical">
-
+                    android:layout_height="62dp">
                     <TextView
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/wufajiahaoyou"
+                        android:textSize="15sp"
+                        android:textColor="@color/color_text0"
+                        android:ellipsize="end"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:text="@string/wufasijiahao"
+                        android:maxLines="1"
+                        android:layout_weight="1"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="@string/wufasijiahao"
-                        android:textColor="@color/color_text0"
-                        android:textSize="15sp" />
-
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/wufajiahaoyou"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
                     <androidx.appcompat.widget.SwitchCompat
+                        android:theme="@style/switchStyle"
+                        android:layout_gravity="end|center_vertical"
                         android:id="@+id/wufajiahaoyou"
+                        android:background="@null"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|end"
-                        android:layout_marginEnd="15dp"
-                        android:background="@null"
-                        android:theme="@style/switchStyle"
                         android:thumb="@drawable/thumb_broad_selector"
+                        android:layout_marginEnd="15dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:track="@drawable/track_broad_selector" />
+                        app:track="@drawable/track_broad_selector"/>
                     <View
                         android:id="@+id/wufajiahaoyouView"
-                        app:layout_constraintEnd_toEndOf="parent"
                         android:layout_width="70dp"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
                 <View
+                    android:background="#11e9e9e9"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#11E9E9E9" />
-
+                    android:layout_height="0.5dp"/>
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:gravity="center_vertical">
-
+                    android:layout_height="62dp">
                     <TextView
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:textSize="15sp"
+                        android:textColor="@color/color_text0"
+                        android:ellipsize="end"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:text="@string/jiangefayanmiao"
+                        android:maxLines="1"
+                        android:layout_weight="1"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="@string/jiangefayanmiao"
-                        android:textColor="@color/color_text0"
-                        android:textSize="15sp" />
-
-
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_marginEnd="20dp"
                         android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
+                        app:layout_constraintTop_toTopOf="parent">
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/jianhao"
-                            android:src="@mipmap/ic_yichu_qun_broad_user"
                             android:layout_width="24dp"
-                            android:layout_height="24dp"/>
-
+                            android:layout_height="24dp"
+                            android:src="@mipmap/ic_yichu_qun_broad_user"/>
                         <EditText
-                            android:id="@+id/tvjiangeshi"
-                            android:gravity="center"
-                            android:text="1"
-                            android:textColor="#000000"
                             android:textSize="11sp"
-                            android:inputType="number"
-                            android:singleLine="true"
-                            android:imeOptions="actionDone"
+                            android:textColor="#000000"
+                            android:gravity="center"
+                            android:id="@+id/tvjiangeshi"
                             android:background="@drawable/bg_rect_f3f3f3_broad_5dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
                             android:layout_width="46dp"
                             android:layout_height="24dp"
-
-                            />
-
+                            android:text="1"
+                            android:singleLine="true"
+                            android:inputType="number"
+                            android:imeOptions="actionDone"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"/>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/jiahao"
-                            android:src="@mipmap/ic_add_qun_broad_user"
                             android:layout_width="24dp"
-                            android:layout_height="24dp"/>
-
+                            android:layout_height="24dp"
+                            android:src="@mipmap/ic_add_qun_broad_user"/>
                     </androidx.appcompat.widget.LinearLayoutCompat>
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
                 <View
+                    android:background="#11e9e9e9"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#11E9E9E9" />
-
+                    android:layout_height="0.5dp"/>
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:gravity="center_vertical">
-
+                    android:layout_height="62dp">
                     <TextView
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/kejianguanli"
+                        android:textSize="15sp"
+                        android:textColor="@color/color_text0"
+                        android:ellipsize="end"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:text="@string/kejianguanliy"
+                        android:maxLines="1"
+                        android:layout_weight="1"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="@string/kejianguanliy"
-                        android:textColor="@color/color_text0"
-                        android:textSize="15sp" />
-
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/kejianguanli"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
                     <androidx.appcompat.widget.SwitchCompat
+                        android:theme="@style/switchStyle"
+                        android:layout_gravity="end|center_vertical"
                         android:id="@+id/kejianguanli"
+                        android:background="@null"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|end"
-                        android:layout_marginEnd="15dp"
-                        android:background="@null"
-                        android:theme="@style/switchStyle"
                         android:thumb="@drawable/thumb_broad_selector"
+                        android:layout_marginEnd="15dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:track="@drawable/track_broad_selector" />
+                        app:track="@drawable/track_broad_selector"/>
                     <View
                         android:id="@+id/kejianguanliView"
-                        app:layout_constraintEnd_toEndOf="parent"
                         android:layout_width="70dp"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="9dp"
-                     />
+                    android:layout_height="9dp"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
             <TextView
-                android:visibility="gone"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#2b56fb"
+                android:gravity="center"
                 android:id="@+id/jiesanqun"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="62dp"
-                android:gravity="center"
-                android:text="@string/jiesanquan"
-                android:textStyle="bold"
-                android:textColor="#2B56FB"
-                android:textSize="15sp" />
-
+                android:text="@string/jiesanquan"/>
             <TextView
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#ff5145"
+                android:gravity="center"
                 android:id="@+id/tuichuquan"
                 android:layout_width="match_parent"
                 android:layout_height="62dp"
-                android:gravity="center"
-                android:text="@string/shanchutuichuqun"
-                android:textStyle="bold"
-                android:textColor="#FF5145"
-                android:textSize="15sp" />
+                android:text="@string/shanchutuichuqun"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
-
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

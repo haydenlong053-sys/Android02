@@ -1,109 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:paddingTop="@dimen/dp_10">
-
-    <include layout="@layout/layout_my_base_toolbar_style1" />
-
+    android:paddingTop="@dimen/dp_10"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_my_base_toolbar_style1"/>
     <androidx.core.widget.NestedScrollView
+        android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="none">
-
+        android:fillViewport="true">
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingBottom="16dp">
-
-            <include layout="@layout/layout_im_group_info_head" />
-
-            <include layout="@layout/layout_im_group_info_1" />
-
+            android:paddingBottom="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include layout="@layout/layout_im_group_info_head"/>
+            <include layout="@layout/layout_im_group_info_1"/>
             <TextView
+                android:textSize="14sp"
+                android:textColor="@color/black_65"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="12dp"
                 android:text="@string/msg_group_services"
-                android:textColor="@color/black_65"
-                android:textSize="14sp" />
-
-            <include layout="@layout/layout_im_group_info_2" />
-
+                android:layout_marginHorizontal="16dp"/>
+            <include layout="@layout/layout_im_group_info_2"/>
             <TextView
+                android:textSize="14sp"
+                android:textColor="@color/black_65"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="12dp"
                 android:text="@string/msg_personal_settings"
-                android:textColor="@color/black_65"
-                android:textSize="14sp" />
-
-
-            <include layout="@layout/layout_im_group_info_3" />
-
-
-            <include layout="@layout/layout_im_group_info_4" />
-
+                android:layout_marginHorizontal="16dp"/>
+            <include layout="@layout/layout_im_group_info_3"/>
+            <include layout="@layout/layout_im_group_info_4"/>
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:gravity="center"
                 android:id="@+id/qingkong"
+                android:background="@drawable/bg_rect_white_broad_12dp"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
-                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/bg_rect_white_broad_12dp"
-                android:gravity="center">
-
+                android:layout_marginHorizontal="16dp">
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_EB534B"
                     android:ellipsize="end"
                     android:gravity="center"
-                    android:maxLines="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:text="@string/qingkongliaotian"
-                    android:textColor="@color/color_EB534B"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
+                    android:maxLines="1"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-
             <TextView
-                android:id="@+id/jiesanqun"
-                android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/bg_rect_white_broad_12dp"
-                android:gravity="center"
-                android:text="@string/jiesanquan"
-                android:textColor="@color/color_EB534B"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="@color/color_EB534B"
+                android:gravity="center"
+                android:id="@+id/jiesanqun"
+                android:background="@drawable/bg_rect_white_broad_12dp"
                 android:visibility="gone"
-                tools:visibility="visible" />
-
-            <TextView
-                android:id="@+id/tuichuquan"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
-                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/bg_rect_white_broad_12dp"
-                android:gravity="center"
-                android:text="@string/shanchutuichuqun"
-                android:textColor="@color/color_EB534B"
+                android:text="@string/jiesanquan"
+                android:layout_marginHorizontal="16dp"/>
+            <TextView
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/color_EB534B"
+                android:gravity="center"
+                android:id="@+id/tuichuquan"
+                android:background="@drawable/bg_rect_white_broad_12dp"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/shanchutuichuqun"
+                android:layout_marginHorizontal="16dp"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
-
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

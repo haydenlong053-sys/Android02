@@ -514,4 +514,8 @@
 
     <string name="post_log_success">上传日志成功</string>
     <string name="pwd_length_six">密码长度至少6位</string>
+    <string name="图形验证码">Captcha</string>
+    <string name="请输入图形验证码">Please enter captcha</string>
+    <string name="conversation_list_empty_title">暂无相关数据</string>
+    <string name="conversation_list_empty_hint">快去和朋友聊天吧～</string>
 </resources>

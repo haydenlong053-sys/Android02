@@ -1,81 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:paddingTop="5dp">
-
+    android:paddingTop="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
+        android:layout_height="wrap_content">
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:background="@color/gray5"
             android:paddingLeft="@dimen/option_item_margin_left"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:text="成员管理" />
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="成员管理"/>
         <com.cboda.chatui.widget.OptionItemBroadView
             android:id="@+id/managerOptionItemView"
-            style="@style/OptionItem"
             android:background="@drawable/selector_common_broad_item"
             app:divider_align_to_title="true"
-            app:title="管理员" />
-
+            app:title="管理员"
+            style="@style/OptionItem"/>
         <com.cboda.chatui.widget.OptionItemBroadView
             android:id="@+id/muteOptionItemView"
-            style="@style/OptionItem"
             android:background="@drawable/selector_common_broad_item"
             app:divider_align_to_title="true"
-            app:title="设置禁言" />
-
+            app:title="设置禁言"
+            style="@style/OptionItem"/>
         <com.cboda.chatui.widget.OptionItemBroadView
             android:id="@+id/permissionOptionItemView"
-            style="@style/OptionItem"
             android:background="@drawable/selector_common_broad_item"
-            app:title="成员权限" />
+            app:title="成员权限"
+            style="@style/OptionItem"/>
     </LinearLayout>
-
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/option_item_margin_top"
-        android:orientation="vertical">
-
+        android:layout_marginTop="@dimen/option_item_margin_top">
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:background="@color/gray5"
             android:paddingLeft="@dimen/option_item_margin_left"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:text="群基本设置" />
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="群基本设置"/>
         <com.cboda.chatui.widget.OptionItemBroadView
             android:id="@+id/joinOptionItemView"
-            style="@style/OptionItem"
             android:background="@drawable/selector_common_broad_item"
             app:desc="不限制加入"
             app:divider_align_to_title="true"
-            app:title="加群方式" />
-
+            app:title="加群方式"
+            style="@style/OptionItem"/>
         <com.cboda.chatui.widget.OptionItemBroadView
             android:id="@+id/searchOptionItemView"
-            style="@style/OptionItem"
             android:background="@drawable/selector_common_broad_item"
             app:desc="不允许查找"
-            app:title="查找方式" />
-
+            app:title="查找方式"
+            style="@style/OptionItem"/>
         <com.cboda.chatui.widget.OptionItemBroadView
             android:id="@+id/historyMessageOptionItemView"
-            style="@style/OptionItem"
             android:background="@drawable/selector_common_broad_item"
             app:desc="不允许新成员查看历史消息"
-            app:title="群历史消息" />
+            app:title="群历史消息"
+            style="@style/OptionItem"/>
     </LinearLayout>
 </LinearLayout>

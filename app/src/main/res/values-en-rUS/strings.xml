@@ -1088,4 +1088,7 @@
     <string name="absent_kick_warm_tip">This feature aims to improve group meeting participation and create a better communication environment.</string>
     <string name="absent_kick_rule_title_fallback">Missed 5 consecutive meetings</string>
     <string name="absent_kick_rule_empty">No rule details available</string>
+    <string name="图形验证码">Captcha</string>
+    <string name="请输入图形验证码">Please enter captcha</string>
+    <string name="mine_center_slogan">Explore infinite possibilities, connect an infinite world</string>
 </resources>

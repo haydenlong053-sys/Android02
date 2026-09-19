@@ -1,73 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-
+    android:layout_height="wrap_content">
     <LinearLayout
-        android:id="@+id/llGroup"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_gravity="center_vertical"
-        android:background="@drawable/selector_common_broad_item"
         android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
         android:orientation="horizontal"
+        android:id="@+id/llGroup"
+        android:background="@drawable/selector_common_broad_item"
         android:paddingLeft="@dimen/item_margin_left_and_right"
-        android:paddingRight="@dimen/item_margin_left_and_right">
-
+        android:paddingRight="@dimen/item_margin_left_and_right"
+        android:layout_width="match_parent"
+        android:layout_height="56dp">
         <RelativeLayout
             android:layout_width="46dp"
             android:layout_height="match_parent">
-
             <ImageView
                 android:id="@+id/ivGroup"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/ic_broad_ruqun" />
-
-
+                android:src="@mipmap/ic_broad_ruqun"
+                android:layout_centerVertical="true"/>
         </RelativeLayout>
-
-
         <TextView
+            android:textSize="16sp"
+            android:textColor="@color/color_text_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
-            android:text="@string/group_chat"
-            android:textColor="@color/color_text_main"
-            android:textSize="16sp" />
-
+            android:text="@string/group_chat"/>
         <TextView
+            android:textSize="11sp"
+            android:textColor="@color/gray0"
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
-            android:text="(保存到通讯录的群组)"
-            android:textColor="@color/gray0"
-            android:textSize="11sp" />
-
+            android:text="(保存到通讯录的群组)"/>
         <View
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="match_parent"/>
-
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
         <TextView
+            android:textSize="10sp"
+            android:textColor="@color/white"
+            android:gravity="center"
             android:id="@+id/tvNewGroupUnread"
+            android:background="@drawable/shape_red_broad_dot"
+            android:visibility="gone"
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:layout_alignTop="@id/ivNewFriend"
-            android:layout_alignRight="@id/ivNewFriend"
-            android:background="@drawable/shape_red_broad_dot"
-            android:gravity="center"
             android:text="99+"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            android:visibility="gone" />
+            android:layout_alignTop="@+id/ivNewFriend"
+            android:layout_alignRight="@+id/ivNewFriend"/>
     </LinearLayout>
-
     <View
-        style="@style/Line2"
-        android:layout_marginLeft="68dp" />
-
+        android:layout_marginLeft="68dp"
+        style="@style/Line2"/>
 </LinearLayout>

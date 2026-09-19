@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
     <com.cboda.baselibrary.view.AppRoundBroadImage
         android:id="@+id/mIvGroupAvatar"
         android:layout_width="104dp"
@@ -15,62 +12,52 @@
         app:app_round_border_width="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent"/>
     <ImageView
         android:id="@+id/mIvGroupQrcode"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:src="@mipmap/chat_group_qrcode_bg1"
-        app:layout_constraintEnd_toEndOf="@id/mIvGroupAvatar"
-        app:layout_constraintBottom_toBottomOf="@id/mIvGroupAvatar"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintBottom_toBottomOf="@+id/mIvGroupAvatar"
+        app:layout_constraintEnd_toEndOf="@+id/mIvGroupAvatar"/>
     <ImageView
         android:id="@+id/mIvGroupQrcodeIcon"
         android:layout_width="17dp"
         android:layout_height="17dp"
         android:src="@mipmap/chat_group_qrcode_bg2"
-        app:layout_constraintEnd_toEndOf="@id/mIvGroupQrcode"
-        app:layout_constraintBottom_toBottomOf="@id/mIvGroupQrcode"
-        app:layout_constraintStart_toStartOf="@id/mIvGroupQrcode"
-        app:layout_constraintTop_toTopOf="@id/mIvGroupQrcode"
-        tools:ignore="ContentDescription" />
-
+        app:layout_constraintBottom_toBottomOf="@+id/mIvGroupQrcode"
+        app:layout_constraintEnd_toEndOf="@+id/mIvGroupQrcode"
+        app:layout_constraintStart_toStartOf="@+id/mIvGroupQrcode"
+        app:layout_constraintTop_toTopOf="@+id/mIvGroupQrcode"/>
     <TextView
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:ellipsize="end"
+        android:gravity="center"
         android:id="@+id/mTvGroupName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mIvGroupAvatar"
         android:layout_marginTop="20dp"
-        android:gravity="center"
-        tools:text="某某科技财富群"
         android:maxLines="1"
-        android:ellipsize="end"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:textSize="24sp"/>
-
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mIvGroupAvatar"/>
     <TextView
+        android:textSize="16sp"
+        android:textColor="@color/black_65"
+        android:ellipsize="end"
+        android:gravity="center"
         android:id="@+id/qunid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mTvGroupName"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="8dp"
-        android:gravity="center"
         android:text=""
         android:maxLines="1"
-        android:ellipsize="end"
-        android:textColor="@color/black_65"
-        android:textSize="16sp"/>
-
-
-
-
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mTvGroupName"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

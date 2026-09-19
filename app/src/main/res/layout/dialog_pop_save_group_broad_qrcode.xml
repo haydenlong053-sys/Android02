@@ -1,122 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_gravity="center">
+    android:layout_height="wrap_content">
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:orientation="vertical"
         android:id="@+id/mLlSaveView"
+        android:background="@drawable/bg_rect_white_broad_16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/bg_rect_white_broad_16dp"
-        android:layout_marginHorizontal="24dp"
-        tools:ignore="UselessParent"
-        >
+        android:layout_marginHorizontal="24dp">
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/mIvIcon"
             android:layout_width="84dp"
             android:layout_height="84dp"
-            android:scaleType="centerCrop"
+            android:layout_marginTop="24dp"
             android:src="@mipmap/ic_broad_head"
-            app:riv_oval="true"
-            app:riv_border_width="2dp"
-            app:riv_border_color="@color/white"
+            android:scaleType="centerCrop"
+            android:layout_marginStart="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            />
-
+            app:riv_border_color="@color/white"
+            app:riv_border_width="2dp"
+            app:riv_oval="true"/>
         <TextView
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             android:id="@+id/mTvName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="JOY Follow"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/mIvIcon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="36dp"
-            android:layout_marginHorizontal="15dp"
             android:singleLine="true"
-            />
+            android:layout_marginHorizontal="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/mIvIcon"
+            app:layout_constraintTop_toTopOf="parent"/>
         <TextView
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:gravity="start"
             android:id="@+id/mTvId"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="账号ID：02983238"
-            android:textColor="@color/black"
-            android:gravity="start"
-            android:textSize="16sp"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="@id/mTvName"
+            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mTvName"
-            />
-
+            app:layout_constraintStart_toStartOf="@+id/mTvName"
+            app:layout_constraintTop_toBottomOf="@+id/mTvName"/>
         <View
+            android:layout_gravity="center"
             android:id="@+id/mViewDash"
+            android:background="@drawable/bg_mine_dash_broad_line"
             android:layout_width="220dp"
             android:layout_height="220dp"
-            android:layout_gravity="center"
-            android:background="@drawable/bg_mine_dash_broad_line"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mIvIcon"
             android:layout_marginTop="30dp"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mIvIcon"/>
         <ImageView
             android:id="@+id/mIvQrCodeAuth"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            app:layout_constraintStart_toStartOf="@id/mViewDash"
-            app:layout_constraintEnd_toEndOf="@id/mViewDash"
-            app:layout_constraintTop_toTopOf="@id/mViewDash"
-            app:layout_constraintBottom_toBottomOf="@id/mViewDash"
-            tools:src="@mipmap/ic_security_broad_auth"
             android:scaleType="centerCrop"
-            tools:ignore="ContentDescription" />
-
+            app:layout_constraintBottom_toBottomOf="@+id/mViewDash"
+            app:layout_constraintEnd_toEndOf="@+id/mViewDash"
+            app:layout_constraintStart_toStartOf="@+id/mViewDash"
+            app:layout_constraintTop_toTopOf="@+id/mViewDash"/>
         <TextView
+            android:textSize="14sp"
+            android:textColor="@color/black_65"
+            android:gravity="center"
             android:id="@+id/mTvDes2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="扫描上方二维码\n即可加入群聊"
-            app:layout_constraintTop_toBottomOf="@id/mViewDash"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textColor="@color/black_65"
-            android:gravity="center"
-            android:textSize="14sp"
+            android:layout_marginTop="24dp"
+            android:text="扫描上方二维码\10即可加入群聊"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="24dp"/>
-
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mViewDash"/>
         <com.hjq.shape.view.ShapeTextView
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:gravity="center"
             android:id="@+id/mTvSaveQrcode"
             android:layout_width="match_parent"
             android:layout_height="46dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mTvDes2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginHorizontal="24dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:text="@string/保存二维码"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:shape_radius="16dp"
-            app:shape_startColor="#375FDD"
-            app:shape_endColor="#629CF8"
+            android:layout_marginHorizontal="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mTvDes2"
             app:shape_angle="180"
-            />
+            app:shape_endColor="#629cf8"
+            app:shape_radius="16dp"
+            app:shape_startColor="#375fdd"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </FrameLayout>

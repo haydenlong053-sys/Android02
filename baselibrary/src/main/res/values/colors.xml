@@ -157,4 +157,6 @@
     <color name="color_AA68FF">#AA68FF</color>
     <color name="color_EE56D4">#EE56D4</color>
 
+    <color name="color_msg_page_bg">#f4f1fb</color>
+    <color name="color_brand_primary">#5f19e2</color>
 </resources>

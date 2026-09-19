@@ -1,9 +1,11 @@
 package com.cboda.intelligent.activity
 
 import android.annotation.SuppressLint
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.InputType
 import android.text.TextUtils
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
@@ -21,6 +23,9 @@ import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.viewmodel.LoginViewBroadModel
 
 class RegisteredBroadFragment : BaseBroadFragment<RegisteredBroadFragmentBinding, LoginViewBroadModel>() {
+
+    private var captchaId: String = ""
+
     override fun onCreateViewBinding(
         inflater: LayoutInflater,
         parent: ViewGroup?,
@@ -37,6 +42,7 @@ class RegisteredBroadFragment : BaseBroadFragment<RegisteredBroadFragmentBinding
         binding.loginAccount.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)
         binding.loginPwd.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)
         binding.updatePwd.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)
+        binding.loginCaptcha.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)
         binding.loginBtn.isSubmitCanGo(
             false,
             R.drawable.bg_auth_btn_disabled,
@@ -45,11 +51,7 @@ class RegisteredBroadFragment : BaseBroadFragment<RegisteredBroadFragmentBinding
         val uuIdCreate = getUuIdCreate()
         binding.content.text =
             (uuIdCreate + EncryptUtils.encryptMD5ToString(uuIdCreate)).uppercase()
-//        viewModel.getMnemonicWords().observe(this) {
-//            if (!TextUtils.isEmpty(it)) {
-//                binding.content.text = it
-//            }
-//        }
+        refreshCaptcha()
     }
 
     override fun initListener() {
@@ -60,11 +62,17 @@ class RegisteredBroadFragment : BaseBroadFragment<RegisteredBroadFragmentBinding
         }
         binding.loginPwd.setEdTextChange { refreshSubmitEnabled() }
         binding.updatePwd.setEdTextChange { refreshSubmitEnabled() }
+        binding.loginCaptcha.setEdTextChange { refreshSubmitEnabled() }
+        binding.loginCaptchaImage.click { refreshCaptcha() }
+        binding.loginCaptchaRefresh.click { refreshCaptcha() }
         binding.loginBtn.click {
             viewModel.registerAccount(
-                binding.loginAccount.text.toString(),
-                binding.loginPwd.text.toString(),
-                binding.updatePwd.text.toString()
+                account = binding.loginAccount.text.toString(),
+                pwd = binding.loginPwd.text.toString(),
+                secondPwd = binding.updatePwd.text.toString(),
+                captchaId = captchaId,
+                captcha = binding.loginCaptcha.text.toString(),
+                onCaptchaInvalid = { refreshCaptcha() },
             )
         }
         binding.loginLookPwd.click {
@@ -78,11 +86,38 @@ class RegisteredBroadFragment : BaseBroadFragment<RegisteredBroadFragmentBinding
         val account = binding.loginAccount.text.toString()
         val pwd = binding.loginPwd.text.toString()
         val secondPwd = binding.updatePwd.text.toString()
+        val captcha = binding.loginCaptcha.text.toString()
         binding.loginBtn.isSubmitCanGo(
-            !TextUtils.isEmpty(account) && !TextUtils.isEmpty(pwd) && !TextUtils.isEmpty(secondPwd),
+            !TextUtils.isEmpty(account)
+                && !TextUtils.isEmpty(pwd)
+                && !TextUtils.isEmpty(secondPwd)
+                && !TextUtils.isEmpty(captcha),
             R.drawable.bg_auth_btn_disabled,
             R.drawable.bg_auth_btn,
         )
+    }
+
+    private fun refreshCaptcha() {
+        binding.loginCaptcha.setText("")
+        captchaId = ""
+        viewModel.fetchCaptcha("register").observe(viewLifecycleOwner) { bean ->
+            captchaId = bean?.captchaId.orEmpty()
+            val raw = bean?.imageBase64.orEmpty()
+            if (raw.isBlank()) {
+                binding.loginCaptchaImage.setImageDrawable(null)
+                return@observe
+            }
+            try {
+                val payload = raw.substringAfter("base64,", raw).trim()
+                val bytes = Base64.decode(payload, Base64.DEFAULT)
+                binding.loginCaptchaImage.setImageBitmap(
+                    BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                )
+            } catch (_: Exception) {
+                binding.loginCaptchaImage.setImageDrawable(null)
+            }
+        }
+        refreshSubmitEnabled()
     }
 
     private fun bindPwdLookTouch(

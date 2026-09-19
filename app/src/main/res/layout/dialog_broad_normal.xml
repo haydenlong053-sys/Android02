@@ -1,64 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/bg_broad_dialog"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/bg_broad_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/tvBiaoti"
-            android:text="@string/温馨提示"
             android:textSize="17sp"
-            android:textColor="@color/color_text0"
             android:textStyle="bold"
-            android:layout_marginTop="19dp"
+            android:textColor="@color/color_text0"
+            android:id="@+id/tvBiaoti"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="19dp"
+            android:text="@string/温馨提示"/>
         <TextView
+            android:textSize="15sp"
+            android:textColor="@color/color_text_content"
+            android:gravity="center"
             android:id="@+id/tvHint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="35dp"
             android:layout_marginTop="23dp"
-            android:gravity="center"
             android:text="发现新版本，请前往AppStore更新"
-            android:textColor="@color/color_text_content"
-            android:textSize="15sp" />
+            android:layout_marginHorizontal="35dp"/>
         <LinearLayout
+            android:gravity="center"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="34dp"
             android:layout_marginBottom="20dp"
-            android:paddingHorizontal="25dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:paddingHorizontal="25dp">
             <TextView
-                android:id="@+id/tvCancel"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="47dp"
-                android:gravity="center"
-                android:layout_marginRight="10dp"
+                android:textSize="14sp"
                 android:textColor="@color/color_text_dialog_left"
-                android:textSize="14sp"
-                android:text="@string/取消"
-                android:background="@mipmap/ic_bg_btn1_broad_02" />
-            <TextView
-                android:id="@+id/tvConfirm"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="47dp"
                 android:gravity="center"
+                android:id="@+id/tvCancel"
+                android:background="@mipmap/ic_bg_btn1_broad_02"
+                android:layout_width="0dp"
+                android:layout_height="47dp"
                 android:layout_marginRight="10dp"
-                android:textColor="@color/white"
+                android:text="@string/取消"
+                android:layout_weight="1"/>
+            <TextView
                 android:textSize="14sp"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:id="@+id/tvConfirm"
+                android:background="@mipmap/ic_bg_btn2_broad_02"
+                android:layout_width="0dp"
+                android:layout_height="47dp"
+                android:layout_marginRight="10dp"
                 android:text="@string/确定"
-                android:background="@mipmap/ic_bg_btn2_broad_02" />
+                android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

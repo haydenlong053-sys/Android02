@@ -1,244 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.hjq.shape.layout.ShapeRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.hjq.shape.layout.ShapeRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itemLayout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_72"
-    android:id="@+id/itemLayout"
     android:layout_marginBottom="@dimen/dp_4"
-    app:shape_radius="@dimen/dp_12"
-    tools:ignore="RtlSymmetry">
-
+    app:shape_radius="@dimen/dp_12">
     <ImageView
         android:id="@+id/iv_check_cnv"
+        android:visibility="gone"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/dp_16"
         android:src="@mipmap/ic_check_cnv_broad_normal"
-        android:visibility="gone"
-        tools:visibility="visible" />
-
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/dp_16"/>
     <com.cboda.baselibrary.widge.VpGradeView
         android:id="@+id/portraitRelativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/iv_check_cnv"
         android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_toRightOf="@id/iv_check_cnv" />
-
-
+        android:layout_marginStart="@dimen/dp_16"/>
     <LinearLayout
+        android:gravity="center_vertical"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_toRightOf="@+id/portraitRelativeLayout"
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/dp_12"
-        android:layout_marginEnd="@dimen/dp_16"
-        android:layout_toRightOf="@+id/portraitRelativeLayout"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
-
+        android:layout_marginEnd="@dimen/dp_16">
         <LinearLayout
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical">
-
+            android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/secretChatIndicator"
+                android:visibility="gone"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginRight="10px"
-                android:src="@mipmap/ic_broad_lock"
-                android:visibility="gone" />
-
+                android:src="@mipmap/ic_broad_lock"/>
             <TableLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:shrinkColumns="0">
-
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:shrinkColumns="0"
+                android:layout_weight="1">
                 <TableRow
+                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical">
-
-                    <!--昵称或群名-->
+                    android:layout_height="wrap_content">
                     <TextView
+                        android:textSize="16sp"
+                        android:textColor="@color/color_title_conversation_list"
+                        android:ellipsize="end"
                         android:id="@+id/nameTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
                         android:text="会话名称"
-                        android:textColor="@color/color_title_conversation_list"
-                        android:textSize="16sp" />
-
+                        android:maxLines="1"/>
                     <TextView
+                        android:textSize="10sp"
+                        android:textColor="@color/white"
                         android:id="@+id/organizationGroupIndicator"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
                         android:background="@drawable/shape_round_broad_3"
                         android:paddingLeft="2dp"
                         android:paddingTop="1dp"
                         android:paddingRight="2dp"
                         android:paddingBottom="1dp"
-                        android:text="官方"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
                         android:visibility="gone"
-                        tools:visibility="visible" />
-
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:text="官方"/>
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_weight="1" />
-
-
+                        android:layout_weight="1"/>
                 </TableRow>
             </TableLayout>
-
             <TextView
+                android:textSize="12sp"
+                android:textColor="@color/color_content_conversation_list"
+                android:ellipsize="end"
                 android:id="@+id/timeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:ellipsize="end"
-                android:maxLines="1"
                 android:text="12:01"
-                android:textColor="@color/color_content_conversation_list"
-                android:textSize="12sp" />
+                android:maxLines="1"
+                android:layout_marginStart="4dp"/>
         </LinearLayout>
-
-        <!--消息-->
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-
             <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
                 android:layout_marginTop="3dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true">
                 <ImageView
                     android:id="@+id/slient"
+                    android:visibility="gone"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
                     android:layout_marginRight="5dp"
                     android:src="@mipmap/block_broad_notification"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
-
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"/>
                 <TextView
+                    android:textSize="13sp"
+                    android:textColor="@color/red7"
+                    android:ellipsize="end"
+                    android:layout_gravity="center_vertical"
                     android:id="@+id/promptTextView"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:layout_marginRight="5dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
                     android:text="@string/draft"
-                    android:textColor="@color/red7"
-                    android:textSize="13sp"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
-
+                    android:maxLines="1"/>
                 <ImageView
                     android:id="@+id/statusImageView"
+                    android:visibility="gone"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_marginRight="5dp"
-                    android:scaleType="centerCrop"
-                    android:visibility="gone"
-                    tools:src="@mipmap/img_broad_error"
-                    tools:visibility="visible" />
-
+                    android:scaleType="centerCrop"/>
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
                     <TextView
+                        android:textSize="13sp"
+                        android:textColor="@color/color_content_conversation_list"
+                        android:ellipsize="marquee"
                         android:id="@+id/contentTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="15dp"
-                        android:ellipsize="marquee"
                         android:singleLine="true"
-                        android:textColor="@color/color_content_conversation_list"
-                        android:textSize="13sp"
+                        android:layout_marginEnd="15dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/nameTimeTv"
+                        app:layout_constraintEnd_toStartOf="@+id/nameTimeTv"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="[草稿]" />
-
+                        app:layout_constraintTop_toTopOf="parent"/>
                     <com.hjq.shape.view.ShapeTextView
+                        android:textSize="11sp"
+                        android:textColor="#3b47dd"
                         android:id="@+id/nameTimeTv"
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="4dp"
                         android:paddingHorizontal="@dimen/dp_4"
                         android:paddingVertical="@dimen/dp_1"
-                        android:textColor="#3B47DD"
-                        android:textSize="11sp"
-                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/unreadCountTextView"
+                        app:layout_constraintEnd_toStartOf="@+id/unreadCountTextView"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_goneMarginEnd="0dp"
                         app:shape_radius="@dimen/dp_4"
-                        app:shape_solidColor="#1F3B47DD"
-                        tools:text="30天"
-                        tools:visibility="visible" />
-
-                    <!--未读消息数-->
+                        app:shape_solidColor="#1f3b47dd"/>
                     <TextView
+                        android:textSize="11sp"
+                        android:textColor="@color/white"
+                        android:gravity="center"
                         android:id="@+id/unreadCountTextView"
+                        android:background="@drawable/shape_red_broad_dot"
+                        android:visibility="gone"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/shape_red_broad_dot"
-                        android:gravity="center"
                         android:text="99"
-                        android:textColor="@color/white"
-                        android:textSize="11sp"
-                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/redDotView"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:visibility="visible" />
-
+                        app:layout_constraintEnd_toStartOf="@+id/redDotView"
+                        app:layout_constraintTop_toTopOf="parent"/>
                     <View
+                        android:textColor="@color/white"
+                        android:gravity="center"
                         android:id="@+id/redDotView"
+                        android:background="@drawable/shape_red_broad_dot"
+                        android:visibility="gone"
                         android:layout_width="10dp"
                         android:layout_height="10dp"
-                        android:background="@drawable/shape_red_broad_dot"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:visibility="visible" />
+                        app:layout_constraintTop_toTopOf="parent"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
-
-
         </RelativeLayout>
     </LinearLayout>
-
     <View
         android:id="@+id/bottomLine"
-        style="@style/Line"
+        android:layout_toRightOf="@+id/portraitRelativeLayout"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="@dimen/dp_2"
-        android:layout_toRightOf="@id/portraitRelativeLayout" />
+        style="@style/Line"/>
 </com.hjq.shape.layout.ShapeRelativeLayout>

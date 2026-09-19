@@ -1,54 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/color_msg_page_bg"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <include layout="@layout/layout_im_network_unavailable_banner" />
-
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_im_network_unavailable_banner"/>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_conversations"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_conversations"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/wechat_bg_page"
+                android:background="@color/color_msg_page_bg"
                 android:clipToPadding="false"
-                tools:listitem="@layout/item_conversation" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
         <ProgressBar
+            android:layout_gravity="center"
             android:id="@+id/progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:indeterminateTint="@color/wechat_green"
             android:visibility="gone"
-            tools:visibility="visible" />
-
-        <TextView
-            android:id="@+id/tv_empty"
-            style="@style/WeChatTextSecondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:indeterminateTint="@color/color_brand_primary"/>
+        <LinearLayout
+            android:gravity="center_horizontal"
             android:layout_gravity="center"
-            android:text="@string/conversation_list_empty"
-            android:visibility="gone" />
-
-        <include
-            android:id="@+id/conversation_list_error"
-            layout="@layout/conversation_list_error"
+            android:orientation="vertical"
+            android:id="@+id/tv_empty"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:paddingHorizontal="32dp">
+            <ImageView
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:src="@mipmap/no_data_msg2"
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/conversation_list_empty"/>
+            <TextView
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#2b2b4a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/conversation_list_empty_title"/>
+            <TextView
+                android:textSize="13sp"
+                android:textColor="#9a9ab0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/conversation_list_empty_hint"/>
+        </LinearLayout>
+        <include
+            android:layout_gravity="center"
+            android:id="@+id/conversation_list_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/conversation_list_error"/>
     </FrameLayout>
 </LinearLayout>

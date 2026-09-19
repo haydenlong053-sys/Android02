@@ -1,31 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:background="@color/bg_main"
-    android:orientation="vertical">
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
+        android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView2"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
             android:layout_marginTop="15dp"
-            android:layout_marginEnd="15dp"
-            android:visibility="gone" />
-
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="15dp"/>
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:gravity="center_vertical">
-
+            android:layout_height="60dp">
             <com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -33,29 +27,24 @@
                 android:layout_marginEnd="23dp"
                 app:shapeCornersRadius="20dp"
                 app:shapeSolidColor="@color/color_input_bg">
-
                 <EditText
-                    android:id="@+id/edtSousuo"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:drawableLeft="@mipmap/ic_broad_search2"
-                    android:drawablePadding="8dp"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:hint="@string/sousuonichengbeizhu"
-                    android:imeOptions="actionSearch"
-                    android:paddingStart="20dp"
-                    android:singleLine="true"
+                    android:textSize="13sp"
                     android:textColor="@color/color_text0"
                     android:textColorHint="@color/color_text0"
-                    android:textSize="13sp" />
-
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:id="@+id/edtSousuo"
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/sousuonichengbeizhu"
+                    android:singleLine="true"
+                    android:drawableLeft="@mipmap/ic_broad_search2"
+                    android:drawablePadding="8dp"
+                    android:imeOptions="actionSearch"
+                    android:paddingStart="20dp"/>
             </com.cboda.baselibrary.shapeview.shape.ShapeConstraintBroadLayout>
-
         </androidx.appcompat.widget.LinearLayoutCompat>
-
-
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:id="@+id/smartLayout"
             android:layout_width="match_parent"
@@ -63,63 +52,50 @@
             android:layout_marginTop="0dp"
             android:layout_marginBottom="10dp"
             android:layout_weight="1">
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
+                android:layout_height="match_parent"/>
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
-
-
         <TextView
-            android:id="@+id/tvAgree"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_gravity="end"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="20dp"
+            android:textSize="13sp"
+            android:textColor="#ffffff"
             android:ellipsize="end"
             android:gravity="center"
-            android:maxLines="1"
-            android:text="@string/queding"
-            android:textColor="#FFFFFF"
-            android:textSize="13sp"
+            android:layout_gravity="end"
+            android:id="@+id/tvAgree"
             android:background="@drawable/bg_rect_submit_broad_16dp"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/queding"
+            android:maxLines="1"
+            android:layout_marginHorizontal="20dp"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
-
-
     <com.cboda.susindexbar.IndexBar.widget.IndexBar2
+        android:layout_gravity="right"
         android:id="@+id/indexBar"
+        android:visibility="gone"
         android:layout_width="30dp"
         android:layout_height="match_parent"
-        android:layout_gravity="right"
         android:layout_marginVertical="70dp"
         app:indexBarPressBackground="#39000000"
         app:indexBarTextSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
-        tools:visibility="visible"
-        />
-
+        app:layout_constraintTop_toTopOf="parent"/>
     <TextView
+        android:textSize="48sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:layout_gravity="center"
         android:id="@+id/tvSideBarHint"
+        android:background="@drawable/shape_side_bar_broad_bg"
+        android:visibility="gone"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_gravity="center"
-        android:background="@drawable/shape_side_bar_broad_bg"
-        android:gravity="center"
-        android:textColor="@android:color/white"
-        android:textSize="48sp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="A"
-        tools:visibility="visible" />
-
+        app:layout_constraintTop_toTopOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,6 @@ import android.os.Looper
 import android.text.TextUtils
 import android.view.View
 import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isGone
@@ -38,7 +37,7 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var progressBar: ProgressBar
-    private lateinit var tvEmpty: TextView
+    private lateinit var tvEmpty: View
     private lateinit var errorContainer: View
     private var networkBanner: View? = null
     private var sessionsEmpty: Boolean = true
