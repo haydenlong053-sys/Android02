@@ -1097,4 +1097,9 @@
     <string name="图形验证码">Captcha</string>
     <string name="请输入图形验证码">Please enter captcha</string>
     <string name="mine_center_slogan">探索无限可能，连接无限世界</string>
+    <string name="all_friends">All Friends</string>
+    <string name="friends_count_format">%1$d</string>
+    <string name="friends_empty_hint">Go add some friends~</string>
+    <string name="new_friend_desc">Add new friends</string>
+    <string name="new_group_invite_desc">Invite to join group chat</string>
 </resources>

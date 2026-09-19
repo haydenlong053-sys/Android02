@@ -67,8 +67,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.Dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import com.cboda.chatui.contact.ContactViewBroadModel
 import com.cboda.baselibrary.event.AppBroadEvent
 import com.cboda.baselibrary.event.AppEventBroadCode
@@ -162,22 +160,27 @@ fun SocialScreen(
     val state by vm.uiState.collectAsState()
     val listState = remember { LazyListState() }
     val scope = rememberCoroutineScope()
+    val showEmpty = state.contactsAll.isEmpty() && !state.isLoading
 
-    // 计算每个字母段起始索引，用于滚动
-    val indexToPosition = remember(state.groupedByLetter) {
+    // 前置两项：邀请行 + 好友汇总行
+    val indexToPosition = remember(state.groupedByLetter, showEmpty) {
         val mapping = mutableMapOf<Char, Int>()
-        // 前置两项：邀请行 + 圈子行，使整页一起滚动
-        var index = 3 // 邀请行 + 圈子行 + 解释行
-        state.indexLetters.forEach { letter ->
-            mapping[letter] = index // header index
-            val size = state.groupedByLetter[letter]?.size ?: 0
-            index += 1 + size // header + items
+        if (!showEmpty) {
+            var index = 2
+            state.indexLetters.forEach { letter ->
+                mapping[letter] = index
+                val size = state.groupedByLetter[letter]?.size ?: 0
+                index += 1 + size
+            }
         }
         mapping
     }
 
-    Box(Modifier.fillMaxSize()) {
-        // 单一列表：整页滚动（邀请行 + 圈子行 + 联系人分组）
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFF4F1FB))
+    ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = listState,
@@ -191,62 +194,54 @@ fun SocialScreen(
                     groupBadgeCount = state.newGroupInviteCount
                 )
             }
-//            item {
-//                CirclesRow(
-//                    circles = state.circles,
-//                    selectedTag = state.selectedCircleTag,
-//                    onSelect = { vm.selectCircle(it) },
-//                    mode = interactionMode
-//                )
-//            }
-//            item {
-//                val explanationText = state.selectedCircleTag?.let { tag ->
-//                    state.circles.firstOrNull { it.characterTags == tag }?.characterExplanation
-//                } ?: stringResource(R.string.all)
-//                CharacterExplanation(text = explanationText, state.selectedCircleTag, state.contactsAll.size, state.filteredContacts.size)
-//            }
-            state.indexLetters.forEach { letter ->
-                stickyHeader(key = "header_$letter") {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color(0xFFF7F8FA))
-                            .padding(horizontal = 16.dp, vertical = 4.dp)
-                    ) {
-                        Text(
-                            text = letter.toString(),
-                            fontSize = 12.sp,
-                            color = Color.Black.copy(0.45f),
-                            lineHeight = TextUnit(13f, TextUnitType.Sp),
-                            fontWeight = FontWeight.W400
-                        )
+            item {
+                FriendsSummaryRow(count = state.contactsAll.size)
+            }
+            if (showEmpty) {
+                item { FriendsEmptyState() }
+            } else {
+                state.indexLetters.forEach { letter ->
+                    stickyHeader(key = "header_$letter") {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(Color(0xFFF4F1FB))
+                                .padding(horizontal = 16.dp, vertical = 4.dp)
+                        ) {
+                            Text(
+                                text = letter.toString(),
+                                fontSize = 12.sp,
+                                color = Color.Black.copy(0.45f),
+                                lineHeight = TextUnit(13f, TextUnitType.Sp),
+                                fontWeight = FontWeight.W400
+                            )
+                        }
                     }
-                }
 
-                val itemsOfLetter = state.groupedByLetter[letter].orEmpty()
-                items(itemsOfLetter, key = { it.id }) { contact ->
-                    ContactItem(contact, onContactClick)
+                    val itemsOfLetter = state.groupedByLetter[letter].orEmpty()
+                    items(itemsOfLetter, key = { it.id }) { contact ->
+                        ContactItem(contact, onContactClick)
+                    }
                 }
             }
         }
 
-        // 右侧字母索引（动态）
-        RightIndex(
-            letters = state.indexLetters,
-            onLetterClick = { ch ->
-                vm.onIndexLetterSelected(ch)
-                val pos = indexToPosition[ch]
-                if (pos != null) {
-                    // 平滑滚动到该段（使用协程作用域而非 LaunchedEffect）
-                    scope.launch {
-                        listState.animateScrollToItem(pos)
+        if (!showEmpty) {
+            RightIndex(
+                letters = state.indexLetters,
+                onLetterClick = { ch ->
+                    vm.onIndexLetterSelected(ch)
+                    val pos = indexToPosition[ch]
+                    if (pos != null) {
+                        scope.launch {
+                            listState.animateScrollToItem(pos)
+                        }
                     }
-                }
-            },
-            modifier = Modifier.align(Alignment.CenterEnd)
-        )
+                },
+                modifier = Modifier.align(Alignment.CenterEnd)
+            )
+        }
 
-        // 中间字母遮罩
         if (state.showOverlay && state.overlayLetter != null) {
             Box(
                 modifier = Modifier
@@ -321,22 +316,75 @@ private fun InviteRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         InviteCard(
-            iconRes = R.mipmap.ic_new_friend_broad_request,
+            iconRes = R.drawable.ic_social_add_friend,
             title = stringResource(R.string.new_friend),
+            subtitle = stringResource(R.string.new_friend_desc),
             onClick = onFriendClick,
             badgeCount = friendBadgeCount,
             modifier = Modifier
                 .weight(1f)
-                .height(64.dp)
+                .height(78.dp)
         )
         InviteCard(
-            iconRes = R.mipmap.ic_new_group_broad_request,
+            iconRes = R.drawable.ic_social_group_invite,
             title = stringResource(R.string.new_group_invite),
+            subtitle = stringResource(R.string.new_group_invite_desc),
             onClick = onGroupClick,
             badgeCount = groupBadgeCount,
             modifier = Modifier
                 .weight(1f)
-                .height(64.dp)
+                .height(78.dp)
+        )
+    }
+}
+
+@Composable
+private fun FriendsSummaryRow(count: Int) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = stringResource(R.string.all_friends),
+            fontSize = 14.sp,
+            color = Color(0xFF9A9AB0)
+        )
+        Text(
+            text = stringResource(R.string.friends_count_format, count),
+            fontSize = 14.sp,
+            color = Color(0xFF9A9AB0)
+        )
+    }
+}
+
+@Composable
+private fun FriendsEmptyState() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 48.dp, bottom = 32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        androidx.compose.foundation.Image(
+            painter = painterResource(id = R.mipmap.no_data_friend2),
+            contentDescription = null,
+            modifier = Modifier.size(180.dp)
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = stringResource(com.cboda.baselibrary.R.string.conversation_list_empty_title),
+            fontSize = 16.sp,
+            color = Color(0xFF2B2B4A),
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier.height(6.dp))
+        Text(
+            text = stringResource(R.string.friends_empty_hint),
+            fontSize = 13.sp,
+            color = Color(0xFF9A9AB0)
         )
     }
 }
@@ -345,66 +393,64 @@ private fun InviteRow(
 private fun InviteCard(
     iconRes: Int,
     title: String,
+    subtitle: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     badgeCount: Int = 0
 ) {
     Card(
         modifier = modifier,
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
-        ConstraintLayout(
+        Row(
             modifier = Modifier
                 .fillMaxSize()
                 .clickable(
                     indication = null,
-                    interactionSource = remember { MutableInteractionSource() }) { onClick() }
-                .padding(horizontal = 12.dp, vertical = 8.dp)
+                    interactionSource = remember { MutableInteractionSource() }
+                ) { onClick() }
+                .padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            val (iconRef, titleRef, badgeRef) = createRefs()
-
-            // 图标：左侧，垂直居中
-            androidx.compose.foundation.Image(
-                painter = painterResource(id = iconRes),
-                contentDescription = title,
+            Box(
                 modifier = Modifier
-                    .size(40.dp)
-                    .constrainAs(iconRef) {
-                        start.linkTo(parent.start)
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
+                    .size(44.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(Color(0xFF5F19E2)),
+                contentAlignment = Alignment.Center
+            ) {
+                androidx.compose.foundation.Image(
+                    painter = painterResource(id = iconRes),
+                    contentDescription = title,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+            Spacer(modifier = Modifier.width(12.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = title,
+                        fontSize = 15.sp,
+                        color = Color(0xFF1A1A1C),
+                        fontWeight = FontWeight.SemiBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f, fill = false)
+                    )
+                    if (badgeCount > 0) {
+                        Spacer(modifier = Modifier.width(4.dp))
+                        CounterBadge(count = badgeCount)
                     }
-            )
-
-            // 标题文本：与图标右间距 8dp，垂直居中，内容自适应宽度
-            Text(
-                text = title,
-                fontSize = 15.sp,
-                color = Color.Black.copy(0.9f),
-                fontWeight = FontWeight.W400,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.constrainAs(titleRef) {
-                    start.linkTo(iconRef.end, margin = 8.dp)
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-//                    end.linkTo(parent.end)
-                    width = Dimension.preferredWrapContent
                 }
-            )
-
-            // 角标：紧贴标题文本的右上角（位于文本上沿之外）
-            if (badgeCount > 0) {
-                CounterBadge(
-                    count = badgeCount,
-                    modifier = Modifier.constrainAs(badgeRef) {
-                        // 水平方向：从文本右侧向右贴合少许间隙
-                        start.linkTo(titleRef.end, margin = (-6).dp)
-                        // 垂直方向：角标底部与文本的顶部对齐，使其落在文本上方
-                        bottom.linkTo(titleRef.top)
-                        top.linkTo(titleRef.top)
-                    }
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = subtitle,
+                    fontSize = 12.sp,
+                    color = Color(0xFF9A9AB0),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }
@@ -533,7 +579,7 @@ private fun CharacterExplanation(text: String, selectedCircleTag: String?, size:
 @Composable
 private fun Chip(text: String, selected: Boolean, onClick: () -> Unit, minWidth: Dp) {
     val bg = Color.White
-    val fg = if (selected) Color(0xFF3B47DD) else Color.Black.copy(alpha = 0.65f)
+    val fg = if (selected) Color(0xFF5F19E2) else Color.Black.copy(alpha = 0.65f)
     Box(
         modifier = Modifier
             .widthIn(min = minWidth)
@@ -626,14 +672,14 @@ private fun ContactItem(contact: SocialContact, onContactClick: (String) -> Unit
                     if (!contact.characterTags.isNullOrBlank()) {
                         Box(
                             modifier = Modifier
-                                .background(Color(0xFF3B47DD).copy(0.12f), RoundedCornerShape(4.dp))
+                                .background(Color(0xFF5F19E2).copy(0.12f), RoundedCornerShape(4.dp))
                                 .padding(horizontal = 4.dp, vertical = 2.dp)
                         ) {
                             Text(
 //                                text = contact.characterTags,
                                 text = goTempTranslateString(LocalContext.current, contact.characterTags ?: ""),
                                 fontSize = 11.sp,
-                                color = Color(0xFF3B47DD),
+                                color = Color(0xFF5F19E2),
                                 overflow = TextOverflow.Ellipsis,
                                 maxLines = 1,
                             )

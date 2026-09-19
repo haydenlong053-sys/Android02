@@ -1098,4 +1098,9 @@
     <string name="图形验证码">图形验证码</string>
     <string name="请输入图形验证码">请输入图形验证码</string>
     <string name="mine_center_slogan">探索無限可能，連接無限世界</string>
+    <string name="all_friends">全部好友</string>
+    <string name="friends_count_format">%1$d人</string>
+    <string name="friends_empty_hint">快去添加好友吧～</string>
+    <string name="new_friend_desc">添加新朋友</string>
+    <string name="new_group_invite_desc">邀請加入群聊</string>
 </resources>

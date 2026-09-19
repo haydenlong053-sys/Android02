@@ -127,16 +127,16 @@ public class MyCollectActivity extends BaseSimple2BroadActivity {
             ToastBroadUtils.show("暂不支持的分享类型");
             return;
         }
-        if (CollectContentParser.TYPE_TEXT.equals(bean.type)) {
-            String plain = CollectContentParser.resolveDisplayText(bean.type, bean.info);
-            String day = JavaBroadUtil.containsLinkReturnDay(plain);
-            if (!TextUtils.isEmpty(day)) {
-                ToastBroadUtils.show(String.format(
-                        ViewExpandUtilKt.getAppContext(null).getString(
-                                com.cboda.baselibrary.R.string.registered_less_than_days), day));
-                return;
-            }
-        }
+//        if (CollectContentParser.TYPE_TEXT.equals(bean.type)) {
+//            String plain = CollectContentParser.resolveDisplayText(bean.type, bean.info);
+//            String day = JavaBroadUtil.containsLinkReturnDay(plain);
+//            if (!TextUtils.isEmpty(day)) {
+//                ToastBroadUtils.show(String.format(
+//                        ViewExpandUtilKt.getAppContext(null).getString(
+//                                com.cboda.baselibrary.R.string.registered_less_than_days), day));
+//                return;
+//            }
+//        }
         AppMessage outbound = CollectMessageFactory.buildOutboundMessage(
                 target, bean.type, bean.info);
         if (outbound == null) {
@@ -162,16 +162,16 @@ public class MyCollectActivity extends BaseSimple2BroadActivity {
             ToastBroadUtils.show("暂不支持的转发类型");
             return;
         }
-        if (CollectContentParser.TYPE_TEXT.equals(bean.type)) {
-            String plain = CollectContentParser.resolveDisplayText(bean.type, bean.info);
-            String day = JavaBroadUtil.containsLinkReturnDay(plain);
-            if (!TextUtils.isEmpty(day)) {
-                ToastBroadUtils.show(String.format(
-                        ViewExpandUtilKt.getAppContext(null).getString(
-                                com.cboda.baselibrary.R.string.registered_less_than_days), day));
-                return;
-            }
-        }
+//        if (CollectContentParser.TYPE_TEXT.equals(bean.type)) {
+//            String plain = CollectContentParser.resolveDisplayText(bean.type, bean.info);
+//            String day = JavaBroadUtil.containsLinkReturnDay(plain);
+//            if (!TextUtils.isEmpty(day)) {
+//                ToastBroadUtils.show(String.format(
+//                        ViewExpandUtilKt.getAppContext(null).getString(
+//                                com.cboda.baselibrary.R.string.registered_less_than_days), day));
+//                return;
+//            }
+//        }
         AppMessage outbound = CollectMessageFactory.buildForwardableMessage(
                 bean.type, bean.info);
         if (outbound == null) {
