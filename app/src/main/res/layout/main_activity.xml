@@ -1,70 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/color_msg_page_bg"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_main2">
-
-
+    android:layout_height="match_parent">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
         android:src="@mipmap/ic_bg_top_broad_main"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        app:layout_constraintTop_toTopOf="parent"/>
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"/>
     <View
         android:id="@+id/touch_intercept_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:background="#00000000"
-        android:clickable="true"
         android:focusable="true"
         android:visibility="gone"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <!-- 嵌入 Compose 的底部栏 -->
-
+        app:layout_constraintTop_toTopOf="parent"/>
     <Space
         android:id="@+id/bottomView"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_12"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent"/>
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/compose_bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        app:layout_constraintBottom_toTopOf="@id/bottomView" />
-
-
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        app:layout_constraintBottom_toBottomOf="parent"/>
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/bottomLayout"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent">
-
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:orientation="vertical"
             android:id="@+id/xiaoxiLayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-
+            android:layout_weight="1">
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivXiaoxi"
                 android:layout_width="30dp"
@@ -73,50 +60,41 @@
                 android:src="@mipmap/ic_xiaoxi_broad_true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintTop_toTopOf="parent"/>
             <com.cboda.intelligent.widge.MyUnreadCountTextBroadView
+                android:textColor="#ffffff"
+                android:gravity="center"
                 android:id="@+id/tvXiaoxiNum"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-10dp"
                 android:layout_marginTop="2dp"
-                android:gravity="center"
                 android:text="4"
-                android:textColor="#ffffff"
-                android:visibility="gone"
+                android:layout_marginStart="-10dp"
                 app:layout_constraintStart_toEndOf="@+id/ivXiaoxi"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible" />
-
+                app:layout_constraintTop_toTopOf="parent"/>
             <TextView
+                android:textSize="11sp"
+                android:textColor="@color/color_tab_select"
                 android:id="@+id/tvXiaoxi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="42dp"
                 android:text="@string/xiao_xi"
-                android:textColor="@color/color_tab_select"
-                android:textSize="11sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintTop_toTopOf="parent"/>
             <com.cboda.intelligent.widge.CustomClickBroadView
                 android:id="@+id/clickView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
+                android:layout_height="match_parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:orientation="vertical"
             android:id="@+id/tongxunluLayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-
+            android:layout_weight="1">
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivtongxunlu"
                 android:layout_width="30dp"
@@ -125,45 +103,38 @@
                 android:src="@mipmap/ic_tongxunlu_broad_false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintTop_toTopOf="parent"/>
             <com.cboda.intelligent.widge.MyUnreadCountTextBroadView
+                android:textColor="#ffffff"
+                android:gravity="center"
                 android:id="@+id/tvTongxunLuNum"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-10dp"
                 android:layout_marginTop="2dp"
-                android:gravity="center"
                 android:text="4"
-                android:textColor="#ffffff"
-                android:visibility="gone"
+                android:layout_marginStart="-10dp"
                 app:layout_constraintStart_toEndOf="@+id/ivtongxunlu"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible" />
-
+                app:layout_constraintTop_toTopOf="parent"/>
             <TextView
+                android:textSize="11sp"
+                android:textColor="#9d9da2"
                 android:id="@+id/tvtongxunlu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="42dp"
                 android:text="@string/tongxunlu"
-                android:textColor="#9D9DA2"
-                android:textSize="11sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintTop_toTopOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:orientation="vertical"
             android:id="@+id/xiaochengxuLayout"
+            android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-
+            android:layout_weight="1">
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivxiaochengxu"
                 android:layout_width="30dp"
@@ -172,31 +143,25 @@
                 android:src="@mipmap/ic_xiaochengxu_broad_false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
+                app:layout_constraintTop_toTopOf="parent"/>
             <TextView
+                android:textSize="11sp"
+                android:textColor="#9d9da2"
                 android:id="@+id/tvxiaochengxu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="42dp"
                 android:text="@string/xiaochengxu"
-                android:textColor="#9D9DA2"
-                android:textSize="11sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintTop_toTopOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:orientation="vertical"
             android:id="@+id/faxiaoLayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-
+            android:layout_weight="1">
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivfaxian"
                 android:layout_width="30dp"
@@ -205,31 +170,25 @@
                 android:src="@mipmap/ic_faxian_broad_false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
+                app:layout_constraintTop_toTopOf="parent"/>
             <TextView
+                android:textSize="11sp"
+                android:textColor="#9d9da2"
                 android:id="@+id/tvfaxian"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="42dp"
                 android:text="@string/faxian"
-                android:textColor="#9D9DA2"
-                android:textSize="11sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintTop_toTopOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:orientation="vertical"
             android:id="@+id/wodeLayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-
+            android:layout_weight="1">
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivwode"
                 android:layout_width="30dp"
@@ -238,24 +197,18 @@
                 android:src="@mipmap/ic_wode_broad_false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
+                app:layout_constraintTop_toTopOf="parent"/>
             <TextView
+                android:textSize="11sp"
+                android:textColor="#9d9da2"
                 android:id="@+id/tvwode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="42dp"
                 android:text="@string/wode"
-                android:textColor="#9D9DA2"
-                android:textSize="11sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintTop_toTopOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
     </androidx.appcompat.widget.LinearLayoutCompat>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

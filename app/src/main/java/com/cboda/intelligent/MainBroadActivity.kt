@@ -142,7 +142,6 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private val fromType by lazy(LazyThreadSafetyMode.NONE) { intent?.getStringExtra("type") ?: "" }
     private var needShowAccount = false
     private var selectedIndex by mutableStateOf(0)
-    private var isBottomBarExpanded by mutableStateOf(false)
     private var xiaoxiUnreadCount by mutableStateOf("0")
 
     /** 好友 Tab：好友申请 + 群邀请（与 Message 页「好友」角标同源）。 */
@@ -220,23 +219,19 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             window.setBackgroundBlurRadius(20)
         }
         composeView.setContent {
-            val itemList = arrayListOf(
+            val itemList = listOf(
                 ExpandableBottomBarBroadItem(
                     icon = painterResource(id = R.drawable.ic_home_tab_broad_message),
                     selectedIcon = painterResource(id = R.drawable.ic_home_tab_message_broad_pre),
                     text = stringResource(id = R.string.bottom_bar_social),
                     // 对话 + 私群 + 公群 + 好友
                     badge = socialBottomBadgeText(xiaoxiUnreadCount, tongxunluUnreadCount)
-                )
-            )
-//            if (!HttpsBroadConfig.isReviewEnv) {
-//            }
-            itemList.add(
+                ),
                 ExpandableBottomBarBroadItem(
                     icon = painterResource(id = R.drawable.ic_home_tab_broad_mine),
                     selectedIcon = painterResource(id = R.drawable.ic_home_tab_mine_broad_pre),
                     text = stringResource(id = R.string.bottom_bar_center)
-                )
+                ),
             )
             MaterialTheme {
                 ExpandableBottomBar(
@@ -244,50 +239,12 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                     onItemSelected = { index ->
                         viewPager.setCurrentItem(index, false)
                     },
-                    expanded = isBottomBarExpanded,
-                    onExpandedChange = { isExpanded ->
-                        isBottomBarExpanded = isExpanded
-                        findViewById<View>(R.id.touch_intercept_overlay).visibility =
-                            if (isExpanded) View.VISIBLE else View.GONE
-                    },
-                    items = itemList
-//                    items = listOf(
-//                        ExpandableBottomBarBroadItem(
-//                            icon = painterResource(id = R.drawable.ic_home_tab_broad_mirror),
-//                            selectedIcon = painterResource(id = R.drawable.ic_home_tab_mirror_broad_pre),
-//                            text = stringResource(id = R.string.bottom_bar_mirror)
-//                        ),
-//                        ExpandableBottomBarBroadItem(
-//                            icon = painterResource(id = R.drawable.ic_ai_tab_broad_mirror),
-//                            selectedIcon = painterResource(id = R.drawable.ic_ai_tab_mirror_broad_pre),
-//                            text = stringResource(id = R.string.bottom_bar_intelligent)
-//                        ),
-//                        ExpandableBottomBarBroadItem(
-//                            icon = painterResource(id = R.drawable.ic_home_tab_broad_message),
-//                            selectedIcon = painterResource(id = R.drawable.ic_home_tab_message_broad_pre),
-//                            text = stringResource(id = R.string.bottom_bar_social),
-//                            badge = if (xiaoxiUnreadCount == "0" && tongxunluUnreadCount == "0") "" else ((xiaoxiUnreadCount.toInt()) + (tongxunluUnreadCount.toInt())).toString()
-//                        ),
-////                        ExpandableBottomBarBroadItem(
-////                            icon = painterResource(id = R.drawable.ic_home_tab_contacts),
-////                            selectedIcon = painterResource(id = R.drawable.ic_home_tab_contacts_pre),
-////                            text = "通讯录",
-////                            badge = if (tongxunluUnreadCount == "0") "" else tongxunluUnreadCount
-////                        ),
-//                        ExpandableBottomBarBroadItem(
-//                            icon = painterResource(id = R.drawable.ic_home_tab_broad_mine),
-//                            selectedIcon = painterResource(id = R.drawable.ic_home_tab_mine_broad_pre),
-//                            text = stringResource(id = R.string.bottom_bar_center)
-//                        )
-//                    )
+                    items = itemList,
                 )
             }
         }
 
-        findViewById<View>(R.id.touch_intercept_overlay).setOnClickListener {
-            it.visibility = View.GONE
-            isBottomBarExpanded = false
-        }
+        findViewById<View>(R.id.touch_intercept_overlay).visibility = View.GONE
 
 //        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 //            override fun onPageScrolled(
