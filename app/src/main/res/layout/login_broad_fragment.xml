@@ -135,6 +135,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@mipmap/icon_pwd_broad_close"
+                android:tint="@color/color_9699A3"
                 android:scaleType="centerInside"
                 app:layout_constraintBottom_toBottomOf="@+id/loginPwd"
                 app:layout_constraintEnd_toEndOf="@+id/loginPwd"

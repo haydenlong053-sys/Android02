@@ -416,7 +416,8 @@
             android:exported="false" />
         <activity
             android:name="com.cboda.intelligent.activity.UpdatePwdActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name="com.cboda.intelligent.activity.NewEquipmentBroadActivity"

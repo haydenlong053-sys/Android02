@@ -1102,4 +1102,5 @@
     <string name="new_friend_desc">添加新朋友</string>
     <string name="new_group_invite_desc">邀请加入群聊</string>
     <string name="settings_logout">退出登录</string>
+    <string name="change_pwd_revoked_sessions">密码修改成功，已在其它 %1$d 台设备退出登录</string>
 </resources>

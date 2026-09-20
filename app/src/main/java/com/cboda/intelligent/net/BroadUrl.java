@@ -128,8 +128,12 @@ public class BroadUrl {
     public static String qaList = IP + "qaList";
     //更换手机号
     public static String changePhone = IP + "changePhone";
-    //更换登录密码
+    //更换登录密码（旧）
     public static String changePwd = IP + "changePwd";
+    /** GET /im/user/account — 查询当前登录账号（改密加盐用） */
+    public static String userAccount = IP + "im/user/account";
+    /** POST /im/user/changePassword — 修改登录密码 */
+    public static String changePassword = IP + "im/user/changePassword";
     //验证密保问题
     public static String changeMibao = IP + "changeMibao";
     //黑名单列表

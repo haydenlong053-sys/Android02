@@ -489,4 +489,7 @@
     <string name="请输入图形验证码">请输入图形验证码</string>
     <string name="conversation_list_empty_title">暂无相关数据</string>
     <string name="conversation_list_empty_hint">快去和朋友聊天吧～</string>
+    <string name="auth_password_rule_hint">密码长度6-20位，需包含字母和数字</string>
+    <string name="auth_confirm_new_password_hint">请再次输入新密码</string>
+    <string name="confirm_modify_pwd">确认修改</string>
 </resources>

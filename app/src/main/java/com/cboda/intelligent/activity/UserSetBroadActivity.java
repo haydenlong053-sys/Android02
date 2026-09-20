@@ -145,8 +145,7 @@ public class UserSetBroadActivity extends BaseSimple2BroadActivity implements Vi
             startActivity(intent);
 
         } else if (view.getId() == R.id.llZhanghu) {
-            //                intent = new Intent(this, AccountBroadActivity.class);
-            intent = new Intent(this, ZhaqBroadActivity.class);
+            intent = new Intent(this, UpdatePwdActivity.class);
             startActivity(intent);
         } else if (view.getId() == R.id.llTongyong) {
             intent = new Intent(this, CommonSetBroadActivity.class);
@@ -333,27 +332,24 @@ public class UserSetBroadActivity extends BaseSimple2BroadActivity implements Vi
             @Override
             public void onSuccess(Response response, ResultBroadBean resultBean) {
                 bean = resultBean;
-                if (StringBroadUtil.isEmpty(bean.data.showQuan)) {
-                    bean.data.showQuan = "1";
-                }
-                isHasPassword = !StringBroadUtil.isEmpty(bean.data.paypwd);
-                if (!TextUtils.isEmpty(bean.data.eqno) && TextUtils.equals(bean.data.eqno, eqno)) {
-                    llBindMachineNo.setVisibility(View.GONE);
-                } else {
-                    llBindMachineNo.setVisibility(View.VISIBLE);
-                }
-
-
-                if (resultBean.data.showQuan.equals("0")) {
-                    imPengyouquan.setImageResource(R.mipmap.ic_broad_guan);
-                } else {
-                    imPengyouquan.setImageResource(R.mipmap.ic_broad_kai);
-                }
-
-                if (bean.data.isvip.equals("1"))
-                    llFanYi.setVisibility(View.VISIBLE);
-                else
-                    llFanYi.setVisibility(View.GONE);
+//                if (StringBroadUtil.isEmpty(bean.data.showQuan)) {
+//                    bean.data.showQuan = "1";
+//                }
+//                isHasPassword = !StringBroadUtil.isEmpty(bean.data.paypwd);
+//                if (!TextUtils.isEmpty(bean.data.eqno) && TextUtils.equals(bean.data.eqno, eqno)) {
+//                    llBindMachineNo.setVisibility(View.GONE);
+//                } else {
+//                    llBindMachineNo.setVisibility(View.VISIBLE);
+//                }
+//                if (resultBean.data.showQuan.equals("0")) {
+//                    imPengyouquan.setImageResource(R.mipmap.ic_broad_guan);
+//                } else {
+//                    imPengyouquan.setImageResource(R.mipmap.ic_broad_kai);
+//                }
+//                if (bean.data.isvip.equals("1"))
+//                    llFanYi.setVisibility(View.VISIBLE);
+//                else
+//                    llFanYi.setVisibility(View.GONE);
             }
 
             @Override

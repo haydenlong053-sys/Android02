@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.TextUtils
 import androidx.lifecycle.viewModelScope
 import com.cboda.baselibrary.bean.CaptchaBean
+import com.cboda.baselibrary.bean.ChangePasswordBean
 import com.cboda.baselibrary.bean.FriendBean
 import com.cboda.baselibrary.bean.GlobalFriendBroadBean
 import com.cboda.baselibrary.bean.LoginBean
@@ -116,24 +117,60 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
         mPop.showPopupWindow()
     }
 
-    fun updatePwd(pwd: String): SingleLiveBroadData<Boolean> {
-        val liveData = SingleLiveBroadData<Boolean>()
-        val params = mapOf("pwd" to pwd)
+    /**
+     * POST /im/user/changePassword —— 修改登录密码。
+     * oldPassword / newPassword 均为 `v1$` + hex(SHA-256(明文 + `\n` + account.lower))。
+     */
+    fun changeLoginPassword(
+        account: String,
+        oldPlainPwd: String,
+        newPlainPwd: String,
+    ): SingleLiveBroadData<ChangePasswordBean?> {
+        val liveData = SingleLiveBroadData<ChangePasswordBean?>()
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                try {
-                    val result = NetworkBroadRepository.postEncrypted("api/wanshan", Any::class.java, params)
-                    result.onSuccess { _ ->
-                        liveData.postValue(true)
-                    }.onFailure { _, msg ->
-                        showToastMain(msg)
-                    }.onError { _ ->
-                        showToastMain(R.string.httperror)
-                    }
-                } catch (_: kotlin.Exception) {
+            try {
+                com.cboda.intelligent.utils.showLoading()
+                val saltAccount = account.trim().ifEmpty {
+                    MMKVBroadUtils.getUserName()?.trim().orEmpty()
                 }
+                if (saltAccount.isEmpty()) {
+                    showToastMain(R.string.please_enter_account)
+                    liveData.postValue(null)
+                    return@launch
+                }
+                withContext(Dispatchers.IO) {
+                    val body = mapOf(
+                        "oldPassword" to hashRegisterPassword(oldPlainPwd, saltAccount),
+                        "newPassword" to hashRegisterPassword(newPlainPwd, saltAccount),
+                    )
+                    NetworkBroadRepository.post(
+                        "im/user/changePassword",
+                        ChangePasswordBean::class.java,
+                        body,
+                    ).onSuccess { data ->
+                        liveData.postValue(data)
+                    }.onFailure { _, message ->
+                        showToastMain(message)
+                        liveData.postValue(null)
+                    }.onError {
+                        showToastMain(R.string.httperror)
+                        liveData.postValue(null)
+                    }
+                }
+            } catch (_: Exception) {
+                showToastMain(R.string.httperror)
+                liveData.postValue(null)
+            } finally {
+                com.cboda.intelligent.utils.dismissLoading()
             }
         }
+        return liveData
+    }
+
+    @Deprecated("使用 changeLoginPassword")
+    fun updatePwd(pwd: String): SingleLiveBroadData<Boolean> {
+        val liveData = SingleLiveBroadData<Boolean>()
+        liveData.postValue(false)
         return liveData
     }
 

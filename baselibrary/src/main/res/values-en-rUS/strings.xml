@@ -490,4 +490,7 @@
     <string name="请输入图形验证码">Please enter captcha</string>
     <string name="conversation_list_empty_title">No data yet</string>
     <string name="conversation_list_empty_hint">Go chat with friends~</string>
+    <string name="auth_password_rule_hint">Password must be 6–20 characters and include letters and numbers</string>
+    <string name="auth_confirm_new_password_hint">Please enter the new password again</string>
+    <string name="confirm_modify_pwd">Confirm</string>
 </resources>

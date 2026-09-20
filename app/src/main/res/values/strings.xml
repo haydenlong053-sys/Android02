@@ -1103,4 +1103,5 @@
     <string name="new_friend_desc">Add new friends</string>
     <string name="new_group_invite_desc">Invite to join group chat</string>
     <string name="settings_logout">Log out</string>
+    <string name="change_pwd_revoked_sessions">Password changed. Signed out on %1$d other device(s).</string>
 </resources>
