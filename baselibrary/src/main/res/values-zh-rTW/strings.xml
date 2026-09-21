@@ -378,6 +378,11 @@
     <string name="message_collect_failed">收藏失敗</string>
     <string name="message_recall_failed">撤回失敗</string>
     <string name="message_delete_confirm">確定刪除選中的訊息嗎？</string>
+    <string name="message_delete_for_all">對所有人刪除</string>
+    <string name="message_delete_for_me">從我這端刪除</string>
+    <string name="message_delete_for_all_failed">對所有人刪除失敗</string>
+    <string name="message_delete_for_all_unavailable">訊息尚未同步，無法對所有人刪除</string>
+    <string name="message_delete_for_all_partial">有 %1$d 條訊息刪除失敗</string>
     <string name="send_message">傳送</string>
     <string name="panel_emotion">表情</string>
     <string name="panel_more">更多</string>

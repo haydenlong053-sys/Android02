@@ -553,13 +553,8 @@ public final class ImMessageRepository {
                         deleted.add(snapshot);
                         String sessionId = entity.getSessionId();
                         if (!TextUtils.isEmpty(sessionId)) {
-                            SessionEntity session = r.where(SessionEntity.class)
-                                    .equalTo("sessionId", sessionId)
-                                    .findFirst();
-                            if (session != null
-                                    && SessionLastMessageSync.isSessionLastMessage(session, snapshot)) {
-                                sessionsNeedingPreviewRefresh.add(sessionId);
-                            }
+                            // 凡本会话有删消息都重算摘要，避免 lastMessageId 与主键不一致时漏刷
+                            sessionsNeedingPreviewRefresh.add(sessionId);
                         }
                         entity.deleteFromRealm();
                     }

@@ -23,8 +23,6 @@ import com.freddy.im.call.CallDurationLocalStore
 import com.freddy.im.call.CallSignalSender
 import com.freddy.im.crypto.ImCryptoKeys
 import com.freddy.im.db.ImLocalStore
-import com.freddy.im.db.repository.ImMessageRepository.OnMessageUpdatedCallback
-import com.freddy.im.http.ImHttpConfig
 import com.freddy.im.http.model.im.SessionItem
 import com.freddy.im.listener.OnEventListener
 import com.freddy.im.message.ImGroupChangeManager
@@ -244,26 +242,27 @@ class IMSEventListener(private val userId: String?, private val token: String?) 
             }
         }
 
-        // 消息撤回：0x0202 MessageRepealSig
+        // 对所有人删除 / 撤回信令 0x0202：统一本地删库，UI 不再展示该消息
         else if (push.header.cmd == ImSignalProtos.Cmd.MSG_REPEAL_VALUE && push.hasBody()) {
             try {
                 val sig = MessageRepealSig.parseFrom(
                     push.body.toByteArray()
                 )
                 val messageId = sig.getMessageId()
-                eLogD(tAG, "MSG_REPEAL messageId=$messageId")
+                eLogD(tAG, "MSG_REPEAL(delete) messageId=$messageId")
                 if (TextUtils.isEmpty(messageId)) {
                     return
                 }
-                ImLocalStore.applyMessageRepeal(messageId, OnMessageUpdatedCallback { recalled: AppMessage? ->
-                    if (recalled != null) {
-                        MessageProcessor.getInstance().notifyMessageRepealed(messageId, recalled)
-                        return@OnMessageUpdatedCallback
+                val stub = AppMessage()
+                stub.msgId = messageId
+                stub.clientMsgId = messageId
+                ImLocalStore.deleteMessages(
+                    listOf(stub)
+                ) { deleted ->
+                    if (deleted.isNotEmpty()) {
+                        MessageProcessor.getInstance().notifyMessagesDeleted(deleted)
                     }
-                    ImMessageManager.getInstance().fetchNewMessageList(
-                        messageId
-                    ) { batch: MutableList<AppMessage?>? -> MessageProcessor.getInstance().receiveMsg(batch) }
-                })
+                }
             } catch (e: Exception) {
                 eLogD(tAG, "解析 MessageRepealSig 失败", e)
             }

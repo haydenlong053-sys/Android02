@@ -92,8 +92,11 @@ public final class SessionRealmMapper {
             if (item.getMemChgTime() <= 0L && existing.getMemChgTime() > 0L) {
                 entity.setMemChgTime(existing.getMemChgTime());
             }
-            // getList 通常不带 last*；空则保留本地摘要，避免刷新冲掉会话预览
-            if (TextUtils.isEmpty(item.getLastMessageId())) {
+            // getList 通常不带 last*；空则保留本地摘要，避免刷新冲掉会话预览。
+            // 若服务端带了 last*，但本地 syncedMax 已覆盖该条：以本地摘要为准
+            // （本地删除最新消息后摘要已回退，不能被服务端仍指向的已删消息冲掉）。
+            if (TextUtils.isEmpty(item.getLastMessageId())
+                    || shouldPreferLocalLastMessage(existing, item)) {
                 if (!TextUtils.isEmpty(existing.getLastMessageId())) {
                     entity.setLastMessageId(existing.getLastMessageId());
                 }
@@ -135,6 +138,22 @@ public final class SessionRealmMapper {
             }
         }
         return entity;
+    }
+
+    /**
+     * 本地同步水位已覆盖服务端摘要 messageId 时，会话预览以本地为准。
+     */
+    private static boolean shouldPreferLocalLastMessage(@NonNull SessionEntity existing,
+                                                        @NonNull SessionItem item) {
+        if (TextUtils.isEmpty(existing.getLastMessageId())) {
+            return false;
+        }
+        long serverSeq = ImMessageManager.extractTrailingSequence(item.getLastMessageId());
+        if (serverSeq == ImMessageManager.INVALID_SEQUENCE) {
+            return false;
+        }
+        long syncedSeq = existing.getSyncedMaxSequence();
+        return syncedSeq > 0L && syncedSeq >= serverSeq;
     }
 
     @NonNull

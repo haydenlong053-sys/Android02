@@ -395,6 +395,11 @@
     <string name="message_collect_failed">Failed to save</string>
     <string name="message_recall_failed">Failed to recall</string>
     <string name="message_delete_confirm">Delete the selected messages?</string>
+    <string name="message_delete_for_all">Delete for everyone</string>
+    <string name="message_delete_for_me">Delete for me</string>
+    <string name="message_delete_for_all_failed">Failed to delete for everyone</string>
+    <string name="message_delete_for_all_unavailable">Message is not synced yet and cannot be deleted for everyone</string>
+    <string name="message_delete_for_all_partial">%1$d message(s) failed to delete</string>
     <string name="send_message">Send</string>
     <string name="panel_emotion">Emoji</string>
     <string name="panel_more">More</string>

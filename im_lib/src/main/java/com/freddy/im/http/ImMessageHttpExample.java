@@ -12,6 +12,7 @@ import com.cboda.baselibrary.utils.HttpsBroadConfig;
 import com.freddy.im.db.ImDbExecutor;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.api.CreateGroupApi;
+import com.freddy.im.http.api.DeleteForAllMessageApi;
 import com.freddy.im.http.api.FileUploadApi;
 import com.freddy.im.http.api.GetConversationListApi;
 import com.freddy.im.http.api.GetGroupDetailApi;
@@ -827,6 +828,50 @@ public final class ImMessageHttpExample {
                     @Override
                     public void onHttpFail(@NonNull Throwable throwable) {
                         Log.e(MY_TAG, "repeal 请求失败: " + throwable.getMessage());
+                        if (onFail != null) {
+                            onFail.run();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * POST {@code im/message/deleteForAll}：对所有人删除（§ msgDeleteForAll）。
+     * <p>
+     * {@code content} 为删除失败的 messageId 列表；空数组表示全部成功。
+     * 对端仍收到 {@code 0x0202}；客户端将该信令按本地删库处理（UI 不再展示）。
+     */
+    public static void requestDeleteForAll(@NonNull List<String> messageIds,
+                                           @Nullable OnHttpImListener<List<String>> callback,
+                                           @Nullable Runnable onFail) {
+        if (messageIds == null || messageIds.isEmpty()) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.post(ApplicationLifecycle.getInstance())
+                .api(new DeleteForAllMessageApi().setMessageIds(messageIds))
+                .request(new OnHttpListener<BaseMsgResponse<List<String>>>() {
+                    @Override
+                    public void onHttpSuccess(@NonNull BaseMsgResponse<List<String>> result) {
+                        if (!result.isSuccess()) {
+                            Log.e(MY_TAG, "deleteForAll 业务错误: errorCode=" + result.getErrorCode()
+                                    + " msg=" + result.getErrorMsg());
+                            if (onFail != null) {
+                                ToastBroadUtils.show(result.getErrorMsg());
+                            }
+                            return;
+                        }
+                        List<String> failed = result.getContent();
+                        if (callback != null) {
+                            callback.onHttpImSuccess(failed != null ? failed : Collections.emptyList());
+                        }
+                    }
+
+                    @Override
+                    public void onHttpFail(@NonNull Throwable throwable) {
+                        Log.e(MY_TAG, "deleteForAll 请求失败: " + throwable.getMessage());
                         if (onFail != null) {
                             onFail.run();
                         }

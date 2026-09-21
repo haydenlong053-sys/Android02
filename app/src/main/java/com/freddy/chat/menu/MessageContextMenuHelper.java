@@ -35,10 +35,11 @@ public final class MessageContextMenuHelper {
         List<ChatPopBroadMenu.ChatPopMenuAction> menuActions = new ArrayList<>();
         Context context = anchor.getContext();
 
-        if (MessageMenuPolicy.canRecall(message, currentUserId, skipRecallTimeLimit)) {
-            menuActions.add(action(context, com.cboda.chatui.R.string.message_recall,
-                    () -> actions.onRecallMessage(message)));
-        }
+        // 撤回入口已隐藏；对所有人删除走 deleteForAll，0x0202 统一本地删库
+//        if (MessageMenuPolicy.canRecall(message, currentUserId, skipRecallTimeLimit)) {
+//            menuActions.add(action(context, com.cboda.chatui.R.string.message_recall,
+//                    () -> actions.onRecallMessage(message)));
+//        }
         if (MessageMenuPolicy.canCopy(message)) {
             menuActions.add(action(context, com.cboda.chatui.R.string.message_copy,
                     () -> actions.onCopyMessage(message)));

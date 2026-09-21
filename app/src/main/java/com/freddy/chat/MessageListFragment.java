@@ -52,10 +52,12 @@ import com.cboda.intelligent.activity.im.ImGroupIntent;
 import com.cboda.intelligent.activity.im.ImGroupMemberUiMapper;
 import com.cboda.intelligent.activity.im.ImQunInfo2BroadActivity;
 import com.cboda.intelligent.activity.im.ImQunMemberListBroadActivity;
+import com.cboda.intelligent.dialog.MessageDeleteOptionsDialogFra;
 import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.chat.im.MessageBuilder;
 import com.freddy.chat.im.MessageProcessor;
+import com.freddy.chat.menu.MessageMenuPolicy;
 import com.freddy.chat.mention.ImMentionContract;
 import com.freddy.chat.mention.ImMentionHelper;
 import com.freddy.chat.mention.ImMentionMemberActivity;
@@ -1487,7 +1489,102 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
     @Override
     public void onDeleteMessage(@NonNull AppMessage message) {
-        deleteMessagesLocally(Collections.singletonList(message));
+        showDeleteOptionsDialog(Collections.singletonList(message));
+    }
+
+    private void showDeleteOptionsDialog(@NonNull List<AppMessage> messages) {
+        if (messages.isEmpty() || !isAdded()) {
+            return;
+        }
+        boolean canForAll = false;
+        for (AppMessage message : messages) {
+            if (message != null && MessageMenuPolicy.canDeleteForAll(message)) {
+                canForAll = true;
+                break;
+            }
+        }
+        MessageDeleteOptionsDialogFra.show(getChildFragmentManager(), canForAll,
+                new MessageDeleteOptionsDialogFra.OnDeleteOptionClick() {
+                    @Override
+                    public void onDeleteForAll() {
+                        deleteMessagesForAll(messages);
+                    }
+
+                    @Override
+                    public void onDeleteForMe() {
+                        deleteMessagesLocally(messages);
+                        if (isInMultiSelectMode()) {
+                            exitMultiSelectMode();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 对所有人删除：POST /im/message/deleteForAll。
+     * 成功后本端本地删库（与 0x0202 信令侧一致），UI 不再展示；失败 id 保留。
+     */
+    private void deleteMessagesForAll(@NonNull List<AppMessage> messages) {
+        List<String> messageIds = new ArrayList<>();
+        List<AppMessage> deletable = new ArrayList<>();
+        List<AppMessage> localOnly = new ArrayList<>();
+        for (AppMessage message : messages) {
+            if (message == null) {
+                continue;
+            }
+            if (MessageMenuPolicy.canDeleteForAll(message)) {
+                messageIds.add(message.getMsgId());
+                deletable.add(message);
+            } else {
+                localOnly.add(message);
+            }
+        }
+        if (!localOnly.isEmpty()) {
+            deleteMessagesLocally(localOnly);
+        }
+        if (messageIds.isEmpty()) {
+            Toast.makeText(requireContext(),
+                    com.cboda.baselibrary.R.string.message_delete_for_all_unavailable,
+                    Toast.LENGTH_SHORT).show();
+            if (isInMultiSelectMode()) {
+                exitMultiSelectMode();
+            }
+            return;
+        }
+        ImMessageHttpExample.requestDeleteForAll(messageIds,
+                failedIds -> runOnUiThreadSafe(() -> {
+                    java.util.HashSet<String> failedSet = new java.util.HashSet<>();
+                    if (failedIds != null) {
+                        failedSet.addAll(failedIds);
+                    }
+                    List<AppMessage> toDelete = new ArrayList<>();
+                    for (AppMessage message : deletable) {
+                        String msgId = message.getMsgId();
+                        if (msgId != null && !failedSet.contains(msgId)) {
+                            toDelete.add(message);
+                        }
+                    }
+                    if (!toDelete.isEmpty()) {
+                        deleteMessagesLocally(toDelete);
+                    }
+                    if (!failedSet.isEmpty()) {
+                        Toast.makeText(requireContext(),
+                                getString(com.cboda.baselibrary.R.string.message_delete_for_all_partial,
+                                        failedSet.size()),
+                                Toast.LENGTH_SHORT).show();
+                    } else if (toDelete.isEmpty()) {
+                        Toast.makeText(requireContext(),
+                                com.cboda.baselibrary.R.string.message_delete_for_all_failed,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    if (isInMultiSelectMode()) {
+                        exitMultiSelectMode();
+                    }
+                }),
+                () -> runOnUiThreadSafe(() ->
+                        Toast.makeText(requireContext(),
+                                com.cboda.baselibrary.R.string.message_delete_for_all_failed,
+                                Toast.LENGTH_SHORT).show()));
     }
 
     @Override
@@ -1594,12 +1691,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                     exitMultiSelectMode();
                     return;
                 }
-                new AlertDialog.Builder(requireContext())
-                        .setMessage(com.cboda.baselibrary.R.string.message_delete_confirm)
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .setPositiveButton(android.R.string.ok, (d, w) ->
-                                deleteMessagesLocally(checked))
-                        .show();
+                showDeleteOptionsDialog(checked);
             }
         });
         multiMessageActionContainer.addView(bar);

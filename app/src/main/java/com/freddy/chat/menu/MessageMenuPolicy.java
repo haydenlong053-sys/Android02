@@ -30,6 +30,7 @@ public final class MessageMenuPolicy {
     /**
      * @param skipTimeLimit 群主/管理员可跳过 {@link BroadConfig#RECALL_TIME_LIMIT} 时限
      *                      （仍仅能撤回自己发出的消息）。
+     *                      长按菜单已隐藏撤回入口；本方法仍可供其它逻辑判断。
      */
     public static boolean canRecall(@NonNull AppMessage message,
                                     @Nullable String currentUserId,
@@ -55,6 +56,19 @@ public final class MessageMenuPolicy {
         }
         long limitMs = BroadConfig.RECALL_TIME_LIMIT * 1000L;
         return System.currentTimeMillis() - millis < limitMs;
+    }
+
+    /**
+     * 是否可「对所有人删除」：需已有服务端 messageId（不限发送人、不限时间）。
+     */
+    public static boolean canDeleteForAll(@NonNull AppMessage message) {
+        if (!supportsContextMenu(message)) {
+            return false;
+        }
+        if (TextUtils.isEmpty(message.getMsgId())) {
+            return false;
+        }
+        return message.getSendStatus() != IMSConfig.SEND_STATUS_SENDING;
     }
 
 //    public static boolean canRecall(@NonNull AppMessage message, @Nullable String currentUserId) {

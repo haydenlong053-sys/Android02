@@ -172,7 +172,11 @@ public final class SessionLastMessageSync {
     }
 
     /**
-     * 本地删除消息后，若被删消息为会话最近一条，则回查剩余最新一条并刷新摘要（须在 Realm 写事务内调用）。
+     * 本地删除消息后，回查剩余最新一条并刷新摘要（须在 Realm 写事务内调用）。
+     * <p>
+     * 排序与 {@link com.freddy.im.db.repository.ImMessageRepository#queryLatestPageBySessionId}
+     * 一致：优先 {@code timestamp}，同毫秒再用 {@code sequenceId}，避免仅按 sequenceId
+     * 把失败/未编号消息或旧消息误当成最新摘要。
      */
     @Nullable
     public static SessionItem refreshSessionPreviewAfterDelete(@NonNull Realm realm,
@@ -188,7 +192,8 @@ public final class SessionLastMessageSync {
         }
         MessageEntity latest = realm.where(MessageEntity.class)
                 .equalTo("sessionId", sessionId)
-                .sort("sequenceId", Sort.DESCENDING)
+                .sort(new String[]{"timestamp", "sequenceId"},
+                        new Sort[]{Sort.DESCENDING, Sort.DESCENDING})
                 .findFirst();
         if (latest != null) {
             AppMessage message = MessageRealmMapper.toAppMessage(latest);
@@ -459,17 +464,23 @@ public final class SessionLastMessageSync {
     static boolean isNewerThanSession(@NonNull AppMessage message, @NonNull SessionEntity session) {
         long msgSeq = effectiveSequence(message);
         long sessionSeq = ImMessageManager.extractTrailingSequence(session.getLastMessageId());
-        if (msgSeq > 0L && sessionSeq != ImMessageManager.INVALID_SEQUENCE) {
+        // 双方都有合法 sequence：只比 seq，避免时间戳抖动把旧消息写成摘要
+        if (msgSeq > ImMessageManager.INVALID_SEQUENCE
+                && sessionSeq != ImMessageManager.INVALID_SEQUENCE) {
             return msgSeq > sessionSeq;
         }
-        if (msgSeq > sessionSeq) {
-            return true;
-        }
         long msgTime = message.getTimestamp();
-        if (msgTime <= 0L) {
+        if (msgTime <= 0L && msgSeq > ImMessageManager.INVALID_SEQUENCE) {
             msgTime = msgSeq;
         }
-        return msgTime > session.getLastMessageTime();
+        long sessionTime = session.getLastMessageTime();
+        if (sessionTime > 0L) {
+            // 会话摘要已有时间：仅当候选时间更新才覆盖（禁止 seq=0 的 UUID 摘要被任意服务端消息冲掉）
+            return msgTime > sessionTime;
+        }
+        // 会话尚无摘要：有合法 seq 的消息可以写入
+        return msgSeq > ImMessageManager.INVALID_SEQUENCE
+                || msgTime > 0L;
     }
 
     private static int compareMessageOrder(@NonNull AppMessage a, @NonNull AppMessage b) {
