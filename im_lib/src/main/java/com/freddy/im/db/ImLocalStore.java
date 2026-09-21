@@ -270,6 +270,16 @@ public final class ImLocalStore {
         ImMessageRepository.getInstance().markOutgoingResending(clientMsgId, onUpdated);
     }
 
+    /**
+     * 进程被杀后恢复发送超时：已超时的标失败，未超时的继续倒计时。
+     */
+    public static void recoverOutgoingSendingTimeouts(
+            @Nullable ImMessageRepository.OnMessageUpdatedCallback onExpiredUpdated,
+            @Nullable ImMessageRepository.OnPendingSendingTimeoutCallback onPending) {
+        ImMessageRepository.getInstance().recoverOutgoingSendingTimeouts(onExpiredUpdated, onPending);
+    }
+
+
     /** 批量删除本地消息；删到会话最后一条时重算摘要。 */
     public static void deleteMessages(@Nullable List<AppMessage> messages,
                                       @Nullable ImMessageRepository.OnMessagesDeletedCallback onDeleted) {

@@ -42,6 +42,7 @@ import com.freddy.im.signal.ImSignalProtos
 import com.freddy.im.util.ImUtils
 import com.cboda.baselibrary.utils.getAppVersion
 import com.cboda.baselibrary.utils.showIMKeyErrorToast
+import com.freddy.im.message.ImMessageManager
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.WriterException
