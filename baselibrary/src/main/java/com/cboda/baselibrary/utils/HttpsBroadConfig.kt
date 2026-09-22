@@ -70,13 +70,13 @@ object HttpsBroadConfig {
     var appWebHost = "https://app.seekweb4.net" //协议默认用美区
 
     private val netItems = arrayListOf(
-        "82\nhttp://119.45.9.228:82",
-        "https\nhttps://api.seekweb4.net",
-        "fat\nhttps://api-fat.seekweb4.net",
+        "82\n",
+        "https\n",
+        "fat\n",
         "自定义",
-        "US\nhttps://app.seekweb4.net",
-        "HongKong\nhttps://api.seekweb4.ai",
-        "fat_ip\nhttp://95.40.9.142",
+        "US\n",
+        "HongKong\n",
+        "fat_ip\n",
     )
     const val RELEASE_TYPE = 0
     private const val HTTP_TYPE = 1
