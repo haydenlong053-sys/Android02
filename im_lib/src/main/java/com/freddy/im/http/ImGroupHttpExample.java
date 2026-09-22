@@ -22,6 +22,7 @@ import com.freddy.im.http.api.GetGroupListApi;
 import com.freddy.im.http.api.GetGroupMemberListApi;
 import com.freddy.im.http.api.GetGroupNoticeApi;
 import com.freddy.im.http.api.GetGroupQrCodeApi;
+import com.freddy.im.http.api.GetGroupWelcomeApi;
 import com.freddy.im.http.api.GetSpecifyMembersApi;
 import com.freddy.im.http.api.GroupFriendsApi;
 import com.freddy.im.http.api.InviteInGroupApi;
@@ -34,6 +35,7 @@ import com.freddy.im.http.api.SearchMembersApi;
 import com.freddy.im.http.api.SetAllMuteApi;
 import com.freddy.im.http.api.SetGroupManagerApi;
 import com.freddy.im.http.api.SetGroupNicknameApi;
+import com.freddy.im.http.api.SetGroupWelcomeApi;
 import com.freddy.im.http.api.SetMembersMuteApi;
 import com.freddy.im.http.api.TransferGroupApi;
 import com.freddy.im.http.api.UpdateGroupNoticeApi;
@@ -45,6 +47,7 @@ import com.freddy.im.http.model.im.GroupMemberChangeListContent;
 import com.freddy.im.http.model.im.GroupMemberListContent;
 import com.freddy.im.http.model.im.GroupNoticeRes;
 import com.freddy.im.http.model.im.GroupQrCodeRes;
+import com.freddy.im.http.model.im.GroupWelcomeRes;
 import com.freddy.im.http.model.im.GroupQrInfoRes;
 import com.freddy.im.http.model.im.GroupUserVo;
 import com.freddy.im.http.model.im.GroupVo;
@@ -540,6 +543,62 @@ public final class ImGroupHttpExample {
                     @Override
                     public void onHttpFail(@NonNull Throwable throwable) {
                         logHttpFail("updateGroupNotice", throwable);
+                        if (onFail != null) {
+                            onFail.run();
+                        }
+                    }
+                });
+    }
+
+    /** GET {@code api/im/group/getGroupWelcome/{groupId}}：查询入群欢迎语。 */
+    public static void requestGetGroupWelcome(@NonNull String groupId,
+                                              @NonNull OnHttpImListener<GroupWelcomeRes> callback,
+                                              @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(groupId)) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.get(ApplicationLifecycle.getInstance())
+                .api(new GetGroupWelcomeApi().setGroupId(groupId))
+                .request(getListener("getGroupWelcome", callback, onFail, false, GroupWelcomeRes.class));
+    }
+
+    /**
+     * POST {@code api/im/group/setGroupWelcome}：设置入群欢迎语。
+     * {@code enabled} 由调用方按「有内容开、无内容关」决定。
+     */
+    public static void requestSetGroupWelcome(@NonNull String groupId,
+                                              boolean enabled,
+                                              @Nullable String content,
+                                              @NonNull OnHttpImListener<BaseMsgResponse<Void>> callback,
+                                              @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(groupId)) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.post(ApplicationLifecycle.getInstance())
+                .api(new SetGroupWelcomeApi()
+                        .setGroupId(groupId)
+                        .setEnabled(enabled)
+                        .setContent(content != null ? content : ""))
+                .request(new OnHttpListener<BaseMsgResponse<Void>>() {
+                    @Override
+                    public void onHttpSuccess(@NonNull BaseMsgResponse<Void> result) {
+                        if (!result.isSuccess()) {
+                            logBizError("setGroupWelcome", result);
+                            ToastBroadUtils.show(result.getErrorMsg());
+                            return;
+                        }
+                        callback.onHttpImSuccess(result);
+                    }
+
+                    @Override
+                    public void onHttpFail(@NonNull Throwable throwable) {
+                        logHttpFail("setGroupWelcome", throwable);
                         if (onFail != null) {
                             onFail.run();
                         }

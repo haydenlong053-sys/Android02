@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_F2F3F5"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_24"
+        android:text="@string/欢迎语"
+        android:textColor="@color/black_65"
+        android:textSize="14sp" />
+
+    <com.hjq.shape.layout.ShapeConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_309"
+        android:layout_marginHorizontal="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_12"
+        app:shape_radius="@dimen/dp_10"
+        app:shape_solidColor="@color/white">
+
+        <EditText
+            android:id="@+id/edtBeizhu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="start"
+            android:hint="@string/添加欢迎语"
+            android:maxLength="500"
+            android:padding="@dimen/dp_16"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black_35"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvNumHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:alpha="0"
+            android:text="0/500"
+            android:textColor="@color/color_text0"
+            android:textColorHint="@color/color_text0"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:alpha="1" />
+
+    </com.hjq.shape.layout.ShapeConstraintLayout>
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/tvAgree"
+        style="@style/btn_ok"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_46"
+        android:layout_marginHorizontal="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_32"
+        android:alpha="1"
+        android:gravity="center"
+        android:text="@string/mine_sure"
+        android:textSize="16sp" />
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/tvNotAgree"
+        style="@style/btn_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_46"
+        android:layout_marginHorizontal="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_24"
+        android:gravity="center"
+        android:text="@string/cancel"
+        android:textSize="16sp" />
+
+</LinearLayout>

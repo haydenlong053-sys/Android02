@@ -111,6 +111,34 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="10dp"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
+    <View
+        android:id="@+id/ruqunhuanyingyuLine"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        style="@style/Line2"/>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:gravity="center_vertical"
+        android:id="@+id/ruqunhuanyingyu"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="54dp">
+        <TextView
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:ellipsize="end"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/欢迎语"
+            android:maxLines="1"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="10dp"/>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/ic_broad_next2"
+            android:scaleType="centerInside"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:gravity="center_vertical"
         android:id="@+id/commercialFunctionLayout"

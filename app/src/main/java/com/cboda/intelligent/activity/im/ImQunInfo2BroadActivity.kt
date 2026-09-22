@@ -115,6 +115,8 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
     private lateinit var wodequnbnicjheng: TextView
     private lateinit var qingkong: LinearLayoutCompat
     private lateinit var qungonggao: LinearLayoutCompat
+    private lateinit var ruqunhuanyingyu: LinearLayoutCompat
+    private lateinit var ruqunhuanyingyuLine: View
     private lateinit var mTvNoticeSet: TextView
     private lateinit var mTvNoticeDes: TextView
     private lateinit var zidongfanyiView: View
@@ -182,6 +184,8 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         zidongfanyi = findViewById(R.id.zidongfanyi)
         zidongfanyiView = findViewById(R.id.zidongfanyiView)
         qungonggao = findViewById(R.id.qungonggao)
+        ruqunhuanyingyu = findViewById(R.id.ruqunhuanyingyu)
+        ruqunhuanyingyuLine = findViewById(R.id.ruqunhuanyingyuLine)
         mTvNoticeSet = findViewById(R.id.mTvNoticeSet)
         mTvNoticeDes = findViewById(R.id.mTvNoticeDes)
         qingkong = findViewById(R.id.qingkong)
@@ -359,6 +363,8 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 //        shezhiqunnicheng.isEnabled = canManage
 //        qungonggao.isEnabled = canManage
         findViewById<View>(R.id.qunjinmyan)?.isVisible = canManage
+        ruqunhuanyingyu.isVisible = canManage
+        ruqunhuanyingyuLine.isVisible = canManage
 
         zhiding.isChecked = vo.busiExt?.isZd == "1"
         miaodarao.isChecked = state.sessionMuted
@@ -427,6 +433,9 @@ class ImQunInfo2BroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
                 return@setOnClickListener
             }
             JumpBroadUtils.startImQunGongGaoActivity(this, qunId, mTvNoticeDes.text?.toString() ?: "")
+        }
+        ruqunhuanyingyu.setOnClickListener {
+            JumpBroadUtils.startImQunWelcomeActivity(this, qunId)
         }
         shezhiquntou.setOnClickListener { pickAndUploadAvatar() }
         // 置顶 / 取消置顶：api/im/conversation/sessionTop（开关态以 busiExt.isZd 为准）

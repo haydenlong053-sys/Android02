@@ -494,6 +494,7 @@
     <string name="group_notice_empty">Announcement cannot be empty</string>
     <string name="group_notice_save_success">Announcement saved</string>
     <string name="group_notice_save_failed">Failed to save announcement</string>
+    <string name="group_welcome_save_failed">Failed to save group welcome message</string>
     <string name="group_apply_title">Join requests</string>
     <string name="group_apply_empty">No join requests</string>
     <string name="group_apply_load_failed">Failed to load requests</string>

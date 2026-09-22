@@ -188,6 +188,7 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
         String keFuId = MMKVBroadUtils.Companion.getKeFuId();
         if (context.portraitClickListener == null
                 || TextUtils.isEmpty(senderId)
+                || TextUtils.equals(senderId,WeChatUiHelper.IM_GROUP_BOT)
                 || (!TextUtils.isEmpty(keFuId) && TextUtils.equals(senderId, keFuId))) {
             avatarLeft.setOnClickListener(null);
             avatarRight.setOnClickListener(null);

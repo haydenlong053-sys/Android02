@@ -57,6 +57,7 @@ import com.cboda.intelligent.activity.im.ImQunGerenPageBroadActivity
 import com.cboda.intelligent.activity.im.ImQunNichengBroadActivity
 import com.cboda.intelligent.activity.im.ImQunGongGaoBroadActivity
 import com.cboda.intelligent.activity.im.ImQunGongGaoInfoBroadActivity
+import com.cboda.intelligent.activity.im.ImQunWelcomeBroadActivity
 import com.cboda.intelligent.activity.im.ImQunInfo2BroadActivity
 import com.cboda.intelligent.activity.im.ImQunJinYanBroadActivity
 import com.cboda.intelligent.activity.im.ImQunJinYanMemberBroadActivity
@@ -362,6 +363,13 @@ class JumpBroadUtils {
             val intent = Intent(context, ImQunGongGaoBroadActivity::class.java)
             intent.putExtra("qunid", qunId)
             intent.putExtra(ImGroupIntent.EXTRA_NOTICE, notice)
+            context?.startActivity(intent)
+        }
+
+        /** 自研入群欢迎语编辑页。 */
+        fun startImQunWelcomeActivity(context: Context?, qunId: String) {
+            val intent = Intent(context, ImQunWelcomeBroadActivity::class.java)
+            intent.putExtra("qunid", qunId)
             context?.startActivity(intent)
         }
 

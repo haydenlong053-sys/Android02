@@ -31,7 +31,8 @@ import java.util.Map;
 public final class WeChatUiHelper {
 
     private static final long TIME_GAP_SHOW_DIVIDER_MS = 5 * 60 * 1000L;
-
+    //机器人im_sender的固定值
+    public static final String IM_GROUP_BOT="im_group_bot";
     private WeChatUiHelper() {
     }
 
@@ -285,6 +286,9 @@ public final class WeChatUiHelper {
         if (member != null) {
             return member.getDisplayName();
         } else {
+            if (TextUtils.equals(userId,IM_GROUP_BOT)){
+                return "群助手";
+            }
             String friendName = RealmUtil.INSTANCE.findFriendDisplayName(userId);
             if (!TextUtils.isEmpty(friendName)) {
                 return MessageContentFormatter.preferShortDisplayName(friendName);

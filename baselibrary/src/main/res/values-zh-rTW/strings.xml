@@ -477,6 +477,7 @@
     <string name="group_notice_empty">公告內容不能為空</string>
     <string name="group_notice_save_success">公告已儲存</string>
     <string name="group_notice_save_failed">儲存公告失敗</string>
+    <string name="group_welcome_save_failed">儲存入群歡迎語失敗</string>
     <string name="group_apply_title">入群申請</string>
     <string name="group_apply_empty">暫無入群申請</string>
     <string name="group_apply_load_failed">載入申請列表失敗</string>
