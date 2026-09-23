@@ -11,7 +11,6 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import androidx.activity.viewModels
-import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.setEdTextChange
 import com.cboda.baselibrary.utils.setInputTypeKeepingCursor
@@ -24,6 +23,7 @@ import com.cboda.intelligent.viewmodel.LoginViewBroadModel
 
 /**
  * 修改登录密码：对齐登录页表单风格，对接 POST /im/user/changePassword。
+ * 展示账号取自 GET /im/user/account。
  */
 class UpdatePwdActivity : BaseSimple2BroadActivity() {
 
@@ -53,8 +53,16 @@ class UpdatePwdActivity : BaseSimple2BroadActivity() {
         bindPwdLookTouch(mBinding?.newPwdLook, mBinding?.newPwdEt)
         bindPwdLookTouch(mBinding?.againPwdLook, mBinding?.againPwdEt)
 
-        mBinding?.accountEt?.setText(MMKVBroadUtils.getUserName().orEmpty())
+        loadAccount()
         refreshSubmitEnabled()
+    }
+
+    private fun loadAccount() {
+        viewModel.fetchLoginAccount().observe(this) { account ->
+            if (!account.isNullOrEmpty()) {
+                mBinding?.accountEt?.setText(account)
+            }
+        }
     }
 
     private fun styleToolbarLikeSettings() {

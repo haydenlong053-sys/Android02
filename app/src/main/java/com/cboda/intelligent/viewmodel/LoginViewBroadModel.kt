@@ -118,6 +118,37 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
     }
 
     /**
+     * GET /im/user/account —— 查询当前登录账号（改密加盐 / 展示用）。
+     * `content` 直接是 account 字符串。
+     */
+    fun fetchLoginAccount(): SingleLiveBroadData<String?> {
+        val liveData = SingleLiveBroadData<String?>()
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    NetworkBroadRepository.get(
+                        "im/user/account",
+                        String::class.java,
+                    ).onSuccess { data ->
+                        val account = data?.trim().orEmpty()
+                        liveData.postValue(account.ifEmpty { null })
+                    }.onFailure { _, message ->
+                        showToastMain(message)
+                        liveData.postValue(null)
+                    }.onError {
+                        showToastMain(R.string.httperror)
+                        liveData.postValue(null)
+                    }
+                } catch (_: Exception) {
+                    showToastMain(R.string.httperror)
+                    liveData.postValue(null)
+                }
+            }
+        }
+        return liveData
+    }
+
+    /**
      * POST /im/user/changePassword —— 修改登录密码。
      * oldPassword / newPassword 均为 `v1$` + hex(SHA-256(明文 + `\n` + account.lower))。
      */
@@ -130,9 +161,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
         viewModelScope.launch {
             try {
                 com.cboda.intelligent.utils.showLoading()
-                val saltAccount = account.trim().ifEmpty {
-                    MMKVBroadUtils.getUserName()?.trim().orEmpty()
-                }
+                val saltAccount = account.trim()
                 if (saltAccount.isEmpty()) {
                     showToastMain(R.string.please_enter_account)
                     liveData.postValue(null)
