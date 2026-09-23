@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.cboda.baselibrary.utils.GlideUtilsKt;
 import com.cboda.intelligent.R;
 
 /**
@@ -33,5 +34,14 @@ public final class AvatarViews {
                             @Nullable String labelFallback) {
         AvatarLoader.bind(imageView(includeRoot), fallback(includeRoot),
                 imageUrl, labelPrimary, labelFallback);
+    }
+
+    public static void bind2(@NonNull View includeRoot,
+                            @Nullable String imageUrl,
+                            @Nullable String labelPrimary,
+                            @Nullable String labelFallback) {
+        fallback(includeRoot).setVisibility(View.GONE);
+        imageView(includeRoot).setVisibility(View.VISIBLE);
+        GlideUtilsKt.loadImg(imageView(includeRoot),imageUrl);
     }
 }

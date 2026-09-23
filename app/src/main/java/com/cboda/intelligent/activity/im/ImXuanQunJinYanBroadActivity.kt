@@ -232,7 +232,7 @@ class ImXuanQunJinYanBroadActivity : BaseSimple2BroadActivity() {
             val userId = item.userId ?: return
             val name = item.displayName.ifEmpty { userId }
             holder.name.text = name
-            AvatarViews.bind(holder.avatar, item.headPortrait, name, name)
+            AvatarViews.bind2(holder.avatar, item.headPortrait, name, name)
             holder.check.setImageResource(
                 if (selected.contains(userId)) R.drawable.ic_broad_yixuanz
                 else R.drawable.ic_broad_weixuanz
