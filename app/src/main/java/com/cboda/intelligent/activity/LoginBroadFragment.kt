@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.setEdTextChange
 import com.cboda.baselibrary.utils.setInputTypeKeepingCursor
@@ -22,6 +23,8 @@ import com.cboda.intelligent.databinding.LoginBroadFragmentBinding
 class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginViewBroadModel>() {
 
     private var captchaId: String = ""
+    /** 是否已因登录失败要求图形验证码（默认隐藏）。 */
+    private var captchaRequired = false
 
     override fun onCreateViewBinding(
         inflater: LayoutInflater,
@@ -40,7 +43,7 @@ class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginVie
             R.drawable.bg_auth_btn,
         )
         binding.loginLookPwd.isGone = false
-        refreshCaptcha()
+        hideCaptcha()
     }
 
     override fun initListener() {
@@ -65,8 +68,13 @@ class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginVie
                 pwd = binding.loginPwd.text.toString(),
                 captchaId = captchaId,
                 captcha = binding.loginCaptcha.text.toString(),
-                requireCaptcha = true,
-                onCaptchaInvalid = { refreshCaptcha() },
+                requireCaptcha = captchaRequired,
+                onNeedCaptcha = { showCaptchaAndRefresh() },
+                onCaptchaInvalid = {
+                    if (captchaRequired) {
+                        refreshCaptcha()
+                    }
+                },
             )
         }
         binding.oneLogin.click {
@@ -88,18 +96,36 @@ class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginVie
         }
     }
 
+    private fun hideCaptcha() {
+        captchaRequired = false
+        captchaId = ""
+        binding.loginCaptchaLayout.isGone = true
+        binding.loginCaptcha.setText("")
+        binding.loginCaptchaImage.setImageDrawable(null)
+        refreshSubmitEnabled()
+    }
+
+    private fun showCaptchaAndRefresh() {
+        captchaRequired = true
+        binding.loginCaptchaLayout.isVisible = true
+        refreshCaptcha()
+    }
+
     private fun refreshSubmitEnabled() {
         val account = binding.loginAccount.text.toString()
         val pwd = binding.loginPwd.text.toString()
-        val captcha = binding.loginCaptcha.text.toString()
+        val captchaOk = !captchaRequired || !TextUtils.isEmpty(binding.loginCaptcha.text.toString())
         binding.loginBtn.isSubmitCanGo(
-            !TextUtils.isEmpty(account) && !TextUtils.isEmpty(pwd) && !TextUtils.isEmpty(captcha),
+            !TextUtils.isEmpty(account) && !TextUtils.isEmpty(pwd) && captchaOk,
             R.drawable.bg_auth_btn_disabled,
             R.drawable.bg_auth_btn,
         )
     }
 
     private fun refreshCaptcha() {
+        if (!captchaRequired) {
+            return
+        }
         binding.loginCaptcha.setText("")
         captchaId = ""
         viewModel.fetchCaptcha("login").observe(viewLifecycleOwner) { bean ->

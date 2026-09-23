@@ -617,7 +617,8 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
         securityQuestion: String = "",
         captchaId: String = "",
         captcha: String = "",
-        requireCaptcha: Boolean = true,
+        requireCaptcha: Boolean = false,
+        onNeedCaptcha: (() -> Unit)? = null,
         onCaptchaInvalid: (() -> Unit)? = null,
     ) {
         if (TextUtils.isEmpty(account)) {
@@ -658,18 +659,25 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                     if (!TextUtils.isEmpty(result)) {
                         val resultBean = fromJson2(result, ResultBroadBean::class.java)
                         eLogD("pwdLogin", "result:$result")
-                        if (resultBean.code == "200" && resultBean.success) {
+                        if (resultBean != null && resultBean.code == "200" && resultBean.success) {
                             imLogin(resultBean, mContext)
                         } else {
                             showToastMain(
-                                if (!TextUtils.isEmpty(resultBean.errorMsg)) resultBean.errorMsg
+                                if (resultBean != null && !TextUtils.isEmpty(resultBean.errorMsg)) resultBean.errorMsg
                                 else getAppStr(com.cboda.baselibrary.R.string.service_error_data_null)
                             )
-                            onCaptchaInvalid?.invoke()
+                            if (resultBean != null) {
+                                handleLoginBizError(
+                                    resultBean.errorCode,
+                                    resultBean.code,
+                                    requireCaptcha,
+                                    onNeedCaptcha,
+                                    onCaptchaInvalid,
+                                )
+                            }
                         }
                     } else {
                         showToastMain(com.cboda.baselibrary.R.string.service_error_data_null)
-                        onCaptchaInvalid?.invoke()
                     }
                 }
 
@@ -679,11 +687,45 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
                     e: Exception?
                 ) {
                     showToastMain(R.string.httperror)
-                    onCaptchaInvalid?.invoke()
                 }
 
             })
 
+    }
+
+    /**
+     * 登录业务错误分流：
+     * - 112：服务端要求图形验证码，登录页此时才展示
+     * - 104：验证码错误/过期，需换图
+     */
+    private fun handleLoginBizError(
+        errorCode: Int,
+        code: String?,
+        captchaAlreadyRequired: Boolean,
+        onNeedCaptcha: (() -> Unit)?,
+        onCaptchaInvalid: (() -> Unit)?,
+    ) {
+        val bizCode = when {
+            errorCode != 0 -> errorCode
+            !code.isNullOrBlank() && code != "200" -> code.toIntOrNull() ?: 0
+            else -> 0
+        }
+        when (bizCode) {
+            LOGIN_NEED_CAPTCHA -> onNeedCaptcha?.invoke()
+            LOGIN_CAPTCHA_INVALID -> onCaptchaInvalid?.invoke()
+            else -> {
+                if (captchaAlreadyRequired) {
+                    onCaptchaInvalid?.invoke()
+                }
+            }
+        }
+    }
+
+    companion object {
+        /** 服务端要求图形验证码。 */
+        private const val LOGIN_NEED_CAPTCHA = 112
+        /** 验证码错误或已过期。 */
+        private const val LOGIN_CAPTCHA_INVALID = 104
     }
 
 
