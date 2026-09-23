@@ -2,6 +2,7 @@ package com.cboda.intelligent.activity
 
 
 import android.content.Intent
+import android.net.Uri
 import android.text.TextUtils
 import android.view.View
 import android.widget.LinearLayout
@@ -316,7 +317,6 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
     private fun handleResult(con: String) {
         try {
             // 自研群二维码：https://.../api/im/group/getGroupByCodeId/{codeId}?type=1
-            //https://im-test.wujie168.net/QC/00d4b14e9e9d491bb26560de0fdb4133?type=3
             if (ImGroupQrCodeHelper.isGetGroupByCodeIdUrl(con)) {
                 if (jumpSource == ScanJumpBroadEnum.Login.sourceType) {
                     ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code_type))
@@ -326,6 +326,19 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
                 handleSelfImGroupQr(ImGroupQrCodeHelper.parseCodeId(con))
                 return
             }
+            // 好友二维码：https://im-test.wujie168.net/QC/{userId}?type=3
+            parseFriendQcUserId(con)?.let { userId ->
+                if (jumpSource == ScanJumpBroadEnum.Login.sourceType) {
+                    ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code_type))
+                    finish()
+                    return
+                }
+                JumpBroadUtils.startHaoYouAddActivity(this@ScanActivity, userId, "3")
+                finish()
+                return
+            }
+
+
             val result = con.split("-")
             if (result.size < 2) {
                 ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code))
@@ -408,6 +421,27 @@ class ScanActivity : BarcodeCameraScanActivity(), View.OnClickListener {
             ToastBroadUtil.show(getString(R.string.scan_invalid_qr_code))
             restartScan()
         }
+    }
+
+    /**
+     * 解析好友二维码：路径含 `/QC/{userId}` 且 query `type=3`。
+     * 例：`https://im-test.wujie168.net/QC/00d4b14e9e9d491bb26560de0fdb4133?type=3`
+     */
+    private fun parseFriendQcUserId(raw: String): String? {
+        if (!raw.contains("/QC/", ignoreCase = true)) {
+            return null
+        }
+        val uri = Uri.parse(raw.trim())
+        if (uri.getQueryParameter("type") != "3") {
+            return null
+        }
+        val path = uri.path ?: return null
+        val segments = path.split('/').filter { it.isNotEmpty() }
+        val qcIndex = segments.indexOfFirst { it.equals("QC", ignoreCase = true) }
+        if (qcIndex < 0 || qcIndex + 1 >= segments.size) {
+            return null
+        }
+        return segments[qcIndex + 1].trim().takeIf { it.isNotEmpty() }
     }
 
     /** 自研：扫码 codeId → getGroupByCodeId → applyInGroup */
