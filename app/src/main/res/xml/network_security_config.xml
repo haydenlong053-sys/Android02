@@ -3,21 +3,21 @@
     tools:ignore="NetworkSecurityConfig,AcceptsUserCertificates">
     <!--        <domain includeSubdomains="false">18.163.110.184</domain>-->
     <!--    /*** 用于抓包 ***/-->
-    <base-config cleartextTrafficPermitted="false">
-        <trust-anchors>
-            <certificates src="system" />
-            <certificates src="user" />
-        </trust-anchors>
-    </base-config>
-    <!-- 自研 IM 测试机短连接：95.40.9.142:80 HTTP -->
-    <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="false">95.40.9.142</domain>
-    </domain-config>
-</network-security-config>
+<!--    <base-config cleartextTrafficPermitted="false">-->
+<!--        <trust-anchors>-->
+<!--            <certificates src="system" />-->
+<!--            <certificates src="user" />-->
+<!--        </trust-anchors>-->
+<!--    </base-config>-->
+<!--    &lt;!&ndash; 自研 IM 测试机短连接：95.40.9.142:80 HTTP &ndash;&gt;-->
+<!--    <domain-config cleartextTrafficPermitted="true">-->
+<!--        <domain includeSubdomains="false">95.40.9.142</domain>-->
+<!--    </domain-config>-->
+<!--</network-security-config>-->
 
     <!--    /*** 截止抓包 ***/-->
-    <!--    <domain-config cleartextTrafficPermitted="true">-->
-    <!--        <domain includeSubdomains="true">127.0.0.1</domain>-->
-    <!--    </domain-config>-->
-    <!--    <base-config cleartextTrafficPermitted="true" />-->
-    <!--</network-security-config>-->
+        <domain-config cleartextTrafficPermitted="true">
+            <domain includeSubdomains="true">127.0.0.1</domain>
+        </domain-config>
+        <base-config cleartextTrafficPermitted="true" />
+    </network-security-config>
