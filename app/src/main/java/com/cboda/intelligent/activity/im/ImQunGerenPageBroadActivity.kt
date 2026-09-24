@@ -179,7 +179,11 @@ class ImQunGerenPageBroadActivity : BaseSimpleBroadActivity() {
         val manage = canManageTarget()
         shezhijinyan.isVisible = manage
         gongnenglay.isVisible = manage
-        tianjiadaotongxun.isVisible = !self && !isFriend
+        //管理者权限才能加好友
+        if (manage){
+            tianjiadaotongxun.isVisible = !self && !isFriend
+        }
+
     }
 
     private fun confirmKick() {
