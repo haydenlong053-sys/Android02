@@ -208,6 +208,9 @@ object UrlBroadBroadConstants {
     /** 拉黑 / 解除拉黑 POST im/friend/black */
     const val FRIEND_BLACK = "im/friend/black"
 
+    /** 黑名单列表 POST im/friend/blackList，content = FriendItemVO[] */
+    const val FRIEND_BLACK_LIST = "im/friend/blackList"
+
     /** 删除好友 POST im/friend/delFriend */
     const val FRIEND_DEL = "im/friend/delFriend"
 

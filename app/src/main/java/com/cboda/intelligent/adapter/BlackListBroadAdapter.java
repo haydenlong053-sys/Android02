@@ -45,7 +45,10 @@ public class BlackListBroadAdapter extends RecyclerView.Adapter<BlackListBroadAd
         if (null != dataListBroadBean) {
 //            GlideBroadUtil.setHeadImag(context,list.get(position).icon,holder.riIcon);
             holder.riIcon.setData2(dataListBroadBean.icon, "1".equals(dataListBroadBean.isLiang()), "1".equals(dataListBroadBean.getIsvip()), dataListBroadBean.getGrade(), dataListBroadBean.getRegistDay());
-            holder.tvName.setText(dataListBroadBean.name);
+            String displayName = !TextUtils.isEmpty(dataListBroadBean.bei)
+                    ? dataListBroadBean.bei
+                    : dataListBroadBean.name;
+            holder.tvName.setText(displayName);
             holder.tvNum.setVisibility((null == dataListBroadBean.getIdno() || TextUtils.isEmpty(dataListBroadBean.getIdno())) ? View.GONE : View.VISIBLE);
             holder.tvNum.setText("ID：" + dataListBroadBean.getIdno());
         }

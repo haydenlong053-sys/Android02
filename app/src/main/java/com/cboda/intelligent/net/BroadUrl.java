@@ -136,10 +136,10 @@ public class BroadUrl {
     public static String changePassword = IP + "im/user/changePassword";
     //验证密保问题
     public static String changeMibao = IP + "changeMibao";
-    //黑名单列表
-    public static String blackList = IP + "blackList";
-    //拉黑、解除拉黑好友
-    public static String black = IP + "black";
+    /** POST /im/friend/blackList — 黑名单列表（FriendItemVO[]） */
+    public static String blackList = IP + "im/friend/blackList";
+    /** POST /im/friend/black — 拉黑 / 解除拉黑（targetUserId + type） */
+    public static String black = IP + "im/friend/black";
     //意见反馈
     public static String fankui = IP + "fankui";
     //兑换会员

@@ -103,6 +103,9 @@ class DataListBroadBean : Serializable {
     var userId: String? = null
     var userIcon: String? = null
     var userName: String? = null
+    /** 备注，对应 FriendItemVO 的 bei */
+    @JvmField
+    var bei: String? = null
 
     @JvmField
     var isDz: String? = null

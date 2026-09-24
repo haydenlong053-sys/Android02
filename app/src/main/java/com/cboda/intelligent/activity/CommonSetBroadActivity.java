@@ -208,38 +208,35 @@ public class CommonSetBroadActivity extends BaseSimpleBroadActivity implements V
             public void onSuccess(Response response, ResultBroadBean resultBean) {
                 bean = resultBean;
 
-                if (StringBroadUtil.isEmpty(bean.data.isAddYz)) {
-                    bean.data.isAddYz = "1";
-                }
-                if (StringBroadUtil.isEmpty(bean.data.isQuantx)) {
-                    bean.data.isQuantx = "1";
-                }
-                if (StringBroadUtil.isEmpty(bean.data.isMsgtx)) {
-                    bean.data.isMsgtx = "1";
-                }
-
-
-                if (resultBean.data.isAddYz.equals("0")) {
-                    imHoayou.setImageResource(R.mipmap.ic_broad_guan);
-                } else {
-                    imHoayou.setImageResource(R.mipmap.ic_broad_kai);
-                }
-                if (resultBean.data.isQuantx.equals("0")) {
-                    imGengxin.setImageResource(R.mipmap.ic_broad_guan);
-                } else {
-                    imGengxin.setImageResource(R.mipmap.ic_broad_kai);
-                }
-                if (resultBean.data.isMsgtx.equals("0")) {
-                    imXiaoxi.setImageResource(R.mipmap.ic_broad_guan);
-                } else {
-                    imXiaoxi.setImageResource(R.mipmap.ic_broad_kai);
-                }
-
-                if ("1".equals(resultBean.data.noadd)) {
-                    imjinzhi.setImageResource(R.mipmap.ic_broad_kai);
-                } else {
-                    imjinzhi.setImageResource(R.mipmap.ic_broad_guan);
-                }
+//                if (StringBroadUtil.isEmpty(bean.data.isAddYz)) {
+//                    bean.data.isAddYz = "1";
+//                }
+//                if (StringBroadUtil.isEmpty(bean.data.isQuantx)) {
+//                    bean.data.isQuantx = "1";
+//                }
+//                if (StringBroadUtil.isEmpty(bean.data.isMsgtx)) {
+//                    bean.data.isMsgtx = "1";
+//                }
+//                if (resultBean.data.isAddYz.equals("0")) {
+//                    imHoayou.setImageResource(R.mipmap.ic_broad_guan);
+//                } else {
+//                    imHoayou.setImageResource(R.mipmap.ic_broad_kai);
+//                }
+//                if (resultBean.data.isQuantx.equals("0")) {
+//                    imGengxin.setImageResource(R.mipmap.ic_broad_guan);
+//                } else {
+//                    imGengxin.setImageResource(R.mipmap.ic_broad_kai);
+//                }
+//                if (resultBean.data.isMsgtx.equals("0")) {
+//                    imXiaoxi.setImageResource(R.mipmap.ic_broad_guan);
+//                } else {
+//                    imXiaoxi.setImageResource(R.mipmap.ic_broad_kai);
+//                }
+//                if ("1".equals(resultBean.data.noadd)) {
+//                    imjinzhi.setImageResource(R.mipmap.ic_broad_kai);
+//                } else {
+//                    imjinzhi.setImageResource(R.mipmap.ic_broad_guan);
+//                }
             }
 
             @Override

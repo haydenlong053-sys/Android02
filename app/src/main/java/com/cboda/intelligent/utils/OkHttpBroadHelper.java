@@ -706,6 +706,7 @@ public class OkHttpBroadHelper {
             }
             Object contentObj = root.has("content") ? root.opt("content") : null;
             // 失败常见：{"content":null,"errorCode":-1,"errorMsg":"..."}
+            // 列表接口：{"content":[...],"errorCode":0}（如 im/friend/blackList）
             if (!(contentObj instanceof org.json.JSONObject)) {
                 if (!root.has("errorCode")) {
                     return body;
@@ -719,6 +720,11 @@ public class OkHttpBroadHelper {
                 String errorMsg = root.optString("errorMsg", "");
                 flat.put("errorMsg", errorMsg);
                 flat.put("msg", errorMsg);
+                // FriendItemVO[] → dataList，对齐 ResultBroadBean
+                if (ok && contentObj instanceof org.json.JSONArray
+                        && url != null && url.contains("/im/friend/blackList")) {
+                    flat.put("dataList", contentObj);
+                }
                 return flat.toString();
             }
             org.json.JSONObject content = (org.json.JSONObject) contentObj;
