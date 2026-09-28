@@ -90,14 +90,14 @@ class NewMineBroadFragment : BaseBroadFragment<FragmentNewMineBinding, MineViewM
     private fun bindUserProfile(data: ResultBroadBean.Data) {
         val name = data.name?.takeIf { it.isNotEmpty() } ?: MMKVBroadUtils.getUserName().orEmpty()
         val icon = data.icon?.takeIf { it.isNotEmpty() } ?: data.img.orEmpty()
-        val idValue = when {
-            !TextUtils.isEmpty(data.idno) -> data.idno
-            !TextUtils.isEmpty(data.mId) -> data.mId
-            !TextUtils.isEmpty(data.userId) -> data.userId
-            else -> data.id.orEmpty()
-        }
+//        val idValue = when {
+//            !TextUtils.isEmpty(data.idno) -> data.idno
+//            !TextUtils.isEmpty(data.mId) -> data.mId
+//            !TextUtils.isEmpty(data.userId) -> data.userId
+//            else -> data.id.orEmpty()
+//        }
         binding.tvUserName.text = name
-        binding.tvUserId.text = "ID:$idValue"
+        binding.tvUserId.text = "账号:${data.account}"
         GlideBroadUtil.setHeadImag(requireContext(), icon, binding.ivUserAvatar)
 
         if (!TextUtils.isEmpty(name)) {

@@ -736,7 +736,7 @@ public class UserInfoBroadActivity extends BaseSimpleBroadActivity implements Vi
                 mBinding.tvSex.setText(getString(R.string.女));
             }
         }
-        mBinding.tvAccountId.setText(getString(R.string.账户ID) + ":" + (!TextUtils.isEmpty(bean.data.idno) ? bean.data.idno : bean.data.mId));
+        mBinding.tvAccountId.setText("账号:" +  bean.data.account );
         mBinding.tvQianming.setText(bean.data.sign);
         mBinding.tvRegion.setText(bean.data.city);
         mBinding.tvProfession.setText(bean.data.profession);
