@@ -93,15 +93,16 @@ public class MyFriendBroadAdapter extends RecyclerView.Adapter<FriendViewBroadHo
             holder.nameTextView.setText(currentItem.getNickName());
         }
 
-        if (!TextUtils.isEmpty(currentItem.getLianghao())) {
-            holder.descTextView.setVisibility(View.VISIBLE);
-            holder.descTextView.setText("ID:" + currentItem.getLianghao());
-        } else if (!TextUtils.isEmpty(currentItem.getIdno())) {
-            holder.descTextView.setVisibility(View.VISIBLE);
-            holder.descTextView.setText("ID:" + currentItem.getIdno());
-        } else {
-            holder.descTextView.setVisibility(View.GONE);
-        }
+        //不展示idno
+//        if (!TextUtils.isEmpty(currentItem.getLianghao())) {
+//            holder.descTextView.setVisibility(View.VISIBLE);
+//            holder.descTextView.setText("ID:" + currentItem.getLianghao());
+//        } else if (!TextUtils.isEmpty(currentItem.getIdno())) {
+//            holder.descTextView.setVisibility(View.VISIBLE);
+//            holder.descTextView.setText("ID:" + currentItem.getIdno());
+//        } else {
+//            holder.descTextView.setVisibility(View.GONE);
+//        }
         int headDefault = com.cboda.baselibrary.R.mipmap.ic_head_broad_defaut;
         Glide.with(context)
                 .load(currentItem.getIcon())

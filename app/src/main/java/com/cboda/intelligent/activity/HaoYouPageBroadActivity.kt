@@ -219,7 +219,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
 
 //                eLogD(APP_TAG,"otherUid-->$otherUid======getRealUserId==${MMKVBroadUtils.getRealUserId()}")
                 var showName = ""
-                tvTagName.text = "${getString(R.string.user_id_prefix)}${idno}"
+//                tvTagName.text = "${getString(R.string.user_id_prefix)}${idno}"
                 if (bei.isNullOrEmpty()) {
                     showName = name ?: ""
                     friendNickName.isGone = true
@@ -237,7 +237,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                     }
 
                 } else {
-                    tvTagName.isVisible = true
+                    tvTagName.isVisible = false
                     mViewPremiumNumber.isVisible = false
                     if (mViewAnimateNumb.isAnimating) {
                         mViewAnimateNumb.pauseAnimation()
