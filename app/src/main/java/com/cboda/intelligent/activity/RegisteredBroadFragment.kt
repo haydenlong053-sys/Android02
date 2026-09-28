@@ -40,6 +40,7 @@ class RegisteredBroadFragment : BaseBroadFragment<RegisteredBroadFragmentBinding
             getString(com.cboda.baselibrary.R.string.new_app_name_use),
         )
         binding.loginAccount.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)
+        binding.loginNickname.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)
         binding.loginPwd.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)
         binding.updatePwd.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)
         binding.loginCaptcha.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)
@@ -60,6 +61,7 @@ class RegisteredBroadFragment : BaseBroadFragment<RegisteredBroadFragmentBinding
             refreshSubmitEnabled()
             binding.loginLookPwd.isGone = TextUtils.isEmpty(it)
         }
+        binding.loginNickname.setEdTextChange { refreshSubmitEnabled() }
         binding.loginPwd.setEdTextChange { refreshSubmitEnabled() }
         binding.updatePwd.setEdTextChange { refreshSubmitEnabled() }
         binding.loginCaptcha.setEdTextChange { refreshSubmitEnabled() }
@@ -68,6 +70,7 @@ class RegisteredBroadFragment : BaseBroadFragment<RegisteredBroadFragmentBinding
         binding.loginBtn.click {
             viewModel.registerAccount(
                 account = binding.loginAccount.text.toString(),
+                nickname = binding.loginNickname.text.toString(),
                 pwd = binding.loginPwd.text.toString(),
                 secondPwd = binding.updatePwd.text.toString(),
                 captchaId = captchaId,
@@ -84,11 +87,13 @@ class RegisteredBroadFragment : BaseBroadFragment<RegisteredBroadFragmentBinding
 
     private fun refreshSubmitEnabled() {
         val account = binding.loginAccount.text.toString()
+        val nickname = binding.loginNickname.text.toString().trim()
         val pwd = binding.loginPwd.text.toString()
         val secondPwd = binding.updatePwd.text.toString()
         val captcha = binding.loginCaptcha.text.toString()
         binding.loginBtn.isSubmitCanGo(
             !TextUtils.isEmpty(account)
+                && !TextUtils.isEmpty(nickname)
                 && !TextUtils.isEmpty(pwd)
                 && !TextUtils.isEmpty(secondPwd)
                 && !TextUtils.isEmpty(captcha),

@@ -731,6 +731,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
 
     fun registerAccount(
         account: String,
+        nickname: String,
         pwd: String,
         secondPwd: String,
         captchaId: String = "",
@@ -740,6 +741,11 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
         val mContext = getAppContext()
         if (TextUtils.isEmpty(account)) {
             showToastMain(R.string.please_enter_account)
+            return
+        }
+        val nick = nickname.trim()
+        if (TextUtils.isEmpty(nick)) {
+            showToastMain(R.string.请输入昵称)
             return
         }
         if (TextUtils.isEmpty(pwd)) {
@@ -767,6 +773,7 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
         val param =
             mapOf(
                 "account" to account,
+                "nickname" to nick,
                 "password" to jmPwd,
                 "captchaId" to captchaId,
                 "captchaCode" to captcha.trim(),
