@@ -9,6 +9,7 @@ import com.cboda.intelligent.app.MyBroadApp
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.configuration.AppBroadConsts
 import com.cboda.intelligent.utils.AppBroadUtils
+import com.cboda.intelligent.utils.GroupInviteDeepLinkHelper
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.select.picture.utils.LanguageUtil
@@ -32,6 +33,8 @@ class SplashBroadActivity : BaseSimpleBroadActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // 冷启动：先记下邀请码，登录进主页后再弹入群确认
+        GroupInviteDeepLinkHelper.captureFromIntent(intent)
 //        if (MMKVBroadUtils.isPrivacyready()) {
 //            jumpAct()
 //        } else {
@@ -52,6 +55,10 @@ class SplashBroadActivity : BaseSimpleBroadActivity() {
         jumpAct()
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        GroupInviteDeepLinkHelper.captureFromIntent(intent)
+    }
 
     fun lateInitSdk() {
         MyBroadApp.Companion.initOkGo()

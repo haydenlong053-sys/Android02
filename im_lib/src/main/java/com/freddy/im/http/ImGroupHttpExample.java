@@ -16,6 +16,7 @@ import com.freddy.im.http.api.CreateGroupApi;
 import com.freddy.im.http.api.DisbandGroupApi;
 import com.freddy.im.http.api.GetAllGroupMembersApi;
 import com.freddy.im.http.api.GetGroupByCodeIdApi;
+import com.freddy.im.http.api.GetGroupInviteInfoApi;
 import com.freddy.im.http.api.GetGroupManagersApi;
 import com.freddy.im.http.api.GetGroupDetailApi;
 import com.freddy.im.http.api.GetGroupListApi;
@@ -26,6 +27,7 @@ import com.freddy.im.http.api.GetGroupWelcomeApi;
 import com.freddy.im.http.api.GetSpecifyMembersApi;
 import com.freddy.im.http.api.GroupFriendsApi;
 import com.freddy.im.http.api.InviteInGroupApi;
+import com.freddy.im.http.api.JoinByInviteApi;
 import com.freddy.im.http.api.KickOutGroupApi;
 import com.freddy.im.http.api.LeaveGroupApi;
 import com.freddy.im.http.api.ModifyGroupApi;
@@ -42,6 +44,7 @@ import com.freddy.im.http.api.UpdateGroupNoticeApi;
 import com.freddy.im.http.model.im.BaseMsgResponse;
 import com.freddy.im.http.model.im.GroupApplyInfoRes;
 import com.freddy.im.http.model.im.GroupFriendBean;
+import com.freddy.im.http.model.im.GroupInviteInfoRes;
 import com.freddy.im.http.model.im.GroupListResp;
 import com.freddy.im.http.model.im.GroupMemberChangeListContent;
 import com.freddy.im.http.model.im.GroupMemberListContent;
@@ -619,6 +622,39 @@ public final class ImGroupHttpExample {
         EasyHttp.get(ApplicationLifecycle.getInstance())
                 .api(new GetGroupByCodeIdApi().setCodeId(codeId))
                 .request(getListener("getGroupByCodeId", callback, onFail, true, GroupQrInfoRes.class));
+    }
+
+    /** GET {@code api/im/group/inviteInfo/{code}}：邀请链接预览。 */
+    public static void requestGetGroupInviteInfo(@NonNull String code,
+                                                 @NonNull OnHttpImListener<GroupInviteInfoRes> callback,
+                                                 @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(code)) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.get(ApplicationLifecycle.getInstance())
+                .api(new GetGroupInviteInfoApi().setCode(code))
+                .request(getListener("inviteInfo", callback, onFail, true, GroupInviteInfoRes.class));
+    }
+
+    /**
+     * POST {@code api/im/group/joinByInvite}：通过邀请码入群。
+     * {@code content=true} 已入群；{@code false} 已提交申请待群主确认。
+     */
+    public static void requestJoinByInvite(@NonNull String code,
+                                           @NonNull OnHttpImListener<Boolean> callback,
+                                           @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(code)) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.post(ApplicationLifecycle.getInstance())
+                .api(new JoinByInviteApi().setCode(code))
+                .request(postListener("joinByInvite", callback, onFail, false, Boolean.class));
     }
 
     /** POST {@code api/im/group/applyInGroup}：申请入群（content 多为 boolean）。 */

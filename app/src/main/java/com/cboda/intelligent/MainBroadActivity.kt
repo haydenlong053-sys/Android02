@@ -1,6 +1,7 @@
 package com.cboda.intelligent
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
@@ -116,6 +117,7 @@ import com.cboda.intelligent.holder.XitonggaonggaoBroadHolder
 import com.cboda.intelligent.model.NoticeInfoBroadBean
 import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.intelligent.utils.AppBroadUtils.Companion.exit
+import com.cboda.intelligent.utils.GroupInviteDeepLinkHelper
 import com.cboda.intelligent.utils.JumpBroadUtils.Companion.toLoginQrCodeAct
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
 import com.cboda.intelligent.utils.ToastBroadUtil
@@ -216,6 +218,8 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         CEventCenter.registerEventListener(this, imSessionEvents)
         observeImUnreadCount()
         initViews()
+        // 热启动/已登录：Intent 可能直接落到 Main
+        GroupInviteDeepLinkHelper.captureFromIntent(intent)
         bottomLayout.isVisible = false
         val composeView = findViewById<ComposeView>(R.id.compose_bottom_bar)
         window.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND)
@@ -599,6 +603,16 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         conversationListViewModel?.reloadConversationUnreadStatus()
         loadConversationsDebounced()
 //        checkOrder()
+        // 登录态就绪后处理外部入群邀请
+        GroupInviteDeepLinkHelper.tryHandlePendingInvite(this)
+    }
+
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        GroupInviteDeepLinkHelper.captureFromIntent(intent)
+        GroupInviteDeepLinkHelper.tryHandlePendingInvite(this)
     }
 
 

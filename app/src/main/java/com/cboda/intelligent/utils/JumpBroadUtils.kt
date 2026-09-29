@@ -80,10 +80,17 @@ import com.cboda.intelligent.bean.AiCheckResultBroadBean
 import com.cboda.intelligent.dialog.GroupQrCodeDialog
 import com.cboda.intelligent.dialog.ImGroupQrCodeDialog
 import com.freddy.chat.MessageListActivity
+import com.freddy.im.db.repository.ImSessionRepository
+import com.freddy.im.http.ImGroupHttpExample
 import com.freddy.im.http.model.im.GroupVo
 import com.freddy.chat.SessionItemIntent
 import com.freddy.chat.collect.CollectIntent
 import com.freddy.im.http.model.im.SessionItem
+import com.freddy.im.listener.OnHttpImListener
+import com.freddy.im.util.groupToSession
+import android.os.Handler
+import android.os.Looper
+import android.text.TextUtils
 
 
 class JumpBroadUtils {
@@ -792,6 +799,35 @@ class JumpBroadUtils {
                 mContext.startActivity(intent)
             }
         }
+
+        /**
+         * 暂时未用到，先注释，完全拿不到群信息方可用这个方法
+         * 通过群 id 进聊天页：
+         * 1. 优先查本地会话库，命中则直接跳转；
+         * 2. 本地没有则拉群详情包装成 [SessionItem] 再跳转。
+         */
+//        fun startGroupChatMsgActivity(groupId: String?, context: Context?) {
+//            if (TextUtils.isEmpty(groupId)) return
+//            val gid = groupId!!.trim()
+//            if (TextUtils.isEmpty(gid)) return
+//            val mContext = getAppContext(context)
+//
+//            val local = ImSessionRepository.getInstance().queryBySessionId(gid)
+//            if (local != null) {
+//                startChatMsgActivity(local, mContext)
+//                return
+//            }
+//
+//            ImGroupHttpExample.requestGetGroupDetail(gid, object : OnHttpImListener<GroupVo> {
+//                override fun onHttpImSuccess(result: GroupVo) {
+//                    val session = groupToSession(result) ?: return
+//                    Handler(Looper.getMainLooper()).post {
+//                        startChatMsgActivity(session, mContext)
+//                    }
+//                }
+//            }, null)
+//        }
+
 
     }
 }

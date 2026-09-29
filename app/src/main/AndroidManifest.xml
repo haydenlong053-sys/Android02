@@ -444,11 +444,37 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- 外部邀请：qixun://join/{code} 冷启动入口 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="join"
+                    android:pathPrefix="/"
+                    android:scheme="qixun" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.cboda.intelligent.MainBroadActivity"
+            android:exported="false"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <!-- 外部邀请：qixun://join/{code} 热启动 / singleTask 复用 -->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+
+<!--                <data-->
+<!--                    android:host="join"-->
+<!--                    android:pathPrefix="/"-->
+<!--                    android:scheme="qixun" />-->
+<!--            </intent-filter>-->
+        </activity>
         <activity
             android:name="com.cboda.intelligent.activity.ZoomPicBroadActivity"
             android:screenOrientation="portrait" />
