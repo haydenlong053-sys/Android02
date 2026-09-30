@@ -29,7 +29,7 @@
             android:id="@+id/etNickName"
             android:textColor="#344361"
             android:hint="@string/请输入"
-            android:maxLength="16"
+            android:maxLength="32"
             android:textSize="14sp"
             android:paddingHorizontal="25dp"
             android:background="@null"
