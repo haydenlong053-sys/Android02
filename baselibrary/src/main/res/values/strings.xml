@@ -509,6 +509,9 @@
     <string name="login_welcome_subtitle">欢迎回来，请登录您的账号</string>
     <string name="auth_account_hint">请输入账号</string>
     <string name="go_to_register">去注册</string>
+    <string name="line_switch">线路切换</string>
+    <string name="line_one">线路一</string>
+    <string name="line_two">线路二</string>
     <string name="register_welcome_subtitle">创建账号，开启您的%1$s之旅</string>
     <string name="auth_password_rule_hint">密码长度6-20位，需包含字母和数字</string>
     <string name="auth_confirm_new_password_hint">请再次输入新密码</string>

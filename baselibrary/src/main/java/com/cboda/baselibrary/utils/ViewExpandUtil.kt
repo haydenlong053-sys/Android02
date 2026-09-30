@@ -1411,13 +1411,15 @@ fun showCommonBottomListPop(
     list: List<ComBottomListBean>,
     context: Context? = null,
     @ColorRes viewColor: Int = R.color.color_F7F8FA,
+    @androidx.annotation.ColorInt selectedItemTextColor: Int = 0,
     block: (Int, ComBottomListBean) -> Unit
 ): CommonBottomListPop {
     val mContext = getAppContext(context)
     val commonTipPop = CommonBottomListPop(
         mContext,
         list,
-        viewColor
+        viewColor,
+        selectedItemTextColor,
     )
     commonTipPop.backInvoke = { pos, bean ->
         block.invoke(pos, bean)

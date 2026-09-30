@@ -1,6 +1,7 @@
 package com.cboda.intelligent.activity
 
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
 import android.text.TextUtils
@@ -10,10 +11,13 @@ import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import com.cboda.baselibrary.bean.ComBottomListBean
+import com.cboda.baselibrary.utils.HttpsBroadConfig
 import com.cboda.baselibrary.utils.click
 import com.cboda.baselibrary.utils.setEdTextChange
 import com.cboda.baselibrary.utils.setInputTypeKeepingCursor
 import com.cboda.baselibrary.utils.setStrokeColorAndStartAlpha
+import com.cboda.baselibrary.utils.showCommonBottomListPop
 import com.cboda.intelligent.base.BaseBroadFragment
 import com.cboda.intelligent.utils.isSubmitCanGo
 import com.cboda.intelligent.viewmodel.LoginViewBroadModel
@@ -25,6 +29,9 @@ class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginVie
     private var captchaId: String = ""
     /** 是否已因登录失败要求图形验证码（默认隐藏）。 */
     private var captchaRequired = false
+
+    /** 与「去注册」同色，弹框选中项文字色 */
+    private val authLinkColor = Color.parseColor("#6332ed")
 
     override fun onCreateViewBinding(
         inflater: LayoutInflater,
@@ -62,6 +69,9 @@ class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginVie
         binding.loginRegisterAccount.click {
             (activity as NewEquipmentBroadActivity).toRegistered()
         }
+        binding.loginSwitchLine.click {
+            showLineSwitchPop()
+        }
         binding.loginBtn.click {
             viewModel.pwdLogin(
                 account = binding.loginAccount.text.toString(),
@@ -93,6 +103,27 @@ class LoginBroadFragment : BaseBroadFragment<LoginBroadFragmentBinding, LoginVie
                 }
             )
             true
+        }
+    }
+
+    private fun showLineSwitchPop() {
+        val list = arrayListOf(
+            ComBottomListBean().apply {
+                itemContent = getString(com.cboda.baselibrary.R.string.line_one)
+                isSelected = HttpsBroadConfig.isLineSelected(HttpsBroadConfig.HONGKONG_TYPE)
+            },
+            ComBottomListBean().apply {
+                itemContent = getString(com.cboda.baselibrary.R.string.line_two)
+                isSelected = HttpsBroadConfig.isLineSelected(HttpsBroadConfig.LINE_TYPE_2)
+            },
+        )
+        showCommonBottomListPop(
+            list = list,
+            context = activity,
+            selectedItemTextColor = authLinkColor,
+        ) { pos, _ ->
+            val type = if (pos == 0) HttpsBroadConfig.HONGKONG_TYPE else HttpsBroadConfig.LINE_TYPE_2
+            HttpsBroadConfig.switchLine(type)
         }
     }
 

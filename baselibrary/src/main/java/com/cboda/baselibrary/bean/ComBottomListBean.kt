@@ -4,4 +4,5 @@ class ComBottomListBean {
     var iconRes: Int = 0
     var iconUrl = ""
     var itemContent = ""
+    var isSelected = false
 }

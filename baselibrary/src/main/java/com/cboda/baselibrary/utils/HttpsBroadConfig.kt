@@ -30,17 +30,20 @@ object HttpsBroadConfig {
     //自研的长连接host
     private const val MY_IM_SOCKET_HOST_FAT: String = "[{\"host\":\"socket-test.wujie168.net\", \"port\":80}]"
     private const val MY_IM_SOCKET_HOST_RELEASE: String = "[{\"host\":\"socket.wujie168.net\", \"port\":80}]"
+    private const val MY_IM_SOCKET_HOST_LINE2: String = "[{\"host\":\"socket.bqixun.com\", \"port\":80}]"
 
     //自研的短连接http的host
     private const val MY_IM_HTTP_HOST_FAT: String = "https://im-test.wujie168.net/"
     private const val MY_IM_HTTP_HOST_FAT_IP: String = "http://95.40.9.142/"
 
     private const val MY_IM_HTTP_HOST_RELEASE: String = "https://Im.wujie168.net/"
+    private const val MY_IM_HTTP_HOST_LINE2: String = "https://Im.bqixun.com/"
 
     /** filehub 上传独立域名（与 im-api 分离） */
     private const val MY_IM_OSS_HOST_FAT: String = "https://oss-test.wujie168.net/"
     /** 正式 OSS 占位，确认后可改 */
     private const val MY_IM_OSS_HOST_RELEASE: String = "https://oss.wujie168.net/"
+    private const val MY_IM_OSS_HOST_LINE2: String = "https://oss.bqixun.com/"
 
     //   private const val MY_IM_HTTP_HOST_RELEASE: String = "http://18.163.110.184/"
     @JvmField
@@ -83,9 +86,15 @@ object HttpsBroadConfig {
     private const val FAT_TYPE = 2
     private const val INPUT_TYPE = 3
     private const val US_TYPE = 4
-    private const val HONGKONG_TYPE = 5
+    /** 线路一（香港 / wujie168） */
+    const val HONGKONG_TYPE = 5
 
     private const val FAT_IP = 6
+    /** 线路二：与 HONGKONG_TYPE 同结构，域名 wujie168.net → bqixun.com */
+    const val LINE_TYPE_2 = 7
+
+    /** 登录页线路切换持久化 key（与 debug 的 NET_TYPE 分离） */
+    private const val LINE_TYPE_KEY = "appProductionLineType"
 
     @JvmField
     var currentHostHttpUrlType = RELEASE_TYPE
@@ -118,6 +127,19 @@ object HttpsBroadConfig {
                 myImHttpsHost = MY_IM_HTTP_HOST_RELEASE
                 myImOssHost = MY_IM_OSS_HOST_RELEASE
 
+            }
+
+            LINE_TYPE_2 -> {
+                appHost = "https://Im.bqixun.com"
+                appHost2 = appHost
+                appImServerHost = "im.seekweb4.ai"
+                appIcePassword = "aT3BxjPy4MRdC6@"
+                appGroupAvatarHost = "https://api.seekweb4.ai"
+                appAesPwd = "PgGMe2BWyp8G3SFxdn5fDjL5rFUoTYm1"
+                appWebHost = appHost
+                myImSocketHost = MY_IM_SOCKET_HOST_LINE2
+                myImHttpsHost = MY_IM_HTTP_HOST_LINE2
+                myImOssHost = MY_IM_OSS_HOST_LINE2
             }
 
             FAT_TYPE -> {
@@ -199,11 +221,38 @@ object HttpsBroadConfig {
 
 
     fun setHttpMode() {
+        val lineOverride = getLineOverride()
+        if (lineOverride != null) {
+            setServer(lineOverride)
+            return
+        }
         if (getIsDebug()) {
             setServer(getNetType())
         } else {
             setServer(BuildConfig.APP_ENVIRONMENT)
         }
+    }
+
+    /** 登录页已选线路（仅 HONGKONG / LINE_TYPE_2）；未选过则 null。 */
+    private fun getLineOverride(): Int? {
+        if (!MMKV.defaultMMKV().containsKey(LINE_TYPE_KEY)) return null
+        val line = MMKV.defaultMMKV().decodeInt(LINE_TYPE_KEY, -1)
+        return if (line == HONGKONG_TYPE || line == LINE_TYPE_2) line else null
+    }
+
+    /** 当前是否为指定线路（弹框选中态）。 */
+    fun isLineSelected(type: Int): Boolean = currentHostHttpUrlType == type
+
+    /**
+     * 登录页切换线路：持久化后清登录态并重启。
+     * 已是目标线路则不重启。
+     */
+    fun switchLine(type: Int) {
+        if (type != HONGKONG_TYPE && type != LINE_TYPE_2) return
+        if (type == currentHostHttpUrlType) return
+        MMKV.defaultMMKV().encode(LINE_TYPE_KEY, type)
+        clearUserDataLiveData.postValue(true)
+        ThreadUtils.getMainHandler().postDelayed({ restartApp() }, 1000)
     }
 
 
@@ -230,6 +279,8 @@ object HttpsBroadConfig {
     private fun updateHttpMode(devType: Int) {
         clearUserDataLiveData.postValue(true)
         MMKV.defaultMMKV().encode(NET_TYPE, devType)
+        // debug 切环境时清掉登录页线路覆盖，避免一直被 LINE_TYPE_KEY 盖住
+        MMKV.defaultMMKV().removeValueForKey(LINE_TYPE_KEY)
         ThreadUtils.getMainHandler().postDelayed({ restartApp() }, 1000)
     }
 
