@@ -344,15 +344,18 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
 //                beizhuname?.text?.toString() ?: "",
 //                CircleAndRemarkBroadActivity.TYPE_EDIT
 //            )
-            JumpBroadUtils.startHaoyouApplyActivity(
-                this,
-                "",
-                yonghubena?.bei ?: "",
-                "",
-                "${yonghubena?.characterTagsId ?: -1}",
-                "3",
-                startForResult
-            )
+
+//            JumpBroadUtils.startHaoyouApplyActivity(
+//                this,
+//                "",
+//                yonghubena?.bei ?: "",
+//                "",
+//                "${yonghubena?.characterTagsId ?: -1}",
+//                "3",
+//                startForResult
+//            )
+
+            JumpBroadUtils.startHaoYouBeizhuActivity(this,otherUid,yonghubena?.bei ?: "")
         }
 
         ivTouxiang?.setOnClickListener {
@@ -475,22 +478,22 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
         mViewAnimateNumb.cancelAnimation()
     }
 
-    private val startForResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == RESULT_OK) {
-                val data = it.data
-                data?.let {
-                    val circleId = it.getIntExtra("circleId", -1)
-                    val remarkName = it.getStringExtra("remark")
-                    toEditFriendInfo(circleId, remarkName ?: "")
-                }
-            }
-
-        }
-
-    private fun toEditFriendInfo(circleId: Int, remarkName: String) {
-        viewModel?.shezhibeizhu(this, otherUid, remarkName, circleId)
-    }
+//    private val startForResult =
+//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+//            if (it.resultCode == RESULT_OK) {
+//                val data = it.data
+//                data?.let {
+//                    val circleId = it.getIntExtra("circleId", -1)
+//                    val remarkName = it.getStringExtra("remark")
+//                    toEditFriendInfo(circleId, remarkName ?: "")
+//                }
+//            }
+//
+//        }
+//
+//    private fun toEditFriendInfo(circleId: Int, remarkName: String) {
+//        viewModel?.shezhibeizhu(this, otherUid, remarkName, circleId)
+//    }
 
     override fun fitsSystemWindows() = true
 }

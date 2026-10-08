@@ -585,14 +585,14 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="53dp"
                                 android:background="@color/bg_main"
-                                android:visibility="gone">
+                                android:visibility="visible">
 
                                 <TextView
                                     android:id="@+id/beizhu"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="23dp"
-                                    android:text="@string/shezhibeizhu"
+                                    android:text="@string/shezhibneizhutispb"
                                     android:textColor="@color/color_text0"
                                     android:textSize="15sp"
                                     android:textStyle="bold"
