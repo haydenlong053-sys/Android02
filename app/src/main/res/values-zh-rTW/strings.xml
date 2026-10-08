@@ -59,6 +59,9 @@
     <string name="qingkongliaotian">清空聊天記錄</string>
     <string name="faxiaoxi">發消息</string>
     <string name="yuyintonghua">語音通話</string>
+    <string name="qidongduihua">啟動對話</string>
+    <string name="yuyinliaotian">語音聊天</string>
+    <string name="gengduocaozuo">更多操作</string>
     <string name="qingkongtishi">是否將聯絡人%1$s的聊天記錄進行清空？</string>
     <string name="quxiao">取消</string>
     <string name="bveizhu">備註</string>

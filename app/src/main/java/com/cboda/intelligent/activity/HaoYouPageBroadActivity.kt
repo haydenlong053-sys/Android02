@@ -30,6 +30,7 @@ import com.cboda.baselibrary.utils.MMKVBroadUtils.Companion.getSqlStrData
 import com.cboda.baselibrary.utils.anyToInt
 import com.cboda.baselibrary.utils.clipViewOutlineRound
 import com.cboda.baselibrary.utils.formatWithBigDecimal
+import com.cboda.baselibrary.utils.loadImg
 import com.cboda.baselibrary.utils.setBackColor
 import com.cboda.baselibrary.utils.setTxtColor
 import com.cboda.chatui.WfcUIBroadKit
@@ -70,8 +71,9 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
 
     private var yonghubena: CommonResultBroadBean.CommonResult? = null
     private lateinit var faxiaoxitonghua: LinearLayoutCompat
-    private lateinit var yuyintonghua: ConstraintLayout
-    private lateinit var faxiaoxi: ConstraintLayout
+    private lateinit var yuyintonghua: LinearLayoutCompat
+    private lateinit var faxiaoxi: LinearLayoutCompat
+    private lateinit var haoyouMoreOps: LinearLayoutCompat
     private lateinit var qingkongSx: ConstraintLayout
     private lateinit var qingkong: ConstraintLayout
     private lateinit var pengyouquanlay: ConstraintLayout
@@ -89,11 +91,13 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
     private lateinit var tvname: TextView
     private lateinit var ivTouxiang: ImageView
     private lateinit var ivMirrorSex: ImageView
+    private lateinit var mIvAvatar: ImageView
 
     //    private lateinit var rlTagName: RelativeLayout
     private lateinit var tvTagName: TextView
     private lateinit var mTvPremiumNumber: TextView
     private lateinit var friendNickName: TextView
+    private lateinit var mTvAccountName: TextView
     private lateinit var friendName: TextView
     private lateinit var mViewPremiumNumber: View
     private lateinit var mViewAnimateNumb: LottieAnimationView
@@ -130,15 +134,18 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
         qingkongSx = findViewById(R.id.qingkongSx)
         faxiaoxi = findViewById(R.id.faxiaoxi)
         yuyintonghua = findViewById(R.id.yuyintonghua)
+        haoyouMoreOps = findViewById(R.id.haoyouMoreOps)
         faxiaoxitonghua = findViewById(R.id.faxiaoxitonghua)
 //        rlTagName = findViewById(R.id.rl_tag_name)
         ivMirrorSex = findViewById(R.id.iv_mirror_sex)
+        mIvAvatar = findViewById(R.id.mIvAvatar)
         tvTagName = findViewById(R.id.tv_tag_name)
         mTvPremiumNumber = findViewById(R.id.mTvPremiumNumber)
         mViewAnimateNumb = findViewById(R.id.mViewAnimateNumb)
         mViewPremiumNumber = findViewById(R.id.mViewPremiumNumber)
         friendName = findViewById(R.id.friendName)
         friendNickName = findViewById(R.id.friendNickName)
+        mTvAccountName = findViewById(R.id.mTvAccountName)
         otherLayout = findViewById(R.id.otherLayout)
     }
 
@@ -148,12 +155,10 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
         otherUid = intent?.getStringExtra("uid") ?: ""
 //        eLogD(APP_TAG, "userInfo.otherUid----" + otherUid)
         initViews()
+        // 「更多操作」已移到底部三按钮，隐藏右上角入口
         getRightImg()?.isVisible = false
-        getRightImg()?.setImageResource(R.mipmap.ic_gengduo_broad_white)
+        findViewById<ImageView>(R.id.iv_float_more).isVisible = false
 //        val isFriend = ChatManager.Instance().isMyFriend(otherUid)
-        getRightImg()?.setOnClickListener {
-            JumpBroadUtils.startHaoYouSetActivity(this, otherUid, "")
-        }
         clipViewOutlineRound(mViewPremiumNumber, 20)
         conversationViewModel = WfcUIBroadKit.getAppScopeViewModel(
             ConversationViewBroadModel::class.java
@@ -179,8 +184,8 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 ivMirrorSex.isVisible = false
                 val isFriend = "1" == it.data?.isFri
                 otherLayout.isGone = otherUid == MMKVBroadUtils.getRealUserId() || !isFriend
-                findViewById<ImageView>(R.id.iv_float_more).isInvisible =
-                    otherUid == MMKVBroadUtils.getRealUserId() || !isFriend
+                // 右上角更多已改到底部「更多操作」
+                findViewById<ImageView>(R.id.iv_float_more).isVisible = false
                 findViewById<TextView>(R.id.addFriend).isGone =
                     isFriend || otherUid == MMKVBroadUtils.getRealUserId()
                 val daysTv = findViewById<TextView>(R.id.daysTv)
@@ -227,6 +232,15 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                     showName = bei ?: ""
                     friendNickName.text = getString(R.string.nickname_with_prefix, name ?: "")
                     friendNickName.isGone = false
+                }
+                if (icon?.isNotEmpty() == true){
+                    mIvAvatar.loadImg(icon)
+                }
+                if (acount.isNullOrEmpty()|| isFri !="1") {
+                    mTvAccountName.isGone = true
+                } else {
+                    mTvAccountName.text = "账号:$acount"
+                    mTvAccountName.isGone = false
                 }
                 if (this.isLiang == "1") {
                     tvTagName.isInvisible = true
@@ -285,10 +299,10 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
 
                 if (BroadConstant.getRealUid() == this.id) {
                     getRightImg()?.isVisible = false
-                    faxiaoxitonghua?.isVisible = false
+                    faxiaoxitonghua.isVisible = false
                 } else {
-                    getRightImg()?.isVisible = true
-                    faxiaoxitonghua?.isVisible = this.isFri == "1"
+                    getRightImg()?.isVisible = false
+                    faxiaoxitonghua.isVisible = this.isFri == "1"
                 }
 
             }
@@ -374,7 +388,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
 //            SquareUserActivity.start(this, otherUid)
         }
 
-        faxiaoxi?.setOnClickListener {
+        faxiaoxi.setOnClickListener {
 
             MyIMActivityBroadUtils.activities.forEachIndexed { index, activity ->
                 if (activity is ConversationBroadActivity) {
@@ -387,7 +401,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
             goChatP2p(otherUid, friendName?.text?.toString(), this)
 
         }
-        yuyintonghua?.setOnClickListener {
+        yuyintonghua.setOnClickListener {
 //            XXPermissions.with(this).permission(Permission.RECORD_AUDIO)
 //                .request(object : OnPermissionCallback {
 //                    override fun onGranted(permissions: MutableList<String>, allGranted: Boolean) {
@@ -395,6 +409,9 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                         BroadE.startCall(otherUid, false, context = this@HaoYouPageBroadActivity)
 //                    }
 //                })
+        }
+        haoyouMoreOps.setOnClickListener {
+            JumpBroadUtils.startHaoYouSetActivity(this, otherUid, "")
         }
         qingkong?.setOnClickListener {
             val holder = CommanConfimBroadHolder(

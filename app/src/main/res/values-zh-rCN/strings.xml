@@ -59,6 +59,9 @@
     <string name="qingkongliaotian">清空聊天记录</string>
     <string name="faxiaoxi">发消息</string>
     <string name="yuyintonghua">语音通话</string>
+    <string name="qidongduihua">启动对话</string>
+    <string name="yuyinliaotian">语音聊天</string>
+    <string name="gengduocaozuo">更多操作</string>
     <string name="qingkongtishi">是否将联系人%1$s的聊天记录进行清空？</string>
     <string name="quxiao">取消</string>
     <string name="bveizhu">备注</string>
@@ -471,7 +474,7 @@
     <string name="边写边译">边写边译</string>
     <string name="清空双向聊天记录">清空双方聊天记录</string>
     <string name="clear_chat_history_both_sides">清空双方聊天记录</string>
-    <string name="nickname_with_prefix">(昵称:%1$s)</string>
+    <string name="nickname_with_prefix">昵称:%1$s</string>
     <string name="more_settings">更多设置</string>
     <string name="your_personal_info_changed">您的个人信息已更改</string>
     <string name="update_and_save_confirm">是否更新并保存</string>

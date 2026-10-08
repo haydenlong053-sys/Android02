@@ -57,6 +57,9 @@
     <string name="qingkongliaotian">Clear Chat History</string>
     <string name="faxiaoxi">Send Message</string>
     <string name="yuyintonghua">Voice Call</string>
+    <string name="qidongduihua">Start chat</string>
+    <string name="yuyinliaotian">Voice chat</string>
+    <string name="gengduocaozuo">More</string>
     <string name="qingkongtishi">Do you want to clear the chat history of contact %1$s?</string>
     <string name="quxiao">Cancel</string>
     <string name="bveizhu">Remark</string>

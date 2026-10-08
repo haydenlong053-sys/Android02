@@ -23,8 +23,9 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/mIvFirBg"
                     android:layout_width="match_parent"
-                    android:layout_height="343dp"
+                    android:layout_height="260dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_friend_info_bg"
                     tools:ignore="MissingConstraints" />
@@ -349,10 +350,71 @@
                     app:layout_constraintTop_toTopOf="@id/layoutMirrorCredit"
                     tools:visibility="visible" />
 
+
+                <com.cboda.baselibrary.view.AppRoundBroadImage
+                    android:id="@+id/mIvAvatar"
+                    android:layout_width="@dimen/dp_80"
+                    android:layout_height="@dimen/dp_80"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/ic_fri_head_default"
+                    app:app_round_border_width="4dp"
+                    app:app_round_border_color="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/mIvFirBg"
+                    android:layout_marginStart="@dimen/dp_24"
+                    android:layout_marginBottom="@dimen/dp_49"
+                    />
+
+                <LinearLayout
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@id/mIvAvatar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/mIvAvatar"
+                    app:layout_constraintTop_toTopOf="@id/mIvAvatar"
+                    android:layout_marginHorizontal="@dimen/dp_16"
+                    android:orientation="vertical"
+                    >
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/friendName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:text="JOY Follow" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/friendNickName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:visibility="gone"
+                        tools:text="(昵称:议告)"
+                        tools:visibility="visible" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/mTvAccountName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_4"
+                        android:singleLine="true"
+                        android:textColor="#999999"
+                        android:textSize="12sp"
+                        android:visibility="gone"
+                        tools:text="账号名："
+                        tools:visibility="visible" />
+                </LinearLayout>
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="343dp"
+                    android:layout_marginTop="260dp"
                     android:layout_marginBottom="24dp"
                     android:background="@color/bg_main2"
                     android:orientation="vertical"
@@ -723,90 +785,97 @@
                         android:id="@+id/faxiaoxitonghua"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp">
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
+                        <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/faxiaoxi"
-                            android:layout_width="match_parent"
-                            android:layout_height="54dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:background="@drawable/shape_white_round_broad_16">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_white_round_broad_16"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingTop="18dp"
+                            android:paddingBottom="14dp">
 
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:src="@mipmap/ic_fri_chat" />
 
-                            <androidx.appcompat.widget.LinearLayoutCompat
+                            <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <androidx.appcompat.widget.AppCompatImageView
-                                    android:layout_width="16dp"
-                                    android:layout_height="16dp"
-                                    android:src="@mipmap/ic_broad_faxiaoxi" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:text="@string/faxiaoxi"
-                                    android:textColor="#7A7BF8"
-                                    android:textSize="15sp"
-                                    android:textStyle="bold" />
-
-                            </androidx.appcompat.widget.LinearLayoutCompat>
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                                android:layout_marginTop="8dp"
+                                android:text="@string/qidongduihua"
+                                android:textColor="#4F6FF3"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
                         <View
-                            style="@style/Line2"
-                            android:layout_width="match_parent"
-                            android:layout_marginStart="20dp"
-                            android:visibility="gone" />
+                            android:layout_width="10dp"
+                            android:layout_height="1dp" />
 
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
+                        <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/yuyintonghua"
-                            android:layout_width="match_parent"
-                            android:layout_height="54dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginEnd="16dp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:background="@drawable/shape_white_round_broad_16"
-                            android:visibility="gone">
+                            android:visibility="gone"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingTop="18dp"
+                            android:paddingBottom="14dp">
 
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:src="@mipmap/ic_broad_yuyin" />
 
-                            <androidx.appcompat.widget.LinearLayoutCompat
+                            <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
+                                android:layout_marginTop="8dp"
+                                android:text="@string/yuyinliaotian"
+                                android:textColor="#4F6FF3"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
-                                <androidx.appcompat.widget.AppCompatImageView
-                                    android:layout_width="16dp"
-                                    android:layout_height="16dp"
-                                    android:src="@mipmap/ic_broad_yuyin" />
+                        <View
+                            android:layout_width="10dp"
+                            android:layout_height="1dp" />
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:text="@string/yuyintonghua"
-                                    android:textColor="#7A7BF8"
-                                    android:textSize="15sp"
-                                    android:textStyle="bold" />
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/haoyouMoreOps"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_white_round_broad_16"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingTop="18dp"
+                            android:paddingBottom="14dp">
 
-                            </androidx.appcompat.widget.LinearLayoutCompat>
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:src="@mipmap/ic_fri_more" />
 
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="@string/gengduocaozuo"
+                                android:textColor="#4F6FF3"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </LinearLayout>
 
@@ -823,8 +892,8 @@
 
     <ImageView
         android:id="@+id/mViewBack"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="2dp"
         android:src="@mipmap/ic_back2_broad_bg"
@@ -836,7 +905,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/dp_2"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="18dp"
         android:src="@mipmap/ic_broad_back2"
         app:layout_constraintBottom_toBottomOf="@id/mViewBack"
         app:layout_constraintEnd_toEndOf="@id/mViewBack"
@@ -855,40 +924,5 @@
         app:layout_constraintTop_toTopOf="@id/mViewBack"
         tools:visibility="visible" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/mViewBack"
-        app:layout_constraintEnd_toStartOf="@id/iv_float_more"
-        app:layout_constraintStart_toEndOf="@id/mViewBack"
-        app:layout_constraintTop_toTopOf="@id/mViewBack">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/friendName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="JOY Follow" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/friendNickName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/friendName"
-            tools:text="(昵称:议告)"
-            tools:visibility="visible" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
