@@ -752,7 +752,8 @@
                         <View
                             style="@style/Line2"
                             android:layout_width="match_parent"
-                            android:layout_marginStart="20dp" />
+                            android:layout_marginStart="20dp"
+                            android:visibility="gone" />
 
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -762,7 +763,8 @@
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="12dp"
                             android:layout_marginEnd="16dp"
-                            android:background="@drawable/shape_white_round_broad_16">
+                            android:background="@drawable/shape_white_round_broad_16"
+                            android:visibility="gone">
 
 
                             <androidx.appcompat.widget.LinearLayoutCompat

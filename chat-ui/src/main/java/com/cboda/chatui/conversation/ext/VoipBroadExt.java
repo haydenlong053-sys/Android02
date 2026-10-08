@@ -20,10 +20,7 @@ import com.cboda.chatui.conversation.ext.core.ConversationBroadExt;
 import com.cboda.chatui.conversation.ext.core.ConversationMidExt;
 import com.freddy.webtrc.utils.BroadE;
 
-import cn.wildfirechat.avenginekit.AVEngineKit;
 import cn.wildfirechat.model.Conversation;
-import cn.wildfirechat.model.UserInfo;
-import cn.wildfirechat.remote.ChatManager;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
@@ -123,18 +120,7 @@ public class VoipBroadExt extends ConversationMidExt {
 
     @Override
     public boolean filter(Conversation conversation) {
-        if ((conversation.type == Conversation.ConversationType.Group && AVEngineKit.isSupportMultiCall())) {
-            return false;
-        }
-
-        if (conversation.type == Conversation.ConversationType.Single) {
-            UserInfo userInfo = ChatManager.Instance().getUserInfo(conversation.target, false);
-            // robot
-            if (userInfo.type == 1) {
-                return true;
-            }
-            return false;
-        }
+        // 隐藏「语音通话」扩展入口
         return true;
     }
 

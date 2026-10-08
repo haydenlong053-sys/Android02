@@ -48,7 +48,8 @@
                 layout="@layout/panel_chat_more_item"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:visibility="gone" />
 
             <include
                 android:id="@+id/panel_more_file"
@@ -99,7 +100,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:visibility="invisible"
+                android:visibility="gone"
                 tools:visibility="visible"
                 />
 

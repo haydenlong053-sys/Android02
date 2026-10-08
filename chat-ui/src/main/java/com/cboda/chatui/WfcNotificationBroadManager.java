@@ -75,6 +75,7 @@ public class WfcNotificationBroadManager {
             channel.enableLights(true); //是否在桌面icon右上角展示小红点
             channel.setLightColor(Color.GREEN); //小红点颜色
             channel.setShowBadge(true); //是否在久按桌面图标时显示此渠道的通知
+            channel.setSound(null, null); // 全局关闭消息提示音
             notificationManager.createNotificationChannel(channel);
         }
 
@@ -97,7 +98,8 @@ public class WfcNotificationBroadManager {
                    .setContentText(content)
                    .setAutoCancel(true)  // 允许点击后清除通知
                    .setPriority(NotificationCompat.PRIORITY_MAX)
-                   .setDefaults(NotificationCompat.DEFAULT_ALL)  // 默认配置,包括通知的提示音,震动效果等
+                   .setDefaults(NotificationCompat.DEFAULT_VIBRATE | NotificationCompat.DEFAULT_LIGHTS)  // 不播系统提示音
+                   .setSound(null)
                    .setContentIntent(pendingIntent); //一定要设置，点击整个remoteView就可跳转
                notificationManager.notify(id, notification.build());
     }

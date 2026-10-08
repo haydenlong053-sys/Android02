@@ -120,7 +120,8 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="50dp"
+            android:visibility="gone">
             <TextView
                 android:text="@string/消息提示音"
                 android:textSize="15sp"
@@ -137,7 +138,8 @@
         <View
             android:background="#11E9E9E9"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"/>
+            android:layout_height="0.5dp"
+            android:visibility="gone"/>
         <LinearLayout
             android:id="@+id/llZts"
             android:paddingHorizontal="20dp"
