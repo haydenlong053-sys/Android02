@@ -176,7 +176,7 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
 //
 //                }
                 ivMirrorSex.setImageResource(com.cboda.baselibrary.R.mipmap.ic_head_broad_defaut)
-                ivMirrorSex.isVisible = true
+                ivMirrorSex.isVisible = false
                 val isFriend = "1" == it.data?.isFri
                 otherLayout.isGone = otherUid == MMKVBroadUtils.getRealUserId() || !isFriend
                 findViewById<ImageView>(R.id.iv_float_more).isInvisible =
