@@ -15,6 +15,9 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -82,6 +85,11 @@ import org.greenrobot.eventbus.ThreadMode
 import androidx.compose.ui.viewinterop.AndroidView
 import com.cboda.baselibrary.bean.SocialBroadCircle
 import com.cboda.baselibrary.bean.SocialContact
+
+/** 主页悬浮底栏内容高度（与 ExpandableBottomBroadBar.BarHeight 对齐） */
+private val MainBottomBarContentHeight = 64.dp
+/** 底栏上方额外空隙，避免最后一项贴边 */
+private val MainBottomBarExtraGap = 16.dp
 
 enum class CircleInteractionBroadMode {
     WithAllSingleSelect, // 有“全部”选项，单选
@@ -162,6 +170,11 @@ fun SocialScreen(
     val scope = rememberCoroutineScope()
     val showEmpty = state.contactsAll.isEmpty() && !state.isLoading
 
+    // 悬浮底栏盖在列表上：给 LazyColumn 留出底栏高度 + 系统导航栏，避免末项被挡
+    val bottomContentPadding = MainBottomBarContentHeight +
+        MainBottomBarExtraGap +
+        WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+
     // 前置两项：邀请行 + 好友汇总行
     val indexToPosition = remember(state.groupedByLetter, showEmpty) {
         val mapping = mutableMapOf<Char, Int>()
@@ -184,7 +197,7 @@ fun SocialScreen(
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = listState,
-            contentPadding = PaddingValues(bottom = 12.dp)
+            contentPadding = PaddingValues(bottom = bottomContentPadding)
         ) {
             item {
                 InviteRow(

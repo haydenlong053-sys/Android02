@@ -236,7 +236,9 @@ class HaoYouPageBroadActivity : BaseSimpleBroadActivity() {
                 if (icon?.isNotEmpty() == true){
                     mIvAvatar.loadImg(icon)
                 }
-                if (acount.isNullOrEmpty()|| isFri !="1") {
+                // 好友或本人：有账号则展示
+                val isSelf = otherUid == MMKVBroadUtils.getRealUserId()
+                if (acount.isNullOrEmpty() || (isFri != "1" && !isSelf)) {
                     mTvAccountName.isGone = true
                 } else {
                     mTvAccountName.text = "账号:$acount"
