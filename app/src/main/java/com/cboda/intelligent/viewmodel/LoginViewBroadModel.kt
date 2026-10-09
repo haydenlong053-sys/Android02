@@ -752,14 +752,15 @@ open class LoginViewBroadModel : BaseViewBroadModel() {
             showToastMain(R.string.please_enter_password)
             return
         }
-        if (TextUtils.isEmpty(secondPwd)) {
-            showToastMain(com.cboda.baselibrary.R.string.please_again_input_pwd)
-            return
-        }
-        if (pwd != secondPwd) {
-            showToastMain(com.cboda.baselibrary.R.string.again_pwd_inconsistent)
-            return
-        }
+        // 二次确认密码：暂时关闭，恢复输入框后取消注释
+        // if (TextUtils.isEmpty(secondPwd)) {
+        //     showToastMain(com.cboda.baselibrary.R.string.please_again_input_pwd)
+        //     return
+        // }
+        // if (pwd != secondPwd) {
+        //     showToastMain(com.cboda.baselibrary.R.string.again_pwd_inconsistent)
+        //     return
+        // }
         if (pwd.trim().length < 6) {
             showToastMain(com.cboda.baselibrary.R.string.pwd_length_six)
             return

@@ -42,7 +42,8 @@ class RegisteredBroadFragment : BaseBroadFragment<RegisteredBroadFragmentBinding
         binding.loginAccount.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)
         binding.loginNickname.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)
         binding.loginPwd.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)
-        binding.updatePwd.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)
+        // 二次确认密码：暂时隐藏
+        // binding.updatePwd.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)
         binding.loginCaptcha.setStrokeColorAndStartAlpha(noFocusColor = R.color.color_E5E5E5)
         binding.loginBtn.isSubmitCanGo(
             false,
@@ -63,16 +64,20 @@ class RegisteredBroadFragment : BaseBroadFragment<RegisteredBroadFragmentBinding
         }
         binding.loginNickname.setEdTextChange { refreshSubmitEnabled() }
         binding.loginPwd.setEdTextChange { refreshSubmitEnabled() }
-        binding.updatePwd.setEdTextChange { refreshSubmitEnabled() }
+        // 二次确认密码：暂时隐藏
+        // binding.updatePwd.setEdTextChange { refreshSubmitEnabled() }
         binding.loginCaptcha.setEdTextChange { refreshSubmitEnabled() }
         binding.loginCaptchaImage.click { refreshCaptcha() }
         binding.loginCaptchaRefresh.click { refreshCaptcha() }
         binding.loginBtn.click {
+            val pwd = binding.loginPwd.text.toString()
             viewModel.registerAccount(
                 account = binding.loginAccount.text.toString(),
                 nickname = binding.loginNickname.text.toString(),
-                pwd = binding.loginPwd.text.toString(),
-                secondPwd = binding.updatePwd.text.toString(),
+                pwd = pwd,
+                // 二次确认密码暂时关闭：与密码保持一致，恢复输入框后改回 binding.updatePwd
+                secondPwd = pwd,
+                // secondPwd = binding.updatePwd.text.toString(),
                 captchaId = captchaId,
                 captcha = binding.loginCaptcha.text.toString(),
                 onCaptchaInvalid = { refreshCaptcha() },
@@ -82,20 +87,21 @@ class RegisteredBroadFragment : BaseBroadFragment<RegisteredBroadFragmentBinding
             binding.loginAccount.setText("")
         }
         bindPwdLookTouch(binding.loginPwdLook, binding.loginPwd)
-        bindPwdLookTouch(binding.updatePwdLook, binding.updatePwd)
+        // 二次确认密码：暂时隐藏
+        // bindPwdLookTouch(binding.updatePwdLook, binding.updatePwd)
     }
 
     private fun refreshSubmitEnabled() {
         val account = binding.loginAccount.text.toString()
         val nickname = binding.loginNickname.text.toString().trim()
         val pwd = binding.loginPwd.text.toString()
-        val secondPwd = binding.updatePwd.text.toString()
+        // val secondPwd = binding.updatePwd.text.toString()
         val captcha = binding.loginCaptcha.text.toString()
         binding.loginBtn.isSubmitCanGo(
             !TextUtils.isEmpty(account)
                 && !TextUtils.isEmpty(nickname)
                 && !TextUtils.isEmpty(pwd)
-                && !TextUtils.isEmpty(secondPwd)
+                // && !TextUtils.isEmpty(secondPwd)
                 && !TextUtils.isEmpty(captcha),
             R.drawable.bg_auth_btn_disabled,
             R.drawable.bg_auth_btn,
