@@ -339,7 +339,8 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
                 : name;
         holder.tvName.setText(displayName);
         MessageAvatarBinder.bindSessionListAvatar(holder.avatar, s, currentUserId);
-        MessageAvatarBinder.bindSessionRegisterDay(holder.tvRegisterDay, s, currentUserId);
+        //目前不需要展示，注释掉注册天数
+//        MessageAvatarBinder.bindSessionRegisterDay(holder.tvRegisterDay, s, currentUserId);
 
         bindPreview(holder, s);
         bindUnread(holder, s);
