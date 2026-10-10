@@ -101,7 +101,7 @@ import com.cboda.chatui.user.UserViewBroadModel
 import com.cboda.chatui.utils.E
 import com.cboda.intelligent.base.BaseSimpleBroadActivity
 import com.cboda.intelligent.bean.SquareMessageUnreadBroadEvent
-import com.cboda.intelligent.bean.VersionUpdateBean
+import com.freddy.im.http.model.im.AppVersionRes
 import com.cboda.intelligent.compose.ExpandableBottomBar
 import com.cboda.intelligent.compose.ExpandableBottomBarBroadItem
 import com.cboda.intelligent.dialog.pop.PaymentMethodPopup
@@ -436,7 +436,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 //        getsitonggonggao()
 
 //        viewModel?.versionUpdate(this)
-//        checkVersionUpdate()
+        checkVersionUpdate()
 //        val hasNotificationPermission = AppPermissionBroadUtils.hasNotificationPermission(this)
 //        if (!hasNotificationPermission) {
 //            AppPermissionBroadUtils.requestNotificationPermission(this, 1001)
@@ -499,31 +499,30 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
         }
     }
 
-    /** 检查版本更新：number > 本地 versionCode 时弹框；点更新用 url 跳外部浏览器下载。 */
+    /** 检查版本更新：GET im/app/version；needUpdate 为 true 时弹框。 */
     private fun checkVersionUpdate() {
         versionUpdateViewModel.versionUpdate().observe(this@MainBroadActivity) { bean ->
-            if (bean == null || !bean.isAndroidPlatform()) {
+            if (bean == null || !bean.isNeedUpdate) {
                 return@observe
             }
-            val localCode = AppBroadUtils.getVersionCode(this)
-            eLogD(APP_TAG, "localCode=$localCode  number=${bean.number}")
-            if (bean.number <= localCode) {
-                return@observe
-            }
+            eLogD(
+                APP_TAG,
+                "needUpdate=${bean.isNeedUpdate} force=${bean.isForceUpdate} latest=${bean.latestVersion}"
+            )
             showVersionUpdateDialog(bean)
         }
     }
 
-    private fun showVersionUpdateDialog(bean: VersionUpdateBean) {
-        val content = if (!TextUtils.isEmpty(bean.content)) {
-            bean.content!!
+    private fun showVersionUpdateDialog(bean: AppVersionRes) {
+        val content = if (!TextUtils.isEmpty(bean.releaseNote)) {
+            bean.releaseNote!!
         } else {
             ImUiStrings.get(
                 com.cboda.baselibrary.R.string.app_update_content_default,
-                bean.version.orEmpty(),
+                bean.latestVersion.orEmpty(),
             )
         }
-        val force = bean.isForceUpdate()
+        val force = bean.isForceUpdate
         showCommonStrTip(
             ImUiStrings.get(com.cboda.baselibrary.R.string.app_update_title),
             content,
@@ -533,7 +532,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
             isOutSideTouchable = !force
         ) { update ->
             if (update) {
-                openExternalDownload(bean.url)
+                openExternalDownload(bean.downloadUrl)
                 if (force && !BuildConfig.DEBUG) {
                     // 强制更新：点完仍再弹，避免绕过
                     showVersionUpdateDialog(bean)

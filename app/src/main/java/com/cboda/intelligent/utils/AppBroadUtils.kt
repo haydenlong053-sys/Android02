@@ -109,6 +109,17 @@ class AppBroadUtils {
             return info?.versionCode ?: 1
         }
 
+        /** 客户端版本名，如 {@code 1.1.0}，供 {@code im/app/version} 使用。 */
+        fun getVersionName(context: Context?): String {
+            return try {
+                val info = context?.packageManager?.getPackageInfo(context.packageName, 0)
+                info?.versionName?.trim().orEmpty()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                ""
+            }
+        }
+
 
         /**
          * 状态栏是否使用深色 true黑色 false 白色
