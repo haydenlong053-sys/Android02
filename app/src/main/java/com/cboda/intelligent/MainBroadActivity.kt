@@ -436,8 +436,7 @@ class MainBroadActivity : BaseSimpleBroadActivity(), I_CEventListener {
 //        getsitonggonggao()
 
 //        viewModel?.versionUpdate(this)
-        //简版暂时注释版本更新
-//        checkVersionUpdate()
+        checkVersionUpdate()
 
 //        val hasNotificationPermission = AppPermissionBroadUtils.hasNotificationPermission(this)
 //        if (!hasNotificationPermission) {

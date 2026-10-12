@@ -96,6 +96,7 @@
                 />
 
             <include
+                android:id="@+id/panel_more_space1"
                 layout="@layout/panel_chat_more_item"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"

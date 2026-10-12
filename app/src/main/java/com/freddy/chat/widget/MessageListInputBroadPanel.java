@@ -155,6 +155,24 @@ public class MessageListInputBroadPanel extends FrameLayout
 //        }
     }
 
+    /**
+     * 「语音通话」：单聊始终展示；群聊仅群主/管理员展示（由外部按角色传入）。
+     */
+    public void setVoiceCallEntryVisible(boolean visible) {
+        if (fragment == null || fragment.getView() == null) {
+            return;
+        }
+        View voiceCall = fragment.requireView().findViewById(R.id.panel_more_voice_call);
+        View panelSpace = fragment.requireView().findViewById(R.id.panel_more_space1);
+        if (voiceCall != null) {
+            voiceCall.setVisibility(visible ? VISIBLE : GONE);
+        }
+        //第二行排版占位
+        if (panelSpace != null) {
+            panelSpace.setVisibility(visible ? INVISIBLE : GONE);
+        }
+    }
+
     /** 群聊 @ 成员：输入 {@code @} 弹出选择页，长按头像由外部插入片段。 */
     public void configureMention(boolean enabled, @Nullable Runnable onPickMentionMember) {
         mentionEnabled = enabled;

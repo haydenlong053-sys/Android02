@@ -345,6 +345,10 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
                     ToastBroadUtils.show(com.cboda.baselibrary.R.string.msg_meeting_func_unavailable);
                     return;
                 }
+                if (isGroupChat && !GroupRole.isOwnerOrAdmin(myGroupRole)) {
+                    ToastBroadUtils.show("只有群主/管理员可以发起语音通话");
+                    return;
+                }
                 if (isGroupChat) {
                     launchGroupCallMemberPicker();
                 } else {
@@ -373,6 +377,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             }
         });
         inputPanel.configureMorePanel(isGroupChat);
+        refreshVoiceCallEntry();
         if (isGroupChat) {
             inputPanel.configureMention(true, this::launchMentionPicker);
         }
@@ -449,8 +454,18 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             ((MessageListActivity) getActivity()).updateMeetPluginGroupRole(myGroupRole);
         }
         if (isAdded()) {
+            refreshVoiceCallEntry();
             onGroupMuteStateReady();
         }
+    }
+
+    /** 单聊始终展示；群聊仅群主/管理员展示「语音通话」。 */
+    private void refreshVoiceCallEntry() {
+        if (inputPanel == null) {
+            return;
+        }
+        boolean show = !isGroupChat || GroupRole.isOwnerOrAdmin(myGroupRole);
+        inputPanel.setVoiceCallEntryVisible(show);
     }
 
     private void setupMeetJoinInteraction() {
