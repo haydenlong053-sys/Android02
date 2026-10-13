@@ -13,6 +13,7 @@ import com.freddy.im.db.ImDbExecutor;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.api.CreateGroupApi;
 import com.freddy.im.http.api.DeleteForAllMessageApi;
+import com.freddy.im.http.api.EditMessageApi;
 import com.freddy.im.http.api.FileUploadApi;
 import com.freddy.im.http.api.GetConversationListApi;
 import com.freddy.im.http.api.GetGroupDetailApi;
@@ -828,6 +829,48 @@ public final class ImMessageHttpExample {
             return "video/3gpp";
         }
         return "video/mp4";
+    }
+
+    /**
+     * POST {@code im/message/edit}：编辑消息（§ msgEdit）。
+     * {@code content} 为纯文本，服务端再包成 {@code {"msg":"..."}}。
+     */
+    public static void requestEditMessage(@NonNull String messageId,
+                                          @NonNull String plainText,
+                                          @Nullable OnHttpImListener<Boolean> callback,
+                                          @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(messageId) || TextUtils.isEmpty(plainText)) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.post(ApplicationLifecycle.getInstance())
+                .api(new EditMessageApi().setMessageId(messageId).setContent(plainText))
+                .request(new OnHttpListener<BaseMsgResponse<Object>>() {
+                    @Override
+                    public void onHttpSuccess(@NonNull BaseMsgResponse<Object> result) {
+                        if (!result.isSuccess()) {
+                            Log.e(MY_TAG, "edit 业务错误: errorCode=" + result.getErrorCode()
+                                    + " msg=" + result.getErrorMsg());
+                            if (onFail != null) {
+                                ToastBroadUtils.show(result.getErrorMsg());
+                            }
+                            return;
+                        }
+                        if (callback != null) {
+                            callback.onHttpImSuccess(Boolean.TRUE);
+                        }
+                    }
+
+                    @Override
+                    public void onHttpFail(@NonNull Throwable throwable) {
+                        Log.e(MY_TAG, "edit 请求失败: " + throwable.getMessage());
+                        if (onFail != null) {
+                            onFail.run();
+                        }
+                    }
+                });
     }
 
     /**

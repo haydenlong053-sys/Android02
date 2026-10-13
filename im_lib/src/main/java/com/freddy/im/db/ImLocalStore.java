@@ -306,6 +306,21 @@ public final class ImLocalStore {
     }
 
     /**
+     * 按服务端 msgId 应用消息编辑（文档 msgEdit）：更新 content / customInfo / status=5。
+     *
+     * @param contentJson    完整 content JSON，如 {@code {"msg":"..."}}
+     * @param customInfoJson 可为 null，则本地合并 edited/editedAt
+     */
+    public static void applyMessageEdit(@NonNull String msgId,
+                                        @NonNull String contentJson,
+                                        @Nullable String customInfoJson,
+                                        long editedAtMs,
+                                        @Nullable ImMessageRepository.OnMessageUpdatedCallback onUpdated) {
+        ImMessageRepository.getInstance().applyEditByMsgId(
+                msgId, contentJson, customInfoJson, editedAtMs, onUpdated);
+    }
+
+    /**
      * 加载会话「最新」一页本地消息，最多 {@link #MESSAGE_PAGE_SIZE} 条（按 {@code timestamp} 升序展示）。
      * <p>
      * 禁止在主线程调用；请使用 {@link #loadMessages(String, OnLoadCallback)}。

@@ -60,6 +60,11 @@ public class BroadConfig {
     public static int RECALL_REEDIT_TIME_LIMIT = 60;
 
     /**
+     * 允许编辑自己发出的文本消息的时限，单位是秒（对齐服务端 msgEdit 15 分钟）
+     */
+    public static int MESSAGE_EDIT_TIME_LIMIT = 15 * 60;
+
+    /**
      * 工作台页面地址
      * <p>
      * 如果不想显示工作台，置为 null 即可

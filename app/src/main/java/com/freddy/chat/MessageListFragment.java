@@ -53,6 +53,7 @@ import com.cboda.intelligent.activity.im.ImGroupMemberUiMapper;
 import com.cboda.intelligent.activity.im.ImQunInfo2BroadActivity;
 import com.cboda.intelligent.activity.im.ImQunMemberListBroadActivity;
 import com.cboda.intelligent.dialog.MessageDeleteOptionsDialogFra;
+import com.cboda.intelligent.holder.BianJiTextBroadHolder;
 import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.chat.im.MessageBuilder;
@@ -85,6 +86,7 @@ import com.freddy.im.message.ImActiveChatSession;
 import com.freddy.im.message.GroupMemberSyncHelper;
 import com.freddy.im.message.ImMessageManager;
 import com.freddy.im.message.MessageContentFormatter;
+import com.freddy.im.message.MessageEditHelper;
 import com.freddy.webtrc.utils.BroadE;
 import com.freddy.im.group.GroupMuteEvaluator;
 import com.freddy.im.group.GroupRole;
@@ -1486,6 +1488,46 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         ImMessageHttpExample.requestRepealMessage(message.getMsgId(), success -> runOnUiThreadSafe(() ->
                 applyRecallUi(message.getMsgId())), () -> runOnUiThreadSafe(() ->
                 Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.message_recall_failed, Toast.LENGTH_SHORT).show()));
+    }
+
+    @Override
+    public void onEditMessage(@NonNull AppMessage message) {
+        if (!MessageMenuPolicy.canEdit(message, IMSClientBootstrap.getInstance().getCurrentUserId())) {
+            return;
+        }
+        String original = MessageContentFormatter.extractPlainText(message.getContent());
+        BianJiTextBroadHolder holder = new BianJiTextBroadHolder(requireContext(), original);
+        holder.setCallBack(new BianJiTextBroadHolder.OnConfimCallBack() {
+            @Override
+            public void onClickConfim(String txt) {
+                if (TextUtils.isEmpty(txt) || txt.equals(original)) {
+                    return;
+                }
+                submitMessageEdit(message, txt);
+            }
+        });
+        holder.show();
+    }
+
+    private void submitMessageEdit(@NonNull AppMessage message, @NonNull String plainText) {
+        String msgId = message.getMsgId();
+        if (TextUtils.isEmpty(msgId)) {
+            ToastBroadUtils.show(com.cboda.chatui.R.string.message_edit_failed);
+            return;
+        }
+        ImMessageHttpExample.requestEditMessage(msgId, plainText, success -> {
+            String contentJson = MessageEditHelper.wrapPlainTextContent(plainText);
+            String customInfo = MessageEditHelper.mergeEditedCustomInfo(
+                    message.getCustomInfo(), System.currentTimeMillis());
+            ImLocalStore.applyMessageEdit(msgId, contentJson, customInfo, System.currentTimeMillis(),
+                    updated -> runOnUiThreadSafe(() -> {
+                        if (updated != null) {
+                            adapter.updateMessage(updated);
+                            MessageProcessor.getInstance().notifyMessageUpdated(updated);
+                        }
+                    }));
+        }, () -> runOnUiThreadSafe(() ->
+                ToastBroadUtils.show(com.cboda.chatui.R.string.message_edit_failed)));
     }
 
     @Override

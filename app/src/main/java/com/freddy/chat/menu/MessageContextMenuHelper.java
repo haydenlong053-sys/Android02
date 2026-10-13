@@ -40,6 +40,10 @@ public final class MessageContextMenuHelper {
 //            menuActions.add(action(context, com.cboda.chatui.R.string.message_recall,
 //                    () -> actions.onRecallMessage(message)));
 //        }
+        if (MessageMenuPolicy.canEdit(message, currentUserId)) {
+            menuActions.add(action(context, com.cboda.chatui.R.string.message_edit,
+                    () -> actions.onEditMessage(message)));
+        }
         if (MessageMenuPolicy.canCopy(message)) {
             menuActions.add(action(context, com.cboda.chatui.R.string.message_copy,
                     () -> actions.onCopyMessage(message)));

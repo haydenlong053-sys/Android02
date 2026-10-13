@@ -11,6 +11,7 @@ import com.freddy.im.IMSConfig;
 import com.freddy.im.MessageType;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.message.MessageContentFormatter;
+import com.freddy.im.message.MessageRepealHelper;
 
 /**
  * 长按菜单项可见性（对齐野火 {@code contextMenuItemFilter} 与 ConversationMessageBroadAdapter 逻辑）。
@@ -77,6 +78,37 @@ public final class MessageMenuPolicy {
 
     public static boolean canCopy(@NonNull AppMessage message) {
         return MessageType.MessageContentType.isText(message.getMsgContentType());
+    }
+
+    /**
+     * 是否可编辑：仅自己发出的纯文本（contentType=100），15 分钟内，未撤回。
+     * 转发 / 合并不可编辑（对齐文档 msgEdit）。
+     */
+    public static boolean canEdit(@NonNull AppMessage message, @Nullable String currentUserId) {
+        if (!supportsContextMenu(message)) {
+            return false;
+        }
+        if (!message.isSender(currentUserId)) {
+            return false;
+        }
+        if (MessageRepealHelper.isRecalled(message)) {
+            return false;
+        }
+        if (message.getMsgContentType() != MessageType.MessageContentType.TEXT.getMsgContentType()) {
+            return false;
+        }
+        if (TextUtils.isEmpty(message.getMsgId())) {
+            return false;
+        }
+        if (message.getSendStatus() == IMSConfig.SEND_STATUS_SENDING) {
+            return false;
+        }
+        long millis = WeChatUiHelper.normalizeToMillis(message.getTimestamp());
+        if (millis <= 0L) {
+            return false;
+        }
+        long limitMs = BroadConfig.MESSAGE_EDIT_TIME_LIMIT * 1000L;
+        return System.currentTimeMillis() - millis < limitMs;
     }
 
     public static boolean canForward(@NonNull AppMessage message) {

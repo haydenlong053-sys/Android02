@@ -366,6 +366,8 @@
     <string name="message_grade_unit">pts</string>
     <string name="message_joined_group"> Joined</string>
     <string name="message_edit">Edit</string>
+    <string name="message_edited">Edited</string>
+    <string name="message_edit_failed">Edit failed</string>
     <string name="message_add">Add</string>
     <string name="message_recall">Recall</string>
     <string name="message_copy">Copy</string>

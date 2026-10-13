@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 import com.freddy.im.bean.AppMessage;
 
 /**
- * 消息业务状态：0 正常 / 1 撤回。
+ * 消息业务状态：0 正常 / 1 撤回（编辑见 {@link MessageEditHelper#STATUS_EDITED}=5）。
  * 撤回后保留原 content/msgType，仅改 status，展示层按 status 渲染「撤回了一条消息」。
  */
 public final class MessageRepealHelper {

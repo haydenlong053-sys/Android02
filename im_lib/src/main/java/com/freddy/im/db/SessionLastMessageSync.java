@@ -240,6 +240,27 @@ public final class SessionLastMessageSync {
         return SessionRealmMapper.toSessionItem(realm.copyFromRealm(session));
     }
 
+    /**
+     * 消息编辑后，若编辑的是会话最近一条，则刷新会话摘要（须在 Realm 写事务内调用）。
+     */
+    @Nullable
+    public static SessionItem applyEditPreviewInTransaction(@NonNull Realm realm,
+                                                            @NonNull String msgId,
+                                                            @NonNull AppMessage editedMessage) {
+        String sessionId = resolveSessionId(editedMessage);
+        if (TextUtils.isEmpty(sessionId)) {
+            return null;
+        }
+        SessionEntity session = realm.where(SessionEntity.class)
+                .equalTo("sessionId", sessionId)
+                .findFirst();
+        if (session == null || !matchesLastMessageId(session.getLastMessageId(), msgId, editedMessage)) {
+            return null;
+        }
+        fillLastMessageFields(session, editedMessage);
+        return SessionRealmMapper.toSessionItem(realm.copyFromRealm(session));
+    }
+
 //    @NonNull
 //    public static List<SessionItem> applyInTransaction(@NonNull Realm realm,
 //                                                       @NonNull List<AppMessage> messages,

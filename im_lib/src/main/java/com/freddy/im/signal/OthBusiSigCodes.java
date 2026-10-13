@@ -47,6 +47,12 @@ public final class OthBusiSigCodes {
     /** 会议倒计时提醒（推送给房主），data 为 {@code {"time":"分钟","amount":"DUALX价格"}}，对齐野火 6011。 */
     public static final int MEET_PRE_END_TIP = 6011;
 
+    /**
+     * 消息编辑（文档 msgEdit），data 含
+     * {@code kind=msg_edit,messageId,content,customInfo,editedAt,status}（可选 groupId）。
+     */
+    public static final int MSG_EDIT = 6001;
+
     private OthBusiSigCodes() {
     }
 }

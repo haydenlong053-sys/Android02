@@ -326,6 +326,11 @@ public class MessageProcessor implements IMessageProcessor {
         });
     }
 
+    /** 消息内容/状态变更（如编辑）后通知会话页刷新气泡。 */
+    public void notifyMessageUpdated(@NonNull AppMessage message) {
+        dispatchOutgoingUpdated(message);
+    }
+
     /**
      * 单聊 0x0207：对方已读至 {@code messageId} 对应序列（含该序列及之前己方消息展示已读）。
      */

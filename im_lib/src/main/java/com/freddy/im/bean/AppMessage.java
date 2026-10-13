@@ -43,7 +43,7 @@ public class AppMessage implements Parcelable {
     /** 群聊：已读人数（HTTP 列表或 0x0210 信令） */
     private int readPersonCount;
 
-    /** 消息状态：0 正常，1 撤回（见 {@link com.freddy.im.message.MessageRepealHelper}） */
+    /** 消息状态：0 正常，1 撤回，5 已编辑（见 MessageRepealHelper / MessageEditHelper） */
     private int status;
 
     public AppMessage() {

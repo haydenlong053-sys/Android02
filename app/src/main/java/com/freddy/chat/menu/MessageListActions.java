@@ -14,6 +14,8 @@ public interface MessageListActions {
 
     void onRecallMessage(@NonNull AppMessage message);
 
+    void onEditMessage(@NonNull AppMessage message);
+
     void onCopyMessage(@NonNull AppMessage message);
 
     void onEnterMultiSelectMode(@NonNull AppMessage message);

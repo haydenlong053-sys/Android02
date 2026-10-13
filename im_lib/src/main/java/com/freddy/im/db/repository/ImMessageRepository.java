@@ -22,6 +22,7 @@ import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.message.ImMessageManager;
 import com.freddy.im.message.MessageContentFormatter;
+import com.freddy.im.message.MessageEditHelper;
 import com.freddy.im.message.MessageRepealHelper;
 
 import java.util.ArrayList;
@@ -563,6 +564,68 @@ public final class ImMessageRepository {
         target.setReadPersonCount(source.getReadPersonCount());
         target.setStatus(source.getStatus());
         return target;
+    }
+
+    /**
+     * 按服务端 {@code msgId} 应用消息编辑（status=5，更新 content/customInfo）；未找到时回调 {@code null}。
+     */
+    public void applyEditByMsgId(@NonNull String msgId,
+                                 @NonNull String contentJson,
+                                 @Nullable String customInfoJson,
+                                 long editedAtMs,
+                                 @Nullable OnMessageUpdatedCallback onUpdated) {
+        if (TextUtils.isEmpty(msgId) || TextUtils.isEmpty(contentJson) || !ImRealm.isUserBound()) {
+            if (onUpdated != null) {
+                onUpdated.onUpdated(null);
+            }
+            return;
+        }
+        final String id = msgId;
+        final String content = contentJson;
+        final String customInfo = customInfoJson;
+        final long editedAt = editedAtMs;
+        ImDbExecutor.runWrite(() -> {
+            Realm realm = ImRealm.getRealm();
+            AppMessage updated = null;
+            SessionItem sessionUpdate = null;
+            try {
+                final SessionItem[] sessionHolder = new SessionItem[1];
+                realm.executeTransaction(r -> {
+                    MessageEntity entity = r.where(MessageEntity.class)
+                            .equalTo("msgId", id)
+                            .findFirst();
+                    if (entity == null) {
+                        return;
+                    }
+                    AppMessage original = MessageRealmMapper.toAppMessage(entity);
+                    if (MessageRepealHelper.isRecalled(original)) {
+                        return;
+                    }
+                    AppMessage edited = MessageEditHelper.toEditedMessage(
+                            original, content, customInfo, editedAt);
+                    entity.setContent(edited.getContent());
+                    entity.setCustomInfo(edited.getCustomInfo());
+                    entity.setStatus(edited.getStatus());
+                    sessionHolder[0] = SessionLastMessageSync.applyEditPreviewInTransaction(r, id, edited);
+                });
+                sessionUpdate = sessionHolder[0];
+                MessageEntity entity = realm.where(MessageEntity.class)
+                        .equalTo("msgId", id)
+                        .findFirst();
+                if (entity != null) {
+                    updated = MessageRealmMapper.toAppMessage(realm.copyFromRealm(entity));
+                }
+            } finally {
+                realm.close();
+            }
+            if (sessionUpdate != null) {
+                ImLocalStore.dispatchSessionPreviewUpdated(Collections.singletonList(sessionUpdate));
+            }
+            final AppMessage result = updated;
+            if (onUpdated != null) {
+                onUpdated.onUpdated(result);
+            }
+        });
     }
 
     /**
