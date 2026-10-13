@@ -166,6 +166,7 @@ class CallActivity : AppCompatActivity() {
             renderPeerInfo()
             applySingleInitialUi()
         }
+        CallSessionHolder.bindHangupAction { hangupForNetworkLoss() }
         CallUtil.setCallListener(lifecycle.coroutineScope, this) { event -> onRoomEvent(event) }
         val alreadyConnected = CallUtil.isRoomConnected(this)
         if (!alreadyConnected && (outgoing || (!TextUtils.isEmpty(callUrl) && !TextUtils.isEmpty(callToken)))) {
@@ -628,6 +629,20 @@ class CallActivity : AppCompatActivity() {
 
     private fun onRoomEvent(event: RoomEvent) {
         eLogD(tAG, "event2:" + event.javaClass.simpleName)
+        // 在切主线程前同步标记，避免 runOnUiThread 排队期间状态已变导致误挂断
+        when (event) {
+            is RoomEvent.Reconnecting -> CallSessionHolder.onRoomReconnecting()
+            is RoomEvent.Reconnected -> CallSessionHolder.onRoomReconnected()
+            is RoomEvent.ParticipantDisconnected -> {
+                // 若漏收 Reconnecting，用房间态兜底启动 30s 补偿
+                if (CallUtil.isRoomReconnecting(this)) {
+                    CallSessionHolder.onRoomReconnecting()
+                }
+            }
+            else -> Unit
+        }
+        val ignorePeerLeftForReconnect = event is RoomEvent.ParticipantDisconnected
+                && (CallSessionHolder.roomReconnecting || CallUtil.isRoomReconnecting(this))
         runOnUiThread {
             when (event) {
                 is RoomEvent.ParticipantConnected -> {
@@ -656,7 +671,33 @@ class CallActivity : AppCompatActivity() {
                     }
                 }
 
+                is RoomEvent.Reconnecting -> {
+                    // full reconnect 前 SDK 会清远端并抛 ParticipantDisconnected，勿当作对方挂断；
+                    // 同时启动 30s 补偿，超时仍未恢复再挂断
+                    eLogD(
+                        tAG,
+                        "LiveKit Reconnecting，${CallSessionHolder.RECONNECT_GRACE_MS}ms 内不自动挂断"
+                    )
+                }
+
+                is RoomEvent.Reconnected -> {
+                    eLogD(tAG, "LiveKit Reconnected，取消断网补偿挂断")
+                    if (isMultiCall) {
+                        syncRemoteParticipants()
+                    } else if (CallUtil.hasRemoteParticipant(this)) {
+                        onCallConnected()
+                    }
+                }
+
                 is RoomEvent.ParticipantDisconnected -> {
+                    // 重连中清远端是 SDK 内部行为，忽略；真正离房走 Disconnected
+                    if (ignorePeerLeftForReconnect || CallSessionHolder.roomReconnecting) {
+                        eLogD(
+                            tAG,
+                            "重连中忽略 ParticipantDisconnected uid=${event.participant.identity?.value}"
+                        )
+                        return@runOnUiThread
+                    }
                     val uid = event.participant.identity?.value.orEmpty()
                     if (isMultiCall) {
                         if (uid.isNotEmpty()) {
@@ -675,25 +716,38 @@ class CallActivity : AppCompatActivity() {
 
                 is RoomEvent.Disconnected -> {
                     if (finishing) return@runOnUiThread
-                    if (isMultiCall) {
-                        // 群通话：本地异常断线才收尾；若仍有未接听邀请成员则不因单人离开而整通结束
-                        // LiveKit Disconnected 表示本端已离房，关闭本页但不回发挂断
-                        ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
-                        hangup(sendSignal = false)
-                    } else {
-                        ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
-                        hangup()
+                    // 补偿期内延后挂断，满 30s 仍未恢复再结束
+                    if (CallSessionHolder.onRoomDisconnectedOrDefer { hangupForNetworkLoss() }) {
+                        return@runOnUiThread
                     }
+                    hangupForNetworkLoss()
                 }
 
                 is RoomEvent.FailedToConnect -> {
-                    ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_failed)
-                    hangup()
+                    // 通话中/重连中的失败走补偿；首次进房失败立即结束
+                    if (callConnected || CallSessionHolder.isReconnectGraceActive()) {
+                        if (CallSessionHolder.onRoomDisconnectedOrDefer { hangupForNetworkLoss() }) {
+                            return@runOnUiThread
+                        }
+                        hangupForNetworkLoss()
+                    } else {
+                        ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_failed)
+                        hangup()
+                    }
                 }
 
                 else -> Unit
             }
         }
+    }
+
+    /** 断网重连失败 / 补偿超时：结束本通（尽量发挂断信令）。 */
+    private fun hangupForNetworkLoss() {
+        if (finishing || isFinishing) {
+            return
+        }
+        ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
+        hangup(sendSignal = true)
     }
 
     private fun syncRemoteParticipants() {
@@ -816,6 +870,7 @@ class CallActivity : AppCompatActivity() {
         finishing = true
         durationHandler.removeCallbacks(durationTicker)
         CallFloatService.stop(this)
+        CallSessionHolder.bindHangupAction(null)
         CallSessionHolder.clear()
         CallUtil.leaveRoom(this)
         restoreAudio()

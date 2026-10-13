@@ -23,6 +23,7 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.app.NotificationCompat
+import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.freddy.im.call.CallMissedLocalStore
 import com.freddy.im.call.CallDurationLocalStore
@@ -68,6 +69,12 @@ class CallFloatService : Service() {
         } else {
             startForeground(NOTIFICATION_ID, buildNotification())
         }
+        CallSessionHolder.bindHangupAction {
+            handler.post {
+                ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
+                endCallFromFloat(sendSignal = true)
+            }
+        }
         listenRoomEvents()
     }
 
@@ -97,6 +104,10 @@ class CallFloatService : Service() {
         hideFloatBox()
         eventJob?.cancel()
         serviceScope.cancel()
+        // 回到通话页时由 Activity 重新 bind；结束通话时 clear 会清掉
+        if (!CallSessionHolder.active) {
+            CallSessionHolder.bindHangupAction(null)
+        }
         val nm = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         nm.cancel(NOTIFICATION_ID)
         super.onDestroy()
@@ -120,6 +131,26 @@ class CallFloatService : Service() {
         eventJob = serviceScope.launch(Dispatchers.IO) {
             CallUtil.observeRoomEvents { event ->
                 when (event) {
+                    is RoomEvent.Reconnecting -> {
+                        CallSessionHolder.onRoomReconnecting()
+                        eLogD(
+                            TAG,
+                            "LiveKit Reconnecting（悬浮窗），${CallSessionHolder.RECONNECT_GRACE_MS}ms 内不自动挂断"
+                        )
+                    }
+
+                    is RoomEvent.Reconnected -> {
+                        CallSessionHolder.onRoomReconnected()
+                        handler.post {
+                            eLogD(TAG, "LiveKit Reconnected（悬浮窗），取消断网补偿挂断")
+                            if (CallUtil.hasRemoteParticipant()) {
+                                CallSessionHolder.markRemoteConnected(null)
+                                CallRingPlayer.stop()
+                            }
+                            refreshFloatContent()
+                        }
+                    }
+
                     is RoomEvent.ParticipantConnected,
                     is RoomEvent.TrackSubscribed,
                     is RoomEvent.Connected -> {
@@ -143,7 +174,20 @@ class CallFloatService : Service() {
                     }
 
                     is RoomEvent.ParticipantDisconnected -> {
+                        if (CallUtil.isRoomReconnecting()) {
+                            CallSessionHolder.onRoomReconnecting()
+                        }
+                        val ignoreForReconnect =
+                            CallSessionHolder.roomReconnecting || CallUtil.isRoomReconnecting()
                         handler.post {
+                            // 重连中 SDK 会清远端，勿当作对方挂断
+                            if (ignoreForReconnect || CallSessionHolder.roomReconnecting) {
+                                eLogD(
+                                    TAG,
+                                    "重连中忽略 ParticipantDisconnected uid=${event.participant.identity?.value}"
+                                )
+                                return@post
+                            }
                             val uid = event.participant.identity?.value.orEmpty()
                             if (CallSessionHolder.isMultiCall) {
                                 if (uid.isNotBlank()) {
@@ -159,11 +203,33 @@ class CallFloatService : Service() {
                     }
 
                     is RoomEvent.Disconnected -> {
-                        handler.post { endCallFromFloat(sendSignal = false) }
+                        handler.post {
+                            if (CallSessionHolder.onRoomDisconnectedOrDefer {
+                                    ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
+                                    endCallFromFloat(sendSignal = true)
+                                }) {
+                                return@post
+                            }
+                            ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
+                            endCallFromFloat(sendSignal = false)
+                        }
                     }
 
                     is RoomEvent.FailedToConnect -> {
-                        handler.post { endCallFromFloat(sendSignal = false) }
+                        handler.post {
+                            if (CallSessionHolder.callConnected
+                                || CallSessionHolder.isReconnectGraceActive()
+                            ) {
+                                if (CallSessionHolder.onRoomDisconnectedOrDefer {
+                                        ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
+                                        endCallFromFloat(sendSignal = true)
+                                    }) {
+                                    return@post
+                                }
+                            }
+                            ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_failed)
+                            endCallFromFloat(sendSignal = false)
+                        }
                     }
 
                     else -> Unit

@@ -67,6 +67,19 @@ object CallUtil {
         }
     }
 
+    /**
+     * LiveKit full reconnect 期间会临时清掉远端并抛出 [RoomEvent.ParticipantDisconnected]，
+     * 业务侧据此挂断会造成「断网立刻结束通话」；重连中应忽略该事件。
+     */
+    fun isRoomReconnecting(context: Context? = null): Boolean {
+        return try {
+            getCallRoom(context)?.state == Room.State.RECONNECTING
+        } catch (e: Exception) {
+            e.toLog(tAG)
+            false
+        }
+    }
+
     /** 供悬浮窗 Service 等独立协程监听房间事件。 */
     suspend fun observeRoomEvents(context: Context? = null, callBack: (RoomEvent) -> Unit) {
         setCallListener(context, callBack)
