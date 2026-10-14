@@ -49,17 +49,18 @@ public class TextMessageVH extends BaseMessageVH {
             }
         }
         bindMessageBody(message, context);
-        if (tvEdited != null) {
-            boolean edited = MessageEditHelper.isEdited(message);
-            tvEdited.setText(com.cboda.chatui.R.string.message_edited);
-            tvEdited.setVisibility(edited ? View.VISIBLE : View.GONE);
-            int bottom = edited ? dp(4) : dp(12);
-            tvMessage.setPadding(
-                    tvMessage.getPaddingLeft(),
-                    tvMessage.getPaddingTop(),
-                    tvMessage.getPaddingRight(),
-                    bottom);
-        }
+        //暂不放出已编辑标识
+//        if (tvEdited != null) {
+//            boolean edited = MessageEditHelper.isEdited(message);
+//            tvEdited.setText(com.cboda.chatui.R.string.message_edited);
+//            tvEdited.setVisibility(edited ? View.VISIBLE : View.GONE);
+//            int bottom = edited ? dp(4) : dp(12);
+//            tvMessage.setPadding(
+//                    tvMessage.getPaddingLeft(),
+//                    tvMessage.getPaddingTop(),
+//                    tvMessage.getPaddingRight(),
+//                    bottom);
+//        }
     }
 
     protected final void bindMessageBody(@NonNull AppMessage message, @NonNull MessageViewHolderContext context) {
