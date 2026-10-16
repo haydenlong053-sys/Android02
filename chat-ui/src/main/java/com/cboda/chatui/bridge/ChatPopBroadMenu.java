@@ -22,9 +22,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.flexbox.AlignItems;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +36,12 @@ import java.util.List;
 import com.cboda.chatui.R;
 
 public class ChatPopBroadMenu {
-    // action column num
+    /** 一行最多菜单项数量 */
     private static final int ACTION_COLUMN_NUM = 5;
+    /** 与 item 布局 textSize 一致 */
+    private static final float ACTION_TEXT_SIZE_SP = 12f;
+    /** 与 item 布局 paddingHorizontal 一致（单侧） */
+    private static final int ACTION_ITEM_PADDING_H_DP = 8;
 
     // shadow width
     private static final int SHADOW_WIDTH = 5;
@@ -43,7 +51,8 @@ public class ChatPopBroadMenu {
     private final PopupWindow popupWindow;
     private final Context context;
     private final RecyclerView actionRecyclerView;
-    private final GridLayoutManager actionGridLayoutManager;
+    private final FlexboxLayoutManager actionFlexLayoutManager;
+    private final Paint actionTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     private final View popupView;
     private final MenuAdapter menuAdapter;
@@ -57,6 +66,7 @@ public class ChatPopBroadMenu {
     private final int indicatorHeight;
     private int paddingTopOffset;
     private int paddingBottomOffset;
+    private final int actionItemPaddingHPx;
 
     private boolean isShowFaces = false;
 
@@ -64,6 +74,10 @@ public class ChatPopBroadMenu {
     public ChatPopBroadMenu(Context context) {
         chatPopMenu = this;
         this.context = context;
+        float density = context.getResources().getDisplayMetrics().density;
+        actionItemPaddingHPx = Math.round(ACTION_ITEM_PADDING_H_DP * density);
+        actionTextPaint.setTextSize(ACTION_TEXT_SIZE_SP * context.getResources().getDisplayMetrics().scaledDensity);
+
         popupView = LayoutInflater.from(context).inflate(R.layout.chat_pop_menu_broad_layout, null);
         reactFrameLayout = popupView.findViewById(R.id.react_frame);
         indicatorHeight = context.getResources().getDimensionPixelOffset(R.dimen.chat_pop_menu_indicator_height);
@@ -71,10 +85,14 @@ public class ChatPopBroadMenu {
         // add space to show shadow
         popupView.setPaddingRelative(popupView.getPaddingLeft() + SHADOW_WIDTH, popupView.getPaddingTop() + SHADOW_WIDTH,
             popupView.getPaddingRight() + SHADOW_WIDTH, popupView.getPaddingBottom() + SHADOW_WIDTH);
-        // actions
+        // actions：流式布局，按文案自适应宽度，一行最多 5 个
         actionRecyclerView = popupView.findViewById(R.id.chat_pop_menu_content_view);
-        actionGridLayoutManager = new GridLayoutManager(context, ACTION_COLUMN_NUM);
-        actionRecyclerView.setLayoutManager(actionGridLayoutManager);
+        actionFlexLayoutManager = new FlexboxLayoutManager(context);
+        actionFlexLayoutManager.setFlexDirection(FlexDirection.ROW);
+        actionFlexLayoutManager.setFlexWrap(FlexWrap.WRAP);
+        actionFlexLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
+        actionFlexLayoutManager.setAlignItems(AlignItems.CENTER);
+        actionRecyclerView.setLayoutManager(actionFlexLayoutManager);
         menuAdapter = new MenuAdapter();
         actionRecyclerView.setAdapter(menuAdapter);
 
@@ -178,10 +196,35 @@ public class ChatPopBroadMenu {
     public void setChatPopMenuActionList(List<ChatPopMenuAction> actionList) {
         chatPopMenuActionList.clear();
         chatPopMenuActionList.addAll(actionList);
-        if (!isShowFaces && !chatPopMenuActionList.isEmpty() && chatPopMenuActionList.size() < ACTION_COLUMN_NUM) {
-            actionGridLayoutManager.setSpanCount(chatPopMenuActionList.size());
-        }
+        applyFlowMenuWidth();
         menuAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 按文案实测宽度排布：二字紧凑、四字完整显示；
+     * RecyclerView 宽度取首行（最多 5 项）宽度之和，超出自动换行。
+     */
+    private void applyFlowMenuWidth() {
+        int count = chatPopMenuActionList.size();
+        if (count <= 0) {
+            return;
+        }
+        int rowItemCount = Math.min(ACTION_COLUMN_NUM, count);
+        int width = actionRecyclerView.getPaddingStart() + actionRecyclerView.getPaddingEnd();
+        for (int i = 0; i < rowItemCount; i++) {
+            width += measureActionItemWidth(chatPopMenuActionList.get(i));
+        }
+        ViewGroup.LayoutParams lp = actionRecyclerView.getLayoutParams();
+        if (lp != null) {
+            lp.width = width;
+            actionRecyclerView.setLayoutParams(lp);
+        }
+    }
+
+    private int measureActionItemWidth(@Nullable ChatPopMenuAction action) {
+        String name = action != null && action.getActionName() != null ? action.getActionName() : "";
+        int textW = (int) Math.ceil(actionTextPaint.measureText(name));
+        return textW + actionItemPaddingHPx * 2;
     }
 
 
@@ -260,6 +303,11 @@ public class ChatPopBroadMenu {
         @Override
         public MenuItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(context).inflate(R.layout.chat_pop_menu_layout_broad_item, parent, false);
+            FlexboxLayoutManager.LayoutParams lp = new FlexboxLayoutManager.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp.setFlexGrow(0f);
+            lp.setFlexShrink(0f);
+            view.setLayoutParams(lp);
             return new MenuItemViewHolder(view);
         }
 
