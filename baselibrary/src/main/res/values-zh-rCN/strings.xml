@@ -420,7 +420,7 @@
     <string name="action_confirm">确定</string>
     <string name="cancel_zhiding">取消置顶</string>
     <string name="pinned_message_banner_prefix">已置顶消息：%1$s</string>
-    <string name="pinned_message_list_title">置顶消息</string>
+    <string name="pinned_message_list_title">已置顶消息</string>
     <string name="pinned_message_pin_success">已置顶</string>
     <string name="pinned_message_unpin_success">已取消置顶</string>
     <string name="pinned_message_empty">暂无置顶消息</string>
