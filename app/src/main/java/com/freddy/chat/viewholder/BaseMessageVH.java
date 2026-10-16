@@ -132,12 +132,13 @@ public class BaseMessageVH extends RecyclerView.ViewHolder {
             nameLayout.setVisibility(View.VISIBLE);
             tvNickname.setVisibility(View.VISIBLE);
             tvNickname.setText(resolveDisplayName(member, senderId));
-            MessageAvatarBinder.bindJoinTime(joinTimeTv, true, member);
+            //暂时业务需要去掉入群时间
+//            MessageAvatarBinder.bindJoinTime(joinTimeTv, true, member);
         } else {
             nameLayout.setVisibility(View.GONE);
             tvNickname.setVisibility(View.GONE);
-            joinTimeTv.setVisibility(View.GONE);
         }
+        joinTimeTv.setVisibility(View.GONE);
         avatarLeft.setVisibility(View.VISIBLE);
         avatarRight.setVisibility(View.GONE);
         if (context.isGroupChat){
