@@ -49,6 +49,11 @@ public interface IMessageProcessor {
     void notifyGroupNoticeUpdated(@NonNull String groupId);
 
     /**
+     * 群置顶消息变更（0x0501 code=1010 或 HTTP 成功后重拉）；事件 {@link Events#GROUP_PINNED_UPDATED}。
+     */
+    void notifyGroupPinnedUpdated(@NonNull String groupId);
+
+    /**
      * 群禁言状态变更；事件 {@link Events#GROUP_MUTE_UPDATED}，payload 为 {@link GroupMuteUpdateEvent}。
      */
     void notifyGroupMuteUpdated(@NonNull String groupId);

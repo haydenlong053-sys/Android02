@@ -41,6 +41,36 @@
         </com.hjq.shape.layout.ShapeLinearLayout>
 
         <com.hjq.shape.layout.ShapeLinearLayout
+            android:id="@+id/pinned_message_banner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_36"
+            android:layout_marginHorizontal="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_4"
+            android:visibility="gone"
+            app:shape_radius="@dimen/dp_18"
+            app:shape_solidColor="#3DEB534B"
+            tools:visibility="visible">
+
+            <com.cboda.chatui.MarqueeTextBroadView
+                android:id="@+id/pinned_message_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:clickable="true"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_14"
+                tools:text="已置顶消息：周五下午三点开会" />
+        </com.hjq.shape.layout.ShapeLinearLayout>
+
+        <com.hjq.shape.layout.ShapeLinearLayout
             android:id="@+id/mViewMeetJoin"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_36"

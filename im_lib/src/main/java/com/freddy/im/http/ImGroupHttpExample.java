@@ -24,6 +24,9 @@ import com.freddy.im.http.api.GetGroupMemberListApi;
 import com.freddy.im.http.api.GetGroupNoticeApi;
 import com.freddy.im.http.api.GetGroupQrCodeApi;
 import com.freddy.im.http.api.GetGroupWelcomeApi;
+import com.freddy.im.http.api.GetPinnedMessagesApi;
+import com.freddy.im.http.api.PinGroupMessageApi;
+import com.freddy.im.http.api.UnpinGroupMessageApi;
 import com.freddy.im.http.api.GetSpecifyMembersApi;
 import com.freddy.im.http.api.GroupFriendsApi;
 import com.freddy.im.http.api.InviteInGroupApi;
@@ -49,6 +52,7 @@ import com.freddy.im.http.model.im.GroupListResp;
 import com.freddy.im.http.model.im.GroupMemberChangeListContent;
 import com.freddy.im.http.model.im.GroupMemberListContent;
 import com.freddy.im.http.model.im.GroupNoticeRes;
+import com.freddy.im.http.model.im.GroupPinnedMessageRes;
 import com.freddy.im.http.model.im.GroupQrCodeRes;
 import com.freddy.im.http.model.im.GroupWelcomeRes;
 import com.freddy.im.http.model.im.GroupQrInfoRes;
@@ -411,6 +415,53 @@ public final class ImGroupHttpExample {
         EasyHttp.get(ApplicationLifecycle.getInstance())
                 .api(new GetGroupNoticeApi().setGroupId(groupId))
                 .request(getListener("getGroupNotice", callback, onFail, false, GroupNoticeRes.class));
+    }
+
+    /** GET {@code im/group/pinnedMessages/{groupId}} */
+    public static void requestGetPinnedMessages(@NonNull String groupId,
+                                                @NonNull OnHttpImListener<List<GroupPinnedMessageRes>> callback,
+                                                @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(groupId)) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.get(ApplicationLifecycle.getInstance())
+                .api(new GetPinnedMessagesApi().setGroupId(groupId))
+                .request(getListener("pinnedMessages", callback, onFail, false, listOf(GroupPinnedMessageRes.class)));
+    }
+
+    /** POST {@code im/group/pinMessage} */
+    public static void requestPinGroupMessage(@NonNull String groupId,
+                                              @NonNull String messageId,
+                                              @NonNull OnHttpImListener<Boolean> callback,
+                                              @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(groupId) || TextUtils.isEmpty(messageId)) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.post(ApplicationLifecycle.getInstance())
+                .api(new PinGroupMessageApi().setGroupId(groupId).setMessageId(messageId))
+                .request(postListener("pinMessage", callback, onFail, false, Boolean.class));
+    }
+
+    /** POST {@code im/group/unpinMessage} */
+    public static void requestUnpinGroupMessage(@NonNull String groupId,
+                                                @NonNull String messageId,
+                                                @NonNull OnHttpImListener<Boolean> callback,
+                                                @Nullable Runnable onFail) {
+        if (TextUtils.isEmpty(groupId) || TextUtils.isEmpty(messageId)) {
+            if (onFail != null) {
+                onFail.run();
+            }
+            return;
+        }
+        EasyHttp.post(ApplicationLifecycle.getInstance())
+                .api(new UnpinGroupMessageApi().setGroupId(groupId).setMessageId(messageId))
+                .request(postListener("unpinMessage", callback, onFail, false, Boolean.class));
     }
 
     public static void requestSetAllMute(@NonNull String groupId,

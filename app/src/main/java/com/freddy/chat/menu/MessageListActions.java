@@ -29,4 +29,16 @@ public interface MessageListActions {
     void onToggleMessageChecked(@NonNull AppMessage message, boolean checked);
 
     void onExitMultiSelectMode();
+
+    /** 置顶列表页：长按菜单仅「取消置顶」。 */
+    boolean isPinnedMessageListMode();
+
+    /** 当前用户是否可置顶/取消置顶（群主/管理员）。 */
+    boolean canManageGroupPins();
+
+    boolean isMessagePinned(@NonNull AppMessage message);
+
+    void onPinMessage(@NonNull AppMessage message);
+
+    void onUnpinMessage(@NonNull AppMessage message);
 }

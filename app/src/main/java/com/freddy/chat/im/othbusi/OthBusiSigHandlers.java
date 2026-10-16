@@ -30,6 +30,7 @@ public final class OthBusiSigHandlers {
         dispatcher.register(new MeetPreEndTipOthBusiSigHandler());
         dispatcher.register(new CreditScoreOthBusiSigHandler());
         dispatcher.register(new MsgEditOthBusiSigHandler());
+        dispatcher.register(new GroupPinOthBusiSigHandler());
         return dispatcher;
     }
 }

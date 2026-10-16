@@ -14,9 +14,11 @@ import com.freddy.im.db.entity.MessageEntity;
 import com.freddy.im.db.entity.SessionEntity;
 import com.freddy.im.db.repository.ImGroupMemberRepository;
 import com.freddy.im.db.repository.ImMessageRepository;
+import com.freddy.im.db.repository.ImPinnedMessageRepository;
 import com.freddy.im.db.repository.ImSessionRepository;
 import com.freddy.im.group.GroupRole;
 import com.freddy.im.http.model.im.GroupMemberItem;
+import com.freddy.im.http.model.im.PinnedMessageItem;
 import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.message.ImActiveChatSession;
 
@@ -318,6 +320,28 @@ public final class ImLocalStore {
                                         @Nullable ImMessageRepository.OnMessageUpdatedCallback onUpdated) {
         ImMessageRepository.getInstance().applyEditByMsgId(
                 msgId, contentJson, customInfoJson, editedAtMs, onUpdated);
+    }
+
+    /** 全量替换某群置顶快照（与消息表独立）。回调在主线程。 */
+    public static void replaceGroupPinnedMessages(@NonNull String groupId,
+                                                  @Nullable List<PinnedMessageItem> items,
+                                                  @Nullable OnLoadCallback<List<PinnedMessageItem>> onDone) {
+        ImPinnedMessageRepository.getInstance().replaceGroupPinned(groupId, items, (gid, list) -> {
+            if (onDone != null) {
+                MAIN_HANDLER.post(() -> onDone.onLoaded(list));
+            }
+        });
+    }
+
+    /** 加载某群置顶列表（pinTime 倒序）。回调在主线程。 */
+    public static void loadGroupPinnedMessages(@Nullable String groupId,
+                                               @NonNull OnLoadCallback<List<PinnedMessageItem>> callback) {
+        ImPinnedMessageRepository.getInstance().loadByGroupId(groupId, list ->
+                MAIN_HANDLER.post(() -> callback.onLoaded(list)));
+    }
+
+    public static boolean isMessagePinned(@Nullable String groupId, @Nullable String messageId) {
+        return ImPinnedMessageRepository.getInstance().isPinned(groupId, messageId);
     }
 
     /**

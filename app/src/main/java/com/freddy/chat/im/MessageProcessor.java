@@ -187,6 +187,20 @@ public class MessageProcessor implements IMessageProcessor {
     }
 
     @Override
+    public void notifyGroupPinnedUpdated(@NonNull final String groupId) {
+        if (TextUtils.isEmpty(groupId)) {
+            return;
+        }
+        CThreadPoolExecutor.runOnMainThread(() -> {
+            try {
+                CEventCenter.dispatchEvent(Events.GROUP_PINNED_UPDATED, 0, 0, groupId);
+            } catch (Exception e) {
+                Log.e(TAG, "群置顶更新分发失败，reason=" + e.getMessage());
+            }
+        });
+    }
+
+    @Override
     public void notifyGroupMuteUpdated(@NonNull final String groupId) {
         notifyGroupMuteUpdated(groupId, GroupMuteUpdateEvent.REFRESH_FROM_SERVER);
     }

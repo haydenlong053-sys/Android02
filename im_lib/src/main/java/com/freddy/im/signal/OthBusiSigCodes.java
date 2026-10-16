@@ -18,6 +18,12 @@ public final class OthBusiSigCodes {
     public static final int GROUP_MANAGER_ROLE = 1004;
 
     /**
+     * 群置顶消息变更（文档 groupPinned），data 含
+     * {@code kind=group_pin,groupId,action,messageId,operator}；客户端重拉 pinnedMessages。
+     */
+    public static final int GROUP_PIN = 1010;
+
+    /**
      * 会议礼物弹幕（cmd=OTHER_BUSI / 0x0501，code=2001）。
      * data 为 {@code {"giftType":1|2,"groupId":"...","fromUserId":"...","toUserId":"...","timestamp":0}}，
      * giftType：1=鲜花，2=鼓掌。

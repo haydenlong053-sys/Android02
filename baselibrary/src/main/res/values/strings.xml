@@ -436,6 +436,11 @@
     <string name="action_cancel">Cancel</string>
     <string name="action_confirm">OK</string>
     <string name="cancel_zhiding">Unpin</string>
+    <string name="pinned_message_banner_prefix">Pinned: %1$s</string>
+    <string name="pinned_message_list_title">Pinned messages</string>
+    <string name="pinned_message_pin_success">Pinned</string>
+    <string name="pinned_message_unpin_success">Unpinned</string>
+    <string name="pinned_message_empty">No pinned messages</string>
     <string name="session_top_success">Pinned</string>
     <string name="session_untop_success">Unpinned</string>
     <string name="session_top_failed">Failed to update pin</string>

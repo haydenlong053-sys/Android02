@@ -10,6 +10,7 @@ import com.freddy.chat.utils.WeChatUiHelper;
 import com.freddy.im.IMSConfig;
 import com.freddy.im.MessageType;
 import com.freddy.im.bean.AppMessage;
+import com.freddy.im.group.GroupRole;
 import com.freddy.im.message.MessageContentFormatter;
 import com.freddy.im.message.MessageRepealHelper;
 
@@ -137,5 +138,46 @@ public final class MessageMenuPolicy {
 
     public static boolean canDelete(@NonNull AppMessage message) {
         return supportsContextMenu(message);
+    }
+
+    /**
+     * 消息本身是否具备可置顶的内容形态（不含角色校验；系统提示等由服务端 3047 兜底）。
+     */
+    public static boolean isPinnableMessage(@NonNull AppMessage message) {
+        if (!supportsContextMenu(message)) {
+            return false;
+        }
+        if (TextUtils.isEmpty(message.getMsgId())) {
+            return false;
+        }
+        if (message.getSendStatus() == IMSConfig.SEND_STATUS_SENDING) {
+            return false;
+        }
+        if (MessageContentFormatter.isCallMsgType(message)
+                || MessageContentFormatter.isCallMessageContent(message.getContent())) {
+            return false;
+        }
+        int type = message.getMsgContentType();
+        return MessageContentFormatter.isImageMessage(type)
+                || MessageContentFormatter.isVoiceMessage(type)
+                || MessageContentFormatter.isVideoMessage(type)
+                || MessageContentFormatter.isFileMessage(type)
+                || MessageContentFormatter.isMapMessage(type)
+                || MessageContentFormatter.isCardMessage(type)
+                || MessageContentFormatter.isNoticeMessage(type)
+                || MessageType.MessageContentType.isText(type)
+                || MessageType.MessageContentType.isMergeTranspond(type);
+    }
+
+    /** 是否可置顶：群聊 + 群主/管理员 + {@link #isPinnableMessage}。 */
+    public static boolean canPin(@NonNull AppMessage message, boolean groupChat, int groupRole) {
+        return groupChat && GroupRole.isOwnerOrAdmin(groupRole) && isPinnableMessage(message);
+    }
+
+    public static boolean canUnpin(@NonNull AppMessage message, boolean groupChat, int groupRole) {
+        if (!groupChat || !GroupRole.isOwnerOrAdmin(groupRole)) {
+            return false;
+        }
+        return !TextUtils.isEmpty(message.getMsgId());
     }
 }

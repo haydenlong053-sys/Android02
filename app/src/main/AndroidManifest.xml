@@ -751,6 +751,10 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
+            android:name="com.freddy.chat.PinnedMessageListActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name="com.freddy.chat.MessageListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />

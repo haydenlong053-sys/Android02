@@ -20,7 +20,19 @@ import java.util.List;
  */
 public final class MessageContextMenuHelper {
 
+    @Nullable
+    private static ChatPopBroadMenu sShowingMenu;
+
     private MessageContextMenuHelper() {
+    }
+
+    /** Activity/Fragment 销毁时调用，避免 PopupWindow 泄漏。 */
+    public static void dismissShowing() {
+        ChatPopBroadMenu menu = sShowingMenu;
+        sShowingMenu = null;
+        if (menu != null) {
+            menu.hide();
+        }
     }
 
     public static void show(@NonNull View anchor,
@@ -64,10 +76,34 @@ public final class MessageContextMenuHelper {
             menuActions.add(action(context, com.cboda.chatui.R.string.message_forward,
                     () -> actions.onForwardMessages(java.util.Collections.singletonList(message))));
         }
+        if (actions.isPinnedMessageListMode()) {
+            // 置顶列表：仅群主/管理员显示「取消置顶」
+            menuActions.clear();
+            if (!actions.canManageGroupPins()) {
+                return;
+            }
+            menuActions.add(action(context, com.cboda.baselibrary.R.string.cancel_zhiding,
+                    () -> actions.onUnpinMessage(message)));
+        } else if (actions.canManageGroupPins() && MessageMenuPolicy.isPinnableMessage(message)) {
+            if (actions.isMessagePinned(message)) {
+                menuActions.add(action(context, com.cboda.baselibrary.R.string.cancel_zhiding,
+                        () -> actions.onUnpinMessage(message)));
+            } else {
+                menuActions.add(action(context, com.cboda.intelligent.R.string.zhiding,
+                        () -> actions.onPinMessage(message)));
+            }
+        }
         if (menuActions.isEmpty()) {
             return;
         }
+        dismissShowing();
         ChatPopBroadMenu menu = new ChatPopBroadMenu(context);
+        sShowingMenu = menu;
+        menu.setOnDismissListener(() -> {
+            if (sShowingMenu == menu) {
+                sShowingMenu = null;
+            }
+        });
         menu.setChatPopMenuActionList(menuActions);
         menu.show(anchor, anchorTopOnScreen);
     }

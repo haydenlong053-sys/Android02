@@ -74,6 +74,7 @@ import com.freddy.im.MessageType;
 import com.freddy.im.MyCommonBroadBridge2;
 import com.freddy.im.bean.AppMessage;
 import com.freddy.im.db.ImLocalStore;
+import com.freddy.im.http.ImGroupHttpExample;
 import com.freddy.im.http.ImMessageHttpExample;
 import com.freddy.im.http.model.im.GroupBusiExt;
 import com.freddy.im.http.model.im.GroupMemberItem;
@@ -85,8 +86,10 @@ import com.freddy.im.listener.OnHttpImListener;
 import com.freddy.im.message.ImActiveChatSession;
 import com.freddy.im.message.GroupMemberSyncHelper;
 import com.freddy.im.message.ImMessageManager;
+import com.freddy.im.message.GroupPinnedSyncHelper;
 import com.freddy.im.message.MessageContentFormatter;
 import com.freddy.im.message.MessageEditHelper;
+import com.freddy.im.http.model.im.PinnedMessageItem;
 import com.freddy.webtrc.utils.BroadE;
 import com.freddy.im.group.GroupMuteEvaluator;
 import com.freddy.im.group.GroupRole;
@@ -131,6 +134,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             Events.GROUP_MEMBERS_UPDATED,
             Events.GROUP_MEMBERS_ROLE_UPDATE,
             Events.GROUP_NOTICE_UPDATED,
+            Events.GROUP_PINNED_UPDATED,
             Events.GROUP_MUTE_UPDATED,
             Events.SESSION_REMOVED,
             Events.MESSAGE_READ_STATE_CHANGED,
@@ -171,6 +175,8 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
     private static final int LATEST_BOTTOM_ITEM_THRESHOLD = 3;
     public View qungonggaoBroad;
     public MarqueeTextBroadView gonggaoxinxiBroad;
+    public View pinnedMessageBanner;
+    public MarqueeTextBroadView pinnedMessageText;
     private View mViewMeetJoin;
     private TextView mTvMeetJoin, mTvMeetPeople;
     private GroupVo groupVo;
@@ -256,13 +262,18 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         mTvMeetJoin = view.findViewById(R.id.mTvMeetJoin);
         gonggaoxinxiBroad = view.findViewById(R.id.gonggaoxinxi);
         qungonggaoBroad = view.findViewById(R.id.qungonggao);
+        pinnedMessageBanner = view.findViewById(R.id.pinned_message_banner);
+        pinnedMessageText = view.findViewById(R.id.pinned_message_text);
         if (isGroupChat) {
             setupGroupNoticeInteraction();
+            setupPinnedMessageBanner();
             setupMeetJoinInteraction();
             observeSpeakIntervalConfig();
             if (getActivity() instanceof GroupNoticeHost) {
                 ((GroupNoticeHost) getActivity()).applyCachedGroupNotice();
             }
+            refreshPinnedMessageBannerFromLocal();
+            syncPinnedMessagesFromServer();
         }
 
         adapter = new MessageListAdapter(
@@ -528,6 +539,66 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         };
         gonggaoxinxiBroad.setOnClickListener(openNoticeListener);
         qungonggaoBroad.setOnClickListener(openNoticeListener);
+    }
+
+    private void setupPinnedMessageBanner() {
+        if (pinnedMessageBanner == null || pinnedMessageText == null) {
+            return;
+        }
+        View.OnClickListener openPinnedList = v -> {
+            MessageContextMenuHelper.dismissShowing();
+            PinnedMessageListActivity.start(requireContext(), sessionId, myGroupRole);
+        };
+        pinnedMessageBanner.setOnClickListener(openPinnedList);
+        pinnedMessageText.setOnClickListener(openPinnedList);
+    }
+
+    private void syncPinnedMessagesFromServer() {
+        if (!isGroupChat || TextUtils.isEmpty(sessionId)) {
+            return;
+        }
+        GroupPinnedSyncHelper.syncFromServer(sessionId, (groupId, list) -> {
+            if (!isAdded() || !sessionId.equals(groupId)) {
+                return;
+            }
+            applyPinnedMessageBanner(list);
+        });
+    }
+
+    public void refreshPinnedMessageBannerFromLocal() {
+        if (!isGroupChat || TextUtils.isEmpty(sessionId)) {
+            return;
+        }
+        ImLocalStore.loadGroupPinnedMessages(sessionId, this::applyPinnedMessageBanner);
+    }
+
+    private void applyPinnedMessageBanner(@Nullable java.util.List<PinnedMessageItem> list) {
+        if (pinnedMessageBanner == null || pinnedMessageText == null || !isAdded()) {
+            return;
+        }
+        if (list == null || list.isEmpty()) {
+            pinnedMessageBanner.setVisibility(View.GONE);
+            pinnedMessageText.setText("");
+            return;
+        }
+        PinnedMessageItem latest = list.get(0);
+        String preview = MessageContentFormatter.formatSessionPreview(
+                latest.getContent(),
+                latest.getContentType(),
+                latest.getContent(),
+                latest.getCustomInfo(),
+                IMSClientBootstrap.getInstance().getCurrentUserId(),
+                null,
+                0,
+                0,
+                true,
+                latest.getSender());
+        if (TextUtils.isEmpty(preview)) {
+            preview = "";
+        }
+        pinnedMessageText.setText(getString(
+                com.cboda.baselibrary.R.string.pinned_message_banner_prefix, preview));
+        pinnedMessageBanner.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -1414,6 +1485,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
     @Override
     public void onDestroyView() {
+        MessageContextMenuHelper.dismissShowing();
         CEventCenter.unregisterEventListener(this, EVENTS);
         if (inputPanel != null) {
             inputPanel.onDestroy();
@@ -1488,6 +1560,61 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         ImMessageHttpExample.requestRepealMessage(message.getMsgId(), success -> runOnUiThreadSafe(() ->
                 applyRecallUi(message.getMsgId())), () -> runOnUiThreadSafe(() ->
                 Toast.makeText(requireContext(), com.cboda.baselibrary.R.string.message_recall_failed, Toast.LENGTH_SHORT).show()));
+    }
+
+    @Override
+    public boolean isPinnedMessageListMode() {
+        return false;
+    }
+
+    @Override
+    public boolean canManageGroupPins() {
+        return isGroupChat && GroupRole.isOwnerOrAdmin(myGroupRole);
+    }
+
+    @Override
+    public boolean isMessagePinned(@NonNull AppMessage message) {
+        return isGroupChat && ImLocalStore.isMessagePinned(sessionId, message.getMsgId());
+    }
+
+    @Override
+    public void onPinMessage(@NonNull AppMessage message) {
+        if (!canManageGroupPins() || !MessageMenuPolicy.isPinnableMessage(message)) {
+            return;
+        }
+        String msgId = message.getMsgId();
+        if (TextUtils.isEmpty(msgId)) {
+            return;
+        }
+        ImGroupHttpExample.requestPinGroupMessage(sessionId, msgId, success ->
+                GroupPinnedSyncHelper.syncFromServer(sessionId, (groupId, list) -> {
+                    if (!isAdded() || !sessionId.equals(groupId)) {
+                        return;
+                    }
+                    applyPinnedMessageBanner(list);
+                    MessageProcessor.getInstance().notifyGroupPinnedUpdated(groupId);
+                    ToastBroadUtils.show(com.cboda.baselibrary.R.string.pinned_message_pin_success);
+                }), null);
+    }
+
+    @Override
+    public void onUnpinMessage(@NonNull AppMessage message) {
+        if (!canManageGroupPins()) {
+            return;
+        }
+        String msgId = message.getMsgId();
+        if (TextUtils.isEmpty(msgId)) {
+            return;
+        }
+        ImGroupHttpExample.requestUnpinGroupMessage(sessionId, msgId, success ->
+                GroupPinnedSyncHelper.syncFromServer(sessionId, (groupId, list) -> {
+                    if (!isAdded() || !sessionId.equals(groupId)) {
+                        return;
+                    }
+                    applyPinnedMessageBanner(list);
+                    MessageProcessor.getInstance().notifyGroupPinnedUpdated(groupId);
+                    ToastBroadUtils.show(com.cboda.baselibrary.R.string.pinned_message_unpin_success);
+                }), null);
     }
 
     @Override
@@ -1913,6 +2040,13 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
             String groupId = (String) obj;
             if (isGroupChat && sessionId.equals(groupId) && getActivity() instanceof GroupNoticeHost && isAdded()) {
                 ((GroupNoticeHost) getActivity()).fetchGroupNoticeFromServer();
+            }
+            return;
+        }
+        if (Events.GROUP_PINNED_UPDATED.equals(topic) && obj instanceof String) {
+            String groupId = (String) obj;
+            if (isGroupChat && sessionId.equals(groupId) && isAdded()) {
+                refreshPinnedMessageBannerFromLocal();
             }
             return;
         }
