@@ -9,12 +9,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.baselibrary.toast.ToastBroadUtils;
+import com.cboda.baselibrary.utils.OnSingleClickBroadListener;
 import com.cboda.intelligent.R;
+import com.cboda.intelligent.base.BaseSimple2BroadActivity;
 import com.freddy.chat.event.CEventCenter;
 import com.freddy.chat.event.Events;
 import com.freddy.chat.event.I_CEventListener;
@@ -39,7 +40,7 @@ import java.util.Map;
 /**
  * 群置顶消息列表：复用聊天气泡 UI，长按仅「取消置顶」。
  */
-public final class PinnedMessageListActivity extends AppCompatActivity
+public final class PinnedMessageListActivity extends BaseSimple2BroadActivity
         implements MessageListActions, I_CEventListener {
 
     private static final String EXTRA_GROUP_ID = "extra_group_id";
@@ -61,9 +62,24 @@ public final class PinnedMessageListActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean showOrHideTitleLayout() {
+        return false;
+    }
+
+    @Override
+    public boolean showTransparentTopTitleLayout() {
+        return true;
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_pinned_message_list;
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pinned_message_list);
+        setRootBgColor(com.cboda.chatui.R.color.color_F2F3F5);
 
         groupId = getIntent().getStringExtra(EXTRA_GROUP_ID);
         groupRole = getIntent().getIntExtra(EXTRA_GROUP_ROLE, GroupRole.MEMBER);
@@ -72,11 +88,16 @@ public final class PinnedMessageListActivity extends AppCompatActivity
             return;
         }
 
-        View backView = findViewById(com.cboda.baselibrary.R.id.mViewBack);
+        View backView = findViewById(com.cboda.chatui.R.id.page_title_left_icon);
         if (backView != null) {
-            backView.setOnClickListener(v -> finish());
+            backView.setOnClickListener(new OnSingleClickBroadListener() {
+                @Override
+                public void onSingleClick(View v) {
+                    finish();
+                }
+            });
         }
-        TextView titleView = findViewById(com.cboda.baselibrary.R.id.mTvTitle);
+        TextView titleView = findViewById(com.cboda.chatui.R.id.page_title);
         if (titleView != null) {
             titleView.setText(com.cboda.baselibrary.R.string.pinned_message_list_title);
         }
@@ -87,8 +108,7 @@ public final class PinnedMessageListActivity extends AppCompatActivity
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        String selfAvatar = null;
-        adapter = new MessageListAdapter(true, null, selfAvatar, groupId, null, null, null);
+        adapter = new MessageListAdapter(true, null, null, groupId, null, null, null);
         adapter.setMessageActions(this);
         recyclerView.setAdapter(adapter);
         ImLocalStore.loadGroupMembersMap(groupId, map -> {
