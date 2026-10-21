@@ -39,6 +39,7 @@ import com.freddy.webtrc.R
 import com.freddy.webtrc.floatcall.CallFloatService
 import com.freddy.webtrc.floatcall.CallSessionHolder
 import com.freddy.webtrc.utils.BroadE
+import com.freddy.webtrc.utils.CallNetworkQualityHelper
 import com.freddy.webtrc.utils.CallRingPlayer
 import com.freddy.webtrc.utils.CallUtil
 import com.freddy.webtrc.widget.MultiCallParticipantItem
@@ -46,6 +47,8 @@ import java.lang.ref.WeakReference
 import eightbitlab.com.blurview.BlurTarget
 import eightbitlab.com.blurview.BlurView
 import io.livekit.android.events.RoomEvent
+import io.livekit.android.room.participant.LocalParticipant
+import io.livekit.android.room.participant.Participant
 
 /**
  * 基于 [CallUtil] / LiveKit 的通话页。
@@ -646,6 +649,7 @@ class CallActivity : AppCompatActivity() {
         runOnUiThread {
             when (event) {
                 is RoomEvent.ParticipantConnected -> {
+                    CallSessionHolder.onPeerBack()
                     val uid = event.participant.identity?.value.orEmpty()
                     if (isMultiCall && uid.isNotEmpty()) {
                         ensureRemoteParticipantItem(uid)
@@ -655,6 +659,7 @@ class CallActivity : AppCompatActivity() {
                 }
 
                 is RoomEvent.TrackSubscribed -> {
+                    CallSessionHolder.onPeerBack()
                     val uid = event.participant.identity?.value.orEmpty()
                     if (isMultiCall && uid.isNotEmpty()) {
                         markParticipantConnected(uid)
@@ -678,6 +683,7 @@ class CallActivity : AppCompatActivity() {
                         tAG,
                         "LiveKit Reconnecting，${CallSessionHolder.RECONNECT_GRACE_MS}ms 内不自动挂断"
                     )
+                    CallNetworkQualityHelper.onLocalReconnecting()
                 }
 
                 is RoomEvent.Reconnected -> {
@@ -698,20 +704,56 @@ class CallActivity : AppCompatActivity() {
                         )
                         return@runOnUiThread
                     }
+                    if (finishing || !callConnected) {
+                        return@runOnUiThread
+                    }
                     val uid = event.participant.identity?.value.orEmpty()
+                    // 对端断网全量重连也会先抛此事件：提示对方网络不佳，并等待其重连回来
                     if (isMultiCall) {
+                        CallNetworkQualityHelper.onRemoteNetworkIssue("peer-disconnected:$uid")
                         if (uid.isNotEmpty()) {
                             removeParticipant(uid)
                         }
-                        // 多人：仍有远端在房，或仍有未接听邀请成员时，不结束本通
                         if (shouldEndMultiCall()) {
-                            ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
-                            hangup(sendSignal = false)
+                            CallSessionHolder.onPeerTemporarilyGone {
+                                if (!finishing) {
+                                    ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
+                                    hangup(sendSignal = false)
+                                }
+                            }
                         }
                     } else if (!finishing) {
-                        ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
-                        hangup()
+                        CallSessionHolder.onPeerTemporarilyGone {
+                            if (!finishing) {
+                                ToastBroadUtils.show("当前通话对方网络不佳,已挂断")
+                                hangup(sendSignal = false)
+                            }
+                        }
                     }
+                }
+
+                is RoomEvent.ParticipantStateChanged -> {
+                    if (finishing || !callConnected) return@runOnUiThread
+                    if (event.participant is LocalParticipant) return@runOnUiThread
+                    if (CallSessionHolder.roomReconnecting || CallUtil.isRoomReconnecting(this)) {
+                        return@runOnUiThread
+                    }
+                    if (event.newState == Participant.State.DISCONNECTED) {
+                        CallNetworkQualityHelper.onRemoteNetworkIssue(
+                            "peer-state:${event.oldState}->${event.newState}"
+                        )
+                    }
+                }
+
+                is RoomEvent.TrackUnsubscribed -> {
+                    if (finishing || !callConnected) return@runOnUiThread
+                    if (CallSessionHolder.roomReconnecting || CallUtil.isRoomReconnecting(this)) {
+                        return@runOnUiThread
+                    }
+                    // 对端断网时常先退订轨道，早于 ParticipantDisconnected
+                    CallNetworkQualityHelper.onRemoteNetworkIssue(
+                        "track-unsubscribed:${event.participant.identity?.value}"
+                    )
                 }
 
                 is RoomEvent.Disconnected -> {
@@ -736,6 +778,10 @@ class CallActivity : AppCompatActivity() {
                     }
                 }
 
+                is RoomEvent.ConnectionQualityChanged -> {
+                    CallNetworkQualityHelper.handle(event, callConnected)
+                }
+
                 else -> Unit
             }
         }
@@ -743,10 +789,16 @@ class CallActivity : AppCompatActivity() {
 
     /** 断网重连失败 / 补偿超时：结束本通（尽量发挂断信令）。 */
     private fun hangupForNetworkLoss() {
+        ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
+        // 页面可能已 finish 进悬浮窗，但仍须拆房间；不可因 isFinishing 直接 return
         if (finishing || isFinishing) {
+            eLogD(tAG, "hangupForNetworkLoss：Activity 已收尾，强制 leaveRoom + clear")
+            CallFloatService.stop(this)
+            CallSessionHolder.bindHangupAction(null)
+            CallSessionHolder.clear()
+            CallUtil.leaveRoom(applicationContext)
             return
         }
-        ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
         hangup(sendSignal = true)
     }
 
@@ -790,6 +842,7 @@ class CallActivity : AppCompatActivity() {
     private fun onCallConnected() {
         if (callConnected) return
         callConnected = true
+        CallNetworkQualityHelper.onCallConnected()
         stopRing()
         cancelOutgoingRingTimeout()
         connectedAtMs = System.currentTimeMillis()
@@ -1086,6 +1139,7 @@ class CallActivity : AppCompatActivity() {
         muteImageView.isSelected = muted
         speakerImageView.isSelected = speakerOn
         if (callConnected) {
+            CallNetworkQualityHelper.onCallConnected()
             applySpeakerRoute()
             incomingActionContainer.visibility = View.GONE
             if (isMultiCall) {
