@@ -7,6 +7,8 @@ import android.text.TextUtils
 import com.cboda.baselibrary.utils.MMKVBroadUtils
 import com.cboda.baselibrary.utils.eLogD
 import com.freddy.webtrc.activity.CallActivity
+import com.freddy.webtrc.utils.CallNetworkQualityHelper
+import com.freddy.webtrc.utils.CallUtil
 import java.util.concurrent.CopyOnWriteArraySet
 
 /**
@@ -65,6 +67,14 @@ object CallSessionHolder {
 
     private var reconnectGraceRunnable: Runnable? = null
 
+    /** 对端暂时离房（对方断网全量重连）补偿：超时仍未回来再挂断。 */
+    @Volatile
+    var peerTemporarilyGone: Boolean = false
+        private set
+
+    private var peerGoneGraceRunnable: Runnable? = null
+    private var peerGoneHangupAction: (() -> Unit)? = null
+
     fun bindHangupAction(action: (() -> Unit)?) {
         hangupAction = action
     }
@@ -75,6 +85,40 @@ object CallSessionHolder {
     fun onRoomReconnecting() {
         roomReconnecting = true
         scheduleReconnectGraceHangup()
+    }
+
+    /**
+     * 本端系统断网。LiveKit 往往要等网络恢复才抛 Reconnecting，补偿定时器不会启动；
+     * 因此在系统 onLost 时主动启动同一套 30s 超时挂断。
+     */
+    fun onLocalNetworkLost() {
+        eLogD(TAG, "本端系统断网，启动断网重连补偿 ${RECONNECT_GRACE_MS}ms")
+        scheduleReconnectGraceHangup()
+    }
+
+    /**
+     * 本端网络恢复后的探测：若 LiveKit 仍显示已连接且未进入重连，说明只是瞬时抖动，取消补偿。
+     * 若已进入 [roomReconnecting]，交给 [onRoomReconnected] 取消。
+     */
+    fun onLocalNetworkRestoredCheck() {
+        if (reconnectGraceRunnable == null) {
+            return
+        }
+        if (roomReconnecting) {
+            eLogD(TAG, "网络已恢复但仍在 LiveKit 重连中，继续等待 Reconnected / 超时")
+            return
+        }
+        val connected = try {
+            CallUtil.isRoomConnected() && CallUtil.hasRemoteParticipant()
+        } catch (_: Exception) {
+            false
+        }
+        if (connected) {
+            eLogD(TAG, "网络已恢复且房间仍连通，取消断网补偿")
+            cancelReconnectGrace(clearDeferred = true)
+        } else {
+            eLogD(TAG, "网络已恢复但房间未就绪，继续等待 Reconnected / 超时")
+        }
     }
 
     /** 重连成功：取消补偿定时器。 */
@@ -100,8 +144,54 @@ object CallSessionHolder {
 
     fun isReconnectGraceActive(): Boolean = reconnectGraceRunnable != null
 
+    fun isPeerGoneGraceActive(): Boolean = peerGoneGraceRunnable != null
+
+    /**
+     * 对端 ParticipantDisconnected（非本端重连清远端）：提示对方网络不佳，并启动补偿等待其重连回来。
+     */
+    fun onPeerTemporarilyGone(hangupIfTimeout: () -> Unit) {
+        CallNetworkQualityHelper.onRemoteNetworkIssue("peer-temporarily-gone")
+        peerTemporarilyGone = true
+        peerGoneHangupAction = hangupIfTimeout
+        if (peerGoneGraceRunnable != null) {
+            eLogD(TAG, "对端离房补偿已在进行中，刷新挂断回调")
+            return
+        }
+        val r = Runnable {
+            peerGoneGraceRunnable = null
+            peerTemporarilyGone = false
+            eLogD(TAG, "对端离房补偿 ${RECONNECT_GRACE_MS}ms 超时，自动挂断")
+            val action = peerGoneHangupAction
+            peerGoneHangupAction = null
+            action?.invoke()
+        }
+        peerGoneGraceRunnable = r
+        eLogD(TAG, "启动对端离房补偿 ${RECONNECT_GRACE_MS}ms")
+        mainHandler.postDelayed(r, RECONNECT_GRACE_MS)
+    }
+
+    /** 对端重新进房 / 重新订阅轨道：取消对端离房补偿。 */
+    fun onPeerBack() {
+        if (peerGoneGraceRunnable == null && !peerTemporarilyGone) {
+            return
+        }
+        eLogD(TAG, "对端已恢复，取消离房补偿")
+        peerTemporarilyGone = false
+        peerGoneGraceRunnable?.let { mainHandler.removeCallbacks(it) }
+        peerGoneGraceRunnable = null
+        peerGoneHangupAction = null
+    }
+
+    private fun cancelPeerGoneGrace() {
+        peerTemporarilyGone = false
+        peerGoneGraceRunnable?.let { mainHandler.removeCallbacks(it) }
+        peerGoneGraceRunnable = null
+        peerGoneHangupAction = null
+    }
+
     private fun scheduleReconnectGraceHangup() {
         if (reconnectGraceRunnable != null) {
+            eLogD(TAG, "断网重连补偿定时器已存在，跳过重复启动")
             return
         }
         val r = Runnable {
@@ -110,7 +200,16 @@ object CallSessionHolder {
             eLogD(TAG, "断网重连补偿 ${RECONNECT_GRACE_MS}ms 超时，自动挂断")
             val action = deferredHangupAction ?: hangupAction
             deferredHangupAction = null
-            action?.invoke()
+            if (action != null) {
+                action.invoke()
+            } else {
+                eLogD(TAG, "补偿超时但 hangupAction 为空，强制 leaveRoom + clear")
+                try {
+                    CallUtil.leaveRoom()
+                } catch (_: Exception) {
+                }
+                clear()
+            }
         }
         reconnectGraceRunnable = r
         eLogD(TAG, "启动断网重连补偿 ${RECONNECT_GRACE_MS}ms")
@@ -177,6 +276,7 @@ object CallSessionHolder {
         if (!callConnected) {
             callConnected = true
             connectedAtMs = System.currentTimeMillis()
+            CallNetworkQualityHelper.onCallConnected()
         }
     }
 
@@ -199,6 +299,7 @@ object CallSessionHolder {
 
     fun clear() {
         cancelReconnectGrace(clearDeferred = true)
+        cancelPeerGoneGrace()
         hangupAction = null
         active = false
         keepRoomOnDestroy = false
@@ -220,5 +321,6 @@ object CallSessionHolder {
         openedAtMs = 0L
         leaveAsTimeout = false
         connectedParticipantIds.clear()
+        CallNetworkQualityHelper.reset()
     }
 }

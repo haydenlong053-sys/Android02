@@ -30,9 +30,12 @@ import com.freddy.im.call.CallDurationLocalStore
 import com.freddy.im.call.CallSignalSender
 import com.freddy.webtrc.R
 import com.freddy.webtrc.activity.CallActivity
+import com.freddy.webtrc.utils.CallNetworkQualityHelper
 import com.freddy.webtrc.utils.CallRingPlayer
 import com.freddy.webtrc.utils.CallUtil
 import io.livekit.android.events.RoomEvent
+import io.livekit.android.room.participant.LocalParticipant
+import io.livekit.android.room.participant.Participant
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -74,6 +77,9 @@ class CallFloatService : Service() {
                 ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
                 endCallFromFloat(sendSignal = true)
             }
+        }
+        if (CallSessionHolder.callConnected) {
+            CallNetworkQualityHelper.onCallConnected()
         }
         listenRoomEvents()
     }
@@ -137,6 +143,7 @@ class CallFloatService : Service() {
                             TAG,
                             "LiveKit Reconnecting（悬浮窗），${CallSessionHolder.RECONNECT_GRACE_MS}ms 内不自动挂断"
                         )
+                        handler.post { CallNetworkQualityHelper.onLocalReconnecting() }
                     }
 
                     is RoomEvent.Reconnected -> {
@@ -155,6 +162,11 @@ class CallFloatService : Service() {
                     is RoomEvent.TrackSubscribed,
                     is RoomEvent.Connected -> {
                         handler.post {
+                            if (event is RoomEvent.ParticipantConnected
+                                || event is RoomEvent.TrackSubscribed
+                            ) {
+                                CallSessionHolder.onPeerBack()
+                            }
                             val uid = when (event) {
                                 is RoomEvent.ParticipantConnected ->
                                     event.participant.identity?.value
@@ -188,17 +200,62 @@ class CallFloatService : Service() {
                                 )
                                 return@post
                             }
+                            if (!CallSessionHolder.callConnected) {
+                                return@post
+                            }
                             val uid = event.participant.identity?.value.orEmpty()
                             if (CallSessionHolder.isMultiCall) {
+                                CallNetworkQualityHelper.onRemoteNetworkIssue(
+                                    "float-peer-disconnected:$uid"
+                                )
                                 if (uid.isNotBlank()) {
                                     CallSessionHolder.removeParticipant(uid)
                                 }
                                 if (CallSessionHolder.shouldEndMultiCall()) {
-                                    endCallFromFloat(sendSignal = false)
+                                    CallSessionHolder.onPeerTemporarilyGone {
+                                        ToastBroadUtils.show(
+                                            com.cboda.baselibrary.R.string.call_ended
+                                        )
+                                        endCallFromFloat(sendSignal = false)
+                                    }
                                 }
                             } else {
-                                endCallFromFloat(sendSignal = false)
+                                CallSessionHolder.onPeerTemporarilyGone {
+                                    ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_ended)
+                                    endCallFromFloat(sendSignal = false)
+                                }
                             }
+                        }
+                    }
+
+                    is RoomEvent.ParticipantStateChanged -> {
+                        handler.post {
+                            if (!CallSessionHolder.callConnected) return@post
+                            if (event.participant is LocalParticipant) return@post
+                            if (CallSessionHolder.roomReconnecting
+                                || CallUtil.isRoomReconnecting()
+                            ) {
+                                return@post
+                            }
+                            if (event.newState == Participant.State.DISCONNECTED) {
+                                CallNetworkQualityHelper.onRemoteNetworkIssue(
+                                    "float-peer-state:${event.newState}"
+                                )
+                            }
+                        }
+                    }
+
+                    is RoomEvent.TrackUnsubscribed -> {
+                        handler.post {
+                            if (!CallSessionHolder.callConnected) return@post
+                            if (CallSessionHolder.roomReconnecting
+                                || CallUtil.isRoomReconnecting()
+                            ) {
+                                return@post
+                            }
+                            CallNetworkQualityHelper.onRemoteNetworkIssue(
+                                "float-track-unsubscribed:${event.participant.identity?.value}"
+                            )
                         }
                     }
 
@@ -229,6 +286,15 @@ class CallFloatService : Service() {
                             }
                             ToastBroadUtils.show(com.cboda.baselibrary.R.string.call_failed)
                             endCallFromFloat(sendSignal = false)
+                        }
+                    }
+
+                    is RoomEvent.ConnectionQualityChanged -> {
+                        handler.post {
+                            CallNetworkQualityHelper.handle(
+                                event,
+                                CallSessionHolder.callConnected
+                            )
                         }
                     }
 

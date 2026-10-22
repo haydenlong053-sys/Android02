@@ -196,6 +196,8 @@
     <string name="call_accept">Accept</string>
     <string name="call_failed">Call connection failed</string>
     <string name="call_ended">Call ended</string>
+    <string name="call_network_poor_self">Your network is poor in this call</string>
+    <string name="call_network_poor_peer">The other party\'s network is poor in this call</string>
     <string name="call_remote_busy">The other party is busy</string>
     <string name="call_remote_cancelled">The other party cancelled</string>
     <string name="call_remote_no_answer">The other party did not answer</string>

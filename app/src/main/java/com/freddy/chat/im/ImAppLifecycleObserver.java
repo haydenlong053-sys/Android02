@@ -8,12 +8,16 @@ import com.freddy.im.IMSConfig;
 
 /**
  * 应用级前后台感知：进程内首个 Activity 可见视为前台，全部不可见视为后台。
+ * <p>
+ * 回前台：上报状态后直接断开旧连接并主动重连，避免假活长连。
  */
 public final class ImAppLifecycleObserver implements DefaultLifecycleObserver {
 
     @Override
     public void onStart(@NonNull LifecycleOwner owner) {
-        IMSClientBootstrap.getInstance().updateAppStatus(IMSConfig.APP_STATUS_FOREGROUND);
+        IMSClientBootstrap bootstrap = IMSClientBootstrap.getInstance();
+        bootstrap.updateAppStatus(IMSConfig.APP_STATUS_FOREGROUND);
+        bootstrap.resetConnect();
     }
 
     @Override
