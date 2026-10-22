@@ -19,7 +19,7 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="30dp"
         android:padding="10dp"
-        android:src="@mipmap/ic_broad_save" />
+        android:src="@mipmap/ic_save_icon" />
 </RelativeLayout>
 
 
