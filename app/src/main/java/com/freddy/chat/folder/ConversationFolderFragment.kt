@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.intelligent.R
+import com.cboda.intelligent.utils.HomeFloatingBottomInset
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.viewmodel.ConversationParentViewModel
 import com.freddy.chat.event.CEventCenter
@@ -66,6 +67,8 @@ class ConversationFolderFragment : Fragment(), I_CEventListener {
         )
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
+        // 根布局留白：rv 为 wrap_content，不宜只给列表设 padding
+        HomeFloatingBottomInset.applyTo(rv)
 
         parentViewModel.folders.observe(viewLifecycleOwner) { list ->
             foldersCache = list.orEmpty()

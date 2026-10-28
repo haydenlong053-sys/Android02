@@ -17,6 +17,7 @@ import cn.wildfirechat.viewmodel.SocialAction
 import com.cboda.baselibrary.utils.imsConnectLiveData
 import com.cboda.chatui.widget.ProgressBroadFragment
 import com.cboda.intelligent.R
+import com.cboda.intelligent.utils.HomeFloatingBottomInset
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.viewmodel.ConversationParentViewModel
 import com.freddy.chat.im.IMSClientBootstrap
@@ -82,6 +83,8 @@ abstract class BaseConversationSessionFragment : ProgressBroadFragment() {
         recyclerView.adapter = adapter
         // 关闭默认换页动画，减轻局部刷新时的视觉跳动
         recyclerView.itemAnimator = null
+        // 悬浮底栏盖住列表：末项可滚出底栏上方
+        HomeFloatingBottomInset.applyTo(recyclerView)
 
         // 禁用下拉刷新；会话数据由 ViewModel 主动拉取 / 信令更新
         swipeRefresh.isEnabled = false

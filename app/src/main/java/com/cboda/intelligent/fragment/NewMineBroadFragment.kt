@@ -16,6 +16,7 @@ import com.cboda.intelligent.net.BroadUrl
 import com.cboda.intelligent.utils.AppBroadUtils
 import com.cboda.intelligent.utils.BaseBroadCallback
 import com.cboda.intelligent.utils.GlideBroadUtil
+import com.cboda.intelligent.utils.HomeFloatingBottomInset
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.OkHttpBroadHelper
 import com.cboda.intelligent.utils.SharePrefBroadBroadUtil
@@ -31,6 +32,7 @@ class NewMineBroadFragment : BaseBroadFragment<FragmentNewMineBinding, MineViewM
 
     override fun initView() {
         addHeight(binding.nsvMineContent)
+        HomeFloatingBottomInset.applyTo(binding.nsvMineContent)
         registerEventBusIfNeeded()
         bindUserProfileFromCache()
     }

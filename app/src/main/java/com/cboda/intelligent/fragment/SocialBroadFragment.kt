@@ -77,6 +77,7 @@ import com.cboda.baselibrary.utils.eLogD
 import com.cboda.baselibrary.utils.truncateTextWithEllipsis
 import com.cboda.baselibrary.widge.VpGradeView
 import com.cboda.intelligent.activity.VerifyBroadActivity
+import com.cboda.intelligent.utils.HomeFloatingBottomInset
 import com.cboda.intelligent.utils.JumpBroadUtils
 import com.cboda.intelligent.utils.goTempTranslateString
 import org.greenrobot.eventbus.EventBus
@@ -86,10 +87,10 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.cboda.baselibrary.bean.SocialBroadCircle
 import com.cboda.baselibrary.bean.SocialContact
 
-/** 主页悬浮底栏内容高度（与 ExpandableBottomBroadBar.BarHeight 对齐） */
-private val MainBottomBarContentHeight = 64.dp
+/** 主页悬浮底栏内容高度（与 HomeFloatingBottomInset / ExpandableBottomBar 对齐） */
+private val MainBottomBarContentHeight = HomeFloatingBottomInset.BAR_HEIGHT_DP.dp
 /** 底栏上方额外空隙，避免最后一项贴边 */
-private val MainBottomBarExtraGap = 16.dp
+private val MainBottomBarExtraGap = HomeFloatingBottomInset.EXTRA_GAP_DP.dp
 
 enum class CircleInteractionBroadMode {
     WithAllSingleSelect, // 有“全部”选项，单选
