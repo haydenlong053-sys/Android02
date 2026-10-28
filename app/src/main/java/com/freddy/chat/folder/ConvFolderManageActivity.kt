@@ -25,11 +25,14 @@ import com.freddy.im.message.ConvFolderSyncHelper
 import java.util.Collections
 
 /**
- * 会话分组管理：拖拽排序 + 更多菜单 + 新建分组。
+ * 会话分组管理：拖拽排序（可开关）+ 更多菜单 + 新建分组。
  */
 class ConvFolderManageActivity : BaseSimple2BroadActivity() {
 
     companion object {
+        /** 拖拽排序开关；默认关闭，需要时改为 true。 */
+        const val ENABLE_DRAG_SORT = false
+
         fun start(context: Context) {
             context.startActivity(Intent(context, ConvFolderManageActivity::class.java))
         }
@@ -61,26 +64,28 @@ class ConvFolderManageActivity : BaseSimple2BroadActivity() {
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = adapter
 
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-            0,
-        ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder,
-            ): Boolean {
-                val from = viewHolder.bindingAdapterPosition
-                val to = target.bindingAdapterPosition
-                if (from < 0 || to < 0 || from == to) return false
-                Collections.swap(folders, from, to)
-                adapter.notifyItemMoved(from, to)
-                orderDirty = true
-                return true
-            }
+        if (ENABLE_DRAG_SORT) {
+            ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+                0,
+            ) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder,
+                ): Boolean {
+                    val from = viewHolder.bindingAdapterPosition
+                    val to = target.bindingAdapterPosition
+                    if (from < 0 || to < 0 || from == to) return false
+                    Collections.swap(folders, from, to)
+                    adapter.notifyItemMoved(from, to)
+                    orderDirty = true
+                    return true
+                }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = Unit
-        }).attachToRecyclerView(rv)
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = Unit
+            }).attachToRecyclerView(rv)
+        }
 
         reload()
     }
