@@ -82,7 +82,7 @@ public final class ImRealm {
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .name(realmFileNameForUser(userId))
                     .schemaVersion(SCHEMA_VERSION)
-                    .deleteRealmIfMigrationNeeded()
+                    .migration(new ImRealmMigration())
                     .modules(new ImRealmModule())
                     .build();
             // 勿调用 Realm.setDefaultConfiguration：会覆盖 baselibrary RealmUtil 的用户库（UserRealm 等）
