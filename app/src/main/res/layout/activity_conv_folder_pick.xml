@@ -11,9 +11,8 @@
         android:layout_height="wrap_content"
         android:minHeight="56dp"
         android:paddingStart="8dp"
-        android:paddingTop="8dp"
         android:paddingEnd="16dp"
-        android:paddingBottom="4dp">
+        >
 
         <ImageView
             android:id="@+id/iv_back"
@@ -27,10 +26,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
             android:layout_marginStart="48dp"
             android:layout_marginEnd="48dp"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
