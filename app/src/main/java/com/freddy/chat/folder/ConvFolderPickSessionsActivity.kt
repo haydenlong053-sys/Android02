@@ -177,6 +177,15 @@ class ConvFolderPickSessionsActivity : BaseSimple2BroadActivity() {
             object : ConvFolderSyncHelper.OnSaveResult {
                 override fun onSuccess(version: Long, folders: List<ConvFolderItem>) {
                     MessageProcessor.getInstance().notifyConvFoldersUpdated()
+                    ToastBroadUtils.show(
+                        getString(
+                            if (removeMode) {
+                                R.string.conv_folder_remove_success
+                            } else {
+                                R.string.conv_folder_add_success
+                            },
+                        ),
+                    )
                     finish()
                 }
 

@@ -849,6 +849,8 @@
     <string name="conv_folder_delete_action">Delete</string>
     <string name="conv_folder_empty">No folders yet</string>
     <string name="conv_folder_save_failed">Failed to save folders</string>
+    <string name="conv_folder_add_success">Added successfully</string>
+    <string name="conv_folder_remove_success">Removed successfully</string>
     <string name="conv_folder_name_counter">%1$d/12</string>
     <string name="select_all">Select All</string>
     <string name="cancel_select_all">Deselect All</string>

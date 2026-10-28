@@ -849,6 +849,8 @@
     <string name="conv_folder_delete_action">刪除</string>
     <string name="conv_folder_empty">暫無會話分組</string>
     <string name="conv_folder_save_failed">保存分組失敗</string>
+    <string name="conv_folder_add_success">添加成功</string>
+    <string name="conv_folder_remove_success">移除成功</string>
     <string name="conv_folder_name_counter">%1$d/12</string>
 
     <string name="select_all">全選</string>
