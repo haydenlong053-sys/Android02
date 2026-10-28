@@ -16,6 +16,24 @@ public final class ImRealmMigration implements RealmMigration {
     public void migrate(@NonNull DynamicRealm realm, long oldVersion, long newVersion) {
         RealmSchema schema = realm.getSchema();
 
+        // → 3：群置顶消息快照表
+        if (oldVersion < 3) {
+            if (schema.get("PinnedMessageEntity") == null) {
+                schema.create("PinnedMessageEntity")
+                        .addField("pinKey", String.class, FieldAttribute.PRIMARY_KEY)
+                        .addField("groupId", String.class, FieldAttribute.INDEXED)
+                        .addField("messageId", String.class)
+                        .addField("sender", String.class)
+                        .addField("contentType", String.class)
+                        .addField("content", String.class)
+                        .addField("customInfo", String.class)
+                        .addField("sendTime", long.class)
+                        .addField("pinnedBy", String.class)
+                        .addField("pinTime", long.class, FieldAttribute.INDEXED);
+            }
+            oldVersion = 3;
+        }
+
         // 3 → 4：会话分组（不清库）
         if (oldVersion < 4) {
             if (schema.get("ConvFolderEntity") == null) {
