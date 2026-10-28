@@ -835,10 +835,11 @@
     <string name="conv_folder_tab_friend">Friends</string>
     <string name="conv_folder_tab_group">Groups</string>
     <string name="conv_folder_more_rename">Rename</string>
-    <string name="conv_folder_more_edit">Edit conversations</string>
+    <string name="conv_folder_more_edit">Add conversations</string>
     <string name="conv_folder_more_remove">Remove conversations</string>
     <string name="conv_folder_more_delete">Delete folder</string>
-    <string name="conv_folder_delete_confirm">Delete folder \"%1$s\"? Conversations will not be deleted.</string>
+    <string name="conv_folder_delete_confirm">After deletion, conversations in this folder will return to ungrouped. Delete?</string>
+    <string name="conv_folder_delete_action">Delete</string>
     <string name="conv_folder_empty">No folders yet</string>
     <string name="conv_folder_save_failed">Failed to save folders</string>
     <string name="conv_folder_name_counter">%1$d/12</string>

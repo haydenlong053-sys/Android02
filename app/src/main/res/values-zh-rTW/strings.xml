@@ -842,10 +842,11 @@
     <string name="conv_folder_tab_friend">好友</string>
     <string name="conv_folder_tab_group">群聊</string>
     <string name="conv_folder_more_rename">重命名分組</string>
-    <string name="conv_folder_more_edit">編輯會話</string>
+    <string name="conv_folder_more_edit">添加會話</string>
     <string name="conv_folder_more_remove">移除會話</string>
     <string name="conv_folder_more_delete">刪除分組</string>
-    <string name="conv_folder_delete_confirm">確定刪除分組「%1$s」？刪除後會話不會被移除。</string>
+    <string name="conv_folder_delete_confirm">刪除後，分組內的會話將移出分組恢復到未分組顯示，確定刪除？</string>
+    <string name="conv_folder_delete_action">刪除</string>
     <string name="conv_folder_empty">暫無會話分組</string>
     <string name="conv_folder_save_failed">保存分組失敗</string>
     <string name="conv_folder_name_counter">%1$d/12</string>

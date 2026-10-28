@@ -1,19 +1,23 @@
 package com.freddy.chat.folder
 
 import android.content.Context
-import androidx.appcompat.app.AlertDialog
+import android.graphics.Color
 import com.cboda.baselibrary.bean.ComBottomListBean
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.utils.showCommonBottomListPop
 import com.cboda.intelligent.R
+import com.cboda.intelligent.holder.CommanConfimBroadHolder
 import com.freddy.chat.im.MessageProcessor
 import com.freddy.im.http.model.im.ConvFolderItem
 import com.freddy.im.message.ConvFolderSyncHelper
 
 /**
- * 分组「更多」底部菜单：重命名 / 编辑会话 / 移除会话 / 删除分组。
+ * 分组「更多」底部菜单：重命名 / 添加会话 / 移除会话 / 删除分组。
  */
 object ConvFolderMoreHelper {
+
+    /** 删除项红色文案 */
+    private val DELETE_TEXT_COLOR = Color.parseColor("#FA5151")
 
     fun show(
         context: Context,
@@ -24,9 +28,16 @@ object ConvFolderMoreHelper {
             ComBottomListBean().apply { itemContent = context.getString(R.string.conv_folder_more_rename) },
             ComBottomListBean().apply { itemContent = context.getString(R.string.conv_folder_more_edit) },
             ComBottomListBean().apply { itemContent = context.getString(R.string.conv_folder_more_remove) },
-            ComBottomListBean().apply { itemContent = context.getString(R.string.conv_folder_more_delete) },
+            ComBottomListBean().apply {
+                itemContent = context.getString(R.string.conv_folder_more_delete)
+                isSelected = true
+            },
         )
-        showCommonBottomListPop(list, context) { pos, _ ->
+        showCommonBottomListPop(
+            list,
+            context,
+            selectedItemTextColor = DELETE_TEXT_COLOR,
+        ) { pos, _ ->
             when (pos) {
                 0 -> ConvFolderEditActivity.startRename(context, folder.id.orEmpty())
                 1 -> ConvFolderPickSessionsActivity.startAdd(context, folder.id.orEmpty())
@@ -41,11 +52,16 @@ object ConvFolderMoreHelper {
         folder: ConvFolderItem,
         onDone: (() -> Unit)?,
     ) {
-        val name = folder.name.orEmpty()
-        AlertDialog.Builder(context)
-            .setMessage(context.getString(R.string.conv_folder_delete_confirm, name))
-            .setNegativeButton(R.string.conv_folder_cancel, null)
-            .setPositiveButton(R.string.conv_folder_more_delete) { _, _ ->
+        val holder = CommanConfimBroadHolder(
+            context,
+            context.getString(R.string.conv_folder_more_delete),
+            context.getString(R.string.conv_folder_delete_confirm),
+            context.getString(R.string.conv_folder_delete_action),
+            context.getString(R.string.conv_folder_cancel),
+        )
+        holder.callBack = object : CommanConfimBroadHolder.OnConfimCallBack {
+            override fun onClickConfim(isConfim: Boolean) {
+                if (!isConfim) return
                 val folderId = folder.id.orEmpty()
                 ConvFolderSyncHelper.saveWithRetry(
                     { current -> current.filter { it.id != folderId } },
@@ -64,6 +80,7 @@ object ConvFolderMoreHelper {
                     },
                 )
             }
-            .show()
+        }
+        holder.show()
     }
 }
