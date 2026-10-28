@@ -12,11 +12,13 @@ import com.freddy.im.bean.AppMessage;
 import com.freddy.im.bean.ImConversationSearchResult;
 import com.freddy.im.db.entity.MessageEntity;
 import com.freddy.im.db.entity.SessionEntity;
+import com.freddy.im.db.repository.ImConvFolderRepository;
 import com.freddy.im.db.repository.ImGroupMemberRepository;
 import com.freddy.im.db.repository.ImMessageRepository;
 import com.freddy.im.db.repository.ImPinnedMessageRepository;
 import com.freddy.im.db.repository.ImSessionRepository;
 import com.freddy.im.group.GroupRole;
+import com.freddy.im.http.model.im.ConvFolderItem;
 import com.freddy.im.http.model.im.GroupMemberItem;
 import com.freddy.im.http.model.im.PinnedMessageItem;
 import com.freddy.im.http.model.im.SessionItem;
@@ -706,5 +708,26 @@ public final class ImLocalStore {
         }
         GroupMemberItem me = queryGroupMember(groupId, currentUserId);
         return me != null ? me.getRole() : GroupRole.MEMBER;
+    }
+
+    public interface OnConvFoldersCallback {
+        void onLoaded(long version, @NonNull List<ConvFolderItem> folders);
+    }
+
+    /** 全量替换会话分组（保留本地 iconType）。回调在主线程。 */
+    public static void replaceConvFolders(long version,
+                                          @Nullable List<ConvFolderItem> folders,
+                                          @Nullable OnConvFoldersCallback onDone) {
+        ImConvFolderRepository.getInstance().replaceAll(version, folders, (v, list) -> {
+            if (onDone != null) {
+                MAIN_HANDLER.post(() -> onDone.onLoaded(v, list));
+            }
+        });
+    }
+
+    /** 加载本地会话分组。回调在主线程。 */
+    public static void loadConvFolders(@NonNull OnConvFoldersCallback callback) {
+        ImConvFolderRepository.getInstance().loadAll((v, list) ->
+                MAIN_HANDLER.post(() -> callback.onLoaded(v, list)));
     }
 }

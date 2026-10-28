@@ -24,6 +24,12 @@ public final class OthBusiSigCodes {
     public static final int GROUP_PIN = 1010;
 
     /**
+     * 会话分组变更（文档 convFolders），data 为
+     * {@code {"kind":"conv_folder","version":8}}；本地 version 已 ≥ 则忽略，否则重拉。
+     */
+    public static final int CONV_FOLDER = 1011;
+
+    /**
      * 会议礼物弹幕（cmd=OTHER_BUSI / 0x0501，code=2001）。
      * data 为 {@code {"giftType":1|2,"groupId":"...","fromUserId":"...","toUserId":"...","timestamp":0}}，
      * giftType：1=鲜花，2=鼓掌。

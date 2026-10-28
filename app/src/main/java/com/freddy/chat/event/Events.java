@@ -29,6 +29,8 @@ public class Events {
     public static final String GROUP_NOTICE_UPDATED = "group_notice_updated";
     /** 群置顶消息变更（0x0501 code=1010 / HTTP 成功后）；payload 为 {@code groupId}（String） */
     public static final String GROUP_PINNED_UPDATED = "group_pinned_updated";
+    /** 会话分组变更（0x0501 code=1011 / HTTP 成功后）；无 payload */
+    public static final String CONV_FOLDERS_UPDATED = "conv_folders_updated";
     /** 群禁言状态变更；payload 为 {@link GroupMuteUpdateEvent} */
     public static final String GROUP_MUTE_UPDATED = "group_mute_updated";
 }

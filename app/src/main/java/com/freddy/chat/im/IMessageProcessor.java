@@ -54,6 +54,11 @@ public interface IMessageProcessor {
     void notifyGroupPinnedUpdated(@NonNull String groupId);
 
     /**
+     * 会话分组变更（0x0501 code=1011 或 HTTP 成功后）；事件 {@link Events#CONV_FOLDERS_UPDATED}。
+     */
+    void notifyConvFoldersUpdated();
+
+    /**
      * 群禁言状态变更；事件 {@link Events#GROUP_MUTE_UPDATED}，payload 为 {@link GroupMuteUpdateEvent}。
      */
     void notifyGroupMuteUpdated(@NonNull String groupId);

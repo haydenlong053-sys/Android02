@@ -201,6 +201,17 @@ public class MessageProcessor implements IMessageProcessor {
     }
 
     @Override
+    public void notifyConvFoldersUpdated() {
+        CThreadPoolExecutor.runOnMainThread(() -> {
+            try {
+                CEventCenter.dispatchEvent(Events.CONV_FOLDERS_UPDATED, 0, 0, null);
+            } catch (Exception e) {
+                Log.e(TAG, "会话分组更新分发失败，reason=" + e.getMessage());
+            }
+        });
+    }
+
+    @Override
     public void notifyGroupMuteUpdated(@NonNull final String groupId) {
         notifyGroupMuteUpdated(groupId, GroupMuteUpdateEvent.REFRESH_FROM_SERVER);
     }

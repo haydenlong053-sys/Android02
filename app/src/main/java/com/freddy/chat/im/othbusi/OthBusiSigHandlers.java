@@ -31,6 +31,7 @@ public final class OthBusiSigHandlers {
         dispatcher.register(new CreditScoreOthBusiSigHandler());
         dispatcher.register(new MsgEditOthBusiSigHandler());
         dispatcher.register(new GroupPinOthBusiSigHandler());
+        dispatcher.register(new ConvFolderOthBusiSigHandler());
         return dispatcher;
     }
 }

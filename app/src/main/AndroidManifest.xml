@@ -755,6 +755,16 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name="com.freddy.chat.folder.ConvFolderManageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.freddy.chat.folder.ConvFolderEditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.freddy.chat.folder.ConvFolderPickSessionsActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name="com.freddy.chat.MessageListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />

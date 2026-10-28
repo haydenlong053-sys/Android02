@@ -18,7 +18,7 @@ public final class ImRealm {
 
     private static final String DB_NAME_PREFIX = "im_sdk_";
     private static final String DB_NAME_SUFFIX = ".realm";
-    private static final long SCHEMA_VERSION = 3L;
+    private static final long SCHEMA_VERSION = 4L;
 
     private static volatile Context appContext;
     private static volatile boolean sdkInitialized;
@@ -82,7 +82,7 @@ public final class ImRealm {
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .name(realmFileNameForUser(userId))
                     .schemaVersion(SCHEMA_VERSION)
-                    .deleteRealmIfMigrationNeeded()
+                    .migration(new ImRealmMigration())
                     .modules(new ImRealmModule())
                     .build();
             // 勿调用 Realm.setDefaultConfiguration：会覆盖 baselibrary RealmUtil 的用户库（UserRealm 等）

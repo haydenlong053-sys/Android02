@@ -80,6 +80,7 @@ import com.cboda.intelligent.widge.ImgIndicatorBroadAdapter
 import com.cboda.select.picture.utils.LanguageUtil
 import com.freddy.chat.ConversationGroupFragment
 import com.freddy.chat.ConversationSingleFragment
+import com.freddy.chat.folder.ConversationFolderFragment
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.badge.BadgePagerTitleView
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -216,6 +217,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         conversationSingleFragment = ConversationSingleFragment()
         fragments.add(conversationSingleFragment!!)
         fragments.add(ConversationGroupFragment())
+        fragments.add(ConversationFolderFragment())
         fragments.add(SocialFragment())
 
 //        fragments.add(ConversationSingleBroadFragment())
@@ -294,10 +296,21 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         }
     }
 
-    private val badgeCounts = intArrayOf(anyToInt(singleCount), anyToInt(groupCount), anyToInt(socialCount))
+    private var folderCount = "0"
+    private val badgeCounts = intArrayOf(
+        anyToInt(singleCount),
+        anyToInt(groupCount),
+        anyToInt(folderCount),
+        anyToInt(socialCount),
+    )
     private var indicatorAdapt: BadgeIndicatorAdapter? = null
     private fun initMagicIndicator() {
-        val mResIds = intArrayOf(R.string.conversation_tab, R.string.群聊, R.string.friend_tab)
+        val mResIds = intArrayOf(
+            R.string.conversation_tab,
+            R.string.群聊,
+            R.string.folder_tab,
+            R.string.friend_tab,
+        )
         magicIndicator.setBackgroundColor(Color.TRANSPARENT)
         val commonNavigator = CommonBroadNavigator(requireContext())
         commonNavigator.isAdjustMode = LanguageUtil.getLanList(MMKVBroadUtils.getAppLanguageKey(requireContext())).startsWith("zh")
@@ -315,6 +328,7 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
             intArrayOf(
                 anyToInt(singleCount),
                 anyToInt(groupCount),
+                anyToInt(folderCount),
                 anyToInt(socialCount),
             )
         )
@@ -327,6 +341,10 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
         }
         conversationViewModel.groupUnreadCount.observe(viewLifecycleOwner) { count ->
             groupCount = count.toString()
+            updateBadges()
+        }
+        conversationViewModel.folderUnreadCount.observe(viewLifecycleOwner) { count ->
+            folderCount = count.toString()
             updateBadges()
         }
     }
@@ -459,8 +477,8 @@ class MessageBroadFragment : BaseLazyBroadFragment() {
             BlurButton(
                 size = 50.dp, iconPainter = painterResource(R.mipmap.ic_manager_broad_black), expanded = isManagerClick, onExpandedChange = {
                     val currentIndex = viewPager.currentItem
-                    // 好友 Tab 不支持多选管理
-                    if (currentIndex == 2) {
+                    // 分组 / 好友 Tab 不支持多选管理
+                    if (currentIndex == 2 || currentIndex == 3) {
                         return@BlurButton
                     }
 

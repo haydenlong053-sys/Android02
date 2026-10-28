@@ -1,5 +1,7 @@
 package com.freddy.im.db;
 
+import com.freddy.im.db.entity.ConvFolderEntity;
+import com.freddy.im.db.entity.ConvFolderMetaEntity;
 import com.freddy.im.db.entity.GroupMemberEntity;
 import com.freddy.im.db.entity.MessageEntity;
 import com.freddy.im.db.entity.PinnedMessageEntity;
@@ -11,7 +13,9 @@ import io.realm.annotations.RealmModule;
         MessageEntity.class,
         SessionEntity.class,
         GroupMemberEntity.class,
-        PinnedMessageEntity.class
+        PinnedMessageEntity.class,
+        ConvFolderEntity.class,
+        ConvFolderMetaEntity.class
 })
 public class ImRealmModule {
 }
