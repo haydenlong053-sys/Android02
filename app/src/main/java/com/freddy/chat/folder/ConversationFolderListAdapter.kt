@@ -1,6 +1,7 @@
 package com.freddy.chat.folder
 
 import android.graphics.drawable.GradientDrawable
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.baselibrary.widge.VpGradeView
+import com.cboda.chatui.third.utils.TimeBroadBroadUtils
 import com.cboda.intelligent.R
 import com.freddy.chat.utils.MessageAvatarBinder
 import com.freddy.chat.utils.WeChatUiHelper
@@ -105,6 +107,7 @@ class ConversationFolderListAdapter(
         private val avatar: VpGradeView = root.findViewById(R.id.avatar)
         private val tvName: TextView = root.findViewById(R.id.tv_name)
         private val tvSubtitle: TextView = root.findViewById(R.id.tv_subtitle)
+        private val tvTime: TextView? = root.findViewById(R.id.tv_time)
         private val tvUnread: TextView = root.findViewById(R.id.tv_unread)
         private val muteDot: View = root.findViewById(R.id.v_mute_dot)
         private val ivCheck: View = root.findViewById(R.id.iv_check)
@@ -117,6 +120,10 @@ class ConversationFolderListAdapter(
                 itemView.context.getString(com.cboda.baselibrary.R.string.conversation_name_fallback)
             }
             tvSubtitle.text = WeChatUiHelper.formatSessionPreview(session, currentUserId)
+            val millis = WeChatUiHelper.normalizeToMillis(session.lastMessageTime)
+            val time = if (millis > 0L) TimeBroadBroadUtils.getMsgFormatTime(millis) else ""
+            tvTime?.text = time
+            tvTime?.visibility = if (TextUtils.isEmpty(time)) View.INVISIBLE else View.VISIBLE
             val unread = session.unreadCount
             if (session.isMuteNotify) {
                 tvUnread.visibility = View.GONE

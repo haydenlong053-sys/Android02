@@ -3,6 +3,7 @@ package com.freddy.chat.folder
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cboda.baselibrary.toast.ToastBroadUtils
 import com.cboda.baselibrary.widge.VpGradeView
+import com.cboda.chatui.third.utils.TimeBroadBroadUtils
 import com.cboda.intelligent.R
 import com.cboda.intelligent.base.BaseSimple2BroadActivity
 import com.freddy.chat.im.IMSClientBootstrap
@@ -215,6 +217,7 @@ class ConvFolderPickSessionsActivity : BaseSimple2BroadActivity() {
         private val avatar: VpGradeView = itemView.findViewById(R.id.avatar)
         private val tvName: TextView = itemView.findViewById(R.id.tv_name)
         private val tvSubtitle: TextView = itemView.findViewById(R.id.tv_subtitle)
+        private val tvTime: TextView? = itemView.findViewById(R.id.tv_time)
         private val tvUnread: TextView = itemView.findViewById(R.id.tv_unread)
         private val muteDot: View = itemView.findViewById(R.id.v_mute_dot)
 
@@ -232,6 +235,10 @@ class ConvFolderPickSessionsActivity : BaseSimple2BroadActivity() {
                 getString(com.cboda.baselibrary.R.string.conversation_name_fallback)
             }
             tvSubtitle.text = WeChatUiHelper.formatSessionPreview(session, currentUserId)
+            val millis = WeChatUiHelper.normalizeToMillis(session.lastMessageTime)
+            val time = if (millis > 0L) TimeBroadBroadUtils.getMsgFormatTime(millis) else ""
+            tvTime?.text = time
+            tvTime?.visibility = if (TextUtils.isEmpty(time)) View.INVISIBLE else View.VISIBLE
             val unread = session.unreadCount
             if (session.isMuteNotify) {
                 tvUnread.visibility = View.GONE

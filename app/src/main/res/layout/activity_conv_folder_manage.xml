@@ -37,6 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:visibility="invisible"
+            tools:visibility="visible"
             android:padding="8dp"
             android:text="@string/conv_folder_done"
             android:textColor="@color/color_brand_primary"

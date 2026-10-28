@@ -109,32 +109,56 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_unread"
+        <!-- 右侧：时间在上，未读/免打扰红点在下 -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:background="@drawable/bg_unread_badge"
-            android:gravity="center"
-            android:minWidth="20dp"
-            android:minHeight="20dp"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            android:textColor="@android:color/white"
-            android:textSize="11sp"
-            android:visibility="gone"
-            tools:text="3"
-            tools:visibility="visible" />
+            android:gravity="end"
+            android:orientation="vertical">
 
-        <!-- 免打扰：有未读时只显示红点（不显示数字） -->
-        <View
-            android:id="@+id/v_mute_dot"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/bg_unread_badge"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            <TextView
+                android:id="@+id/tv_time"
+                style="@style/WeChatTextSecondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                tools:text="19:18" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:minHeight="20dp">
+
+                <TextView
+                    android:id="@+id/tv_unread"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="@drawable/bg_unread_badge"
+                    android:gravity="center"
+                    android:minWidth="20dp"
+                    android:minHeight="20dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="11sp"
+                    android:visibility="gone"
+                    tools:text="9"
+                    tools:visibility="visible" />
+
+                <!-- 免打扰：有未读时只显示红点（不显示数字） -->
+                <View
+                    android:id="@+id/v_mute_dot"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="@drawable/bg_unread_badge"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+            </FrameLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <View

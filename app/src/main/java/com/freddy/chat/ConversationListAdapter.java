@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cboda.baselibrary.widge.VpGradeView;
 import com.cboda.intelligent.R;
+import com.cboda.chatui.third.utils.TimeBroadBroadUtils;
 import com.freddy.chat.mention.AtMentionChecker;
 import com.freddy.chat.utils.MessageAvatarBinder;
 import com.freddy.chat.utils.WeChatUiHelper;
@@ -319,6 +320,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
                 SessionItem s = items.get(position);
                 if (previewOnly) {
                     bindPreview(holder, s);
+                    bindTime(holder, s);
                 }
                 bindUnread(holder, s);
                 if (selectOnly) {
@@ -343,6 +345,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
 //        MessageAvatarBinder.bindSessionRegisterDay(holder.tvRegisterDay, s, currentUserId);
 
         bindPreview(holder, s);
+        bindTime(holder, s);
         bindUnread(holder, s);
         bindSelect(holder, s);
 
@@ -388,6 +391,16 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         } else {
             holder.ivPreviewType.setVisibility(View.GONE);
         }
+    }
+
+    private static void bindTime(@NonNull VH holder, @NonNull SessionItem s) {
+        if (holder.tvTime == null) {
+            return;
+        }
+        long millis = WeChatUiHelper.normalizeToMillis(s.getLastMessageTime());
+        String time = millis > 0L ? TimeBroadBroadUtils.getMsgFormatTime(millis) : "";
+        holder.tvTime.setText(time);
+        holder.tvTime.setVisibility(TextUtils.isEmpty(time) ? View.INVISIBLE : View.VISIBLE);
     }
 
     private static void bindUnread(@NonNull VH holder, @NonNull SessionItem s) {
@@ -518,6 +531,8 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         final TextView tvRegisterDay;
         final ImageView ivPreviewType;
         final TextView tvSubtitle;
+        @Nullable
+        final TextView tvTime;
         final TextView tvUnread;
         final View muteDot;
 
@@ -529,6 +544,7 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
             tvRegisterDay = itemView.findViewById(R.id.tv_register_day);
             ivPreviewType = itemView.findViewById(R.id.iv_preview_type);
             tvSubtitle = itemView.findViewById(R.id.tv_subtitle);
+            tvTime = itemView.findViewById(R.id.tv_time);
             tvUnread = itemView.findViewById(R.id.tv_unread);
             muteDot = itemView.findViewById(R.id.v_mute_dot);
         }
