@@ -352,19 +352,33 @@ public final class ConversationListAdapter extends RecyclerView.Adapter<Conversa
         holder.itemView.setBackgroundResource(
                 s.getTopNum() > 0 ? R.drawable.bg_item_pinned : R.drawable.bg_item_white);
 
+        // 点击时按当前 position 取数，避免 payload 局部刷新后仍持有旧 SessionItem 闭包
         holder.itemView.setOnClickListener(v -> {
-            if (onSessionClickListener != null) {
-                onSessionClickListener.onSessionClick(s);
+            if (onSessionClickListener == null) {
+                return;
+            }
+            int pos = holder.getBindingAdapterPosition();
+            if (pos == RecyclerView.NO_POSITION || pos >= items.size()) {
+                return;
+            }
+            SessionItem current = items.get(pos);
+            if (current != null) {
+                onSessionClickListener.onSessionClick(current);
             }
         });
         holder.itemView.setOnLongClickListener(v -> {
             if (selectMode) {
                 return true;
             }
-            if (onSessionLongClickListener != null) {
-                return onSessionLongClickListener.onSessionLongClick(s);
+            if (onSessionLongClickListener == null) {
+                return false;
             }
-            return false;
+            int pos = holder.getBindingAdapterPosition();
+            if (pos == RecyclerView.NO_POSITION || pos >= items.size()) {
+                return false;
+            }
+            SessionItem current = items.get(pos);
+            return current != null && onSessionLongClickListener.onSessionLongClick(current);
         });
     }
 

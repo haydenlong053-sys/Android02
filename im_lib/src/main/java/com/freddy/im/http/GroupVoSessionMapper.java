@@ -78,12 +78,9 @@ public final class GroupVoSessionMapper {
             item.setOppositeCompanyId(existing.getOppositeCompanyId());
             item.setExtAttrs(existing.getExtAttrs());
             item.setUserExtAttrs(existing.getUserExtAttrs());
-            item.setLastMessageId(existing.getLastMessageId());
-            item.setLastMessageContent(existing.getLastMessageContent());
-            item.setLastContentType(existing.getLastContentType());
-            item.setLastCustomInfo(existing.getLastCustomInfo());
-            item.setLastMsgType(existing.getLastMsgType());
-            item.setLastMessageTime(existing.getLastMessageTime());
+            // 故意不拷贝 last*：GroupVo 不含会话摘要；existing 常来自进聊 Intent 快照，
+            // 写入会把库里已更新的「最近一条」冲回旧值。留空交给
+            // SessionRealmMapper.toEntityPreservingLocalFields 保留本地 last*。
             if (TextUtils.isEmpty(item.getSessionName()) && !TextUtils.isEmpty(existing.getSessionName())) {
                 item.setSessionName(existing.getSessionName());
             }

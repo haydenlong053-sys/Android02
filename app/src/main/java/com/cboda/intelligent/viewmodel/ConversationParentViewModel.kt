@@ -278,12 +278,46 @@ class ConversationParentViewModel : BaseViewBroadModel() {
             }
             val index = current.indexOfFirst { it.sessionId == update.sessionId }
             if (index >= 0) {
-                current[index] = update
+                current[index] = mergePreferFresherPreview(current[index], update)
             } else {
                 current.add(0, update)
             }
         }
         publishSessions(current)
+    }
+
+    /**
+     * 合并会话：入参 last* 更旧时保留内存里的摘要，避免读库/Intent 旧快照把「最近一条」打回退。
+     */
+    private fun mergePreferFresherPreview(existing: SessionItem, update: SessionItem): SessionItem {
+        val existingTime = existing.lastMessageTime
+        val updateTime = update.lastMessageTime
+        if (existingTime > 0L && updateTime > 0L && existingTime > updateTime) {
+            return update.copy().also { merged ->
+                merged.lastMessageId = existing.lastMessageId
+                merged.lastMessageContent = existing.lastMessageContent
+                merged.lastContentType = existing.lastContentType
+                merged.lastCustomInfo = existing.lastCustomInfo
+                merged.lastMsgType = existing.lastMsgType
+                merged.lastMessageStatus = existing.lastMessageStatus
+                merged.lastMessageTime = existing.lastMessageTime
+            }
+        }
+        if (updateTime <= 0L && existingTime > 0L
+            && update.lastMessageId.isNullOrEmpty()
+            && !existing.lastMessageId.isNullOrEmpty()
+        ) {
+            return update.copy().also { merged ->
+                merged.lastMessageId = existing.lastMessageId
+                merged.lastMessageContent = existing.lastMessageContent
+                merged.lastContentType = existing.lastContentType
+                merged.lastCustomInfo = existing.lastCustomInfo
+                merged.lastMsgType = existing.lastMsgType
+                merged.lastMessageStatus = existing.lastMessageStatus
+                merged.lastMessageTime = existing.lastMessageTime
+            }
+        }
+        return update
     }
 
     /**

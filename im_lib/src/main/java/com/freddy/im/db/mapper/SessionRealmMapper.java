@@ -140,20 +140,47 @@ public final class SessionRealmMapper {
         return entity;
     }
 
+    //为修复群聊会话列表最近一条消息错乱注释掉了，用下面新方法试试
+//    /**
+//     * 本地同步水位已覆盖服务端摘要 messageId 时，会话预览以本地为准。
+//     */
+//    private static boolean shouldPreferLocalLastMessage(@NonNull SessionEntity existing,
+//                                                        @NonNull SessionItem item) {
+//        if (TextUtils.isEmpty(existing.getLastMessageId())) {
+//            return false;
+//        }
+//        long serverSeq = ImMessageManager.extractTrailingSequence(item.getLastMessageId());
+//        if (serverSeq == ImMessageManager.INVALID_SEQUENCE) {
+//            return false;
+//        }
+//        long syncedSeq = existing.getSyncedMaxSequence();
+//        return syncedSeq > 0L && syncedSeq >= serverSeq;
+//    }
+
+
     /**
-     * 本地同步水位已覆盖服务端摘要 messageId 时，会话预览以本地为准。
+     * 本地摘要更新时，会话预览以本地为准（避免进聊 Intent / 群详情回写冲掉最近一条）。
      */
     private static boolean shouldPreferLocalLastMessage(@NonNull SessionEntity existing,
                                                         @NonNull SessionItem item) {
-        if (TextUtils.isEmpty(existing.getLastMessageId())) {
+        boolean hasLocalPreview = !TextUtils.isEmpty(existing.getLastMessageId())
+                || existing.getLastMessageTime() > 0L;
+        if (!hasLocalPreview) {
             return false;
         }
-        long serverSeq = ImMessageManager.extractTrailingSequence(item.getLastMessageId());
-        if (serverSeq == ImMessageManager.INVALID_SEQUENCE) {
-            return false;
+        // 本地时间更新 → 保留本地
+        if (existing.getLastMessageTime() > 0L
+                && item.getLastMessageTime() > 0L
+                && existing.getLastMessageTime() > item.getLastMessageTime()) {
+            return true;
+        }
+        long incomingSeq = ImMessageManager.extractTrailingSequence(item.getLastMessageId());
+        if (incomingSeq == ImMessageManager.INVALID_SEQUENCE) {
+            // 入参 lastMessageId 无法解析（如 clientMsgId UUID）：除非入参时间严格更新，否则保留本地
+            return item.getLastMessageTime() <= existing.getLastMessageTime();
         }
         long syncedSeq = existing.getSyncedMaxSequence();
-        return syncedSeq > 0L && syncedSeq >= serverSeq;
+        return syncedSeq > 0L && syncedSeq >= incomingSeq;
     }
 
     @NonNull

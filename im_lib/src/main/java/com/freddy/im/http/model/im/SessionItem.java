@@ -1,6 +1,7 @@
 package com.freddy.im.http.model.im;
 
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.io.Serializable;
@@ -304,5 +305,42 @@ public class SessionItem implements Serializable {
 
     public void setUnPullCount(int unPullCount) {
         this.unPullCount = unPullCount;
+    }
+
+    /** 浅拷贝（列表合并 / Diff 用）。 */
+    @NonNull
+    public SessionItem copy() {
+        SessionItem c = new SessionItem();
+        c.sessionId = sessionId;
+        c.sessionName = sessionName;
+        c.username = username;
+        c.conversation = conversation;
+        c.createTime = createTime;
+        c.icon = icon;
+        c.memCount = memCount;
+        c.memChgTime = memChgTime;
+        c.unreadCount = unreadCount;
+        c.unPullCount = unPullCount;
+        c.internalFlag = internalFlag;
+        c.topNum = topNum;
+        c.muteNotify = muteNotify;
+        c.readedPosition = readedPosition;
+        c.selfReadPosition = selfReadPosition;
+        c.busi = busi;
+        c.tags = tags;
+        c.permission = permission;
+        c.oppositeUserId = oppositeUserId;
+        c.owerId = owerId;
+        c.oppositeCompanyId = oppositeCompanyId;
+        c.extAttrs = extAttrs;
+        c.userExtAttrs = userExtAttrs;
+        c.lastMessageId = lastMessageId;
+        c.lastMessageContent = lastMessageContent;
+        c.lastContentType = lastContentType;
+        c.lastCustomInfo = lastCustomInfo;
+        c.lastMsgType = lastMsgType;
+        c.lastMessageStatus = lastMessageStatus;
+        c.lastMessageTime = lastMessageTime;
+        return c;
     }
 }
