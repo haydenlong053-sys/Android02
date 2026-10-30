@@ -50,13 +50,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:paddingHorizontal="@dimen/dp_16"
         >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_manage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_conv_folder_card"
+            android:background="@drawable/bg_rect_white_broad_16dp"
             android:clipToPadding="false"
              />
 
