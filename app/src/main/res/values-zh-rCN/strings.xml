@@ -843,7 +843,7 @@
     <string name="conv_folder_tab_group">群聊</string>
     <string name="conv_folder_more_rename">重命名分组</string>
     <string name="conv_folder_more_edit">添加会话</string>
-    <string name="conv_folder_more_remove">移除会话</string>
+    <string name="conv_folder_more_remove">移出会话</string>
     <string name="conv_folder_more_delete">删除分组</string>
     <string name="conv_folder_delete_confirm">删除后，分组内的会话将移出分组恢复到未分组显示，确定删除？</string>
     <string name="conv_folder_delete_action">删除</string>
