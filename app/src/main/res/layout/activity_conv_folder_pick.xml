@@ -47,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:textColor="@color/wechat_text_secondary"
+                android:singleLine="true"
                 android:textSize="12sp"
                 android:visibility="gone"
                 tools:text="已选择3个会话"
