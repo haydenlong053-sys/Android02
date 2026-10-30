@@ -16,6 +16,7 @@ import com.cboda.chatui.third.utils.TimeBroadBroadUtils;
 import com.freddy.im.MessageType;
 import com.freddy.im.http.model.im.GroupMemberItem;
 import com.freddy.im.http.model.im.SessionItem;
+import com.freddy.im.message.ImMessageManager;
 import com.hjq.shape.view.ShapeTextView;
 
 import kotlin.Unit;
@@ -70,6 +71,13 @@ public final class MessageAvatarBinder {
         String portrait = WeChatUiHelper.resolveAvatarUrl(session);
         if (session == null) {
             avatarView.setData(null, null, null, null, null);
+            return;
+        }
+        //是否为会话收藏
+        boolean isMyCollect = MessageType.isMyCollect(session.getConversation()) || ImMessageManager.isMyCollectSession(session.getSessionId());
+        if (isMyCollect){
+            avatarView.loadUserImg(com.cboda.intelligent.R.drawable.ic_mine_icon_colloct);
+            avatarView.setData3(null, null, null, null);
             return;
         }
         if (MessageType.isGroupChat(session.getConversation())) {

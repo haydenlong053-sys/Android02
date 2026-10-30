@@ -39,7 +39,9 @@ enum class ConversationSessionCategory {
         ): Boolean {
             val conversation = session.conversation
             return when (category) {
+                // 「对话」含单聊 + 我的收藏(conversation=6)
                 SINGLE -> conversation == MessageType.SINGLE_CHAT.msgType
+                    || MessageType.isMyCollect(conversation)
                 GROUP -> conversation == MessageType.GROUP_CHAT.msgType
             }
         }

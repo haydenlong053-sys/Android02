@@ -52,6 +52,10 @@ class NewMineBroadFragment : BaseBroadFragment<FragmentNewMineBinding, MineViewM
         binding.itemSettings.click {
             startActivity(Intent(requireContext(), UserSetBroadActivity::class.java))
         }
+        // 系统设置下方：「我的收藏」会话入口（对齐客服 goChatP2p）
+        binding.itemMyCollectChat.click {
+            AppBroadUtils.goChatMyCollect(context)
+        }
     }
 
     override fun onResume() {

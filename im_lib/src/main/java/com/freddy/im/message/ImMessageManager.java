@@ -50,6 +50,9 @@ public final class ImMessageManager {
     /** 文件助手会话前缀（服务端 sessionId / messageId 形如 {@code FILE_ASST:...}，拉消息会报错，客户端直接跳过） */
     public static final String FILE_ASSISTANT_SESSION_PREFIX = "FILE_ASST";
 
+    /** 「我的收藏」会话 ID 前缀：{@code saved} + 用户 ID */
+    public static final String MY_COLLECT_SESSION_PREFIX = "saved";
+
     /** 后台补拉并发上限（当前打开的聊天会话不受此限）。串行避免与 UI 抢 CPU/IO。 */
     private static final int MAX_BACKGROUND_UNREAD_SYNC = 1;
 
@@ -122,6 +125,18 @@ public final class ImMessageManager {
         return sessionIdOrMessageId != null
                 && sessionIdOrMessageId.regionMatches(true, 0, FILE_ASSISTANT_SESSION_PREFIX, 0,
                 FILE_ASSISTANT_SESSION_PREFIX.length());
+    }
+
+    /** 构造「我的收藏」会话 ID：{@code saved} + userId。 */
+    @NonNull
+    public static String buildMyCollectSessionId(@Nullable String userId) {
+        return MY_COLLECT_SESSION_PREFIX + (userId != null ? userId : "");
+    }
+
+    /** 是否「我的收藏」会话（sessionId 以 {@code saved} 开头）。 */
+    public static boolean isMyCollectSession(@Nullable String sessionId) {
+        return sessionId != null
+                && sessionId.startsWith(MY_COLLECT_SESSION_PREFIX);
     }
 
     /**

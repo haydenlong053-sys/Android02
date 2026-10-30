@@ -13,6 +13,7 @@ import com.freddy.im.db.repository.ImMessageRepository;
 import com.freddy.im.http.model.im.GroupMemberItem;
 import com.freddy.im.http.model.im.SessionItem;
 import com.freddy.im.http.model.im.UserInfoItem;
+import com.freddy.im.message.ImMessageManager;
 import com.freddy.im.message.MessageContentFormatter;
 import com.freddy.im.message.MessageRepealHelper;
 
@@ -120,6 +121,13 @@ public final class WeChatUiHelper {
     public static String resolveSessionListDisplayName(@Nullable SessionItem session,
                                                        @Nullable String currentUserId) {
         if (session == null) {
+            return "";
+        }
+        if (MessageType.isMyCollect(session.getConversation())
+                || ImMessageManager.isMyCollectSession(session.getSessionId())) {
+            if (!TextUtils.isEmpty(session.getSessionName())) {
+                return session.getSessionName().trim();
+            }
             return "";
         }
         if (MessageType.isSingleChat(session.getConversation())) {

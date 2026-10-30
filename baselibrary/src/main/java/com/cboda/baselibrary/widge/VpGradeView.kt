@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.view.isGone
 import com.cboda.baselibrary.R
@@ -146,6 +147,10 @@ class VpGradeView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     fun loadUserImg(imgUrl: String?) {
         binding.vpGvUserImg.loadImg(imgUrl)
+    }
+
+    fun loadUserImg(@DrawableRes resId : Int) {
+        binding.vpGvUserImg.setImageResource(resId)
     }
 
     fun setVipTopBadgeMarginBottom(marginBottomPx: Int) {

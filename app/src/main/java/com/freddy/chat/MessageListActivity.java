@@ -60,7 +60,9 @@ import com.cboda.intelligent.base.BaseSimple2BroadActivity;
 import com.cboda.intelligent.utils.JumpBroadUtils;
 import com.freddy.chat.im.IMSClientBootstrap;
 import com.freddy.chat.utils.WeChatUiHelper;
+import com.freddy.im.MessageType;
 import com.freddy.im.http.ImGroupHttpExample;
+import com.freddy.im.message.ImMessageManager;
 import com.freddy.im.group.GroupMuteEvaluator;
 import com.freddy.im.db.ImLocalStore;
 import com.freddy.im.http.GroupVoSessionMapper;
@@ -539,6 +541,13 @@ public class MessageListActivity extends BaseSimple2BroadActivity
             String sessionName = sessionItem.getSessionName() + "(" + (sessionItem.getMemCount())
                     + getString(com.cboda.chatui.R.string.msg_person_unit) + ")";
             pageTitle.setText(sessionName);
+        } else if (MessageType.isMyCollect(sessionItem.getConversation())
+                || ImMessageManager.isMyCollectSession(sessionItem.getSessionId())) {
+            // 「我的收藏」固定用会话名，不走单聊对方昵称
+            String name = sessionItem.getSessionName();
+            pageTitle.setText(!TextUtils.isEmpty(name)
+                    ? name
+                    : getString(R.string.我的收藏));
         } else {
             String currentUserId = IMSClientBootstrap.getInstance().getCurrentUserId();
             pageTitle.setText(WeChatUiHelper.resolvePeerDisplayName(sessionItem, currentUserId));
@@ -806,13 +815,16 @@ public class MessageListActivity extends BaseSimple2BroadActivity
 //                }
             } else if (sessionItem.getConversation() == ImSignalProtos.ConversationType.PAIR_VALUE) {
                 getUserData();
+            }else if (sessionItem.getConversation() == ImSignalProtos.ConversationType.MAIL_ASST_VALUE) {
+                getUserData();
             }
         }
     }
 
     @SuppressLint("SetTextI18n")
     private void getUserData() {
-        if (MMKVBroadUtils.Companion.getKeFuId() != null && sessionItem.getOppositeUserId().contains(MMKVBroadUtils.Companion.getKeFuId())) {
+        boolean isMyCollect = MessageType.isMyCollect(sessionItem.getConversation());
+        if (isMyCollect || (MMKVBroadUtils.Companion.getKeFuId() != null && sessionItem.getOppositeUserId().contains(MMKVBroadUtils.Companion.getKeFuId()))) {
 //            MyCommonBroadBridge.getInstance().setMyQiaoJie(ConversationBroadActivity.this, "getUserData", conversation.target, "", null);
             titleGradeAndTimeBroad.setVisibility(View.GONE);
             pageTitleRightIcon.setVisibility(View.GONE);

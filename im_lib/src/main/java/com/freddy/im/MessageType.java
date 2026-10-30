@@ -13,7 +13,13 @@ public enum MessageType {
     SINGLE_CHAT(ImSignalProtos.ConversationType.PAIR_VALUE),
 
     /** 群聊 */
-    GROUP_CHAT(ImSignalProtos.ConversationType.MULTI_VALUE);
+    GROUP_CHAT(ImSignalProtos.ConversationType.MULTI_VALUE),
+
+    /**
+     * 我的收藏会话。协议枚举值为 {@link ImSignalProtos.ConversationType#MAIL_ASST}(=6)；
+     * 产品侧用作收藏会话（sessionId = {@code saved} + 用户 ID）。
+     */
+    MY_COLLECT(ImSignalProtos.ConversationType.MAIL_ASST_VALUE);
 
     private final int msgType;
 
@@ -31,6 +37,10 @@ public enum MessageType {
 
     public static boolean isSingleChat(int msgType) {
         return msgType == SINGLE_CHAT.msgType;
+    }
+
+    public static boolean isMyCollect(int msgType) {
+        return msgType == MY_COLLECT.msgType;
     }
 
     /**

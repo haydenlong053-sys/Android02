@@ -36,6 +36,8 @@ import com.freddy.chat.im.ImNetworkMonitor
 import com.freddy.im.IMSConfig
 import com.freddy.im.http.ImAuthInvalidHandler
 import com.freddy.im.http.ImHttpConfig
+import com.cboda.intelligent.R
+import com.freddy.im.MessageType
 import com.freddy.im.http.model.im.SessionItem
 import com.freddy.im.db.ImLocalStore
 import com.freddy.im.signal.ImSignalProtos
@@ -372,6 +374,29 @@ class AppBroadUtils {
             sessionItem.conversation = ImSignalProtos.ConversationType.PAIR.number
             sessionItem.oppositeUserId = target
             sessionItem.sessionName = name
+            ImLocalStore.saveSessions(listOf(sessionItem))
+            val intent = Intent(mContext, MessageListActivity::class.java)
+            SessionItemIntent.putSessionItem(intent, sessionItem)
+            mContext.startActivity(intent)
+        }
+
+        /**
+         * 进入「我的收藏」会话：conversation=6，sessionId = saved + 用户 ID。
+         * 对齐客服入口，会话会出现在首页「对话」列表。
+         */
+        fun goChatMyCollect(context: Context? = null) {
+            val mContext = getAppContext(context)
+            val userId = MMKVBroadUtils.getRealUserId()
+            if (userId.isNullOrEmpty()) {
+                ToastBroadUtils.show("当前用户id为空，请稍后再试")
+                return
+            }
+            val sessionItem = SessionItem().apply {
+                sessionId = ImMessageManager.buildMyCollectSessionId(userId)
+                conversation = MessageType.MY_COLLECT.msgType
+                sessionName = mContext.getString(R.string.我的收藏)
+                oppositeUserId = userId
+            }
             ImLocalStore.saveSessions(listOf(sessionItem))
             val intent = Intent(mContext, MessageListActivity::class.java)
             SessionItemIntent.putSessionItem(intent, sessionItem)

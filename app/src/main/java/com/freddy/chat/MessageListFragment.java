@@ -248,7 +248,9 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         }
         sessionId = sessionItem.getSessionId() != null ? sessionItem.getSessionId() : "";
         isGroupChat = sessionItem.getConversation() == MessageType.GROUP_CHAT.getMsgType();
-        if (isGroupChat) {
+        boolean isMyCollect = ImMessageManager.isMyCollectSession(sessionId)
+                || MessageType.isMyCollect(sessionItem.getConversation());
+        if (isGroupChat || isMyCollect) {
             peerUserId = sessionItem.getSessionId();
         } else {
             peerUserId = sessionItem.getOppositeUserId() != null ? sessionItem.getOppositeUserId() : "";
@@ -472,12 +474,14 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
         }
     }
 
-    /** 单聊始终展示；群聊仅群主/管理员展示「语音通话」。 */
+    /** 单聊始终展示；群聊仅群主/管理员展示；「我的收藏」不展示语音通话。 */
     private void refreshVoiceCallEntry() {
         if (inputPanel == null) {
             return;
         }
-        boolean show = !isGroupChat || GroupRole.isOwnerOrAdmin(myGroupRole);
+        boolean isMyCollect = ImMessageManager.isMyCollectSession(sessionId)
+                || MessageType.isMyCollect(sessionItem.getConversation());
+        boolean show = !isMyCollect && (!isGroupChat || GroupRole.isOwnerOrAdmin(myGroupRole));
         inputPanel.setVoiceCallEntryVisible(show);
     }
 
@@ -1398,6 +1402,7 @@ public class MessageListFragment extends Fragment implements I_CEventListener, M
 
         AppMessage message = MessageBuilder.buildTextMessage(
                 sessionId, sessionItem.getConversation(), peerUserId, text, customInfo);
+        ELogUtilKt.eLogI(ELogUtilKt.APP_IM_TAG, "message="+message.toString() );
         ELogUtilKt.eLogI(ELogUtilKt.APP_IM_TAG, "message.getContent()=" + message.getContent() + "------" + "message.getCustomInfo()=" + message.getCustomInfo());
         MessageProcessor.getInstance().sendMsg(message, () -> {
             markSelfSendNow();
