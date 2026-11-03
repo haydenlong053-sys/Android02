@@ -55,14 +55,37 @@
             android:paddingTop="4dp"
             android:paddingBottom="4dp" />
 
-        <TextView
+        <!-- 与对话 Tab 空列表样式一致 -->
+        <LinearLayout
             android:id="@+id/tv_folder_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/conv_folder_empty"
-            android:textColor="@color/wechat_text_secondary"
-            android:textSize="14sp"
-            android:visibility="gone" />
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingHorizontal="32dp"
+            android:visibility="gone">
+            <ImageView
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:contentDescription="@string/conversation_list_empty"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/no_data_msg2" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/conversation_list_empty_title"
+                android:textColor="#2b2b4a"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/conversation_list_empty_hint"
+                android:textColor="#9a9ab0"
+                android:textSize="13sp" />
+        </LinearLayout>
     </FrameLayout>
 </LinearLayout>

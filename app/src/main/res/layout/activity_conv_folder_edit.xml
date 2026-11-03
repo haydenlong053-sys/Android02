@@ -59,7 +59,7 @@
             android:background="@null"
             android:hint="@string/conv_folder_name_hint"
             android:inputType="text"
-            android:maxLength="12"
+            android:maxLength="16"
             android:paddingStart="16dp"
             android:paddingEnd="56dp"
             android:textColor="@color/wechat_text_primary"
@@ -74,7 +74,7 @@
             android:layout_marginEnd="16dp"
             android:textColor="@color/wechat_text_secondary"
             android:textSize="13sp"
-            tools:text="0/12" />
+            tools:text="0/16" />
     </FrameLayout>
 
     <TextView

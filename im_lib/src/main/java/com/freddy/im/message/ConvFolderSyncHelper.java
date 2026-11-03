@@ -25,7 +25,7 @@ public final class ConvFolderSyncHelper {
     private static final String TAG = "ConvFolderSync";
     public static final int MAX_FOLDERS = 20;
     public static final int MAX_SESSIONS_PER_FOLDER = 1000;
-    public static final int MAX_NAME_LEN = 12;
+    public static final int MAX_NAME_LEN = 16;
     /** 服务端业务码：分组已在其他设备修改。 */
     public static final int ERR_VERSION_CONFLICT = 3048;
 
