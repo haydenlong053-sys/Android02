@@ -114,7 +114,7 @@ class ConvFolderEditActivity : BaseSimple2BroadActivity() {
 
     private fun submit() {
         val name = etName.text?.toString()?.trim().orEmpty()
-        if (name.isEmpty() || name.length > ConvFolderSyncHelper.MAX_NAME_LEN) {
+        if (name.isEmpty()) {
             ToastBroadUtils.show(getString(R.string.conv_folder_name_hint))
             return
         }
@@ -133,25 +133,19 @@ class ConvFolderEditActivity : BaseSimple2BroadActivity() {
                 saveCallback(null),
             )
         } else {
-            ImLocalStore.loadConvFolders { _, current ->
-                if (current.size >= ConvFolderSyncHelper.MAX_FOLDERS) {
-                    ToastBroadUtils.show("最多创建 20 个分组")
-                    return@loadConvFolders
-                }
-                val newId = ConvFolderSyncHelper.newFolderId()
-                ConvFolderSyncHelper.saveWithRetry(
-                    { list ->
-                        val created = ConvFolderItem().apply {
-                            id = newId
-                            this.name = name
-                            iconType = selectedIcon
-                            setSessionIds(ArrayList())
-                        }
-                        list + created
-                    },
-                    saveCallback(newId),
-                )
-            }
+            val newId = ConvFolderSyncHelper.newFolderId()
+            ConvFolderSyncHelper.saveWithRetry(
+                { list ->
+                    val created = ConvFolderItem().apply {
+                        id = newId
+                        this.name = name
+                        iconType = selectedIcon
+                        setSessionIds(ArrayList())
+                    }
+                    list + created
+                },
+                saveCallback(newId),
+            )
         }
     }
 

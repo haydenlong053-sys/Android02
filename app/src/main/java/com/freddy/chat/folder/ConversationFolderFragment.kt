@@ -29,7 +29,8 @@ class ConversationFolderFragment : Fragment(), I_CEventListener {
     private val expandedIds = HashSet<String>()
     private lateinit var adapter: ConversationFolderListAdapter
     private lateinit var tvTitle: TextView
-    private lateinit var tvEmpty: TextView
+    private lateinit var emptyView: View
+    private lateinit var recyclerView: RecyclerView
     private var foldersCache: List<ConvFolderItem> = emptyList()
 
     override fun onCreateView(
@@ -41,11 +42,12 @@ class ConversationFolderFragment : Fragment(), I_CEventListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         tvTitle = view.findViewById(R.id.tv_folder_title)
-        tvEmpty = view.findViewById(R.id.tv_folder_empty)
+        emptyView = view.findViewById(R.id.tv_folder_empty)
         view.findViewById<View>(R.id.tv_folder_manage).setOnClickListener {
             ConvFolderManageActivity.start(requireContext())
         }
-        val rv = view.findViewById<RecyclerView>(R.id.rv_folders)
+        recyclerView = view.findViewById(R.id.rv_folders)
+        val rv = recyclerView
         adapter = ConversationFolderListAdapter(
             currentUserId = IMSClientBootstrap.getInstance().currentUserId,
             onToggle = { folder ->
@@ -95,7 +97,9 @@ class ConversationFolderFragment : Fragment(), I_CEventListener {
         if (!::adapter.isInitialized) return
         val folders = foldersCache
         tvTitle.text = getString(R.string.conv_folder_title, folders.size)
-        tvEmpty.isVisible = folders.isEmpty()
+        val empty = folders.isEmpty()
+        emptyView.isVisible = empty
+        recyclerView.isVisible = !empty
         val rows = ArrayList<FolderListRow>()
         for (folder in folders) {
             val id = folder.id.orEmpty()

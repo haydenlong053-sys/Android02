@@ -62,6 +62,8 @@ class ConvFolderPickSessionsActivity : BaseSimple2BroadActivity() {
     private lateinit var adapter: PickAdapter
     private lateinit var btnConfirm: TextView
     private lateinit var tvSubtitle: TextView
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var emptyView: View
     private val currentUserId: String?
         get() = IMSClientBootstrap.getInstance().currentUserId
 
@@ -92,10 +94,11 @@ class ConvFolderPickSessionsActivity : BaseSimple2BroadActivity() {
             else R.string.conv_folder_add_title,
         )
 
-        val rv = findViewById<RecyclerView>(R.id.rv_sessions)
+        recyclerView = findViewById(R.id.rv_sessions)
+        emptyView = findViewById(R.id.tv_pick_empty)
         adapter = PickAdapter()
-        rv.layoutManager = LinearLayoutManager(this)
-        rv.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
 
         btnConfirm.setOnClickListener { confirm() }
         refreshConfirm()
@@ -123,7 +126,11 @@ class ConvFolderPickSessionsActivity : BaseSimple2BroadActivity() {
     }
 
     private fun refreshList() {
-        adapter.submit(filteredSessions())
+        val list = filteredSessions()
+        val empty = list.isEmpty()
+        emptyView.isVisible = empty
+        recyclerView.isVisible = !empty
+        adapter.submit(list)
     }
 
     private fun updateSubtitle() {
