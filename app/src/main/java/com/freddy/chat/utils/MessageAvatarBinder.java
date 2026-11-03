@@ -76,7 +76,7 @@ public final class MessageAvatarBinder {
         //是否为会话收藏
         boolean isMyCollect = MessageType.isMyCollect(session.getConversation()) || ImMessageManager.isMyCollectSession(session.getSessionId());
         if (isMyCollect){
-            avatarView.loadUserImg(com.cboda.intelligent.R.drawable.ic_mine_icon_colloct);
+            avatarView.loadUserImg(com.cboda.intelligent.R.drawable.icon_conversation_favorite);
             avatarView.setData3(null, null, null, null);
             return;
         }

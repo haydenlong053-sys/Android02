@@ -159,37 +159,6 @@
             <LinearLayout
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:id="@+id/itemSettings"
-                android:background="@drawable/bg_rect_mine_fff_broad_16dp"
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:layout_marginTop="12dp"
-                android:paddingHorizontal="16dp">
-                <com.hjq.shape.view.ShapeImageView
-                    android:padding="10dp"
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
-                    android:src="@mipmap/setting_icon2"
-                    android:scaleType="centerInside"
-                    app:shape_radius="12dp"
-                    app:shape_solidColor="#f3eeff"/>
-                <TextView
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#1a1a1c"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/mine_system_settings"
-                    android:layout_weight="1"
-                    android:layout_marginStart="14dp"/>
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/ic_mine_icon_back"/>
-            </LinearLayout>
-            <LinearLayout
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
                 android:id="@+id/itemMyCollectChat"
                 android:background="@drawable/bg_rect_mine_fff_broad_16dp"
                 android:layout_width="match_parent"
@@ -200,7 +169,39 @@
                     android:padding="10dp"
                     android:layout_width="44dp"
                     android:layout_height="44dp"
-                    android:src="@drawable/ic_mine_icon_colloct"
+                    android:src="@drawable/icon_mine_center_favorite"
+                    android:scaleType="centerInside"
+                    app:shape_radius="12dp"
+                    app:shape_solidColor="#f3eeff"
+                    />
+                <TextView
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#1a1a1c"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/我的收藏"
+                    android:layout_weight="1"
+                    android:layout_marginStart="14dp"/>
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_mine_icon_back"/>
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:id="@+id/itemSettings"
+                android:background="@drawable/bg_rect_mine_fff_broad_16dp"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_marginTop="12dp"
+                android:paddingHorizontal="16dp">
+                <com.hjq.shape.view.ShapeImageView
+                    android:padding="10dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:src="@mipmap/icon_mine_center_settings"
                     android:scaleType="centerInside"
                     app:shape_radius="12dp"
                     app:shape_solidColor="#f3eeff"/>
@@ -210,7 +211,7 @@
                     android:textColor="#1a1a1c"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/我的收藏"
+                    android:text="@string/mine_system_settings"
                     android:layout_weight="1"
                     android:layout_marginStart="14dp"/>
                 <ImageView
