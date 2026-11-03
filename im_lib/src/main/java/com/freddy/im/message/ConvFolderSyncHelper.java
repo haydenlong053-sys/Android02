@@ -23,8 +23,7 @@ import java.util.UUID;
 public final class ConvFolderSyncHelper {
 
     private static final String TAG = "ConvFolderSync";
-    public static final int MAX_FOLDERS = 20;
-    public static final int MAX_SESSIONS_PER_FOLDER = 1000;
+    /** 仅用于输入框长度提示；服务端仍会校验名称规则。 */
     public static final int MAX_NAME_LEN = 16;
     /** 服务端业务码：分组已在其他设备修改。 */
     public static final int ERR_VERSION_CONFLICT = 3048;
@@ -81,35 +80,13 @@ public final class ConvFolderSyncHelper {
                                @NonNull FolderMutator mutator,
                                boolean allowRetry,
                                @Nullable OnSaveResult onResult) {
-        if (next.size() > MAX_FOLDERS) {
-            if (onResult != null) {
-                onResult.onFail(3051, "最多创建 20 个分组");
-            }
-            return;
-        }
+        // 数量上限、数据合法性等由服务端校验；本地仅 trim 名称便于提交
         for (ConvFolderItem f : next) {
             if (f == null) {
                 continue;
             }
-            if (TextUtils.isEmpty(f.getId()) || f.getId().length() > 64) {
-                if (onResult != null) {
-                    onResult.onFail(3049, "分组数据不合法");
-                }
-                return;
-            }
-            String name = f.getName() != null ? f.getName().trim() : "";
-            if (TextUtils.isEmpty(name) || name.length() > MAX_NAME_LEN) {
-                if (onResult != null) {
-                    onResult.onFail(3050, "分组名称不能为空，且不超过 " + MAX_NAME_LEN + " 个字");
-                }
-                return;
-            }
-            f.setName(name);
-            if (f.getSessionIds().size() > MAX_SESSIONS_PER_FOLDER) {
-                if (onResult != null) {
-                    onResult.onFail(3052, "每个分组最多 1000 个会话");
-                }
-                return;
+            if (f.getName() != null) {
+                f.setName(f.getName().trim());
             }
         }
 
