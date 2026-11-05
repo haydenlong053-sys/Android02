@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cboda.intelligent.R;
 import com.freddy.chat.utils.AvatarViews;
 import com.freddy.chat.utils.WeChatUiHelper;
+import com.freddy.im.MessageType;
 import com.freddy.im.http.model.im.SessionItem;
+import com.freddy.im.message.ImMessageManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +97,17 @@ public final class ForwardConversationListAdapter
                 ? holder.itemView.getContext().getString(com.cboda.baselibrary.R.string.conversation_name_fallback)
                 : name;
         holder.tvName.setText(displayName);
-        AvatarViews.bind(holder.avatar, WeChatUiHelper.resolveAvatarUrl(s), displayName, s.getSessionId());
+        boolean isMyCollect = MessageType.isMyCollect(s.getConversation())
+                || ImMessageManager.isMyCollectSession(s.getSessionId());
+        if (isMyCollect) {
+            // 「我的收藏」固定本地图标
+            AvatarViews.fallback(holder.avatar).setVisibility(View.GONE);
+            ImageView iv = AvatarViews.imageView(holder.avatar);
+            iv.setVisibility(View.VISIBLE);
+            iv.setImageResource(R.drawable.icon_conversation_favorite);
+        } else {
+            AvatarViews.bind(holder.avatar, WeChatUiHelper.resolveAvatarUrl(s), displayName, s.getSessionId());
+        }
 
         holder.itemView.setOnClickListener(v -> {
             if (onSessionClickListener != null) {

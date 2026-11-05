@@ -269,9 +269,19 @@ public final class MessageForwardHelper {
         return session.getSessionId() != null ? session.getSessionId() : "";
     }
 
+    /**
+     * 解析发送目标 toId：
+     * <ul>
+     *   <li>群聊 / 我的收藏：用 sessionId（收藏为 {@code saved}+userId）</li>
+     *   <li>单聊：优先 oppositeUserId</li>
+     * </ul>
+     * 收藏会话若误用 oppositeUserId（纯 userId），服务端会报「收藏会话只能发给自己」。
+     */
     @Nullable
     public static String resolveTargetId(@NonNull SessionItem session) {
-        if (MessageType.isGroupChat(session.getConversation())) {
+        if (MessageType.isGroupChat(session.getConversation())
+                || MessageType.isMyCollect(session.getConversation())
+                || ImMessageManager.isMyCollectSession(session.getSessionId())) {
             return session.getSessionId();
         }
         if (!TextUtils.isEmpty(session.getOppositeUserId())) {
