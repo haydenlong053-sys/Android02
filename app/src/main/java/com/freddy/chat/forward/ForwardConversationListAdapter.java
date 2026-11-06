@@ -106,7 +106,7 @@ public final class ForwardConversationListAdapter
             iv.setVisibility(View.VISIBLE);
             iv.setImageResource(R.drawable.icon_conversation_favorite);
         } else {
-            AvatarViews.bind(holder.avatar, WeChatUiHelper.resolveAvatarUrl(s), displayName, s.getSessionId());
+            AvatarViews.bind2(holder.avatar, WeChatUiHelper.resolveAvatarUrl(s), displayName, s.getSessionId());
         }
 
         holder.itemView.setOnClickListener(v -> {
